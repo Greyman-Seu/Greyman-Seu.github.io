@@ -8,19 +8,33 @@
 
 架构详见：[ai_dev/overview.md](ai_dev/overview.md)
 
-## 已激活的 Skills
+## Skills 使用规范
 
-开发本仓库时，以下三个 skill 处于激活状态，遵守其规范：
+### 必需的三个 Skills
 
-| Skill | 来源 | 用途 |
-|-------|------|------|
-| `astro` | `astrolicious/agent-skills@astro` | Astro 框架开发规范（Islands 架构、内容集合、SSR、路由等） |
-| `git-commit` | `github/awesome-copilot@git-commit` | 每次代码修改后按 Conventional Commits 规范提交 |
-| `find-skills` | `find-skills` | 需要新能力时搜索并安装 skill |
+开发本仓库前，**先检查以下三个 skill 是否已安装**：
+
+```bash
+ls ~/.claude/skills/
+```
+
+| Skill | 安装命令 | 用途 |
+|-------|---------|------|
+| `astro` | `npx skills add astrolicious/agent-skills@astro -g -y` | Astro 组件开发规范 |
+| `git-commit` | `npx skills add github/awesome-copilot@git-commit -g -y` | Conventional Commits 提交规范 |
+| `find-skills` | `npx skills add find-skills -g -y` | 发现并安装新 skill |
+
+若任意 skill 缺失，按上方命令安装后再开始开发。
+
+### 何时调用哪个 Skill
+
+- **开发 Astro 组件、页面、布局、内容集合时** → 遵循 `astro` skill 规范（Islands 架构、client 指令选择、图片优化等）
+- **执行 git commit 时** → 遵循 `git-commit` skill 规范（Conventional Commits 格式、分析 diff 生成提交信息）
+- **需要某类新能力（测试框架、CI 工具等）** → 使用 `find-skills` skill 搜索并安装
 
 ## Commit 规范（强制）
 
-**每次代码修改完成后必须立即提交**，使用 Conventional Commits 格式：
+**每次代码修改完成后必须立即提交**，使用 `git-commit` skill 执行提交，格式遵循 Conventional Commits：
 
 ```
 <type>[optional scope]: <description>
@@ -50,6 +64,19 @@ style(home): adjust hero section spacing on tablet
 - 描述使用现在时祈使句，不超过 72 字符
 - 不得使用 `--no-verify` 跳过钩子
 - 不得强制推送 main 分支
+
+### 提交后更新 ai_dev/
+
+**每次 commit 后，回顾本次改动，将有价值的信息同步到 `ai_dev/` 文件夹：**
+
+- 若修改了架构、目录结构、配置系统 → 更新 `ai_dev/overview.md`
+- 若引入了新的开发约定或模式 → 更新 `ai_dev/prompt.md`
+- 若有值得记录的专项内容（新功能设计、重要决策）→ 在 `ai_dev/` 下新建对应文件
+
+`ai_dev/` 是仓库的「活文档」，始终保持与代码同步。更新文档本身也需要单独 commit：
+```
+docs(ai_dev): update overview with new component structure
+```
 
 ## 代码风格规范
 
