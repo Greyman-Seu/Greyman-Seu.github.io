@@ -3,8 +3,8 @@ import type { CollectionKey, InferEntrySchema } from 'astro:content'
 import config from '@/site-config'
 
 import { cn, getFormattedDate } from '@/utils'
-import { QRCode } from '@/components/advanced'
-import { Icon } from '@/components/user'
+import { QRCode } from '@/components/widgets'
+import { Icon } from '@/components/ui'
 
 interface Props<T extends CollectionKey> {
   data: InferEntrySchema<T>
