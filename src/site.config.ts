@@ -3,13 +3,13 @@ import type { CardListData, Config, IntegrationUserConfig, ThemeUserConfig } fro
 export const theme: ThemeUserConfig = {
   // === Basic configuration ===
   /** Title for your website. Will be used in metadata and as browser tab title. */
-  title: "Axi Theme 使用文档",
+  title: "TenStep Blog",
   /** Will be used in index page & copyright declaration */
-  author: 'Axi Theme',
-  author_en: 'Axi Theme',
+  author: 'TenStep',
+  author_en: 'TenStep',
   /** Description metadata for your website. Can be used in page metadata. */
-  description: 'Axi Theme 使用文档',
-  description_en: 'Axi Theme Documentation',
+  description: 'TenStep 的个人博客',
+  description_en: "TenStep's Blog",
   /** The default favicon for your site which should be a path to an image in the `public/` directory. */
   favicon: '/favicon/favicon.ico',
   /** Specify the default language for this site. */
@@ -61,7 +61,7 @@ export const theme: ThemeUserConfig = {
     /** Enable displaying a "Astro & Axi theme powered" link in your site's footer. */
     credits: true,
     /** Optional details about the social media accounts for this site. */
-    social: { github: 'https://github.com/Axi404/Axi-Theme' }
+    social: { github: 'https://github.com/Greyman-Seu/TenStep-Blog' }
   },
 
   content: {
@@ -78,16 +78,14 @@ export const theme: ThemeUserConfig = {
     /** Your location */
     location: 'China',
     /** Your GitHub username */
-    githubUsername: 'Axi404',
+    githubUsername: 'Greyman-Seu',
     /** Your email address */
-    email: 'gaoning@pjlab.org.cn',
-    /** Your Google Scholar profile URL */
-    googleScholar: 'https://scholar.google.com/citations?user=W9mT0rcAAAAJ&hl=zh-CN',
+    // email: '',
     /** Blog start date for statistics */
-    blogStartDate: '2024-06-15',
+    blogStartDate: '2026-02-26',
     /** Domain configuration */
     domains: {
-      main: 'theme.axi404.top',
+      main: 'TODO.your-domain.com',   // 替换成你的主域名
       githubPages: 'greyman-seu.github.io',
       githubPagesBase: '/TenStep-Blog/',
       // cloudflare: '',

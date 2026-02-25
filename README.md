@@ -1,11 +1,48 @@
-﻿## Axi 的博客主题
+# TenStep Blog
 
-本人博客链接：[Axi 的博客](https://axi404.top/)
+基于 [Axi Theme](https://github.com/Axi404/Axi-Theme) 构建的个人博客。
 
-主要使用 [Astro](https://astro.build/) ，[参考](https://axi404.top/about#theme) 他人的 Blog 主题构建，并在此基础上大量自定义，以形成 Astro-Axi Theme。
+## 快速开始
 
-更多请参考文档中内容 [Docs](https://theme.axi404.top/collection/docs)
+```bash
+pnpm install   # 安装依赖
+make dev       # 启动开发服务器 → http://localhost:4321
+```
 
-### 更新提示
+## 常用命令
 
-由于 Astro 的一些特性（例如构建产物与自动生成文件等），当你需要更新博客/主题时，建议使用差异对比工具来合并改动，比如 [WinMerge](https://winmerge.org/)。
+| 命令 | 说明 |
+|---|---|
+| `make dev` | 本地开发，实时热更新 |
+| `make build` | 构建生产版本 |
+| `make preview` | 构建并本地预览 |
+| `make build-cf` | 构建 Cloudflare Pages 版本 |
+| `make build-gh` | 构建 GitHub Pages 版本 |
+| `make clean` | 清理构建产物 |
+| `make push` | 提交并推送到 GitHub |
+
+## 配置
+
+个人信息、域名、导航菜单等在 `src/site.config.ts` 中修改。
+
+## 部署
+
+push 到 `main` 分支后，GitHub Actions 自动触发：
+
+- **Cloudflare Pages**：需要在 GitHub Secrets 中配置 `CLOUDFLARE_API_TOKEN` 和 `CLOUDFLARE_ACCOUNT_ID`
+- **GitHub Pages**：需要在仓库 Settings → Pages 中启用 GitHub Actions 作为 Source
+
+## 目录结构
+
+```
+src/
+├── components/
+│   ├── ui/        # 通用 UI 组件
+│   ├── mdx/       # MDX 文章内使用的组件
+│   ├── academic/  # 学术页面组件
+│   └── widgets/   # 高级功能组件
+├── content/       # 博客文章、合集等内容
+├── layouts/       # 页面布局
+├── pages/         # 路由页面
+└── site.config.ts # 站点配置
+```
