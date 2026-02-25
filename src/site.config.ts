@@ -43,10 +43,10 @@ export const theme: ThemeUserConfig = {
   header: {
     menu: [
       { title: 'Blog', link: '/blog/research' },
-      { title: 'Academic', link: '/academic' },
-      { title: 'Projects', link: '/projects' },
-      { title: 'Links', link: '/links' },
-      { title: 'About', link: '/about' }
+      { title: 'Works', link: '/academic' },
+      { title: 'Follow', link: '/links' },
+      { title: 'Tutorials', link: '/collection/docs' },
+      { title: 'Resume', link: '/about' }
     ]
   },
 
