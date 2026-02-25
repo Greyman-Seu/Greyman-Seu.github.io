@@ -65,6 +65,7 @@ export const UserConfigSchema = z.object({
     domains: z.object({
       main: z.string(),
       githubPages: z.string().optional(),
+      githubPagesBase: z.string().optional(),
       cloudflare: z.string().optional(),
       friendCircle: z.string().optional()
     }).optional()

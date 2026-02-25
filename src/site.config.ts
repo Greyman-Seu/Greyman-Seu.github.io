@@ -88,7 +88,8 @@ export const theme: ThemeUserConfig = {
     /** Domain configuration */
     domains: {
       main: 'theme.axi404.top',
-      // githubPages: '',
+      githubPages: 'greyman-seu.github.io',
+      githubPagesBase: '/TenStep-Blog/',
       // cloudflare: '',
       // friendCircle: '',
     },
