@@ -1,6 +1,6 @@
-# TenStep Blog
+# 十步
 
-基于 [Axi Theme](https://github.com/Axi404/Axi-Theme) 构建的个人博客。
+朱阳坤的个人博客，基于 [Axi Theme](https://github.com/Axi404/Axi-Theme) 构建。
 
 ## 快速开始
 
