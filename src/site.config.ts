@@ -45,7 +45,7 @@ export const theme: ThemeUserConfig = {
       { title: 'Blog', link: '/blog/other' },
       { title: 'Works', link: '/academic' },
       { title: 'Follow', link: '/links' },
-      { title: 'Tutorials', link: '/collection/docs' },
+      { title: 'Tutorials', link: '/collection' },
       { title: 'Resume', link: '/about' }
     ]
   },
