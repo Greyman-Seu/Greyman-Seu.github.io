@@ -117,14 +117,14 @@ const toc = generateToc(headings)
           e.preventDefault()
           // Push the history to add the hash at the end of the URL
           const directHeading = this.headings.find((heading) => heading.id === link.slug)
-          if (directHeading) {
-            // Push the history to add the hash at the end of the URL
+          const target = directHeading ?? document.getElementById(link.slug)
+          if (target) {
             history.pushState(
               null,
-              directHeading.textContent || '',
+              target.textContent || '',
               link.element.getAttribute('href')
             )
-            directHeading.scrollIntoView({ behavior: 'smooth' })
+            target.scrollIntoView({ behavior: 'smooth' })
           } else {
             console.warn(`No heading found for slug: ${link.slug}`)
           }
