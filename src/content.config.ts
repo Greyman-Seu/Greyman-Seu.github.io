@@ -32,6 +32,7 @@ const blogSchema = ({ image }: { image: () => any }) =>
     category: z.string().optional(),
     language: z.string().optional(),
     draft: z.boolean().default(false),
+    pinned: z.boolean().default(false),
     // Integrations
     comment: z.boolean().default(true),
     pixivLink: z.string().optional()
