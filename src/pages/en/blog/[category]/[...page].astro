@@ -3,7 +3,7 @@ import type { GetStaticPaths, Page } from 'astro'
 import type { CollectionEntry } from 'astro:content'
 
 import { Paginator, PostPreview, CollectionPreview } from '@/components/pages'
-import { getBlogCollectionEn, getUniqueCategories, getCollectionsByCategory, getUniqueTags, sortMDByDate, getPostCollections } from '@/server'
+import { getBlogCollectionEnFiltered, getUniqueCategories, getCollectionsByCategory, getUniqueTags, sortMDByDate, getPostCollections } from '@/server'
 import { Button, Icon } from '@/components/ui'
 import PageLayout from '@/layouts/BaseLayout.astro'
 import config from '@/site-config'
@@ -20,7 +20,7 @@ export const getStaticPaths = (async ({ paginate }) => {
 
   const categoryOrder = ['research', 'thoughts', 'insights', 'other']
   
-  const allCollections = await getBlogCollectionEn()
+  const allCollections = await getBlogCollectionEnFiltered()
   const allUniqueCategories = getUniqueCategories(allCollections)
   
   const uniqueCategories = categoryOrder.filter(cat => allUniqueCategories.includes(cat))

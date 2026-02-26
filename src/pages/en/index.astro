@@ -5,11 +5,11 @@ import BlogStats from '@/components/home/BlogStats.astro'
 import PageLayout from '@/layouts/BaseLayout.astro'
 import Section from '@/components/home/Section.astro'
 import PostPreview from '@/components/pages/PostPreview.astro'
-import { getBlogCollectionEn, sortMDByDate } from '@/utils/server'
+import { getBlogCollectionEnFiltered, sortMDByDate } from '@/utils/server'
 import avatar from '@/assets/avatar.png'
 import config from '@/site-config'
 
-const allPosts = await getBlogCollectionEn()
+const allPosts = await getBlogCollectionEnFiltered()
 const sortedPosts = sortMDByDate(allPosts)
 const pinnedPosts = sortedPosts.filter(p => p.data.pinned)
 const recentPosts = pinnedPosts.length > 0 ? pinnedPosts.slice(0, 5) : sortedPosts.slice(0, 5)

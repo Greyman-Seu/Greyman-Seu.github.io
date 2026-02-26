@@ -58,6 +58,40 @@ export async function getPostCollections() {
   return await getCollection('postCollections')
 }
 
+/** Returns a Set of normalized post IDs that belong to any tutorial collection */
+export async function getTutorialPostIds(): Promise<Set<string>> {
+  const collections = await getPostCollections()
+  const ids = new Set<string>()
+  for (const col of collections) {
+    for (const id of col.data.bloglist || []) {
+      ids.add(id.toLowerCase())
+    }
+  }
+  return ids
+}
+
+function normalizePostId(id: string): string {
+  const match = id.match(/^(.+?)\/index\.(md|mdx)$/)
+  if (match) return match[1].toLowerCase()
+  return id.replace(/\.(md|mdx)$/, '').toLowerCase()
+}
+
+function isTutorialPost(postId: string, tutorialIds: Set<string>): boolean {
+  return tutorialIds.has(normalizePostId(postId)) || tutorialIds.has(postId.toLowerCase())
+}
+
+/** Blog posts excluding those in any tutorial collection */
+export async function getBlogCollectionFiltered() {
+  const [posts, tutorialIds] = await Promise.all([getBlogCollection(), getTutorialPostIds()])
+  return posts.filter(post => !isTutorialPost(post.id, tutorialIds))
+}
+
+/** English blog posts excluding those in any tutorial collection */
+export async function getBlogCollectionEnFiltered() {
+  const [posts, tutorialIds] = await Promise.all([getBlogCollectionEn(), getTutorialPostIds()])
+  return posts.filter(post => !isTutorialPost(post.id, tutorialIds))
+}
+
 export async function getPostsForCollection(collection: CollectionEntry<'postCollections'>, isEn: boolean = false) {
   const allPosts = isEn ? await getBlogCollectionEn() : await getBlogCollection()
   const blogList = collection.data.bloglist || []

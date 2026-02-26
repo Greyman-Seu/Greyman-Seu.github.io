@@ -10,7 +10,7 @@ import { unified } from 'unified'
 import { visit } from 'unist-util-visit'
 import config from '@/site-config'
 
-import { getBlogCollection, sortMDByDate } from '@/server'
+import { getBlogCollectionFiltered, sortMDByDate } from '@/server'
 
 // Get dynamic import of images as a map collection
 const imagesGlob = import.meta.glob<{ default: ImageMetadata }>(
@@ -54,7 +54,7 @@ const renderContent = async (post: CollectionEntry<'blog'>, site: URL) => {
 }
 
 const GET = async (context: AstroGlobal) => {
-  const allPostsByDate = sortMDByDate(await getBlogCollection()) as CollectionEntry<'blog'>[]
+  const allPostsByDate = sortMDByDate(await getBlogCollectionFiltered()) as CollectionEntry<'blog'>[]
   const siteUrl = context.site ?? new URL(import.meta.env.SITE)
 
   return rss({
