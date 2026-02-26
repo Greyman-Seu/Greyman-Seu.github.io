@@ -6,7 +6,7 @@ import type { CollectionEntry } from 'astro:content'
 import 'katex/dist/katex.min.css'
 
 import { Comment, MediumZoom } from '@/components/widgets'
-import { ArticleBottom, Copyright, Hero, TOC } from '@/components/pages'
+import { ArticleBottom, Copyright, Hero, SeriesNav, TOC } from '@/components/pages'
 import PageLayout from '@/layouts/ContentLayout.astro'
 import { integ } from '@/site-config'
 
@@ -15,13 +15,17 @@ interface Props {
   posts: CollectionEntry<'blog'>[] | CollectionEntry<'blogEn'>[]
   headings: MarkdownHeading[]
   remarkPluginFrontmatter: Record<string, unknown>
+  collection?: CollectionEntry<'postCollections'> | null
+  isEn?: boolean
 }
 
 const {
   post: { id, data },
   posts,
   headings,
-  remarkPluginFrontmatter
+  remarkPluginFrontmatter,
+  collection,
+  isEn = false
 } = Astro.props
 
 const {
@@ -48,6 +52,7 @@ const primaryColor = data.heroImage?.color ?? 'hsl(var(--primary) / var(--tw-tex
   highlightColor={primaryColor}
   back='/blog'
 >
+  {collection && <SeriesNav {collection} currentId={id} {isEn} slot='sidebar' />}
   {!!headings.length && <TOC {headings} slot='sidebar' />}
 
   <Hero {data} {remarkPluginFrontmatter} slot='header' />
