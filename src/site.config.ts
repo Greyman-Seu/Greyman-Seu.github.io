@@ -5,8 +5,8 @@ export const theme: ThemeUserConfig = {
   /** Title for your website. Will be used in metadata and as browser tab title. */
   title: "十步",
   /** Will be used in index page & copyright declaration */
-  author: '朱阳坤',
-  author_en: 'Zhuyangkun',
+  author: '祝仰坤',
+  author_en: 'Zhu Yangkun',
   /** Description metadata for your website. Can be used in page metadata. */
   description: '十步的个人博客',
   description_en: "TenStep's Blog",
