@@ -66,6 +66,16 @@ import GitHubActivityCalendar from '@/components/home/GitHubActivityCalendar.ast
         >
         </Card>
       </Section>
+      <Section title='Work Experience'>
+        <Card
+          as='a'
+          heading='Company Name'
+          subheading='Position'
+          date='Start Date - End Date'
+          href='#'
+        >
+        </Card>
+      </Section>
       <Section title='Statistics'>
         <BlogStats blogStartDate={config.personal?.blogStartDate ? new Date(config.personal.blogStartDate) : new Date('2024-06-15')} />
       </Section>
