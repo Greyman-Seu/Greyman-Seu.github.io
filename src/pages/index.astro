@@ -5,6 +5,7 @@ import PageLayout from '@/layouts/BaseLayout.astro'
 import Section from '@/components/home/Section.astro'
 import BlogStats from '@/components/home/BlogStats.astro'
 import PostPreview from '@/components/pages/PostPreview.astro'
+import { DistributionSection } from '@/components/academic'
 import { getBlogCollectionFiltered, sortMDByDate } from '@/utils/server'
 import avatar from '@/assets/avatar.png'
 import config from '@/site-config'
@@ -13,6 +14,19 @@ const allPosts = await getBlogCollectionFiltered()
 const sortedPosts = sortMDByDate(allPosts)
 const pinnedPosts = sortedPosts.filter(p => p.data.pinned)
 const recentPosts = pinnedPosts.length > 0 ? pinnedPosts.slice(0, 5) : sortedPosts.slice(0, 5)
+
+const distributions = [
+  {
+    title: '主站',
+    url: 'tenstep.top',
+    platform: 'Cloudflare'
+  },
+  {
+    title: 'GitHub Pages',
+    url: 'greyman-seu.github.io',
+    platform: 'GitHub'
+  }
+]
 ---
 
 <PageLayout meta={{ title: 'Home' }} highlightColor='#659EB966'>
@@ -94,6 +108,19 @@ const recentPosts = pinnedPosts.length > 0 ? pinnedPosts.slice(0, 5) : sortedPos
       )}
       <Section title='Statistics'>
         <BlogStats blogStartDate={config.personal?.blogStartDate ? new Date(config.personal.blogStartDate) : new Date('2024-06-15')} />
+      </Section>
+      <Section title='Distribution'>
+        <p class='text-muted-foreground text-sm'>
+          本站在多个平台部署，如遇访问问题可选择其他镜像站点，所有站点内容保持同步更新。
+        </p>
+        <DistributionSection {distributions} />
+      </Section>
+      <Section title='Copyright'>
+        <p class='text-muted-foreground text-sm'>
+          本站所有原创内容，除非特别说明，均以 <a href='https://creativecommons.org/licenses/by-nc-sa/4.0/' class='underline underline-offset-2'>CC BY-NC-SA 4.0</a> 协议授权。
+          转载须注明作者及原文链接，不得用于商业目的。
+          本站部分图片素材来源于 Pixiv 等平台，均已注明原作链接；如有侵权，请联系我删除。
+        </p>
       </Section>
     </div>
   </main>
