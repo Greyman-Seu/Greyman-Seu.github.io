@@ -42,7 +42,7 @@ export const theme: ThemeUserConfig = {
   /** Configure the header of your site. */
   header: {
     menu: [
-      { title: 'Blog', link: '/blog/research' },
+      { title: 'Blog', link: '/blog/other' },
       { title: 'Works', link: '/academic' },
       { title: 'Follow', link: '/links' },
       { title: 'Tutorials', link: '/collection/docs' },
