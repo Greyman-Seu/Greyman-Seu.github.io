@@ -1,0 +1,262 @@
+---
+import PageLayout from '@/layouts/CommonPage.astro'
+import { Comment } from '@/components/widgets'
+import { Button } from '@/components/ui'
+
+const headings = [
+  { depth: 2, slug: 'summary', text: '个人简介' },
+  { depth: 2, slug: 'education', text: '教育背景' },
+  { depth: 2, slug: 'experience', text: '工作经历' },
+  { depth: 2, slug: 'skills', text: '技术技能' },
+  { depth: 2, slug: 'projects', text: '项目经历' }
+]
+
+const education = [
+  {
+    school: '东南大学',
+    degree: '能源信息自动化 · 硕士',
+    date: '2016.09 — 2019.07',
+    details: [
+      '研究方向：工程热物理（光学方向：相机 / 光谱）',
+      '荣誉：国家励志奖学金、三好学生、优秀毕业生',
+      '担任班长，获优秀班集体；任党委助理团团长，获优秀党小组'
+    ]
+  },
+  {
+    school: '南京林业大学',
+    degree: '热能与动力工程 · 学士',
+    date: '2012.09 — 2016.07',
+    details: ['专业：热能与动力工程系']
+  }
+]
+
+const experience = [
+  {
+    company: '红西瓜半导体（原地平线座舱 HALO / GUA 团队）',
+    role: '算法工程师 · 行为手势组 TL / 子项负责人',
+    date: '2021.02 — 至今',
+    location: '南京 / 上海',
+    details: [
+      'GUA 期间：TOF 项目负责人（LTC）、空间交互项目负责人（预研类）、行为手势组长、多模态场景理解技术牵头',
+      '地平线期间：行为 / 手势识别落地、行为识别 SE、TDT 预研项目及部分 Demo 拓展开发代表',
+      '获地平线"2021 年度成就客户奖"'
+    ]
+  },
+  {
+    company: '电科云科技有限公司（电科军工）',
+    role: '算法工程师',
+    date: '2020.02 — 2021.02',
+    location: '南京',
+    details: [
+      '0-1 承担边缘智能平台算法框架搭建，包括技术选型、模型自动化流程训练、云端部署',
+      '完成军街识别、船舶感知、自动情报生成并接下游图谱任务',
+      '投标保障，推动边缘智能方案中标，后续转为南京部门重点项目'
+    ]
+  },
+  {
+    company: '地平线研究院 / 地平线 DMS 团队',
+    role: '算法工程师',
+    date: '2019.07 — 2020.02',
+    location: '北京 / 南京',
+    details: [
+      '担任研究院 19 期 A 班班长，协助管理培训及算法比赛等事项',
+      'DMS 期间：承担疲劳预警算法中睁闭眼模型多任务化，完成 J2 芯片多轮发版，支撑地平线首次量产车载芯片'
+    ]
+  }
+]
+
+const skills = [
+  { label: '算法方向', items: ['行为识别', '手势识别', '3D 人手重建', '目标检测', '多模态大模型'] },
+  { label: '深度学习', items: ['PyTorch', 'YOLO', 'InternVL', 'LLaMA', 'SAM', 'DINO'] },
+  { label: '工程部署', items: ['模型量化 (w8A8 / INT8)', '地平线 J 系列芯片', 'ONNX'] },
+  { label: '工具 & 工程', items: ['Python', 'C++', 'Git', 'DAG 自动化流程', '数据 Pipeline'] },
+  { label: '语言', items: ['中文（母语）', '英文（可阅读技术文献）'] }
+]
+
+const projects = [
+  {
+    name: 'GUA 大模型（driveVLM）',
+    date: '2023.07 — 至今',
+    type: '算法工程师 / 行为手势组 TL',
+    href: null,
+    details: [
+      '预研 VLM 多模态大模型在车载场景的应用，牵引芯片设计方向',
+      '使用 InternVL + reg / rec / 分类等方案进行 LoRA 微调，用于车辆风险估计；precision 从 gpt-4o 基线的 30% 提升至 95%+，已部署上线',
+      '探索 w8A8/16 动态量化与 q-diffusion 静态量化，量化余弦相似度达 99.99%；文生图在 J6 上实现 100ms 推理，远超年初制定的秒级目标',
+      '"万物识别"与"出行助手"两项 Agent Demo 在 5 月上海车展获公司大模型团队表彰'
+    ]
+  },
+  {
+    name: 'GUA 空间交互车展 DEMO',
+    date: '2024.01 — 2024.05',
+    type: 'DEMO 负责人',
+    href: null,
+    details: [
+      '首次非公开对外展示类 Vision Pro 手眼交互方案在实车的应用',
+      '组织视线算法组、手势算法组等上下游，强相关 15 名开发，涉及人数 43 名',
+      '完成 24 年 GUA 车展 DEMO，精度体验远超同行，获得良好内外部反响'
+    ]
+  },
+  {
+    name: '地平线车展"指哪问哪"手势地图 DEMO',
+    date: '2023.02 — 2023.05',
+    type: '拓展开发代表',
+    href: null,
+    details: [
+      '单目重建方案，首次非公开对外展示车载 3D 重建 DEMO',
+      '核心开发 6 人，2 个月完成 Zero Car 指向地图 Demo 应用开发',
+      '吸引 10+ 主机厂参观，同年 6 月理想汽车已将指向地图纳入自身 Demo'
+    ]
+  },
+  {
+    name: 'HALO / GUA 手势任务',
+    date: '2022.09 — 2024.07',
+    type: 'TDT 开发代表 / 行为手势组 TL',
+    href: null,
+    details: [
+      '带队完成人手 4DGT 采集系统、数据流程提效、模组选型、单 / 多目人手自建、TOF depth 人手建、多目 fitting 等预研工作',
+      '精准定位画圆手势历史召回瓶颈，提出补偿方案，1 个月内一圆 N 格指标提升 5% 以上，最终召回均大于 96%',
+      '系统升级 3 次，组织探索多目融合、时序融合、手模等算法方案，支撑 TOF LTC 及两次 Demo 项目'
+    ]
+  },
+  {
+    name: 'DMS 疲劳预警 / 地平线首款量产车载芯片',
+    date: '2019.07 — 2020.02',
+    type: '算法工程师',
+    href: null,
+    details: [
+      '承担睁闭眼模型多任务化迭代，完成 J2 芯片多轮发版',
+      '该项目支撑了地平线第一个 J 系列量产项目落地'
+    ]
+  }
+]
+---
+
+<PageLayout title='Resume' {headings} info='/resume'>
+
+  {/* ── 个人简介 ── */}
+  <h2 id='summary'>个人简介<a class='anchor' href='#summary'>#</a></h2>
+  <p>
+    计算机视觉算法工程师，专注于车载智能感知领域。拥有 5 年以上行业经验，深耕行为识别、手势识别、3D
+    人手重建与多模态大模型在量产车载场景的落地应用，多次主导大型车展 Demo 项目并取得突破性成果。
+  </p>
+  <p>
+    热爱技术，喜欢折腾开源项目与写作；相信「选择大于努力」，擅长在复杂业务中找到关键矛盾并高效推进。
+  </p>
+  <Button title='联系我' class='w-fit' href='mailto:zyk_seu_job@163.com' style='ahead' />
+
+  {/* ── 教育背景 ── */}
+  <h2 id='education'>教育背景<a class='anchor' href='#education'>#</a></h2>
+  <div class='not-prose flex flex-col gap-3'>
+    {education.map((item) => (
+      <div class='rounded-xl border border-border bg-card px-5 py-4'>
+        <div class='flex flex-wrap items-start justify-between gap-2'>
+          <div>
+            <p class='font-semibold text-foreground'>{item.school}</p>
+            <p class='mt-0.5 text-sm text-muted-foreground'>{item.degree}</p>
+          </div>
+          <span class='shrink-0 rounded-full bg-primary/10 px-3 py-0.5 text-xs font-medium text-primary'>
+            {item.date}
+          </span>
+        </div>
+        <ul class='mt-3 space-y-1.5 border-t border-border/50 pt-3'>
+          {item.details.map((d) => (
+            <li class='flex items-start gap-2 text-sm text-muted-foreground'>
+              <span class='mt-[0.4rem] size-1.5 shrink-0 rounded-full bg-primary/50'></span>
+              <span>{d}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    ))}
+  </div>
+
+  {/* ── 工作经历 ── */}
+  <h2 id='experience'>工作经历<a class='anchor' href='#experience'>#</a></h2>
+  <div class='not-prose flex flex-col gap-3'>
+    {experience.map((item) => (
+      <div class='rounded-xl border border-border bg-card px-5 py-4'>
+        <div class='flex flex-wrap items-start justify-between gap-2'>
+          <div>
+            <p class='font-semibold text-foreground'>{item.company}</p>
+            <p class='mt-0.5 text-sm text-muted-foreground'>{item.role}</p>
+          </div>
+          <div class='flex flex-col items-end gap-1'>
+            <span class='shrink-0 rounded-full bg-primary/10 px-3 py-0.5 text-xs font-medium text-primary'>
+              {item.date}
+            </span>
+            <span class='text-xs text-muted-foreground'>{item.location}</span>
+          </div>
+        </div>
+        <ul class='mt-3 space-y-1.5 border-t border-border/50 pt-3'>
+          {item.details.map((d) => (
+            <li class='flex items-start gap-2 text-sm text-muted-foreground'>
+              <span class='mt-[0.4rem] size-1.5 shrink-0 rounded-full bg-primary/50'></span>
+              <span>{d}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    ))}
+  </div>
+
+  {/* ── 技术技能 ── */}
+  <h2 id='skills'>技术技能<a class='anchor' href='#skills'>#</a></h2>
+  <div class='not-prose rounded-xl border border-border bg-card px-5 py-4'>
+    <dl class='space-y-3'>
+      {skills.map((row) => (
+        <div class='flex flex-wrap items-start gap-x-3 gap-y-1.5'>
+          <dt class='w-24 shrink-0 pt-0.5 text-sm font-medium text-foreground'>{row.label}</dt>
+          <dd class='flex flex-1 flex-wrap gap-1.5'>
+            {row.items.map((item) => (
+              <span class='rounded-full bg-muted px-2.5 py-0.5 text-xs text-muted-foreground'>
+                {item}
+              </span>
+            ))}
+          </dd>
+        </div>
+      ))}
+    </dl>
+  </div>
+
+  {/* ── 项目经历 ── */}
+  <h2 id='projects'>项目经历<a class='anchor' href='#projects'>#</a></h2>
+  <div class='not-prose flex flex-col gap-3'>
+    {projects.map((item) => (
+      <div class='rounded-xl border border-border bg-card px-5 py-4'>
+        <div class='flex flex-wrap items-start justify-between gap-2'>
+          <div class='flex items-center gap-2'>
+            <p class='font-semibold text-foreground'>{item.name}</p>
+            {item.href && (
+              <a
+                href={item.href}
+                target='_blank'
+                class='text-xs text-primary transition-opacity hover:opacity-70'
+              >
+                GitHub ↗
+              </a>
+            )}
+          </div>
+          <div class='flex flex-wrap items-center justify-end gap-2'>
+            <span class='rounded-full bg-secondary px-2.5 py-0.5 text-xs text-muted-foreground'>
+              {item.type}
+            </span>
+            <span class='rounded-full bg-primary/10 px-3 py-0.5 text-xs font-medium text-primary'>
+              {item.date}
+            </span>
+          </div>
+        </div>
+        <ul class='mt-3 space-y-1.5 border-t border-border/50 pt-3'>
+          {item.details.map((d) => (
+            <li class='flex items-start gap-2 text-sm text-muted-foreground'>
+              <span class='mt-[0.4rem] size-1.5 shrink-0 rounded-full bg-primary/50'></span>
+              <span>{d}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    ))}
+  </div>
+
+  <Comment slot='bottom' />
+</PageLayout>
