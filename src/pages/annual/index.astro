@@ -6,34 +6,119 @@ const meta = {
   description: '每一年的代号、壁纸与主要矛盾'
 }
 
-// 从最新年份到最早，壁纸放在 /public/annual/{year}.jpg
-const plans = [
-  { year: 2026, codename: '[代号]', contradiction: '[主要矛盾]' },
-  { year: 2025, codename: '[代号]', contradiction: '[主要矛盾]' },
-  { year: 2024, codename: '[代号]', contradiction: '[主要矛盾]' },
-  { year: 2023, codename: '[代号]', contradiction: '[主要矛盾]' },
-  { year: 2022, codename: '[代号]', contradiction: '[主要矛盾]' },
-  { year: 2021, codename: '[代号]', contradiction: '[主要矛盾]' },
-  { year: 2020, codename: '[代号]', contradiction: '[主要矛盾]' },
-  { year: 2019, codename: '[代号]', contradiction: '[主要矛盾]' },
-  { year: 2018, codename: '[代号]', contradiction: '[主要矛盾]' },
-  { year: 2017, codename: '[代号]', contradiction: '[主要矛盾]' },
-  { year: 2016, codename: '[代号]', contradiction: '[主要矛盾]' }
+interface Plan {
+  year: number
+  codename: string
+  methodology: string
+  contradiction: string
+  summary: string
+  ext: 'jpg' | 'png'
+}
+
+const plans: Plan[] = [
+  {
+    year: 2026,
+    codename: '破军星',
+    methodology: '能输出的就输出，全年以 OUTPUT 为主',
+    contradiction: '需要出口，打造影响力；需在机器人领域打造自己主导的项目或模块。',
+    summary: '',
+    ext: 'jpg'
+  },
+  {
+    year: 2025,
+    codename: '勇气 & 量变',
+    methodology: '攒数量，重 INPUT，突破舒适区',
+    contradiction: '面对三座大山（子女教育、老人养老、职场突破），在地平线内部难以破局，需要鼓起勇气引入变量。',
+    summary: '放弃舒适圈，离开地平线，重新制定短期目标：选定一个行业，5 年做出影响力。调研金融、机器人、手机等方向后，最终选择从头转行机器人，加入上海 AILAB。经济上有落差，但回头看可能是近几年最正确的一次决定。一年内参与了多个有影响力的项目，蹭到了顶会，认识了一群大佬，刚转行能稳扎稳打，实属不易。INPUT 层面，全年知识付费达到顶峰，借助外力整合出属于自己的方法论体系。',
+    ext: 'png'
+  },
+  {
+    year: 2024,
+    codename: '利他：价值提升',
+    methodology: '切实提高自己的利他性，以价值换影响力',
+    contradiction: '时间严重短缺、缺乏管理，与迫切想要提升行业影响力的心态之间的矛盾。',
+    summary: 'VP 手眼交互 Demo 做到行业 TOP1，VLM 交警方案落地自动驾驶场景，刚打出一些影响力，HALO 团队却濒临解散。几年心血，水中鱼，镜中花。',
+    ext: 'jpg'
+  },
+  {
+    year: 2023,
+    codename: '修内：行中知，知中行',
+    methodology: '边做边学，遇到问题就解决，在实践中沉淀方法论',
+    contradiction: '目标层级与底层能力之间的落差——管理能力和知识储备都还不够。',
+    summary: '找到了较适合自己的思维框架，从"知道要做什么"到"找到心法驱动去做"，开始构建系统的方法论体系。推荐《认知觉醒》。职业上也有突破，从虚拟小组晋升为实体小组。',
+    ext: 'jpg'
+  },
+  {
+    year: 2022,
+    codename: '定位与平衡',
+    methodology: '平衡工作与家庭，找准并设定下一个五年目标',
+    contradiction: '上学的惯性消失后，上一轮五年规划已到终点，却没有新的长期目标，有力无处使，方向感全无。',
+    summary: '确立长期目标，代号 TOP。开始涉足研发线，带领虚拟小组从零搭建人手重建方向。',
+    ext: 'jpg'
+  },
+  {
+    year: 2021,
+    codename: '登山',
+    methodology: '迎难而上，高追求，破釜沉舟',
+    contradiction: '稳了一年，需要冲一把职业，打开更宽的发展道路。',
+    summary: '家庭全力支持，ALL IN 工作，啃下硬骨头，获年度成就客户奖，成为 OWNER 并带领校招新人，正式打开了在地平线的职业局面。',
+    ext: 'jpg'
+  },
+  {
+    year: 2020,
+    codename: '稳中求胜',
+    methodology: '一切以稳为主，不冒险',
+    contradiction: '失业、结婚、怀孕、口罩年撞在一起，难哭了，只能一切求稳。',
+    summary: '尝试在 CV 领域读博，家庭变化不允许，基本断了这条路；转去军工（中国电科·电科云）待了一年，结识了一批优秀、想报效祖国的人。身份几经转变：一人吃饱 → 丈夫 → 爸爸。',
+    ext: 'jpg'
+  },
+  {
+    year: 2019,
+    codename: '抓大放小',
+    methodology: '忽略细节，一切朝向「顺利毕业 + 职场落地」',
+    contradiction: '历届师兄几乎无人顺利毕业，必须顺利毕业；毕业要求发表小论文，大论文还需由三篇小论文级别的章节构成。',
+    summary: '顺利毕业，论文求快发了 EI，没能发出有影响力的成果，是人生少有的遗憾。从 AI-CV 小白，做到地平线研究院第三批 A 班班长，基本站稳职场。但天有不测风云——临近春节研究院解散，毕业即失业，春节咋过，要脸。',
+    ext: 'jpg'
+  },
+  {
+    year: 2018,
+    codename: '抉择',
+    methodology: '谨慎做选择，明确职业方向',
+    contradiction: '科研信念破碎，放弃深造，摆在面前的岔路：电力还是 AI？',
+    summary: '听了地平线研究院院长吴博（现 HoumoAI 创始人）的演讲，当场决定转行，入坑 AI。',
+    ext: 'jpg'
+  },
+  {
+    year: 2017,
+    codename: '一点突破',
+    methodology: '聚焦一个点，把它做好',
+    contradiction: '刚入学读研，选定单点突破方向，目标是把小论文（吸收光谱方向）做出来。',
+    summary: '论文是整出来了，可惜……不能发。',
+    ext: 'jpg'
+  },
+  {
+    year: 2016,
+    codename: '钱钱钱',
+    methodology: '搞钱',
+    contradiction: '刚毕业，缺钱缺疯了。',
+    summary: '以钱为唯一目标容易走偏，接触了股票，差点歪路上越走越远。',
+    ext: 'jpg'
+  }
 ]
 
-// 每年各自的渐变色（图片不存在时作为背景）
-const gradients = [
-  ['#6366f1', '#8b5cf6'], // 2026 indigo → violet
-  ['#0ea5e9', '#6366f1'], // 2025 sky → indigo
-  ['#10b981', '#0ea5e9'], // 2024 emerald → sky
-  ['#f59e0b', '#ef4444'], // 2023 amber → red
-  ['#ec4899', '#a855f7'], // 2022 pink → purple
-  ['#14b8a6', '#0ea5e9'], // 2021 teal → sky
-  ['#f97316', '#f59e0b'], // 2020 orange → amber
-  ['#84cc16', '#10b981'], // 2019 lime → emerald
-  ['#e879f9', '#ec4899'], // 2018 fuchsia → pink
-  ['#64748b', '#475569'], // 2017 slate
-  ['#0891b2', '#0284c7']  // 2016 cyan → blue
+// 每年渐变色（无壁纸时作为背景）
+const gradients: [string, string][] = [
+  ['#6366f1', '#8b5cf6'],
+  ['#0ea5e9', '#6366f1'],
+  ['#10b981', '#0ea5e9'],
+  ['#f59e0b', '#ef4444'],
+  ['#ec4899', '#a855f7'],
+  ['#14b8a6', '#0ea5e9'],
+  ['#f97316', '#f59e0b'],
+  ['#84cc16', '#10b981'],
+  ['#e879f9', '#ec4899'],
+  ['#64748b', '#475569'],
+  ['#0891b2', '#0284c7']
 ]
 ---
 
@@ -41,35 +126,33 @@ const gradients = [
   <main class='mt-6 lg:mt-10'>
     <div id='content-header' class='animate mb-10'>
       <h1 class='text-3xl font-bold'>年度规划</h1>
-      <p class='mt-2 text-muted-foreground'>每一年的代号、壁纸与主要矛盾。</p>
+      <p class='mt-2 text-muted-foreground'>
+        一个不愿普通的普通人，无后路、试错成本高，才凡事想清楚再动，稳扎稳打。<br />
+        这里记录每一年的代号、壁纸、方法论与主要矛盾。
+      </p>
     </div>
 
     <section id='content' class='animate'>
       <div class='grid gap-5 sm:grid-cols-2 lg:grid-cols-3'>
         {plans.map((plan, i) => {
           const [from, to] = gradients[i]
+          const hasContent = plan.methodology !== '[待填]'
           return (
-            <div class='group overflow-hidden rounded-2xl border border-border bg-card transition-all duration-300 hover:border-foreground/20 hover:shadow-xl'>
+            <div class='group flex flex-col overflow-hidden rounded-2xl border border-border bg-card transition-all duration-300 hover:border-foreground/20 hover:shadow-xl'>
+
               {/* 壁纸区域 */}
               <div class='relative aspect-video overflow-hidden'>
-                {/* 渐变兜底背景 */}
-                <div
-                  class='absolute inset-0'
-                  style={`background: linear-gradient(135deg, ${from}40, ${to}25)`}
-                />
-                {/* 壁纸图片，不存在时隐藏，显示渐变 */}
+                <div class='absolute inset-0' style={`background: linear-gradient(135deg, ${from}40, ${to}25)`} />
                 <img
-                  src={`/annual/${plan.year}.jpg`}
+                  src={`/annual/${plan.year}.${plan.ext}`}
                   alt={`${plan.year} wallpaper`}
                   class='absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105'
                   onerror='this.style.display="none"'
                   loading='lazy'
                 />
-                {/* 底部渐变遮罩，保证文字可读 */}
                 <div class='absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent' />
-                {/* 年份数字 */}
                 <span
-                  class='absolute right-4 top-3 text-6xl font-black leading-none select-none'
+                  class='absolute right-4 top-3 select-none text-6xl font-black leading-none'
                   style={`color: ${from}; opacity: 0.25;`}
                 >
                   {plan.year}
@@ -80,17 +163,43 @@ const gradients = [
               </div>
 
               {/* 内容区域 */}
-              <div class='px-4 pb-4 pt-3'>
-                <div class='mb-2 flex items-center gap-2'>
+              <div class='flex flex-1 flex-col gap-3 px-4 pb-4 pt-3'>
+
+                {/* 代号 */}
+                <div class='flex items-center gap-2'>
                   <span
-                    class='rounded-full px-2.5 py-0.5 text-xs font-semibold'
+                    class='shrink-0 rounded-full px-2.5 py-0.5 text-xs font-semibold'
                     style={`background: ${from}20; color: ${from};`}
                   >
                     代号
                   </span>
                   <span class='font-semibold text-foreground'>「{plan.codename}」</span>
                 </div>
-                <p class='text-sm leading-relaxed text-muted-foreground'>{plan.contradiction}</p>
+
+                {hasContent ? (
+                  <div class='flex flex-col gap-2 text-sm'>
+                    {/* 方法论 */}
+                    <div>
+                      <p class='mb-0.5 text-xs font-medium text-muted-foreground/60'>方法论</p>
+                      <p class='text-foreground/80'>{plan.methodology}</p>
+                    </div>
+                    {/* 主要矛盾 */}
+                    <div>
+                      <p class='mb-0.5 text-xs font-medium text-muted-foreground/60'>主要矛盾</p>
+                      <p class='text-muted-foreground'>{plan.contradiction}</p>
+                    </div>
+                    {/* 一句小结 */}
+                    {plan.summary && (
+                      <div class='mt-1 border-t border-border/50 pt-2'>
+                        <p class='text-xs italic leading-relaxed text-muted-foreground/70'>
+                          {plan.summary}
+                        </p>
+                      </div>
+                    )}
+                  </div>
+                ) : (
+                  <p class='text-sm text-muted-foreground/40'>待填写…</p>
+                )}
               </div>
             </div>
           )

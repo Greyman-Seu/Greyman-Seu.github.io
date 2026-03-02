@@ -86,7 +86,7 @@ export const theme: ThemeUserConfig = {
     blogStartDate: '2026-02-26',
     /** Domain configuration */
     domains: {
-      main: 'zhuyangkun.com',          // 替换成你最终的主域名
+      main: 'tenstep.top',
       githubPages: 'greyman-seu.github.io',
       githubPagesBase: '/',
       // cloudflare: '',
