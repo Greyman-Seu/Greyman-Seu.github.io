@@ -81,7 +81,7 @@ export const theme: ThemeUserConfig = {
     /** Your GitHub username */
     githubUsername: 'Greyman-Seu',
     /** Your email address */
-    // email: '',
+    email: 'zyk_seu_job@163.com',
     /** Blog start date for statistics */
     blogStartDate: '2026-02-26',
     /** Domain configuration */
