@@ -6,44 +6,6 @@ on:
   workflow_dispatch:
 
 jobs:
-  deploy-cloudflare:
-    name: Deploy to Cloudflare Pages
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v3
-        with:
-          version: latest
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 22
-          cache: pnpm
-
-      - name: Install dependencies
-        run: pnpm install
-
-      - name: Build
-        run: pnpm run build
-        env:
-          DEPLOYMENT_PLATFORM: cloudflare
-
-      - name: Deploy to Cloudflare Pages
-        uses: cloudflare/pages-action@v1
-        with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          projectName: tenstep-blog        # 改成你在 Cloudflare 创建的项目名
-          directory: dist
-          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
-
   deploy-github:
     name: Deploy to GitHub Pages
     runs-on: ubuntu-latest
