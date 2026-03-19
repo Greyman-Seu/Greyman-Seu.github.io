@@ -1,7 +1,8 @@
 ---
 import PageLayout from '@/layouts/CommonPage.astro'
 import { Comment } from '@/components/widgets'
-import { Button } from '@/components/ui'
+import { Button, Icon } from '@/components/ui'
+import config from '@/site-config'
 
 const headings = [
   { depth: 2, slug: 'summary', text: '个人简介' },
@@ -137,13 +138,27 @@ const projects = [
   {/* ── 个人简介 ── */}
   <h2 id='summary'>个人简介<a class='anchor' href='#summary'>#</a></h2>
   <p>
-    计算机视觉算法工程师，专注于车载智能感知领域。拥有 5 年以上行业经验，深耕行为识别、手势识别、3D
-    人手重建与多模态大模型在量产车载场景的落地应用，多次主导大型车展 Demo 项目并取得突破性成果。
+    魔武双修——兼具创新力与组织力，既要在前沿无人区探路，也要把想法落成真实跑在产品上的东西。
   </p>
   <p>
-    热爱技术，喜欢折腾开源项目与写作；相信「选择大于努力」，擅长在复杂业务中找到关键矛盾并高效推进。
+    7 年车载 AI 算法经验，5 年带队。量产侧，作为 HALO 团队核心成员经历了地平线芯片首次量产，服务十数款车型；研发侧，多次主导大型车展准量产级项目，行业 TOP；科研侧，深度贡献 InternVLA 系列工作，沉淀顶会经验中。
   </p>
-  <Button title='联系我' class='w-fit' href='mailto:zyk_seu_job@163.com' style='ahead' />
+  <p>
+    在意技术的天花板，也在意技术的地板。
+  </p>
+  <div class='not-prose'>
+    <button
+      id='resume-email-btn'
+      data-email={config.personal?.email}
+      class='group relative flex flex-row items-center justify-center gap-x-2 rounded-lg bg-gradient-to-r from-muted/80 via-muted/60 to-muted/80 border border-border/50 px-3 py-2 text-sm font-medium text-muted-foreground backdrop-blur-sm transition-all duration-300 cursor-pointer hover:border-primary/40 hover:from-primary/10 hover:via-primary/5 hover:to-primary/10 hover:text-primary hover:shadow-md hover:shadow-primary/20 hover:-translate-y-0.5'
+    >
+      <div class='absolute inset-0 rounded-lg bg-gradient-to-r from-primary/0 via-primary/5 to-primary/0 opacity-0 transition-opacity duration-300 group-hover:opacity-100' />
+      <div class='relative flex items-center gap-x-2'>
+        <Icon name='email' class='size-4' />
+        <span id='resume-email-label'>联系我</span>
+      </div>
+    </button>
+  </div>
 
   {/* ── 教育背景 ── */}
   <h2 id='education'>教育背景<a class='anchor' href='#education'>#</a></h2>
@@ -260,3 +275,44 @@ const projects = [
 
   <Comment slot='bottom' />
 </PageLayout>
+
+<script>
+  const btn = document.getElementById('resume-email-btn') as HTMLElement | null
+  const label = document.getElementById('resume-email-label') as HTMLElement | null
+
+  if (btn && label) {
+    btn.addEventListener('click', () => {
+      const email = (btn as HTMLButtonElement).dataset.email || ''
+      navigator.clipboard.writeText(email).then(() => {
+        setTimeout(() => {
+          const svg = btn.querySelector('svg')
+          if (svg) {
+            svg.style.display = 'none'
+            const thumb = document.createElement('span')
+            thumb.id = 'resume-thumb'
+            thumb.textContent = '👍'
+            thumb.style.cssText = 'font-size:1rem; animation: thumbPop 0.3s ease-out;'
+            svg.parentNode!.insertBefore(thumb, svg)
+          }
+          label.textContent = '邮箱已复制'
+        }, 200)
+
+        setTimeout(() => {
+          label.textContent = '联系我'
+          const thumb = document.getElementById('resume-thumb')
+          if (thumb) thumb.remove()
+          const svg = btn.querySelector('svg')
+          if (svg) svg.style.display = ''
+        }, 2400)
+      })
+    })
+  }
+</script>
+
+<style>
+  @keyframes thumbPop {
+    0%   { transform: scale(0); }
+    70%  { transform: scale(1.3); }
+    100% { transform: scale(1); }
+  }
+</style>

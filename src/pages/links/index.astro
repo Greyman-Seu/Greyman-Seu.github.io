@@ -4,6 +4,7 @@ import CommonPage from '@/layouts/CommonPage.astro'
 
 import { Comment } from '@/components/widgets'
 import FriendList from '@/components/links/FriendList.astro'
+import { SimpleIcon } from '@/components/ui'
 
 // 直接从外部 JSON 文件导入 friends 数据
 import friendsData from '@/public/links.json'
@@ -12,9 +13,18 @@ const { links } = config.integ
 const linksConf = links || { logbook: [], applyTip: [] }
 
 const headings = [
+  { depth: 2, slug: 'research-interests', text: 'Research Interests' },
   { depth: 2, slug: 'common-links', text: 'Common Links' },
   { depth: 2, slug: 'apply-links', text: 'Apply Links' },
   ...(config.personal?.domains?.friendCircle ? [{ depth: 2, slug: 'small-circle', text: 'Small Circle' }] : [])
+]
+
+const interests = [
+  { title: 'VLM / VLA', description: '视觉语言模型与视觉语言动作模型', icon: 'pytorch' },
+  { title: '世界模型', description: '面向具身与自动驾驶的世界建模', icon: 'ros' },
+  { title: '人体重建', description: '3D 人手、人体重建与估计', icon: 'pytorch' },
+  { title: '人机交互', description: '车载 HMI 与多模态交互体验', icon: 'ros' },
+  { title: '具身智能', description: '机器人操作与端到端策略学习', icon: 'pytorch' }
 ]
 
 const { friends } = friendsData
@@ -22,6 +32,36 @@ const { friends } = friendsData
 
 <CommonPage title='Links' {headings} info='/links'>
   <div class='space-y-12'>
+
+    {/* ── Research Interests ── */}
+    <section class='space-y-6'>
+      <div class='flex items-center gap-3 pb-3 border-b border-border/30'>
+        <div class='flex items-center justify-center w-10 h-10 rounded-xl bg-primary/10 text-primary'>
+          <svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'>
+            <circle cx='11' cy='11' r='8'></circle><line x1='21' y1='21' x2='16.65' y2='16.65'></line>
+          </svg>
+        </div>
+        <div>
+          <h2 id='research-interests' class='text-2xl font-semibold m-0'>Research Interests</h2>
+          <p class='text-sm text-muted-foreground m-0'>持续关注的研究方向</p>
+        </div>
+      </div>
+      <div class='grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3'>
+        {interests.map((interest) => (
+          <div class='group relative overflow-hidden rounded-xl border border-border bg-card p-4 transition-all hover:border-foreground/25 hover:shadow-md'>
+            <div class='flex items-start gap-3'>
+              <div class='flex size-9 shrink-0 items-center justify-center rounded-lg bg-primary/10 transition-colors group-hover:bg-primary/20'>
+                <SimpleIcon class='size-4 text-primary' name={interest.icon} />
+              </div>
+              <div>
+                <p class='font-medium text-foreground'>{interest.title}</p>
+                <p class='text-xs text-muted-foreground mt-0.5'>{interest.description}</p>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
     <section class='space-y-6'>
       <div class='flex items-center gap-3 pb-3 border-b border-border/30'>
         <div class='flex items-center justify-center w-10 h-10 rounded-xl bg-primary/10 text-primary'>

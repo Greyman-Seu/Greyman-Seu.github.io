@@ -1,0 +1,107 @@
+---
+import PageLayout from '@/layouts/CommonPage.astro'
+import { PublicationSection, ResearchProjectSection } from '@/components/academic'
+import config from '@/site-config'
+
+const headings = [
+  { depth: 2, slug: 'publications', text: '论文' },
+  { depth: 2, slug: 'company-projects', text: '公司项目' },
+  { depth: 2, slug: 'open-source', text: '开源仓库' },
+  { depth: 2, slug: 'personal-projects', text: '个人项目' }
+]
+---
+
+<PageLayout title='Works' {headings} info={{ slug: '/academic', hideComment: true }}>
+  {/* 页面说明 */}
+  <p class='text-muted-foreground'>
+    这里收录可以拿出手的典型成果——论文、公司项目、开源仓库与个人项目。
+  </p>
+
+  {/* ── 论文 ── */}
+  <h2 id='publications'>论文<a class='anchor' href='#publications'>#</a></h2>
+  <PublicationSection
+    publications={[
+      {
+        title: '论文标题',
+        authors: [
+          { name: '作者 1', isEqual: true },
+          { name: '作者 2', isMe: true }
+        ],
+        venue: 'CVPR / ECCV / ICCV',
+        year: '202X',
+        type: 'conference',
+        abstract: '论文摘要。',
+        links: [
+          { type: 'arxiv', href: '#' }
+        ],
+        status: 'published'
+      }
+    ]}
+  />
+
+  {/* ── 公司项目 ── */}
+  <h2 id='company-projects'>公司项目<a class='anchor' href='#company-projects'>#</a></h2>
+  <ResearchProjectSection
+    projects={[
+      {
+        title: '项目名称',
+        description: '项目描述：在此介绍项目背景、你的角色与核心成果。',
+        category: '量产 / 研发 / Demo',
+        status: 'active',
+        links: []
+      }
+    ]}
+  />
+
+  {/* ── 开源仓库 ── */}
+  <h2 id='open-source'>开源仓库<a class='anchor' href='#open-source'>#</a></h2>
+  <ResearchProjectSection
+    projects={[
+      {
+        title: '仓库名称',
+        description: '仓库描述：简要介绍功能与用途。',
+        category: '开源',
+        status: 'active',
+        links: [
+          { type: 'github', href: '#', label: 'Code' }
+        ]
+      }
+    ]}
+  />
+
+  {/* ── 个人项目 ── */}
+  <h2 id='personal-projects'>个人项目<a class='anchor' href='#personal-projects'>#</a></h2>
+  <ResearchProjectSection
+    projects={[
+      {
+        title: '项目名称',
+        description: '项目描述：个人独立完成的项目。',
+        category: '个人',
+        status: 'active',
+        links: []
+      }
+    ]}
+  />
+</PageLayout>
+
+<script
+  is:inline
+  type='module'
+  data-astro-rerun
+  define:vars={{ npmCDN: config.npmCDN, walineServer: config.integ.waline.server }}
+>
+  const normalizePath = (path) => {
+    if (path === '/') return path
+    return path.endsWith('/') ? path.slice(0, -1) : path
+  }
+
+  const loadPageviewCount = async () => {
+    const pageview = await import(`${npmCDN}/@waline/client@v3/dist/pageview.js`)
+    pageview.pageviewCount({
+      serverURL: walineServer,
+      path: normalizePath(window.location.pathname)
+    })
+  }
+
+  await loadPageviewCount()
+</script>
