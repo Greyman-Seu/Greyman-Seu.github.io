@@ -82,6 +82,8 @@ export const theme: ThemeUserConfig = {
     githubUsername: 'Greyman-Seu',
     /** Your email address */
     email: 'zyk_seu_job@163.com',
+    /** Your Google Scholar profile URL */
+    googleScholar: 'https://scholar.google.com/citations?user=fAz0ez0AAAAJ&hl=zh-CN',
     /** Blog start date for statistics */
     blogStartDate: '2026-02-26',
     /** Domain configuration */

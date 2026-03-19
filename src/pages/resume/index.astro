@@ -146,7 +146,17 @@ const projects = [
   <p>
     在意技术的天花板，也在意技术的地板。
   </p>
-  <div class='not-prose'>
+  <div class='not-prose flex flex-wrap gap-2'>
+    {config.personal?.googleScholar && (
+      <a
+        href={config.personal.googleScholar}
+        target='_blank'
+        class='flex flex-row items-center gap-x-2 rounded-lg border border-border/50 bg-gradient-to-r from-muted/80 via-muted/60 to-muted/80 px-3 py-2 text-sm font-medium text-muted-foreground transition-all duration-300 hover:border-primary/40 hover:text-primary hover:-translate-y-0.5'
+      >
+        <Icon name='earth' class='size-4' />
+        <span>Scholar</span>
+      </a>
+    )}
     <button
       id='resume-email-btn'
       data-email={config.personal?.email}
@@ -158,7 +168,7 @@ const projects = [
         <span id='resume-email-label'>联系我</span>
       </div>
     </button>
-  </div>
+  </div>  {/* end not-prose flex */}
 
   {/* ── 教育背景 ── */}
   <h2 id='education'>教育背景<a class='anchor' href='#education'>#</a></h2>

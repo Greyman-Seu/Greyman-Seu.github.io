@@ -1,6 +1,7 @@
 ---
 import PageLayout from '@/layouts/CommonPage.astro'
 import { PublicationSection, ResearchProjectSection } from '@/components/academic'
+import { Icon } from '@/components/ui'
 import config from '@/site-config'
 
 const headings = [
@@ -11,7 +12,7 @@ const headings = [
 ]
 ---
 
-<PageLayout title='Works' {headings} info={{ slug: '/academic', hideComment: true }}>
+<PageLayout title='Works' {headings} info={{ slug: '/works', hideComment: true }}>
   {/* 页面说明 */}
   <p class='text-muted-foreground'>
     这里收录可以拿出手的典型成果——论文、公司项目、开源仓库与个人项目。
@@ -19,6 +20,18 @@ const headings = [
 
   {/* ── 论文 ── */}
   <h2 id='publications'>论文<a class='anchor' href='#publications'>#</a></h2>
+  {config.personal?.googleScholar && (
+    <div class='not-prose'>
+      <a
+        href={config.personal.googleScholar}
+        target='_blank'
+        class='inline-flex items-center gap-x-2 rounded-lg border border-border/50 bg-muted/60 px-3 py-1.5 text-sm font-medium text-muted-foreground transition-all hover:border-primary/40 hover:text-primary hover:-translate-y-0.5'
+      >
+        <Icon name='earth' class='size-4' />
+        <span>Google Scholar</span>
+      </a>
+    </div>
+  )}
   <PublicationSection
     publications={[
       {
