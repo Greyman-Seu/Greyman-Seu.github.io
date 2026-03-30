@@ -2,7 +2,6 @@
 import PageLayout from '@/layouts/CommonPage.astro'
 import { PublicationSection, ResearchProjectSection } from '@/components/academic'
 import { Icon } from '@/components/ui'
-import GithubCard from '@/components/widgets/GithubCard.astro'
 import config from '@/site-config'
 
 const headings = [
@@ -12,8 +11,28 @@ const headings = [
   { depth: 2, slug: 'personal-projects', text: '个人项目' }
 ]
 
-const openSourceRepos = [
-  'Greyman-Seu/Quest_Tele'
+const openSourceProjects = [
+  {
+    title: 'InternVLA-M1',
+    description: '面向通用机器人策略的 Vision-Language-Action 开源框架，强调 spatially guided、dual-system 和 dual-supervision 训练范式，将语言理解、空间感知与动作预测统一到同一套框架中。我主要负责 Sys2 pretrain，以及长任务拆解能力相关设计与落地。',
+    category: '具身智能 / VLA / 开源',
+    status: 'active' as const,
+    links: [
+      { type: 'github', href: 'https://github.com/InternRobotics/InternVLA-M1', label: 'GitHub' },
+      { type: 'huggingface', href: 'https://huggingface.co/InternRobotics/InternVLA-M1', label: 'Hugging Face' },
+      { type: 'paper', href: 'https://arxiv.org/abs/2510.13778', label: 'Paper' }
+    ]
+  },
+  {
+    title: 'vllm-omni-internvla-a1',
+    description: '围绕 vLLM-Omni 的多模态 serving 基座，对 InternVLA-A1 做推理与部署侧适配，使模型更容易接入统一服务框架、接口协议和工程化部署链路。我这里主要负责将 A1 适配到 vLLM 框架。',
+    category: 'Serving / 多模态部署 / 开源',
+    status: 'active' as const,
+    links: [
+      { type: 'github', href: 'https://github.com/Greyman-Seu/vllm-omni-internvla-a1', label: 'GitHub' },
+      { type: 'doc', href: 'https://vllm-omni.readthedocs.io/en/latest/', label: 'vLLM-Omni' }
+    ]
+  }
 ]
 ---
 
@@ -73,11 +92,7 @@ const openSourceRepos = [
 
   {/* ── 开源仓库 ── */}
   <h2 id='open-source'>开源仓库<a class='anchor' href='#open-source'>#</a></h2>
-  <div class='grid grid-cols-1 gap-4 md:grid-cols-2'>
-    {openSourceRepos.map(repo => (
-      <GithubCard repo={repo} />
-    ))}
-  </div>
+  <ResearchProjectSection projects={openSourceProjects} />
 
   {/* ── 个人项目 ── */}
   <h2 id='personal-projects'>个人项目<a class='anchor' href='#personal-projects'>#</a></h2>
