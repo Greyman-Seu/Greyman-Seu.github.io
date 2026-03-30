@@ -2,6 +2,7 @@
 import PageLayout from '@/layouts/CommonPage.astro'
 import { PublicationSection, ResearchProjectSection } from '@/components/academic'
 import { Icon } from '@/components/ui'
+import GithubCard from '@/components/widgets/GithubCard.astro'
 import config from '@/site-config'
 
 const headings = [
@@ -9,6 +10,10 @@ const headings = [
   { depth: 2, slug: 'company-projects', text: '公司项目' },
   { depth: 2, slug: 'open-source', text: '开源仓库' },
   { depth: 2, slug: 'personal-projects', text: '个人项目' }
+]
+
+const openSourceRepos = [
+  'Greyman-Seu/Quest_Tele'
 ]
 ---
 
@@ -68,19 +73,11 @@ const headings = [
 
   {/* ── 开源仓库 ── */}
   <h2 id='open-source'>开源仓库<a class='anchor' href='#open-source'>#</a></h2>
-  <ResearchProjectSection
-    projects={[
-      {
-        title: '仓库名称',
-        description: '仓库描述：简要介绍功能与用途。',
-        category: '开源',
-        status: 'active',
-        links: [
-          { type: 'github', href: '#', label: 'Code' }
-        ]
-      }
-    ]}
-  />
+  <div class='grid grid-cols-1 gap-4 md:grid-cols-2'>
+    {openSourceRepos.map(repo => (
+      <GithubCard repo={repo} />
+    ))}
+  </div>
 
   {/* ── 个人项目 ── */}
   <h2 id='personal-projects'>个人项目<a class='anchor' href='#personal-projects'>#</a></h2>
