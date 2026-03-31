@@ -7,7 +7,7 @@ import config from '@/site-config'
 
 type Props = SiteMeta
 
-const { articleDate, description, ogImage, title } = Astro.props
+const { articleDate, author = config.author, description, ogImage, title } = Astro.props
 
 const siteTitle = `${title} ${config.titleDelimiter} ${config.title}`
 const canonicalURL = new URL(Astro.url.pathname, Astro.site)
@@ -41,7 +41,7 @@ const socialImageURL = new URL(ogImage ? ogImage : '/images/social-card.webp', A
 {/* Primary Meta Tags */}
 <meta content={siteTitle} name='title' />
 <meta content={description} name='description' />
-<meta content={config.author} name='author' />
+<meta content={author} name='author' />
 
 {/* Theme Color */}
 <meta content='' name='theme-color' />
@@ -59,7 +59,7 @@ const socialImageURL = new URL(ogImage ? ogImage : '/images/social-card.webp', A
 {
   articleDate && (
     <>
-      <meta content={config.author} property='article:author' />
+      <meta content={author} property='article:author' />
       <meta content={articleDate} property='article:published_time' />
     </>
   )

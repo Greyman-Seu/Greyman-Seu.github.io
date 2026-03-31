@@ -10,6 +10,7 @@ export interface SiteMeta {
   description?: string
   ogImage?: string | undefined
   articleDate?: string | undefined
+  author?: string | undefined
 }
 
 export type CardListData = {

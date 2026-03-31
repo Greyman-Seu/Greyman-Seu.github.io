@@ -6,19 +6,20 @@ import config from '@/site-config'
 
 const headings = [
   { depth: 2, slug: 'publications', text: '论文' },
-  { depth: 2, slug: 'company-projects', text: '公司项目' },
-  { depth: 2, slug: 'open-source', text: '开源仓库' },
-  { depth: 2, slug: 'personal-projects', text: '个人项目' }
+  { depth: 2, slug: 'projects', text: '项目' },
+  { depth: 2, slug: 'open-source-projects', text: '开源项目' },
+  { depth: 2, slug: 'media-sharing', text: '自媒体分享' }
 ]
 
 const openSourceProjects = [
   {
     title: 'InternVLA-M1',
-    description: '面向通用机器人策略的 Vision-Language-Action 开源框架，强调 spatially guided、dual-system 和 dual-supervision 训练范式，将语言理解、空间感知与动作预测统一到同一套框架中。我主要负责 Sys2 pretrain，以及长任务拆解能力相关设计与落地。',
+    description: '面向通用机器人策略的 Vision-Language-Action 开源框架，强调 spatially guided、dual-system 和 dual-supervision 训练范式，将语言理解、空间感知与动作预测统一到同一套框架中。我主要负责 Sys2 pretrain，以及长任务拆解能力相关设计与落地。后续进一步延伸到 StarVLA，形成更模块化、可扩展的 VLA 开发生态。',
     category: '具身智能 / VLA / 开源',
     status: 'active' as const,
     links: [
       { type: 'github', href: 'https://github.com/InternRobotics/InternVLA-M1', label: 'GitHub' },
+      { type: 'github', href: 'https://github.com/starVLA/starVLA', label: 'StarVLA · 1.5k Stars' },
       { type: 'huggingface', href: 'https://huggingface.co/InternRobotics/InternVLA-M1', label: 'Hugging Face' },
       { type: 'paper', href: 'https://arxiv.org/abs/2510.13778', label: 'Paper' }
     ]
@@ -43,12 +44,34 @@ const openSourceProjects = [
     ]
   }
 ]
+
+const projects = [
+  {
+    title: '项目名称',
+    description: '项目描述：在此介绍项目背景、你的角色与核心成果。',
+    category: '量产 / 研发 / Demo',
+    status: 'active' as const,
+    links: []
+  }
+]
+
+const mediaSharing = [
+  {
+    title: '分享主题',
+    description: '分享描述：在此放文章、视频、公开分享或系列输出。',
+    category: '博客 / 视频 / 分享',
+    status: 'active' as const,
+    links: [
+      { type: 'site', href: '/blog/other', label: 'Blog' },
+    ]
+  }
+]
 ---
 
 <PageLayout title='Works' {headings} info={{ slug: '/works', hideComment: true }}>
   {/* 页面说明 */}
   <p class='text-muted-foreground'>
-    这里收录可以拿出手的典型成果——论文、公司项目、开源仓库与个人项目。
+    这里收录可以拿出手的典型成果，包括论文、项目、开源项目与自媒体分享。
   </p>
 
   {/* ── 论文 ── */}
@@ -68,54 +91,85 @@ const openSourceProjects = [
   <PublicationSection
     publications={[
       {
-        title: '论文标题',
+        title: 'ST4VLA: Spatially Guided Training for Vision-Language-Action Models',
         authors: [
-          { name: '作者 1', isEqual: true },
-          { name: '作者 2', isMe: true }
+          { name: 'Jinhui Ye', isEqual: true },
+          { name: 'Fangjing Wang', isEqual: true },
+          { name: 'Ning Gao', isEqual: true },
+          { name: 'Junqiu Yu', isEqual: true },
+          { name: 'Yangkun Zhu', isMe: true },
+          { name: 'Yilun Chen', role: 'corresponding' }
         ],
-        venue: 'CVPR / ECCV / ICCV',
-        year: '202X',
+        venue: 'ICLR 2026',
+        year: '2026',
         type: 'conference',
-        abstract: '论文摘要。',
+        abstract: '提出 Spatially Guided Training，将 spatial grounding pre-training 与 spatially guided action post-training 串联起来，在 SimplerEnv 上取得显著提升。',
         links: [
-          { type: 'arxiv', href: '#' }
+          { type: 'arxiv', href: 'https://arxiv.org/abs/2602.10109' }
         ],
-        status: 'published'
-      }
-    ]}
-  />
-
-  {/* ── 公司项目 ── */}
-  <h2 id='company-projects'>公司项目<a class='anchor' href='#company-projects'>#</a></h2>
-  <ResearchProjectSection
-    projects={[
+        status: 'accepted'
+      },
       {
-        title: '项目名称',
-        description: '项目描述：在此介绍项目背景、你的角色与核心成果。',
-        category: '量产 / 研发 / Demo',
-        status: 'active',
-        links: []
+        title: 'InternVLA-M1: A Spatially Guided Vision-Language-Action Framework for Generalist Robot Policy',
+        authors: [
+          { name: 'Yilun Chen', isCoreContributor: true },
+          { name: 'Ning Gao', isCoreContributor: true },
+          { name: 'Jiangmiao Pang', isCoreContributor: true },
+          { name: 'Bolun Wang', isCoreContributor: true },
+          { name: 'Fangjing Wang', isCoreContributor: true },
+          { name: 'Jinhui Ye', isCoreContributor: true },
+          { name: 'Junqiu Yu', isCoreContributor: true },
+          { name: 'Jinyu Zhang', isCoreContributor: true },
+          { name: 'Yangkun Zhu', isMe: true, isCoreContributor: true }
+        ],
+        authorsAlphabetical: true,
+        venue: 'ArXiv Technical Report',
+        year: '2025',
+        type: 'preprint',
+        abstract: '将空间 grounding 与机器人控制统一到同一框架，通过两阶段 spatially guided 训练提升 instruction following、泛化与长任务鲁棒性。',
+        links: [
+          { type: 'arxiv', href: 'https://arxiv.org/abs/2510.13778' },
+          { type: 'github', href: 'https://github.com/InternRobotics/InternVLA-M1' },
+          { type: 'model', href: 'https://huggingface.co/InternRobotics/InternVLA-M1' }
+        ],
+        status: 'preprint'
+      },
+      {
+        title: 'InternVLA-A1: Unifying Understanding, Generation and Action for Robotic Manipulation',
+        authors: [
+          { name: 'Junhao Cai' },
+          { name: 'Yang Li' },
+          { name: 'Haoxiang Ma' },
+          { name: 'Jiangmiao Pang' },
+          { name: 'Zherui Qiu' },
+          { name: 'Yang Tian' },
+          { name: 'Jia Zeng', role: 'project-leader' },
+          { name: 'Hongrui Zhu' },
+          { name: 'Yangkun Zhu', isMe: true }
+        ],
+        venue: 'ArXiv Preprint',
+        year: '2026',
+        type: 'preprint',
+        abstract: '统一 understanding、generation 与 action 的机器人操作模型，以 Mixture-of-Transformers 协同 scene understanding、visual foresight 和 action execution。',
+        links: [
+          { type: 'arxiv', href: 'https://arxiv.org/abs/2601.02456' }
+        ],
+        status: 'preprint'
       }
     ]}
   />
 
-  {/* ── 开源仓库 ── */}
-  <h2 id='open-source'>开源仓库<a class='anchor' href='#open-source'>#</a></h2>
+  {/* ── 项目 ── */}
+  <h2 id='projects'>项目<a class='anchor' href='#projects'>#</a></h2>
+  <ResearchProjectSection projects={projects} />
+
+  {/* ── 开源项目 ── */}
+  <h2 id='open-source-projects'>开源项目<a class='anchor' href='#open-source-projects'>#</a></h2>
   <ResearchProjectSection projects={openSourceProjects} />
 
-  {/* ── 个人项目 ── */}
-  <h2 id='personal-projects'>个人项目<a class='anchor' href='#personal-projects'>#</a></h2>
-  <ResearchProjectSection
-    projects={[
-      {
-        title: '项目名称',
-        description: '项目描述：个人独立完成的项目。',
-        category: '个人',
-        status: 'active',
-        links: []
-      }
-    ]}
-  />
+  {/* ── 自媒体分享 ── */}
+  <h2 id='media-sharing'>自媒体分享<a class='anchor' href='#media-sharing'>#</a></h2>
+  <ResearchProjectSection projects={mediaSharing} />
 </PageLayout>
 
 <script

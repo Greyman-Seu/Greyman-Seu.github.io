@@ -14,7 +14,7 @@ interface Props {
 }
 
 const {
-  meta: { articleDate, description = config.description, ogImage, title },
+  meta: { articleDate, author, description = config.description, ogImage, title },
   highlightColor
 } = Astro.props
 
@@ -24,7 +24,7 @@ const langAttr = currentLocale === 'en' ? 'en' : 'zh'
 
 <html lang={langAttr}>
   <head>
-    <BaseHead {articleDate} {description} {ogImage} {title} />
+    <BaseHead {articleDate} {author} {description} {ogImage} {title} />
     <ThemeProvider />
     <!-- Google tag (gtag.js) -->
     <script is:inline async src='https://www.googletagmanager.com/gtag/js?id=G-23SWRT8LTH'></script>
