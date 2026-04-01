@@ -12,7 +12,7 @@ interface Props<T extends CollectionKey> {
 }
 
 const {
-  data: { heroImage, title, publishDate },
+  data: { heroImage, title, publishDate, author },
   class: className
 } = Astro.props
 
@@ -65,7 +65,7 @@ const shares = {
   <div class='flex flex-row flex-wrap justify-start gap-x-5 gap-y-1 sm:gap-x-8'>
     <div class='flex gap-x-2 sm:flex-col'>
       <span>Author</span>
-      <span class='text-sm text-foreground max-sm:place-self-center'>{config.author}</span>
+      <span class='text-sm text-foreground max-sm:place-self-center'>{author || config.author}</span>
     </div>
     {
       publishDate && (

@@ -31,6 +31,7 @@ const blogSchema = ({ image }: { image: () => any }) =>
     tags: z.array(z.string()).default([]).transform(removeDupsAndLowerCase),
     category: z.string().optional(),
     language: z.string().optional(),
+    author: z.string().optional(),
     draft: z.boolean().default(false),
     pinned: z.boolean().default(false),
     // Integrations
