@@ -10,10 +10,18 @@ interface Props {
   class?: string
   projects: {
     image?: string
+    media?: {
+      type: 'image' | 'video'
+      src: string
+      poster?: string
+      alt?: string
+    }
     title: string
     description: string
     category?: string
     status?: 'active' | 'completed' | 'archived'
+    highlights?: string[]
+    responsibilities?: string[]
     links: {
       type: string
       href: string
@@ -62,7 +70,35 @@ const statusColors = {
 
         return (
           <div class='group relative overflow-hidden rounded-2xl border border-border bg-card transition-all hover:border-foreground/25 hover:shadow-lg'>
-            {imagePath && images[imagePath] && (
+            {project.media ? (
+              <div class='relative overflow-hidden border-b border-border bg-muted/30'>
+                {project.media.type === 'video' ? (
+                  <video
+                    class='h-60 w-full object-cover'
+                    controls
+                    preload='metadata'
+                    playsinline
+                    poster={project.media.poster}
+                  >
+                    <source src={project.media.src} />
+                  </video>
+                ) : (
+                  <img
+                    src={project.media.src}
+                    alt={project.media.alt || project.title}
+                    class='h-60 w-full object-cover'
+                    loading='lazy'
+                  />
+                )}
+                {project.status && (
+                  <div class='absolute right-3 top-3'>
+                    <span class={cn('px-2 py-1 text-xs font-medium rounded-full shadow-sm backdrop-blur', statusColors[project.status])}>
+                      {project.status.charAt(0).toUpperCase() + project.status.slice(1)}
+                    </span>
+                  </div>
+                )}
+              </div>
+            ) : imagePath && images[imagePath] && (
               <div class='relative h-48 overflow-hidden'>
                 <Image
                   class='h-full w-full object-cover transition-transform group-hover:scale-105'
@@ -103,6 +139,32 @@ const statusColors = {
               <p class='mb-4 text-muted-foreground leading-relaxed'>
                 {project.description}
               </p>
+
+              {project.highlights && project.highlights.length > 0 && (
+                <div class='mb-4'>
+                  <p class='mb-2 text-xs font-semibold uppercase tracking-wide text-primary'>出彩点</p>
+                  <ul class='space-y-1.5'>
+                    {project.highlights.map((highlight) => (
+                      <li class='text-sm leading-relaxed text-foreground/85'>
+                        {highlight}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
+              {project.responsibilities && project.responsibilities.length > 0 && (
+                <div class='mb-5'>
+                  <p class='mb-2 text-xs font-semibold uppercase tracking-wide text-primary'>我的职责</p>
+                  <div class='flex flex-wrap gap-2'>
+                    {project.responsibilities.map((item) => (
+                      <span class='rounded-full border border-border bg-muted/60 px-3 py-1 text-xs font-medium text-foreground/80'>
+                        {item}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
               
               <div class='flex flex-wrap gap-2'>
                 {project.links.map((link) => {

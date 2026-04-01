@@ -6,7 +6,7 @@ import config from '@/site-config'
 
 const headings = [
   { depth: 2, slug: 'publications', text: '论文' },
-  { depth: 2, slug: 'projects', text: '项目' },
+  { depth: 2, slug: 'product-projects', text: '产品项目' },
   { depth: 2, slug: 'open-source-projects', text: '开源项目' },
   { depth: 2, slug: 'media-sharing', text: '自媒体分享' }
 ]
@@ -16,7 +16,7 @@ const openSourceProjects = [
     title: 'InternVLA-M1',
     description: '面向通用机器人策略的 Vision-Language-Action 开源框架，强调 spatially guided、dual-system 和 dual-supervision 训练范式，将语言理解、空间感知与动作预测统一到同一套框架中。我主要负责 Sys2 pretrain，以及长任务拆解能力相关设计与落地。后续进一步延伸到 StarVLA，形成更模块化、可扩展的 VLA 开发生态。',
     category: '具身智能 / VLA / 开源',
-    status: 'active' as const,
+    status: 'completed' as const,
     links: [
       { type: 'github', href: 'https://github.com/InternRobotics/InternVLA-M1', label: 'GitHub' },
       { type: 'github', href: 'https://github.com/starVLA/starVLA', label: 'StarVLA · 1.5k Stars' },
@@ -38,7 +38,7 @@ const openSourceProjects = [
     title: 'Quest_Tele',
     description: '基于 Meta Quest 3 的 VR 双手位姿采集与机器人遥操作工具，支持手柄模式与人手追踪模式，通过局域网 HTTP / JSON 实时发送头显、手腕、手柄和 24 关节数据，并提供 Python 侧接收与可视化监控脚本，便于快速接入遥操作与采集流程。',
     category: 'VR / 遥操作 / 机器人工具 / 开源',
-    status: 'active' as const,
+    status: 'completed' as const,
     links: [
       { type: 'github', href: 'https://github.com/Greyman-Seu/Quest_Tele', label: 'GitHub' }
     ]
@@ -47,11 +47,102 @@ const openSourceProjects = [
 
 const projects = [
   {
-    title: '项目名称',
-    description: '项目描述：在此介绍项目背景、你的角色与核心成果。',
-    category: '量产 / 研发 / Demo',
-    status: 'active' as const,
-    links: []
+    title: '交警场景大模型',
+    description: '2024 年启动的中长期项目，已部署落地到地平线展车。该方向被认为兼具高场景价值、高难度和强用户感知，是小模型较难完整覆盖的事项之一。我担任交警算法负责人，带 5 人小组推进算法方案、迭代与效果落地。',
+    category: '量产 / 大模型 / 展车落地',
+    status: 'completed' as const,
+    highlights: [
+      '场景价值高、难度高、用户感知强，属于真正能拉开能力差距的方向',
+      '从项目验证走到展车落地，形成了可对外展示的完整成果',
+      '交警任务被视为首个小模型较难完整覆盖的事项，技术辨识度强'
+    ],
+    responsibilities: [
+      '交警算法负责人',
+      '5 人小组带队',
+      '方案迭代与效果落地'
+    ],
+    links: [
+      { type: 'video', href: '/project-media/traffic-police.mp4', label: 'Demo Video' },
+      { type: 'doc', href: 'https://my.feishu.cn/wiki/FSfgwc9UviFf8VkYGUcceYUTnjg', label: 'Feishu Wiki' }
+    ]
+  },
+  {
+    title: 'J6 芯片大模型秒级响应',
+    description: '围绕地平线 J6 芯片上的大模型部署与高性能推理展开验证，探索 W8A8/16 动态量化与 q-diffusion 静态量化，完成文生图在 J6 上 100ms 级推理速度，显著超出年初制定的秒级生图目标。我担任算法负责人。',
+    category: '芯片部署 / 模型优化 / 高性能推理',
+    status: 'completed' as const,
+    highlights: [
+      '在 J6 上实现 100ms 级文生图推理，远超年初秒级目标',
+      '验证地平线芯片具备大模型部署与快速响应能力',
+      '量化方案兼顾速度与效果，相似度指标达到较高水位'
+    ],
+    responsibilities: [
+      '算法负责人',
+      '量化方案探索',
+      '部署性能验证'
+    ],
+    links: [
+      { type: 'doc', href: 'https://my.feishu.cn/wiki/FSfgwc9UviFf8VkYGUcceYUTnjg', label: 'Feishu Wiki' }
+    ]
+  },
+  {
+    title: 'Vision Pro 手眼交互',
+    description: '围绕 Apple Vision Pro 的手眼交互能力打造车载展示与实车方案，一期完成 GUA 车展 Demo，二期进一步验证多应用实车可行性与覆盖范围。该方向在体验精度与展示效果上明显领先同期方案，我作为 VP 项目负责人主导推进。',
+    category: '人手重建 / XR 交互 / 展示项目',
+    status: 'completed' as const,
+    highlights: [
+      '率先把 Vision Pro 手眼交互做到具备可行性的车载演示效果',
+      '一期完成车展 Demo，二期继续推进到多应用实车可行性验证',
+      '在体验精度和展示效果上明显领先同期方案'
+    ],
+    responsibilities: [
+      'VP 项目负责人',
+      '方案推进',
+      '一期展示落地',
+      '二期实车验证'
+    ],
+    links: [
+      { type: 'video', href: '/project-media/visionpro-hand-eye.mp4', label: '一期 Demo' },
+      { type: 'video', href: '/project-media/visionpro-hand-eye-phase2.mp4', label: '二期 Demo' },
+      { type: 'doc', href: 'https://my.feishu.cn/wiki/FSfgwc9UviFf8VkYGUcceYUTnjg', label: 'Feishu Wiki' }
+    ]
+  },
+  {
+    title: '指向地图 / 看哪问哪',
+    description: '较早落地到实车的人车环境联动交互方案，贯通座舱与自动驾驶信息，实现“看哪问哪 / 指哪问哪”的交互闭环。该方案吸引理想汽车多轮体验并推动相关概念进入其量产计划，我负责指向地图算法模块。',
+    category: '多模态交互 / 实车展示 / 地图理解',
+    status: 'completed' as const,
+    highlights: [
+      '较早实现人-车-环境贯通的舱驾一体交互 Demo',
+      '吸引理想汽车多轮体验，并推动相关概念进入其量产规划',
+      '“看哪问哪 / 指哪问哪”具备较强的对外传播性和演示效果'
+    ],
+    responsibilities: [
+      '指向地图算法模块负责人'
+    ],
+    links: [
+      { type: 'video', href: '/project-media/pointing-map.mp4', label: 'Demo Video' },
+      { type: 'doc', href: 'https://my.feishu.cn/wiki/FSfgwc9UviFf8VkYGUcceYUTnjg', label: 'Feishu Wiki' }
+    ]
+  },
+  {
+    title: 'TOF 控屏与 POC 交付',
+    description: '包括 TOF 遥控器一期、广汽 POC TOF 等方向，围绕真 3D 控屏、客户演示与量产级 POC 交付展开。相关方案在客户反馈中被认为优于市面体验，我承担过 TOF SDK 项目负责人以及量产级 POC 对外交付负责人等角色。',
+    category: '3D 交互 / POC / 客户交付',
+    status: 'completed' as const,
+    highlights: [
+      '围绕真 3D 控屏能力形成长期演进路线，从演示走向客户交付',
+      '客户反馈认为体验优于市面方案，具备明确竞争力',
+      '覆盖 SDK、POC、对外交付等多个层面的工程落地'
+    ],
+    responsibilities: [
+      'TOF SDK 项目负责人',
+      '量产级 POC 对外交付负责人'
+    ],
+    links: [
+      { type: 'video', href: '/project-media/tof-control.mp4', label: 'Demo Video' },
+      { type: 'doc', href: 'https://my.feishu.cn/wiki/FSfgwc9UviFf8VkYGUcceYUTnjg', label: 'Feishu Wiki' }
+    ]
   }
 ]
 
@@ -60,7 +151,7 @@ const mediaSharing = [
     title: '分享主题',
     description: '分享描述：在此放文章、视频、公开分享或系列输出。',
     category: '博客 / 视频 / 分享',
-    status: 'active' as const,
+    status: 'completed' as const,
     links: [
       { type: 'site', href: '/blog/other', label: 'Blog' },
     ]
@@ -159,8 +250,8 @@ const mediaSharing = [
     ]}
   />
 
-  {/* ── 项目 ── */}
-  <h2 id='projects'>项目<a class='anchor' href='#projects'>#</a></h2>
+  {/* ── 产品项目 ── */}
+  <h2 id='product-projects'>产品项目<a class='anchor' href='#product-projects'>#</a></h2>
   <ResearchProjectSection projects={projects} />
 
   {/* ── 开源项目 ── */}

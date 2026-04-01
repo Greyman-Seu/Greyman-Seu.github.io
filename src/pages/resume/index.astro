@@ -1,7 +1,7 @@
 ---
 import PageLayout from '@/layouts/CommonPage.astro'
 import { Comment } from '@/components/widgets'
-import { Button, Icon } from '@/components/ui'
+import { Icon } from '@/components/ui'
 import config from '@/site-config'
 
 const headings = [
@@ -15,53 +15,75 @@ const headings = [
 const education = [
   {
     school: '东南大学',
-    degree: '能源信息自动化 · 硕士',
+    badge: '985',
+    degree: '能源与环境学院 · 能源信息自动化系 · 工程热物理 · 学术硕士',
     date: '2016.09 — 2019.07',
     details: [
-      '研究方向：工程热物理（光学方向：相机 / 光谱）',
-      '荣誉：国家励志奖学金、三好学生、优秀毕业生',
-      '担任班长，获优秀班集体；任党委助理团团长，获优秀党小组'
+      '导师：周宾；主攻方向：吸收光谱',
+      '涉及方向：光场重建、温度场 / 浓度场重建、声波测量等',
+      '最高荣誉：“带师兄毕业”（玩笑向）'
     ]
   },
   {
     school: '南京林业大学',
-    degree: '热能与动力工程 · 学士',
+    badge: '双一流',
+    degree: '材料科学与工程学院 · 热能与动力工程系 · 热能与动力工程 · 学士',
     date: '2012.09 — 2016.07',
-    details: ['专业：热能与动力工程系']
+    details: [
+      '班主任：钱大师；成绩：专业 TOP 2',
+      '集体荣誉：任班长期间获优秀班集体；任党委助理团团长获优秀党小组',
+      '个人荣誉：国家励志奖学金、三好学生、优秀毕业生'
+    ]
+  },
+  {
+    school: '江苏沛县中学',
+    degree: '高中',
+    date: '2009.09 — 2012.07',
+    details: [
+      '镇中前 10 指标生入学，从班级倒数第一做到过班级第一',
+      '最终高考班级内部排名 Top 3 之内'
+    ]
   }
 ]
 
 const experience = [
   {
-    company: '红西瓜半导体（原地平线座舱 HALO / GUA 团队）',
-    role: '算法工程师 · 行为手势组 TL / 子项负责人',
-    date: '2021.02 — 至今',
-    location: '南京 / 上海',
+    company: '上海人工智能实验室',
+    role: '具身中心',
+    date: '2025.03 — 至今',
+    location: '上海',
     details: [
-      'GUA 期间：TOF 项目负责人（LTC）、空间交互项目负责人（预研类）、行为手势组长、多模态场景理解技术牵头',
-      '地平线期间：行为 / 手势识别落地、行为识别 SE、TDT 预研项目及部分 Demo 拓展开发代表',
-      '获地平线"2021 年度成就客户奖"'
+      '参与具身智能方向前沿研究，具体成果见公开发布',
+      '荣誉：年度员工（全实验室仅 14 人，中心仅 2 人）'
     ]
   },
   {
-    company: '电科云科技有限公司（电科军工）',
+    company: '地平线 / 红西瓜半导体（GUA）',
+    role: 'HALO 座舱部门 · 行为手势组 TL',
+    date: '2021.02 — 2025.03',
+    location: '南京',
+    details: [
+      '兼任职责：PO（项目负责人）· TTL（技术小组组长）· SE（技术架构）· 开发代表 · 算法工程师',
+      '主导 VLM/VLA 预研、人手 3D 重建与空间交互方向，多次带队完成大型车展准量产级 Demo，行业 TOP',
+      '服务十数款量产车型；年度绩效均 M+（TOP 30%）/ O（TOP 10%）；获“成就客户奖”（公司 TOP 奖之一）'
+    ]
+  },
+  {
+    company: '电科云（隶属：中国电科集团）',
     role: '算法工程师',
     date: '2020.02 — 2021.02',
     location: '南京',
     details: [
-      '0-1 承担边缘智能平台算法框架搭建，包括技术选型、模型自动化流程训练、云端部署',
-      '完成军街识别、船舶感知、自动情报生成并接下游图谱任务',
-      '投标保障，推动边缘智能方案中标，后续转为南京部门重点项目'
+      '0-1 搭建边缘智能平台算法框架；配合总体室写本，推动方案中标转重点项目'
     ]
   },
   {
-    company: '地平线研究院 / 地平线 DMS 团队',
-    role: '算法工程师',
+    company: '地平线',
+    role: '研究院 · 助理研究员 / A 班班长 → DMS · 算法工程师',
     date: '2019.07 — 2020.02',
-    location: '北京 / 南京',
+    location: '南京',
     details: [
-      '担任研究院 19 期 A 班班长，协助管理培训及算法比赛等事项',
-      'DMS 期间：承担疲劳预警算法中睁闭眼模型多任务化，完成 J2 芯片多轮发版，支撑地平线首次量产车载芯片'
+      '研究院 A 班班长；转 DMS 后负责疲劳检测，支撑地平线首款量产车载芯片 J2 发版'
     ]
   }
 ]
@@ -177,7 +199,14 @@ const projects = [
       <div class='rounded-xl border border-border bg-card px-5 py-4'>
         <div class='flex flex-wrap items-start justify-between gap-2'>
           <div>
-            <p class='font-semibold text-foreground'>{item.school}</p>
+            <div class='flex flex-wrap items-center gap-2'>
+              <p class='font-semibold text-foreground'>{item.school}</p>
+              {item.badge && (
+                <span class='rounded-full bg-primary/10 px-2.5 py-0.5 text-xs font-medium text-primary'>
+                  {item.badge}
+                </span>
+              )}
+            </div>
             <p class='mt-0.5 text-sm text-muted-foreground'>{item.degree}</p>
           </div>
           <span class='shrink-0 rounded-full bg-primary/10 px-3 py-0.5 text-xs font-medium text-primary'>
