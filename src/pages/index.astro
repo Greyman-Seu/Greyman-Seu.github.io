@@ -145,23 +145,26 @@ const distributions = [
 
         {/* 彩蛋 */}
         <p class='text-xs italic text-muted-foreground/40'>
-          如果你对算法不感兴趣——老夫作为官方认证营养师，也可以聊聊养生之道。
+          如果你对算法不感兴趣——老夫作为官方认证营养师，也可以浅谈养生之道。
         </p>
 
-        <Button title='简历' class='w-fit self-end' href='/resume' style='ahead' />
+        <div class='flex flex-wrap items-center gap-2 self-end'>
+          <Button title='代表成果' class='w-fit' href='/works' style='plain' />
+          <Button title='简历' class='w-fit' href='/resume' style='ahead' />
+        </div>
       </Section>
       <Section title='Annual'>
         <div class='flex items-center gap-2 text-sm text-muted-foreground'>
           <span>2026 年度代号</span>
           <span class='rounded-full bg-primary/10 px-3 py-0.5 font-semibold text-primary'>「破军星」</span>
-          <Button title='历年规划' class='ml-auto w-fit' href='/annual' style='ahead' />
+          <Button title='历年代号' class='ml-auto w-fit' href='/annual' style='ahead' />
         </div>
       </Section>
       <Section title='Experience'>
         <Card
           as='a'
           heading='上海人工智能实验室'
-          subheading='具身中心 · **'
+          subheading='具身中心'
           date='2025.03 — 至今'
           href='/resume#experience'
         >
@@ -169,33 +172,18 @@ const distributions = [
         <Card
           as='a'
           heading='地平线 / 红西瓜半导体'
-          subheading='HALO 座舱部门 · 算法专家 / 行为算法组 TL'
+          subheading='HALO 座舱部门'
           date='2021.02 — 2025.03'
           href='/resume#experience'
         >
         </Card>
-        <Card
-          as='a'
-          heading='电科云（隶属：中国电科集团）'
-          subheading='边缘智能部门 · 算法工程师'
-          date='2020.02 — 2021.02'
-          href='/resume#experience'
-        >
-        </Card>
-        <Card
-          as='a'
-          heading='地平线'
-          subheading='研究院 · 助理研究员 / A 班班长'
-          date='2019.07 — 2020.02'
-          href='/resume#experience'
-        >
-        </Card>
+        <Button title='完整经历' class='w-fit self-end' href='/resume#experience' style='ahead' />
       </Section>
       <Section title='Education'>
         <Card
           as='a'
           heading='东南大学'
-          subheading='能源与环境学院 · 工程热物理 · 学硕（师从周宾，方向：光谱分析）'
+          subheading='工程热物理'
           date='2016.09 — 2019.07'
           href='/resume#education'
         >
@@ -203,19 +191,12 @@ const distributions = [
         <Card
           as='a'
           heading='南京林业大学'
-          subheading='材料科学与工程学院 · 热能与动力工程 · 学士'
+          subheading='热能与动力工程'
           date='2012.09 — 2016.07'
           href='/resume#education'
         >
         </Card>
-        <Card
-          as='a'
-          heading='江苏沛县中学'
-          subheading='高中'
-          date='2009.09 — 2012.07'
-          href='/resume#education'
-        >
-        </Card>
+        <Button title='完整教育' class='w-fit self-end' href='/resume#education' style='ahead' />
       </Section>
       {recentPosts.length > 0 && (
         <Section title={pinnedPosts.length > 0 ? 'Pinned' : 'Recent Posts'}>
@@ -224,7 +205,7 @@ const distributions = [
               <PostPreview post={post} />
             ))}
           </ul>
-          <Button title='All posts' class='w-fit self-end' href='/blog/other' style='ahead' />
+          <Button title='全部文章' class='w-fit self-end' href='/blog/other' style='ahead' />
         </Section>
       )}
       <Section title='Statistics'>

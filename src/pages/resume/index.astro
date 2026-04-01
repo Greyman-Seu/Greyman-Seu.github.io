@@ -88,6 +88,11 @@ const experience = [
   }
 ]
 
+const recentEducation = education.slice(0, 2)
+const olderEducation = education.slice(2)
+const recentExperience = experience.slice(0, 2)
+const olderExperience = experience.slice(2)
+
 const skills = [
   { label: '算法方向', items: ['行为识别', '手势识别', '3D 人手重建', '目标检测', '多模态大模型'] },
   { label: '深度学习', items: ['PyTorch', 'YOLO', 'InternVL', 'LLaMA', 'SAM', 'DINO'] },
@@ -95,6 +100,82 @@ const skills = [
   { label: '工具 & 工程', items: ['Python', 'C++', 'Git', 'DAG 自动化流程', '数据 Pipeline'] },
   { label: '语言', items: ['中文（母语）', '英文（可阅读技术文献）'] }
 ]
+
+const projectSectionBadgeClass = {
+  'S + T': 'bg-sky-500/10 text-sky-600 dark:text-sky-400',
+  A: 'bg-amber-500/10 text-amber-600 dark:text-amber-400',
+  R: 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400',
+  Insight: 'bg-violet-500/10 text-violet-600 dark:text-violet-400',
+  Other: 'bg-slate-500/10 text-slate-600 dark:text-slate-400'
+} as const
+
+const getProjectSectionBadgeClass = (label: string) =>
+  projectSectionBadgeClass[label as keyof typeof projectSectionBadgeClass] ||
+  'bg-primary/10 text-primary'
+
+const getProjectSectionRowClass = (label: string) => {
+  if (label === 'R') {
+    return 'rounded-xl border border-emerald-500/15 bg-emerald-500/[0.045] px-3.5 py-3.5 shadow-sm shadow-emerald-500/5'
+  }
+
+  if (label === 'A') {
+    return 'rounded-xl bg-amber-500/[0.03] px-3.5 py-3'
+  }
+
+  if (label === 'Insight') {
+    return 'rounded-xl bg-violet-500/[0.03] px-3.5 py-3'
+  }
+
+  return 'px-3.5 py-3'
+}
+
+const getProjectSectionTextClass = (label: string) => {
+  if (label === 'Insight') {
+    return 'text-sm leading-6 text-muted-foreground/90'
+  }
+
+  if (label === 'R') {
+    return 'text-sm leading-6 text-muted-foreground'
+  }
+
+  return 'text-sm leading-6 text-muted-foreground'
+}
+
+type ProjectSectionContent =
+  | string
+  | {
+      title: string
+      body: string
+    }
+
+const highlightProjectResultText = (text: string) =>
+  text.replace(
+    /(打通低成本数据生产与量产级 POC 验证闭环|领域首次、领域领先水平|显著优于同行（客户反馈）|有效降低手势疲劳感并提升稳定性|体验优于市面方案并获得客户高度认可|首次打通“人–车–环境”联合交互能力|首次|第一|首发|领先|0-1|量产级|5%\+|95%\+|96%|>96%|20\+|15 名|43 人|10\+|6 人|1 个月)/g,
+    '<strong class="result-highlight">$1</strong>'
+  )
+
+const isProjectSectionPrimary = (label: string) =>
+  label === 'S + T' || label === 'A' || label === 'Other'
+
+const mergeProjectSections = (
+  sections: { label: string; text: ProjectSectionContent }[]
+) => {
+  return sections.reduce<{ label: string; texts: ProjectSectionContent[] }[]>((groups, section) => {
+    const lastGroup = groups[groups.length - 1]
+
+    if (lastGroup && lastGroup.label === section.label) {
+      lastGroup.texts.push(section.text)
+      return groups
+    }
+
+    groups.push({
+      label: section.label,
+      texts: [section.text]
+    })
+
+    return groups
+  }, [])
+}
 
 const projects = [
   {
@@ -110,46 +191,312 @@ const projects = [
     ]
   },
   {
-    name: 'GUA 空间交互车展 DEMO',
-    date: '2024.01 — 2024.05',
-    type: 'DEMO 负责人',
+    name: '车规芯片部署验证项目',
+    date: '2023.12 — 2024.06',
+    type: '文生图部署算法负责人',
+    company: '地平线 / 红西瓜',
+    projectGroup: 'AIGC 车规部署验证',
+    algorithmGroup: '行为手势组',
     href: null,
-    details: [
-      '首次非公开对外展示类 Vision Pro 手眼交互方案在实车的应用',
-      '组织视线算法组、手势算法组等上下游，强相关 15 名开发，涉及人数 43 名',
-      '完成 24 年 GUA 车展 DEMO，精度体验远超同行，获得良好内外部反响'
+    sections: [
+      {
+        label: 'S + T',
+        text:
+          'AIGC 快速发展背景下，验证车规级芯片在扩散模型（文生图）场景下的可行性，评估 J5 芯片算力与架构瓶颈，并为后续芯片设计与优化提供技术牵引路径，目标实现车规芯片首次支持文生图能力'
+      },
+      {
+        label: 'A',
+        text:
+          '牵头和组员一起完成扩散模型端侧部署方案设计与落地，构建 q-diffuser 伪量化框架，系统性探索量化与加速策略，包括 w8A8 / w8A16 动态量化、q-diffusion 静态量化，以及 per-tensor / per-token 精度控制与算子级细化消融；结合 deepcache、split-concat 等推理优化方法，形成从量化到结构优化的一体化加速方案'
+      },
+      {
+        label: 'A',
+        text:
+          '在工程侧完成模型压缩、推理图优化与 J6 芯片适配，联合跨团队（工具链、NLP 组等）资源推进端侧部署与性能调优，实现算法与硬件协同优化闭环，在算力受限条件下完成扩散模型高效推理落地'
+      },
+      {
+        label: 'R',
+        text:
+          '实现量化后余弦相似度 99.99%、FID 下降 <10%，在 J6 车规芯片上完成文生图（SDXS-800M）98ms 推理，远超秒级目标；首次验证车规级芯片具备高质量文生图能力，为后续芯片架构优化与 AIGC 场景落地提供关键技术依据'
+      },
+      {
+        label: 'Insight',
+        text:
+          '软硬协同优化是端侧大模型落地的关键路径，通过算法与芯片能力的联合打磨，实现性能与效果的系统性突破'
+      }
     ]
   },
   {
-    name: '地平线车展"指哪问哪"手势地图 DEMO',
-    date: '2023.02 — 2023.05',
-    type: '拓展开发代表',
-    href: null,
-    details: [
-      '单目重建方案，首次非公开对外展示车载 3D 重建 DEMO',
-      '核心开发 6 人，2 个月完成 Zero Car 指向地图 Demo 应用开发',
-      '吸引 10+ 主机厂参观，同年 6 月理想汽车已将指向地图纳入自身 Demo'
-    ]
-  },
-  {
-    name: 'HALO / GUA 手势任务',
+    name: '空间交互（手势）TDT 项目',
     date: '2022.09 — 2024.07',
-    type: 'TDT 开发代表 / 行为手势组 TL',
+    type: '项目负责人 / 开发代表 / 行为手势组 TL',
+    highlight: '重点项目',
+    company: '地平线 / 红西瓜',
+    projectGroup: '空间交互（手势）TDT',
+    algorithmGroup: '行为手势组',
     href: null,
-    details: [
-      '带队完成人手 4DGT 采集系统、数据流程提效、模组选型、单 / 多目人手自建、TOF depth 人手建、多目 fitting 等预研工作',
-      '精准定位画圆手势历史召回瓶颈，提出补偿方案，1 个月内一圆 N 格指标提升 5% 以上，最终召回均大于 96%',
-      '系统升级 3 次，组织探索多目融合、时序融合、手模等算法方案，支撑 TOF LTC 及两次 Demo 项目'
+    sections: [
+      {
+        label: 'S + T',
+        text:
+          '在完成传统手势识别（2D / 时序）量产交付后，进一步探索基于 3D 手势重建的空间交互范式，突破原有识别方法在表达能力与交互精度上的上限'
+      },
+      {
+        label: 'A',
+        text: {
+          title: '技术路径构建（端到端闭环）',
+          body:
+            '围绕手势重建方向，牵头构建“数据—模型—系统”三层一体技术路径，贯通需求定义、方案设计到工程落地的全流程，形成面向车载量产场景的闭环能力'
+        }
+      },
+      {
+        label: 'A',
+        text: {
+          title: '数据层（低成本 4D 数据体系）',
+          body:
+            '从 0-1 搭建人手数据采集与标注体系，基于 MANO 与多视角几何约束构建异构多目 4D GT 自动生成能力，实现高一致性伪标注生成，显著降低 3D 数据获取成本，支撑规模化数据生产与模型持续迭代'
+        }
+      },
+      {
+        label: 'A',
+        text: {
+          title: '模型层（多模态解耦建模）',
+          body:
+            '针对 TOF、单目与多目输入设计差异化建模路径：提出 IR-D 两阶段 2+1D 回归架构（TOF）；融合 MegaTrack、UmeTrack、HandOcc、HaMeR 等方法，在轻量化 MANO 框架下引入外参 / root 参数解耦与结构先验约束，提升复杂环境下的重建稳定性与跨设备泛化能力'
+        }
+      },
+      {
+        label: 'A',
+        text: {
+          title: '系统层（车规约束下的统一建模）',
+          body:
+            '面向车规级低分辨率、帧率不稳及安装误差等约束，算法侧引入虚拟相机建模、多目特征融合与鲁棒旋转参数表达，并结合硬件系统协同优化，提升跨模组一致性、系统稳定性与量产适配能力'
+        }
+      },
+      {
+        label: 'A',
+        text: {
+          title: '工程落地（多路线收敛与量产适配）',
+          body:
+            '主导 TOF / 单目 / 多目多技术路线并行探索与收敛，在算力、延迟与稳定性约束下推动核心模块多轮迭代优化，完成车展及客户项目的多轮 Demo 验证与体验打磨，实现从技术原型到量产能力的转化'
+        }
+      },
+      {
+        label: 'R',
+        text:
+          '构建车载手势重建技术体系（TOF + 单目 + 多目），打通低成本数据生产与量产级 POC 验证闭环，推动手势交互从识别向空间交互升级，实现接近 VR 级体验的技术演进'
+      },
+      {
+        label: 'R',
+        text:
+          '24 年北京车展 Vision Pro 手眼交互项目：牵头 15 名核心开发并协同 43 人跨团队推进，在多模块强耦合与高复杂度约束下完成车载 15.6 寸屏手眼交互首发落地及量产级 Demo 验证；实现空间手势重建与视线协同的高精度交互体验，达到领域首次、领域领先水平，显著优于同行（客户反馈）'
+      },
+      {
+        label: 'R',
+        text:
+          '23 年广汽手势控屏项目：面向 TOF 控屏需求，牵头内部 10+ 人并协同下游团队 5+ 人，完成多主机厂需求评估、交互设计及 Tier1 赋能；区别于主流方案，设计“捏合 + 指向”双范式控屏交互，有效降低手势疲劳感并提升稳定性，形成量产导向 POC Demo，整体体验优于市面方案并获得客户高度认可'
+      },
+      {
+        label: 'R',
+        text:
+          '23 年上海车展指哪问哪项目：完成业内车载场景下首次单目 3D 手势交互 Demo，实现 0-1 上车验证；牵头 6 人核心研发落地重建算法，打通“人–车–环境”联合交互能力，使指向车外目标可直接与车机交互。项目吸引 10+ 主机厂及同行观摩与像素级拍摄，理想等客户多轮实车体验并将相关能力纳入自身 Demo 体系'
+      },
+      {
+        label: 'Insight',
+        text:
+          '这是我第一个复杂度最高的项目之一：在高压、短周期与强耦合系统约束下，逐步形成了对复杂度与不确定性的稳定掌控能力，也建立了驾驭复杂系统所需的全局视角与推进韧性'
+      }
     ]
   },
   {
-    name: 'DMS 疲劳预警 / 地平线首款量产车载芯片',
-    date: '2019.07 — 2020.02',
-    type: '算法工程师',
+    name: '动静态手势识别（LMT 量产交付）',
+    date: '2022.09 — 2022.11',
+    type: 'LMT 手势算法负责人',
+    company: '地平线',
+    projectGroup: 'LMT 座舱交付',
+    algorithmGroup: '行为手势组',
     href: null,
-    details: [
-      '承担睁闭眼模型多任务化迭代，完成 J2 芯片多轮发版',
-      '该项目支撑了地平线第一个 J 系列量产项目落地'
+    sections: [
+      {
+        label: 'S + T',
+        text:
+          '接手原手势组动静态手势任务（季度指标长期卡住），在量产交付周期压力下，快速定位问题并提升召回与系统稳定性，完成交付目标'
+      },
+      {
+        label: 'A',
+        text:
+          '协同 4 算法 + 3 工程，快速建立问题定位与迭代闭环，推动任务收敛'
+      },
+      {
+        label: 'A',
+        text:
+          '针对“画圈手势”召回长期低的问题，拆解为时序不连续与关键帧缺失问题，定位瓶颈在采样与序列建模阶段'
+      },
+      {
+        label: 'A',
+        text:
+          '提出补帧补偿策略（temporal interpolation + 序列对齐），增强关键动作片段连续性'
+      },
+      {
+        label: 'A',
+        text:
+          '联合时序建模与后处理机制（平滑 / 滞回控制），在响应延迟（latency）与识别稳定性（stability）之间实现工程化平衡'
+      },
+      {
+        label: 'R',
+        text:
+          '接手后 1 个月内完成季度卡点问题收敛，恢复项目推进节奏，核心指标提升 5%+，画圈手势召回率 >96%，支撑量产顺利交付'
+      },
+      {
+        label: 'Insight',
+        text:
+          '避免恋战，及时撤退，不钻牛角尖，始终从业务目标出发平衡投入产出比'
+      }
+    ]
+  },
+  {
+    name: '座舱行为识别（PDT / LMT 量产项目）',
+    date: '2021.02 — 2022.09',
+    type: '算法工程师 / HALO 子领域 SE',
+    highlight: '重点项目',
+    company: '地平线',
+    projectGroup: 'HALO J2 / J3 行为识别',
+    algorithmGroup: '行为组（杨聪 / 王昱）',
+    href: null,
+    sections: [
+      {
+        label: 'S + T',
+        text:
+          '面向车规量产座舱行为识别（抽烟、打电话、点头 / 摇头等），解决离线指标与用户体感不一致问题，在算力与实时性约束下提升系统级识别稳定性与一致性'
+      },
+      {
+        label: 'A',
+        text:
+          '端到端任务 Owner，负责点头 / 摇头任务全流程推进（需求筛选、需求评审、方案设计、算法可行性分析、0-1 落地、量产维护），主导跨团队协同与技术方案收敛'
+      },
+      {
+        label: 'A',
+        text:
+          '参考 RetinaFace 多任务学习思想，针对抽烟 / 打电话等强关联行为，设计“ROI 定位 + 行为分类”联合建模方案（共享 backbone + 多分支 head），通过任务协同与特征复用提升识别精度与鲁棒性'
+      },
+      {
+        label: 'A',
+        text:
+          '引入“模型 + 后处理”协同机制（时序滤波、状态机、滞回控制），在算力受限条件下显著降低预测抖动与误触发；同时为点头 / 摇头构建轻量时序建模方案，系统性权衡 latency 与 stability'
+      },
+      {
+        label: 'A',
+        text:
+          '设计帧率扰动模拟机制（frame-rate jitter simulation），提升模型对车端帧率波动的适应能力；搭建场景守护测试方案，定义稳定性、延迟、误触发率等体感相关指标，实现离线指标与真实体验对齐'
+      },
+      {
+        label: 'R',
+        text:
+          '深度参与 15 辆车量产交付，累计支持 20+ 车型落地；系统稳定性与用户体验显著提升，获得客户积极反馈，并获“2021 年度成就客户奖”'
+      },
+      {
+        label: 'Insight',
+        text:
+          '从系统工程视角建立“多任务联合建模 + 后处理机制 + 时序建模”的协同优化范式，通过端到端任务 Owner 机制打通需求、算法与量产闭环，在算力受限条件下实现“指标 → 体验”的有效对齐'
+      }
+    ]
+  },
+  {
+    name: '边缘智能项目',
+    date: '2020.02 — 2021.02',
+    type: '算法工程师',
+    company: '电科云',
+    projectGroup: '边缘智能',
+    algorithmGroup: '边缘智能',
+    href: null,
+    sections: [
+      {
+        label: 'S + T',
+        text:
+          '面向边缘侧多场景智能需求（军衔识别、船舶感知等），从 0-1 构建边缘智能算法框架，解决多任务部署、数据分散及训练流程复杂等问题'
+      },
+      {
+        label: 'A',
+        text:
+          '设计边缘智能算法体系，集成联邦学习与训练自动化组件，实现分布式数据下模型协同训练；构建多任务视觉模型（军衔识别、船舶感知），并打通数据处理、模型训练与推理部署流程，支持情报信息结构化建模'
+      },
+      {
+        label: 'R',
+        text:
+          '完成边缘智能算法框架搭建，实现多任务模型在边缘侧部署与运行，支撑情报信息自动化生成与关联分析'
+      },
+      {
+        label: 'Insight',
+        text:
+          '认识到项目本质上是以人为中心的协同系统：既要具备跨角色沟通与资源协调能力，也要建立宏观项目意识，从整体视角推动方案落地'
+      }
+    ]
+  },
+  {
+    name: 'DMS 驾驶员疲劳监控',
+    date: '2019.11 — 2020.02',
+    type: '算法工程师',
+    company: '地平线',
+    projectGroup: 'nebula & J2 长安量产',
+    algorithmGroup: 'DMS 组（陈正华）',
+    href: null,
+    sections: [
+      {
+        label: 'S + T',
+        text:
+          '面向车规量产 DMS 场景，针对小眼睛、眯眼等疲劳识别难点，优化模型在复杂驾驶状态下的鲁棒性'
+      },
+      {
+        label: 'A',
+        text:
+          '构建级联推理框架（粗分类 + 细分类），提升细粒度疲劳状态识别能力；搭建实时测试与可视化工具；设计数据清洗流程并沉淀 SOP，明确模型能力边界'
+      },
+      {
+        label: 'R',
+        text:
+          '完成模型部署与轻量化展示工具开发，在典型 hard case 场景下识别效果显著提升'
+      },
+      {
+        label: 'Insight',
+        text:
+          '基于典型 hard case 分析与数据闭环迭代，形成面向业务场景的模型优化方法；具备从业务需求出发，将复杂场景问题抽象为可建模算法问题的能力'
+      }
+    ]
+  },
+  {
+    name: '细粒度分类项目',
+    date: '2019.07 — 2019.11',
+    type: '算法工程师 / A 班班长',
+    company: '地平线',
+    projectGroup: 'AIoT 电信营业厅工装规范性识别 POC 项目',
+    algorithmGroup: '地平线研究院—王朝（现浙大）小组',
+    href: null,
+    sections: [
+      {
+        label: 'S + T',
+        text:
+          '承接 AIoT 部门小球机落地需求，在安防监控场景下针对工装识别中的长尾分布、遮挡及大视角变化问题，构建鲁棒细粒度识别模型'
+      },
+      {
+        label: 'A',
+        text:
+          '基于 VargNet（地平线 J2 平台）构建 multi-label 分类框架（sigmoid + BCE），通过标签空间重构（multi-class → multi-label）及数据增强与类别重加权优化长尾问题'
+      },
+      {
+        label: 'R',
+        text:
+          '工装规范性识别准确率达 95%，独立完成 POC 验证并满足 AIoT 业务落地需求'
+      },
+      {
+        label: 'Other',
+        text:
+          '经选拔担任 A 班班长，协助组织 20+ 人训练营学习与评估机制，提升团队协作与项目推进效率'
+      },
+      {
+        label: 'Insight',
+        text:
+          '通过标签空间扩展（multi-label）与数据规模提升，增强模型对复杂组合类别的表达能力'
+      }
     ]
   }
 ]
@@ -195,7 +542,7 @@ const projects = [
   {/* ── 教育背景 ── */}
   <h2 id='education'>教育背景<a class='anchor' href='#education'>#</a></h2>
   <div class='not-prose flex flex-col gap-3'>
-    {education.map((item) => (
+    {recentEducation.map((item) => (
       <div class='rounded-xl border border-border bg-card px-5 py-4'>
         <div class='flex flex-wrap items-start justify-between gap-2'>
           <div>
@@ -223,12 +570,50 @@ const projects = [
         </ul>
       </div>
     ))}
+    {olderEducation.length > 0 && (
+      <details class='resume-section-details group'>
+        <summary class='resume-section-summary'>
+          <span>更多教育经历</span>
+          <span class='resume-section-chevron'>⌄</span>
+        </summary>
+        <div class='mt-3 flex flex-col gap-3'>
+          {olderEducation.map((item) => (
+            <div class='rounded-xl border border-border bg-card px-5 py-4'>
+              <div class='flex flex-wrap items-start justify-between gap-2'>
+                <div>
+                  <div class='flex flex-wrap items-center gap-2'>
+                    <p class='font-semibold text-foreground'>{item.school}</p>
+                    {item.badge && (
+                      <span class='rounded-full bg-primary/10 px-2.5 py-0.5 text-xs font-medium text-primary'>
+                        {item.badge}
+                      </span>
+                    )}
+                  </div>
+                  <p class='mt-0.5 text-sm text-muted-foreground'>{item.degree}</p>
+                </div>
+                <span class='shrink-0 rounded-full bg-primary/10 px-3 py-0.5 text-xs font-medium text-primary'>
+                  {item.date}
+                </span>
+              </div>
+              <ul class='mt-3 space-y-1.5 border-t border-border/50 pt-3'>
+                {item.details.map((d) => (
+                  <li class='flex items-start gap-2 text-sm text-muted-foreground'>
+                    <span class='mt-[0.4rem] size-1.5 shrink-0 rounded-full bg-primary/50'></span>
+                    <span>{d}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+      </details>
+    )}
   </div>
 
   {/* ── 工作经历 ── */}
   <h2 id='experience'>工作经历<a class='anchor' href='#experience'>#</a></h2>
   <div class='not-prose flex flex-col gap-3'>
-    {experience.map((item) => (
+    {recentExperience.map((item) => (
       <div class='rounded-xl border border-border bg-card px-5 py-4'>
         <div class='flex flex-wrap items-start justify-between gap-2'>
           <div>
@@ -252,6 +637,40 @@ const projects = [
         </ul>
       </div>
     ))}
+    {olderExperience.length > 0 && (
+      <details class='resume-section-details group'>
+        <summary class='resume-section-summary'>
+          <span>更多工作经历</span>
+          <span class='resume-section-chevron'>⌄</span>
+        </summary>
+        <div class='mt-3 flex flex-col gap-3'>
+          {olderExperience.map((item) => (
+            <div class='rounded-xl border border-border bg-card px-5 py-4'>
+              <div class='flex flex-wrap items-start justify-between gap-2'>
+                <div>
+                  <p class='font-semibold text-foreground'>{item.company}</p>
+                  <p class='mt-0.5 text-sm text-muted-foreground'>{item.role}</p>
+                </div>
+                <div class='flex flex-col items-end gap-1'>
+                  <span class='shrink-0 rounded-full bg-primary/10 px-3 py-0.5 text-xs font-medium text-primary'>
+                    {item.date}
+                  </span>
+                  <span class='text-xs text-muted-foreground'>{item.location}</span>
+                </div>
+              </div>
+              <ul class='mt-3 space-y-1.5 border-t border-border/50 pt-3'>
+                {item.details.map((d) => (
+                  <li class='flex items-start gap-2 text-sm text-muted-foreground'>
+                    <span class='mt-[0.4rem] size-1.5 shrink-0 rounded-full bg-primary/50'></span>
+                    <span>{d}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+      </details>
+    )}
   </div>
 
   {/* ── 技术技能 ── */}
@@ -275,39 +694,220 @@ const projects = [
 
   {/* ── 项目经历 ── */}
   <h2 id='projects'>项目经历<a class='anchor' href='#projects'>#</a></h2>
-  <div class='not-prose flex flex-col gap-3'>
+  <div class='not-prose flex flex-col gap-2.5'>
     {projects.map((item) => (
-      <div class='rounded-xl border border-border bg-card px-5 py-4'>
-        <div class='flex flex-wrap items-start justify-between gap-2'>
-          <div class='flex items-center gap-2'>
-            <p class='font-semibold text-foreground'>{item.name}</p>
-            {item.href && (
-              <a
-                href={item.href}
-                target='_blank'
-                class='text-xs text-primary transition-opacity hover:opacity-70'
-              >
-                GitHub ↗
-              </a>
-            )}
+      <div
+        class:list={[
+          'rounded-2xl border bg-card/95 px-5 py-4 shadow-sm shadow-black/[0.02] transition-colors',
+          item.highlight
+            ? 'border-primary/25 bg-primary/[0.025] shadow-primary/5 hover:border-primary/35'
+            : 'border-border/80 hover:border-border'
+        ]}
+      >
+        <div class='space-y-2.5'>
+          <div class='space-y-1.5'>
+            <div class='flex items-start justify-between gap-3'>
+              <div class='min-w-0 flex-1'>
+                <p class='text-[15px] font-semibold leading-6 text-foreground'>{item.name}</p>
+              </div>
+              <div class='flex shrink-0 items-center gap-2 pt-0.5'>
+                {item.highlight && (
+                  <span class='rounded-full bg-primary/12 px-2 py-0.5 text-[10px] font-semibold tracking-[0.08em] text-primary'>
+                    {item.highlight}
+                  </span>
+                )}
+                {item.href && (
+                  <a
+                    href={item.href}
+                    target='_blank'
+                    class='text-xs text-primary transition-opacity hover:opacity-70'
+                  >
+                    GitHub ↗
+                  </a>
+                )}
+              </div>
+            </div>
+            <div class='flex flex-wrap items-center gap-1.5'>
+              <span class='rounded-full bg-secondary/80 px-2.5 py-0.5 text-[11px] text-muted-foreground'>
+                {item.type}
+              </span>
+              <span class='rounded-full bg-primary/10 px-2.5 py-0.5 text-[11px] font-medium text-primary'>
+                {item.date}
+              </span>
+            </div>
           </div>
-          <div class='flex flex-wrap items-center justify-end gap-2'>
-            <span class='rounded-full bg-secondary px-2.5 py-0.5 text-xs text-muted-foreground'>
-              {item.type}
-            </span>
-            <span class='rounded-full bg-primary/10 px-3 py-0.5 text-xs font-medium text-primary'>
-              {item.date}
-            </span>
-          </div>
+          {(item.company || item.projectGroup || item.algorithmGroup) && (
+            <div class='flex flex-wrap gap-1.5 border-t border-border/50 pt-2.5 text-[11px] text-muted-foreground'>
+              {item.company && (
+                <span class='rounded-full bg-muted/80 px-2.5 py-0.5'>
+                  公司：{item.company}
+                </span>
+              )}
+              {item.projectGroup && (
+                <span class='rounded-full bg-muted/80 px-2.5 py-0.5'>
+                  项目组：{item.projectGroup}
+                </span>
+              )}
+              {item.algorithmGroup && (
+                <span class='rounded-full bg-muted/80 px-2.5 py-0.5'>
+                  算法组：{item.algorithmGroup}
+                </span>
+              )}
+            </div>
+          )}
         </div>
-        <ul class='mt-3 space-y-1.5 border-t border-border/50 pt-3'>
-          {item.details.map((d) => (
-            <li class='flex items-start gap-2 text-sm text-muted-foreground'>
-              <span class='mt-[0.4rem] size-1.5 shrink-0 rounded-full bg-primary/50'></span>
-              <span>{d}</span>
-            </li>
-          ))}
-        </ul>
+        {item.sections ? (
+          <div class='project-card-details mt-3.5 border-t border-border/50 pt-3'>
+            <div class='space-y-2'>
+              {mergeProjectSections(item.sections)
+                .filter((section) => !isProjectSectionPrimary(section.label))
+                .map((section, index) => (
+                  <div
+                    class:list={[
+                      'grid gap-2 sm:grid-cols-[64px_minmax(0,1fr)] sm:gap-3.5',
+                      getProjectSectionRowClass(section.label),
+                      index !== 0 && 'border-t border-dashed border-border/50'
+                    ]}
+                  >
+                    <div class='sm:pt-0.5'>
+                      <span
+                        class:list={[
+                          'inline-flex rounded-full px-2 py-0.5 text-[10px] font-semibold tracking-[0.08em]',
+                          getProjectSectionBadgeClass(section.label)
+                        ]}
+                      >
+                        {section.label}
+                      </span>
+                    </div>
+                    <div class='space-y-1.5'>
+                      {section.texts.map((text) => (
+                        <div class='flex items-start gap-2'>
+                          {section.texts.length > 1 ? (
+                            <span
+                              class:list={[
+                                'mt-[0.55rem] size-1 shrink-0 rounded-full bg-current opacity-35',
+                                section.label === 'R' && 'opacity-50'
+                              ]}
+                            ></span>
+                          ) : null}
+                          {typeof text === 'string' ? (
+                            section.label === 'R' ? (
+                              <p class:list={[getProjectSectionTextClass(section.label)]}>
+                                <span set:html={highlightProjectResultText(text)} />
+                              </p>
+                            ) : (
+                              <p class:list={[getProjectSectionTextClass(section.label)]}>{text}</p>
+                            )
+                          ) : (
+                            <div class='space-y-1'>
+                              <p class='text-sm font-semibold leading-6 text-foreground/90'>
+                                {text.title}
+                              </p>
+                              <p class:list={[getProjectSectionTextClass(section.label)]}>
+                                {text.body}
+                              </p>
+                            </div>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+            </div>
+
+            <div class='project-card-extra mt-2 space-y-2 border-t border-border/40 pt-3'>
+              {mergeProjectSections(item.sections)
+                .filter((section) => isProjectSectionPrimary(section.label))
+                .map((section, index) => (
+                  <div
+                    class:list={[
+                      'grid gap-2 sm:grid-cols-[64px_minmax(0,1fr)] sm:gap-3.5',
+                      getProjectSectionRowClass(section.label),
+                      index !== 0 && 'border-t border-dashed border-border/50'
+                    ]}
+                  >
+                    <div class='sm:pt-0.5'>
+                      <span
+                        class:list={[
+                          'inline-flex rounded-full px-2 py-0.5 text-[10px] font-semibold tracking-[0.08em]',
+                          getProjectSectionBadgeClass(section.label)
+                        ]}
+                      >
+                        {section.label}
+                      </span>
+                    </div>
+                    <div class='space-y-1.5'>
+                      {section.texts.map((text) => (
+                        <div
+                          class:list={[
+                            'flex items-start gap-2',
+                            section.label === 'A' && 'rounded-lg bg-background/60 px-2.5 py-2'
+                          ]}
+                        >
+                          <span
+                            class:list={[
+                              'mt-[0.55rem] size-1 shrink-0 rounded-full bg-current opacity-35',
+                              section.label === 'A' && 'opacity-45'
+                            ]}
+                          ></span>
+                          <div class='min-w-0'>
+                            {typeof text === 'string' ? (
+                              section.label === 'R' ? (
+                                <p class:list={[getProjectSectionTextClass(section.label)]}>
+                                  <span set:html={highlightProjectResultText(text)} />
+                                </p>
+                              ) : (
+                                <p class:list={[getProjectSectionTextClass(section.label)]}>{text}</p>
+                              )
+                            ) : (
+                              <div class='space-y-1'>
+                                <p class='text-sm font-semibold leading-6 text-foreground/90'>
+                                  {text.title}
+                                </p>
+                                <p class:list={[getProjectSectionTextClass(section.label)]}>
+                                  {text.body}
+                                </p>
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+            </div>
+            <button
+              type='button'
+              class='project-card-summary mt-0.5 flex h-3 w-full cursor-pointer items-end justify-center text-primary/40'
+              aria-expanded='false'
+            >
+              <span class='project-chevron transition-all duration-200 ease-out'>
+                <svg
+                  xmlns='http://www.w3.org/2000/svg'
+                  viewBox='0 0 20 20'
+                  fill='currentColor'
+                  class='size-3'
+                  aria-hidden='true'
+                >
+                  <path
+                    fill-rule='evenodd'
+                    d='M5.23 7.21a.75.75 0 0 1 1.06.02L10 11.168l3.71-3.938a.75.75 0 1 1 1.08 1.04l-4.25 4.5a.75.75 0 0 1-1.08 0l-4.25-4.5a.75.75 0 0 1 .02-1.06Z'
+                    clip-rule='evenodd'
+                  ></path>
+                </svg>
+              </span>
+            </button>
+          </div>
+        ) : (
+          <ul class='mt-3 space-y-1.5 border-t border-border/50 pt-3'>
+            {item.details?.map((d) => (
+              <li class='flex items-start gap-2 text-sm text-muted-foreground'>
+                <span class='mt-[0.4rem] size-1.5 shrink-0 rounded-full bg-primary/50'></span>
+                <span>{d}</span>
+              </li>
+            ))}
+          </ul>
+        )}
       </div>
     ))}
   </div>
@@ -318,6 +918,7 @@ const projects = [
 <script>
   const btn = document.getElementById('resume-email-btn') as HTMLElement | null
   const label = document.getElementById('resume-email-label') as HTMLElement | null
+  const projectToggleButtons = document.querySelectorAll<HTMLButtonElement>('.project-card-summary')
 
   if (btn && label) {
     btn.addEventListener('click', () => {
@@ -346,9 +947,107 @@ const projects = [
       })
     })
   }
+
+  projectToggleButtons.forEach((toggleButton) => {
+    toggleButton.addEventListener('click', () => {
+      const cardDetails = toggleButton.closest('.project-card-details')
+      if (!cardDetails) return
+
+      const isExpanded = cardDetails.classList.toggle('is-expanded')
+      toggleButton.setAttribute('aria-expanded', isExpanded ? 'true' : 'false')
+    })
+  })
 </script>
 
 <style>
+  .resume-section-summary {
+    display: flex;
+    cursor: pointer;
+    list-style: none;
+    align-items: center;
+    justify-content: center;
+    gap: 0.35rem;
+    color: hsl(var(--muted-foreground) / 0.9);
+    font-size: 0.8rem;
+    line-height: 1;
+    padding-top: 0.1rem;
+  }
+
+  .resume-section-summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .resume-section-chevron {
+    display: inline-block;
+    transition: transform 180ms ease;
+  }
+
+  .resume-section-details[open] .resume-section-chevron {
+    transform: rotate(180deg);
+  }
+
+  .project-card-summary {
+    border: 0;
+    background: transparent;
+    line-height: 1;
+    padding: 0;
+    margin-bottom: -0.35rem;
+  }
+
+  .project-card-details .project-card-extra {
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transform: translateY(-6px);
+    transition:
+      max-height 280ms ease,
+      opacity 220ms ease,
+      transform 220ms ease;
+  }
+
+  .project-chevron {
+    transform: rotate(0deg);
+  }
+
+  .project-card-summary:hover .project-chevron {
+    transform: translateY(-1.5px);
+  }
+
+  .project-card-details.is-expanded .project-chevron {
+    transform: rotate(180deg);
+  }
+
+  .project-card-details.is-expanded .project-card-summary:hover .project-chevron {
+    transform: rotate(180deg) translateY(1.5px);
+  }
+
+  .project-card-details.is-expanded .project-card-extra {
+    max-height: 1200px;
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .result-highlight {
+    color: hsl(var(--primary));
+    background: hsl(var(--primary) / 0.18);
+    border-radius: 0.35rem;
+    font-weight: 800;
+    letter-spacing: 0.01em;
+    padding: 0.05rem 0.3rem;
+  }
+
+  :global(.dark) .result-highlight {
+    color: #ffffff;
+    background: transparent;
+    box-shadow: none;
+    font-weight: 900;
+    padding-bottom: 0;
+    text-shadow:
+      0 0 0.01px #ffffff,
+      0 0 1px rgb(250 204 21 / 0.9),
+      0 0 10px rgb(250 204 21 / 0.22);
+  }
+
   @keyframes thumbPop {
     0%   { transform: scale(0); }
     70%  { transform: scale(1.3); }
