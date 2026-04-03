@@ -48,57 +48,40 @@ const openSourceProjects = [
 const projects = [
   {
     title: '交警场景大模型',
-    description: '2024 年启动的中长期项目，已部署落地到地平线展车。该方向被认为兼具高场景价值、高难度和强用户感知，是小模型较难完整覆盖的事项之一。我担任交警算法负责人，带 5 人小组推进算法方案、迭代与效果落地。',
+    image: 'traffic-police.jpg',
+    description: '2024 年启动的中长期项目，围绕自动驾驶场景中的交警指挥理解展开，已部署落地到地平线展车。该方向兼具高场景价值、高难度和强用户感知，是能够真正拉开体验差距的复杂任务。',
     category: '量产 / 大模型 / 展车落地',
     status: 'completed' as const,
     highlights: [
-      '场景价值高、难度高、用户感知强，属于真正能拉开能力差距的方向',
-      '从项目验证走到展车落地，形成了可对外展示的完整成果',
-      '交警任务被视为首个小模型较难完整覆盖的事项，技术辨识度强'
+      '已部署落地到地平线展车，形成可对外展示的完整成果',
+      '场景价值高、难度大、贴近用户，是小模型较难完整覆盖的事项',
+      '过程展示获得外部 PR 与自发传播，具备较强话题性'
     ],
     responsibilities: [
       '交警算法负责人',
       '5 人小组带队',
-      '方案迭代与效果落地'
+      '方案迭代与展车落地'
     ],
     links: [
-      { type: 'video', href: '/project-media/traffic-police.mp4', label: 'Demo Video' },
-      { type: 'doc', href: 'https://my.feishu.cn/wiki/FSfgwc9UviFf8VkYGUcceYUTnjg', label: 'Feishu Wiki' }
-    ]
-  },
-  {
-    title: 'J6 芯片大模型秒级响应',
-    description: '围绕地平线 J6 芯片上的大模型部署与高性能推理展开验证，探索 W8A8/16 动态量化与 q-diffusion 静态量化，完成文生图在 J6 上 100ms 级推理速度，显著超出年初制定的秒级生图目标。我担任算法负责人。',
-    category: '芯片部署 / 模型优化 / 高性能推理',
-    status: 'completed' as const,
-    highlights: [
-      '在 J6 上实现 100ms 级文生图推理，远超年初秒级目标',
-      '验证地平线芯片具备大模型部署与快速响应能力',
-      '量化方案兼顾速度与效果，相似度指标达到较高水位'
-    ],
-    responsibilities: [
-      '算法负责人',
-      '量化方案探索',
-      '部署性能验证'
-    ],
-    links: [
+      { type: 'video', href: '/project-media/traffic-police-demo-3.mp4', label: 'Demo 3' },
       { type: 'doc', href: 'https://my.feishu.cn/wiki/FSfgwc9UviFf8VkYGUcceYUTnjg', label: 'Feishu Wiki' }
     ]
   },
   {
     title: 'Vision Pro 手眼交互',
-    description: '围绕 Apple Vision Pro 的手眼交互能力打造车载展示与实车方案，一期完成 GUA 车展 Demo，二期进一步验证多应用实车可行性与覆盖范围。该方向在体验精度与展示效果上明显领先同期方案，我作为 VP 项目负责人主导推进。',
+    image: 'visionpro-hand-eye.jpg',
+    description: '围绕 Apple Vision Pro 的手眼交互能力打造车载展示与实车方案，一期完成 2024 年 GUA 车展 Demo，二期继续验证多应用实车可行性与覆盖范围。整体精度体验和展示效果在同期方案中非常突出。',
     category: '人手重建 / XR 交互 / 展示项目',
     status: 'completed' as const,
     highlights: [
-      '率先把 Vision Pro 手眼交互做到具备可行性的车载演示效果',
-      '一期完成车展 Demo，二期继续推进到多应用实车可行性验证',
-      '在体验精度和展示效果上明显领先同期方案'
+      '率先将苹果 Vision Pro 手眼交互做到具备车载可行性的展示效果',
+      '一期完成车展 Demo，二期继续推进到实车多应用验证',
+      '精度体验和展示效果明显领先同期方案'
     ],
     responsibilities: [
       'VP 项目负责人',
       '方案推进',
-      '一期展示落地',
+      '车展展示落地',
       '二期实车验证'
     ],
     links: [
@@ -109,38 +92,63 @@ const projects = [
   },
   {
     title: '指向地图 / 看哪问哪',
-    description: '较早落地到实车的人车环境联动交互方案，贯通座舱与自动驾驶信息，实现“看哪问哪 / 指哪问哪”的交互闭环。该方案吸引理想汽车多轮体验并推动相关概念进入其量产计划，我负责指向地图算法模块。',
+    image: 'pointing-map.jpg',
+    description: '较早落地到实车的人-车-环境联动交互方案，贯通座舱与自动驾驶信息，实现“看哪问哪 / 指哪问哪”的交互闭环。该项目对外展示效果强，也直接推动了客户侧对相关能力的兴趣与规划。',
     category: '多模态交互 / 实车展示 / 地图理解',
     status: 'completed' as const,
     highlights: [
-      '较早实现人-车-环境贯通的舱驾一体交互 Demo',
-      '吸引理想汽车多轮体验，并推动相关概念进入其量产规划',
-      '“看哪问哪 / 指哪问哪”具备较强的对外传播性和演示效果'
+      '率先打造人-车-环境贯通的舱驾一体 Demo',
+      '吸引理想汽车多轮体验，并推动相关概念进入其量产计划',
+      '具备强展示性和传播性的代表项目'
     ],
     responsibilities: [
-      '指向地图算法模块负责人'
+      '指向地图算法模块负责人',
+      '0-1 Demo 落地'
     ],
     links: [
-      { type: 'video', href: '/project-media/pointing-map.mp4', label: 'Demo Video' },
+      { type: 'video', href: '/project-media/pointing-map-pr.mp4', label: '宣传版' },
+      { type: 'video', href: '/project-media/pointing-map-li-auto.mp4', label: '理想体验版' },
       { type: 'doc', href: 'https://my.feishu.cn/wiki/FSfgwc9UviFf8VkYGUcceYUTnjg', label: 'Feishu Wiki' }
     ]
   },
   {
-    title: 'TOF 控屏与 POC 交付',
-    description: '包括 TOF 遥控器一期、广汽 POC TOF 等方向，围绕真 3D 控屏、客户演示与量产级 POC 交付展开。相关方案在客户反馈中被认为优于市面体验，我承担过 TOF SDK 项目负责人以及量产级 POC 对外交付负责人等角色。',
+    title: 'TOF 遥控',
+    image: 'tof-remote.png',
+    description: '围绕 TOF 遥控器一期与广汽 POC TOF 两个阶段展开，目标是打造真 3D 控屏能力，并把方案从展示验证推进到客户可感知、可交付的量产级 POC。',
     category: '3D 交互 / POC / 客户交付',
     status: 'completed' as const,
     highlights: [
-      '围绕真 3D 控屏能力形成长期演进路线，从演示走向客户交付',
-      '客户反馈认为体验优于市面方案，具备明确竞争力',
-      '覆盖 SDK、POC、对外交付等多个层面的工程落地'
+      '打造真 3D TOF 控屏能力，并完成实车展示验证',
+      'POC Demo 获客户明确正向反馈，体验优于市面方案',
+      '从架构参与推进到 SDK 与量产级 POC 对外交付，工程闭环完整'
     ],
     responsibilities: [
+      '前期架构参与',
       'TOF SDK 项目负责人',
       '量产级 POC 对外交付负责人'
     ],
     links: [
-      { type: 'video', href: '/project-media/tof-control.mp4', label: 'Demo Video' },
+      { type: 'video', href: '/project-media/tof-control.mp4', label: 'POC Demo' },
+      { type: 'doc', href: 'https://my.feishu.cn/wiki/FSfgwc9UviFf8VkYGUcceYUTnjg', label: 'Feishu Wiki' }
+    ]
+  },
+  {
+    title: '车载人手重建 GT 系统',
+    image: 'hand-gt-system.png',
+    description: '面向车载人手重建方向建设长期基础数据能力，围绕 GT 系统构建标注、验证与算法迭代底座，为后续 TOF、单目、多目等路线的人手重建提供统一支撑。',
+    category: '数据基建 / GT 系统 / 人手重建',
+    status: 'completed' as const,
+    highlights: [
+      '中长期基础能力建设，支撑后续多条人手重建路线迭代',
+      '围绕车载场景沉淀 GT 数据与验证底座',
+      '属于偏底层但价值高的数据基建型项目'
+    ],
+    responsibilities: [
+      '算法负责人',
+      'GT 系统建设',
+      '数据闭环支撑'
+    ],
+    links: [
       { type: 'doc', href: 'https://my.feishu.cn/wiki/FSfgwc9UviFf8VkYGUcceYUTnjg', label: 'Feishu Wiki' }
     ]
   }

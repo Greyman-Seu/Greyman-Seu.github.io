@@ -94,11 +94,11 @@ const recentExperience = experience.slice(0, 2)
 const olderExperience = experience.slice(2)
 
 const skills = [
-  { label: '算法方向', items: ['行为识别', '手势识别', '3D 人手重建', '目标检测', '多模态大模型'] },
-  { label: '深度学习', items: ['PyTorch', 'YOLO', 'InternVL', 'LLaMA', 'SAM', 'DINO'] },
-  { label: '工程部署', items: ['模型量化 (w8A8 / INT8)', '地平线 J 系列芯片', 'ONNX'] },
-  { label: '工具 & 工程', items: ['Python', 'C++', 'Git', 'DAG 自动化流程', '数据 Pipeline'] },
-  { label: '语言', items: ['中文（母语）', '英文（可阅读技术文献）'] }
+  { label: '模型方向', items: ['VLA', 'VLM', 'Agent', 'Grounding', '多模态时序建模', '长程任务拆解'] },
+  { label: '场景能力', items: ['行为识别', '场景理解', '空间推理', '任务规划', '3D 人手重建', '空间交互'] },
+  { label: '模型与框架', items: ['InternVL', 'InternVLA', 'LLaMA', 'Qwen', 'SAM', 'DINO', 'PyTorch'] },
+  { label: '部署与工程', items: ['模型量化', 'vLLM', '车规芯片部署', '数据飞轮'] },
+  { label: '开发语言', items: ['Python', 'C++', 'Git'] }
 ]
 
 const projectSectionBadgeClass = {
@@ -148,6 +148,25 @@ type ProjectSectionContent =
       body: string
     }
 
+type ResumeProjectSection = {
+  label: string
+  text: ProjectSectionContent
+}
+
+type ResumeProject = {
+  name: string
+  date: string
+  type: string
+  href: string | null
+  roleTags?: string[]
+  company?: string
+  projectGroup?: string
+  algorithmGroup?: string
+  highlight?: string
+  details?: string[]
+  sections?: ResumeProjectSection[]
+}
+
 const highlightProjectResultText = (text: string) =>
   text.replace(
     /(打通低成本数据生产与量产级 POC 验证闭环|领域首次、领域领先水平|显著优于同行（客户反馈）|有效降低手势疲劳感并提升稳定性|体验优于市面方案并获得客户高度认可|首次打通“人–车–环境”联合交互能力|首次|第一|首发|领先|0-1|量产级|5%\+|95%\+|96%|>96%|20\+|15 名|43 人|10\+|6 人|1 个月)/g,
@@ -177,23 +196,144 @@ const mergeProjectSections = (
   }, [])
 }
 
-const projects = [
+const projects: ResumeProject[] = [
   {
-    name: 'GUA 大模型（driveVLM）',
-    date: '2023.07 — 至今',
-    type: '算法工程师 / 行为手势组 TL',
+    name: 'InternVLA-M1 项目',
+    date: '2025.03 — 2025.09',
+    type: 'Sys2（操作大脑）Owner / 下游任务算法工程师',
+    roleTags: ['Sys2（操作大脑）Owner', '下游任务算法工程师'],
+    highlight: '重点项目',
+    company: '上海人工智能实验室',
+    projectGroup: 'InternVLA-M1',
+    algorithmGroup: '具身智能 / VLA',
     href: null,
-    details: [
-      '预研 VLM 多模态大模型在车载场景的应用，牵引芯片设计方向',
-      '使用 InternVL + reg / rec / 分类等方案进行 LoRA 微调，用于车辆风险估计；precision 从 gpt-4o 基线的 30% 提升至 95%+，已部署上线',
-      '探索 w8A8/16 动态量化与 q-diffusion 静态量化，量化余弦相似度达 99.99%；文生图在 J6 上实现 100ms 推理，远超年初制定的秒级目标',
-      '"万物识别"与"出行助手"两项 Agent Demo 在 5 月上海车展获公司大模型团队表彰'
+    sections: [
+      {
+        label: 'S + T',
+        text:
+          '面向具身智能（VLA）能力构建，探索 VLM 知识向 VLA（Sys2）的迁移路径，对 VLM 进行具身领域化预训练（pretrain），并支撑 VLA 在操作任务中的开发、部署与测评，构建从感知理解到行动决策的统一能力基座'
+      },
+      {
+        label: 'A',
+        text: {
+          title: 'VLM → VLA 基座模型构建（M1-VLM）',
+          body:
+            '负责 Sys2（操作大脑）建模，构建 M1-VLM 预训练基座模型，重点增强 freespace、point、bbox、traj 等空间表征能力，在 where2place、roborefit、A0-traj 等 grounding 榜单达成 SOTA，并显著提升下游 M1-VLA 操作性能'
+        }
+      },
+      {
+        label: 'A',
+        text: {
+          title: '数据飞轮与 Scaling 验证',
+          body:
+            '搭建自动化多模态数据生产管线，基于 GenManip 引擎与 14K 仿真物体库生成约 100 万布局图像，并扩展至覆盖多轮对话、指令修正等 17 类任务的 190 万条多模态数据；通过系统性消融验证数据 scaling 对空间推理与语义理解的持续提升（in-domain +10%，out-domain +20%，相对 Qwen）'
+        }
+      },
+      {
+        label: 'A',
+        text: {
+          title: 'Grounding 评测与长程任务建模',
+          body:
+            '构建 grounding 评测框架，支持 8 个数据集、15 个评测维度，并集成 10+ 主流多模态 benchmark；同时参考 OneTwo-VLA 与 HIRobot，探索 subtask 分阶段预测与长程任务建模，在三明治、汉堡、抽屉等任务中实现稳定规划，并通过指令重写与人机交互适配持续提升成功率'
+        }
+      },
+      {
+        label: 'A',
+        text: {
+          title: '系统落地与 Demo',
+          body:
+            '推动 M1-VLA 系统落地，完成蒙娜丽莎、传送带等展示场景开发，支撑开发、部署、测评与对外展示闭环'
+        }
+      },
+      {
+        label: 'R',
+        text:
+          '发布 InternVLA-M1，形成具身智能领域的重要基建能力，并衍生 starVLA 等后续项目'
+      },
+      {
+        label: 'R',
+        text:
+          'M1-VLM 在多个 grounding 榜单达成 SOTA，作为预训练基座显著提升 VLA 下游性能；在 attr、spatial、semantic 等维度实现 10%+ 提升，零样本桌面任务相对 Qwen 提升约 20%'
+      },
+      {
+        label: 'R',
+        text:
+          '构建 190 万规模多模态数据集并验证 scaling law；长程操作任务成功率提升至 90%，相对 GPT baseline 提升 30%+；Demo 场景测试准确率达 90%+'
+      },
+      {
+        label: 'Insight',
+        text:
+          'VLA 的关键不只是动作生成，而是先把 Sys2 的空间 grounding、任务拆解与长程规划能力做厚，再通过数据飞轮与标准化评测把能力稳定迁移到下游操作任务'
+      }
     ]
   },
   {
-    name: '车规芯片部署验证项目',
+    name: '多模态模型（VLM / VLA）',
+    date: '2023.07 — 2025.03',
+    type: '行为手势组长、风险车辆算法子模块负责人、交警指挥算法模块负责人',
+    roleTags: ['行为手势组长', '风险车辆算法子模块负责人', '交警指挥算法模块负责人'],
+    highlight: '重点项目',
+    company: '地平线 / 红西瓜',
+    projectGroup: 'driveVLM',
+    algorithmGroup: '行为手势组',
+    href: null,
+    sections: [
+      {
+        label: 'S + T',
+        text:
+          '面向自动驾驶智能化升级，预研 VLM / VLA 在车载场景的落地路径，探索多模态时序大模型在复杂场景理解与决策中的应用，并为芯片设计与下一代自动驾驶方案提供技术牵引'
+      },
+      {
+        label: 'A',
+        text: {
+          title: '技术路线搭建',
+          body:
+            '组织 VLM / VLA 车载技术路线调研与认知输出，统一团队判断；探索高分辨率建模与时序压缩，构建 GUA-VL-7B 方案（SigLIP + SAM + DINO + LLaMA），补齐 OCR、REC、REG 等视觉能力'
+        }
+      },
+      {
+        label: 'A',
+        text: {
+          title: '场景收敛与任务定义',
+          body:
+            '协同自动驾驶感知、产品与 SE 团队评估落地路径，经过多轮可行性分析，最终聚焦风险车辆识别与交警指挥意图理解两个高价值复杂任务'
+        }
+      },
+      {
+        label: 'A',
+        text: {
+          title: '数据飞轮与模型闭环',
+          body:
+            '构建多模态数据生产与迭代 pipeline，完成数据汇聚、CLIP retrieval 挖掘、数据合成（detail caption、InternViT 分类、开源预刷）与标注对齐；建立“模型 × 推理 × 数据”闭环，提出以障碍物为中心的 COT 框架，基于 InternVL2 设计多图时序建模，并结合规则注入、空间结构化 Prompt 与隐式 CoT 推理提升复杂任务效果'
+        }
+      },
+      {
+        label: 'R',
+        text:
+          '实现公司内部首次 VLM 在自动驾驶场景的量产级上线，完成复杂场景理解能力部署'
+      },
+      {
+        label: 'R',
+        text:
+          '在交警指挥等关键任务中，将模型 precision 从 GPT-4o 基线约 30% 提升至 95%+'
+      },
+      {
+        label: 'R',
+        text:
+          '交警指挥功能在实际展示中获得媒体自发传播与正向反馈，成为具备差异化认知的亮点能力'
+      },
+      {
+        label: 'Insight',
+        text:
+          '大模型时代更强调方案的可扩展性与能力涌现，而不是围绕单一细分场景做局部最优设计'
+      }
+    ]
+  },
+  {
+    name: '文生图车规芯片部署验证项目',
     date: '2023.12 — 2024.06',
     type: '文生图部署算法负责人',
+    roleTags: ['文生图部署算法负责人'],
     company: '地平线 / 红西瓜',
     projectGroup: 'AIGC 车规部署验证',
     algorithmGroup: '行为手势组',
@@ -230,6 +370,7 @@ const projects = [
     name: '空间交互（手势）TDT 项目',
     date: '2022.09 — 2024.07',
     type: '项目负责人 / 开发代表 / 行为手势组 TL',
+    roleTags: ['项目负责人', '开发代表', '行为手势组 TL'],
     highlight: '重点项目',
     company: '地平线 / 红西瓜',
     projectGroup: '空间交互（手势）TDT',
@@ -309,9 +450,10 @@ const projects = [
     ]
   },
   {
-    name: '动静态手势识别（LMT 量产交付）',
+    name: '多模态动静态手势识别',
     date: '2022.09 — 2022.11',
     type: 'LMT 手势算法负责人',
+    roleTags: ['LMT 手势算法负责人'],
     company: '地平线',
     projectGroup: 'LMT 座舱交付',
     algorithmGroup: '行为手势组',
@@ -358,6 +500,7 @@ const projects = [
     name: '座舱行为识别（PDT / LMT 量产项目）',
     date: '2021.02 — 2022.09',
     type: '算法工程师 / HALO 子领域 SE',
+    roleTags: ['算法工程师', 'HALO 子领域 SE'],
     highlight: '重点项目',
     company: '地平线',
     projectGroup: 'HALO J2 / J3 行为识别',
@@ -405,6 +548,7 @@ const projects = [
     name: '边缘智能项目',
     date: '2020.02 — 2021.02',
     type: '算法工程师',
+    roleTags: ['算法工程师'],
     company: '电科云',
     projectGroup: '边缘智能',
     algorithmGroup: '边缘智能',
@@ -436,6 +580,7 @@ const projects = [
     name: 'DMS 驾驶员疲劳监控',
     date: '2019.11 — 2020.02',
     type: '算法工程师',
+    roleTags: ['算法工程师'],
     company: '地平线',
     projectGroup: 'nebula & J2 长安量产',
     algorithmGroup: 'DMS 组（陈正华）',
@@ -467,6 +612,7 @@ const projects = [
     name: '细粒度分类项目',
     date: '2019.07 — 2019.11',
     type: '算法工程师 / A 班班长',
+    roleTags: ['算法工程师', 'A 班班长'],
     company: '地平线',
     projectGroup: 'AIoT 电信营业厅工装规范性识别 POC 项目',
     algorithmGroup: '地平线研究院—王朝（现浙大）小组',
@@ -728,9 +874,17 @@ const projects = [
               </div>
             </div>
             <div class='flex flex-wrap items-center gap-1.5'>
-              <span class='rounded-full bg-secondary/80 px-2.5 py-0.5 text-[11px] text-muted-foreground'>
-                {item.type}
-              </span>
+              {item.roleTags && item.roleTags.length > 0 ? (
+                item.roleTags.map((role) => (
+                  <span class='rounded-full bg-secondary/80 px-2.5 py-0.5 text-[11px] text-muted-foreground'>
+                    {role}
+                  </span>
+                ))
+              ) : (
+                <span class='rounded-full bg-secondary/80 px-2.5 py-0.5 text-[11px] text-muted-foreground'>
+                  {item.type}
+                </span>
+              )}
               <span class='rounded-full bg-primary/10 px-2.5 py-0.5 text-[11px] font-medium text-primary'>
                 {item.date}
               </span>
