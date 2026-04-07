@@ -158,6 +158,10 @@ type ResumeProject = {
   date: string
   type: string
   href: string | null
+  workLinks?: {
+    label: string
+    href: string
+  }[]
   roleTags?: string[]
   company?: string
   projectGroup?: string
@@ -169,7 +173,7 @@ type ResumeProject = {
 
 const highlightProjectResultText = (text: string) =>
   text.replace(
-    /(打通低成本数据生产与量产级 POC 验证闭环|领域首次、领域领先水平|显著优于同行（客户反馈）|有效降低手势疲劳感并提升稳定性|体验优于市面方案并获得客户高度认可|首次打通“人–车–环境”联合交互能力|首次|第一|首发|领先|0-1|量产级|5%\+|95%\+|96%|>96%|20\+|15 名|43 人|10\+|6 人|1 个月)/g,
+    /(打通低成本数据生产与量产级 POC 验证闭环|领域首次、领域领先水平|显著优于同行（客户反馈）|有效降低手势疲劳感并提升稳定性|体验优于市面方案并获得客户高度认可|首次打通“人–车–环境”联合交互能力|SOTA|首次|第一|首发|领先|0-1|量产级|5%\+|95%\+|96%|>96%|20\+|15 名|43 人|10\+|6 人|1 个月)/g,
     '<strong class="result-highlight">$1</strong>'
   )
 
@@ -207,6 +211,10 @@ const projects: ResumeProject[] = [
     projectGroup: 'InternVLA-M1',
     algorithmGroup: '具身智能 / VLA',
     href: null,
+    workLinks: [
+      { label: '开源项目', href: '/works?focus=internvla-m1' },
+      { label: '论文', href: '/works?focus=paper-internvla-m1' }
+    ],
     sections: [
       {
         label: 'S + T',
@@ -277,6 +285,7 @@ const projects: ResumeProject[] = [
     projectGroup: 'driveVLM',
     algorithmGroup: '行为手势组',
     href: null,
+    workLinks: [{ label: '交警场景大模型', href: '/works?focus=traffic-police-vlm' }],
     sections: [
       {
         label: 'S + T',
@@ -376,6 +385,12 @@ const projects: ResumeProject[] = [
     projectGroup: '空间交互（手势）TDT',
     algorithmGroup: '行为手势组',
     href: null,
+    workLinks: [
+      { label: 'Vision Pro 手眼交互', href: '/works?focus=vision-pro-hand-eye' },
+      { label: '指向地图 / 看哪问哪', href: '/works?focus=pointing-map' },
+      { label: 'TOF 遥控', href: '/works?focus=tof-remote' },
+      { label: '车载人手重建 GT 系统', href: '/works?focus=hand-gt-system' }
+    ],
     sections: [
       {
         label: 'S + T',
@@ -649,6 +664,7 @@ const projects: ResumeProject[] = [
 ---
 
 <PageLayout title='Resume' {headings} info='/resume'>
+  <div class='resume-page'>
 
   {/* ── 个人简介 ── */}
   <h2 id='summary'>个人简介<a class='anchor' href='#summary'>#</a></h2>
@@ -666,7 +682,7 @@ const projects: ResumeProject[] = [
       <a
         href={config.personal.googleScholar}
         target='_blank'
-        class='flex flex-row items-center gap-x-2 rounded-lg border border-border/50 bg-gradient-to-r from-muted/80 via-muted/60 to-muted/80 px-3 py-2 text-sm font-medium text-muted-foreground transition-all duration-300 hover:border-primary/40 hover:text-primary hover:-translate-y-0.5'
+        class='resume-quick-action flex flex-row items-center gap-x-2 rounded-lg border border-border/50 bg-gradient-to-r from-muted/80 via-muted/60 to-muted/80 px-3 py-2 text-sm font-medium text-muted-foreground transition-all duration-300 hover:border-primary/40 hover:text-primary hover:-translate-y-0.5'
       >
         <Icon name='earth' class='size-4' />
         <span>Scholar</span>
@@ -675,7 +691,7 @@ const projects: ResumeProject[] = [
     <button
       id='resume-email-btn'
       data-email={config.personal?.email}
-      class='group relative flex flex-row items-center justify-center gap-x-2 rounded-lg bg-gradient-to-r from-muted/80 via-muted/60 to-muted/80 border border-border/50 px-3 py-2 text-sm font-medium text-muted-foreground backdrop-blur-sm transition-all duration-300 cursor-pointer hover:border-primary/40 hover:from-primary/10 hover:via-primary/5 hover:to-primary/10 hover:text-primary hover:shadow-md hover:shadow-primary/20 hover:-translate-y-0.5'
+      class='resume-quick-action group relative flex flex-row items-center justify-center gap-x-2 rounded-lg bg-gradient-to-r from-muted/80 via-muted/60 to-muted/80 border border-border/50 px-3 py-2 text-sm font-medium text-muted-foreground backdrop-blur-sm transition-all duration-300 cursor-pointer hover:border-primary/40 hover:from-primary/10 hover:via-primary/5 hover:to-primary/10 hover:text-primary hover:shadow-md hover:shadow-primary/20 hover:-translate-y-0.5'
     >
       <div class='absolute inset-0 rounded-lg bg-gradient-to-r from-primary/0 via-primary/5 to-primary/0 opacity-0 transition-opacity duration-300 group-hover:opacity-100' />
       <div class='relative flex items-center gap-x-2'>
@@ -689,7 +705,7 @@ const projects: ResumeProject[] = [
   <h2 id='education'>教育背景<a class='anchor' href='#education'>#</a></h2>
   <div class='not-prose flex flex-col gap-3'>
     {recentEducation.map((item) => (
-      <div class='rounded-xl border border-border bg-card px-5 py-4'>
+      <div class='resume-panel rounded-xl border border-border bg-card px-5 py-4'>
         <div class='flex flex-wrap items-start justify-between gap-2'>
           <div>
             <div class='flex flex-wrap items-center gap-2'>
@@ -724,7 +740,7 @@ const projects: ResumeProject[] = [
         </summary>
         <div class='mt-3 flex flex-col gap-3'>
           {olderEducation.map((item) => (
-            <div class='rounded-xl border border-border bg-card px-5 py-4'>
+            <div class='resume-panel rounded-xl border border-border bg-card px-5 py-4'>
               <div class='flex flex-wrap items-start justify-between gap-2'>
                 <div>
                   <div class='flex flex-wrap items-center gap-2'>
@@ -760,7 +776,7 @@ const projects: ResumeProject[] = [
   <h2 id='experience'>工作经历<a class='anchor' href='#experience'>#</a></h2>
   <div class='not-prose flex flex-col gap-3'>
     {recentExperience.map((item) => (
-      <div class='rounded-xl border border-border bg-card px-5 py-4'>
+      <div class='resume-panel rounded-xl border border-border bg-card px-5 py-4'>
         <div class='flex flex-wrap items-start justify-between gap-2'>
           <div>
             <p class='font-semibold text-foreground'>{item.company}</p>
@@ -791,7 +807,7 @@ const projects: ResumeProject[] = [
         </summary>
         <div class='mt-3 flex flex-col gap-3'>
           {olderExperience.map((item) => (
-            <div class='rounded-xl border border-border bg-card px-5 py-4'>
+            <div class='resume-panel rounded-xl border border-border bg-card px-5 py-4'>
               <div class='flex flex-wrap items-start justify-between gap-2'>
                 <div>
                   <p class='font-semibold text-foreground'>{item.company}</p>
@@ -821,7 +837,7 @@ const projects: ResumeProject[] = [
 
   {/* ── 技术技能 ── */}
   <h2 id='skills'>技术技能<a class='anchor' href='#skills'>#</a></h2>
-  <div class='not-prose rounded-xl border border-border bg-card px-5 py-4'>
+  <div class='not-prose resume-panel rounded-xl border border-border bg-card px-5 py-4'>
     <dl class='space-y-3'>
       {skills.map((row) => (
         <div class='flex flex-wrap items-start gap-x-3 gap-y-1.5'>
@@ -844,7 +860,7 @@ const projects: ResumeProject[] = [
     {projects.map((item) => (
       <div
         class:list={[
-          'rounded-2xl border bg-card/95 px-5 py-4 shadow-sm shadow-black/[0.02] transition-colors',
+          'resume-project-card rounded-2xl border bg-card/95 px-5 py-4 shadow-sm shadow-black/[0.02] transition-colors',
           item.highlight
             ? 'border-primary/25 bg-primary/[0.025] shadow-primary/5 hover:border-primary/35'
             : 'border-border/80 hover:border-border'
@@ -865,10 +881,10 @@ const projects: ResumeProject[] = [
                 {item.href && (
                   <a
                     href={item.href}
-                    target='_blank'
                     class='text-xs text-primary transition-opacity hover:opacity-70'
+                    target={item.href.startsWith('/works') ? undefined : '_blank'}
                   >
-                    GitHub ↗
+                    {item.href.startsWith('/works') ? 'Works ↗' : 'GitHub ↗'}
                   </a>
                 )}
               </div>
@@ -909,6 +925,19 @@ const projects: ResumeProject[] = [
               )}
             </div>
           )}
+          {item.workLinks && item.workLinks.length > 0 && (
+            <div class='flex flex-wrap items-center gap-1.5 border-t border-border/50 pt-2.5 text-[11px] text-muted-foreground'>
+              <span class='rounded-full bg-muted/80 px-2.5 py-0.5'>Works</span>
+              {item.workLinks.map((link) => (
+                <a
+                  href={link.href}
+                  class='rounded-full bg-primary/10 px-2.5 py-0.5 font-medium text-primary transition-colors hover:bg-primary/15'
+                >
+                  {link.label}
+                </a>
+              ))}
+            </div>
+          )}
         </div>
         {item.sections ? (
           <div class='project-card-details mt-3.5 border-t border-border/50 pt-3'>
@@ -918,15 +947,16 @@ const projects: ResumeProject[] = [
                 .map((section, index) => (
                   <div
                     class:list={[
-                      'grid gap-2 sm:grid-cols-[64px_minmax(0,1fr)] sm:gap-3.5',
+                      'resume-project-section grid gap-2 sm:grid-cols-[64px_minmax(0,1fr)] sm:gap-3.5',
                       getProjectSectionRowClass(section.label),
                       index !== 0 && 'border-t border-dashed border-border/50'
                     ]}
+                    data-section-label={section.label}
                   >
                     <div class='sm:pt-0.5'>
                       <span
                         class:list={[
-                          'inline-flex rounded-full px-2 py-0.5 text-[10px] font-semibold tracking-[0.08em]',
+                          'resume-project-badge inline-flex rounded-full px-2 py-0.5 text-[10px] font-semibold tracking-[0.08em]',
                           getProjectSectionBadgeClass(section.label)
                         ]}
                       >
@@ -946,18 +976,18 @@ const projects: ResumeProject[] = [
                           ) : null}
                           {typeof text === 'string' ? (
                             section.label === 'R' ? (
-                              <p class:list={[getProjectSectionTextClass(section.label)]}>
+                              <p class:list={['resume-project-text', getProjectSectionTextClass(section.label)]}>
                                 <span set:html={highlightProjectResultText(text)} />
                               </p>
                             ) : (
-                              <p class:list={[getProjectSectionTextClass(section.label)]}>{text}</p>
+                              <p class:list={['resume-project-text', getProjectSectionTextClass(section.label)]}>{text}</p>
                             )
                           ) : (
                             <div class='space-y-1'>
-                              <p class='text-sm font-semibold leading-6 text-foreground/90'>
+                              <p class='resume-project-text-title text-sm font-semibold leading-6 text-foreground/90'>
                                 {text.title}
                               </p>
-                              <p class:list={[getProjectSectionTextClass(section.label)]}>
+                              <p class:list={['resume-project-text', getProjectSectionTextClass(section.label)]}>
                                 {text.body}
                               </p>
                             </div>
@@ -975,15 +1005,16 @@ const projects: ResumeProject[] = [
                 .map((section, index) => (
                   <div
                     class:list={[
-                      'grid gap-2 sm:grid-cols-[64px_minmax(0,1fr)] sm:gap-3.5',
+                      'resume-project-section grid gap-2 sm:grid-cols-[64px_minmax(0,1fr)] sm:gap-3.5',
                       getProjectSectionRowClass(section.label),
                       index !== 0 && 'border-t border-dashed border-border/50'
                     ]}
+                    data-section-label={section.label}
                   >
                     <div class='sm:pt-0.5'>
                       <span
                         class:list={[
-                          'inline-flex rounded-full px-2 py-0.5 text-[10px] font-semibold tracking-[0.08em]',
+                          'resume-project-badge inline-flex rounded-full px-2 py-0.5 text-[10px] font-semibold tracking-[0.08em]',
                           getProjectSectionBadgeClass(section.label)
                         ]}
                       >
@@ -1007,18 +1038,18 @@ const projects: ResumeProject[] = [
                           <div class='min-w-0'>
                             {typeof text === 'string' ? (
                               section.label === 'R' ? (
-                                <p class:list={[getProjectSectionTextClass(section.label)]}>
+                                <p class:list={['resume-project-text', getProjectSectionTextClass(section.label)]}>
                                   <span set:html={highlightProjectResultText(text)} />
                                 </p>
                               ) : (
-                                <p class:list={[getProjectSectionTextClass(section.label)]}>{text}</p>
+                                <p class:list={['resume-project-text', getProjectSectionTextClass(section.label)]}>{text}</p>
                               )
                             ) : (
                               <div class='space-y-1'>
-                                <p class='text-sm font-semibold leading-6 text-foreground/90'>
+                                <p class='resume-project-text-title text-sm font-semibold leading-6 text-foreground/90'>
                                   {text.title}
                                 </p>
-                                <p class:list={[getProjectSectionTextClass(section.label)]}>
+                                <p class:list={['resume-project-text', getProjectSectionTextClass(section.label)]}>
                                   {text.body}
                                 </p>
                               </div>
@@ -1064,6 +1095,7 @@ const projects: ResumeProject[] = [
         )}
       </div>
     ))}
+  </div>
   </div>
 
   <Comment slot='bottom' />
@@ -1181,25 +1213,146 @@ const projects: ResumeProject[] = [
     transform: translateY(0);
   }
 
-  .result-highlight {
-    color: hsl(var(--primary));
-    background: hsl(var(--primary) / 0.18);
-    border-radius: 0.35rem;
+  :global(.result-highlight) {
+    color: rgb(24 24 27);
+    background: linear-gradient(
+      180deg,
+      transparent 62%,
+      rgb(161 161 170 / 0.14) 62%,
+      rgb(113 113 122 / 0.18) 100%
+    );
+    border: 0;
+    border-radius: 0.12rem;
     font-weight: 800;
     letter-spacing: 0.01em;
-    padding: 0.05rem 0.3rem;
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
+    padding: 0 0.06rem;
+    box-shadow: inset 0 -1px 0 rgb(82 82 91 / 0.12);
   }
 
-  :global(.dark) .result-highlight {
-    color: #ffffff;
-    background: transparent;
-    box-shadow: none;
+  :global(.dark .result-highlight) {
+    color: rgb(255 237 213);
+    background: linear-gradient(
+      180deg,
+      transparent 62%,
+      rgb(245 158 11 / 0.16) 62%,
+      rgb(217 119 6 / 0.22) 100%
+    );
+    border: 0;
+    box-shadow: inset 0 -1px 0 rgb(251 191 36 / 0.18);
     font-weight: 900;
-    padding-bottom: 0;
-    text-shadow:
-      0 0 0.01px #ffffff,
-      0 0 1px rgb(250 204 21 / 0.9),
-      0 0 10px rgb(250 204 21 / 0.22);
+    text-shadow: none;
+  }
+
+  :global(.dark) .resume-page {
+    color: hsl(var(--foreground) / 0.96);
+  }
+
+  :global(.dark) .resume-page [class*='text-muted-foreground'] {
+    color: hsl(var(--foreground) / 0.78);
+  }
+
+  :global(.dark) .resume-page [class*='border-border'] {
+    border-color: hsl(var(--border) / 0.82);
+  }
+
+  :global(.dark) .resume-page .resume-panel {
+    background:
+      linear-gradient(180deg, hsl(var(--card) / 0.985), hsl(var(--card) / 0.96));
+    border-color: hsl(var(--border) / 0.88);
+    box-shadow:
+      0 10px 26px rgb(0 0 0 / 0.18),
+      inset 0 1px 0 rgb(255 255 255 / 0.02);
+  }
+
+  :global(.dark) .resume-page .resume-project-card {
+    background:
+      linear-gradient(180deg, hsl(var(--card) / 0.985), hsl(var(--card) / 0.95));
+    border-color: hsl(var(--border) / 0.84);
+    box-shadow:
+      0 14px 34px rgb(0 0 0 / 0.16),
+      inset 0 1px 0 rgb(255 255 255 / 0.02);
+  }
+
+  :global(.dark) .resume-page .resume-project-card:hover {
+    border-color: hsl(var(--border) / 0.98);
+  }
+
+  :global(.dark) .resume-page .resume-project-section[data-section-label='R'] {
+    background:
+      linear-gradient(180deg, rgb(16 41 34 / 0.7), rgb(10 25 21 / 0.88));
+    border-color: rgb(16 185 129 / 0.24);
+    box-shadow:
+      inset 0 1px 0 rgb(255 255 255 / 0.02),
+      0 0 0 1px rgb(16 185 129 / 0.05);
+  }
+
+  :global(.dark) .resume-page .resume-project-section[data-section-label='Insight'] {
+    background:
+      linear-gradient(180deg, rgb(38 26 61 / 0.68), rgb(23 18 39 / 0.9));
+    border-color: rgb(168 85 247 / 0.18);
+    box-shadow:
+      inset 0 1px 0 rgb(255 255 255 / 0.02),
+      0 0 0 1px rgb(168 85 247 / 0.04);
+  }
+
+  :global(.dark) .resume-page .resume-project-section[data-section-label='R'] .resume-project-text,
+  :global(.dark) .resume-page .resume-project-section[data-section-label='Insight'] .resume-project-text {
+    color: hsl(var(--foreground) / 0.9);
+  }
+
+  :global(.dark) .resume-page .resume-project-section[data-section-label='R'] .resume-project-text-title,
+  :global(.dark) .resume-page .resume-project-section[data-section-label='Insight'] .resume-project-text-title {
+    color: hsl(var(--foreground) / 0.96);
+  }
+
+  :global(.dark) .resume-page .resume-project-section[data-section-label='R'] .resume-project-badge {
+    background: rgb(16 185 129 / 0.18);
+    color: rgb(110 231 183);
+  }
+
+  :global(.dark) .resume-page .resume-project-section[data-section-label='Insight'] .resume-project-badge {
+    background: rgb(139 92 246 / 0.2);
+    color: rgb(196 181 253);
+  }
+
+  :global(.dark) .resume-page [class*='bg-muted'] {
+    background-color: hsl(var(--muted) / 0.88);
+    color: hsl(var(--foreground) / 0.82);
+  }
+
+  :global(.dark) .resume-page [class*='bg-secondary'] {
+    background-color: hsl(var(--secondary) / 0.92);
+    color: hsl(var(--foreground) / 0.82);
+  }
+
+  :global(.dark) .resume-page .resume-quick-action {
+    border-color: hsl(var(--border) / 0.86);
+    color: hsl(var(--foreground) / 0.82);
+    background:
+      linear-gradient(
+        135deg,
+        hsl(var(--muted) / 0.92),
+        hsl(var(--secondary) / 0.78),
+        hsl(var(--muted) / 0.9)
+      );
+    box-shadow:
+      0 10px 22px rgb(0 0 0 / 0.14),
+      inset 0 1px 0 rgb(255 255 255 / 0.03);
+  }
+
+  :global(.dark) .resume-page .resume-quick-action:hover {
+    border-color: hsl(var(--primary) / 0.55);
+    color: hsl(var(--primary-foreground));
+  }
+
+  :global(.dark) .resume-page .resume-section-summary {
+    color: hsl(var(--foreground) / 0.74);
+  }
+
+  :global(.dark) .resume-page .project-card-summary {
+    color: hsl(var(--primary) / 0.62);
   }
 
   @keyframes thumbPop {

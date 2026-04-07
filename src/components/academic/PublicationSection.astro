@@ -5,6 +5,7 @@ import PublicationCard from './PublicationCard.astro'
 interface Props {
   class?: string
   publications: Array<{
+    slug?: string
     title: string
     authors: Array<{
       name: string

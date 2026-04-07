@@ -297,6 +297,30 @@ const langAttr = currentLocale === 'en' ? 'en' : 'zh'
     </style>
 
     <script>
+      const getAnchorOffset = () => {
+        const header = document.querySelector('header-component')
+        if (!(header instanceof HTMLElement)) return 96
+
+        const headerRect = header.getBoundingClientRect()
+        const headerStyles = window.getComputedStyle(header)
+        const topOffset = Number.parseFloat(headerStyles.top || '0') || 0
+
+        return Math.ceil(headerRect.height + topOffset + 12)
+      }
+
+      const scrollToElementWithOffset = (
+        element: HTMLElement,
+        behavior: ScrollBehavior = 'smooth'
+      ) => {
+        const top =
+          element.getBoundingClientRect().top + window.scrollY - getAnchorOffset()
+
+        window.scrollTo({
+          top: Math.max(0, top),
+          behavior
+        })
+      }
+
       document.addEventListener('DOMContentLoaded', () => {
         document.addEventListener('click', (e) => {
           const target = e.target as HTMLElement
@@ -318,12 +342,54 @@ const langAttr = currentLocale === 'en' ? 'en' : 'zh'
 
           history.pushState(null, '', href)
 
-          targetElement.scrollIntoView({
-            behavior: 'smooth',
-            block: 'start'
-          })
+          scrollToElementWithOffset(targetElement, 'smooth')
         })
       })
+    </script>
+
+    <script>
+      const getAnchorOffset = () => {
+        const header = document.querySelector('header-component')
+        if (!(header instanceof HTMLElement)) return 96
+
+        const headerRect = header.getBoundingClientRect()
+        const headerStyles = window.getComputedStyle(header)
+        const topOffset = Number.parseFloat(headerStyles.top || '0') || 0
+
+        return Math.ceil(headerRect.height + topOffset + 12)
+      }
+
+      const scrollToElementWithOffset = (
+        element: HTMLElement,
+        behavior: ScrollBehavior = 'smooth'
+      ) => {
+        const top =
+          element.getBoundingClientRect().top + window.scrollY - getAnchorOffset()
+
+        window.scrollTo({
+          top: Math.max(0, top),
+          behavior
+        })
+      }
+
+      const scrollToHashTarget = () => {
+        const hash = window.location.hash
+        if (!hash || hash === '#') return
+
+        const targetId = decodeURIComponent(hash.slice(1))
+        const targetElement = document.getElementById(targetId)
+        if (!targetElement) return
+
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            scrollToElementWithOffset(targetElement, 'smooth')
+          })
+        })
+      }
+
+      document.addEventListener('DOMContentLoaded', scrollToHashTarget)
+      document.addEventListener('astro:page-load', scrollToHashTarget)
+      window.addEventListener('hashchange', scrollToHashTarget)
     </script>
 
     <!-- <script>

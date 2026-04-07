@@ -6,6 +6,7 @@ import SimpleIcon from '@/components/ui/SimpleIcon.astro'
 interface Props {
   class?: string
   publication: {
+    slug?: string
     title: string
     authors: Array<{
       name: string
@@ -71,7 +72,10 @@ const symbolMutedClass = "text-muted-foreground/80 dark:text-slate-400/80";
 
 ---
 
-<div class={cn('border rounded-xl p-4 transition-all group hover:border-foreground/25 hover:shadow-md', className)}>
+<div
+  id={publication.slug}
+  class={cn('border rounded-xl p-4 transition-all group hover:border-foreground/25 hover:shadow-md scroll-mt-24', className)}
+>
   <div class='mb-3'>
 
     <p class='text-lg sm:text-xl text-foreground leading-tight mb-2 mt-0 transition-colors group-hover:text-primary' style='line-height: 1.4;'>

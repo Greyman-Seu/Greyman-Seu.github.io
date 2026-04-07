@@ -2,9 +2,10 @@
 import PageLayout from '@/layouts/CommonPage.astro'
 import { PublicationSection, ResearchProjectSection } from '@/components/academic'
 import { Icon } from '@/components/ui'
+import { getMediaBaseUrl } from '@/utils'
 import config from '@/site-config'
 
-const showRemoteMediaLinks = Boolean(import.meta.env.PUBLIC_R2_MEDIA_BASE_URL)
+const showRemoteMediaLinks = Boolean(getMediaBaseUrl())
 
 const headings = [
   { depth: 2, slug: 'publications', text: '论文' },
@@ -15,6 +16,7 @@ const headings = [
 
 const openSourceProjects = [
   {
+    slug: 'internvla-m1',
     title: 'InternVLA-M1',
     description: '面向通用机器人策略的 Vision-Language-Action 开源框架，强调 spatially guided、dual-system 和 dual-supervision 训练范式，将语言理解、空间感知与动作预测统一到同一套框架中。我主要负责 Sys2 pretrain，以及长任务拆解能力相关设计与落地。后续进一步延伸到 StarVLA，形成更模块化、可扩展的 VLA 开发生态。',
     category: '具身智能 / VLA / 开源',
@@ -49,6 +51,7 @@ const openSourceProjects = [
 
 const projects = [
   {
+    slug: 'traffic-police-vlm',
     title: '交警场景大模型',
     image: 'traffic-police.jpg',
     description: '面向自动驾驶复杂场景中的交警指挥理解，推动公司内部首次 VLM 在自动驾驶场景实现量产级上线，并完成展车部署落地。该任务兼具高场景价值、高理解难度与强用户感知，是少数能够真正拉开智能化体验差距的复杂能力。',
@@ -67,12 +70,13 @@ const projects = [
     ],
     links: [
       ...(showRemoteMediaLinks
-        ? [{ type: 'video', href: '/project-media/traffic-police-demo-3.mp4', label: 'Demo 3' }]
+        ? [{ type: 'video', href: '/works/traffic-police-demo-3-web.mp4', label: 'HMI DEMO' }]
         : []),
       { type: 'doc', href: 'https://my.feishu.cn/wiki/FSfgwc9UviFf8VkYGUcceYUTnjg', label: 'Feishu Wiki' }
     ]
   },
   {
+    slug: 'vision-pro-hand-eye',
     title: 'Vision Pro 手眼交互',
     image: 'visionpro-hand-eye.jpg',
     description: '围绕 Apple Vision Pro 手眼交互能力打造车载展示与实车方案，在高复杂度、多模块强耦合约束下完成车载 15.6 寸屏首发落地，并进一步推进到多应用实车验证。整体交互精度、稳定性与展示效果达到领域首次、领域领先水平。',
@@ -92,14 +96,16 @@ const projects = [
     links: [
       ...(showRemoteMediaLinks
         ? [
-            { type: 'video', href: '/project-media/visionpro-hand-eye.mp4', label: '一期 Demo' },
-            { type: 'video', href: '/project-media/visionpro-hand-eye-phase2.mp4', label: '二期 Demo' }
+            { type: 'video', href: '/works/visionpro-hand-eye-web.mp4', label: '24年车展 Demo' },
+            { type: 'video', href: '/works/visionpro-hand-eye-phase2-web.mp4', label: '5*8 Icon 手眼交互' },
+            { type: 'video', href: '/works/visionpro-hand-eye-phase2-alt-web.mp4', label: 'HMI 手眼交互' }
           ]
         : []),
       { type: 'doc', href: 'https://my.feishu.cn/wiki/FSfgwc9UviFf8VkYGUcceYUTnjg', label: 'Feishu Wiki' }
     ]
   },
   {
+    slug: 'pointing-map',
     title: '指向地图 / 看哪问哪',
     image: 'pointing-map.jpg',
     description: '面向车载场景打造“看哪问哪 / 指哪问哪”的人-车-环境联合交互方案，完成业内首次单目 3D 手势交互 Demo，实现从 0 到 1 的实车验证。项目贯通座舱与自动驾驶信息流，是舱驾一体多模态交互方向的代表性成果。',
@@ -117,14 +123,15 @@ const projects = [
     links: [
       ...(showRemoteMediaLinks
         ? [
-            { type: 'video', href: '/project-media/pointing-map-pr.mp4', label: '宣传版' },
-            { type: 'video', href: '/project-media/pointing-map-li-auto.mp4', label: '理想体验版' }
+            { type: 'video', href: '/works/pointing-map-pr-web.mp4', label: '23年车展宣传版本' },
+            { type: 'video', href: '/works/pointing-map-li-auto-web.mp4', label: '现场拍摄' }
           ]
         : []),
       { type: 'doc', href: 'https://my.feishu.cn/wiki/FSfgwc9UviFf8VkYGUcceYUTnjg', label: 'Feishu Wiki' }
     ]
   },
   {
+    slug: 'tof-remote',
     title: 'TOF 遥控',
     image: 'tof-remote.png',
     description: '围绕 TOF 遥控器一期与广汽 POC TOF 两个阶段展开，目标是打造可量产演进的真 3D 控屏能力，并将方案从技术验证推进到客户可感知、可交付的量产级 POC。项目重点解决传统控屏方案易疲劳、稳定性不足和交互维度受限的问题。',
@@ -142,12 +149,16 @@ const projects = [
     ],
     links: [
       ...(showRemoteMediaLinks
-        ? [{ type: 'video', href: '/project-media/tof-control.mp4', label: 'POC Demo' }]
+        ? [
+            { type: 'video', href: '/works/tof-control-web.mp4', label: '客户展车实拍' },
+            { type: 'video', href: '/works/tof-remote-phase1-web.mp4', label: '23年车展宣传版本' }
+          ]
         : []),
       { type: 'doc', href: 'https://my.feishu.cn/wiki/FSfgwc9UviFf8VkYGUcceYUTnjg', label: 'Feishu Wiki' }
     ]
   },
   {
+    slug: 'hand-gt-system',
     title: '车载人手重建 GT 系统',
     image: 'hand-gt-system.png',
     description: '面向车载人手重建建设长期数据基建，围绕 GT 系统打通采集、标注、验证与算法迭代底座，为 TOF、单目、多目等多条技术路线提供统一高质量数据支撑。这类项目不直接面向用户，但决定了后续能力上限与迭代效率。',
@@ -164,6 +175,12 @@ const projects = [
       '数据闭环支撑'
     ],
     links: [
+      ...(showRemoteMediaLinks
+        ? [
+            { type: 'video', href: '/works/hand-gt-system-car-web.mp4', label: '车载可拆卸 GT 系统' },
+            { type: 'video', href: '/works/demo-pose-norm-web.mp4', label: 'GT 系统效果' }
+          ]
+        : []),
       { type: 'doc', href: 'https://my.feishu.cn/wiki/FSfgwc9UviFf8VkYGUcceYUTnjg', label: 'Feishu Wiki' }
     ]
   }
@@ -205,6 +222,7 @@ const mediaSharing = [
   <PublicationSection
     publications={[
       {
+        slug: 'paper-st4vla',
         title: 'ST4VLA: Spatially Guided Training for Vision-Language-Action Models',
         authors: [
           { name: 'Jinhui Ye', isEqual: true },
@@ -224,6 +242,7 @@ const mediaSharing = [
         status: 'accepted'
       },
       {
+        slug: 'paper-internvla-m1',
         title: 'InternVLA-M1: A Spatially Guided Vision-Language-Action Framework for Generalist Robot Policy',
         authors: [
           { name: 'Yilun Chen', isCoreContributor: true },
@@ -249,6 +268,7 @@ const mediaSharing = [
         status: 'preprint'
       },
       {
+        slug: 'paper-internvla-a1',
         title: 'InternVLA-A1: Unifying Understanding, Generation and Action for Robotic Manipulation',
         authors: [
           { name: 'Junhao Cai' },
@@ -284,6 +304,37 @@ const mediaSharing = [
   {/* ── 自媒体分享 ── */}
   <h2 id='media-sharing'>自媒体分享<a class='anchor' href='#media-sharing'>#</a></h2>
   <ResearchProjectSection projects={mediaSharing} />
+
+  <script>
+    const scrollToFocusedProject = () => {
+      const url = new URL(window.location.href)
+      const focus = url.searchParams.get('focus')
+      if (!focus) return
+
+      const target = document.getElementById(focus)
+      if (!target) return
+
+      const header = document.querySelector('header-component')
+      const headerRect = header instanceof HTMLElement ? header.getBoundingClientRect() : null
+      const headerStyles = header instanceof HTMLElement ? window.getComputedStyle(header) : null
+      const topOffset = headerStyles ? Number.parseFloat(headerStyles.top || '0') || 0 : 0
+      const offset = headerRect ? Math.ceil(headerRect.height + topOffset + 12) : 96
+
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          window.scrollTo({
+            top: Math.max(0, target.getBoundingClientRect().top + window.scrollY - offset),
+            behavior: 'auto'
+          })
+
+          history.replaceState({}, '', `/works#${focus}`)
+        })
+      })
+    }
+
+    document.addEventListener('DOMContentLoaded', scrollToFocusedProject)
+    document.addEventListener('astro:page-load', scrollToFocusedProject)
+  </script>
 </PageLayout>
 
 <script
