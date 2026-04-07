@@ -4,6 +4,8 @@ import { PublicationSection, ResearchProjectSection } from '@/components/academi
 import { Icon } from '@/components/ui'
 import config from '@/site-config'
 
+const showRemoteMediaLinks = Boolean(import.meta.env.PUBLIC_R2_MEDIA_BASE_URL)
+
 const headings = [
   { depth: 2, slug: 'publications', text: '论文' },
   { depth: 2, slug: 'product-projects', text: '产品项目' },
@@ -49,78 +51,89 @@ const projects = [
   {
     title: '交警场景大模型',
     image: 'traffic-police.jpg',
-    description: '2024 年启动的中长期项目，围绕自动驾驶场景中的交警指挥理解展开，已部署落地到地平线展车。该方向兼具高场景价值、高难度和强用户感知，是能够真正拉开体验差距的复杂任务。',
+    description: '面向自动驾驶复杂场景中的交警指挥理解，推动公司内部首次 VLM 在自动驾驶场景实现量产级上线，并完成展车部署落地。该任务兼具高场景价值、高理解难度与强用户感知，是少数能够真正拉开智能化体验差距的复杂能力。',
     category: '量产 / 大模型 / 展车落地',
     status: 'completed' as const,
     highlights: [
-      '已部署落地到地平线展车，形成可对外展示的完整成果',
-      '场景价值高、难度大、贴近用户，是小模型较难完整覆盖的事项',
-      '过程展示获得外部 PR 与自发传播，具备较强话题性'
+      '实现公司内部首次 VLM 在自动驾驶场景的量产级上线，并形成展车可演示成果',
+      '在交警指挥关键任务中，将模型 precision 从 GPT-4o 基线约 30% 提升至 95%+',
+      '展示效果获得媒体自发传播与正向反馈，成为对外认知度很高的差异化亮点'
     ],
     responsibilities: [
       '交警算法负责人',
       '5 人小组带队',
-      '方案迭代与展车落地'
+      '数据闭环与方案迭代',
+      '展车落地'
     ],
     links: [
-      { type: 'video', href: '/project-media/traffic-police-demo-3.mp4', label: 'Demo 3' },
+      ...(showRemoteMediaLinks
+        ? [{ type: 'video', href: '/project-media/traffic-police-demo-3.mp4', label: 'Demo 3' }]
+        : []),
       { type: 'doc', href: 'https://my.feishu.cn/wiki/FSfgwc9UviFf8VkYGUcceYUTnjg', label: 'Feishu Wiki' }
     ]
   },
   {
     title: 'Vision Pro 手眼交互',
     image: 'visionpro-hand-eye.jpg',
-    description: '围绕 Apple Vision Pro 的手眼交互能力打造车载展示与实车方案，一期完成 2024 年 GUA 车展 Demo，二期继续验证多应用实车可行性与覆盖范围。整体精度体验和展示效果在同期方案中非常突出。',
+    description: '围绕 Apple Vision Pro 手眼交互能力打造车载展示与实车方案，在高复杂度、多模块强耦合约束下完成车载 15.6 寸屏首发落地，并进一步推进到多应用实车验证。整体交互精度、稳定性与展示效果达到领域首次、领域领先水平。',
     category: '人手重建 / XR 交互 / 展示项目',
     status: 'completed' as const,
     highlights: [
-      '率先将苹果 Vision Pro 手眼交互做到具备车载可行性的展示效果',
-      '一期完成车展 Demo，二期继续推进到实车多应用验证',
-      '精度体验和展示效果明显领先同期方案'
+      '完成车载 15.6 寸屏 Vision Pro 手眼交互首发落地及量产级 Demo 验证',
+      '牵头 15 名核心开发并协同 43 人跨团队推进，按车展节点完成高质量交付',
+      '空间手势重建与视线协同交互效果显著优于同期方案，并获得客户正向反馈'
     ],
     responsibilities: [
       'VP 项目负责人',
-      '方案推进',
+      '跨团队方案推进',
       '车展展示落地',
       '二期实车验证'
     ],
     links: [
-      { type: 'video', href: '/project-media/visionpro-hand-eye.mp4', label: '一期 Demo' },
-      { type: 'video', href: '/project-media/visionpro-hand-eye-phase2.mp4', label: '二期 Demo' },
+      ...(showRemoteMediaLinks
+        ? [
+            { type: 'video', href: '/project-media/visionpro-hand-eye.mp4', label: '一期 Demo' },
+            { type: 'video', href: '/project-media/visionpro-hand-eye-phase2.mp4', label: '二期 Demo' }
+          ]
+        : []),
       { type: 'doc', href: 'https://my.feishu.cn/wiki/FSfgwc9UviFf8VkYGUcceYUTnjg', label: 'Feishu Wiki' }
     ]
   },
   {
     title: '指向地图 / 看哪问哪',
     image: 'pointing-map.jpg',
-    description: '较早落地到实车的人-车-环境联动交互方案，贯通座舱与自动驾驶信息，实现“看哪问哪 / 指哪问哪”的交互闭环。该项目对外展示效果强，也直接推动了客户侧对相关能力的兴趣与规划。',
+    description: '面向车载场景打造“看哪问哪 / 指哪问哪”的人-车-环境联合交互方案，完成业内首次单目 3D 手势交互 Demo，实现从 0 到 1 的实车验证。项目贯通座舱与自动驾驶信息流，是舱驾一体多模态交互方向的代表性成果。',
     category: '多模态交互 / 实车展示 / 地图理解',
     status: 'completed' as const,
     highlights: [
-      '率先打造人-车-环境贯通的舱驾一体 Demo',
-      '吸引理想汽车多轮体验，并推动相关概念进入其量产计划',
-      '具备强展示性和传播性的代表项目'
+      '完成业内首次单目 3D 手势上车 Demo，首次打通“人-车-环境”联合交互能力',
+      '吸引 10+ 主机厂及同行现场观摩与拍摄，具备很强展示性与传播性',
+      '理想等客户多轮实车体验，并将相关能力纳入自身 Demo 体系与后续规划'
     ],
     responsibilities: [
       '指向地图算法模块负责人',
       '0-1 Demo 落地'
     ],
     links: [
-      { type: 'video', href: '/project-media/pointing-map-pr.mp4', label: '宣传版' },
-      { type: 'video', href: '/project-media/pointing-map-li-auto.mp4', label: '理想体验版' },
+      ...(showRemoteMediaLinks
+        ? [
+            { type: 'video', href: '/project-media/pointing-map-pr.mp4', label: '宣传版' },
+            { type: 'video', href: '/project-media/pointing-map-li-auto.mp4', label: '理想体验版' }
+          ]
+        : []),
       { type: 'doc', href: 'https://my.feishu.cn/wiki/FSfgwc9UviFf8VkYGUcceYUTnjg', label: 'Feishu Wiki' }
     ]
   },
   {
     title: 'TOF 遥控',
     image: 'tof-remote.png',
-    description: '围绕 TOF 遥控器一期与广汽 POC TOF 两个阶段展开，目标是打造真 3D 控屏能力，并把方案从展示验证推进到客户可感知、可交付的量产级 POC。',
+    description: '围绕 TOF 遥控器一期与广汽 POC TOF 两个阶段展开，目标是打造可量产演进的真 3D 控屏能力，并将方案从技术验证推进到客户可感知、可交付的量产级 POC。项目重点解决传统控屏方案易疲劳、稳定性不足和交互维度受限的问题。',
     category: '3D 交互 / POC / 客户交付',
     status: 'completed' as const,
     highlights: [
-      '打造真 3D TOF 控屏能力，并完成实车展示验证',
-      'POC Demo 获客户明确正向反馈，体验优于市面方案',
-      '从架构参与推进到 SDK 与量产级 POC 对外交付，工程闭环完整'
+      '打造真 3D TOF 控屏能力，并完成面向客户的量产导向 POC 验证',
+      '设计“捏合 + 指向”双范式控屏交互，有效降低手势疲劳感并提升稳定性',
+      'Demo 体验优于市面方案并获得客户高度认可，形成从架构到 SDK 再到对外交付的完整闭环'
     ],
     responsibilities: [
       '前期架构参与',
@@ -128,20 +141,22 @@ const projects = [
       '量产级 POC 对外交付负责人'
     ],
     links: [
-      { type: 'video', href: '/project-media/tof-control.mp4', label: 'POC Demo' },
+      ...(showRemoteMediaLinks
+        ? [{ type: 'video', href: '/project-media/tof-control.mp4', label: 'POC Demo' }]
+        : []),
       { type: 'doc', href: 'https://my.feishu.cn/wiki/FSfgwc9UviFf8VkYGUcceYUTnjg', label: 'Feishu Wiki' }
     ]
   },
   {
     title: '车载人手重建 GT 系统',
     image: 'hand-gt-system.png',
-    description: '面向车载人手重建方向建设长期基础数据能力，围绕 GT 系统构建标注、验证与算法迭代底座，为后续 TOF、单目、多目等路线的人手重建提供统一支撑。',
+    description: '面向车载人手重建建设长期数据基建，围绕 GT 系统打通采集、标注、验证与算法迭代底座，为 TOF、单目、多目等多条技术路线提供统一高质量数据支撑。这类项目不直接面向用户，但决定了后续能力上限与迭代效率。',
     category: '数据基建 / GT 系统 / 人手重建',
     status: 'completed' as const,
     highlights: [
-      '中长期基础能力建设，支撑后续多条人手重建路线迭代',
-      '围绕车载场景沉淀 GT 数据与验证底座',
-      '属于偏底层但价值高的数据基建型项目'
+      '从 0 到 1 搭建车载人手数据采集与标注体系，沉淀长期可复用的数据底座',
+      '基于 MANO 与多视角几何约束构建异构多目 4D GT 自动生成能力，显著降低 3D 数据获取成本',
+      '支撑 TOF、单目、多目多路线并行迭代，是后续空间交互能力演进的关键基础设施'
     ],
     responsibilities: [
       '算法负责人',

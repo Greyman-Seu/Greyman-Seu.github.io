@@ -79,5 +79,8 @@ bunfig.toml
 /src/content/blogs/test.*
 /test/
 bun.lockb
+*.mp4
+*.mov
+public/project-media/
 
 AGENTS.md/resume/

@@ -4,7 +4,7 @@ import { Image } from 'astro:assets'
 
 import type { iconsType } from '@/types'
 import { Icon, SimpleIcon } from '@/components/ui'
-import { cn } from '@/utils'
+import { cn, mediaUrl } from '@/utils'
 
 interface Props {
   class?: string
@@ -78,13 +78,13 @@ const statusColors = {
                     controls
                     preload='metadata'
                     playsinline
-                    poster={project.media.poster}
+                    poster={project.media.poster ? mediaUrl(project.media.poster) : undefined}
                   >
-                    <source src={project.media.src} />
+                    <source src={mediaUrl(project.media.src)} />
                   </video>
                 ) : (
                   <img
-                    src={project.media.src}
+                    src={mediaUrl(project.media.src)}
                     alt={project.media.alt || project.title}
                     class='h-60 w-full object-cover'
                     loading='lazy'
@@ -171,7 +171,7 @@ const statusColors = {
                   const iconConfig = linkIconSet[link.type] || { type: 'icon', name: 'earth' }
                   return (
                     <a
-                      href={link.href}
+                      href={mediaUrl(link.href)}
                       class='inline-flex items-center gap-2 rounded-lg bg-muted px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted/80 hover:text-foreground'
                       aria-label={link.label || link.type}
                       target='_blank'
