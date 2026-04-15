@@ -12,7 +12,7 @@ interface Props {
 const { collection, currentId, isEn = false } = Astro.props
 const posts = await getPostsForCollection(collection, isEn)
 const title = isEn && collection.data.title_en ? collection.data.title_en : collection.data.title
-const collectionUrl = isEn ? `/en/collection/${collection.id}` : `/collection/${collection.id}`
+const collectionUrl = isEn ? `/en/tutorials/${collection.id}` : `/tutorials/${collection.id}`
 ---
 
 <nav class='series-nav mb-6'>

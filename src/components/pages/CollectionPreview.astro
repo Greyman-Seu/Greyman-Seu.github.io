@@ -26,7 +26,7 @@ function getLocalizedUrl(locale: string | undefined, path: string) {
   return url
 }
 
-const collectionUrl = getLocalizedUrl(Astro.currentLocale, `/collection/${id}`)
+const collectionUrl = getLocalizedUrl(Astro.currentLocale, `/tutorials/${id}`)
 ---
 
 {
@@ -95,7 +95,7 @@ const collectionUrl = getLocalizedUrl(Astro.currentLocale, `/collection/${id}`)
 
       <div class='flex items-center justify-between p-4 text-sm font-medium text-primary'>
         <span class='text-foreground transition-colors group-hover:text-primary'>
-          View Collection
+          View Tutorial
         </span>
         <Icon
           name='chevron-down'

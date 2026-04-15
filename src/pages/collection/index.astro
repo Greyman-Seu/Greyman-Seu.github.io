@@ -1,37 +1,5 @@
 ---
-import { getPostCollections } from '@/server'
-import PageLayout from '@/layouts/BaseLayout.astro'
-import { CollectionPreview } from '@/components/pages'
-
-const collections = await getPostCollections()
-
-const meta = {
-  title: 'Tutorials',
-  description: 'Curated tutorials on various topics'
-}
+import RedirectPage from '@/layouts/RedirectPage.astro'
 ---
 
-<PageLayout {meta}>
-  <main class='mt-6 lg:mt-10'>
-    <div id='content-header' class='animate'>
-        <h1 class='text-3xl font-bold mb-6'>Tutorials</h1>
-        <p class='text-muted-foreground mb-10 text-lg'>
-            Curated tutorials on various topics.
-        </p>
-    </div>
-
-    <section id='content' class='animate'>
-        {collections.length > 0 ? (
-            <div class='grid gap-6 sm:grid-cols-2 lg:grid-cols-3'>
-                {collections.map((collection) => (
-                    <CollectionPreview {collection} />
-                ))}
-            </div>
-        ) : (
-            <div class='py-12 text-center text-muted-foreground'>
-                <p>No collections found.</p>
-            </div>
-        )}
-    </section>
-  </main>
-</PageLayout>
+<RedirectPage to='/tutorials' />

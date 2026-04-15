@@ -4,6 +4,7 @@ import CommonPage from '@/layouts/CommonPage.astro'
 
 import { Comment } from '@/components/widgets'
 import FriendList from '@/components/links/FriendList.astro'
+import { SimpleIcon } from '@/components/ui'
 
 // 直接从外部 JSON 文件导入 friends 数据
 import friendsData from '@/public/links.json'
@@ -12,16 +13,59 @@ const { links } = config.integ
 const linksConf = links || { logbook: [], applyTip: [] }
 
 const headings = [
+  { depth: 2, slug: 'research-interests', text: 'Research Interests' },
   { depth: 2, slug: 'common-links', text: 'Common Links' },
   { depth: 2, slug: 'apply-links', text: 'Apply Links' },
   ...(config.personal?.domains?.friendCircle ? [{ depth: 2, slug: 'small-circle', text: 'Small Circle' }] : [])
 ]
 
+const interests = [
+  { title: 'VLM / VLA', description: '视觉语言模型与视觉语言动作模型', icon: 'pytorch' },
+  { title: '世界模型', description: '面向具身与自动驾驶的世界建模', icon: 'ros' },
+  { title: '人体重建', description: '3D 人手、人体重建与估计', icon: 'pytorch' },
+  { title: '人机交互', description: '车载 HMI 与多模态交互体验', icon: 'ros' },
+  { title: '具身智能', description: '机器人操作与端到端策略学习', icon: 'pytorch' }
+]
+
 const { friends } = friendsData
 ---
 
-<CommonPage title='Links' {headings} info='/links'>
+<CommonPage title='Follow' {headings} info='/follow'>
+  <div class='mb-8 rounded-xl border border-amber-500/20 bg-amber-50/70 px-4 py-3 text-sm font-medium text-amber-950 dark:border-amber-400/20 dark:bg-amber-950/20 dark:text-amber-100'>
+    TODO：RSS订阅总结&LLM wiki总结
+  </div>
+
   <div class='space-y-12'>
+
+    {/* ── Research Interests ── */}
+    <section class='space-y-6'>
+      <div class='flex items-center gap-3 pb-3 border-b border-border/30'>
+        <div class='flex items-center justify-center w-10 h-10 rounded-xl bg-primary/10 text-primary'>
+          <svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'>
+            <circle cx='11' cy='11' r='8'></circle><line x1='21' y1='21' x2='16.65' y2='16.65'></line>
+          </svg>
+        </div>
+        <div>
+          <h2 id='research-interests' class='text-2xl font-semibold m-0'>Research Interests</h2>
+          <p class='text-sm text-muted-foreground m-0'>持续关注的研究方向</p>
+        </div>
+      </div>
+      <div class='grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3'>
+        {interests.map((interest) => (
+          <div class='group relative overflow-hidden rounded-xl border border-border bg-card p-4 transition-all hover:border-foreground/25 hover:shadow-md'>
+            <div class='flex items-start gap-3'>
+              <div class='flex size-9 shrink-0 items-center justify-center rounded-lg bg-primary/10 transition-colors group-hover:bg-primary/20'>
+                <SimpleIcon class='size-4 text-primary' name={interest.icon} />
+              </div>
+              <div>
+                <p class='font-medium text-foreground'>{interest.title}</p>
+                <p class='text-xs text-muted-foreground mt-0.5'>{interest.description}</p>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
     <section class='space-y-6'>
       <div class='flex items-center gap-3 pb-3 border-b border-border/30'>
         <div class='flex items-center justify-center w-10 h-10 rounded-xl bg-primary/10 text-primary'>
@@ -33,7 +77,7 @@ const { friends } = friendsData
         </div>
         <div>
           <h2 id='common-links' class='text-2xl font-semibold m-0'>Common Links</h2>
-          <p class='text-sm text-muted-foreground m-0'>Curated blogroll<span class='mx-2 align-middle'>·</span>Explore an interesting world together</p>
+          <p class='text-sm text-muted-foreground m-0'>精选博客友链<span class='mx-2 align-middle'>·</span>一起探索有趣的世界</p>
         </div>
       </div>
       
@@ -53,7 +97,7 @@ const { friends } = friendsData
         </div>
         <div>
           <h2 id='apply-links' class='text-2xl font-semibold m-0'>Apply Links</h2>
-          <p class='text-sm text-muted-foreground m-0'>Apply for Blogroll<span class='mx-2 align-middle'>·</span>Submit your site here</p>
+          <p class='text-sm text-muted-foreground m-0'>友链申请<span class='mx-2 align-middle'>·</span>在此处提交你的站点</p>
         </div>
       </div>
       
@@ -63,7 +107,7 @@ const { friends } = friendsData
             <div class='flex-shrink-0 w-6 h-6 rounded-full bg-primary/20 flex items-center justify-center'>
               <span class='text-xs font-medium text-primary'>ℹ️</span>
             </div>
-            <p class='text-sm text-muted-foreground m-0'>My blog info (click to copy):</p>
+            <p class='text-sm text-muted-foreground m-0'>本站信息如下（点击快速复制）：</p>
           </div>
           
           <div class='bg-background/60 backdrop-blur-sm rounded-xl border border-border/50 p-5'>
@@ -92,7 +136,7 @@ const { friends } = friendsData
               <span class='text-xs'>📝</span>
             </div>
             <p class='text-sm text-muted-foreground m-0'>
-              Please follow the requirements when applying.
+              申请时请参考以下要求。
             </p>
           </div>
           
@@ -100,20 +144,20 @@ const { friends } = friendsData
             <div class='space-y-3'>
               <h4 class='text-sm font-medium text-foreground m-0 flex items-center gap-2'>
                 <span class='text-green-500'>✅</span>
-                Application Notes
+                申请说明
               </h4>
               <ul class='space-y-2 text-sm text-muted-foreground m-0 list-none'>
                 <li class='flex items-center gap-2'>
                   <span class='text-blue-500 text-lg leading-none'>•</span>
-                  <span>You’ve added my blog to your site</span>
+                  <span>在你的友链上添加了本站；</span>
                 </li>
                 <li class='flex items-center gap-2'>
                   <span class='text-blue-500 text-lg leading-none'>•</span>
-                  <span>Your site is online and accessible</span>
+                  <span>请确保你的站点可以正常访问；</span>
                 </li>
                 <li class='flex items-center gap-2'>
                   <span class='text-blue-500 text-lg leading-none'>•</span>
-                  <span>Your content complies with regulations</span>
+                  <span>博客内容符合相关法律法规。</span>
                 </li>
               </ul>
             </div>
@@ -134,8 +178,8 @@ const { friends } = friendsData
             </svg>
           </div>
           <div>
-            <h2 id='small-circle' class='text-2xl font-semibold m-0'>Friend Circle</h2>
-            <p class='text-sm text-muted-foreground m-0'>Latest updates<span class='mx-2 align-middle'>·</span>See what everyone is writing</p>
+            <h2 id='small-circle' class='text-2xl font-semibold m-0'>朋友圈</h2>
+            <p class='text-sm text-muted-foreground m-0'>最新动态<span class='mx-2 align-middle'>·</span>看看朋友们都在写什么</p>
           </div>
         </div>
         
@@ -144,7 +188,7 @@ const { friends } = friendsData
             <div class='flex-shrink-0 w-6 h-6 rounded-full bg-amber-500/20 flex items-center justify-center'>
               <span class='text-xs'>💡</span>
             </div>
-            <p class='text-sm text-muted-foreground m-0'>Linked but your posts don't show up? Try adding an RSS feed to your blog~</p>
+            <p class='text-sm text-muted-foreground m-0'>在友链但是没有找到你的文章？请为你的博客添加 RSS 吧~</p>
           </div>
           
           <div id='friend-circle-lite-root' class='not-prose'>

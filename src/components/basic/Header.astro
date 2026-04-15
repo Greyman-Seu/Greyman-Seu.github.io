@@ -1,7 +1,6 @@
 ---
 import config from '@/site-config'
 import { Icon } from '@/components/ui'
-import LanguageSwitch from '@/components/ui/LanguageSwitch.astro'
 import { getRelativeLocaleUrl } from 'astro:i18n'
 import { getBlogCollection, getUniqueCategories } from '@/server'
 
@@ -114,7 +113,6 @@ function getLocalizedUrl(locale: string | undefined, path: string) {
 
     <!-- buttons -->
     <div class='z-30 flex gap-x-4 group-[.not-top]:gap-x-2' style='transition:gap 0.3s'>
-      <LanguageSwitch />
       <button
         id='toggleDarkMode'
         class='group/dark box-content size-5 rounded-md border p-1.5 transition-colors hover:bg-border md:group-[.not-top]:rounded-xl'

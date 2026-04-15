@@ -14,10 +14,10 @@ export const theme: ThemeUserConfig = {
   favicon: '/favicon/favicon.ico',
   /** Specify the default language for this site. */
   locale: {
-    lang: 'en-US',
-    attrs: 'en_US',
+    lang: 'zh-CN',
+    attrs: 'zh_CN',
     // Date locale
-    dateLocale: 'en-US',
+    dateLocale: 'zh-CN',
     dateOptions: {
       day: 'numeric',
       month: 'short',
@@ -44,8 +44,8 @@ export const theme: ThemeUserConfig = {
     menu: [
       { title: 'Blog', link: '/blog/other' },
       { title: 'Works', link: '/works' },
-      { title: 'Follow', link: '/links' },
-      { title: 'Tutorials', link: '/collection' },
+      { title: 'Follow', link: '/follow' },
+      { title: 'Tutorials', link: '/tutorials' },
       { title: 'Annual', link: '/annual' },
       { title: 'Resume', link: '/resume' }
     ]
