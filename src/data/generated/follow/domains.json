@@ -1,0 +1,86 @@
+{
+  "domains": [
+    {
+      "slug": "physical-embodied-intelligence",
+      "name": "Physical/Embodied Intelligence",
+      "count": 12,
+      "latest_date": "2026-05-05",
+      "highlights": [
+        {
+          "title": "Being-H0.7: A Latent World-Action Model from Egocentric Videos",
+          "summary": "提出无需生成未来帧的潜空间 world-action model，以提升 VLA 控制策略的未来感知能力。",
+          "date": "2026-05-05"
+        },
+        {
+          "title": "Thinking in Text and Images: Interleaved Vision--Language Reasoning Traces for Long-Horizon Robot Manipulation",
+          "summary": "提出交错文本子目标与视觉关键帧的推理轨迹，用于长程机器人操作策略。",
+          "date": "2026-05-05"
+        },
+        {
+          "title": "Stereo Multistage Spatial Attention for Real-Time Mobile Manipulation Under Visual Scale Variation and Disturbances",
+          "summary": "提出面向实时移动操作的双目多阶段空间注意力预测策略，以提升尺度变化和视觉扰动下的闭环动作生成鲁棒性。",
+          "date": "2026-05-05"
+        }
+      ]
+    },
+    {
+      "slug": "llm-vlm",
+      "name": "LLM/VLM",
+      "count": 5,
+      "latest_date": "2026-05-05",
+      "highlights": [
+        {
+          "title": "Being-H0.7: A Latent World-Action Model from Egocentric Videos",
+          "summary": "提出无需生成未来帧的潜空间 world-action model，以提升 VLA 控制策略的未来感知能力。",
+          "date": "2026-05-05"
+        },
+        {
+          "title": "Thinking in Text and Images: Interleaved Vision--Language Reasoning Traces for Long-Horizon Robot Manipulation",
+          "summary": "提出交错文本子目标与视觉关键帧的推理轨迹，用于长程机器人操作策略。",
+          "date": "2026-05-05"
+        },
+        {
+          "title": "Borrowed Geometry: Computational Reuse of Frozen Text-Pretrained Transformer Weights Across Modalities",
+          "summary": "论文探索冻结文本预训练Transformer权重跨模态复用，并在机器人操作基准上用少量可训练接口取得性能提升。",
+          "date": "2026-05-05"
+        }
+      ]
+    },
+    {
+      "slug": "uncategorized",
+      "name": "Uncategorized",
+      "count": 3,
+      "latest_date": "2026-05-04",
+      "highlights": [
+        {
+          "title": "E$^2$DT: Efficient and Effective Decision Transformer with Experience-Aware Sampling for Robotic Manipulation",
+          "summary": "用经验感知采样提升 Decision Transformer 在机器人长程操作中的样本效率与探索质量。",
+          "date": "2026-05-04"
+        },
+        {
+          "title": "Lucid-XR: An Extended-Reality Data Engine for Robotic Manipulation",
+          "summary": "Lucid-XR通过XR交互、物理仿真和语言可控视频生成构建机器人操作数据引擎，用合成数据训练可零样本迁移的视觉策略。",
+          "date": "2026-05-04"
+        },
+        {
+          "title": "World Model for Robot Learning: A Comprehensive Survey",
+          "summary": "系统综述机器人学习中的世界模型范式、作用分工与评测脉络。",
+          "date": "2026-05-04"
+        }
+      ]
+    },
+    {
+      "slug": "agent",
+      "name": "Agent",
+      "count": 1,
+      "latest_date": "2026-05-05",
+      "highlights": [
+        {
+          "title": "Affordance Agent Harness: Verification-Gated Skill Orchestration",
+          "summary": "提出带验证门控的技能编排框架，用于提升开放场景中的可供性定位可靠性与推理成本效率。",
+          "date": "2026-05-05"
+        }
+      ]
+    }
+  ]
+}

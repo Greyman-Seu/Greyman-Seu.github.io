@@ -55,6 +55,7 @@
   },
   "devDependencies": {
     "@astrojs/markdown-remark": "^6.3.10",
+    "@cloudflare/workerd-darwin-arm64": "^1.20260502.1",
     "@eslint/js": "^9.39.2",
     "@ianvs/prettier-plugin-sort-imports": "^4.7.0",
     "@types/hast": "^3.0.4",

@@ -1,0 +1,88 @@
+---
+import CommonPage from '@/layouts/CommonPage.astro'
+import { Button, Label } from '@/components/ui'
+import { wikiDomains } from '@/data/follow'
+import type { WikiDomain } from '@/data/follow'
+
+const headings = [
+  { depth: 2, slug: 'knowledge-domains', text: 'Knowledge Domains' },
+  { depth: 2, slug: 'how-it-connects', text: 'How It Connects' }
+]
+---
+
+<CommonPage title='Wiki' {headings} info='/wiki'>
+  <div class='space-y-10'>
+    <section class='rounded-2xl border border-primary/15 bg-gradient-to-br from-primary/10 via-background to-background p-6'>
+      <div class='flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between'>
+        <div class='space-y-2'>
+          <Label title='Knowledge Base' />
+          <h2 class='m-0 text-2xl font-semibold text-foreground sm:text-3xl'>Long-term knowledge layer for FollowHub</h2>
+          <p class='max-w-3xl text-sm leading-6 text-muted-foreground'>
+            `wiki` 负责把 Follow 的每日增量沉淀成主题知识页。当前阶段先做领域入口，后续再扩展到 topic、代表论文、作者与项目索引。
+          </p>
+        </div>
+        <div class='flex flex-wrap gap-2'>
+          <Button title='Open Follow' href='/follow' style='back' />
+        </div>
+      </div>
+    </section>
+
+    <section class='space-y-6' aria-labelledby='knowledge-domains'>
+      <div class='border-b border-border/40 pb-3'>
+        <h2 id='knowledge-domains' class='m-0 text-2xl font-semibold'>Knowledge Domains</h2>
+        <p class='m-0 mt-1 text-sm text-muted-foreground'>领域页先承载定义、关键问题、代表条目和近期信号。</p>
+      </div>
+
+      <div class='grid grid-cols-1 gap-4 lg:grid-cols-2'>
+        {wikiDomains.map((domain: WikiDomain) => (
+          <article class='rounded-2xl border border-border bg-card p-5 transition-all hover:border-foreground/20 hover:shadow-md'>
+            <div class='space-y-4'>
+              <div class='space-y-2'>
+                <div class='flex flex-wrap items-center gap-2'>
+                  <h3 class='m-0 text-lg font-semibold text-foreground'>{domain.name}</h3>
+                  <span class='rounded-full bg-primary/10 px-2.5 py-1 text-xs font-medium text-primary'>domain</span>
+                </div>
+                <p class='m-0 text-sm leading-6 text-muted-foreground'>{domain.summary}</p>
+              </div>
+
+              <div>
+                <p class='m-0 mb-2 text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground/80'>Key questions</p>
+                <ul class='space-y-2 pl-4 text-sm text-muted-foreground'>
+                  {domain.keyQuestions.slice(0, 2).map((question: string) => (
+                    <li>{question}</li>
+                  ))}
+                </ul>
+              </div>
+
+              <div class='flex flex-wrap gap-2'>
+                <Button title='Open Domain' href={`/wiki/domain/${domain.slug}`} style='ahead' />
+                <Button title='View Feed' href={`/follow?domain=${domain.slug}`} />
+              </div>
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <section class='space-y-4' aria-labelledby='how-it-connects'>
+      <div class='border-b border-border/40 pb-3'>
+        <h2 id='how-it-connects' class='m-0 text-2xl font-semibold'>How It Connects</h2>
+      </div>
+
+      <div class='grid grid-cols-1 gap-4 lg:grid-cols-3'>
+        <div class='rounded-2xl border border-border bg-card p-5'>
+          <p class='m-0 text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground/80'>Follow</p>
+          <p class='mt-3 text-sm leading-6 text-muted-foreground'>负责每天的新信息入口，强调 digest、时间轴和跨来源聚合。</p>
+        </div>
+        <div class='rounded-2xl border border-border bg-card p-5'>
+          <p class='m-0 text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground/80'>Wiki</p>
+          <p class='mt-3 text-sm leading-6 text-muted-foreground'>负责把领域、主题、代表条目与关键问题逐步沉淀为知识页。</p>
+        </div>
+        <div class='rounded-2xl border border-border bg-card p-5'>
+          <p class='m-0 text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground/80'>Bridge</p>
+          <p class='mt-3 text-sm leading-6 text-muted-foreground'>Follow 中的领域卡片与 item 标签都应能跳转到对应 wiki 页面。</p>
+        </div>
+      </div>
+    </section>
+  </div>
+</CommonPage>

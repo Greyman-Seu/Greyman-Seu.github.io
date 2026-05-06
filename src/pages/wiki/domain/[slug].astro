@@ -1,0 +1,98 @@
+---
+import CommonPage from '@/layouts/CommonPage.astro'
+import { Button, Label } from '@/components/ui'
+import { getWikiDomainBySlug, wikiDomains } from '@/data/follow'
+import type { WikiDomain } from '@/data/follow'
+
+export const prerender = true
+
+export const getStaticPaths = async () =>
+  wikiDomains.map((domain: WikiDomain) => ({
+    params: { slug: domain.slug },
+    props: { domain }
+  }))
+
+const domainSlug = Astro.params.slug || (Astro.props as { domain?: WikiDomain }).domain?.slug || ''
+const { domain } = Astro.props as { domain: WikiDomain }
+
+const headings = [
+  { depth: 2, slug: 'definition', text: 'Definition' },
+  { depth: 2, slug: 'key-questions', text: 'Key Questions' },
+  { depth: 2, slug: 'representative-items', text: 'Representative Items' },
+  { depth: 2, slug: 'recent-signals', text: 'Recent Signals' }
+]
+
+const current = getWikiDomainBySlug(domainSlug) || getWikiDomainBySlug(domain.slug) || domain
+---
+
+<CommonPage title={current.name} {headings} info={`/wiki/domain/${current.slug}`}>
+  <div class='space-y-8'>
+    <section class='rounded-2xl border border-primary/15 bg-gradient-to-br from-primary/10 via-background to-background p-6'>
+      <div class='flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between'>
+        <div class='space-y-2'>
+          <Label title='Domain Page' />
+          <h2 class='m-0 text-2xl font-semibold text-foreground sm:text-3xl'>{current.name}</h2>
+          <p class='max-w-3xl text-sm leading-6 text-muted-foreground'>{current.summary}</p>
+        </div>
+        <div class='flex flex-wrap gap-2'>
+          <Button title='Back to Wiki' href='/wiki' style='back' />
+          <Button title='View Feed' href={`/follow?domain=${current.slug}`} style='ahead' />
+        </div>
+      </div>
+    </section>
+
+    <section class='space-y-3' aria-labelledby='definition'>
+      <div class='border-b border-border/40 pb-3'>
+        <h2 id='definition' class='m-0 text-2xl font-semibold'>Definition</h2>
+      </div>
+      <div class='rounded-2xl border border-border bg-card p-5'>
+        <p class='m-0 text-sm leading-7 text-muted-foreground'>{current.definition}</p>
+      </div>
+    </section>
+
+    <section class='space-y-3' aria-labelledby='key-questions'>
+      <div class='border-b border-border/40 pb-3'>
+        <h2 id='key-questions' class='m-0 text-2xl font-semibold'>Key Questions</h2>
+      </div>
+      <div class='rounded-2xl border border-border bg-card p-5'>
+        <ul class='space-y-3 pl-5 text-sm leading-7 text-muted-foreground'>
+          {current.keyQuestions.map((question: string) => (
+            <li>{question}</li>
+          ))}
+        </ul>
+      </div>
+    </section>
+
+    <section class='space-y-3' aria-labelledby='representative-items'>
+      <div class='border-b border-border/40 pb-3'>
+        <h2 id='representative-items' class='m-0 text-2xl font-semibold'>Representative Items</h2>
+      </div>
+      <div class='space-y-3'>
+        {current.representativeItems.map((item: WikiDomain['representativeItems'][number]) => (
+          <article class='rounded-2xl border border-border bg-card p-5'>
+            <div class='space-y-3'>
+              <div>
+                <h3 class='m-0 text-lg font-semibold text-foreground'>{item.title}</h3>
+                <p class='m-0 mt-2 text-sm leading-6 text-muted-foreground'>{item.note}</p>
+              </div>
+              {item.href && <Button title='Open Source' href={item.href} target='_blank' rel='noreferrer' />}
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <section class='space-y-3' aria-labelledby='recent-signals'>
+      <div class='border-b border-border/40 pb-3'>
+        <h2 id='recent-signals' class='m-0 text-2xl font-semibold'>Recent Signals</h2>
+      </div>
+      <div class='rounded-2xl border border-border bg-card p-5'>
+        <ul class='space-y-3 pl-5 text-sm leading-7 text-muted-foreground'>
+          {current.recentSignals.map((signal: string) => (
+            <li>{signal}</li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  </div>
+</CommonPage>

@@ -1,9 +1,6 @@
 // @ts-check
 
 import { rehypeHeadingIds } from '@astrojs/markdown-remark'
-// Adapters
-import vercel from '@astrojs/vercel'
-import cloudflare from '@astrojs/cloudflare'
 // Integrations
 import AstroAxiIntegration from './src/axi-integration.ts'
 import { defineConfig } from 'astro/config'
@@ -33,6 +30,11 @@ import config from './src/site.config.ts'
 const platform = process.env.DEPLOYMENT_PLATFORM || 'vercel'
 const isCloudflare = platform === 'cloudflare'
 const isGithubPages = platform === 'github'
+const adapter = isGithubPages
+  ? undefined
+  : isCloudflare
+    ? (await import('@astrojs/cloudflare')).default()
+    : (await import('@astrojs/vercel')).default()
 
 // https://astro.build/config
 export default defineConfig({
@@ -50,7 +52,7 @@ export default defineConfig({
     }
   },
 
-  adapter: isGithubPages ? undefined : (isCloudflare ? cloudflare() : vercel()),
+  adapter,
   output: isGithubPages ? 'static' : (isCloudflare ? 'static' : 'server'),
 
   image: {

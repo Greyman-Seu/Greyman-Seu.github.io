@@ -1,226 +1,251 @@
 ---
-import config from '@/site-config'
 import CommonPage from '@/layouts/CommonPage.astro'
+import { Button } from '@/components/ui'
+import { followDigests, followDomains, getSourceSummaries, type FollowDigest, type FollowDomain } from '@/data/follow'
+import { ENABLE_REMOTE_FOLLOW_DATA, FOLLOW_DATA_BASE_URL, REQUIRE_REMOTE_FOLLOW_DATA } from '@/data/generated/follow-client'
 
-import { Comment } from '@/components/widgets'
-import FriendList from '@/components/links/FriendList.astro'
-import { SimpleIcon } from '@/components/ui'
+const activeDomainSlug = Astro.url.searchParams.get('domain') || ''
+const activeDomain = followDomains.find((domain: FollowDomain) => domain.slug === activeDomainSlug) || null
+const sourceSummaries = getSourceSummaries()
 
-// 直接从外部 JSON 文件导入 friends 数据
-import friendsData from '@/public/links.json'
-
-const { links } = config.integ
-const linksConf = links || { logbook: [], applyTip: [] }
+const visibleDigests = !activeDomain
+  ? followDigests
+  : followDigests.filter((digest: FollowDigest) =>
+      digest.sections.some((section) => section.items.some((item) => item.domains.includes(activeDomain.slug)))
+    )
 
 const headings = [
-  { depth: 2, slug: 'research-interests', text: 'Research Interests' },
-  { depth: 2, slug: 'common-links', text: 'Common Links' },
-  { depth: 2, slug: 'apply-links', text: 'Apply Links' },
-  ...(config.personal?.domains?.friendCircle ? [{ depth: 2, slug: 'small-circle', text: 'Small Circle' }] : [])
+  { depth: 2, slug: 'focus-domains', text: 'Focus Domains' },
+  { depth: 2, slug: 'source-entries', text: 'Source Entries' },
+  { depth: 2, slug: 'daily-timeline', text: 'Daily Timeline' }
 ]
 
-const interests = [
-  { title: 'VLM / VLA', description: '视觉语言模型与视觉语言动作模型', icon: 'pytorch' },
-  { title: '世界模型', description: '面向具身与自动驾驶的世界建模', icon: 'ros' },
-  { title: '人体重建', description: '3D 人手、人体重建与估计', icon: 'pytorch' },
-  { title: '人机交互', description: '车载 HMI 与多模态交互体验', icon: 'ros' },
-  { title: '具身智能', description: '机器人操作与端到端策略学习', icon: 'pytorch' }
-]
-
-const { friends } = friendsData
+const sourceBadgeClass = {
+  arxiv: 'bg-blue-500/10 text-blue-700 dark:text-blue-300',
+  wechat: 'bg-emerald-500/10 text-emerald-700 dark:text-emerald-300',
+  x: 'bg-slate-500/10 text-slate-700 dark:text-slate-300',
+  bilibili: 'bg-pink-500/10 text-pink-700 dark:text-pink-300'
+} as const
 ---
 
 <CommonPage title='Follow' {headings} info='/follow'>
-  <div class='mb-8 rounded-xl border border-amber-500/20 bg-amber-50/70 px-4 py-3 text-sm font-medium text-amber-950 dark:border-amber-400/20 dark:bg-amber-950/20 dark:text-amber-100'>
-    TODO：RSS订阅总结&LLM wiki总结
-  </div>
-
-  <div class='space-y-12'>
-
-    {/* ── Research Interests ── */}
-    <section class='space-y-6'>
-      <div class='flex items-center gap-3 pb-3 border-b border-border/30'>
-        <div class='flex items-center justify-center w-10 h-10 rounded-xl bg-primary/10 text-primary'>
-          <svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'>
-            <circle cx='11' cy='11' r='8'></circle><line x1='21' y1='21' x2='16.65' y2='16.65'></line>
-          </svg>
-        </div>
+  <div class='space-y-10'>
+    <section class='space-y-6' aria-labelledby='focus-domains'>
+      <div class='flex items-center justify-between gap-3 border-b border-border/40 pb-3'>
         <div>
-          <h2 id='research-interests' class='text-2xl font-semibold m-0'>Research Interests</h2>
-          <p class='text-sm text-muted-foreground m-0'>持续关注的研究方向</p>
+          <h2 id='focus-domains' class='m-0 text-2xl font-semibold'>Focus Domains</h2>
+          <p class='m-0 mt-1 text-sm text-muted-foreground'>按主题进入 Follow 视角，或跳去对应 Wiki 领域页。</p>
+        </div>
+        <div class='flex flex-wrap gap-2'>
+          <Button title='Open Wiki' href='/wiki' style='ahead' />
         </div>
       </div>
-      <div class='grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3'>
-        {interests.map((interest) => (
-          <div class='group relative overflow-hidden rounded-xl border border-border bg-card p-4 transition-all hover:border-foreground/25 hover:shadow-md'>
-            <div class='flex items-start gap-3'>
-              <div class='flex size-9 shrink-0 items-center justify-center rounded-lg bg-primary/10 transition-colors group-hover:bg-primary/20'>
-                <SimpleIcon class='size-4 text-primary' name={interest.icon} />
+
+      {activeDomain && (
+        <div class='flex flex-wrap items-center gap-2 rounded-2xl border border-primary/15 bg-primary/5 px-4 py-3 text-sm text-muted-foreground'>
+          <span>Currently viewing digest for</span>
+          <span class='rounded-full bg-primary/10 px-2.5 py-1 font-medium text-primary'>{activeDomain.name}</span>
+          <Button title='Clear filter' href='/follow' />
+          <Button title='Open Wiki' href={`/wiki/domain/${activeDomain.slug}`} style='ahead' />
+        </div>
+      )}
+
+      <div class='grid grid-cols-1 gap-4 lg:grid-cols-2'>
+        {followDomains.map((domain: FollowDomain) => (
+          <article class={`follow-domain-card group rounded-2xl border bg-card p-5 transition-all hover:border-foreground/20 hover:shadow-md ${activeDomain?.slug === domain.slug ? 'border-primary/40 shadow-md' : 'border-border'}`} data-domain-slug={domain.slug}>
+            <div class='flex flex-col gap-4'>
+              <div class='space-y-2'>
+                <div class='flex flex-wrap items-center gap-2'>
+                  <h3 class='domain-name m-0 text-lg font-semibold text-foreground'>{domain.name}</h3>
+                </div>
+                <p class='domain-summary m-0 text-sm leading-6 text-muted-foreground'>{domain.summary}</p>
               </div>
-              <div>
-                <p class='font-medium text-foreground'>{interest.title}</p>
-                <p class='text-xs text-muted-foreground mt-0.5'>{interest.description}</p>
-              </div>
+
             </div>
-          </div>
+          </article>
         ))}
       </div>
     </section>
-    <section class='space-y-6'>
-      <div class='flex items-center gap-3 pb-3 border-b border-border/30'>
-        <div class='flex items-center justify-center w-10 h-10 rounded-xl bg-primary/10 text-primary'>
-          <svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'>
-            <path d='M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6'></path>
-            <polyline points='15,3 21,3 21,9'></polyline>
-            <line x1='10' y1='14' x2='21' y2='3'></line>
-          </svg>
-        </div>
-        <div>
-          <h2 id='common-links' class='text-2xl font-semibold m-0'>Common Links</h2>
-          <p class='text-sm text-muted-foreground m-0'>精选博客友链<span class='mx-2 align-middle'>·</span>一起探索有趣的世界</p>
-        </div>
+
+    <section class='space-y-6' aria-labelledby='source-entries'>
+      <div class='border-b border-border/40 pb-3'>
+        <h2 id='source-entries' class='m-0 text-2xl font-semibold'>Source Entries</h2>
+        <p class='m-0 mt-1 text-sm text-muted-foreground'>Follow 首页只做 digest 和入口；具体来源详情与检索下沉到来源页。</p>
       </div>
-      
-      <div class='bg-gradient-to-br from-background to-muted/30 rounded-2xl p-6 border border-border/30'>
-        <FriendList list={friends[0]} />
+
+      <div class='grid grid-cols-1 gap-4 lg:grid-cols-2'>
+        {sourceSummaries.map((source) => (
+          <article class='follow-source-card rounded-2xl border border-border bg-card p-5 transition-all hover:border-foreground/20 hover:shadow-md' data-source={source.source}>
+            <div class='flex flex-col gap-4'>
+              <div class='space-y-2'>
+                <div class='flex flex-wrap items-center gap-2'>
+                  <span class={`source-title rounded-full px-2.5 py-1 text-xs font-medium ${sourceBadgeClass[source.source]}`}>
+                    {source.title}
+                  </span>
+                  <span class='source-total rounded-full bg-muted px-2.5 py-1 text-xs font-medium text-muted-foreground'>
+                    {source.totalCount} item(s)
+                  </span>
+                  {source.latestDate && (
+                    <span class='source-latest rounded-full bg-primary/10 px-2.5 py-1 text-xs font-medium text-primary'>
+                      latest {source.latestDate}
+                    </span>
+                  )}
+                </div>
+                <p class='source-description m-0 text-sm leading-6 text-muted-foreground'>{source.description}</p>
+              </div>
+
+              <div class='flex flex-wrap gap-2'>
+                <Button title={source.searchEnabled ? 'Open Search Page' : 'Open Source Page'} href={source.path} style='ahead' />
+              </div>
+            </div>
+          </article>
+        ))}
       </div>
     </section>
 
-    <!-- Apply Links 区域 -->
-    <section class='space-y-6'>
-      <div class='flex items-center gap-3 pb-3 border-b border-border/30'>
-        <div class='flex items-center justify-center w-10 h-10 rounded-xl bg-green-500/10 text-green-600 dark:text-green-400'>
-          <svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'>
-            <path d='M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2'></path>
-            <rect x='8' y='2' width='8' height='4' rx='1' ry='1'></rect>
-          </svg>
-        </div>
-        <div>
-          <h2 id='apply-links' class='text-2xl font-semibold m-0'>Apply Links</h2>
-          <p class='text-sm text-muted-foreground m-0'>友链申请<span class='mx-2 align-middle'>·</span>在此处提交你的站点</p>
-        </div>
+    <section class='space-y-6' aria-labelledby='daily-timeline'>
+      <div class='border-b border-border/40 pb-3'>
+        <h2 id='daily-timeline' class='m-0 text-2xl font-semibold'>Daily Timeline</h2>
+        <p class='m-0 mt-1 text-sm text-muted-foreground'>这里只展示每日 digest 摘要与来源分布，不展开完整来源明细。</p>
       </div>
-      
-      <div class='bg-gradient-to-br from-green-50/50 to-blue-50/50 dark:from-green-950/20 dark:to-blue-950/20 rounded-2xl p-6 border border-border/30 space-y-6'>
-        <div class='space-y-4'>
-          <div class='flex items-center gap-3'>
-            <div class='flex-shrink-0 w-6 h-6 rounded-full bg-primary/20 flex items-center justify-center'>
-              <span class='text-xs font-medium text-primary'>ℹ️</span>
-            </div>
-            <p class='text-sm text-muted-foreground m-0'>本站信息如下（点击快速复制）：</p>
-          </div>
-          
-          <div class='bg-background/60 backdrop-blur-sm rounded-xl border border-border/50 p-5'>
-            <div class='grid grid-cols-[auto_1fr] gap-x-4 gap-y-3 break-words'>
-              {
-                (linksConf.applyTip || []).map(({ name, val }: { name: any, val: any }) => {
-                  const safeVal = JSON.stringify(String(val ?? ''))
-                  const script = `navigator.clipboard.writeText(${safeVal});document.dispatchEvent(new CustomEvent('toast',{detail:{message:'Copied ' + ${safeVal} + ' to clipboard!'}}))`
-                  return (
-                    <>
-                      <span class='text-sm font-medium text-muted-foreground text-end'>{name}:</span>
-                      <samp class='text-sm font-mono bg-muted/30 px-2 py-1 rounded-md cursor-pointer hover:bg-muted/50 transition-colors' onclick={script}>
-                        {val}
-                      </samp>
-                    </>
-                  )
-                })
-              }
-            </div>
-          </div>
-        </div>
 
-        <div class='space-y-4'>
-          <div class='flex items-center gap-3'>
-            <div class='flex-shrink-0 w-6 h-6 rounded-full bg-amber-500/20 flex items-center justify-center'>
-              <span class='text-xs'>📝</span>
+      <div class='space-y-5'>
+        {visibleDigests.length > 0 ? visibleDigests.map((digest: FollowDigest) => (
+          <article class='follow-digest-card rounded-2xl border border-border bg-card p-5 shadow-sm' data-digest-date={digest.date}>
+            <div class='flex flex-col gap-4'>
+              <div class='flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between'>
+                <div class='space-y-2'>
+                  <div class='flex flex-wrap items-center gap-2'>
+                    <h3 class='digest-date m-0 text-xl font-semibold text-foreground'>{digest.date}</h3>
+                    <span class='rounded-full bg-primary/10 px-2.5 py-1 text-xs font-medium text-primary'>Daily digest</span>
+                  </div>
+                  <p class='digest-summary m-0 max-w-3xl text-sm leading-6 text-muted-foreground'>{digest.summary}</p>
+                </div>
+
+                <div class='digest-counts flex flex-wrap gap-2'>
+                  {Object.entries(digest.counts).map(([source, count]) => (
+                    <span class={`digest-count rounded-full px-2.5 py-1 text-xs font-medium ${sourceBadgeClass[source as keyof typeof sourceBadgeClass]}`} data-source={source}>
+                      {source} {count}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              <div class='rounded-xl border border-border/50 bg-muted/20 p-4'>
+                <p class='m-0 mb-3 text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground/80'>Highlights</p>
+                <ul class='digest-highlights space-y-2 pl-4 text-sm text-foreground/90'>
+                  {digest.highlights.map((highlight: string) => (
+                    <li>{highlight}</li>
+                  ))}
+                </ul>
+              </div>
+
+              <div class='flex flex-wrap gap-2'>
+                <Button title='Open arXiv feed' href='/follow/arxiv' />
+                <Button title='Open X feed' href='/follow/x' />
+                <Button title='Open WeChat feed' href='/follow/wechat' />
+                <Button title='Open Bilibili feed' href='/follow/bilibili' />
+              </div>
             </div>
-            <p class='text-sm text-muted-foreground m-0'>
-              申请时请参考以下要求。
-            </p>
+          </article>
+        )) : (
+          <div class='rounded-2xl border border-dashed border-border px-5 py-10 text-center text-sm text-muted-foreground'>
+            No digest items matched the current domain filter.
           </div>
-          
-          <div class='bg-background/60 backdrop-blur-sm rounded-xl border border-border/50 p-5'>
-            <div class='space-y-3'>
-              <h4 class='text-sm font-medium text-foreground m-0 flex items-center gap-2'>
-                <span class='text-green-500'>✅</span>
-                申请说明
-              </h4>
-              <ul class='space-y-2 text-sm text-muted-foreground m-0 list-none'>
-                <li class='flex items-center gap-2'>
-                  <span class='text-blue-500 text-lg leading-none'>•</span>
-                  <span>在你的友链上添加了本站；</span>
-                </li>
-                <li class='flex items-center gap-2'>
-                  <span class='text-blue-500 text-lg leading-none'>•</span>
-                  <span>请确保你的站点可以正常访问；</span>
-                </li>
-                <li class='flex items-center gap-2'>
-                  <span class='text-blue-500 text-lg leading-none'>•</span>
-                  <span>博客内容符合相关法律法规。</span>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
+        )}
       </div>
     </section>
-
-    <!-- 朋友圈区域 -->
-    {config.personal?.domains?.friendCircle && (
-      <section class='space-y-6'>
-        <div class='flex items-center gap-3 pb-3 border-b border-border/30'>
-          <div class='flex items-center justify-center w-10 h-10 rounded-xl bg-purple-500/10 text-purple-600 dark:text-purple-400'>
-            <svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'>
-              <circle cx='12' cy='12' r='3'></circle>
-              <path d='M12 1v6m0 6v6'></path>
-              <path d='m21 12-6 0-6 0-6 0'></path>
-            </svg>
-          </div>
-          <div>
-            <h2 id='small-circle' class='text-2xl font-semibold m-0'>朋友圈</h2>
-            <p class='text-sm text-muted-foreground m-0'>最新动态<span class='mx-2 align-middle'>·</span>看看朋友们都在写什么</p>
-          </div>
-        </div>
-        
-        <div class='bg-gradient-to-br from-purple-50/50 to-pink-50/50 dark:from-purple-950/20 dark:to-pink-950/20 rounded-2xl p-6 border border-border/30 space-y-4'>
-          <div class='flex items-center gap-3'>
-            <div class='flex-shrink-0 w-6 h-6 rounded-full bg-amber-500/20 flex items-center justify-center'>
-              <span class='text-xs'>💡</span>
-            </div>
-            <p class='text-sm text-muted-foreground m-0'>在友链但是没有找到你的文章？请为你的博客添加 RSS 吧~</p>
-          </div>
-          
-          <div id='friend-circle-lite-root' class='not-prose'>
-            <div class='flex flex-col items-center gap-3 py-8 text-muted-foreground'>
-              <div class='animate-spin rounded-full h-8 w-8 border-2 border-primary border-t-transparent'></div>
-              <span class='text-sm'>Loading...</span>
-            </div>
-          </div>
-        </div>
-      </section>
-    )}
   </div>
 
-  {config.personal?.domains?.friendCircle && (
-    <>
-      <script>
-         import '@/assets/styles/fc.css'
-         import { FriendCircle } from '@/plugins/friendCircle'
+  <script is:inline define:vars={{ followDataBaseUrl: FOLLOW_DATA_BASE_URL, requireRemoteFollowData: REQUIRE_REMOTE_FOLLOW_DATA, enableRemoteFollowData: ENABLE_REMOTE_FOLLOW_DATA }}>
+    const sourceClassMap = {
+      arxiv: 'bg-blue-500/10 text-blue-700 dark:text-blue-300',
+      wechat: 'bg-emerald-500/10 text-emerald-700 dark:text-emerald-300',
+      x: 'bg-slate-500/10 text-slate-700 dark:text-slate-300',
+      bilibili: 'bg-pink-500/10 text-pink-700 dark:text-pink-300',
+    }
 
-         const fcDomainFromConfig = document.querySelector('meta[name="fc-domain"]')?.getAttribute('content')
-         if (fcDomainFromConfig) {
-           const fc = new FriendCircle()
-           fc.init({
-              private_api_url: `https://${fcDomainFromConfig}/`,
-              page_turning_number: 10,
-              error_img: 'https://cravatar.cn/avatar/57d8260dfb55501c37dde588e7c3852c'
-           })
-           fc.load()
-         }
-      </script>
-      <meta name="fc-domain" content={config.personal.domains.friendCircle} />
-    </>
-  )}
-  <Comment slot='bottom' />
+    const hydrateRemoteFollowDigests = async () => {
+      if (!enableRemoteFollowData) return
+      if (!followDataBaseUrl) return
+      try {
+        const base = followDataBaseUrl.replace(/\/+$/, '')
+        const [latestResponse, manifestResponse] = await Promise.all([
+          fetch(`${base}/latest.json`, { cache: 'no-store' }),
+          fetch(`${base}/manifest.json`, { cache: 'no-store' }),
+        ])
+        if (!latestResponse.ok) {
+          if (requireRemoteFollowData) {
+            throw new Error(`Failed to load remote latest.json: HTTP ${latestResponse.status}`)
+          }
+          return
+        }
+        const latest = await latestResponse.json()
+        const manifest = manifestResponse.ok ? await manifestResponse.json() : null
+        const card = document.querySelector('.follow-digest-card')
+        if (!(card instanceof HTMLElement)) return
+
+        const summary = card.querySelector('.digest-summary')
+        const date = card.querySelector('.digest-date')
+        const highlights = card.querySelector('.digest-highlights')
+        const counts = card.querySelector('.digest-counts')
+
+        if (date) date.textContent = latest.date || date.textContent
+        if (summary) summary.textContent = latest.summary || summary.textContent
+
+        if (highlights && Array.isArray(latest.highlights)) {
+          highlights.innerHTML = latest.highlights.map((item) => `<li>${item}</li>`).join('')
+        }
+
+        if (counts && latest.counts) {
+          counts.innerHTML = Object.entries(latest.counts)
+            .map(([source, count]) => {
+              const className = sourceClassMap[source] || 'bg-muted text-muted-foreground'
+              return `<span class="digest-count rounded-full px-2.5 py-1 text-xs font-medium ${className}" data-source="${source}">${source} ${count}</span>`
+            })
+            .join('')
+        }
+
+        if (manifest && Array.isArray(manifest.sources)) {
+  const sourceCards = Array.from(document.querySelectorAll('.follow-source-card'))
+          sourceCards.forEach((card) => {
+            if (!(card instanceof HTMLElement)) return
+            const sourceKey = card.dataset.source
+            const source = manifest.sources.find((item) => item.source === sourceKey)
+            if (!source) return
+            const total = card.querySelector('.source-total')
+            const latestBadge = card.querySelector('.source-latest')
+            if (total) total.textContent = `${source.count || 0} item(s)`
+            if (latestBadge) latestBadge.textContent = `path ${source.path || ''}`
+          })
+        }
+
+        if (manifest && Array.isArray(manifest.domains)) {
+          const domainCards = Array.from(document.querySelectorAll('.follow-domain-card'))
+          domainCards.forEach((card) => {
+            if (!(card instanceof HTMLElement)) return
+            const slug = card.dataset.domainSlug
+            const stat = manifest.domains.find((item) => item.slug === slug)
+            if (!stat) return
+            const summary = card.querySelector('.domain-summary')
+            if (summary && stat.latest_date) {
+              summary.textContent = `${summary.textContent || ''} · latest ${stat.latest_date}`
+            }
+          })
+        }
+      } catch (error) {
+        if (requireRemoteFollowData) {
+          const timeline = document.querySelector('[aria-labelledby="daily-timeline"] .space-y-5')
+          if (timeline instanceof HTMLElement) {
+            timeline.innerHTML = `<div class="rounded-2xl border border-dashed border-red-300 bg-red-50/60 px-5 py-10 text-center text-sm text-red-700">Failed to load remote Follow data.</div>`
+          }
+        } else {
+          console.warn('Failed to hydrate remote follow latest digest', error)
+        }
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', hydrateRemoteFollowDigests)
+    document.addEventListener('astro:page-load', hydrateRemoteFollowDigests)
+  </script>
 </CommonPage>

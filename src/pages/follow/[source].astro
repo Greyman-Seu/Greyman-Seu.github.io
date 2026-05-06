@@ -1,0 +1,579 @@
+---
+import CommonPage from '@/layouts/CommonPage.astro'
+import { Button } from '@/components/ui'
+import { ENABLE_REMOTE_FOLLOW_DATA, FOLLOW_DATA_BASE_URL, REQUIRE_REMOTE_FOLLOW_DATA } from '@/data/generated/follow-client'
+import {
+  followSources,
+  getFollowDomainBySlug,
+  getItemsBySource,
+  getFollowSourceByKey,
+  type FollowSource,
+  type FollowSourceItem,
+} from '@/data/follow'
+
+export const prerender = true
+
+export const getStaticPaths = async () =>
+  followSources.map((source) => ({
+    params: { source: source.source },
+    props: { sourceKey: source.source },
+  }))
+
+const sourceKey = (Astro.params.source || (Astro.props as { sourceKey?: FollowSource }).sourceKey) as FollowSource
+const sourceMeta = getFollowSourceByKey(sourceKey)
+if (!sourceMeta) {
+  throw new Error(`Unknown follow source: ${sourceKey}`)
+}
+
+const items = getItemsBySource(sourceKey)
+const domainOptions = Array.from(
+  new Set(items.flatMap((item: FollowSourceItem) => item.domains))
+).map((slug) => ({
+  slug,
+  name: getFollowDomainBySlug(slug)?.name || slug,
+}))
+
+const dateOptions = Array.from(new Set(items.map((item: FollowSourceItem) => item.date))).sort().reverse()
+const enableLocalFavorites = sourceKey === 'arxiv'
+const headings = [
+  { depth: 2, slug: 'filters', text: 'Filters' },
+  { depth: 2, slug: 'items', text: `${sourceMeta.title} Items` },
+]
+const pageTitle = `Follow / ${sourceMeta.title}`
+
+const deriveHjfyUrl = (item: FollowSourceItem) => {
+  if (item.hjfyUrl) return item.hjfyUrl
+  const rawId = item.id.replace(/^arxiv:/, '')
+  return /^\d{4}\.\d{4,5}$/.test(rawId) ? `https://hjfy.top/arxiv/${rawId}` : ''
+}
+---
+
+<CommonPage title={pageTitle} {headings} info={`/follow/${sourceKey}`}>
+  <div class='space-y-8'>
+    <section class='space-y-4' aria-labelledby='filters'>
+      <div class='border-b border-border/40 pb-3'>
+        <h2 id='filters' class='m-0 text-2xl font-semibold'>Filters</h2>
+      </div>
+
+      <div class='grid grid-cols-1 gap-3 rounded-2xl border border-border bg-card p-4 md:grid-cols-2 xl:grid-cols-5'>
+        {sourceMeta.searchEnabled && (
+          <label class='flex flex-col gap-2 text-sm text-muted-foreground'>
+            <span>Search</span>
+            <input
+              id='follow-search'
+              type='search'
+              placeholder='title, summary, link'
+              class='rounded-xl border border-border bg-background px-3 py-2 text-foreground outline-none transition-colors focus:border-primary'
+            />
+          </label>
+        )}
+
+        <label class='flex flex-col gap-2 text-sm text-muted-foreground'>
+          <span>Domain</span>
+          <select id='follow-domain' class='rounded-xl border border-border bg-background px-3 py-2 text-foreground outline-none transition-colors focus:border-primary'>
+            <option value=''>All domains</option>
+            {domainOptions.map((domain) => (
+              <option value={domain.slug}>{domain.name}</option>
+            ))}
+          </select>
+        </label>
+
+        <label class='flex flex-col gap-2 text-sm text-muted-foreground'>
+          <span>Date</span>
+          <select id='follow-date' class='rounded-xl border border-border bg-background px-3 py-2 text-foreground outline-none transition-colors focus:border-primary'>
+            <option value=''>All dates</option>
+            {dateOptions.map((date) => (
+              <option value={date}>{date}</option>
+            ))}
+          </select>
+        </label>
+
+        <label class='flex flex-col gap-2 text-sm text-muted-foreground'>
+          <span>Importance</span>
+          <select id='follow-importance' class='rounded-xl border border-border bg-background px-3 py-2 text-foreground outline-none transition-colors focus:border-primary'>
+            <option value=''>All</option>
+            <option value='high'>high</option>
+            <option value='medium'>medium</option>
+            <option value='low'>low</option>
+          </select>
+        </label>
+
+        <label class='flex flex-col gap-2 text-sm text-muted-foreground'>
+          <span>Sort</span>
+          <select id='follow-sort' class='rounded-xl border border-border bg-background px-3 py-2 text-foreground outline-none transition-colors focus:border-primary'>
+            <option value='latest'>Latest</option>
+            <option value='importance'>Importance</option>
+          </select>
+        </label>
+
+        {enableLocalFavorites ? (
+          <label class='flex items-center gap-2 text-sm text-muted-foreground xl:justify-center'>
+            <input id='follow-favorite-only' type='checkbox' class='size-4 rounded border-border' />
+            <span>Favorites only</span>
+          </label>
+        ) : null}
+      </div>
+    </section>
+
+    <section class='space-y-4' aria-labelledby='items'>
+      <div class='flex items-center justify-between gap-3 border-b border-border/40 pb-3'>
+        <div>
+          <h2 id='items' class='m-0 text-2xl font-semibold'>{sourceMeta.title} Items</h2>
+          <p id='follow-summary' class='m-0 mt-1 text-sm text-muted-foreground'>{items.length} item(s)</p>
+        </div>
+      </div>
+
+      <div id='follow-items' class='space-y-4'>
+        {items.map((item: FollowSourceItem) => (
+          (() => {
+            const normalizedSummary = (item.summary || '').trim()
+            const normalizedOneLiner = (item.oneLinerZh || '').trim()
+            const showSummary = !normalizedOneLiner || normalizedSummary !== normalizedOneLiner
+            const firstAuthorAffiliations = item.authorMeta?.find((author) => author.isFirstAuthor)?.affiliations || []
+            const correspondingAffiliations = item.authorMeta
+              ?.filter((author) => author.isCorrespondingAuthor)
+              .flatMap((author) => author.affiliations || []) || []
+            const categoryTags = item.categories || []
+            return (
+          <article
+            class='follow-item rounded-2xl border border-border bg-card p-5 shadow-sm'
+            data-item-id={item.id}
+            data-date={item.date}
+            data-importance={item.importance}
+            data-domains={item.domains.join(',')}
+            data-search={`${item.title} ${item.summary} ${item.abstractEn || ''} ${item.summaryCn || ''} ${item.oneLinerZh || ''} ${item.links.map((link) => link.label).join(' ')}`.toLowerCase()}
+            data-score={item.importance === 'high' ? 3 : item.importance === 'medium' ? 2 : 1}
+          >
+            <div class='flex flex-col gap-4'>
+              <div class='flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between'>
+                <div class='space-y-2'>
+                <div class='flex flex-wrap items-center gap-2'>
+                  <span class='rounded-full bg-primary/10 px-2.5 py-1 text-xs font-medium text-primary'>{item.date}</span>
+                  <span class='rounded-full bg-muted px-2.5 py-1 text-xs font-medium text-muted-foreground'>{item.importance}</span>
+                  {item.isFavorite ? <span class='rounded-full bg-emerald-500/10 px-2.5 py-1 text-xs font-medium text-emerald-700 dark:text-emerald-300'>Profile favorite</span> : null}
+                  {item.hotScore ? <span class='rounded-full bg-amber-500/10 px-2.5 py-1 text-xs font-medium text-amber-700 dark:text-amber-300'>Heat {item.hotScore}</span> : null}
+                  {item.overallScore ? <span class='rounded-full bg-sky-500/10 px-2.5 py-1 text-xs font-medium text-sky-700 dark:text-sky-300'>Score {item.overallScore}</span> : null}
+                </div>
+                <h3 class='m-0 text-lg font-semibold text-foreground'>{item.title}</h3>
+                  {(item.authorMeta && item.authorMeta.length > 0) || (item.authors && item.authors.length > 0) || firstAuthorAffiliations.length > 0 || correspondingAffiliations.length > 0 || item.firstAffiliation ? (
+                    <div class='rounded-xl border border-border/40 bg-background/50 px-4 py-3 text-sm text-muted-foreground'>
+                      {item.authorMeta && item.authorMeta.length > 0 ? (
+                        <p class='m-0 leading-6'>
+                          <span class='font-medium text-foreground'>Authors:</span>{' '}
+                          {item.authorMeta.map((author, index) => (
+                            <>
+                              {index > 0 ? ', ' : ''}
+                              {author.isFirstAuthor ? <strong class='font-semibold text-foreground'>{author.name}</strong> : author.name}
+                            </>
+                          ))}
+                        </p>
+                      ) : item.authors && item.authors.length > 0 ? <p class='m-0 leading-6'><span class='font-medium text-foreground'>Authors:</span> {item.authors.join(', ')}</p> : null}
+                      {firstAuthorAffiliations.length > 0 ? <p class='m-0 mt-2 leading-6'><span class='font-medium text-foreground'>First author affiliation:</span> {firstAuthorAffiliations.join('; ')}</p> : null}
+                      {correspondingAffiliations.length > 0 ? <p class='m-0 mt-2 leading-6'><span class='font-medium text-foreground'>Corresponding affiliation:</span> {correspondingAffiliations.join('; ')}</p> : null}
+                      {!firstAuthorAffiliations.length && item.firstAffiliation ? <p class='m-0 mt-2 leading-6'><span class='font-medium text-foreground'>First affiliation:</span> {item.firstAffiliation}</p> : null}
+                      {item.published || item.updated ? <p class='m-0 mt-2 leading-6'><span class='font-medium text-foreground'>Timeline:</span> {item.published ? `Published ${item.published}` : ''}{item.published && item.updated ? ' · ' : ''}{item.updated ? `Updated ${item.updated}` : ''}</p> : null}
+                    </div>
+                  ) : null}
+                  {item.oneLinerZh ? (
+                    <div class='rounded-xl border border-primary/20 bg-primary/5 px-4 py-3'>
+                      <p class='m-0 text-xs font-semibold tracking-[0.16em] text-primary/80'>一句话总结</p>
+                      <p class='m-0 mt-2 text-sm font-medium leading-6 text-foreground'>{item.oneLinerZh}</p>
+                    </div>
+                  ) : null}
+                  {showSummary ? <p class='m-0 text-sm leading-6 text-muted-foreground'>{item.summary}</p> : null}
+                  {item.summaryCn ? (
+                    <div class='rounded-xl border border-border/50 bg-muted/20 px-4 py-3'>
+                      <p class='m-0 text-xs font-semibold tracking-[0.16em] text-muted-foreground/80'>中文翻译</p>
+                      <p class='m-0 mt-2 text-sm leading-6 text-muted-foreground'>{item.summaryCn}</p>
+                    </div>
+                  ) : null}
+                  {item.abstractEn ? (
+                    <details class='rounded-xl border border-border/50 bg-background/60 px-4 py-3'>
+                      <summary class='cursor-pointer text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground/80'>English Abstract</summary>
+                      <p class='m-0 mt-3 text-sm leading-6 text-muted-foreground'>{item.abstractEn}</p>
+                    </details>
+                  ) : null}
+                </div>
+                {enableLocalFavorites ? <button type='button' class='favorite-toggle self-start rounded-full border border-border bg-background px-3 py-1 text-sm text-muted-foreground transition-colors hover:border-foreground/20 hover:text-foreground'>☆</button> : null}
+              </div>
+
+              <div class='flex flex-wrap gap-2'>
+                {categoryTags.map((category: string) => (
+                  <span class='rounded-full bg-muted px-2.5 py-1 text-xs font-medium text-muted-foreground'>
+                    {category}
+                  </span>
+                ))}
+                {item.domains.map((slug: string) => {
+                  const domain = getFollowDomainBySlug(slug)
+                  return (
+                    <a
+                      href={domain ? `/wiki/domain/${domain.slug}` : '/wiki'}
+                      class='rounded-full bg-primary/10 px-2.5 py-1 text-xs font-medium text-primary no-underline transition-colors hover:bg-primary/15'
+                    >
+                      {domain?.name || slug}
+                    </a>
+                  )
+                })}
+              </div>
+
+              <div class='flex flex-wrap gap-2'>
+                {[
+                  ...item.links,
+                  ...(deriveHjfyUrl(item) && !item.links.some((link) => link.href === deriveHjfyUrl(item))
+                    ? [{ label: '中英对照', href: deriveHjfyUrl(item) }]
+                    : []),
+                ].map((link) => (
+                  <Button title={link.label} href={link.href} target='_blank' rel='noreferrer' />
+                ))}
+              </div>
+            </div>
+          </article>
+            )
+          })()
+        ))}
+      </div>
+
+      <div id='follow-empty' class='hidden rounded-2xl border border-dashed border-border px-5 py-10 text-center text-sm text-muted-foreground'>
+        No items matched the current filters.
+      </div>
+    </section>
+  </div>
+
+  <div id='follow-floating-tools' class='fixed bottom-6 right-6 z-[100] flex flex-col items-end gap-2'>
+    {enableLocalFavorites ? (
+      <div class='rounded-2xl border border-border/60 bg-background/90 px-3 py-3 shadow-lg backdrop-blur'>
+        <div class='flex items-center gap-2'>
+          <button id='copy-favorites' type='button' class='rounded-lg border border-border bg-muted px-3 py-2 text-sm font-medium text-muted-foreground transition-all duration-200 hover:border-foreground/20 hover:bg-muted/80 hover:text-foreground'>Copy Favorite IDs</button>
+          <Button title='Back' href='/follow' style='back' />
+        </div>
+        <p id='favorite-feedback' class='m-0 mt-2 text-right text-xs text-muted-foreground'></p>
+      </div>
+    ) : (
+      <div class='rounded-2xl border border-border/60 bg-background/90 px-3 py-3 shadow-lg backdrop-blur'>
+        <div class='flex items-center gap-2'>
+          <Button title='Back' href='/follow' style='back' />
+          <Button title='Wiki' href='/wiki' style='ahead' />
+        </div>
+      </div>
+    )}
+  </div>
+
+  <script is:inline define:vars={{ searchEnabled: sourceMeta.searchEnabled, followDataBaseUrl: FOLLOW_DATA_BASE_URL, requireRemoteFollowData: REQUIRE_REMOTE_FOLLOW_DATA, enableRemoteFollowData: ENABLE_REMOTE_FOLLOW_DATA, enableLocalFavorites, sourceKey }}>
+    const FAVORITES_KEY = `followhub:follow-page:favorites:${sourceKey}`
+    let favorites = new Set()
+
+    const loadFavorites = () => {
+      if (!enableLocalFavorites) return
+      try {
+        const raw = window.localStorage.getItem(FAVORITES_KEY)
+        const values = raw ? JSON.parse(raw) : []
+        favorites = new Set(Array.isArray(values) ? values.map(String) : [])
+      } catch (error) {
+        console.warn('Failed to load follow page favorites', error)
+        favorites = new Set()
+      }
+    }
+
+    const saveFavorites = () => {
+      if (!enableLocalFavorites) return
+      window.localStorage.setItem(FAVORITES_KEY, JSON.stringify(Array.from(favorites)))
+    }
+
+    const toggleFavorite = (itemId) => {
+      const key = String(itemId || '')
+      if (!key) return
+      if (favorites.has(key)) favorites.delete(key)
+      else favorites.add(key)
+      saveFavorites()
+    }
+
+    const createFollowItemCard = (item) => {
+      const domainHtml = (item.domains || []).map((domain) => {
+        const slug = typeof domain === 'string' ? domain : domain.slug
+        const name = typeof domain === 'string' ? domain : domain.name
+        return `<a href="/wiki/domain/${slug}" class="rounded-full bg-primary/10 px-2.5 py-1 text-xs font-medium text-primary no-underline transition-colors hover:bg-primary/15">${name}</a>`
+      }).join('')
+
+      const linksHtml = (item.links || []).map((link) => (
+        `<a class="group relative inline-flex items-center gap-x-2 rounded-lg bg-muted border border-border px-3 py-2 text-sm font-medium text-muted-foreground transition-all duration-200 hover:border-foreground/20 hover:bg-muted/80 hover:text-foreground no-underline" href="${link.href}" target="_blank" rel="noreferrer" data-astro-prefetch="true"><div class="relative flex items-center gap-x-2"><p class="my-0 transition-colors duration-200">${link.label}</p></div></a>`
+      )).join('')
+      const rawId = String(item.id || '').replace(/^arxiv:/, '')
+      const derivedHjfyUrl = item.hjfy_url || (/^\d{4}\.\d{4,5}$/.test(rawId) ? `https://hjfy.top/arxiv/${rawId}` : '')
+      const hjfyHtml = derivedHjfyUrl && !(item.links || []).some((link) => link.href === derivedHjfyUrl)
+        ? `<a class="group relative inline-flex items-center gap-x-2 rounded-lg bg-muted border border-border px-3 py-2 text-sm font-medium text-muted-foreground transition-all duration-200 hover:border-foreground/20 hover:bg-muted/80 hover:text-foreground no-underline" href="${derivedHjfyUrl}" target="_blank" rel="noreferrer" data-astro-prefetch="true"><div class="relative flex items-center gap-x-2"><p class="my-0 transition-colors duration-200">中英对照</p></div></a>`
+        : ''
+
+      const importanceScore = item.importance === 'high' ? 3 : item.importance === 'medium' ? 2 : 1
+      const domainsForFilter = (item.domains || []).map((domain) => typeof domain === 'string' ? domain : domain.slug).join(',')
+      const categoryHtml = (item.categories || []).map((category) => (
+        `<span class="rounded-full bg-muted px-2.5 py-1 text-xs font-medium text-muted-foreground">${category}</span>`
+      )).join('')
+      const authorMeta = Array.isArray(item.author_meta) ? item.author_meta : []
+      const authorsHtml = authorMeta.length > 0
+        ? `<p class="m-0 text-sm text-muted-foreground">Authors: ${authorMeta.map((author) => author.is_first_author ? `<strong class="font-semibold text-foreground">${author.name}</strong>` : author.name).join(', ')}</p>`
+        : Array.isArray(item.authors) && item.authors.length > 0
+          ? `<p class="m-0 text-sm text-muted-foreground">Authors: ${item.authors.join(', ')}</p>`
+          : ''
+      const firstAuthorAffiliations = authorMeta.find((author) => author.is_first_author)?.affiliations || []
+      const correspondingAffiliations = authorMeta.filter((author) => author.is_corresponding_author).flatMap((author) => author.affiliations || [])
+      const firstAuthorAffiliationHtml = firstAuthorAffiliations.length > 0
+        ? `<p class="m-0 text-sm text-muted-foreground">First author affiliation: ${firstAuthorAffiliations.join('; ')}</p>`
+        : ''
+      const correspondingAffiliationHtml = correspondingAffiliations.length > 0
+        ? `<p class="m-0 text-sm text-muted-foreground">Corresponding affiliation: ${correspondingAffiliations.join('; ')}</p>`
+        : ''
+      const affiliationHtml = item.first_affiliation
+        ? `<p class="m-0 text-sm text-muted-foreground">First affiliation: ${item.first_affiliation}</p>`
+        : ''
+      const metaBlockHtml = (authorsHtml || firstAuthorAffiliationHtml || correspondingAffiliationHtml || affiliationHtml)
+        ? `<div class="rounded-xl border border-border/40 bg-background/50 px-4 py-3 text-sm text-muted-foreground">${authorsHtml}${firstAuthorAffiliationHtml}${correspondingAffiliationHtml}${!firstAuthorAffiliations.length ? affiliationHtml : ''}</div>`
+        : ''
+      const timelineHtml = item.published || item.updated
+        ? `<p class="m-0 mt-2 leading-6"><span class="font-medium text-foreground">Timeline:</span> ${item.published ? `Published ${item.published}` : ''}${item.published && item.updated ? ' · ' : ''}${item.updated ? `Updated ${item.updated}` : ''}</p>`
+        : ''
+      const metaBlockWithTimelineHtml = metaBlockHtml
+        ? metaBlockHtml.replace('</div>', `${timelineHtml}</div>`)
+        : (timelineHtml ? `<div class="rounded-xl border border-border/40 bg-background/50 px-4 py-3 text-sm text-muted-foreground">${timelineHtml}</div>` : '')
+      const oneLinerHtml = item.one_liner_zh
+        ? `<div class="rounded-xl border border-primary/20 bg-primary/5 px-4 py-3"><p class="m-0 text-xs font-semibold tracking-[0.16em] text-primary/80">一句话总结</p><p class="m-0 mt-2 text-sm font-medium leading-6 text-foreground">${item.one_liner_zh}</p></div>`
+        : ''
+      const showSummary = !item.one_liner_zh || String(item.summary || '').trim() !== String(item.one_liner_zh || '').trim()
+      const summaryCnHtml = item.summary_cn
+        ? `<div class="rounded-xl border border-border/50 bg-muted/20 px-4 py-3"><p class="m-0 text-xs font-semibold tracking-[0.16em] text-muted-foreground/80">中文翻译</p><p class="m-0 mt-2 text-sm leading-6 text-muted-foreground">${item.summary_cn}</p></div>`
+        : ''
+      const abstractHtml = item.abstract_en
+        ? `<details class="rounded-xl border border-border/50 bg-background/60 px-4 py-3"><summary class="cursor-pointer text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground/80">English Abstract</summary><p class="m-0 mt-3 text-sm leading-6 text-muted-foreground">${item.abstract_en}</p></details>`
+        : ''
+      const heatHtml = item.hot_score
+        ? `<span class="rounded-full bg-amber-500/10 px-2.5 py-1 text-xs font-medium text-amber-700 dark:text-amber-300">Heat ${item.hot_score}</span>`
+        : ''
+      const scoreHtml = item.overall_score
+        ? `<span class="rounded-full bg-sky-500/10 px-2.5 py-1 text-xs font-medium text-sky-700 dark:text-sky-300">Score ${item.overall_score}</span>`
+        : ''
+      const favoriteHtml = item.is_favorite
+        ? `<span class="rounded-full bg-emerald-500/10 px-2.5 py-1 text-xs font-medium text-emerald-700 dark:text-emerald-300">Profile favorite</span>`
+        : ''
+
+      return `
+        <article
+          class="follow-item rounded-2xl border border-border bg-card p-5 shadow-sm"
+          data-item-id="${item.id || ''}"
+          data-date="${item.date || ''}"
+          data-importance="${item.importance || 'medium'}"
+          data-domains="${domainsForFilter}"
+          data-search="${`${item.title || ''} ${item.summary || ''} ${item.abstract_en || ''} ${item.summary_cn || ''} ${item.one_liner_zh || ''} ${(item.links || []).map((link) => link.label).join(' ')}`.toLowerCase()}"
+          data-score="${importanceScore}"
+        >
+          <div class="flex flex-col gap-4">
+            <div class="flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between">
+              <div class="space-y-2">
+                <div class="flex flex-wrap items-center gap-2">
+                  <span class="rounded-full bg-primary/10 px-2.5 py-1 text-xs font-medium text-primary">${item.date || ''}</span>
+                  <span class="rounded-full bg-muted px-2.5 py-1 text-xs font-medium text-muted-foreground">${item.importance || 'medium'}</span>
+                  ${favoriteHtml}
+                  ${heatHtml}
+                  ${scoreHtml}
+                </div>
+                <h3 class="m-0 text-lg font-semibold text-foreground">${item.title || ''}</h3>
+                ${metaBlockWithTimelineHtml}
+                ${oneLinerHtml}
+                ${showSummary ? `<p class="m-0 text-sm leading-6 text-muted-foreground">${item.summary || ''}</p>` : ''}
+                ${summaryCnHtml}
+                ${abstractHtml}
+              </div>
+              ${enableLocalFavorites ? `<button type="button" class="favorite-toggle self-start rounded-full border border-border bg-background px-3 py-1 text-sm text-muted-foreground transition-colors hover:border-foreground/20 hover:text-foreground">☆</button>` : ''}
+            </div>
+            <div class="flex flex-wrap gap-2">${categoryHtml}${domainHtml}</div>
+            <div class="flex flex-wrap gap-2">${linksHtml}${hjfyHtml}</div>
+          </div>
+        </article>
+      `
+    }
+
+    const bindFollowSourcePage = () => {
+      const container = document.getElementById('follow-items')
+      const empty = document.getElementById('follow-empty')
+      const summary = document.getElementById('follow-summary')
+      const feedback = document.getElementById('favorite-feedback')
+      if (!(container instanceof HTMLElement) || !(empty instanceof HTMLElement) || !(summary instanceof HTMLElement)) return
+
+      let cards = Array.from(container.querySelectorAll('.follow-item'))
+      const importanceValue = (value) => ({ high: 3, medium: 2, low: 1 }[value] || 0)
+
+      const syncFavoriteButtons = () => {
+        if (!enableLocalFavorites) return
+        cards.forEach((card) => {
+          if (!(card instanceof HTMLElement)) return
+          const button = card.querySelector('.favorite-toggle')
+          if (!(button instanceof HTMLButtonElement)) return
+          const key = String(card.getAttribute('data-item-id') || '')
+          const active = favorites.has(key)
+          button.classList.toggle('border-amber-400', active)
+          button.classList.toggle('text-amber-500', active)
+          button.textContent = active ? '★' : '☆'
+          button.onclick = () => {
+            toggleFavorite(key)
+            syncFavoriteButtons()
+            render()
+          }
+        })
+      }
+
+      const render = () => {
+        const queryInput = document.getElementById('follow-search')
+        const domainInput = document.getElementById('follow-domain')
+        const dateInput = document.getElementById('follow-date')
+        const importanceInput = document.getElementById('follow-importance')
+        const sortInput = document.getElementById('follow-sort')
+        const favoriteOnlyInput = document.getElementById('follow-favorite-only')
+
+        const query = queryInput instanceof HTMLInputElement ? queryInput.value.trim().toLowerCase() : ''
+        const domain = domainInput instanceof HTMLSelectElement ? domainInput.value : ''
+        const date = dateInput instanceof HTMLSelectElement ? dateInput.value : ''
+        const importance = importanceInput instanceof HTMLSelectElement ? importanceInput.value : ''
+        const sort = sortInput instanceof HTMLSelectElement ? sortInput.value : 'latest'
+        const favoriteOnly = favoriteOnlyInput instanceof HTMLInputElement ? favoriteOnlyInput.checked : false
+
+        const visible = cards.filter((card) => {
+          const cardSearch = card.getAttribute('data-search') || ''
+          const cardDomains = (card.getAttribute('data-domains') || '').split(',').filter(Boolean)
+          const cardDate = card.getAttribute('data-date') || ''
+          const cardImportance = card.getAttribute('data-importance') || ''
+          const cardId = String(card.getAttribute('data-item-id') || '')
+
+          if (searchEnabled && query && !cardSearch.includes(query)) return false
+          if (domain && !cardDomains.includes(domain)) return false
+          if (date && cardDate !== date) return false
+          if (importance && cardImportance !== importance) return false
+          if (favoriteOnly && !favorites.has(cardId)) return false
+          return true
+        })
+
+        visible.sort((a, b) => {
+          if (sort === 'importance') {
+            const scoreDelta = importanceValue(b.getAttribute('data-importance')) - importanceValue(a.getAttribute('data-importance'))
+            if (scoreDelta !== 0) return scoreDelta
+          }
+          const dateA = a.getAttribute('data-date') || ''
+          const dateB = b.getAttribute('data-date') || ''
+          return dateA < dateB ? 1 : -1
+        })
+
+        cards.forEach((card) => {
+          card.classList.add('hidden')
+          container.appendChild(card)
+        })
+
+        visible.forEach((card) => {
+          card.classList.remove('hidden')
+          container.appendChild(card)
+        })
+
+        summary.textContent = enableLocalFavorites
+          ? `${visible.length} item(s) visible · ${favorites.size} favorite(s)`
+          : `${visible.length} item(s) visible`
+        empty.classList.toggle('hidden', visible.length > 0)
+        container.classList.toggle('hidden', visible.length === 0)
+        syncFavoriteButtons()
+      }
+
+      const hydrateRemoteSource = async () => {
+        if (!enableRemoteFollowData) return
+        if (!followDataBaseUrl) return
+        try {
+          const response = await fetch(`${followDataBaseUrl.replace(/\/+$/, '')}/sources/${sourceKey}.json`, { cache: 'no-store' })
+          if (!response.ok) {
+            if (requireRemoteFollowData) {
+              throw new Error(`Failed to load remote source json: HTTP ${response.status}`)
+            }
+            return
+          }
+          const payload = await response.json()
+          if (!Array.isArray(payload.items)) return
+
+          const domainSelect = document.getElementById('follow-domain')
+          const dateSelect = document.getElementById('follow-date')
+          if (domainSelect instanceof HTMLSelectElement) {
+            const domains = Array.from(new Map(
+              payload.items.flatMap((item) => (item.domains || []).map((domain) => {
+                const slug = typeof domain === 'string' ? domain : domain.slug
+                const name = typeof domain === 'string' ? domain : domain.name
+                return [slug, name]
+              }))
+            ))
+            domainSelect.innerHTML = '<option value="">All domains</option>' + domains
+              .map(([slug, name]) => `<option value="${slug}">${name}</option>`)
+              .join('')
+          }
+
+          if (dateSelect instanceof HTMLSelectElement) {
+            const dates = Array.from(new Set(payload.items.map((item) => item.date).filter(Boolean))).sort().reverse()
+            dateSelect.innerHTML = '<option value="">All dates</option>' + dates
+              .map((date) => `<option value="${date}">${date}</option>`)
+              .join('')
+          }
+
+          container.innerHTML = payload.items.map((item) => createFollowItemCard(item)).join('')
+          cards = Array.from(container.querySelectorAll('.follow-item'))
+          summary.textContent = enableLocalFavorites
+            ? `${payload.item_count || payload.items.length} item(s) · ${favorites.size} favorite(s)`
+            : `${payload.item_count || payload.items.length} item(s)`
+          syncFavoriteButtons()
+          render()
+        } catch (error) {
+          if (requireRemoteFollowData) {
+            empty.classList.remove('hidden')
+            container.classList.add('hidden')
+            empty.textContent = `Failed to load remote ${sourceKey} source data.`
+          } else {
+            console.warn(`Failed to hydrate remote source data for ${sourceKey}`, error)
+          }
+        }
+      }
+
+      ;['follow-search', 'follow-domain', 'follow-date', 'follow-importance', 'follow-sort', 'follow-favorite-only'].forEach((id) => {
+        const node = document.getElementById(id)
+        if (node) {
+          node.addEventListener('input', render)
+          node.addEventListener('change', render)
+        }
+      })
+
+      if (enableLocalFavorites) {
+        loadFavorites()
+        const copyFavoritesButton = document.getElementById('copy-favorites')
+        if (copyFavoritesButton instanceof HTMLButtonElement) {
+          copyFavoritesButton.addEventListener('click', async () => {
+            const ids = Array.from(favorites).map((item) => String(item).replace(/^arxiv:/, ''))
+            if (!(feedback instanceof HTMLElement)) return
+            if (!ids.length) {
+              feedback.textContent = 'No favorites selected.'
+              return
+            }
+            await navigator.clipboard.writeText(ids.join(';'))
+            feedback.textContent = `Copied ${ids.length} item id(s).`
+          })
+        }
+      }
+
+      render()
+      hydrateRemoteSource()
+    }
+
+    const mountFloatingTools = () => {
+      const node = document.getElementById('follow-floating-tools')
+      if (!(node instanceof HTMLElement)) return
+      if (node.parentElement !== document.body) {
+        document.body.appendChild(node)
+      }
+    }
+
+    const initFollowSourcePage = () => {
+      mountFloatingTools()
+      bindFollowSourcePage()
+    }
+
+    document.addEventListener('DOMContentLoaded', initFollowSourcePage)
+    document.addEventListener('astro:page-load', initFollowSourcePage)
+  </script>
+</CommonPage>

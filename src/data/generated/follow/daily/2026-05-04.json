@@ -1,0 +1,177 @@
+{
+  "date": "2026-05-04",
+  "summary": "2026-05-04 arXiv daily selected 3 papers for follow-up.",
+  "highlights": [
+    "E$^2$DT: Efficient and Effective Decision Transformer with Experience-Aware Sampling for Robotic Manipulation: 用经验感知采样提升 Decision Transformer 在机器人长程操作中的样本效率与探索质量。",
+    "Lucid-XR: An Extended-Reality Data Engine for Robotic Manipulation: Lucid-XR通过XR交互、物理仿真和语言可控视频生成构建机器人操作数据引擎，用合成数据训练可零样本迁移的视觉策略。",
+    "World Model for Robot Learning: A Comprehensive Survey: 系统综述机器人学习中的世界模型范式、作用分工与评测脉络。"
+  ],
+  "counts": {
+    "arxiv": 3,
+    "wechat": 0,
+    "x": 0,
+    "bilibili": 0
+  },
+  "sections": [
+    {
+      "source_type": "arxiv",
+      "title": "arXiv",
+      "count": 3,
+      "items": [
+        {
+          "id": "arxiv:2605.00080",
+          "source_type": "arxiv",
+          "title": "World Model for Robot Learning: A Comprehensive Survey",
+          "summary": "系统综述机器人学习中的世界模型范式、作用分工与评测脉络。",
+          "importance": "low",
+          "include_in_follow": true,
+          "authors": [
+            "Bohan Hou",
+            "Gen Li",
+            "Jindou Jia",
+            "Tuo An",
+            "Xinying Guo",
+            "Sicong Leng",
+            "Haoran Geng",
+            "Yanjie Ze",
+            "Tatsuya Harada",
+            "Philip Torr",
+            "Oier Mees",
+            "Marc Pollefeys",
+            "Zhuang Liu",
+            "Jiajun Wu",
+            "Pieter Abbeel",
+            "Jitendra Malik",
+            "Yilun Du",
+            "Jianfei Yang"
+          ],
+          "categories": [],
+          "author_meta": [],
+          "first_affiliation": "",
+          "hjfy_url": "",
+          "published": "",
+          "updated": "",
+          "abstract_en": "World models, which are predictive representations of how environments evolve under actions, have become a central component of robot learning. They support policy learning, planning, simulation, evaluation, data generation, and have advanced rapidly with the rise of foundation models and large-scale video generation. However, the literature remains fragmented across architectures, functional roles, and embodied application domains. To address this gap, we present a comprehensive review of world models from a robot-learning perspective. We examine how world models are coupled with robot policies, how they serve as learned simulators for reinforcement learning and evaluation, and how robotic video world models have progressed from imagination-based generation to controllable, structured, and foundation-scale formulations. We further connect these ideas to navigation and autonomous driving, and summarize representative datasets, benchmarks, and evaluation protocols. Overall, this survey systematically reviews the rapidly growing literature on world models for robot learning, clarifies key paradigms and applications, and highlights major challenges and future directions for predictive modeling in embodied agents. To facilitate continued access to newly emerging works, benchmarks, and resources, we will maintain and regularly update the accompanying GitHub repository alongside this survey.",
+          "one_liner_zh": "系统综述机器人学习中的世界模型范式、作用分工与评测脉络。",
+          "summary_cn": "这篇综述从机器人学习视角系统梳理世界模型，覆盖其在策略学习、规划、仿真、评估和数据生成中的作用，并总结从 imagination-based 视频生成到可控、结构化与基础模型化 world model 的演进。文章还连接导航与自动驾驶场景，归纳代表性数据集、基准和评测协议。对你当前关注的机器人 policy、world model 与具身智能知识整理很有参考价值。",
+          "hot_score": 2.0,
+          "overall_score": 1.21,
+          "relevance_score": 0.0,
+          "is_favorite": false,
+          "domains": [
+            {
+              "slug": "uncategorized",
+              "name": "Uncategorized"
+            }
+          ],
+          "links": [
+            {
+              "label": "Abs",
+              "href": "https://arxiv.org/abs/2605.00080v1"
+            },
+            {
+              "label": "PDF",
+              "href": "https://arxiv.org/pdf/2605.00080v1"
+            }
+          ]
+        },
+        {
+          "id": "arxiv:2605.00159",
+          "source_type": "arxiv",
+          "title": "E$^2$DT: Efficient and Effective Decision Transformer with Experience-Aware Sampling for Robotic Manipulation",
+          "summary": "用经验感知采样提升 Decision Transformer 在机器人长程操作中的样本效率与探索质量。",
+          "importance": "high",
+          "include_in_follow": true,
+          "authors": [
+            "Kaiyan Zhao",
+            "Borong Zhang",
+            "Yiming Wang",
+            "Xingyu Liu",
+            "Xuetao Li",
+            "Yuyang Chen",
+            "Xiaoguang Niu"
+          ],
+          "categories": [],
+          "author_meta": [],
+          "first_affiliation": "",
+          "hjfy_url": "",
+          "published": "",
+          "updated": "",
+          "abstract_en": "In reinforcement learning (RL) for robotic manipulation, the Decision Transformer (DT) has emerged as an effective framework for addressing long-horizon tasks. However, DT's performance depends heavily on the coverage of collected experiences. Without an active exploration mechanism, standard DT relies on uniform replay, which leads to poor sample efficiency, limited exploration, and reduced overall effectiveness. At the same time, while excessive exploration can help avoid local optima, it often delays policy convergence and leads to degraded efficiency. To address these limitations, we propose E$^2$DT, a DT-guided k-Determinantal Point Process sampling framework that enables the model to actively shape its own experience selection. Our framework is experience-aware, allowing E$^2$DT to be both efficient, by prioritizing sampling quality, such as high-return, high-uncertainty, and underrepresented trajectories, and effective, by ensuring diversity across trajectory windows to preserve policy optimality. Specifically, DT's internal latent embeddings measure diversity across trajectory windows, while quality is quantified through a composite metric that integrates return-to-go (RTG) quantiles, predictive uncertainty, and stage coverage based on inverse frequency. These two dimensions are integrated into a novel quality-diversity joint kernel that prioritizes the most informative experiences, thereby enabling learning that is both efficient and effective. We evaluate E$^2$DT on challenging robotic manipulation benchmarks in both simulation and real-robot settings. Results show that it consistently outperforms prior methods. These findings demonstrate that coupling policy learning with experience-aware sampling provides a principled path toward robust long-horizon robotic learning.",
+          "one_liner_zh": "用经验感知采样提升 Decision Transformer 在机器人长程操作中的样本效率与探索质量。",
+          "summary_cn": "论文提出 E^2DT，将 Decision Transformer 与 k-DPP 经验采样结合，在机器人操作强化学习中同时考虑轨迹质量与多样性。方法利用 DT 的潜表示衡量窗口间差异，再结合回报、预测不确定性和阶段覆盖构造质量-多样性联合核，从而优先采样更有信息量的经验。实验表明该方法在仿真和真实机器人长程操作任务中优于已有方法，适合归入机器人 manipulation policy 学习方向。",
+          "hot_score": 2.0,
+          "overall_score": 2.55,
+          "relevance_score": 3.0,
+          "is_favorite": false,
+          "domains": [
+            {
+              "slug": "uncategorized",
+              "name": "Uncategorized"
+            }
+          ],
+          "links": [
+            {
+              "label": "Abs",
+              "href": "https://arxiv.org/abs/2605.00159v1"
+            },
+            {
+              "label": "PDF",
+              "href": "https://arxiv.org/pdf/2605.00159v1"
+            }
+          ]
+        },
+        {
+          "id": "arxiv:2605.00244",
+          "source_type": "arxiv",
+          "title": "Lucid-XR: An Extended-Reality Data Engine for Robotic Manipulation",
+          "summary": "Lucid-XR通过XR交互、物理仿真和语言可控视频生成构建机器人操作数据引擎，用合成数据训练可零样本迁移的视觉策略。",
+          "importance": "high",
+          "include_in_follow": true,
+          "authors": [
+            "Yajvan Ravan",
+            "Adam Rashid",
+            "Alan Yu",
+            "Kai McClennen",
+            "Gio Huh",
+            "Kevin Yang",
+            "Zhutian Yang",
+            "Qinxi Yu",
+            "Xiaolong Wang",
+            "Phillip Isola",
+            "Ge Yang"
+          ],
+          "categories": [],
+          "author_meta": [],
+          "first_affiliation": "",
+          "hjfy_url": "",
+          "published": "",
+          "updated": "",
+          "abstract_en": "We introduce Lucid-XR, a generative data engine for creating diverse and realistic-looking multi-modal data to train real-world robotic systems. At the core of Lucid-XR is vuer, a web-based physics simulation environment that runs directly on the XR headset, enabling internet-scale access to immersive, latency-free virtual interactions without requiring specialized equipment. The complete system integrates on-device physics simulation with human-to-robot pose retargeting. Data collected is further amplified by a physics-guided video generation pipeline steerable via natural language specifications. We demonstrate zero-shot transfer of robot visual policies to unseen, cluttered, and badly lit evaluation environments, after training entirely on Lucid-XR's synthetic data. We include examples across dexterous manipulation tasks that involve soft materials, loosely bound particles, and rigid body contact. Project website: https://lucidxr.github.io",
+          "one_liner_zh": "Lucid-XR通过XR交互、物理仿真和语言可控视频生成构建机器人操作数据引擎，用合成数据训练可零样本迁移的视觉策略。",
+          "summary_cn": "论文提出Lucid-XR，一个面向真实机器人操作训练的多模态生成式数据引擎，结合头显端物理仿真、人到机器人姿态重定向和物理引导的视频生成。系统可通过自然语言规格扩增数据，并用纯合成数据训练机器人视觉策略。实验展示策略可零样本迁移到未见、杂乱和低光环境，并覆盖灵巧操作、软材料和接触丰富任务，直接契合机器人视觉策略数据与训练方向。",
+          "hot_score": 2.0,
+          "overall_score": 2.33,
+          "relevance_score": 2.7,
+          "is_favorite": false,
+          "domains": [
+            {
+              "slug": "uncategorized",
+              "name": "Uncategorized"
+            }
+          ],
+          "links": [
+            {
+              "label": "Abs",
+              "href": "https://arxiv.org/abs/2605.00244v1"
+            },
+            {
+              "label": "PDF",
+              "href": "https://arxiv.org/pdf/2605.00244v1"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
