@@ -34,6 +34,7 @@ const domainOptions = Array.from(
 }))
 
 const dateOptions = Array.from(new Set(items.map((item: FollowSourceItem) => item.date))).sort().reverse()
+const monthOptions = Array.from(new Set(items.map((item: FollowSourceItem) => item.date.slice(0, 7)))).sort().reverse()
 const enableLocalFavorites = sourceKey === 'arxiv'
 const headings = [
   { depth: 2, slug: 'filters', text: 'Filters' },
@@ -55,7 +56,7 @@ const deriveHjfyUrl = (item: FollowSourceItem) => {
         <h2 id='filters' class='m-0 text-2xl font-semibold'>Filters</h2>
       </div>
 
-      <div class='grid grid-cols-1 gap-3 rounded-2xl border border-border bg-card p-4 md:grid-cols-2 xl:grid-cols-5'>
+      <div class='grid grid-cols-1 gap-3 rounded-2xl border border-border bg-card p-4 md:grid-cols-2 xl:grid-cols-6'>
         {sourceMeta.searchEnabled && (
           <label class='flex flex-col gap-2 text-sm text-muted-foreground'>
             <span>Search</span>
@@ -74,6 +75,23 @@ const deriveHjfyUrl = (item: FollowSourceItem) => {
             <option value=''>All domains</option>
             {domainOptions.map((domain) => (
               <option value={domain.slug}>{domain.name}</option>
+            ))}
+          </select>
+        </label>
+
+        <label class='flex flex-col gap-2 text-sm text-muted-foreground'>
+          <span>Scope</span>
+          <select id='follow-scope' class='rounded-xl border border-border bg-background px-3 py-2 text-foreground outline-none transition-colors focus:border-primary'>
+            <option value='recent'>Recent</option>
+            <option value='archive'>Archive</option>
+          </select>
+        </label>
+
+        <label id='follow-month-wrap' class='hidden flex-col gap-2 text-sm text-muted-foreground'>
+          <span>Month</span>
+          <select id='follow-month' class='rounded-xl border border-border bg-background px-3 py-2 text-foreground outline-none transition-colors focus:border-primary'>
+            {monthOptions.map((month) => (
+              <option value={month}>{month}</option>
             ))}
           </select>
         </label>
@@ -419,9 +437,14 @@ const deriveHjfyUrl = (item: FollowSourceItem) => {
         })
       }
 
+      let remoteWindowLoaded = ''
+
       const render = () => {
         const queryInput = document.getElementById('follow-search')
         const domainInput = document.getElementById('follow-domain')
+        const scopeInput = document.getElementById('follow-scope')
+        const monthInput = document.getElementById('follow-month')
+        const monthWrap = document.getElementById('follow-month-wrap')
         const dateInput = document.getElementById('follow-date')
         const importanceInput = document.getElementById('follow-importance')
         const sortInput = document.getElementById('follow-sort')
@@ -429,10 +452,16 @@ const deriveHjfyUrl = (item: FollowSourceItem) => {
 
         const query = queryInput instanceof HTMLInputElement ? queryInput.value.trim().toLowerCase() : ''
         const domain = domainInput instanceof HTMLSelectElement ? domainInput.value : ''
+        const scopeValue = scopeInput instanceof HTMLSelectElement ? scopeInput.value : 'recent'
+        const monthValue = monthInput instanceof HTMLSelectElement ? monthInput.value : ''
         const date = dateInput instanceof HTMLSelectElement ? dateInput.value : ''
         const importance = importanceInput instanceof HTMLSelectElement ? importanceInput.value : ''
         const sort = sortInput instanceof HTMLSelectElement ? sortInput.value : 'latest'
         const favoriteOnly = favoriteOnlyInput instanceof HTMLInputElement ? favoriteOnlyInput.checked : false
+        if (monthWrap instanceof HTMLElement) {
+          monthWrap.classList.toggle('hidden', scopeValue !== 'archive')
+          monthWrap.classList.toggle('flex', scopeValue === 'archive')
+        }
 
         const visible = cards.filter((card) => {
           const cardSearch = card.getAttribute('data-search') || ''
@@ -443,6 +472,7 @@ const deriveHjfyUrl = (item: FollowSourceItem) => {
 
           if (searchEnabled && query && !cardSearch.includes(query)) return false
           if (domain && !cardDomains.includes(domain)) return false
+          if (scopeValue === 'archive' && monthValue && !cardDate.startsWith(monthValue)) return false
           if (date && cardDate !== date) return false
           if (importance && cardImportance !== importance) return false
           if (favoriteOnly && !favorites.has(cardId)) return false
@@ -477,11 +507,22 @@ const deriveHjfyUrl = (item: FollowSourceItem) => {
         syncFavoriteButtons()
       }
 
-      const hydrateRemoteSource = async () => {
+      const resolveRemoteSourcePath = (scopeValue, monthValue) => {
+        if (scopeValue === 'archive' && monthValue) return `sources/${sourceKey}-${monthValue}.json`
+        return `sources/${sourceKey}-recent.json`
+      }
+
+      const hydrateRemoteSource = async (scopeValue = 'recent', monthValue = '') => {
         if (!enableRemoteFollowData) return
         if (!followDataBaseUrl) return
         try {
-          const response = await fetch(`${followDataBaseUrl.replace(/\/+$/, '')}/sources/${sourceKey}.json`, { cache: 'no-store' })
+          const base = followDataBaseUrl.replace(/\/+$/, '')
+          let path = resolveRemoteSourcePath(scopeValue, monthValue)
+          let response = await fetch(`${base}/${path}`, { cache: 'no-store' })
+          if (!response.ok) {
+            path = `sources/${sourceKey}.json`
+            response = await fetch(`${base}/${path}`, { cache: 'no-store' })
+          }
           if (!response.ok) {
             if (requireRemoteFollowData) {
               throw new Error(`Failed to load remote source json: HTTP ${response.status}`)
@@ -515,6 +556,7 @@ const deriveHjfyUrl = (item: FollowSourceItem) => {
 
           container.innerHTML = payload.items.map((item) => createFollowItemCard(item)).join('')
           cards = Array.from(container.querySelectorAll('.follow-item'))
+          remoteWindowLoaded = `${scopeValue}:${monthValue || ''}`
           summary.textContent = enableLocalFavorites
             ? `${payload.item_count || payload.items.length} item(s) · ${favorites.size} favorite(s)`
             : `${payload.item_count || payload.items.length} item(s)`
@@ -532,6 +574,27 @@ const deriveHjfyUrl = (item: FollowSourceItem) => {
           node.addEventListener('change', render)
         }
       })
+
+      const scopeNode = document.getElementById('follow-scope')
+      const monthNode = document.getElementById('follow-month')
+      if (scopeNode instanceof HTMLSelectElement) {
+        const syncScope = async () => {
+          const nextScope = scopeNode.value || 'recent'
+          const nextMonth = monthNode instanceof HTMLSelectElement ? monthNode.value : ''
+          const nextKey = `${nextScope}:${nextMonth || ''}`
+          if (enableRemoteFollowData && nextKey !== remoteWindowLoaded) {
+            await hydrateRemoteSource(nextScope, nextMonth)
+            return
+          }
+          render()
+        }
+        scopeNode.addEventListener('input', syncScope)
+        scopeNode.addEventListener('change', syncScope)
+        if (monthNode instanceof HTMLSelectElement) {
+          monthNode.addEventListener('input', syncScope)
+          monthNode.addEventListener('change', syncScope)
+        }
+      }
 
       if (enableLocalFavorites) {
         loadFavorites()
@@ -551,7 +614,9 @@ const deriveHjfyUrl = (item: FollowSourceItem) => {
       }
 
       render()
-      hydrateRemoteSource()
+      const initialMonthNode = document.getElementById('follow-month')
+      const initialMonth = initialMonthNode instanceof HTMLSelectElement ? initialMonthNode.value : ''
+      hydrateRemoteSource('recent', initialMonth)
     }
 
     const mountFloatingTools = () => {

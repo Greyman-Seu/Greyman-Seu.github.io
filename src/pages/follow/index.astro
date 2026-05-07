@@ -7,12 +7,20 @@ import { ENABLE_REMOTE_FOLLOW_DATA, FOLLOW_DATA_BASE_URL, REQUIRE_REMOTE_FOLLOW_
 const activeDomainSlug = Astro.url.searchParams.get('domain') || ''
 const activeDomain = followDomains.find((domain: FollowDomain) => domain.slug === activeDomainSlug) || null
 const sourceSummaries = getSourceSummaries()
+const timelineMonthOptions = Array.from(new Set(followDigests.map((digest: FollowDigest) => digest.date.slice(0, 7)))).sort().reverse()
+const latestDigestDate = followDigests[0]?.date || ''
+const latestDigestTime = latestDigestDate ? new Date(`${latestDigestDate}T00:00:00Z`).getTime() : 0
 
-const visibleDigests = !activeDomain
+const baseVisibleDigests = !activeDomain
   ? followDigests
   : followDigests.filter((digest: FollowDigest) =>
       digest.sections.some((section) => section.items.some((item) => item.domains.includes(activeDomain.slug)))
     )
+const visibleDigests = baseVisibleDigests.filter((digest: FollowDigest) => {
+  if (!latestDigestTime) return true
+  const digestTime = new Date(`${digest.date}T00:00:00Z`).getTime()
+  return Math.floor((latestDigestTime - digestTime) / 86400000) < 30
+})
 
 const headings = [
   { depth: 2, slug: 'focus-domains', text: 'Focus Domains' },
@@ -107,6 +115,25 @@ const sourceBadgeClass = {
       <div class='border-b border-border/40 pb-3'>
         <h2 id='daily-timeline' class='m-0 text-2xl font-semibold'>Daily Timeline</h2>
         <p class='m-0 mt-1 text-sm text-muted-foreground'>这里只展示每日 digest 摘要与来源分布，不展开完整来源明细。</p>
+      </div>
+
+      <div class='grid grid-cols-1 gap-3 rounded-2xl border border-border bg-card p-4 md:grid-cols-2 xl:grid-cols-3'>
+        <label class='flex flex-col gap-2 text-sm text-muted-foreground'>
+          <span>Scope</span>
+          <select id='timeline-scope' class='rounded-xl border border-border bg-background px-3 py-2 text-foreground outline-none transition-colors focus:border-primary'>
+            <option value='recent'>Recent</option>
+            <option value='archive'>Archive</option>
+          </select>
+        </label>
+
+        <label id='timeline-month-wrap' class='hidden flex-col gap-2 text-sm text-muted-foreground'>
+          <span>Month</span>
+          <select id='timeline-month' class='rounded-xl border border-border bg-background px-3 py-2 text-foreground outline-none transition-colors focus:border-primary'>
+            {timelineMonthOptions.map((month) => (
+              <option value={month}>{month}</option>
+            ))}
+          </select>
+        </label>
       </div>
 
       <div class='space-y-5'>
@@ -289,7 +316,55 @@ const sourceBadgeClass = {
       }
     }
 
-    document.addEventListener('DOMContentLoaded', hydrateRemoteFollowDigests)
-    document.addEventListener('astro:page-load', hydrateRemoteFollowDigests)
+    const bindTimelineScope = () => {
+      const timeline = document.querySelector('[aria-labelledby="daily-timeline"] .space-y-5')
+      const scopeNode = document.getElementById('timeline-scope')
+      const monthNode = document.getElementById('timeline-month')
+      const monthWrap = document.getElementById('timeline-month-wrap')
+      if (!(timeline instanceof HTMLElement) || !(scopeNode instanceof HTMLSelectElement)) return
+
+      const renderTimeline = () => {
+        const scopeValue = scopeNode.value || 'recent'
+        const monthValue = monthNode instanceof HTMLSelectElement ? monthNode.value : ''
+        if (monthWrap instanceof HTMLElement) {
+          monthWrap.classList.toggle('hidden', scopeValue !== 'archive')
+          monthWrap.classList.toggle('flex', scopeValue === 'archive')
+        }
+        const cards = Array.from(timeline.querySelectorAll('.follow-digest-card'))
+        const latestDate = cards.reduce((best, card) => {
+          const value = card.getAttribute('data-digest-date') || ''
+          return !best || value > best ? value : best
+        }, '')
+        const latestTime = latestDate ? new Date(`${latestDate}T00:00:00Z`).getTime() : 0
+        cards.forEach((card) => {
+          if (!(card instanceof HTMLElement)) return
+          const cardDate = card.getAttribute('data-digest-date') || ''
+          let visible = true
+          if (scopeValue === 'archive' && monthValue) {
+            visible = cardDate.startsWith(monthValue)
+          } else if (scopeValue === 'recent' && latestTime && cardDate) {
+            const cardTime = new Date(`${cardDate}T00:00:00Z`).getTime()
+            visible = Math.floor((latestTime - cardTime) / 86400000) < 30
+          }
+          card.classList.toggle('hidden', !visible)
+        })
+      }
+
+      scopeNode.addEventListener('input', renderTimeline)
+      scopeNode.addEventListener('change', renderTimeline)
+      if (monthNode instanceof HTMLSelectElement) {
+        monthNode.addEventListener('input', renderTimeline)
+        monthNode.addEventListener('change', renderTimeline)
+      }
+      renderTimeline()
+    }
+
+    const initFollowIndexPage = () => {
+      hydrateRemoteFollowDigests()
+      bindTimelineScope()
+    }
+
+    document.addEventListener('DOMContentLoaded', initFollowIndexPage)
+    document.addEventListener('astro:page-load', initFollowIndexPage)
   </script>
 </CommonPage>
