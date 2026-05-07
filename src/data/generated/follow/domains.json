@@ -3,45 +3,45 @@
     {
       "slug": "physical-embodied-intelligence",
       "name": "Physical/Embodied Intelligence",
-      "count": 12,
-      "latest_date": "2026-05-05",
+      "count": 16,
+      "latest_date": "2026-05-07",
       "highlights": [
         {
-          "title": "Being-H0.7: A Latent World-Action Model from Egocentric Videos",
-          "summary": "提出无需生成未来帧的潜空间 world-action model，以提升 VLA 控制策略的未来感知能力。",
-          "date": "2026-05-05"
+          "title": "ConsisVLA-4D: Advancing Spatiotemporal Consistency in Efficient 3D-Perception and 4D-Reasoning for Robotic Manipulation",
+          "summary": "面向机器人操作提出 ConsisVLA-4D，通过 3D 感知与 4D 推理的一致性设计提升 VLA 性能并显著加速推理。",
+          "date": "2026-05-07"
         },
         {
-          "title": "Thinking in Text and Images: Interleaved Vision--Language Reasoning Traces for Long-Horizon Robot Manipulation",
-          "summary": "提出交错文本子目标与视觉关键帧的推理轨迹，用于长程机器人操作策略。",
-          "date": "2026-05-05"
+          "title": "Dream-MPC: Gradient-Based Model Predictive Control with Latent Imagination",
+          "summary": "Dream-MPC 用学习到的 world model 与梯度优化式 MPC 提升连续控制中的策略与规划性能。",
+          "date": "2026-05-07"
         },
         {
-          "title": "Stereo Multistage Spatial Attention for Real-Time Mobile Manipulation Under Visual Scale Variation and Disturbances",
-          "summary": "提出面向实时移动操作的双目多阶段空间注意力预测策略，以提升尺度变化和视觉扰动下的闭环动作生成鲁棒性。",
-          "date": "2026-05-05"
+          "title": "From Pixels to Tokens: A Systematic Study of Latent Action Supervision for Vision-Language-Action Models",
+          "summary": "系统比较图像式与动作式 latent action 监督策略，指出离散 latent action token 直接监督 VLM 的 VLA 训练效果最佳。",
+          "date": "2026-05-07"
         }
       ]
     },
     {
       "slug": "llm-vlm",
       "name": "LLM/VLM",
-      "count": 5,
-      "latest_date": "2026-05-05",
+      "count": 7,
+      "latest_date": "2026-05-07",
       "highlights": [
+        {
+          "title": "ConsisVLA-4D: Advancing Spatiotemporal Consistency in Efficient 3D-Perception and 4D-Reasoning for Robotic Manipulation",
+          "summary": "面向机器人操作提出 ConsisVLA-4D，通过 3D 感知与 4D 推理的一致性设计提升 VLA 性能并显著加速推理。",
+          "date": "2026-05-07"
+        },
+        {
+          "title": "From Pixels to Tokens: A Systematic Study of Latent Action Supervision for Vision-Language-Action Models",
+          "summary": "系统比较图像式与动作式 latent action 监督策略，指出离散 latent action token 直接监督 VLM 的 VLA 训练效果最佳。",
+          "date": "2026-05-07"
+        },
         {
           "title": "Being-H0.7: A Latent World-Action Model from Egocentric Videos",
           "summary": "提出无需生成未来帧的潜空间 world-action model，以提升 VLA 控制策略的未来感知能力。",
-          "date": "2026-05-05"
-        },
-        {
-          "title": "Thinking in Text and Images: Interleaved Vision--Language Reasoning Traces for Long-Horizon Robot Manipulation",
-          "summary": "提出交错文本子目标与视觉关键帧的推理轨迹，用于长程机器人操作策略。",
-          "date": "2026-05-05"
-        },
-        {
-          "title": "Borrowed Geometry: Computational Reuse of Frozen Text-Pretrained Transformer Weights Across Modalities",
-          "summary": "论文探索冻结文本预训练Transformer权重跨模态复用，并在机器人操作基准上用少量可训练接口取得性能提升。",
           "date": "2026-05-05"
         }
       ]

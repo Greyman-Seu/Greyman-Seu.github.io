@@ -1,7 +1,18 @@
 {
-  "generated_at": "2026-05-06T18:41:17.261539Z",
-  "latest_date": "2026-05-05",
+  "generated_at": "2026-05-07T11:59:13.435494Z",
+  "latest_date": "2026-05-07",
   "days": [
+    {
+      "date": "2026-05-07",
+      "summary": "2026-05-07 arXiv daily selected 4 papers for follow-up.",
+      "counts": {
+        "arxiv": 4,
+        "wechat": 0,
+        "x": 0,
+        "bilibili": 0
+      },
+      "path": "daily/2026-05-07.json"
+    },
     {
       "date": "2026-05-05",
       "summary": "2026-05-05 arXiv daily selected 12 papers for follow-up.",
@@ -29,7 +40,7 @@
     {
       "source": "arxiv",
       "title": "arXiv",
-      "count": 15,
+      "count": 19,
       "path": "sources/arxiv.json"
     },
     {
@@ -55,14 +66,14 @@
     {
       "slug": "physical-embodied-intelligence",
       "name": "Physical/Embodied Intelligence",
-      "count": 12,
-      "latest_date": "2026-05-05"
+      "count": 16,
+      "latest_date": "2026-05-07"
     },
     {
       "slug": "llm-vlm",
       "name": "LLM/VLM",
-      "count": 5,
-      "latest_date": "2026-05-05"
+      "count": 7,
+      "latest_date": "2026-05-07"
     },
     {
       "slug": "uncategorized",

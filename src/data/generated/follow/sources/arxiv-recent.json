@@ -1,6 +1,8 @@
 {
   "source": "arxiv",
   "title": "arXiv",
+  "scope": "recent",
+  "window_days": 30,
   "item_count": 19,
   "items": [
     {

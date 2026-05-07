@@ -1,0 +1,8 @@
+{
+  "source": "bilibili",
+  "title": "Bilibili",
+  "scope": "recent",
+  "window_days": 30,
+  "item_count": 0,
+  "items": []
+}
