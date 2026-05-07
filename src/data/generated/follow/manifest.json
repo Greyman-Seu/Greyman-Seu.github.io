@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-05-06T18:00:28.451926Z",
+  "generated_at": "2026-05-06T18:41:17.261539Z",
   "latest_date": "2026-05-05",
   "days": [
     {
@@ -23,17 +23,6 @@
         "bilibili": 0
       },
       "path": "daily/2026-05-04.json"
-    },
-    {
-      "date": "2026-04-24",
-      "summary": "arXiv digest with 2 paper(s) across normalized Follow domains.",
-      "counts": {
-        "arxiv": 0,
-        "wechat": 0,
-        "x": 0,
-        "bilibili": 0
-      },
-      "path": "daily/2026-04-24.json"
     }
   ],
   "sources": [

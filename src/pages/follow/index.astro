@@ -157,12 +157,52 @@ const sourceBadgeClass = {
     </section>
   </div>
 
-  <script is:inline define:vars={{ followDataBaseUrl: FOLLOW_DATA_BASE_URL, requireRemoteFollowData: REQUIRE_REMOTE_FOLLOW_DATA, enableRemoteFollowData: ENABLE_REMOTE_FOLLOW_DATA }}>
+  <script is:inline define:vars={{ followDataBaseUrl: FOLLOW_DATA_BASE_URL, requireRemoteFollowData: REQUIRE_REMOTE_FOLLOW_DATA, enableRemoteFollowData: ENABLE_REMOTE_FOLLOW_DATA, activeDomainSlug }}>
     const sourceClassMap = {
       arxiv: 'bg-blue-500/10 text-blue-700 dark:text-blue-300',
       wechat: 'bg-emerald-500/10 text-emerald-700 dark:text-emerald-300',
       x: 'bg-slate-500/10 text-slate-700 dark:text-slate-300',
       bilibili: 'bg-pink-500/10 text-pink-700 dark:text-pink-300',
+    }
+
+    const renderDigestCard = (digest) => {
+      const countsHtml = Object.entries(digest.counts || {})
+        .map(([source, count]) => {
+          const className = sourceClassMap[source] || 'bg-muted text-muted-foreground'
+          return `<span class="digest-count rounded-full px-2.5 py-1 text-xs font-medium ${className}" data-source="${source}">${source} ${count}</span>`
+        })
+        .join('')
+
+      const highlightsHtml = Array.isArray(digest.highlights)
+        ? digest.highlights.map((item) => `<li>${item}</li>`).join('')
+        : ''
+
+      return `
+        <article class="follow-digest-card rounded-2xl border border-border bg-card p-5 shadow-sm" data-digest-date="${digest.date || ''}">
+          <div class="flex flex-col gap-4">
+            <div class="flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between">
+              <div class="space-y-2">
+                <div class="flex flex-wrap items-center gap-2">
+                  <h3 class="digest-date m-0 text-xl font-semibold text-foreground">${digest.date || ''}</h3>
+                  <span class="rounded-full bg-primary/10 px-2.5 py-1 text-xs font-medium text-primary">Daily digest</span>
+                </div>
+                <p class="digest-summary m-0 max-w-3xl text-sm leading-6 text-muted-foreground">${digest.summary || ''}</p>
+              </div>
+              <div class="digest-counts flex flex-wrap gap-2">${countsHtml}</div>
+            </div>
+            <div class="rounded-xl border border-border/50 bg-muted/20 p-4">
+              <p class="m-0 mb-3 text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground/80">Highlights</p>
+              <ul class="digest-highlights space-y-2 pl-4 text-sm text-foreground/90">${highlightsHtml}</ul>
+            </div>
+            <div class="flex flex-wrap gap-2">
+              <a class="group relative inline-flex items-center gap-x-2 rounded-lg bg-muted border border-border px-3 py-2 text-sm font-medium text-muted-foreground transition-all duration-200 hover:border-foreground/20 hover:bg-muted/80 hover:text-foreground no-underline" href="/follow/arxiv" data-astro-prefetch="true"><div class="relative flex items-center gap-x-2"><p class="my-0 transition-colors duration-200">Open arXiv feed</p></div></a>
+              <a class="group relative inline-flex items-center gap-x-2 rounded-lg bg-muted border border-border px-3 py-2 text-sm font-medium text-muted-foreground transition-all duration-200 hover:border-foreground/20 hover:bg-muted/80 hover:text-foreground no-underline" href="/follow/x" data-astro-prefetch="true"><div class="relative flex items-center gap-x-2"><p class="my-0 transition-colors duration-200">Open X feed</p></div></a>
+              <a class="group relative inline-flex items-center gap-x-2 rounded-lg bg-muted border border-border px-3 py-2 text-sm font-medium text-muted-foreground transition-all duration-200 hover:border-foreground/20 hover:bg-muted/80 hover:text-foreground no-underline" href="/follow/wechat" data-astro-prefetch="true"><div class="relative flex items-center gap-x-2"><p class="my-0 transition-colors duration-200">Open WeChat feed</p></div></a>
+              <a class="group relative inline-flex items-center gap-x-2 rounded-lg bg-muted border border-border px-3 py-2 text-sm font-medium text-muted-foreground transition-all duration-200 hover:border-foreground/20 hover:bg-muted/80 hover:text-foreground no-underline" href="/follow/bilibili" data-astro-prefetch="true"><div class="relative flex items-center gap-x-2"><p class="my-0 transition-colors duration-200">Open Bilibili feed</p></div></a>
+            </div>
+          </div>
+        </article>
+      `
     }
 
     const hydrateRemoteFollowDigests = async () => {
@@ -182,28 +222,39 @@ const sourceBadgeClass = {
         }
         const latest = await latestResponse.json()
         const manifest = manifestResponse.ok ? await manifestResponse.json() : null
-        const card = document.querySelector('.follow-digest-card')
-        if (!(card instanceof HTMLElement)) return
+        const timeline = document.querySelector('[aria-labelledby="daily-timeline"] .space-y-5')
+        if (!(timeline instanceof HTMLElement)) return
 
-        const summary = card.querySelector('.digest-summary')
-        const date = card.querySelector('.digest-date')
-        const highlights = card.querySelector('.digest-highlights')
-        const counts = card.querySelector('.digest-counts')
-
-        if (date) date.textContent = latest.date || date.textContent
-        if (summary) summary.textContent = latest.summary || summary.textContent
-
-        if (highlights && Array.isArray(latest.highlights)) {
-          highlights.innerHTML = latest.highlights.map((item) => `<li>${item}</li>`).join('')
+        let remoteDigests = [latest]
+        if (manifest && Array.isArray(manifest.days)) {
+          const dailyPayloads = await Promise.all(
+            manifest.days.map(async (day) => {
+              const path = String(day.path || '')
+              if (!path) return null
+              const response = await fetch(`${base}/${path}`, { cache: 'no-store' })
+              if (!response.ok) return null
+              return response.json()
+            })
+          )
+          remoteDigests = dailyPayloads.filter(Boolean)
         }
 
-        if (counts && latest.counts) {
-          counts.innerHTML = Object.entries(latest.counts)
-            .map(([source, count]) => {
-              const className = sourceClassMap[source] || 'bg-muted text-muted-foreground'
-              return `<span class="digest-count rounded-full px-2.5 py-1 text-xs font-medium ${className}" data-source="${source}">${source} ${count}</span>`
-            })
-            .join('')
+        if (activeDomainSlug) {
+          remoteDigests = remoteDigests.filter((digest) =>
+            Array.isArray(digest.sections) &&
+            digest.sections.some((section) =>
+              Array.isArray(section.items) && section.items.some((item) =>
+                Array.isArray(item.domains) && item.domains.some((domain) => {
+                  const slug = typeof domain === 'string' ? domain : domain.slug
+                  return slug === activeDomainSlug
+                })
+              )
+            )
+          )
+        }
+
+        if (remoteDigests.length) {
+          timeline.innerHTML = remoteDigests.map((digest) => renderDigestCard(digest)).join('')
         }
 
         if (manifest && Array.isArray(manifest.sources)) {
@@ -234,14 +285,7 @@ const sourceBadgeClass = {
           })
         }
       } catch (error) {
-        if (requireRemoteFollowData) {
-          const timeline = document.querySelector('[aria-labelledby="daily-timeline"] .space-y-5')
-          if (timeline instanceof HTMLElement) {
-            timeline.innerHTML = `<div class="rounded-2xl border border-dashed border-red-300 bg-red-50/60 px-5 py-10 text-center text-sm text-red-700">Failed to load remote Follow data.</div>`
-          }
-        } else {
-          console.warn('Failed to hydrate remote follow latest digest', error)
-        }
+        console.warn('Failed to hydrate remote follow latest digest; keeping local static content.', error)
       }
     }
 

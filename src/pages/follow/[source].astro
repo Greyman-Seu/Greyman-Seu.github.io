@@ -521,13 +521,7 @@ const deriveHjfyUrl = (item: FollowSourceItem) => {
           syncFavoriteButtons()
           render()
         } catch (error) {
-          if (requireRemoteFollowData) {
-            empty.classList.remove('hidden')
-            container.classList.add('hidden')
-            empty.textContent = `Failed to load remote ${sourceKey} source data.`
-          } else {
-            console.warn(`Failed to hydrate remote source data for ${sourceKey}`, error)
-          }
+          console.warn(`Failed to hydrate remote source data for ${sourceKey}; keeping local static content.`, error)
         }
       }
 
