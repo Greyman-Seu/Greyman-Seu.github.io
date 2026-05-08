@@ -3,8 +3,973 @@
   "title": "arXiv",
   "scope": "archive",
   "month": "2026-05",
-  "item_count": 19,
+  "item_count": 29,
   "items": [
+    {
+      "id": "arxiv:2605.05241",
+      "source_type": "arxiv",
+      "title": "DexSim2Real: Foundation Model-Guided Sim-to-Real Transfer for Generalizable Dexterous Manipulation",
+      "summary": "DexSim2Real 用视觉语言基础模型引导域随机化，并结合视触觉策略与课程学习，显著提升灵巧操作 sim-to-real 成功率。",
+      "importance": "high",
+      "include_in_follow": true,
+      "authors": [
+        "Zeng, Zijian",
+        "Ding, Fei",
+        "Yang, Huiming",
+        "Li, Xianwei",
+        "Liao, Yuhao"
+      ],
+      "categories": [
+        "cs.RO",
+        "cs.LG"
+      ],
+      "author_meta": [
+        {
+          "name": "Zeng, Zijian",
+          "affiliations": [],
+          "is_first_author": true,
+          "is_corresponding_author": false
+        },
+        {
+          "name": "Ding, Fei",
+          "affiliations": [],
+          "is_first_author": false,
+          "is_corresponding_author": false
+        },
+        {
+          "name": "Yang, Huiming",
+          "affiliations": [],
+          "is_first_author": false,
+          "is_corresponding_author": false
+        },
+        {
+          "name": "Li, Xianwei",
+          "affiliations": [],
+          "is_first_author": false,
+          "is_corresponding_author": false
+        },
+        {
+          "name": "Liao, Yuhao",
+          "affiliations": [],
+          "is_first_author": false,
+          "is_corresponding_author": false
+        }
+      ],
+      "first_affiliation": "",
+      "hjfy_url": "https://hjfy.top/arxiv/2605.05241",
+      "published": "2026-05-03",
+      "updated": "2026-05-03",
+      "abstract_en": "Sim-to-real transfer remains a critical bottleneck for deploying dexterous manipulation policies learned in simulation to real-world robots. Existing approaches rely on manually designed domain randomization or task-specific adaptation, limiting their generalizability across diverse manipulation scenarios. We present DexSim2Real, an integrated framework that leverages vision-language foundation models to bridge the sim-to-real gap for dexterous manipulation. Our system combines three components: (1) Foundation Model-Guided Domain Randomization (FM-DR), which uses a vision-language model as a visual realism critic to optimize simulation parameters via closed-loop CMA-ES, complementing text-based approaches like DrEureka with direct visual feedback; (2) a Tactile-Visual Cross-Attention Policy (TVCAP) that adapts cross-attention visuo-tactile fusion to zero-shot sim-to-real RL; and (3) a Progressive Skill Curriculum (PSC) that builds on LLM-based task decomposition with a difficulty scheduler tailored to contact-rich dexterous tasks. Extensive experiments on six challenging manipulation tasks with blinded evaluation demonstrate that DexSim2Real achieves a 78.2% average real-world success rate, outperforming DrEureka and DeXtreme while reducing the sim-to-real performance gap to only 8.3%.",
+      "one_liner_zh": "DexSim2Real 用视觉语言基础模型引导域随机化，并结合视触觉策略与课程学习，显著提升灵巧操作 sim-to-real 成功率。",
+      "summary_cn": "将仿真中学到的灵巧操作策略迁移到真实机器人上，sim-to-real transfer 仍然是部署中的关键瓶颈。现有方法依赖手工设计的域随机化或特定任务的适配，限制了它们在多样化操作场景中的泛化能力。我们提出 DexSim2Real，一个集成框架，利用 vision-language foundation models 来弥合灵巧操作中的 sim-to-real gap。我们的系统结合了三个组件：(1) Foundation Model-Guided Domain Randomization (FM-DR)，它使用 vision-language model 作为视觉真实性判别器，通过闭环 CMA-ES 优化仿真参数，以直接视觉反馈补充 DrEureka 等基于文本的方法；(2) Tactile-Visual Cross-Attention Policy (TVCAP)，它将 cross-attention 视觉-触觉融合适配到 zero-shot sim-to-real RL；以及 (3) Progressive Skill Curriculum (PSC)，它在基于 LLM 的任务分解之上，构建了一个针对富接触灵巧任务定制的难度调度器。在六个具有挑战性的操作任务上的大规模实验以及盲测评估表明，DexSim2Real 在真实世界中实现了 78.2% 的平均成功率，优于 DrEureka 和 DeXtreme，同时将 sim-to-real 性能差距缩小到仅 8.3%。",
+      "hot_score": 2.0,
+      "overall_score": 2.65,
+      "relevance_score": 3.0,
+      "is_favorite": true,
+      "domains": [
+        {
+          "slug": "physical-embodied-intelligence",
+          "name": "Physical/Embodied Intelligence"
+        },
+        {
+          "slug": "llm-vlm",
+          "name": "LLM/VLM"
+        }
+      ],
+      "links": [
+        {
+          "label": "Abs",
+          "href": "https://arxiv.org/abs/2605.05241"
+        },
+        {
+          "label": "PDF",
+          "href": "https://arxiv.org/pdf/2605.05241"
+        },
+        {
+          "label": "中英对照",
+          "href": "https://hjfy.top/arxiv/2605.05241"
+        }
+      ],
+      "date": "2026-05-08",
+      "source_title": "arXiv"
+    },
+    {
+      "id": "arxiv:2605.06175",
+      "source_type": "arxiv",
+      "title": "VLA-GSE: Boosting Parameter-Efficient Fine-Tuning in VLA with Generalized and Specialized Experts",
+      "summary": "VLA-GSE 通过广义/专用专家分解实现高效 VLA 微调，仅更新 2.51% 参数却超过 FFT 与现有 PEFT 基线。",
+      "importance": "high",
+      "include_in_follow": true,
+      "authors": [
+        "Jiang, Yuhua",
+        "Lu, Junjie",
+        "Qin, Xinyao",
+        "Chen, Xiaoyu",
+        "Wang, Kaixin",
+        "Gao, Feifei",
+        "Zhao, Li"
+      ],
+      "categories": [
+        "cs.RO"
+      ],
+      "author_meta": [
+        {
+          "name": "Jiang, Yuhua",
+          "affiliations": [],
+          "is_first_author": true,
+          "is_corresponding_author": false
+        },
+        {
+          "name": "Lu, Junjie",
+          "affiliations": [],
+          "is_first_author": false,
+          "is_corresponding_author": false
+        },
+        {
+          "name": "Qin, Xinyao",
+          "affiliations": [],
+          "is_first_author": false,
+          "is_corresponding_author": false
+        },
+        {
+          "name": "Chen, Xiaoyu",
+          "affiliations": [],
+          "is_first_author": false,
+          "is_corresponding_author": false
+        },
+        {
+          "name": "Wang, Kaixin",
+          "affiliations": [],
+          "is_first_author": false,
+          "is_corresponding_author": false
+        },
+        {
+          "name": "Gao, Feifei",
+          "affiliations": [],
+          "is_first_author": false,
+          "is_corresponding_author": false
+        },
+        {
+          "name": "Zhao, Li",
+          "affiliations": [],
+          "is_first_author": false,
+          "is_corresponding_author": false
+        }
+      ],
+      "first_affiliation": "",
+      "hjfy_url": "https://hjfy.top/arxiv/2605.06175",
+      "published": "2026-05-07",
+      "updated": "2026-05-07",
+      "abstract_en": "Vision-language-action (VLA) models inherit rich visual-semantic priors from pre-trained vision-language backbones, but adapting them to robotic control remains challenging. Full fine-tuning (FFT) is prone to overfitting on downstream robotic data and catastrophic forgetting of pretrained vision-language capabilities. Parameter-efficient fine-tuning (PEFT) better preserves pre-trained knowledge, yet existing PEFT methods still struggle to adapt effectively to robot control tasks. To address this gap, we propose VLA-GSE, a parameter-efficient VLA fine-tuning framework that improves control adaptation while retaining PEFT's knowledge preservation advantage. Specifically, VLA-GSE (Generalized and Specialized Experts) is initialized by spectrally decomposing the frozen backbone, assigning leading singular components to generalized experts (shared experts) and disjoint residual components to specialized experts (routed experts). This decomposition improves adaptation capacity under a fixed trainable-parameter budget. Under a comparable parameter budget, VLA-GSE updates only 2.51% of the full model parameters and consistently outperforms strong FFT and PEFT baselines. It achieves 81.2% average zero-shot success on LIBERO-Plus, preserves pre-trained VLM capability comparably to LoRA on multimodal understanding benchmarks, and improves real-world manipulation success under multiple distribution shifts. Code is available at: https://github.com/YuhuaJiang2002/VLA-GSE",
+      "one_liner_zh": "VLA-GSE 通过广义/专用专家分解实现高效 VLA 微调，仅更新 2.51% 参数却超过 FFT 与现有 PEFT 基线。",
+      "summary_cn": "视觉-语言-动作（VLA）模型从预训练视觉-语言骨干中继承了丰富的视觉语义先验，但将其适配到机器人控制仍然具有挑战性。全量微调（FFT）容易在下游机器人数据上过拟合，并灾难性遗忘预训练的视觉-语言能力。参数高效微调（PEFT）能更好地保留预训练知识，但现有 PEFT 方法仍难以有效适配机器人控制任务。为弥补这一差距，我们提出 VLA-GSE，一种参数高效的 VLA 微调框架，在保留 PEFT 知识保持优势的同时提升控制适配能力。具体而言，VLA-GSE（Generalized and Specialized Experts）通过对冻结骨干进行谱分解来初始化，将主导奇异成分分配给 generalized experts（shared experts），将不相交的残差成分分配给 specialized experts（routed experts）。这种分解在固定可训练参数预算下提升了适配能力。在可比参数预算下，VLA-GSE 仅更新完整模型参数的 2.51%，并持续优于强 FFT 和 PEFT 基线。它在 LIBERO-Plus 上达到 81.2% 的平均 zero-shot success，在多模态理解基准上以与 LoRA 相当的水平保留预训练 VLM 能力，并在多种分布偏移下提升真实世界操作成功率。代码已开源：https://github.com/YuhuaJiang2002/VLA-GSE",
+      "hot_score": 2.0,
+      "overall_score": 2.55,
+      "relevance_score": 3.0,
+      "is_favorite": true,
+      "domains": [
+        {
+          "slug": "physical-embodied-intelligence",
+          "name": "Physical/Embodied Intelligence"
+        }
+      ],
+      "links": [
+        {
+          "label": "Abs",
+          "href": "https://arxiv.org/abs/2605.06175"
+        },
+        {
+          "label": "PDF",
+          "href": "https://arxiv.org/pdf/2605.06175"
+        },
+        {
+          "label": "中英对照",
+          "href": "https://hjfy.top/arxiv/2605.06175"
+        },
+        {
+          "label": "Code 1",
+          "href": "https://github.com/YuhuaJiang2002/VLA-GSE"
+        }
+      ],
+      "date": "2026-05-08",
+      "source_title": "arXiv"
+    },
+    {
+      "id": "arxiv:2605.06222",
+      "source_type": "arxiv",
+      "title": "When to Trust Imagination: Adaptive Action Execution for World Action Models",
+      "summary": "FFDC 为 WAM 引入自适应动作执行机制，在减少 69.10% 前向次数的同时提升成功率与真实世界鲁棒性。",
+      "importance": "high",
+      "include_in_follow": true,
+      "authors": [
+        "Wang, Rui",
+        "Zhang, Yue",
+        "Lin, Jiehong",
+        "Luo, Kuncheng",
+        "Wang, Jianan",
+        "Wang, Zhongrui",
+        "Qi, Xiaojuan"
+      ],
+      "categories": [
+        "cs.RO",
+        "cs.AI"
+      ],
+      "author_meta": [
+        {
+          "name": "Wang, Rui",
+          "affiliations": [],
+          "is_first_author": true,
+          "is_corresponding_author": false
+        },
+        {
+          "name": "Zhang, Yue",
+          "affiliations": [],
+          "is_first_author": false,
+          "is_corresponding_author": false
+        },
+        {
+          "name": "Lin, Jiehong",
+          "affiliations": [],
+          "is_first_author": false,
+          "is_corresponding_author": false
+        },
+        {
+          "name": "Luo, Kuncheng",
+          "affiliations": [],
+          "is_first_author": false,
+          "is_corresponding_author": false
+        },
+        {
+          "name": "Wang, Jianan",
+          "affiliations": [],
+          "is_first_author": false,
+          "is_corresponding_author": false
+        },
+        {
+          "name": "Wang, Zhongrui",
+          "affiliations": [],
+          "is_first_author": false,
+          "is_corresponding_author": false
+        },
+        {
+          "name": "Qi, Xiaojuan",
+          "affiliations": [],
+          "is_first_author": false,
+          "is_corresponding_author": false
+        }
+      ],
+      "first_affiliation": "",
+      "hjfy_url": "https://hjfy.top/arxiv/2605.06222",
+      "published": "2026-05-07",
+      "updated": "2026-05-07",
+      "abstract_en": "World Action Models (WAMs) have recently emerged as a promising paradigm for robotic manipulation by jointly predicting future visual observations and future actions. However, current WAMs typically execute a fixed number of predicted actions after each model inference, leaving the robot blind to whether the imagined future remains consistent with the actual physical rollout. In this work, we formulate adaptive WAM execution as a future-reality verification problem: the robot should execute longer when the WAM-predicted future remains reliable, and replan earlier when reality deviates from imagination. To this end, we propose Future Forward Dynamics Causal Attention (FFDC), a lightweight verifier that jointly reasons over predicted future actions, predicted visual dynamics, real observations, and language instructions to estimate whether the remaining action rollout can still be trusted. FFDC enables adaptive action chunk sizes as an emergent consequence of prediction-observation consistency, preserving the efficiency of long-horizon execution while restoring responsiveness in contact-rich or difficult phases. We further introduce Mixture-of-Horizon Training to improve long-horizon trajectory coverage for adaptive execution. Experiments on the RoboTwin benchmark and in the real world demonstrate that our method achieves a strong robustness-efficiency trade-off: on RoboTwin, it reduces WAM forward passes by 69.10% and execution time by 34.02%, while improving success rate by 2.54% over the short-chunk baseline; in real-world experiments, it improves success rate by 35%.",
+      "one_liner_zh": "FFDC 为 WAM 引入自适应动作执行机制，在减少 69.10% 前向次数的同时提升成功率与真实世界鲁棒性。",
+      "summary_cn": "世界动作模型（WAM）近期已成为机器人操作中一个很有前景的范式，它通过联合预测未来视觉观测和未来动作来工作。然而，当前 WAM 通常在每次模型推理后执行固定数量的预测动作，这使机器人无法判断想象中的未来是否仍与真实物理 rollout 一致。在这项工作中，我们将自适应 WAM 执行表述为一个 future-reality verification 问题：当 WAM 预测的未来仍然可靠时，机器人应执行更长的动作序列；当现实偏离想象时，则应更早重新规划。为此，我们提出 Future Forward Dynamics Causal Attention（FFDC），一种轻量级 verifier，它联合考虑预测的未来动作、预测的视觉动力学、真实观测和语言指令，以估计剩余动作 rollout 是否仍然值得信任。FFDC 使自适应动作块大小成为预测与观测一致性的自然结果，在保持长时程执行效率的同时恢复了在富接触或困难阶段中的响应性。我们还引入 Mixture-of-Horizon Training，以提升自适应执行所需的长时程轨迹覆盖。RoboTwin 基准和真实世界实验表明，我们的方法实现了很强的鲁棒性-效率权衡：在 RoboTwin 上，它将 WAM 前向传播次数减少 69.10%，执行时间减少 34.02%，同时相较于短动作块基线将成功率提升 2.54%；在真实世界实验中，成功率提升 35%。",
+      "hot_score": 2.0,
+      "overall_score": 2.55,
+      "relevance_score": 3.0,
+      "is_favorite": true,
+      "domains": [
+        {
+          "slug": "physical-embodied-intelligence",
+          "name": "Physical/Embodied Intelligence"
+        }
+      ],
+      "links": [
+        {
+          "label": "Abs",
+          "href": "https://arxiv.org/abs/2605.06222"
+        },
+        {
+          "label": "PDF",
+          "href": "https://arxiv.org/pdf/2605.06222"
+        },
+        {
+          "label": "中英对照",
+          "href": "https://hjfy.top/arxiv/2605.06222"
+        }
+      ],
+      "date": "2026-05-08",
+      "source_title": "arXiv"
+    },
+    {
+      "id": "arxiv:2605.06247",
+      "source_type": "arxiv",
+      "title": "CKT-WAM: Parameter-Efficient Context Knowledge Transfer Between World Action Models",
+      "summary": "CKT-WAM 把教师 WAM 知识压缩进文本嵌入上下文，以 1.17% 可训练参数提升零样本泛化和长时程操作表现。",
+      "importance": "high",
+      "include_in_follow": true,
+      "authors": [
+        "Jiang, Yuhua",
+        "Guo, Yijun",
+        "Yang, Hongbing",
+        "Lei, Guojun",
+        "Chen, Nuo",
+        "Zhang, Yinuo",
+        "Yan, Shaoqiang",
+        "Lin, Bo",
+        "Gao, Feifei",
+        "Qi, Biqing"
+      ],
+      "categories": [
+        "cs.RO"
+      ],
+      "author_meta": [
+        {
+          "name": "Jiang, Yuhua",
+          "affiliations": [],
+          "is_first_author": true,
+          "is_corresponding_author": false
+        },
+        {
+          "name": "Guo, Yijun",
+          "affiliations": [],
+          "is_first_author": false,
+          "is_corresponding_author": false
+        },
+        {
+          "name": "Yang, Hongbing",
+          "affiliations": [],
+          "is_first_author": false,
+          "is_corresponding_author": false
+        },
+        {
+          "name": "Lei, Guojun",
+          "affiliations": [],
+          "is_first_author": false,
+          "is_corresponding_author": false
+        },
+        {
+          "name": "Chen, Nuo",
+          "affiliations": [],
+          "is_first_author": false,
+          "is_corresponding_author": false
+        },
+        {
+          "name": "Zhang, Yinuo",
+          "affiliations": [],
+          "is_first_author": false,
+          "is_corresponding_author": false
+        },
+        {
+          "name": "Yan, Shaoqiang",
+          "affiliations": [],
+          "is_first_author": false,
+          "is_corresponding_author": false
+        },
+        {
+          "name": "Lin, Bo",
+          "affiliations": [],
+          "is_first_author": false,
+          "is_corresponding_author": false
+        },
+        {
+          "name": "Gao, Feifei",
+          "affiliations": [],
+          "is_first_author": false,
+          "is_corresponding_author": false
+        },
+        {
+          "name": "Qi, Biqing",
+          "affiliations": [],
+          "is_first_author": false,
+          "is_corresponding_author": false
+        }
+      ],
+      "first_affiliation": "",
+      "hjfy_url": "https://hjfy.top/arxiv/2605.06247",
+      "published": "2026-05-07",
+      "updated": "2026-05-07",
+      "abstract_en": "World action models (WAMs) provide a powerful generative framework for embodied control, yet transferring knowledge across heterogeneous WAMs remains challenging due to mismatched latent interfaces, high adaptation cost, and the rigidity of conventional distillation objectives. We propose \\textbf{CKT-WAM}, a parameter-efficient \\textbf{C}ontext \\textbf{K}nowledge \\textbf{T}ransfer framework that transfers teacher WAM's knowledge into a student WAM through a compact context in the text embedding space, rather than output imitation or dense hidden-state matching. Specifically, CKT-WAM extracts intermediate teacher hidden states, reduces the number of tokens via compressors' learnable-query cross attention (LQCA), and transforms them through an always-on generalized adapter, a lightweight router, and sparsely activated specialized adapters. The resulting context is then appended to the student's conditioning textual embeddings, thereby injecting the transferred knowledge into the student with minimal architectural modification. Experiments show that CKT-WAM consistently improves zero-shot generalization and achieves the best overall performance on LIBERO-Plus, reaching 86.1\\% total success rate with only 1.17\\% trainable parameters, while approaching full fine-tuning performance. Beyond simulation, CKT-WAM also demonstrates strong real-world long-horizon manipulation ability, achieving the best average success rate of 83.3\\% across four multi-step and long-horizon tasks. Code is available at https://github.com/YuhuaJiang2002/CKT-WAM.",
+      "one_liner_zh": "CKT-WAM 把教师 WAM 知识压缩进文本嵌入上下文，以 1.17% 可训练参数提升零样本泛化和长时程操作表现。",
+      "summary_cn": "世界动作模型（WAM）为具身控制提供了强大的生成式框架，但由于潜在接口不匹配、适配成本高以及传统蒸馏目标过于僵化，在异构 WAM 之间迁移知识仍然具有挑战性。我们提出 \textbf{CKT-WAM}，一种参数高效的 \textbf{C}ontext \textbf{K}nowledge \textbf{T}ransfer 框架，它不是通过输出模仿或稠密隐藏状态匹配，而是通过文本嵌入空间中的紧凑上下文，将教师 WAM 的知识迁移到学生 WAM。具体而言，CKT-WAM 提取教师的中间隐藏状态，利用 compressors 的可学习查询交叉注意力（LQCA）减少 token 数量，并通过一个始终开启的 generalized adapter、一个轻量级 router 和稀疏激活的 specialized adapters 对其进行变换。随后，将得到的上下文附加到学生模型的条件文本嵌入之后，从而以极小的架构改动向学生注入迁移知识。实验表明，CKT-WAM 能稳定提升 zero-shot 泛化，并在 LIBERO-Plus 上取得最佳整体性能，在仅有 1.17% 可训练参数的情况下达到 86.1% 的总成功率，并接近全量微调性能。除仿真外，CKT-WAM 在真实世界长时程操作中也表现出很强能力，在四个多步和长时程任务上取得 83.3% 的最佳平均成功率。代码已开源：https://github.com/YuhuaJiang2002/CKT-WAM。",
+      "hot_score": 2.0,
+      "overall_score": 2.49,
+      "relevance_score": 3.0,
+      "is_favorite": true,
+      "domains": [
+        {
+          "slug": "physical-embodied-intelligence",
+          "name": "Physical/Embodied Intelligence"
+        }
+      ],
+      "links": [
+        {
+          "label": "Abs",
+          "href": "https://arxiv.org/abs/2605.06247"
+        },
+        {
+          "label": "PDF",
+          "href": "https://arxiv.org/pdf/2605.06247"
+        },
+        {
+          "label": "中英对照",
+          "href": "https://hjfy.top/arxiv/2605.06247"
+        },
+        {
+          "label": "Code 1",
+          "href": "https://github.com/YuhuaJiang2002/CKT-WAM"
+        }
+      ],
+      "date": "2026-05-08",
+      "source_title": "arXiv"
+    },
+    {
+      "id": "arxiv:2605.06481",
+      "source_type": "arxiv",
+      "title": "OA-WAM: Object-Addressable World Action Model for Robust Robot Manipulation",
+      "summary": "OA-WAM 用可寻址对象槽状态替代整体场景表征，显著提升机器人操作在场景扰动下的对象绑定与鲁棒性。",
+      "importance": "high",
+      "include_in_follow": true,
+      "authors": [
+        "Liu, Yushan",
+        "Sun, Peibo",
+        "Li, Shoujie",
+        "Xie, Yifan",
+        "Zhang, Lingfeng",
+        "Chao, Xintao",
+        "Dong, Shiyuan",
+        "Chen, Fang",
+        "Zhang, Xiao-Ping",
+        "Ding, Wenbo"
+      ],
+      "categories": [
+        "cs.RO"
+      ],
+      "author_meta": [
+        {
+          "name": "Liu, Yushan",
+          "affiliations": [],
+          "is_first_author": true,
+          "is_corresponding_author": false
+        },
+        {
+          "name": "Sun, Peibo",
+          "affiliations": [],
+          "is_first_author": false,
+          "is_corresponding_author": false
+        },
+        {
+          "name": "Li, Shoujie",
+          "affiliations": [],
+          "is_first_author": false,
+          "is_corresponding_author": false
+        },
+        {
+          "name": "Xie, Yifan",
+          "affiliations": [],
+          "is_first_author": false,
+          "is_corresponding_author": false
+        },
+        {
+          "name": "Zhang, Lingfeng",
+          "affiliations": [],
+          "is_first_author": false,
+          "is_corresponding_author": false
+        },
+        {
+          "name": "Chao, Xintao",
+          "affiliations": [],
+          "is_first_author": false,
+          "is_corresponding_author": false
+        },
+        {
+          "name": "Dong, Shiyuan",
+          "affiliations": [],
+          "is_first_author": false,
+          "is_corresponding_author": false
+        },
+        {
+          "name": "Chen, Fang",
+          "affiliations": [],
+          "is_first_author": false,
+          "is_corresponding_author": false
+        },
+        {
+          "name": "Zhang, Xiao-Ping",
+          "affiliations": [],
+          "is_first_author": false,
+          "is_corresponding_author": false
+        },
+        {
+          "name": "Ding, Wenbo",
+          "affiliations": [],
+          "is_first_author": false,
+          "is_corresponding_author": false
+        }
+      ],
+      "first_affiliation": "",
+      "hjfy_url": "https://hjfy.top/arxiv/2605.06481",
+      "published": "2026-05-07",
+      "updated": "2026-05-07",
+      "abstract_en": "World Action Models (WAMs) enhance Vision-Language-Action policies by jointly predicting scene evolution and robot actions, but existing methods usually represent the predicted world as holistic images, video tokens, or global latents. These representations are difficult for an action decoder to address when an instruction refers to a particular object, especially under scene shifts where object identity is entangled with context. We propose OA-WAM, an Object-Addressable World Action Model for robust robot manipulation. OA-WAM decomposes each frame into N+1 slot states, with one robot slot and N object slots. Each slot contains a persistent address vector and a time-varying content vector, and is fused with text, image, proprioception, and past-action tokens in a block-causal sequence. A world head predicts next-frame slot states, while a flow-matching action head decodes a 16-step continuous action chunk in the same forward pass. Addressability is enforced by routing cross-slot attention through address-only keys and resetting the address slice at every transformer layer, separating which object to act on from what that object currently is without adding extra tokens. OA-WAM matches strong VLA and WAM baselines on LIBERO (97.8%) and SimplerEnv (79.3%), reaches state-of-the-art performance on the most relevant LIBERO-Plus geometric axes, and remains competitive on the seven-axis aggregate. A causal slot-intervention test yields a swap-binding cosine of 0.87, versus at most 0.09 for holistic baselines. These results suggest that addressable object states provide an effective interface for robust world-action modeling under scene perturbations.",
+      "one_liner_zh": "OA-WAM 用可寻址对象槽状态替代整体场景表征，显著提升机器人操作在场景扰动下的对象绑定与鲁棒性。",
+      "summary_cn": "世界动作模型（WAM）通过联合预测场景演化与机器人动作来增强视觉-语言-动作策略，但现有方法通常将预测世界表示为整体图像、视频 token 或全局潜变量。当指令指向某个特定对象时，尤其是在对象身份与上下文纠缠的场景变化下，这些表示很难被动作解码器准确寻址。我们提出 OA-WAM，一种面向鲁棒机器人操作的 Object-Addressable World Action Model。OA-WAM 将每一帧分解为 N+1 个槽状态，其中包含 1 个机器人槽和 N 个对象槽。每个槽都包含一个持久地址向量和一个随时间变化的内容向量，并在块因果序列中与文本、图像、本体感觉和历史动作 token 融合。world head 预测下一帧槽状态，而 flow-matching action head 在同一次前向传播中解码一个 16 步连续动作块。我们通过仅使用地址 key 路由跨槽注意力，并在每一层 transformer 重置地址切片来强制实现可寻址性，从而在不增加额外 token 的情况下，将“对哪个对象执行动作”与“该对象当前是什么”分离。OA-WAM 在 LIBERO（97.8%）和 SimplerEnv（79.3%）上达到与强 VLA 和 WAM 基线相当的性能，在最相关的 LIBERO-Plus 几何轴上达到 state-of-the-art，并在七轴聚合指标上保持竞争力。一个因果槽干预测试得到 0.87 的 swap-binding cosine，而整体式基线最高仅为 0.09。这些结果表明，可寻址的对象状态为场景扰动下的鲁棒 world-action 建模提供了有效接口。",
+      "hot_score": 2.0,
+      "overall_score": 2.45,
+      "relevance_score": 3.0,
+      "is_favorite": true,
+      "domains": [
+        {
+          "slug": "physical-embodied-intelligence",
+          "name": "Physical/Embodied Intelligence"
+        }
+      ],
+      "links": [
+        {
+          "label": "Abs",
+          "href": "https://arxiv.org/abs/2605.06481"
+        },
+        {
+          "label": "PDF",
+          "href": "https://arxiv.org/pdf/2605.06481"
+        },
+        {
+          "label": "中英对照",
+          "href": "https://hjfy.top/arxiv/2605.06481"
+        }
+      ],
+      "date": "2026-05-08",
+      "source_title": "arXiv"
+    },
+    {
+      "id": "arxiv:2605.06246",
+      "source_type": "arxiv",
+      "title": "Structure-Preserving Gaussian Processes Via Discrete Euler-Lagrange Equations",
+      "summary": "LGP 通过离散 Euler-Lagrange 方程学习结构保持的机器人动力学，可仅凭稀疏位置观测实现稳定长期预测。",
+      "importance": "high",
+      "include_in_follow": true,
+      "authors": [
+        "Ewering, Jan-Hendrik",
+        "Flaßkamp, Kathrin",
+        "Wahlström, Niklas",
+        "Schön, Thomas B.",
+        "Seel, Thomas"
+      ],
+      "categories": [
+        "cs.LG",
+        "cs.RO"
+      ],
+      "author_meta": [
+        {
+          "name": "Ewering, Jan-Hendrik",
+          "affiliations": [],
+          "is_first_author": true,
+          "is_corresponding_author": false
+        },
+        {
+          "name": "Flaßkamp, Kathrin",
+          "affiliations": [],
+          "is_first_author": false,
+          "is_corresponding_author": false
+        },
+        {
+          "name": "Wahlström, Niklas",
+          "affiliations": [],
+          "is_first_author": false,
+          "is_corresponding_author": false
+        },
+        {
+          "name": "Schön, Thomas B.",
+          "affiliations": [],
+          "is_first_author": false,
+          "is_corresponding_author": false
+        },
+        {
+          "name": "Seel, Thomas",
+          "affiliations": [],
+          "is_first_author": false,
+          "is_corresponding_author": false
+        }
+      ],
+      "first_affiliation": "",
+      "hjfy_url": "https://hjfy.top/arxiv/2605.06246",
+      "published": "2026-05-07",
+      "updated": "2026-05-07",
+      "abstract_en": "In this paper, we propose Lagrangian Gaussian Processes (LGPs) for probabilistic and data-efficient learning of dynamics via discrete forced Euler-Lagrange equations. Importantly, the geometric structure of the Lagrange-d'Alembert principle, which governs the motion of dynamical systems, is preserved by construction in the absence of external forces. This allows learning physically consistent models that overcome erroneous drift in the system's energy, thereby providing stable long-term predictions. At the core of our approach lie linear operators for Gaussian process conditioning, constructed from discrete forced Euler-Lagrange equations and variational discretization schemes. Thereby and unlike prior work, the method enables learning dynamics from discrete position snapshots, i.e., without access to a system's velocities or momenta. This is particularly relevant for a large class of practical scenarios where only position measurements are available, for instance, in motion capture or visual servoing applications. We demonstrate the data-efficiency and generalization capabilities of the LGPs in various synthetic and real-world case studies, including a real-world soft robot with hysteresis. The experimental results underscore that the LGPs learn physically consistent dynamics with uncertainty quantification solely from sparse positional data and enable stable long-term predictions.",
+      "one_liner_zh": "LGP 通过离散 Euler-Lagrange 方程学习结构保持的机器人动力学，可仅凭稀疏位置观测实现稳定长期预测。",
+      "summary_cn": "本文提出了 Lagrangian Gaussian Processes (LGPs)，用于通过离散受迫 Euler-Lagrange 方程对动力学进行概率式且数据高效的学习。重要的是，在不存在外力时，支配动力系统运动的 Lagrange-d'Alembert 原理的几何结构在构造上得到保留。这使得模型能够学习物理上一致的动力学，从而克服系统能量中的错误漂移，并提供稳定的长期预测。我们方法的核心是用于 Gaussian process 条件化的线性算子，这些算子由离散受迫 Euler-Lagrange 方程和变分离散化方案构造而成。因此，与先前工作不同，该方法能够从离散的位置快照中学习动力学，即无需访问系统的速度或动量。这对于大量实际场景尤其相关，因为这些场景中通常只能获得位置测量，例如 motion capture 或 visual servoing 应用。我们在多种合成和真实案例研究中展示了 LGPs 的数据效率和泛化能力，其中包括一个具有 hysteresis 的真实软体机器人。实验结果强调，LGPs 仅从稀疏的位置数据中就能学习具有不确定性量化的、物理一致的动力学，并实现稳定的长期预测。",
+      "hot_score": 2.0,
+      "overall_score": 2.45,
+      "relevance_score": 3.0,
+      "is_favorite": false,
+      "domains": [
+        {
+          "slug": "physical-embodied-intelligence",
+          "name": "Physical/Embodied Intelligence"
+        }
+      ],
+      "links": [
+        {
+          "label": "Abs",
+          "href": "https://arxiv.org/abs/2605.06246"
+        },
+        {
+          "label": "PDF",
+          "href": "https://arxiv.org/pdf/2605.06246"
+        },
+        {
+          "label": "中英对照",
+          "href": "https://hjfy.top/arxiv/2605.06246"
+        }
+      ],
+      "date": "2026-05-08",
+      "source_title": "arXiv"
+    },
+    {
+      "id": "arxiv:2605.05236",
+      "source_type": "arxiv",
+      "title": "Topology-Driven Anti-Entanglement Control for Soft Robots",
+      "summary": "TD-MARL 用拓扑状态共享与拓扑安全层提升软体多机器人防缠绕控制的训练稳定性和效果。",
+      "importance": "high",
+      "include_in_follow": true,
+      "authors": [
+        "Le, Haoyang",
+        "Wang, Shengxuan",
+        "Chen, Mohan",
+        "Feng, Shuo"
+      ],
+      "categories": [
+        "cs.RO",
+        "cs.AI"
+      ],
+      "author_meta": [
+        {
+          "name": "Le, Haoyang",
+          "affiliations": [],
+          "is_first_author": true,
+          "is_corresponding_author": false
+        },
+        {
+          "name": "Wang, Shengxuan",
+          "affiliations": [],
+          "is_first_author": false,
+          "is_corresponding_author": false
+        },
+        {
+          "name": "Chen, Mohan",
+          "affiliations": [],
+          "is_first_author": false,
+          "is_corresponding_author": false
+        },
+        {
+          "name": "Feng, Shuo",
+          "affiliations": [],
+          "is_first_author": false,
+          "is_corresponding_author": false
+        }
+      ],
+      "first_affiliation": "",
+      "hjfy_url": "https://hjfy.top/arxiv/2605.05236",
+      "published": "2026-05-01",
+      "updated": "2026-05-01",
+      "abstract_en": "In the field of precision manufacturing in complex constrained environments, the role of soft robots is increasingly prominent, and the realization of anti-winding control based on multi-intelligent body reinforcement learning has become a research hotspot. One of the core problems at present is to coordinate multiple robots to complete the unwinding operation in a highly constrained environment. The existing distributed training framework faces some observability challenges in high-density barrier and unstable environments, resulting in poor learning results. This paper proposes a topology-driven Multi-Agent Reinforcement Learning (TD-MARL) framework to coordinate multi-robot systems to avoid entanglement. Specifically, the critical network adopts centralized learning, so that each intelligent body can perceive the strategies of other intelligent bodies by sharing the topological state, thus alleviating the training instability caused by complex interactions; eliminating the demand for communication resources between robots through distributed execution, Upgrade system reliability; the integrated topological security layer uses topological invariants to accurately assess and mitigate the risk of entanglement to avoid the strategy from falling into local difficulties. Finally, the full simulation experiments carried out in the real simulation environment show that the method is better than the current advanced deep reinforcement learning (DRL) method in terms of convergence and anti-winding effect.",
+      "one_liner_zh": "TD-MARL 用拓扑状态共享与拓扑安全层提升软体多机器人防缠绕控制的训练稳定性和效果。",
+      "summary_cn": "在复杂受限环境中的精密制造领域，软体机器人的作用日益突出，而基于多智能体强化学习实现防缠绕控制已成为研究热点。当前的核心问题之一，是在高度受限的环境中协调多个机器人完成解缠操作。现有分布式训练框架在高密度障碍和不稳定环境中面临一些可观测性挑战，导致学习效果较差。本文提出了一种 topology-driven Multi-Agent Reinforcement Learning (TD-MARL) 框架，用于协调多机器人系统避免缠绕。具体而言，关键网络采用集中式学习，使每个智能体能够通过共享拓扑状态感知其他智能体的策略，从而缓解复杂交互导致的训练不稳定性；通过分布式执行消除机器人之间对通信资源的需求，提升系统可靠性；集成的拓扑安全层利用拓扑不变量准确评估并降低缠绕风险，以避免策略陷入局部困境。最后，在真实仿真环境中开展的完整仿真实验表明，该方法在收敛性和防缠绕效果方面优于当前先进的深度强化学习 (DRL) 方法。",
+      "hot_score": 2.0,
+      "overall_score": 2.45,
+      "relevance_score": 3.0,
+      "is_favorite": false,
+      "domains": [
+        {
+          "slug": "physical-embodied-intelligence",
+          "name": "Physical/Embodied Intelligence"
+        }
+      ],
+      "links": [
+        {
+          "label": "Abs",
+          "href": "https://arxiv.org/abs/2605.05236"
+        },
+        {
+          "label": "PDF",
+          "href": "https://arxiv.org/pdf/2605.05236"
+        },
+        {
+          "label": "中英对照",
+          "href": "https://hjfy.top/arxiv/2605.05236"
+        }
+      ],
+      "date": "2026-05-08",
+      "source_title": "arXiv"
+    },
+    {
+      "id": "arxiv:2605.05925",
+      "source_type": "arxiv",
+      "title": "DexSynRefine: Synthesizing and Refining Human-Object Interaction Motion for Physically Feasible Dexterous Robot Actions",
+      "summary": "DexSynRefine 将 HOI 运动合成、残差 RL 与接触动力学适配结合起来，把稀疏人类演示转成可执行的灵巧手操作策略。",
+      "importance": "high",
+      "include_in_follow": true,
+      "authors": [
+        "Lee, Hyesung",
+        "Jung, Hyunwoo",
+        "Heo, Si-Hwan",
+        "Yang, Sungwook"
+      ],
+      "categories": [
+        "cs.RO"
+      ],
+      "author_meta": [
+        {
+          "name": "Lee, Hyesung",
+          "affiliations": [],
+          "is_first_author": true,
+          "is_corresponding_author": false
+        },
+        {
+          "name": "Jung, Hyunwoo",
+          "affiliations": [],
+          "is_first_author": false,
+          "is_corresponding_author": false
+        },
+        {
+          "name": "Heo, Si-Hwan",
+          "affiliations": [],
+          "is_first_author": false,
+          "is_corresponding_author": false
+        },
+        {
+          "name": "Yang, Sungwook",
+          "affiliations": [],
+          "is_first_author": false,
+          "is_corresponding_author": false
+        }
+      ],
+      "first_affiliation": "",
+      "hjfy_url": "https://hjfy.top/arxiv/2605.05925",
+      "published": "2026-05-07",
+      "updated": "2026-05-07",
+      "abstract_en": "Learning dexterous manipulation from human-object interaction (HOI) data is a scalable alternative to teleoperation, but HOI demonstrations are sparse and provide only kinematic motion that is not directly executable under embodiment mismatch and contact-rich dynamics. We present DexSynRefine, a framework with three coupled components: HOI-MMFP, a task- and object-initial-state-conditioned extension of motion manifold primitives that synthesizes coordinated hand-object trajectories from sparse HOI demonstrations; a task-space residual RL policy that physically grounds the synthesized reference while inheriting its kinematic structure; and a contact-and-dynamics adaptation module that enables sim-to-real transfer from proprioceptive history. Across five dexterous manipulation tasks spanning pick-and-place, tool use, and object reorientation, our task-space residual policy outperforms prior action-representation baselines in simulations and transfers to a real robot on all five tasks, improving over kinematic retargeting by 50-70 percentage points.",
+      "one_liner_zh": "DexSynRefine 将 HOI 运动合成、残差 RL 与接触动力学适配结合起来，把稀疏人类演示转成可执行的灵巧手操作策略。",
+      "summary_cn": "从人-物交互（HOI）数据中学习灵巧操作，是相对于遥操作更具可扩展性的替代方案，但 HOI 演示稀疏，并且只提供运动学轨迹，在具身差异和富接触动力学条件下无法直接执行。我们提出 DexSynRefine，一个由三个耦合组件组成的框架：HOI-MMFP，它是 motion manifold primitives 的一个扩展，受任务和物体初始状态条件控制，可从稀疏 HOI 演示中合成协调的手-物轨迹；一个 task-space residual RL policy，用于在继承合成参考运动学结构的同时将其物理落地；以及一个 contact-and-dynamics adaptation 模块，利用本体感觉历史实现 sim-to-real 迁移。在涵盖抓取放置、工具使用和物体重定向的五个灵巧操作任务上，我们的 task-space residual policy 在仿真中优于先前的动作表示基线，并成功迁移到真实机器人上的全部五个任务，相比运动学重定向提升了 50-70 个百分点。",
+      "hot_score": 2.0,
+      "overall_score": 2.37,
+      "relevance_score": 2.8,
+      "is_favorite": true,
+      "domains": [
+        {
+          "slug": "physical-embodied-intelligence",
+          "name": "Physical/Embodied Intelligence"
+        }
+      ],
+      "links": [
+        {
+          "label": "Abs",
+          "href": "https://arxiv.org/abs/2605.05925"
+        },
+        {
+          "label": "PDF",
+          "href": "https://arxiv.org/pdf/2605.05925"
+        },
+        {
+          "label": "中英对照",
+          "href": "https://hjfy.top/arxiv/2605.05925"
+        }
+      ],
+      "date": "2026-05-08",
+      "source_title": "arXiv"
+    },
+    {
+      "id": "arxiv:2605.06593",
+      "source_type": "arxiv",
+      "title": "ReActor: Reinforcement Learning for Physics-Aware Motion Retargeting",
+      "summary": "ReActor 以双层优化联合动作重定向与 RL 跟踪策略训练，为跨形态机器人生成更物理一致的模仿学习参考运动。",
+      "importance": "high",
+      "include_in_follow": true,
+      "authors": [
+        "Müller, David",
+        "Serifi, Agon",
+        "Christen, Sammy",
+        "Grandia, Ruben",
+        "Knoop, Espen",
+        "Bächer, Moritz"
+      ],
+      "categories": [
+        "cs.RO",
+        "cs.GR",
+        "cs.LG"
+      ],
+      "author_meta": [
+        {
+          "name": "Müller, David",
+          "affiliations": [],
+          "is_first_author": true,
+          "is_corresponding_author": false
+        },
+        {
+          "name": "Serifi, Agon",
+          "affiliations": [],
+          "is_first_author": false,
+          "is_corresponding_author": false
+        },
+        {
+          "name": "Christen, Sammy",
+          "affiliations": [],
+          "is_first_author": false,
+          "is_corresponding_author": false
+        },
+        {
+          "name": "Grandia, Ruben",
+          "affiliations": [],
+          "is_first_author": false,
+          "is_corresponding_author": false
+        },
+        {
+          "name": "Knoop, Espen",
+          "affiliations": [],
+          "is_first_author": false,
+          "is_corresponding_author": false
+        },
+        {
+          "name": "Bächer, Moritz",
+          "affiliations": [],
+          "is_first_author": false,
+          "is_corresponding_author": false
+        }
+      ],
+      "first_affiliation": "",
+      "hjfy_url": "https://hjfy.top/arxiv/2605.06593",
+      "published": "2026-05-07",
+      "updated": "2026-05-07",
+      "abstract_en": "Retargeting human kinematic reference motion onto a robot's morphology remains a formidable challenge. Existing methods often produce physical inconsistencies, such as foot sliding, self-collisions, or dynamically infeasible motions, which hinder downstream imitation learning. We propose a bilevel optimization framework that jointly adapts reference motions to a robot's morphology while training a tracking policy using reinforcement learning. To make the optimization tractable, we derive an approximate gradient for the upper-level loss. Our framework requires only a sparse set of semantic rigid-body correspondences and eliminates the need for manual tuning by identifying optimal values for a parameterization expressive enough to preserve characteristic motion across different embodiments. Moreover, by integrating retargeting directly with physics simulation, we produce physically plausible motions that facilitate robust imitation learning. We validate our method in simulation and on hardware, demonstrating challenging motions for morphologies that differ significantly from a human, including retargeting onto a quadruped.",
+      "one_liner_zh": "ReActor 以双层优化联合动作重定向与 RL 跟踪策略训练，为跨形态机器人生成更物理一致的模仿学习参考运动。",
+      "summary_cn": "将人类运动学参考动作重定向到机器人的形态上仍然是一项艰巨挑战。现有方法常常产生物理不一致性，例如脚部打滑、自碰撞或动力学上不可行的动作，这会妨碍下游模仿学习。我们提出一个双层优化框架，在训练跟踪策略的同时，联合将参考动作适配到机器人的形态上，并使用 reinforcement learning。为了使该优化可 tractable，我们为上层损失推导了一个近似梯度。我们的框架只需要一组稀疏的语义刚体对应关系，并通过为一种具有足够表达能力的参数化识别最优取值，消除了手工调参需求，从而在不同 embodiment 之间保留动作特征。此外，通过将重定向直接与物理仿真结合，我们生成了物理上合理的动作，从而促进稳健的模仿学习。我们在仿真和真实硬件上验证了该方法，展示了适用于与人类差异显著的形态的高难度动作，包括将动作重定向到四足机器人上。",
+      "hot_score": 2.0,
+      "overall_score": 2.35,
+      "relevance_score": 3.0,
+      "is_favorite": false,
+      "domains": [
+        {
+          "slug": "physical-embodied-intelligence",
+          "name": "Physical/Embodied Intelligence"
+        }
+      ],
+      "links": [
+        {
+          "label": "Abs",
+          "href": "https://arxiv.org/abs/2605.06593"
+        },
+        {
+          "label": "PDF",
+          "href": "https://arxiv.org/pdf/2605.06593"
+        },
+        {
+          "label": "中英对照",
+          "href": "https://hjfy.top/arxiv/2605.06593"
+        }
+      ],
+      "date": "2026-05-08",
+      "source_title": "arXiv"
+    },
+    {
+      "id": "arxiv:2605.05411",
+      "source_type": "arxiv",
+      "title": "Creative Robot Tool Use by Counterfactual Reasoning",
+      "summary": "该工作用 VLM 特征建议与反事实推理结合动力学模型，为机器人创造性工具使用做因果特征发现与技能迁移。",
+      "importance": "medium",
+      "include_in_follow": true,
+      "authors": [
+        "Akbulut, M. Tuluhan",
+        "Satheesh, Varun",
+        "Jaafar, Ahmed",
+        "Ahmetoglu, Alper",
+        "Parr, Shane",
+        "Ganeshan, Aditya",
+        "Vats, Shivam",
+        "Konidaris, George"
+      ],
+      "categories": [
+        "cs.RO",
+        "cs.AI"
+      ],
+      "author_meta": [
+        {
+          "name": "Akbulut, M. Tuluhan",
+          "affiliations": [],
+          "is_first_author": true,
+          "is_corresponding_author": false
+        },
+        {
+          "name": "Satheesh, Varun",
+          "affiliations": [],
+          "is_first_author": false,
+          "is_corresponding_author": false
+        },
+        {
+          "name": "Jaafar, Ahmed",
+          "affiliations": [],
+          "is_first_author": false,
+          "is_corresponding_author": false
+        },
+        {
+          "name": "Ahmetoglu, Alper",
+          "affiliations": [],
+          "is_first_author": false,
+          "is_corresponding_author": false
+        },
+        {
+          "name": "Parr, Shane",
+          "affiliations": [],
+          "is_first_author": false,
+          "is_corresponding_author": false
+        },
+        {
+          "name": "Ganeshan, Aditya",
+          "affiliations": [],
+          "is_first_author": false,
+          "is_corresponding_author": false
+        },
+        {
+          "name": "Vats, Shivam",
+          "affiliations": [],
+          "is_first_author": false,
+          "is_corresponding_author": false
+        },
+        {
+          "name": "Konidaris, George",
+          "affiliations": [],
+          "is_first_author": false,
+          "is_corresponding_author": false
+        }
+      ],
+      "first_affiliation": "",
+      "hjfy_url": "https://hjfy.top/arxiv/2605.05411",
+      "published": "2026-05-06",
+      "updated": "2026-05-06",
+      "abstract_en": "We propose a causal reasoning framework for creative robot tool use where a suitable tool for a task is correctly identified for use beyond its primary objectives. The proposed framework first discovers the causal relationships between the tool and the task by conducting simulated experiments in a dynamics model. We decouple the causal discovery problem into two complementary components: VLM-based feature suggestion and counterfactual tool generation via targeted geometric and physical feature perturbations. Then, novel objects are classified based on identified causal features, and the tool use skill is transferred via keypoint matching conditioned on the identified causal features. By reconstructing the task in a dynamics model, our approach grounds tool use in the physics of the problem. We illustrate our approach in reaching a distant object with different sticks, scooping candies from a bowl using diverse items, and using different boxes or crates as stepping platforms to retrieve an object from a high shelf. Our baseline comparisons show that identifying causal features and grounding them in physical tool properties leads to more reliable tool selection and stronger skill keypoint transfer.",
+      "one_liner_zh": "该工作用 VLM 特征建议与反事实推理结合动力学模型，为机器人创造性工具使用做因果特征发现与技能迁移。",
+      "summary_cn": "我们提出了一个用于机器人创造性工具使用的因果推理框架，使系统能够正确识别适合某项任务的工具，并将其用于超出其主要用途的场景。该框架首先通过在动力学模型中进行模拟实验，发现工具与任务之间的因果关系。我们将因果发现问题解耦为两个互补组成部分：基于 VLM 的特征建议，以及通过针对性的几何与物理特征扰动进行反事实工具生成。随后，基于所识别的因果特征对新物体进行分类，并通过以这些因果特征为条件的关键点匹配来迁移工具使用技能。通过在动力学模型中重建任务，我们的方法将工具使用建立在问题物理机制的基础之上。我们在多个场景中展示了该方法，包括用不同的棍棒够取远处物体、用不同物品从碗中舀取糖果，以及把不同的盒子或板条箱当作踏台来从高架上取回物体。与基线方法的比较表明，识别因果特征并将其锚定到工具的物理属性上，能够带来更可靠的工具选择和更强的技能关键点迁移。",
+      "hot_score": 2.0,
+      "overall_score": 2.27,
+      "relevance_score": 2.3,
+      "is_favorite": false,
+      "domains": [
+        {
+          "slug": "physical-embodied-intelligence",
+          "name": "Physical/Embodied Intelligence"
+        },
+        {
+          "slug": "llm-vlm",
+          "name": "LLM/VLM"
+        }
+      ],
+      "links": [
+        {
+          "label": "Abs",
+          "href": "https://arxiv.org/abs/2605.05411"
+        },
+        {
+          "label": "PDF",
+          "href": "https://arxiv.org/pdf/2605.05411"
+        },
+        {
+          "label": "中英对照",
+          "href": "https://hjfy.top/arxiv/2605.05411"
+        }
+      ],
+      "date": "2026-05-08",
+      "source_title": "arXiv"
+    },
     {
       "id": "arxiv:2605.05126",
       "source_type": "arxiv",

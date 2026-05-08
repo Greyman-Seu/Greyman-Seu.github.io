@@ -3,46 +3,46 @@
     {
       "slug": "physical-embodied-intelligence",
       "name": "Physical/Embodied Intelligence",
-      "count": 16,
-      "latest_date": "2026-05-07",
+      "count": 26,
+      "latest_date": "2026-05-08",
       "highlights": [
         {
-          "title": "ConsisVLA-4D: Advancing Spatiotemporal Consistency in Efficient 3D-Perception and 4D-Reasoning for Robotic Manipulation",
-          "summary": "面向机器人操作提出 ConsisVLA-4D，通过 3D 感知与 4D 推理的一致性设计提升 VLA 性能并显著加速推理。",
-          "date": "2026-05-07"
+          "title": "DexSim2Real: Foundation Model-Guided Sim-to-Real Transfer for Generalizable Dexterous Manipulation",
+          "summary": "DexSim2Real 用视觉语言基础模型引导域随机化，并结合视触觉策略与课程学习，显著提升灵巧操作 sim-to-real 成功率。",
+          "date": "2026-05-08"
         },
         {
-          "title": "Dream-MPC: Gradient-Based Model Predictive Control with Latent Imagination",
-          "summary": "Dream-MPC 用学习到的 world model 与梯度优化式 MPC 提升连续控制中的策略与规划性能。",
-          "date": "2026-05-07"
+          "title": "VLA-GSE: Boosting Parameter-Efficient Fine-Tuning in VLA with Generalized and Specialized Experts",
+          "summary": "VLA-GSE 通过广义/专用专家分解实现高效 VLA 微调，仅更新 2.51% 参数却超过 FFT 与现有 PEFT 基线。",
+          "date": "2026-05-08"
         },
         {
-          "title": "From Pixels to Tokens: A Systematic Study of Latent Action Supervision for Vision-Language-Action Models",
-          "summary": "系统比较图像式与动作式 latent action 监督策略，指出离散 latent action token 直接监督 VLM 的 VLA 训练效果最佳。",
-          "date": "2026-05-07"
+          "title": "When to Trust Imagination: Adaptive Action Execution for World Action Models",
+          "summary": "FFDC 为 WAM 引入自适应动作执行机制，在减少 69.10% 前向次数的同时提升成功率与真实世界鲁棒性。",
+          "date": "2026-05-08"
         }
       ]
     },
     {
       "slug": "llm-vlm",
       "name": "LLM/VLM",
-      "count": 7,
-      "latest_date": "2026-05-07",
+      "count": 9,
+      "latest_date": "2026-05-08",
       "highlights": [
+        {
+          "title": "DexSim2Real: Foundation Model-Guided Sim-to-Real Transfer for Generalizable Dexterous Manipulation",
+          "summary": "DexSim2Real 用视觉语言基础模型引导域随机化，并结合视触觉策略与课程学习，显著提升灵巧操作 sim-to-real 成功率。",
+          "date": "2026-05-08"
+        },
+        {
+          "title": "Creative Robot Tool Use by Counterfactual Reasoning",
+          "summary": "该工作用 VLM 特征建议与反事实推理结合动力学模型，为机器人创造性工具使用做因果特征发现与技能迁移。",
+          "date": "2026-05-08"
+        },
         {
           "title": "ConsisVLA-4D: Advancing Spatiotemporal Consistency in Efficient 3D-Perception and 4D-Reasoning for Robotic Manipulation",
           "summary": "面向机器人操作提出 ConsisVLA-4D，通过 3D 感知与 4D 推理的一致性设计提升 VLA 性能并显著加速推理。",
           "date": "2026-05-07"
-        },
-        {
-          "title": "From Pixels to Tokens: A Systematic Study of Latent Action Supervision for Vision-Language-Action Models",
-          "summary": "系统比较图像式与动作式 latent action 监督策略，指出离散 latent action token 直接监督 VLM 的 VLA 训练效果最佳。",
-          "date": "2026-05-07"
-        },
-        {
-          "title": "Being-H0.7: A Latent World-Action Model from Egocentric Videos",
-          "summary": "提出无需生成未来帧的潜空间 world-action model，以提升 VLA 控制策略的未来感知能力。",
-          "date": "2026-05-05"
         }
       ]
     },
