@@ -1,0 +1,59 @@
+---
+import CommonPage from '@/layouts/CommonPage.astro'
+import { Button, Label } from '@/components/ui'
+
+const headings = [
+  { depth: 2, slug: 'graph-delivery', text: 'Graph Delivery' },
+  { depth: 2, slug: 'how-it-will-work', text: 'How It Will Work' }
+]
+---
+
+<CommonPage title='Knowledge Graph' {headings} info='/wiki/graph'>
+  <div class='space-y-8'>
+    <section class='rounded-2xl border border-primary/15 bg-gradient-to-br from-primary/10 via-background to-background p-6'>
+      <div class='flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between'>
+        <div class='space-y-2'>
+          <Label title='Graph' />
+          <h2 class='m-0 text-2xl font-semibold text-foreground sm:text-3xl'>Knowledge graph delivery point</h2>
+          <p class='max-w-3xl text-sm leading-6 text-muted-foreground'>
+            这里会承接 `llm-wiki` 生成的交互式图谱 HTML。当前先把图谱入口固定下来，后续再把构建产物同步到网站。
+          </p>
+        </div>
+        <div class='flex flex-wrap gap-2'>
+          <Button title='Back to Wiki' href='/wiki' style='back' />
+        </div>
+      </div>
+    </section>
+
+    <section class='space-y-3' aria-labelledby='graph-delivery'>
+      <div class='border-b border-border/40 pb-3'>
+        <h2 id='graph-delivery' class='m-0 text-2xl font-semibold'>Graph Delivery</h2>
+      </div>
+      <div class='rounded-2xl border border-border bg-card p-5'>
+        <p class='m-0 text-sm leading-7 text-muted-foreground'>
+          一期不重写图谱前端，直接复用 `llm-wiki` 输出的 `knowledge-graph.html`。站点负责提供稳定路由、说明文案和后续嵌入位置。
+        </p>
+      </div>
+    </section>
+
+    <section class='space-y-3' aria-labelledby='how-it-will-work'>
+      <div class='border-b border-border/40 pb-3'>
+        <h2 id='how-it-will-work' class='m-0 text-2xl font-semibold'>How It Will Work</h2>
+      </div>
+      <div class='grid grid-cols-1 gap-4 lg:grid-cols-3'>
+        <div class='rounded-2xl border border-border bg-card p-5'>
+          <p class='m-0 text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground/80'>1. Build</p>
+          <p class='mt-3 text-sm leading-6 text-muted-foreground'>本地使用 `llm-wiki` 生成 graph data 与 HTML。</p>
+        </div>
+        <div class='rounded-2xl border border-border bg-card p-5'>
+          <p class='m-0 text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground/80'>2. Sync</p>
+          <p class='mt-3 text-sm leading-6 text-muted-foreground'>将公开图谱产物同步到 Astro 站点的静态资源目录。</p>
+        </div>
+        <div class='rounded-2xl border border-border bg-card p-5'>
+          <p class='m-0 text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground/80'>3. Browse</p>
+          <p class='mt-3 text-sm leading-6 text-muted-foreground'>访问 `/wiki/graph` 进入交互式知识图谱，作为主题和来源的发现入口。</p>
+        </div>
+      </div>
+    </section>
+  </div>
+</CommonPage>

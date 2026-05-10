@@ -1,0 +1,123 @@
+---
+import CommonPage from '@/layouts/CommonPage.astro'
+import { Button, Label } from '@/components/ui'
+import { getWikiSourceBySlug, getWikiSynthesisBySlug, getWikiTopicBySlug, wikiTopics } from '@/data/wiki'
+
+export const prerender = true
+
+export const getStaticPaths = async () =>
+  wikiTopics.map((topic) => ({
+    params: { slug: topic.slug },
+    props: { topic }
+  }))
+
+const { topic } = Astro.props as { topic: (typeof wikiTopics)[number] }
+const current = getWikiTopicBySlug(Astro.params.slug || topic.slug) || topic
+
+const headings = [
+  { depth: 2, slug: 'definition', text: 'Definition' },
+  { depth: 2, slug: 'why-it-matters', text: 'Why It Matters' },
+  { depth: 2, slug: 'key-questions', text: 'Key Questions' },
+  { depth: 2, slug: 'related-sources', text: 'Related Sources' },
+  { depth: 2, slug: 'related-synthesis', text: 'Related Synthesis' }
+]
+
+const relatedSources = current.relatedSourceSlugs
+  .map((slug) => getWikiSourceBySlug(slug))
+  .filter((source): source is NonNullable<typeof source> => Boolean(source))
+
+const relatedSyntheses = current.relatedSynthesisSlugs
+  .map((slug) => getWikiSynthesisBySlug(slug))
+  .filter((entry): entry is NonNullable<typeof entry> => Boolean(entry))
+---
+
+<CommonPage title={current.title} {headings} info={`/wiki/topic/${current.slug}`}>
+  <div class='space-y-8'>
+    <section class='rounded-2xl border border-primary/15 bg-gradient-to-br from-primary/10 via-background to-background p-6'>
+      <div class='flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between'>
+        <div class='space-y-2'>
+          <Label title='Topic' />
+          <h2 class='m-0 text-2xl font-semibold text-foreground sm:text-3xl'>{current.title}</h2>
+          <p class='max-w-3xl text-sm leading-6 text-muted-foreground'>{current.summary}</p>
+        </div>
+        <div class='flex flex-wrap gap-2'>
+          <Button title='Back to Domain' href={`/wiki/domain/${current.domain}`} style='back' />
+        </div>
+      </div>
+    </section>
+
+    <section class='space-y-3' aria-labelledby='definition'>
+      <div class='border-b border-border/40 pb-3'>
+        <h2 id='definition' class='m-0 text-2xl font-semibold'>Definition</h2>
+      </div>
+      <div class='rounded-2xl border border-border bg-card p-5'>
+        <p class='m-0 text-sm leading-7 text-muted-foreground'>{current.definition}</p>
+      </div>
+    </section>
+
+    <section class='space-y-3' aria-labelledby='why-it-matters'>
+      <div class='border-b border-border/40 pb-3'>
+        <h2 id='why-it-matters' class='m-0 text-2xl font-semibold'>Why It Matters</h2>
+      </div>
+      <div class='rounded-2xl border border-border bg-card p-5'>
+        <p class='m-0 text-sm leading-7 text-muted-foreground'>{current.whyItMatters}</p>
+      </div>
+    </section>
+
+    <section class='space-y-3' aria-labelledby='key-questions'>
+      <div class='border-b border-border/40 pb-3'>
+        <h2 id='key-questions' class='m-0 text-2xl font-semibold'>Key Questions</h2>
+      </div>
+      <div class='rounded-2xl border border-border bg-card p-5'>
+        <ul class='space-y-3 pl-5 text-sm leading-7 text-muted-foreground'>
+          {current.keyQuestions.map((question) => (
+            <li>{question}</li>
+          ))}
+        </ul>
+      </div>
+    </section>
+
+    <section class='space-y-3' aria-labelledby='related-sources'>
+      <div class='border-b border-border/40 pb-3'>
+        <h2 id='related-sources' class='m-0 text-2xl font-semibold'>Related Sources</h2>
+      </div>
+      <div class='space-y-3'>
+        {relatedSources.map((source) => (
+          <article class='rounded-2xl border border-border bg-card p-5'>
+            <div class='space-y-3'>
+              <div>
+                <h3 class='m-0 text-lg font-semibold text-foreground'>{source.title}</h3>
+                <p class='m-0 mt-2 text-sm leading-6 text-muted-foreground'>{source.summary}</p>
+              </div>
+              <div class='flex flex-wrap gap-2'>
+                <Button title='Open Source' href={`/wiki/source/${source.slug}`} style='ahead' />
+                {source.sourceUrl && <Button title='Original Link' href={source.sourceUrl} target='_blank' rel='noreferrer' />}
+              </div>
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <section class='space-y-3' aria-labelledby='related-synthesis'>
+      <div class='border-b border-border/40 pb-3'>
+        <h2 id='related-synthesis' class='m-0 text-2xl font-semibold'>Related Synthesis</h2>
+      </div>
+      <div class='space-y-3'>
+        {relatedSyntheses.map((entry) => (
+          <article class='rounded-2xl border border-border bg-card p-5'>
+            <div class='space-y-3'>
+              <div>
+                <h3 class='m-0 text-lg font-semibold text-foreground'>{entry.title}</h3>
+                <p class='m-0 mt-2 text-sm leading-6 text-muted-foreground'>{entry.summary}</p>
+              </div>
+              <div class='flex flex-wrap gap-2'>
+                <Button title='Open Synthesis' href={`/wiki/synthesis/${entry.slug}`} style='ahead' />
+              </div>
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
+  </div>
+</CommonPage>

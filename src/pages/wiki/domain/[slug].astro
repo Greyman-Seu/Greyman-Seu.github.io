@@ -1,8 +1,8 @@
 ---
 import CommonPage from '@/layouts/CommonPage.astro'
 import { Button, Label } from '@/components/ui'
-import { getWikiDomainBySlug, wikiDomains } from '@/data/follow'
-import type { WikiDomain } from '@/data/follow'
+import { getSourcesByDomain, getSynthesesByDomain, getTopicsByDomain, getWikiDomainBySlug, wikiDomains } from '@/data/wiki'
+import type { WikiDomain } from '@/data/wiki'
 
 export const prerender = true
 
@@ -18,11 +18,17 @@ const { domain } = Astro.props as { domain: WikiDomain }
 const headings = [
   { depth: 2, slug: 'definition', text: 'Definition' },
   { depth: 2, slug: 'key-questions', text: 'Key Questions' },
-  { depth: 2, slug: 'representative-items', text: 'Representative Items' },
+  { depth: 2, slug: 'focus-areas', text: 'Focus Areas' },
+  { depth: 2, slug: 'topics', text: 'Topics' },
+  { depth: 2, slug: 'sources', text: 'Sources' },
+  { depth: 2, slug: 'synthesis', text: 'Synthesis' },
   { depth: 2, slug: 'recent-signals', text: 'Recent Signals' }
 ]
 
 const current = getWikiDomainBySlug(domainSlug) || getWikiDomainBySlug(domain.slug) || domain
+const topics = getTopicsByDomain(current.slug)
+const sources = getSourcesByDomain(current.slug)
+const syntheses = getSynthesesByDomain(current.slug)
 ---
 
 <CommonPage title={current.name} {headings} info={`/wiki/domain/${current.slug}`}>
@@ -36,7 +42,7 @@ const current = getWikiDomainBySlug(domainSlug) || getWikiDomainBySlug(domain.sl
         </div>
         <div class='flex flex-wrap gap-2'>
           <Button title='Back to Wiki' href='/wiki' style='back' />
-          <Button title='View Feed' href={`/follow?domain=${current.slug}`} style='ahead' />
+          <Button title='Open Graph' href='/wiki/graph' style='ahead' />
         </div>
       </div>
     </section>
@@ -63,19 +69,88 @@ const current = getWikiDomainBySlug(domainSlug) || getWikiDomainBySlug(domain.sl
       </div>
     </section>
 
-    <section class='space-y-3' aria-labelledby='representative-items'>
+    <section class='space-y-3' aria-labelledby='focus-areas'>
       <div class='border-b border-border/40 pb-3'>
-        <h2 id='representative-items' class='m-0 text-2xl font-semibold'>Representative Items</h2>
+        <h2 id='focus-areas' class='m-0 text-2xl font-semibold'>Focus Areas</h2>
       </div>
-      <div class='space-y-3'>
-        {current.representativeItems.map((item: WikiDomain['representativeItems'][number]) => (
+      <div class='rounded-2xl border border-border bg-card p-5'>
+        <ul class='space-y-3 pl-5 text-sm leading-7 text-muted-foreground'>
+          {current.focusAreas.map((area: string) => (
+            <li>{area}</li>
+          ))}
+        </ul>
+      </div>
+    </section>
+
+    <section class='space-y-3' aria-labelledby='topics'>
+      <div class='border-b border-border/40 pb-3'>
+        <h2 id='topics' class='m-0 text-2xl font-semibold'>Topics</h2>
+      </div>
+      <div class='grid grid-cols-1 gap-3 lg:grid-cols-2'>
+        {topics.map((topic) => (
           <article class='rounded-2xl border border-border bg-card p-5'>
             <div class='space-y-3'>
               <div>
-                <h3 class='m-0 text-lg font-semibold text-foreground'>{item.title}</h3>
-                <p class='m-0 mt-2 text-sm leading-6 text-muted-foreground'>{item.note}</p>
+                <h3 class='m-0 text-lg font-semibold text-foreground'>{topic.title}</h3>
+                <p class='m-0 mt-2 text-sm leading-6 text-muted-foreground'>{topic.summary}</p>
               </div>
-              {item.href && <Button title='Open Source' href={item.href} target='_blank' rel='noreferrer' />}
+              <div class='flex flex-wrap items-center gap-2 text-xs text-muted-foreground'>
+                <span>Updated {topic.updatedDate}</span>
+              </div>
+              <div class='flex flex-wrap gap-2'>
+                <Button title='Open Topic' href={`/wiki/topic/${topic.slug}`} style='ahead' />
+              </div>
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <section class='space-y-3' aria-labelledby='sources'>
+      <div class='border-b border-border/40 pb-3'>
+        <h2 id='sources' class='m-0 text-2xl font-semibold'>Sources</h2>
+      </div>
+      <div class='space-y-3'>
+        {sources.map((source) => (
+          <article class='rounded-2xl border border-border bg-card p-5'>
+            <div class='space-y-3'>
+              <div class='flex flex-wrap items-center gap-2'>
+                <span class='rounded-full bg-primary/10 px-2.5 py-1 text-xs font-medium uppercase tracking-[0.14em] text-primary'>{source.sourceType}</span>
+                <span class='text-xs text-muted-foreground'>{source.publishDate}</span>
+              </div>
+              <div>
+                <h3 class='m-0 text-lg font-semibold text-foreground'>{source.title}</h3>
+                <p class='m-0 mt-2 text-sm leading-6 text-muted-foreground'>{source.summary}</p>
+              </div>
+              <div class='flex flex-wrap gap-2'>
+                <Button title='Open Source' href={`/wiki/source/${source.slug}`} style='ahead' />
+                {source.sourceUrl && <Button title='Original Link' href={source.sourceUrl} target='_blank' rel='noreferrer' />}
+              </div>
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <section class='space-y-3' aria-labelledby='synthesis'>
+      <div class='border-b border-border/40 pb-3'>
+        <h2 id='synthesis' class='m-0 text-2xl font-semibold'>Synthesis</h2>
+      </div>
+      <div class='space-y-3'>
+        {syntheses.map((entry) => (
+          <article class='rounded-2xl border border-border bg-card p-5'>
+            <div class='space-y-3'>
+              <div class='flex flex-wrap items-center gap-2'>
+                <span class='rounded-full bg-primary/10 px-2.5 py-1 text-xs font-medium uppercase tracking-[0.14em] text-primary'>{entry.kind}</span>
+                <span class='text-xs text-muted-foreground'>Updated {entry.updatedDate}</span>
+              </div>
+              <div>
+                <h3 class='m-0 text-lg font-semibold text-foreground'>{entry.title}</h3>
+                <p class='m-0 mt-2 text-sm leading-6 text-muted-foreground'>{entry.summary}</p>
+              </div>
+              <div class='flex flex-wrap gap-2'>
+                <Button title='Open Synthesis' href={`/wiki/synthesis/${entry.slug}`} style='ahead' />
+              </div>
             </div>
           </article>
         ))}

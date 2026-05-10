@@ -1,0 +1,89 @@
+---
+import CommonPage from '@/layouts/CommonPage.astro'
+import { Button, Label } from '@/components/ui'
+import { getWikiSourceBySlug, getWikiTopicBySlug, wikiSources } from '@/data/wiki'
+
+export const prerender = true
+
+export const getStaticPaths = async () =>
+  wikiSources.map((source) => ({
+    params: { slug: source.slug },
+    props: { source }
+  }))
+
+const { source } = Astro.props as { source: (typeof wikiSources)[number] }
+const current = getWikiSourceBySlug(Astro.params.slug || source.slug) || source
+
+const headings = [
+  { depth: 2, slug: 'summary', text: 'Summary' },
+  { depth: 2, slug: 'key-takeaways', text: 'Key Takeaways' },
+  { depth: 2, slug: 'related-topics', text: 'Related Topics' }
+]
+
+const relatedTopics = current.relatedTopicSlugs
+  .map((slug) => getWikiTopicBySlug(slug))
+  .filter((topic): topic is NonNullable<typeof topic> => Boolean(topic))
+---
+
+<CommonPage title={current.title} {headings} info={`/wiki/source/${current.slug}`}>
+  <div class='space-y-8'>
+    <section class='rounded-2xl border border-primary/15 bg-gradient-to-br from-primary/10 via-background to-background p-6'>
+      <div class='flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between'>
+        <div class='space-y-2'>
+          <Label title='Source' />
+          <h2 class='m-0 text-2xl font-semibold text-foreground sm:text-3xl'>{current.title}</h2>
+          <p class='max-w-3xl text-sm leading-6 text-muted-foreground'>
+            {current.sourceType} · {current.publishDate}
+          </p>
+        </div>
+        <div class='flex flex-wrap gap-2'>
+          {current.sourceUrl && <Button title='Original Link' href={current.sourceUrl} target='_blank' rel='noreferrer' style='ahead' />}
+          <Button title='Back to Wiki' href='/wiki' style='back' />
+        </div>
+      </div>
+    </section>
+
+    <section class='space-y-3' aria-labelledby='summary'>
+      <div class='border-b border-border/40 pb-3'>
+        <h2 id='summary' class='m-0 text-2xl font-semibold'>Summary</h2>
+      </div>
+      <div class='rounded-2xl border border-border bg-card p-5'>
+        <p class='m-0 text-sm leading-7 text-muted-foreground'>{current.summary}</p>
+      </div>
+    </section>
+
+    <section class='space-y-3' aria-labelledby='key-takeaways'>
+      <div class='border-b border-border/40 pb-3'>
+        <h2 id='key-takeaways' class='m-0 text-2xl font-semibold'>Key Takeaways</h2>
+      </div>
+      <div class='rounded-2xl border border-border bg-card p-5'>
+        <ul class='space-y-3 pl-5 text-sm leading-7 text-muted-foreground'>
+          {current.keyTakeaways.map((takeaway) => (
+            <li>{takeaway}</li>
+          ))}
+        </ul>
+      </div>
+    </section>
+
+    <section class='space-y-3' aria-labelledby='related-topics'>
+      <div class='border-b border-border/40 pb-3'>
+        <h2 id='related-topics' class='m-0 text-2xl font-semibold'>Related Topics</h2>
+      </div>
+      <div class='space-y-3'>
+        {relatedTopics.map((topic) => (
+          <article class='rounded-2xl border border-border bg-card p-5'>
+            <div class='space-y-3'>
+              <div>
+                <h3 class='m-0 text-lg font-semibold text-foreground'>{topic.title}</h3>
+                <p class='m-0 mt-2 text-sm leading-6 text-muted-foreground'>{topic.summary}</p>
+              </div>
+              <div class='flex flex-wrap gap-2'>
+                <Button title='Open Topic' href={`/wiki/topic/${topic.slug}`} style='ahead' />
+              </div>
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
+  </div>
+</CommonPage>

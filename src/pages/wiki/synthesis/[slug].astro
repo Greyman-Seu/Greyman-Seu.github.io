@@ -1,0 +1,99 @@
+---
+import CommonPage from '@/layouts/CommonPage.astro'
+import { Button, Label } from '@/components/ui'
+import { getWikiSourceBySlug, getWikiSynthesisBySlug, getWikiTopicBySlug, wikiSyntheses } from '@/data/wiki'
+
+export const prerender = true
+
+export const getStaticPaths = async () =>
+  wikiSyntheses.map((entry) => ({
+    params: { slug: entry.slug },
+    props: { entry }
+  }))
+
+const { entry } = Astro.props as { entry: (typeof wikiSyntheses)[number] }
+const current = getWikiSynthesisBySlug(Astro.params.slug || entry.slug) || entry
+
+const headings = [
+  { depth: 2, slug: 'summary', text: 'Summary' },
+  { depth: 2, slug: 'related-topics', text: 'Related Topics' },
+  { depth: 2, slug: 'related-sources', text: 'Related Sources' }
+]
+
+const relatedTopics = current.relatedTopicSlugs
+  .map((slug) => getWikiTopicBySlug(slug))
+  .filter((topic): topic is NonNullable<typeof topic> => Boolean(topic))
+const relatedSources = current.relatedSourceSlugs
+  .map((slug) => getWikiSourceBySlug(slug))
+  .filter((source): source is NonNullable<typeof source> => Boolean(source))
+---
+
+<CommonPage title={current.title} {headings} info={`/wiki/synthesis/${current.slug}`}>
+  <div class='space-y-8'>
+    <section class='rounded-2xl border border-primary/15 bg-gradient-to-br from-primary/10 via-background to-background p-6'>
+      <div class='flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between'>
+        <div class='space-y-2'>
+          <Label title='Synthesis' />
+          <h2 class='m-0 text-2xl font-semibold text-foreground sm:text-3xl'>{current.title}</h2>
+          <p class='max-w-3xl text-sm leading-6 text-muted-foreground'>
+            {current.kind} · updated {current.updatedDate}
+          </p>
+        </div>
+        <div class='flex flex-wrap gap-2'>
+          <Button title='Back to Wiki' href='/wiki' style='back' />
+        </div>
+      </div>
+    </section>
+
+    <section class='space-y-3' aria-labelledby='summary'>
+      <div class='border-b border-border/40 pb-3'>
+        <h2 id='summary' class='m-0 text-2xl font-semibold'>Summary</h2>
+      </div>
+      <div class='rounded-2xl border border-border bg-card p-5'>
+        <p class='m-0 text-sm leading-7 text-muted-foreground'>{current.summary}</p>
+      </div>
+    </section>
+
+    <section class='space-y-3' aria-labelledby='related-topics'>
+      <div class='border-b border-border/40 pb-3'>
+        <h2 id='related-topics' class='m-0 text-2xl font-semibold'>Related Topics</h2>
+      </div>
+      <div class='grid grid-cols-1 gap-3 lg:grid-cols-2'>
+        {relatedTopics.map((topic) => (
+          <article class='rounded-2xl border border-border bg-card p-5'>
+            <div class='space-y-3'>
+              <div>
+                <h3 class='m-0 text-lg font-semibold text-foreground'>{topic.title}</h3>
+                <p class='m-0 mt-2 text-sm leading-6 text-muted-foreground'>{topic.summary}</p>
+              </div>
+              <div class='flex flex-wrap gap-2'>
+                <Button title='Open Topic' href={`/wiki/topic/${topic.slug}`} style='ahead' />
+              </div>
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <section class='space-y-3' aria-labelledby='related-sources'>
+      <div class='border-b border-border/40 pb-3'>
+        <h2 id='related-sources' class='m-0 text-2xl font-semibold'>Related Sources</h2>
+      </div>
+      <div class='space-y-3'>
+        {relatedSources.map((source) => (
+          <article class='rounded-2xl border border-border bg-card p-5'>
+            <div class='space-y-3'>
+              <div>
+                <h3 class='m-0 text-lg font-semibold text-foreground'>{source.title}</h3>
+                <p class='m-0 mt-2 text-sm leading-6 text-muted-foreground'>{source.summary}</p>
+              </div>
+              <div class='flex flex-wrap gap-2'>
+                <Button title='Open Source' href={`/wiki/source/${source.slug}`} style='ahead' />
+              </div>
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
+  </div>
+</CommonPage>
