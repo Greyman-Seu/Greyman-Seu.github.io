@@ -5,22 +5,29 @@ import { followDigests, followDomains, getSourceSummaries, type FollowDigest, ty
 import { ENABLE_REMOTE_FOLLOW_DATA, FOLLOW_DATA_BASE_URL, REQUIRE_REMOTE_FOLLOW_DATA } from '@/data/generated/follow-client'
 
 const activeDomainSlug = Astro.url.searchParams.get('domain') || ''
+const useRemoteFollowBootstrap = ENABLE_REMOTE_FOLLOW_DATA
 const activeDomain = followDomains.find((domain: FollowDomain) => domain.slug === activeDomainSlug) || null
-const sourceSummaries = getSourceSummaries()
-const timelineMonthOptions = Array.from(new Set(followDigests.map((digest: FollowDigest) => digest.date.slice(0, 7)))).sort().reverse()
-const latestDigestDate = followDigests[0]?.date || ''
+const sourceSummaries = useRemoteFollowBootstrap ? [] : getSourceSummaries()
+const timelineMonthOptions = useRemoteFollowBootstrap
+  ? []
+  : Array.from(new Set(followDigests.map((digest: FollowDigest) => digest.date.slice(0, 7)))).sort().reverse()
+const latestDigestDate = useRemoteFollowBootstrap ? '' : followDigests[0]?.date || ''
 const latestDigestTime = latestDigestDate ? new Date(`${latestDigestDate}T00:00:00Z`).getTime() : 0
 
-const baseVisibleDigests = !activeDomain
-  ? followDigests
-  : followDigests.filter((digest: FollowDigest) =>
-      digest.sections.some((section) => section.items.some((item) => item.domains.includes(activeDomain.slug)))
-    )
-const visibleDigests = baseVisibleDigests.filter((digest: FollowDigest) => {
-  if (!latestDigestTime) return true
-  const digestTime = new Date(`${digest.date}T00:00:00Z`).getTime()
-  return Math.floor((latestDigestTime - digestTime) / 86400000) < 30
-})
+const baseVisibleDigests = useRemoteFollowBootstrap
+  ? []
+  : !activeDomain
+    ? followDigests
+    : followDigests.filter((digest: FollowDigest) =>
+        digest.sections.some((section) => section.items.some((item) => item.domains.includes(activeDomain.slug)))
+      )
+const visibleDigests = useRemoteFollowBootstrap
+  ? []
+  : baseVisibleDigests.filter((digest: FollowDigest) => {
+      if (!latestDigestTime) return true
+      const digestTime = new Date(`${digest.date}T00:00:00Z`).getTime()
+      return Math.floor((latestDigestTime - digestTime) / 86400000) < 30
+    })
 
 const headings = [
   { depth: 2, slug: 'focus-domains', text: 'Focus Domains' },
@@ -108,6 +115,27 @@ const sourceBadgeClass = {
             </div>
           </article>
         ))}
+        {useRemoteFollowBootstrap && sourceSummaries.length === 0 && (
+          <>
+            {(['arxiv', 'wechat', 'x', 'bilibili'] as const).map((source) => (
+              <article class='follow-source-card rounded-2xl border border-border bg-card p-5 transition-all hover:border-foreground/20 hover:shadow-md' data-source={source}>
+                <div class='flex flex-col gap-4'>
+                  <div class='space-y-2'>
+                    <div class='flex flex-wrap items-center gap-2'>
+                      <span class={`source-title rounded-full px-2.5 py-1 text-xs font-medium ${sourceBadgeClass[source]}`}>
+                        {source}
+                      </span>
+                      <span class='source-total rounded-full bg-muted px-2.5 py-1 text-xs font-medium text-muted-foreground'>
+                        loading...
+                      </span>
+                    </div>
+                    <p class='source-description m-0 text-sm leading-6 text-muted-foreground'>Waiting for remote Follow source summary.</p>
+                  </div>
+                </div>
+              </article>
+            ))}
+          </>
+        )}
       </div>
     </section>
 
@@ -177,7 +205,7 @@ const sourceBadgeClass = {
           </article>
         )) : (
           <div class='rounded-2xl border border-dashed border-border px-5 py-10 text-center text-sm text-muted-foreground'>
-            No digest items matched the current domain filter.
+            {useRemoteFollowBootstrap ? 'Loading remote Follow digests...' : 'No digest items matched the current domain filter.'}
           </div>
         )}
       </div>
@@ -285,7 +313,7 @@ const sourceBadgeClass = {
         }
 
         if (manifest && Array.isArray(manifest.sources)) {
-  const sourceCards = Array.from(document.querySelectorAll('.follow-source-card'))
+          const sourceCards = Array.from(document.querySelectorAll('.follow-source-card'))
           sourceCards.forEach((card) => {
             if (!(card instanceof HTMLElement)) return
             const sourceKey = card.dataset.source
@@ -294,7 +322,7 @@ const sourceBadgeClass = {
             const total = card.querySelector('.source-total')
             const latestBadge = card.querySelector('.source-latest')
             if (total) total.textContent = `${source.count || 0} item(s)`
-            if (latestBadge) latestBadge.textContent = `path ${source.path || ''}`
+            if (latestBadge) latestBadge.textContent = `latest ${latest.date || ''}`
           })
         }
 

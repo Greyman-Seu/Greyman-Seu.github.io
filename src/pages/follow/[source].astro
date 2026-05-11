@@ -25,16 +25,19 @@ if (!sourceMeta) {
   throw new Error(`Unknown follow source: ${sourceKey}`)
 }
 
-const items = getItemsBySource(sourceKey)
-const domainOptions = Array.from(
-  new Set(items.flatMap((item: FollowSourceItem) => item.domains))
-).map((slug) => ({
-  slug,
-  name: getFollowDomainBySlug(slug)?.name || slug,
-}))
+const useRemoteFollowBootstrap = ENABLE_REMOTE_FOLLOW_DATA
+const items = useRemoteFollowBootstrap ? [] : getItemsBySource(sourceKey)
+const domainOptions = useRemoteFollowBootstrap
+  ? []
+  : Array.from(
+      new Set(items.flatMap((item: FollowSourceItem) => item.domains))
+    ).map((slug) => ({
+      slug,
+      name: getFollowDomainBySlug(slug)?.name || slug,
+    }))
 
-const dateOptions = Array.from(new Set(items.map((item: FollowSourceItem) => item.date))).sort().reverse()
-const monthOptions = Array.from(new Set(items.map((item: FollowSourceItem) => item.date.slice(0, 7)))).sort().reverse()
+const dateOptions = useRemoteFollowBootstrap ? [] : Array.from(new Set(items.map((item: FollowSourceItem) => item.date))).sort().reverse()
+const monthOptions = useRemoteFollowBootstrap ? [] : Array.from(new Set(items.map((item: FollowSourceItem) => item.date.slice(0, 7)))).sort().reverse()
 const enableLocalFavorites = sourceKey === 'arxiv'
 const headings = [
   { depth: 2, slug: 'filters', text: 'Filters' },
@@ -137,7 +140,7 @@ const deriveHjfyUrl = (item: FollowSourceItem) => {
       <div class='flex items-center justify-between gap-3 border-b border-border/40 pb-3'>
         <div>
           <h2 id='items' class='m-0 text-2xl font-semibold'>{sourceMeta.title} Items</h2>
-          <p id='follow-summary' class='m-0 mt-1 text-sm text-muted-foreground'>{items.length} item(s)</p>
+          <p id='follow-summary' class='m-0 mt-1 text-sm text-muted-foreground'>{useRemoteFollowBootstrap ? 'Loading remote source data...' : `${items.length} item(s)`}</p>
         </div>
       </div>
 
@@ -251,8 +254,8 @@ const deriveHjfyUrl = (item: FollowSourceItem) => {
         ))}
       </div>
 
-      <div id='follow-empty' class='hidden rounded-2xl border border-dashed border-border px-5 py-10 text-center text-sm text-muted-foreground'>
-        No items matched the current filters.
+      <div id='follow-empty' class={`${useRemoteFollowBootstrap ? '' : 'hidden'} rounded-2xl border border-dashed border-border px-5 py-10 text-center text-sm text-muted-foreground`}>
+        {useRemoteFollowBootstrap ? 'Loading remote source data...' : 'No items matched the current filters.'}
       </div>
     </section>
   </div>
