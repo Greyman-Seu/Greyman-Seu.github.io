@@ -495,10 +495,7 @@ const normalizedSyncedWikiSources: WikiSource[] = syncedWikiSources.map((source)
   }
 })
 
-const mergedWikiSourcesMap = new Map<string, WikiSource>()
-for (const source of wikiSources) mergedWikiSourcesMap.set(source.slug, source)
-for (const source of normalizedSyncedWikiSources) mergedWikiSourcesMap.set(source.slug, source)
-const mergedWikiSources: WikiSource[] = Array.from(mergedWikiSourcesMap.values())
+const mergedWikiSources: WikiSource[] = normalizedSyncedWikiSources
 
 const normalizedSyncedWikiTopics: WikiTopic[] = syncedWikiTopics.map((topic) => {
   const topicWithDomain = topic as SyncedTopicWithDomain
@@ -563,10 +560,7 @@ const normalizedSyncedWikiSyntheses: WikiSynthesis[] = syncedWikiSyntheses.map((
   }
 })
 
-const mergedWikiTopicsMap = new Map<string, WikiTopic>()
-for (const topic of wikiTopics) mergedWikiTopicsMap.set(topic.slug, topic)
-for (const topic of normalizedSyncedWikiTopics) mergedWikiTopicsMap.set(topic.slug, topic)
-export const allWikiTopics: WikiTopic[] = Array.from(mergedWikiTopicsMap.values())
+export const allWikiTopics: WikiTopic[] = normalizedSyncedWikiTopics
 
 const getDomainSlugsFromTopics = (topicSlugs: string[]) =>
   Array.from(
@@ -591,10 +585,7 @@ const normalizeSourceDomains = (source: WikiSource): WikiSource => {
 
 export const allWikiSources: WikiSource[] = mergedWikiSources.map(normalizeSourceDomains)
 
-const mergedWikiSynthesesMap = new Map<string, WikiSynthesis>()
-for (const entry of wikiSyntheses) mergedWikiSynthesesMap.set(entry.slug, entry)
-for (const entry of normalizedSyncedWikiSyntheses) mergedWikiSynthesesMap.set(entry.slug, entry)
-export const allWikiSyntheses: WikiSynthesis[] = Array.from(mergedWikiSynthesesMap.values())
+export const allWikiSyntheses: WikiSynthesis[] = normalizedSyncedWikiSyntheses
 
 export const getWikiDomainBySlug = (slug: string) => wikiDomains.find((domain) => domain.slug === slug)
 export const getWikiTopicBySlug = (slug: string) => allWikiTopics.find((topic) => topic.slug === slug)
