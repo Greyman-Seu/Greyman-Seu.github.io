@@ -81,6 +81,8 @@ const typeNames: Record<string, string> = {
   note: '笔记'
 }
 const sourceTypeName = typeNames[current.sourceType] || current.sourceType
+const relatedOrganizations = current.relatedOrganizations || []
+const relatedCompanies = current.relatedCompanies || []
 const primarySummary = current.tldr || current.summary
 const finalJudgmentText = current.riskJudgment?.length || current.criticalNotes?.length ? '' : extractLabeledBlock(current.risks, '最终判断')
 const heroImageUrl = current.heroImage ? current.heroImage.replace(/"/g, '\\"') : ''
@@ -117,6 +119,17 @@ const heroVisualStyle = heroImageUrl
 
           {current.authors?.length ? (
             <p class='m-0 max-w-4xl text-sm leading-6 text-muted-foreground'>{current.authors.slice(0, 8).join(' · ')}{current.authors.length > 8 ? ' 等' : ''}</p>
+          ) : null}
+          {(current.affiliation || relatedOrganizations.length) ? (
+            <div class='flex max-w-4xl flex-wrap gap-2 text-xs text-muted-foreground'>
+              {current.affiliation ? <span class='rounded-full border border-border/70 bg-background/80 px-2.5 py-1'>首要单位：{current.affiliation}</span> : null}
+              {relatedOrganizations.slice(0, 6).map((organization) => (
+                <span class='rounded-full border border-border/70 bg-background/80 px-2.5 py-1'>{organization}</span>
+              ))}
+              {relatedCompanies.slice(0, 4).map((company) => (
+                <span class='rounded-full border border-primary/20 bg-primary/10 px-2.5 py-1 text-primary'>{company}</span>
+              ))}
+            </div>
           ) : null}
         </div>
 

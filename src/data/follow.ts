@@ -40,6 +40,8 @@ export type FollowItem = {
   categories?: string[]
   authorMeta?: FollowAuthorMeta[]
   firstAffiliation?: string
+  relatedOrganizations?: string[]
+  relatedCompanies?: string[]
   hjfyUrl?: string
   published?: string
   updated?: string

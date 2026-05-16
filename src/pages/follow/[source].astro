@@ -151,6 +151,8 @@ const deriveHjfyUrl = (item: FollowSourceItem) => {
             const normalizedOneLiner = (item.oneLinerZh || '').trim()
             const showSummary = !normalizedOneLiner || normalizedSummary !== normalizedOneLiner
             const firstAuthorAffiliations = item.authorMeta?.find((author) => author.isFirstAuthor)?.affiliations || []
+            const relatedOrganizations = item.relatedOrganizations || []
+            const relatedCompanies = item.relatedCompanies || []
             const correspondingAffiliations = item.authorMeta
               ?.filter((author) => author.isCorrespondingAuthor)
               .flatMap((author) => author.affiliations || []) || []
@@ -162,7 +164,7 @@ const deriveHjfyUrl = (item: FollowSourceItem) => {
             data-date={item.date}
             data-importance={item.importance}
             data-domains={item.domains.join(',')}
-            data-search={`${item.title} ${item.summary} ${item.abstractEn || ''} ${item.summaryCn || ''} ${item.oneLinerZh || ''} ${item.links.map((link) => link.label).join(' ')}`.toLowerCase()}
+            data-search={`${item.title} ${item.summary} ${item.abstractEn || ''} ${item.summaryCn || ''} ${item.oneLinerZh || ''} ${relatedOrganizations.join(' ')} ${relatedCompanies.join(' ')} ${item.links.map((link) => link.label).join(' ')}`.toLowerCase()}
             data-score={item.importance === 'high' ? 3 : item.importance === 'medium' ? 2 : 1}
           >
             <div class='flex flex-col gap-4'>
@@ -176,7 +178,7 @@ const deriveHjfyUrl = (item: FollowSourceItem) => {
                   {item.overallScore ? <span class='rounded-full bg-sky-500/10 px-2.5 py-1 text-xs font-medium text-sky-700 dark:text-sky-300'>Score {item.overallScore}</span> : null}
                 </div>
                 <h3 class='m-0 text-lg font-semibold text-foreground'>{item.title}</h3>
-                  {(item.authorMeta && item.authorMeta.length > 0) || (item.authors && item.authors.length > 0) || firstAuthorAffiliations.length > 0 || correspondingAffiliations.length > 0 || item.firstAffiliation ? (
+                  {(item.authorMeta && item.authorMeta.length > 0) || (item.authors && item.authors.length > 0) || firstAuthorAffiliations.length > 0 || relatedOrganizations.length > 0 || correspondingAffiliations.length > 0 || item.firstAffiliation ? (
                     <div class='rounded-xl border border-border/40 bg-background/50 px-4 py-3 text-sm text-muted-foreground'>
                       {item.authorMeta && item.authorMeta.length > 0 ? (
                         <p class='m-0 leading-6'>
@@ -190,6 +192,7 @@ const deriveHjfyUrl = (item: FollowSourceItem) => {
                         </p>
                       ) : item.authors && item.authors.length > 0 ? <p class='m-0 leading-6'><span class='font-medium text-foreground'>Authors:</span> {item.authors.join(', ')}</p> : null}
                       {firstAuthorAffiliations.length > 0 ? <p class='m-0 mt-2 leading-6'><span class='font-medium text-foreground'>First author affiliation:</span> {firstAuthorAffiliations.join('; ')}</p> : null}
+                      {relatedOrganizations.length > 0 ? <p class='m-0 mt-2 leading-6'><span class='font-medium text-foreground'>Related organizations:</span> {relatedOrganizations.join('; ')}{relatedCompanies.length > 0 ? ` · Companies: ${relatedCompanies.join('; ')}` : ''}</p> : null}
                       {correspondingAffiliations.length > 0 ? <p class='m-0 mt-2 leading-6'><span class='font-medium text-foreground'>Corresponding affiliation:</span> {correspondingAffiliations.join('; ')}</p> : null}
                       {!firstAuthorAffiliations.length && item.firstAffiliation ? <p class='m-0 mt-2 leading-6'><span class='font-medium text-foreground'>First affiliation:</span> {item.firstAffiliation}</p> : null}
                       {item.published || item.updated ? <p class='m-0 mt-2 leading-6'><span class='font-medium text-foreground'>Timeline:</span> {item.published ? `Published ${item.published}` : ''}{item.published && item.updated ? ' · ' : ''}{item.updated ? `Updated ${item.updated}` : ''}</p> : null}
@@ -330,6 +333,8 @@ const deriveHjfyUrl = (item: FollowSourceItem) => {
         `<span class="rounded-full bg-muted px-2.5 py-1 text-xs font-medium text-muted-foreground">${category}</span>`
       )).join('')
       const authorMeta = Array.isArray(item.author_meta) ? item.author_meta : []
+      const relatedOrganizations = Array.isArray(item.related_organizations) ? item.related_organizations : []
+      const relatedCompanies = Array.isArray(item.related_companies) ? item.related_companies : []
       const authorsHtml = authorMeta.length > 0
         ? `<p class="m-0 text-sm text-muted-foreground">Authors: ${authorMeta.map((author) => author.is_first_author ? `<strong class="font-semibold text-foreground">${author.name}</strong>` : author.name).join(', ')}</p>`
         : Array.isArray(item.authors) && item.authors.length > 0
@@ -343,11 +348,14 @@ const deriveHjfyUrl = (item: FollowSourceItem) => {
       const correspondingAffiliationHtml = correspondingAffiliations.length > 0
         ? `<p class="m-0 text-sm text-muted-foreground">Corresponding affiliation: ${correspondingAffiliations.join('; ')}</p>`
         : ''
+      const relatedOrganizationHtml = relatedOrganizations.length > 0
+        ? `<p class="m-0 text-sm text-muted-foreground">Related organizations: ${relatedOrganizations.join('; ')}${relatedCompanies.length > 0 ? ` · Companies: ${relatedCompanies.join('; ')}` : ''}</p>`
+        : ''
       const affiliationHtml = item.first_affiliation
         ? `<p class="m-0 text-sm text-muted-foreground">First affiliation: ${item.first_affiliation}</p>`
         : ''
-      const metaBlockHtml = (authorsHtml || firstAuthorAffiliationHtml || correspondingAffiliationHtml || affiliationHtml)
-        ? `<div class="rounded-xl border border-border/40 bg-background/50 px-4 py-3 text-sm text-muted-foreground">${authorsHtml}${firstAuthorAffiliationHtml}${correspondingAffiliationHtml}${!firstAuthorAffiliations.length ? affiliationHtml : ''}</div>`
+      const metaBlockHtml = (authorsHtml || firstAuthorAffiliationHtml || relatedOrganizationHtml || correspondingAffiliationHtml || affiliationHtml)
+        ? `<div class="rounded-xl border border-border/40 bg-background/50 px-4 py-3 text-sm text-muted-foreground">${authorsHtml}${firstAuthorAffiliationHtml}${relatedOrganizationHtml}${correspondingAffiliationHtml}${!firstAuthorAffiliations.length ? affiliationHtml : ''}</div>`
         : ''
       const timelineHtml = item.published || item.updated
         ? `<p class="m-0 mt-2 leading-6"><span class="font-medium text-foreground">Timeline:</span> ${item.published ? `Published ${item.published}` : ''}${item.published && item.updated ? ' · ' : ''}${item.updated ? `Updated ${item.updated}` : ''}</p>`
@@ -382,7 +390,7 @@ const deriveHjfyUrl = (item: FollowSourceItem) => {
           data-date="${item.date || ''}"
           data-importance="${item.importance || 'medium'}"
           data-domains="${domainsForFilter}"
-          data-search="${`${item.title || ''} ${item.summary || ''} ${item.abstract_en || ''} ${item.summary_cn || ''} ${item.one_liner_zh || ''} ${(item.links || []).map((link) => link.label).join(' ')}`.toLowerCase()}"
+          data-search="${`${item.title || ''} ${item.summary || ''} ${item.abstract_en || ''} ${item.summary_cn || ''} ${item.one_liner_zh || ''} ${relatedOrganizations.join(' ')} ${relatedCompanies.join(' ')} ${(item.links || []).map((link) => link.label).join(' ')}`.toLowerCase()}"
           data-score="${importanceScore}"
         >
           <div class="flex flex-col gap-4">

@@ -42,6 +42,8 @@ export type WikiSource = {
   publishDate: string
   authors?: string[]
   affiliation?: string
+  relatedOrganizations?: string[]
+  relatedCompanies?: string[]
   keywords?: string[]
   primaryDomainSlug?: string
   domainSlugs?: string[]
@@ -452,6 +454,8 @@ const normalizedSyncedWikiSources: WikiSource[] = syncedWikiSources.map((source)
     publishDate: source.publishDate || '',
     authors: source.authors || [],
     affiliation: source.affiliation || '',
+    relatedOrganizations: sourceRecord.relatedOrganizations || sourceRecord.related_organizations || [],
+    relatedCompanies: sourceRecord.relatedCompanies || sourceRecord.related_companies || [],
     keywords: source.keywords || [],
     primaryDomainSlug: sourceRecord.primaryDomainSlug || '',
     domainSlugs: sourceRecord.domainSlugs || [],
