@@ -1,99 +1,105 @@
 ---
 import CommonPage from '@/layouts/CommonPage.astro'
-import { Button, Label } from '@/components/ui'
-import { getWikiSourceBySlug, getWikiSynthesisBySlug, getWikiTopicBySlug, wikiSyntheses } from '@/data/wiki'
+import { Button } from '@/components/ui'
+import { allWikiSyntheses, getWikiSourceBySlug, getWikiSynthesisBySlug, getWikiTopicBySlug } from '@/data/wiki'
+import { renderWikiSection } from '@/data/generated/wiki-render'
 
 export const prerender = true
 
 export const getStaticPaths = async () =>
-  wikiSyntheses.map((entry) => ({
+  allWikiSyntheses.map((entry) => ({
     params: { slug: entry.slug },
     props: { entry }
   }))
 
-const { entry } = Astro.props as { entry: (typeof wikiSyntheses)[number] }
+const { entry } = Astro.props as { entry: (typeof allWikiSyntheses)[number] }
 const current = getWikiSynthesisBySlug(Astro.params.slug || entry.slug) || entry
+const render = (value?: string) => ({ __html: renderWikiSection(String(value || '')) })
 
-const headings = [
-  { depth: 2, slug: 'summary', text: 'Summary' },
-  { depth: 2, slug: 'related-topics', text: 'Related Topics' },
-  { depth: 2, slug: 'related-sources', text: 'Related Sources' }
-]
-
-const relatedTopics = current.relatedTopicSlugs
+const relatedTopics = (current.relatedTopicSlugs || [])
   .map((slug) => getWikiTopicBySlug(slug))
   .filter((topic): topic is NonNullable<typeof topic> => Boolean(topic))
-const relatedSources = current.relatedSourceSlugs
+const relatedSources = (current.relatedSourceSlugs || [])
   .map((slug) => getWikiSourceBySlug(slug))
   .filter((source): source is NonNullable<typeof source> => Boolean(source))
+
+const headings = [
+  { depth: 2, slug: 'body', text: '正文' },
+  { depth: 2, slug: 'papers', text: '相关材料' },
+  ...(relatedTopics.length ? [{ depth: 2, slug: 'topics', text: '相关主题' }] : [])
+]
 ---
 
 <CommonPage title={current.title} {headings} info={`/wiki/synthesis/${current.slug}`}>
-  <div class='space-y-8'>
-    <section class='rounded-2xl border border-primary/15 bg-gradient-to-br from-primary/10 via-background to-background p-6'>
-      <div class='flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between'>
-        <div class='space-y-2'>
-          <Label title='Synthesis' />
-          <h2 class='m-0 text-2xl font-semibold text-foreground sm:text-3xl'>{current.title}</h2>
-          <p class='max-w-3xl text-sm leading-6 text-muted-foreground'>
-            {current.kind} · updated {current.updatedDate}
-          </p>
+  <div class='space-y-6'>
+    <section class='rounded-2xl border border-border bg-card p-4 shadow-sm sm:p-5'>
+      <div class='flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between'>
+        <div class='flex flex-wrap gap-2 text-sm'>
+          <span class='rounded-full border border-border/70 bg-background px-3 py-1.5 text-muted-foreground'>材料 {relatedSources.length}</span>
+          <span class='rounded-full border border-border/70 bg-background px-3 py-1.5 text-muted-foreground'>主题 {relatedTopics.length}</span>
+          <span class='rounded-full border border-border/70 bg-background px-3 py-1.5 text-muted-foreground'>更新 {current.updatedDate || '未知'}</span>
         </div>
-        <div class='flex flex-wrap gap-2'>
-          <Button title='Back to Wiki' href='/wiki' style='back' />
+        <nav class='flex flex-wrap gap-2' aria-label='综述详情导航'>
+          <Button title='返回综述' href='/wiki/syntheses' style='back' />
+          <Button title='浏览材料' href='/wiki/papers' />
+          <Button title='主题路线' href='/wiki/topics' />
+        </nav>
+      </div>
+      <div class='mt-4 border-l-2 border-primary/40 pl-4'>
+        <p class='m-0 text-xs font-semibold uppercase tracking-[0.16em] text-primary/80'>综述结论</p>
+        <p class='m-0 mt-2 max-w-4xl text-base leading-8 text-foreground'>{current.summary}</p>
+      </div>
+    </section>
+
+    <section class='space-y-3' aria-labelledby='body'>
+      <div class='border-b border-border/40 pb-3'>
+        <h2 id='body' class='m-0 text-2xl font-semibold'>正文</h2>
+      </div>
+      <article class='rounded-2xl border border-border bg-card p-5'>
+        <div class='wiki-rich text-sm leading-7 text-muted-foreground' set:html={render(current.body || current.summary).__html} />
+      </article>
+    </section>
+
+    <section class='space-y-6'>
+      <div class='space-y-3' aria-labelledby='papers'>
+        <div class='border-b border-border/40 pb-3'>
+          <h2 id='papers' class='m-0 text-2xl font-semibold'>相关材料</h2>
         </div>
-      </div>
-    </section>
-
-    <section class='space-y-3' aria-labelledby='summary'>
-      <div class='border-b border-border/40 pb-3'>
-        <h2 id='summary' class='m-0 text-2xl font-semibold'>Summary</h2>
-      </div>
-      <div class='rounded-2xl border border-border bg-card p-5'>
-        <p class='m-0 text-sm leading-7 text-muted-foreground'>{current.summary}</p>
-      </div>
-    </section>
-
-    <section class='space-y-3' aria-labelledby='related-topics'>
-      <div class='border-b border-border/40 pb-3'>
-        <h2 id='related-topics' class='m-0 text-2xl font-semibold'>Related Topics</h2>
-      </div>
-      <div class='grid grid-cols-1 gap-3 lg:grid-cols-2'>
-        {relatedTopics.map((topic) => (
-          <article class='rounded-2xl border border-border bg-card p-5'>
-            <div class='space-y-3'>
-              <div>
-                <h3 class='m-0 text-lg font-semibold text-foreground'>{topic.title}</h3>
-                <p class='m-0 mt-2 text-sm leading-6 text-muted-foreground'>{topic.summary}</p>
-              </div>
-              <div class='flex flex-wrap gap-2'>
-                <Button title='Open Topic' href={`/wiki/topic/${topic.slug}`} style='ahead' />
-              </div>
-            </div>
-          </article>
-        ))}
-      </div>
-    </section>
-
-    <section class='space-y-3' aria-labelledby='related-sources'>
-      <div class='border-b border-border/40 pb-3'>
-        <h2 id='related-sources' class='m-0 text-2xl font-semibold'>Related Sources</h2>
-      </div>
-      <div class='space-y-3'>
-        {relatedSources.map((source) => (
-          <article class='rounded-2xl border border-border bg-card p-5'>
-            <div class='space-y-3'>
-              <div>
+        <div class='space-y-3'>
+          {relatedSources.map((source) => (
+            <article class='rounded-2xl border border-border bg-card p-5'>
+              <div class='space-y-3'>
                 <h3 class='m-0 text-lg font-semibold text-foreground'>{source.title}</h3>
-                <p class='m-0 mt-2 text-sm leading-6 text-muted-foreground'>{source.summary}</p>
+                <p class='m-0 text-sm leading-6 text-muted-foreground'>{source.tldr || source.summary}</p>
+                <div class='flex flex-wrap gap-2 border-t border-border/40 pt-3'>
+                  <Button title='阅读材料' href={`/wiki/source/${source.slug}`} style='ahead' />
+                </div>
               </div>
-              <div class='flex flex-wrap gap-2'>
-                <Button title='Open Source' href={`/wiki/source/${source.slug}`} style='ahead' />
-              </div>
-            </div>
-          </article>
-        ))}
+            </article>
+          ))}
+        </div>
       </div>
+
+      {relatedTopics.length ? (
+        <div class='space-y-3' aria-labelledby='topics'>
+          <div class='border-b border-border/40 pb-3'>
+            <h2 id='topics' class='m-0 text-2xl font-semibold'>相关主题</h2>
+          </div>
+          <div class='space-y-3'>
+            {relatedTopics.map((topic) => (
+              <article class='rounded-2xl border border-border bg-card p-5'>
+                <div class='space-y-3'>
+                  <h3 class='m-0 text-lg font-semibold text-foreground'>{topic.title}</h3>
+                  <p class='m-0 text-sm leading-6 text-muted-foreground'>{topic.summary}</p>
+                  <div class='flex flex-wrap gap-2 border-t border-border/40 pt-3'>
+                    <Button title='打开主题' href={`/wiki/topic/${topic.slug}`} style='ahead' />
+                  </div>
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      ) : null}
     </section>
   </div>
 </CommonPage>

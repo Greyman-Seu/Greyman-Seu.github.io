@@ -1,0 +1,1087 @@
+{
+  "date": "2026-05-11",
+  "summary": "2026-05-11 arXiv daily selected 12 papers for follow-up.",
+  "highlights": [
+    "Escaping the Diversity Trap in Robotic Manipulation via Anchor-Centric Adaptation: ACA 指出机器人少样本适配盲目追求多样性会掉入 diversity trap，并提出 anchor 优先的两阶段适配框架。",
+    "PhySPRING: Structure-Preserving Reduction of Physics-Informed Twins via GNN: PhySPRING 用可微 GNN 学习弹簧质点数字孪生的分层降采样拓扑，在保持物理保真度的同时提升仿真效率。",
+    "PISTO: Proximal Inference for Stochastic Trajectory Optimization: PISTO 将 STOMP 解释为对 Boltzmann 轨迹分布的变分推断，并用 proximal KL 正则稳定随机轨迹优化更新。"
+  ],
+  "counts": {
+    "arxiv": 12,
+    "wechat": 0,
+    "x": 0,
+    "bilibili": 0
+  },
+  "sections": [
+    {
+      "source_type": "arxiv",
+      "title": "arXiv",
+      "count": 12,
+      "items": [
+        {
+          "id": "arxiv:2605.07308",
+          "source_type": "arxiv",
+          "title": "AT-VLA: Adaptive Tactile Injection for Enhanced Feedback Reaction in Vision-Language-Action Models",
+          "summary": "AT-VLA 用自适应触觉注入和双流反应机制提升 VLA 在接触密集操作中的实时反馈能力。",
+          "importance": "high",
+          "include_in_follow": true,
+          "authors": [
+            "Li, Xiaoqi",
+            "Cai, Muhe",
+            "Xu, Jiadong",
+            "Zhu, Juan",
+            "Fan, Hongwei",
+            "Shen, Yan",
+            "Ren, Guangrui",
+            "Dong, Hao"
+          ],
+          "categories": [
+            "cs.RO"
+          ],
+          "author_meta": [
+            {
+              "name": "Li, Xiaoqi",
+              "affiliations": [],
+              "is_first_author": true,
+              "is_corresponding_author": false
+            },
+            {
+              "name": "Cai, Muhe",
+              "affiliations": [],
+              "is_first_author": false,
+              "is_corresponding_author": false
+            },
+            {
+              "name": "Xu, Jiadong",
+              "affiliations": [],
+              "is_first_author": false,
+              "is_corresponding_author": false
+            },
+            {
+              "name": "Zhu, Juan",
+              "affiliations": [],
+              "is_first_author": false,
+              "is_corresponding_author": false
+            },
+            {
+              "name": "Fan, Hongwei",
+              "affiliations": [],
+              "is_first_author": false,
+              "is_corresponding_author": false
+            },
+            {
+              "name": "Shen, Yan",
+              "affiliations": [],
+              "is_first_author": false,
+              "is_corresponding_author": false
+            },
+            {
+              "name": "Ren, Guangrui",
+              "affiliations": [],
+              "is_first_author": false,
+              "is_corresponding_author": false
+            },
+            {
+              "name": "Dong, Hao",
+              "affiliations": [],
+              "is_first_author": false,
+              "is_corresponding_author": false
+            }
+          ],
+          "first_affiliation": "",
+          "hjfy_url": "",
+          "published": "2026-05-08",
+          "updated": "2026-05-08",
+          "abstract_en": "Vision-Language-Action (VLA) models have significantly advanced the capabilities of robotic agents in executing diverse tasks; however, they still face challenges in contact-rich manipulation scenarios that require precise physical interactions. To address this limitation, recent studies have attempted to incorporate tactile signals during downstream tasks, enabling pretrained VLAs to interpret tactile feedback. Nevertheless, introducing new modalities during finetuning, which are rarely present in the pretrain stage, may disrupt the pretrained capabilities of VLAs. In addition, the inherently slow inference speed of VLAs hampers real-time responsiveness and limits the effective utilization of tactile feedback for action adjustment. To overcome these challenges, we propose Adaptive Tactile Vision-Language-Action (AT-VLA), which introduces a novel Adaptive Tactile Injection mechanism. This mechanism dynamically determines the appropriate timing and locations for tactile injection, incorporating only when it significantly contributes to action generation, thereby minimizing interference with pretrained representations. Furthermore, to enable rapid and accurate tactile responses, we propose a Tactile Reaction Dual-Stream mechanism, which decouples sensory processing into a slow visual-language stream for low-frequency perceptual reasoning and a fast tactile control stream for high-frequency physical interaction understanding, achieving real-time close-loop responses within 0.04 s. Real-world experiments thoroughly validate the effectiveness of AT-VLA in contact-rich manipulation tasks. The project page is available at: https://sites.google.com/view/at-vla.",
+          "one_liner_zh": "AT-VLA 用自适应触觉注入和双流反应机制提升 VLA 在接触密集操作中的实时反馈能力。",
+          "summary_cn": "Vision-Language-Action (VLA) 模型显著提升了机器人执行多样任务的能力，但在需要精确物理交互的接触密集型操作场景中仍面临挑战。为解决这一问题，近期工作尝试在下游任务中引入触觉信号，使预训练 VLA 能理解触觉反馈。然而，在预训练阶段很少出现的新模态若在微调时直接引入，可能破坏 VLA 的预训练能力；同时，VLA 天生较慢的推理速度也限制了对触觉反馈的实时利用。为此，本文提出 Adaptive Tactile Vision-Language-Action (AT-VLA)，其核心是新的 Adaptive Tactile Injection 机制，可动态决定何时、在何处注入触觉，仅在其对动作生成有显著帮助时才使用，从而尽量减少对预训练表征的干扰。此外，作者提出 Tactile Reaction Dual-Stream 机制，将感知处理解耦为低频视觉语言流和高频触觉控制流，实现 0.04 秒内的实时闭环响应。真实机器人实验充分验证了 AT-VLA 在接触密集型操作任务中的有效性。",
+          "hot_score": 2.0,
+          "overall_score": 2.45,
+          "relevance_score": 0.0,
+          "is_favorite": false,
+          "domains": [
+            {
+              "slug": "physical-embodied-intelligence",
+              "name": "Physical/Embodied Intelligence"
+            },
+            {
+              "slug": "llm-vlm",
+              "name": "LLM/VLM"
+            }
+          ],
+          "links": [
+            {
+              "label": "Abs",
+              "href": "https://arxiv.org/abs/2605.07308"
+            },
+            {
+              "label": "PDF",
+              "href": "https://arxiv.org/pdf/2605.07308"
+            },
+            {
+              "label": "Project 1",
+              "href": "https://sites.google.com/view/at-vla"
+            }
+          ]
+        },
+        {
+          "id": "arxiv:2605.07306",
+          "source_type": "arxiv",
+          "title": "BioProVLA-Agent: An Affordable, Protocol-Driven, Vision-Enhanced VLA-Enabled Embodied Multi-Agent System with Closed-Loop-Capable Reasoning for Biological Laboratory Manipulation",
+          "summary": "BioProVLA-Agent 面向湿实验操作，把 protocol 驱动规划、视觉验证和 VLA 执行整合为低成本闭环系统。",
+          "importance": "high",
+          "include_in_follow": true,
+          "authors": [
+            "Du, Zhaohui",
+            "Wang, Zhe",
+            "Fei, Hongmei",
+            "Cao, Xiwen",
+            "Xiao, Ting",
+            "Wang, Qi",
+            "Jin, Huanbo",
+            "Gu, Jiaming",
+            "Lu, Quan",
+            "Liu, Zhe"
+          ],
+          "categories": [
+            "cs.RO",
+            "cs.AI"
+          ],
+          "author_meta": [
+            {
+              "name": "Du, Zhaohui",
+              "affiliations": [],
+              "is_first_author": true,
+              "is_corresponding_author": false
+            },
+            {
+              "name": "Wang, Zhe",
+              "affiliations": [],
+              "is_first_author": false,
+              "is_corresponding_author": false
+            },
+            {
+              "name": "Fei, Hongmei",
+              "affiliations": [],
+              "is_first_author": false,
+              "is_corresponding_author": false
+            },
+            {
+              "name": "Cao, Xiwen",
+              "affiliations": [],
+              "is_first_author": false,
+              "is_corresponding_author": false
+            },
+            {
+              "name": "Xiao, Ting",
+              "affiliations": [],
+              "is_first_author": false,
+              "is_corresponding_author": false
+            },
+            {
+              "name": "Wang, Qi",
+              "affiliations": [],
+              "is_first_author": false,
+              "is_corresponding_author": false
+            },
+            {
+              "name": "Jin, Huanbo",
+              "affiliations": [],
+              "is_first_author": false,
+              "is_corresponding_author": false
+            },
+            {
+              "name": "Gu, Jiaming",
+              "affiliations": [],
+              "is_first_author": false,
+              "is_corresponding_author": false
+            },
+            {
+              "name": "Lu, Quan",
+              "affiliations": [],
+              "is_first_author": false,
+              "is_corresponding_author": false
+            },
+            {
+              "name": "Liu, Zhe",
+              "affiliations": [],
+              "is_first_author": false,
+              "is_corresponding_author": false
+            }
+          ],
+          "first_affiliation": "",
+          "hjfy_url": "",
+          "published": "2026-05-08",
+          "updated": "2026-05-08",
+          "abstract_en": "Biological laboratory automation can reduce repetitive manual work and improve reproducibility, but reliable embodied execution in wet-lab environments remains challenging. Protocols are often unstructured, labware is frequently transparent or reflective, and multi-step procedures require state-aware execution beyond one-shot instruction following. Existing robotic systems often rely on costly hardware, fixed workflows, dedicated instruments, or robotics-oriented interfaces. Here, we introduce BioProVLA-Agent, an affordable, protocol-driven, vision-enhanced embodied multi-agent system enabled by Vision-Language-Action (VLA) models for biological manipulation. The system uses protocols as the task interface and integrates protocol parsing, visual state verification, and embodied execution in a closed-loop workflow. A Tailored LLM Protocol Agent converts protocols into verifiable subtasks; a VLM-RAG Verification Agent assesses readiness and completion using observations, robot states, retrieved knowledge, and success/failure examples; and a VLA Embodied Agent executes verified subtasks through a lightweight policy. To improve robustness under wet-lab visual perturbations, we develop AugSmolVLA, an online augmentation strategy targeting transparent labware, reflections, illumination shifts, and overexposure. We evaluate the system on a hierarchical benchmark covering 15 atomic tasks, 6 composite workflows, and 3 bimanual tasks, including tube loading, sorting, waste disposal, cap twisting, and liquid pouring. Across normal and high-exposure settings, AugSmolVLA improves execution stability over ACT, X-VLA, and the original SmolVLA, especially for precise placement, transparent-object manipulation, composite workflows, and visually degraded scenes. These results suggest a practical route toward accessible, protocol-centered, and verification-capable embodied AI for biological manipulation.",
+          "one_liner_zh": "BioProVLA-Agent 面向湿实验操作，把 protocol 驱动规划、视觉验证和 VLA 执行整合为低成本闭环系统。",
+          "summary_cn": "生物实验室自动化可以减少重复劳动并提高可复现性，但在湿实验环境中实现可靠的具身执行仍然很困难。实验 protocol 往往缺乏结构化表示，实验器皿经常透明或反光，多步骤流程也需要超越一次性指令跟随的状态感知执行。现有机器人系统通常依赖昂贵硬件、固定工作流、专用仪器或面向机器人专家的接口。本文提出 BioProVLA-Agent，这是一个低成本、由 protocol 驱动、视觉增强、并由 Vision-Language-Action (VLA) 模型支持的具身多智能体系统，用于生物操作。系统以 protocol 作为任务接口，将协议解析、视觉状态验证和具身执行整合到闭环工作流中。Tailored LLM Protocol Agent 负责把 protocol 转成可验证子任务；VLM-RAG Verification Agent 利用观测、机器人状态、检索知识和成败样例评估子任务的准备状态与完成情况；VLA Embodied Agent 则通过轻量策略执行已验证子任务。为提升湿实验视觉扰动下的鲁棒性，作者提出 AugSmolVLA 在线增强策略，专门处理透明器皿、反光、光照变化和过曝。作者在包含 15 个原子任务、6 个复合流程和 3 个双臂任务的分层基准上进行了评测，结果表明在正常和高曝光设置下，AugSmolVLA 在精确放置、透明物体操作、复合流程和退化视觉场景中都比 ACT、X-VLA 和原始 SmolVLA 更稳定。",
+          "hot_score": 2.0,
+          "overall_score": 2.45,
+          "relevance_score": 0.0,
+          "is_favorite": false,
+          "domains": [
+            {
+              "slug": "physical-embodied-intelligence",
+              "name": "Physical/Embodied Intelligence"
+            },
+            {
+              "slug": "llm-vlm",
+              "name": "LLM/VLM"
+            }
+          ],
+          "links": [
+            {
+              "label": "Abs",
+              "href": "https://arxiv.org/abs/2605.07306"
+            },
+            {
+              "label": "PDF",
+              "href": "https://arxiv.org/pdf/2605.07306"
+            }
+          ]
+        },
+        {
+          "id": "arxiv:2605.07381",
+          "source_type": "arxiv",
+          "title": "Escaping the Diversity Trap in Robotic Manipulation via Anchor-Centric Adaptation",
+          "summary": "ACA 指出机器人少样本适配盲目追求多样性会掉入 diversity trap，并提出 anchor 优先的两阶段适配框架。",
+          "importance": "high",
+          "include_in_follow": true,
+          "authors": [
+            "Chen, Yanzhe",
+            "Ma, Kevin Yuchen",
+            "Lv, Qi",
+            "Lin, Yiqi",
+            "Bai, Zechen",
+            "Gao, Chen",
+            "Shou, Mike Zheng"
+          ],
+          "categories": [
+            "cs.RO",
+            "cs.AI"
+          ],
+          "author_meta": [
+            {
+              "name": "Chen, Yanzhe",
+              "affiliations": [],
+              "is_first_author": true,
+              "is_corresponding_author": false
+            },
+            {
+              "name": "Ma, Kevin Yuchen",
+              "affiliations": [],
+              "is_first_author": false,
+              "is_corresponding_author": false
+            },
+            {
+              "name": "Lv, Qi",
+              "affiliations": [],
+              "is_first_author": false,
+              "is_corresponding_author": false
+            },
+            {
+              "name": "Lin, Yiqi",
+              "affiliations": [],
+              "is_first_author": false,
+              "is_corresponding_author": false
+            },
+            {
+              "name": "Bai, Zechen",
+              "affiliations": [],
+              "is_first_author": false,
+              "is_corresponding_author": false
+            },
+            {
+              "name": "Gao, Chen",
+              "affiliations": [],
+              "is_first_author": false,
+              "is_corresponding_author": false
+            },
+            {
+              "name": "Shou, Mike Zheng",
+              "affiliations": [],
+              "is_first_author": false,
+              "is_corresponding_author": false
+            }
+          ],
+          "first_affiliation": "",
+          "hjfy_url": "",
+          "published": "2026-05-08",
+          "updated": "2026-05-08",
+          "abstract_en": "While Vision-Language-Action (VLA) models offer broad general capabilities, deploying them on specific hardware requires real-world adaptation to bridge the embodiment gap. Since robot demonstrations are costly, this adaptation must often occur under a strict data budget. In this work, we identify a critical diversity trap: the standard heuristic of \"maximizing coverage\" by collecting diverse, single-shot demonstrations can be self-defeating due to non-vanishing estimation noise. We formalize this phenomenon as a Coverage--Density Trade-off. By decomposing the policy error into estimation (density) and extrapolation (coverage) terms, we characterize an interior optimal allocation of unique conditions for a fixed budget. Guided by this analysis, we propose Anchor-Centric Adaptation (ACA), a two-stage framework that first stabilizes a policy skeleton through repeated demonstrations at core anchors, then selectively expands coverage to high-risk boundaries via teacher-forced error mining and constrained residual updates. Real-robot experiments validate our trade-off framework and demonstrate that ACA significantly improves task reliability and success rates over standard diverse sampling strategies under the same budget.",
+          "one_liner_zh": "ACA 指出机器人少样本适配盲目追求多样性会掉入 diversity trap，并提出 anchor 优先的两阶段适配框架。",
+          "summary_cn": "尽管 Vision-Language-Action (VLA) 模型具备广泛的通用能力，但要部署到特定机器人硬件上，仍需要通过真实世界适配来弥合 embodiment gap。由于机器人示范数据昂贵，这种适配通常必须在严格的数据预算下进行。本文识别出一个关键的 diversity trap：常见的“最大化覆盖度”启发式，即通过采集多样化、一次性的示范来扩展覆盖范围，在存在不可忽略估计噪声时反而可能适得其反。作者将这一现象形式化为 Coverage-Density Trade-off。通过把策略误差分解为估计误差和外推误差两部分，作者刻画了在固定预算下独特条件数量的内部最优分配。基于这一分析，本文提出 Anchor-Centric Adaptation (ACA) 两阶段框架：先在核心 anchor 上用重复示范稳定策略骨架，再通过 teacher-forced error mining 和受约束的残差更新，有选择地扩展到高风险边界。真实机器人实验表明，在相同预算下 ACA 相比标准的多样性采样策略能显著提升任务可靠性和成功率。",
+          "hot_score": 2.0,
+          "overall_score": 2.65,
+          "relevance_score": 0.0,
+          "is_favorite": false,
+          "domains": [
+            {
+              "slug": "physical-embodied-intelligence",
+              "name": "Physical/Embodied Intelligence"
+            },
+            {
+              "slug": "llm-vlm",
+              "name": "LLM/VLM"
+            }
+          ],
+          "links": [
+            {
+              "label": "Abs",
+              "href": "https://arxiv.org/abs/2605.07381"
+            },
+            {
+              "label": "PDF",
+              "href": "https://arxiv.org/pdf/2605.07381"
+            }
+          ]
+        },
+        {
+          "id": "arxiv:2605.07605",
+          "source_type": "arxiv",
+          "title": "BrickCraft: Visuomotor Skill Composition with Situated Manual Guidance for Long-Horizon Interlocking Brick Assembly",
+          "summary": "BrickCraft 通过参考砖相对建模和 situated manuals，把长程积木装配拆成可复用的空间落地技能链。",
+          "importance": "medium",
+          "include_in_follow": true,
+          "authors": [
+            "Yu, Jichuan",
+            "Li, Bowei",
+            "Tang, Zhenran",
+            "Lu, Guanxing",
+            "Hu, Chuxiong",
+            "Liu, Ruixuan",
+            "Liu, Changliu"
+          ],
+          "categories": [
+            "cs.RO"
+          ],
+          "author_meta": [
+            {
+              "name": "Yu, Jichuan",
+              "affiliations": [],
+              "is_first_author": true,
+              "is_corresponding_author": false
+            },
+            {
+              "name": "Li, Bowei",
+              "affiliations": [],
+              "is_first_author": false,
+              "is_corresponding_author": false
+            },
+            {
+              "name": "Tang, Zhenran",
+              "affiliations": [],
+              "is_first_author": false,
+              "is_corresponding_author": false
+            },
+            {
+              "name": "Lu, Guanxing",
+              "affiliations": [],
+              "is_first_author": false,
+              "is_corresponding_author": false
+            },
+            {
+              "name": "Hu, Chuxiong",
+              "affiliations": [],
+              "is_first_author": false,
+              "is_corresponding_author": false
+            },
+            {
+              "name": "Liu, Ruixuan",
+              "affiliations": [],
+              "is_first_author": false,
+              "is_corresponding_author": false
+            },
+            {
+              "name": "Liu, Changliu",
+              "affiliations": [],
+              "is_first_author": false,
+              "is_corresponding_author": false
+            }
+          ],
+          "first_affiliation": "",
+          "hjfy_url": "",
+          "published": "2026-05-08",
+          "updated": "2026-05-08",
+          "abstract_en": "Autonomous robotic assembly of interlocking bricks demands seamless integration of long-horizon task reasoning, spatial grounding, and fine-grained manipulation. This paper presents BrickCraft, a compositional framework designed for long-horizon and generalizable interlocking brick assembly. BrickCraft models the assembly process using a relative formulation, where each step is anchored to a reference brick within the partial structure, thereby decomposing complex tasks into a finite set of reusable primitive skills. BrickCraft bridges the gap between high-level assembly plans and physical execution through situated manuals, which provide explicit spatial guidance for learned visuomotor skills by projecting the assembly intent onto real-time robot observations. Finally, BrickCraft employs a compositional execution pipeline that chains these spatially grounded skills to accomplish long-horizon assembly tasks. Extensive experimental validations demonstrate that BrickCraft acquires proficient assembly skills from a limited set of demonstrations and exhibits strong compositional generalization to unseen structures. The project website is available at https://intelligent-control-lab.github.io/BrickCraft.",
+          "one_liner_zh": "BrickCraft 通过参考砖相对建模和 situated manuals，把长程积木装配拆成可复用的空间落地技能链。",
+          "summary_cn": "自主机器人进行互锁积木装配，需要把长程任务推理、空间对齐和细粒度操作无缝结合起来。本文提出 BrickCraft，这是一个面向长程且具泛化能力的互锁积木装配组合式框架。BrickCraft 使用相对化表示来建模装配过程，其中每一步都锚定到部分结构中的参考砖，从而将复杂任务分解为有限组可复用的原子技能。BrickCraft 通过 situated manuals 弥合高层装配计划与物理执行之间的差距，这类 manual 会把装配意图投射到实时机器人观测上，为学习到的 visuomotor skills 提供显式空间引导。最终，BrickCraft 采用组合式执行流水线，把这些空间对齐后的技能串联起来完成长程装配任务。大量实验表明，BrickCraft 能从有限示范中学到高质量装配技能，并对未见结构表现出很强的组合泛化能力。",
+          "hot_score": 2.0,
+          "overall_score": 2.37,
+          "relevance_score": 0.0,
+          "is_favorite": false,
+          "domains": [
+            {
+              "slug": "physical-embodied-intelligence",
+              "name": "Physical/Embodied Intelligence"
+            }
+          ],
+          "links": [
+            {
+              "label": "Abs",
+              "href": "https://arxiv.org/abs/2605.07605"
+            },
+            {
+              "label": "PDF",
+              "href": "https://arxiv.org/pdf/2605.07605"
+            },
+            {
+              "label": "Project 1",
+              "href": "https://intelligent-control-lab.github.io/BrickCraft"
+            }
+          ]
+        },
+        {
+          "id": "arxiv:2605.06841",
+          "source_type": "arxiv",
+          "title": "AGWM: Affordance-Grounded World Models for Environments with Compositional Prerequisites",
+          "summary": "AGWM 把动作先决条件建成 affordance DAG，用于追踪可执行性的动态变化并降低 world model 长程误差。",
+          "importance": "medium",
+          "include_in_follow": true,
+          "authors": [
+            "Zhang, Qinshi",
+            "Deng, Weipeng",
+            "Jiang, Zhihan",
+            "Qu, Jiaming",
+            "Li, Qianren",
+            "Xu, Weitao",
+            "LC, Ray"
+          ],
+          "categories": [
+            "cs.AI",
+            "cs.LG"
+          ],
+          "author_meta": [
+            {
+              "name": "Zhang, Qinshi",
+              "affiliations": [],
+              "is_first_author": true,
+              "is_corresponding_author": false
+            },
+            {
+              "name": "Deng, Weipeng",
+              "affiliations": [],
+              "is_first_author": false,
+              "is_corresponding_author": false
+            },
+            {
+              "name": "Jiang, Zhihan",
+              "affiliations": [],
+              "is_first_author": false,
+              "is_corresponding_author": false
+            },
+            {
+              "name": "Qu, Jiaming",
+              "affiliations": [],
+              "is_first_author": false,
+              "is_corresponding_author": false
+            },
+            {
+              "name": "Li, Qianren",
+              "affiliations": [],
+              "is_first_author": false,
+              "is_corresponding_author": false
+            },
+            {
+              "name": "Xu, Weitao",
+              "affiliations": [],
+              "is_first_author": false,
+              "is_corresponding_author": false
+            },
+            {
+              "name": "LC, Ray",
+              "affiliations": [],
+              "is_first_author": false,
+              "is_corresponding_author": false
+            }
+          ],
+          "first_affiliation": "",
+          "hjfy_url": "",
+          "published": "2026-05-07",
+          "updated": "2026-05-07",
+          "abstract_en": "In model-based learning, the agent learns behaviors by simulating trajectories based on world model predictions. Standard world models typically learn a stationary transition function that maps states and actions to next states, when an action and an outcome frequently co-occur in training data, the model tends to internalize this correlation as a general causal rule while ignoring action preconditions. In interactive environments, however, agent actions can reshape the future affordance space. At each timestep, an action may becomes executable only after its prerequisites are met, or non-executable when they are destroyed. We term such events structure-changing events (SC events). As a result, a conventional world model often fails to determine whether a given action is executable in the current state, especially in multi-step predictions. Each imagined step is conditioned on an incorrect affordance state, and therefore the prediction error compounds over the rollout horizon. In this paper, we propose AGWM (Affordance-Grounded World Model), which learns an abstract affordance structure represented as a DAG of prerequisite dependencies to explicitly track the dynamic executability of actions. Experiments on game-based simulated environments demonstrate the effectiveness of our method by achieving lower multi-step prediction error, better generalization to novel configurations, and improved interpretability.",
+          "one_liner_zh": "AGWM 把动作先决条件建成 affordance DAG，用于追踪可执行性的动态变化并降低 world model 长程误差。",
+          "summary_cn": "在基于模型的学习中，智能体通过基于 world model 预测的轨迹模拟来学习行为。标准 world model 通常学习一个静态转移函数，把状态和动作映射到下一状态；当某个动作和某个结果在训练数据中频繁共现时，模型往往会把这种相关性内化为一般性的因果规则，而忽略动作的前置条件。然而在交互环境中，智能体动作会重塑未来的 affordance 空间。在每个时间步，一个动作可能只有在满足其先决条件后才可执行，也可能在这些条件被破坏后变为不可执行。作者将这类事件称为 structure-changing events。传统 world model 往往无法判断某个动作在当前状态下是否可执行，尤其是在多步预测时更明显。每一步 imagined rollout 都建立在错误的 affordance 状态上，误差会沿时间步不断累积。本文提出 AGWM，通过学习一个由先决条件依赖关系构成的 DAG 形式抽象 affordance 结构，显式跟踪动作可执行性的动态变化。实验表明，该方法能降低多步预测误差、提升对新配置的泛化能力，并改善可解释性。",
+          "hot_score": 2.0,
+          "overall_score": 2.39,
+          "relevance_score": 0.0,
+          "is_favorite": false,
+          "domains": [
+            {
+              "slug": "agent",
+              "name": "Agent"
+            }
+          ],
+          "links": [
+            {
+              "label": "Abs",
+              "href": "https://arxiv.org/abs/2605.06841"
+            },
+            {
+              "label": "PDF",
+              "href": "https://arxiv.org/pdf/2605.06841"
+            }
+          ]
+        },
+        {
+          "id": "arxiv:2605.07794",
+          "source_type": "arxiv",
+          "title": "NoiseGate: Learning Per-Latent Timestep Schedules as Information Gating in World Action Models",
+          "summary": "NoiseGate 学习逐 latent 的时间步门控策略，让 WAM 按未来观测可靠性自适应调节动作生成。",
+          "importance": "low",
+          "include_in_follow": true,
+          "authors": [
+            "Huang, Wen",
+            "Sun, Haoran",
+            "Guo, Yongjian",
+            "Ma, Yunxuan",
+            "Li, Haoran",
+            "Long, Jing",
+            "Mo, Zhouying",
+            "Guan, Zhong",
+            "Guo, Yucheng",
+            "Di, Shuai",
+            "Xiong, Junwu"
+          ],
+          "categories": [
+            "cs.RO"
+          ],
+          "author_meta": [
+            {
+              "name": "Huang, Wen",
+              "affiliations": [],
+              "is_first_author": true,
+              "is_corresponding_author": false
+            },
+            {
+              "name": "Sun, Haoran",
+              "affiliations": [],
+              "is_first_author": false,
+              "is_corresponding_author": false
+            },
+            {
+              "name": "Guo, Yongjian",
+              "affiliations": [],
+              "is_first_author": false,
+              "is_corresponding_author": false
+            },
+            {
+              "name": "Ma, Yunxuan",
+              "affiliations": [],
+              "is_first_author": false,
+              "is_corresponding_author": false
+            },
+            {
+              "name": "Li, Haoran",
+              "affiliations": [],
+              "is_first_author": false,
+              "is_corresponding_author": false
+            },
+            {
+              "name": "Long, Jing",
+              "affiliations": [],
+              "is_first_author": false,
+              "is_corresponding_author": false
+            },
+            {
+              "name": "Mo, Zhouying",
+              "affiliations": [],
+              "is_first_author": false,
+              "is_corresponding_author": false
+            },
+            {
+              "name": "Guan, Zhong",
+              "affiliations": [],
+              "is_first_author": false,
+              "is_corresponding_author": false
+            },
+            {
+              "name": "Guo, Yucheng",
+              "affiliations": [],
+              "is_first_author": false,
+              "is_corresponding_author": false
+            },
+            {
+              "name": "Di, Shuai",
+              "affiliations": [],
+              "is_first_author": false,
+              "is_corresponding_author": false
+            },
+            {
+              "name": "Xiong, Junwu",
+              "affiliations": [],
+              "is_first_author": false,
+              "is_corresponding_author": false
+            }
+          ],
+          "first_affiliation": "",
+          "hjfy_url": "",
+          "published": "2026-05-08",
+          "updated": "2026-05-08",
+          "abstract_en": "World Action Models (WAMs) are an emerging family of policies that tie robot action generation to future-observation modeling. In this work, we focus on the joint video--action modeling paradigm, where actions and imagined future observations are co-generated along a shared denoising or flow trajectory, so that perception, prediction, and control are coupled within one generative process. Existing WAMs typically realize this paradigm with a Mixture-of-Transformers (MoT), where video and action tokens interact through shared self-attention. This architecture can in principle assign a separate timestep $t_f$ to each predicted latent frame, yet current systems collapse this degree of freedom onto a single shared scalar $t$. Under the noise-as-masking view of Diffusion Forcing, this shared schedule imposes the unjustified prior that every predicted latent is equally reliable for action generation. We instead view the per-latent schedule as a \\emph{learnable information-gating policy}: by changing a latent frame's noise level, the policy modulates the reliability of its Key/Value contribution to the action tokens. We propose \\textbf{NoiseGate}, which combines independent per-latent timestep sampling during backbone training, a lightweight Gating Policy Network that emits per-latent time increments during denoising, and task-reward optimization that trains the schedule policy without hand-crafted shape priors. Built on a joint video--action MoT backbone, NoiseGate delivers consistent gains on diverse RoboTwin random-scene manipulation tasks.",
+          "one_liner_zh": "NoiseGate 学习逐 latent 的时间步门控策略，让 WAM 按未来观测可靠性自适应调节动作生成。",
+          "summary_cn": "World Action Models (WAMs) 是一类新兴策略模型，它把机器人动作生成与未来观测建模绑定在一起。本文关注联合 video-action 建模范式，其中动作和想象出的未来观测沿共享的去噪或流轨迹共同生成，因此感知、预测和控制被耦合在同一个生成过程中。现有 WAM 通常使用 Mixture-of-Transformers 实现这一范式，在其中视频 token 与动作 token 通过共享自注意力交互。理论上，这种架构可以为每个预测 latent frame 分配单独的时间步，但当前系统通常把这一自由度压缩成单一共享标量。在 Diffusion Forcing 的视角下，这种共享 schedule 等于假设所有预测 latent 对动作生成都同样可靠。作者因此把逐 latent 的 schedule 视为一种可学习的信息门控策略：通过改变某个 latent frame 的噪声水平，策略可以调节该 frame 对动作 token 的贡献可靠性。本文提出 NoiseGate，将逐 latent 时间步采样、轻量 Gating Policy Network 与基于任务奖励的 schedule 策略优化结合起来。在联合 video-action backbone 上，NoiseGate 在多种 RoboTwin 操作任务上都取得了稳定增益。",
+          "hot_score": 2.0,
+          "overall_score": 2.27,
+          "relevance_score": 0.0,
+          "is_favorite": false,
+          "domains": [
+            {
+              "slug": "physical-embodied-intelligence",
+              "name": "Physical/Embodied Intelligence"
+            }
+          ],
+          "links": [
+            {
+              "label": "Abs",
+              "href": "https://arxiv.org/abs/2605.07794"
+            },
+            {
+              "label": "PDF",
+              "href": "https://arxiv.org/pdf/2605.07794"
+            }
+          ]
+        },
+        {
+          "id": "arxiv:2605.07687",
+          "source_type": "arxiv",
+          "title": "PhySPRING: Structure-Preserving Reduction of Physics-Informed Twins via GNN",
+          "summary": "PhySPRING 用可微 GNN 学习弹簧质点数字孪生的分层降采样拓扑，在保持物理保真度的同时提升仿真效率。",
+          "importance": "high",
+          "include_in_follow": true,
+          "authors": [
+            "Jing, Yixiong",
+            "Chen, Xingyuan",
+            "Wang, Guangming",
+            "Wysocki, Olaf",
+            "Wu, Haibing",
+            "Sheil, Brian"
+          ],
+          "categories": [
+            "cs.RO"
+          ],
+          "author_meta": [
+            {
+              "name": "Jing, Yixiong",
+              "affiliations": [],
+              "is_first_author": true,
+              "is_corresponding_author": false
+            },
+            {
+              "name": "Chen, Xingyuan",
+              "affiliations": [],
+              "is_first_author": false,
+              "is_corresponding_author": false
+            },
+            {
+              "name": "Wang, Guangming",
+              "affiliations": [],
+              "is_first_author": false,
+              "is_corresponding_author": false
+            },
+            {
+              "name": "Wysocki, Olaf",
+              "affiliations": [],
+              "is_first_author": false,
+              "is_corresponding_author": false
+            },
+            {
+              "name": "Wu, Haibing",
+              "affiliations": [],
+              "is_first_author": false,
+              "is_corresponding_author": false
+            },
+            {
+              "name": "Sheil, Brian",
+              "affiliations": [],
+              "is_first_author": false,
+              "is_corresponding_author": false
+            }
+          ],
+          "first_affiliation": "",
+          "hjfy_url": "",
+          "published": "2026-05-08",
+          "updated": "2026-05-08",
+          "abstract_en": "Physics-based digital twins aim to predict the dynamics of real-world objects under interaction, enabling real-to-sim-to-real applications in robotics. Current approaches reconstruct such twins as explicit physical models (such as spring-mass systems) to predict the dynamics, but the resulting models often inherit the resolution of the visual reconstruction rather than being reduced to the physical complexity required to reproduce task-relevant dynamics. This mismatch introduces redundant topology, making repeated forward-dynamics rollouts unnecessarily expensive. To address this challenge, we present PhySPRING, an fully differentiable GNN-based method to reduce complexity in spring--mass digital twins. PhySPRING jointly learns a hierarchy of coarsened graph topologies and their mechanical parameters from observations. At each reduction level, PhySPRING merges nodes with similar learned dynamic responses to optimize the topology, while maintaining every reduced layer as an explicit spring--mass system. On the PhysTwin benchmark, PhySPRING improves dense reconstruction and prediction accuracy over PhysTwin, while reduced models retain stable physical and visual fidelity with up to a 2.30 times speed-up. We further demonstrate the effectiveness of PhySPRING in a Real2Sim robot policy-evaluation pipeline, where the reduced models are substituted zero-shot into ACT and $\\pi_0$ evaluations, maintaining comparable manipulation success rates across downsampling levels while improving action-sampling effectiveness. Together, PhySPRING enables efficient and structure-preserving spring--mass reduction without sacrificing fidelity or robotic utility.",
+          "one_liner_zh": "PhySPRING 用可微 GNN 学习弹簧质点数字孪生的分层降采样拓扑，在保持物理保真度的同时提升仿真效率。",
+          "summary_cn": "基于物理的数字孪生旨在预测真实世界物体在交互下的动力学，从而支持机器人中的 real-to-sim-to-real 应用。现有方法通常把数字孪生重建为显式物理模型，例如弹簧质点系统，再用它来预测动力学；但得到的模型往往继承了视觉重建的分辨率，而没有被约简到复现任务相关动力学所需的物理复杂度。这种不匹配会引入冗余拓扑，使反复进行前向动力学 rollout 的代价过高。为解决这一问题，本文提出 PhySPRING，这是一种完全可微、基于 GNN 的方法，用于降低弹簧质点数字孪生的复杂度。PhySPRING 从观测中联合学习一组层次化粗化图拓扑及其力学参数。在每一层约简中，PhySPRING 会合并具有相似学习到的动态响应的节点来优化拓扑，同时保持每一层约简结果仍是显式弹簧质点系统。在 PhysTwin 基准上，PhySPRING 在稠密重建和预测精度上优于 PhysTwin，同时约简后的模型在物理和视觉保真度上保持稳定，并带来最高 2.30 倍加速。作者还在一个 Real2Sim 机器人策略评估流水线中验证了 PhySPRING 的有效性，将约简模型零样本替换进 ACT 和 π0 的评估中，在不同下采样层级下保持相近的操作成功率，同时提升动作采样效率。总体来看，PhySPRING 在不牺牲保真度和机器人实用性的前提下，实现了高效且保持结构的弹簧质点模型约简。",
+          "hot_score": 2.0,
+          "overall_score": 2.55,
+          "relevance_score": 0.0,
+          "is_favorite": false,
+          "domains": [
+            {
+              "slug": "physical-embodied-intelligence",
+              "name": "Physical/Embodied Intelligence"
+            }
+          ],
+          "links": [
+            {
+              "label": "Abs",
+              "href": "https://arxiv.org/abs/2605.07687"
+            },
+            {
+              "label": "PDF",
+              "href": "https://arxiv.org/pdf/2605.07687"
+            }
+          ]
+        },
+        {
+          "id": "arxiv:2605.07215",
+          "source_type": "arxiv",
+          "title": "PISTO: Proximal Inference for Stochastic Trajectory Optimization",
+          "summary": "PISTO 将 STOMP 解释为对 Boltzmann 轨迹分布的变分推断，并用 proximal KL 正则稳定随机轨迹优化更新。",
+          "importance": "high",
+          "include_in_follow": true,
+          "authors": [
+            "Yu, Hongzhe",
+            "Chang, Zinuo",
+            "Chen, Yongxin"
+          ],
+          "categories": [
+            "cs.RO"
+          ],
+          "author_meta": [
+            {
+              "name": "Yu, Hongzhe",
+              "affiliations": [],
+              "is_first_author": true,
+              "is_corresponding_author": false
+            },
+            {
+              "name": "Chang, Zinuo",
+              "affiliations": [],
+              "is_first_author": false,
+              "is_corresponding_author": false
+            },
+            {
+              "name": "Chen, Yongxin",
+              "affiliations": [],
+              "is_first_author": false,
+              "is_corresponding_author": false
+            }
+          ],
+          "first_affiliation": "",
+          "hjfy_url": "",
+          "published": "2026-05-08",
+          "updated": "2026-05-08",
+          "abstract_en": "Stochastic trajectory optimization methods like STOMP enable planning with non-differentiable costs, offering substantial flexibility over gradient-based approaches. We show that STOMP implicitly minimizes the KL divergence from a Boltzmann trajectory distribution, revealing an elegant Variational Inference (VI) structure underlying its updates. Building on this insight, we propose the \\textit{Proximal Inference for Stochastic Trajectory Optimization} (PISTO) algorithm that stabilizes the updates by augmenting the objective with a KL regularization between successive Gaussian proposals. This proximal formulation admits a trust-region interpretation and yields closed-form mean updates computable as expectations under a surrogate distribution. We estimate these expectations via importance-weighted Monte Carlo sampling, producing a simple, derivative-free algorithm that inherits STOMP's ability to handle non-differentiable and discontinuous costs without modification. On robot arm motion planning benchmarks, PISTO achieves an 89\\% success rate -- outperforming CHOMP (63\\%) and STOMP (68\\%) -- while producing shorter, smoother paths at twice the speed of competing stochastic methods. We further validate PISTO on contact-rich MuJoCo locomotion and manipulation tasks, where it consistently outperforms both CEM and MPPI baselines in reward.",
+          "one_liner_zh": "PISTO 将 STOMP 解释为对 Boltzmann 轨迹分布的变分推断，并用 proximal KL 正则稳定随机轨迹优化更新。",
+          "summary_cn": "STOMP 这类随机轨迹优化方法能够处理不可微代价函数，相比基于梯度的方法具备更大的灵活性。本文表明，STOMP 隐式地最小化了与一个 Boltzmann 轨迹分布之间的 KL 散度，从而揭示了其更新背后优雅的变分推断结构。基于这一观察，作者提出 Proximal Inference for Stochastic Trajectory Optimization (PISTO) 算法，通过在目标函数中加入相邻两次高斯 proposal 之间的 KL 正则项来稳定更新。这个 proximal 形式可以解释为 trust region，并导出可闭式计算的均值更新，其形式是某个 surrogate distribution 下的期望。作者通过基于重要性加权的 Monte Carlo 采样来估计这些期望，从而得到一个简单、无导数的算法，同时保留 STOMP 无需修改即可处理不可微和不连续代价的能力。在机器人手臂运动规划基准上，PISTO 实现了 89% 的成功率，优于 CHOMP 的 63% 和 STOMP 的 68%，同时生成更短、更平滑的轨迹，速度也达到竞争性随机方法的两倍。作者还在富接触的 MuJoCo 运动与操作任务上验证了 PISTO，在奖励表现上持续优于 CEM 和 MPPI 基线。",
+          "hot_score": 2.0,
+          "overall_score": 2.53,
+          "relevance_score": 0.0,
+          "is_favorite": false,
+          "domains": [
+            {
+              "slug": "physical-embodied-intelligence",
+              "name": "Physical/Embodied Intelligence"
+            },
+            {
+              "slug": "agent",
+              "name": "Agent"
+            }
+          ],
+          "links": [
+            {
+              "label": "Abs",
+              "href": "https://arxiv.org/abs/2605.07215"
+            },
+            {
+              "label": "PDF",
+              "href": "https://arxiv.org/pdf/2605.07215"
+            }
+          ]
+        },
+        {
+          "id": "arxiv:2605.07199",
+          "source_type": "arxiv",
+          "title": "Three-in-One World Model: Energy-Based Consistency, Prediction, and Counterfactual Inference for Marketing Intervention",
+          "summary": "Three-in-One World Model 用统一的 DBM belief 表征同时支持一致性能量评估、结果预测和反事实干预推断。",
+          "importance": "medium",
+          "include_in_follow": true,
+          "authors": [
+            "Niimi, Junichiro"
+          ],
+          "categories": [
+            "cs.AI",
+            "cs.LG"
+          ],
+          "author_meta": [
+            {
+              "name": "Niimi, Junichiro",
+              "affiliations": [],
+              "is_first_author": true,
+              "is_corresponding_author": false
+            }
+          ],
+          "first_affiliation": "",
+          "hjfy_url": "",
+          "published": "2026-05-08",
+          "updated": "2026-05-08",
+          "abstract_en": "Marketing decisions reflect the interaction of latent consumer heterogeneity, time-varying internal states, and explicit interventions, a structure that current prediction- and language-oriented models do not capture in a unified manner. We propose a Three-in-One world-model architecture in which a Deep Boltzmann Machine (DBM) learns a frozen belief representation from demographics, time, and lagged actions and outcomes, with lightweight task-specific adapters attached on top. The same belief supports three tasks within a single framework: (i) energy-based consistency evaluation through the DBM's free energy, (ii) outcome prediction through adapters, and (iii) counterfactual inference by holding the belief fixed and varying only the action input given to the adapter. Using a controlled simulation in which the latent price sensitivity, promotion responsiveness, and base preference of each consumer are known, we show that the adapters match a strong MLP baseline on visit- and purchase-AUC while recovering heterogeneous treatment effects substantially better than S-, T-, X-, and DR-learner meta-learners and a Causal Forest baseline built on the same raw features, with the largest gap on a confounded price-promotion intervention. Complementing this, free-energy clamps systematically penalize counterfactual purchase trajectories that lack prior promotional exposure, and the penalty itself depends on the latent base preference in the expected direction. These results indicate that DBM beliefs disentangle latent traits in a form that survives counterfactual queries, providing an integrated world-model substrate for marketing intervention.",
+          "one_liner_zh": "Three-in-One World Model 用统一的 DBM belief 表征同时支持一致性能量评估、结果预测和反事实干预推断。",
+          "summary_cn": "营销决策体现了潜在消费者异质性、随时间变化的内部状态以及显式干预之间的相互作用，而现有偏预测或偏语言的模型并不能统一刻画这种结构。本文提出一种 Three-in-One world-model 架构，其中 Deep Boltzmann Machine (DBM) 从人口统计、时间以及滞后动作和结果中学习一个冻结的 belief 表征，并在其上附加轻量级任务特定 adapter。同一个 belief 在单一框架中支持三项任务：(i) 通过 DBM 的 free energy 进行基于能量的一致性评估；(ii) 通过 adapter 进行结果预测；(iii) 在固定 belief 并只改变输入动作的情况下进行反事实推断。作者在一个受控模拟环境中验证该方法，其中每个消费者的潜在价格敏感度、促销响应性和基础偏好都是已知的。结果表明，这些 adapter 在 visit-AUC 和 purchase-AUC 上可以匹配强 MLP 基线，同时在恢复异质处理效应方面显著优于 S/T/X/DR learner 以及使用相同原始特征构建的 Causal Forest，尤其是在受价格与促销混杂影响的干预场景下优势最明显。此外，free-energy clamp 会系统性地惩罚那些缺少先前促销暴露的反事实购买轨迹，而且这种惩罚会随着潜在基础偏好以符合预期的方式变化。结果说明，DBM belief 能以适用于反事实查询的形式解耦潜在特征，从而为营销干预提供一个统一的 world-model substrate。",
+          "hot_score": 2.0,
+          "overall_score": 2.39,
+          "relevance_score": 0.0,
+          "is_favorite": false,
+          "domains": [
+            {
+              "slug": "physical-embodied-intelligence",
+              "name": "Physical/Embodied Intelligence"
+            }
+          ],
+          "links": [
+            {
+              "label": "Abs",
+              "href": "https://arxiv.org/abs/2605.07199"
+            },
+            {
+              "label": "PDF",
+              "href": "https://arxiv.org/pdf/2605.07199"
+            }
+          ]
+        },
+        {
+          "id": "arxiv:2605.07727",
+          "source_type": "arxiv",
+          "title": "Drifting Field Policy: A One-Step Generative Policy via Wasserstein Gradient Flow",
+          "summary": "DFP 用 Wasserstein 梯度流构造单步生成策略，在 Robomimic 和 OGBench 多个操作任务上超过 ODE 型策略。",
+          "importance": "medium",
+          "include_in_follow": true,
+          "authors": [
+            "Koo, Juil",
+            "Park, Mingue",
+            "Choi, Jiwon",
+            "Min, Yunhong",
+            "Sung, Minhyuk"
+          ],
+          "categories": [
+            "cs.LG",
+            "cs.AI",
+            "cs.RO"
+          ],
+          "author_meta": [
+            {
+              "name": "Koo, Juil",
+              "affiliations": [],
+              "is_first_author": true,
+              "is_corresponding_author": false
+            },
+            {
+              "name": "Park, Mingue",
+              "affiliations": [],
+              "is_first_author": false,
+              "is_corresponding_author": false
+            },
+            {
+              "name": "Choi, Jiwon",
+              "affiliations": [],
+              "is_first_author": false,
+              "is_corresponding_author": false
+            },
+            {
+              "name": "Min, Yunhong",
+              "affiliations": [],
+              "is_first_author": false,
+              "is_corresponding_author": false
+            },
+            {
+              "name": "Sung, Minhyuk",
+              "affiliations": [],
+              "is_first_author": false,
+              "is_corresponding_author": false
+            }
+          ],
+          "first_affiliation": "",
+          "hjfy_url": "",
+          "published": "2026-05-08",
+          "updated": "2026-05-08",
+          "abstract_en": "We propose Drifting Field Policy (DFP), a non-ODE one-step generative policy built on the drifting model paradigm. We frame the policy update as a reverse-KL Wasserstein-2 gradient flow toward a soft target policy, so that each DFP update corresponds to a gradient step in probability space. By construction, this gradient is decomposed into an ascent toward higher action-value regions and a score matching with the anchor policy as a trust region. We further derive a simple, tractable surrogate of the otherwise intractable update loss, akin to behavior cloning on top-K critic-selected actions. We find empirically that this mechanism uniquely benefits the drifting backbone owing to its non-ODE parameterization. With one-step inference, DFP achieves state-of-the-art performance on several manipulation tasks across Robomimic and OGBench, outperforming ODE-based policies.",
+          "one_liner_zh": "DFP 用 Wasserstein 梯度流构造单步生成策略，在 Robomimic 和 OGBench 多个操作任务上超过 ODE 型策略。",
+          "summary_cn": "本文提出 Drifting Field Policy (DFP)，这是一种建立在 drifting model 范式上的非 ODE 单步生成策略。作者把策略更新表述为朝向一个软目标策略的 reverse-KL Wasserstein-2 梯度流，因此每次 DFP 更新都对应于概率空间中的一次梯度步。按构造，这个梯度可以分解为两个部分：一部分朝向更高 action-value 区域上升，另一部分则与 anchor policy 做 score matching，从而充当 trust region。作者进一步导出了原本难以处理的更新损失的一个简单、可计算 surrogate，其形式类似于对 critic 选出的 top-K 动作执行行为克隆。实验发现，这种机制对 drifting backbone 尤其有效，原因在于其非 ODE 参数化。借助单步推理，DFP 在 Robomimic 和 OGBench 的多个操作任务上达到了新的最佳性能，并超过了基于 ODE 的策略。",
+          "hot_score": 2.0,
+          "overall_score": 2.39,
+          "relevance_score": 0.0,
+          "is_favorite": false,
+          "domains": [
+            {
+              "slug": "physical-embodied-intelligence",
+              "name": "Physical/Embodied Intelligence"
+            }
+          ],
+          "links": [
+            {
+              "label": "Abs",
+              "href": "https://arxiv.org/abs/2605.07727"
+            },
+            {
+              "label": "PDF",
+              "href": "https://arxiv.org/pdf/2605.07727"
+            }
+          ]
+        },
+        {
+          "id": "arxiv:2605.07278",
+          "source_type": "arxiv",
+          "title": "Predictive but Not Plannable: RC-aux for Latent World Models",
+          "summary": "RC-aux 为 latent world model 增加多步与可达性校正监督，缓解预测准确但不利于规划的表示错位问题。",
+          "importance": "low",
+          "include_in_follow": true,
+          "authors": [
+            "Li, Wenyuan",
+            "Li, Guang",
+            "Maeda, Keisuke",
+            "Ogawa, Takahiro",
+            "Haseyama, Miki"
+          ],
+          "categories": [
+            "cs.LG",
+            "cs.AI",
+            "cs.CV"
+          ],
+          "author_meta": [
+            {
+              "name": "Li, Wenyuan",
+              "affiliations": [],
+              "is_first_author": true,
+              "is_corresponding_author": false
+            },
+            {
+              "name": "Li, Guang",
+              "affiliations": [],
+              "is_first_author": false,
+              "is_corresponding_author": false
+            },
+            {
+              "name": "Maeda, Keisuke",
+              "affiliations": [],
+              "is_first_author": false,
+              "is_corresponding_author": false
+            },
+            {
+              "name": "Ogawa, Takahiro",
+              "affiliations": [],
+              "is_first_author": false,
+              "is_corresponding_author": false
+            },
+            {
+              "name": "Haseyama, Miki",
+              "affiliations": [],
+              "is_first_author": false,
+              "is_corresponding_author": false
+            }
+          ],
+          "first_affiliation": "",
+          "hjfy_url": "",
+          "published": "2026-05-08",
+          "updated": "2026-05-08",
+          "abstract_en": "A latent world model may achieve accurate short-horizon prediction while still inducing a latent space that is poorly aligned with planning. A key issue is spatiotemporal mismatch: these models are often trained with local predictive supervision, but deployed for long-horizon goal-directed search in latent spaces where Euclidean distance may not reflect what is reachable within a finite action budget. We present the Reachability-Correction auxiliary objective (RC-aux), a lightweight correction for this mismatch in reconstruction-free latent world models. RC-aux keeps the world-model backbone unchanged and adds planning-aligned supervision along two axes. Along the time axis, multi-horizon open-loop prediction trains the model beyond one-step consistency. Along the space axis, budget-conditioned reachability supervision, together with temporal hard negatives, encourages the latent space to distinguish states that are eventually reachable from those reachable within the current planning horizon. At test time, the learned reachability signal can also be used by a reachability-aware planner to favor trajectories that are both goal-directed and attainable under the available budget. We instantiate RC-aux on LeWorldModel and evaluate it under both continuation-training and matched-from-scratch settings. Across goal-conditioned pixel-control tasks and a LIBERO-Goal extension, RC-aux improves LeWM-style planning with modest additional cost. These results suggest that planning with latent world models depends not only on predictive accuracy, but also on whether the learned representation encodes the temporal and geometric structure required by downstream search. The code is available at https://github.com/Guang000/RC-aux.",
+          "one_liner_zh": "RC-aux 为 latent world model 增加多步与可达性校正监督，缓解预测准确但不利于规划的表示错位问题。",
+          "summary_cn": "一个 latent world model 可能在短时预测上非常准确，但其诱导出的 latent space 仍然与规划 poorly aligned。关键问题在于时空错配：这些模型往往用局部预测监督训练，却被部署到需要长程目标导向搜索的 latent space 中，而该空间中的欧氏距离未必能反映在有限动作预算下什么状态是真正可达的。本文提出 Reachability-Correction auxiliary objective (RC-aux)，它是针对无重建 latent world model 的一种轻量校正方法。RC-aux 保持原有 world-model backbone 不变，并沿两个维度引入与规划对齐的监督。时间维度上，多步 open-loop prediction 让模型超越单步一致性；空间维度上，预算条件化的 reachability 监督结合时间硬负样本，使 latent space 能区分“最终可达”与“在当前规划视野内可达”的状态。测试时，学习到的 reachability 信号还可以被 reachability-aware planner 使用，从而偏向那些既朝向目标、又在预算约束下真正可达的轨迹。作者将 RC-aux 实例化到 LeWorldModel 上，并在 continuation-training 和 matched-from-scratch 设置下进行了评估。在目标条件像素控制任务和一个 LIBERO-Goal 扩展上，RC-aux 都以适度额外代价提升了基于 LeWM 的规划效果。结果表明，latent world model 的规划能力不仅依赖预测精度，也依赖其表征是否编码了下游搜索所需的时间与几何结构。",
+          "hot_score": 2.0,
+          "overall_score": 2.25,
+          "relevance_score": 0.0,
+          "is_favorite": false,
+          "domains": [
+            {
+              "slug": "agent",
+              "name": "Agent"
+            }
+          ],
+          "links": [
+            {
+              "label": "Abs",
+              "href": "https://arxiv.org/abs/2605.07278"
+            },
+            {
+              "label": "PDF",
+              "href": "https://arxiv.org/pdf/2605.07278"
+            },
+            {
+              "label": "Code 1",
+              "href": "https://github.com/Guang000/RC-aux"
+            }
+          ]
+        },
+        {
+          "id": "arxiv:2605.07514",
+          "source_type": "arxiv",
+          "title": "Is the Future Compatible? Diagnosing Dynamic Consistency in World Action Models",
+          "summary": "该工作提出用 action-state consistency 诊断 WAM rollout 可靠性，并用无 value 的共识选择提升 RoboCasa 与 RoboTwin 成功率。",
+          "importance": "low",
+          "include_in_follow": true,
+          "authors": [
+            "Ruan, Bo-Kai",
+            "Hsiao, Teng-Fang",
+            "Lo, Ling",
+            "Shuai, Hong-Han"
+          ],
+          "categories": [
+            "cs.RO",
+            "cs.CV"
+          ],
+          "author_meta": [
+            {
+              "name": "Ruan, Bo-Kai",
+              "affiliations": [],
+              "is_first_author": true,
+              "is_corresponding_author": false
+            },
+            {
+              "name": "Hsiao, Teng-Fang",
+              "affiliations": [],
+              "is_first_author": false,
+              "is_corresponding_author": false
+            },
+            {
+              "name": "Lo, Ling",
+              "affiliations": [],
+              "is_first_author": false,
+              "is_corresponding_author": false
+            },
+            {
+              "name": "Shuai, Hong-Han",
+              "affiliations": [],
+              "is_first_author": false,
+              "is_corresponding_author": false
+            }
+          ],
+          "first_affiliation": "",
+          "hjfy_url": "",
+          "published": "2026-05-08",
+          "updated": "2026-05-08",
+          "abstract_en": "World Action Models (WAMs) enable decision-making through imagined rollouts by predicting future observations and actions. However, the reliability of these imagined futures remains under-examined: is a generated future merely visually plausible, or is it dynamically compatible with the action sequence it claims to model? In this work, we identify action-state consistency, the alignment between predicted actions and induced state transitions, as a missing reliability axis for WAMs. Through a systematic study across representative joint-prediction and inverse-dynamics models, we find that action-state consistency systematically separates successful and failed rollouts across many tasks and follows similar success-failure trends as learned value estimates. These results suggest that consistency captures decision-relevant structure beyond visual realism. We further identify background collapse as an important boundary condition, where low-dynamics failed trajectories can become deceptively consistent because static futures are easier to predict. Building on these findings, we introduce a value-free consensus strategy for test-time selection, which ranks candidate rollouts by agreement among predicted futures. This strategy improves success rates on RoboCasa and RoboTwin 2.0 without additional training or reward modeling. Taken together, our findings establish action-state consistency as both a diagnostic tool for evaluating WAM reliability and a practical signal for value-free planning.",
+          "one_liner_zh": "该工作提出用 action-state consistency 诊断 WAM rollout 可靠性，并用无 value 的共识选择提升 RoboCasa 与 RoboTwin 成功率。",
+          "summary_cn": "World Action Models (WAMs) 通过预测未来观测和动作来进行 imagined rollout，从而支持决策。然而，这些 imagined future 的可靠性一直缺乏系统检验：一个生成出来的未来究竟只是视觉上合理，还是在动力学上与它声称对应的动作序列兼容？本文识别出 action-state consistency，即预测动作与诱导出的状态转移之间的一致性，是 WAM 可靠性中缺失的重要维度。通过对代表性的 joint-prediction 和 inverse-dynamics 模型进行系统研究，作者发现 action-state consistency 在许多任务上都能稳定地区分成功 rollout 与失败 rollout，并且与学习到的 value estimate 呈现相似的成败趋势。这表明 consistency 捕捉到了超越视觉真实性的、与决策相关的结构。作者还进一步指出 background collapse 是一个重要边界条件：在低动态失败轨迹中，由于静态未来更容易预测，这些轨迹会表现出一种具有迷惑性的高一致性。基于这些发现，本文提出一种无 value 的共识式测试时选择策略，通过候选 rollout 之间的未来预测一致性来排序。该策略无需额外训练或奖励建模，就能提升 RoboCasa 和 RoboTwin 2.0 上的成功率。总体上，本文将 action-state consistency 确立为评估 WAM 可靠性的诊断工具，也将其证明为一种适合无 value 规划的实用信号。",
+          "hot_score": 2.0,
+          "overall_score": 1.95,
+          "relevance_score": 0.0,
+          "is_favorite": false,
+          "domains": [
+            {
+              "slug": "physical-embodied-intelligence",
+              "name": "Physical/Embodied Intelligence"
+            },
+            {
+              "slug": "agent",
+              "name": "Agent"
+            }
+          ],
+          "links": [
+            {
+              "label": "Abs",
+              "href": "https://arxiv.org/abs/2605.07514"
+            },
+            {
+              "label": "PDF",
+              "href": "https://arxiv.org/pdf/2605.07514"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

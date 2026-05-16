@@ -1,3 +1,5 @@
+import { syncedWikiSources, syncedWikiTopics, syncedWikiSyntheses, syncedWikiGraphData } from './generated/wiki-sync'
+
 export type WikiDomain = {
   slug: string
   name: string
@@ -23,6 +25,9 @@ export type WikiTopic = {
   relatedSynthesisSlugs: string[]
   relatedBlogPosts: { title: string; href: string }[]
   updatedDate: string
+  body?: string
+  sourceTitles?: string[]
+  relatedPages?: string[]
 }
 
 export type WikiSource = {
@@ -30,9 +35,48 @@ export type WikiSource = {
   title: string
   sourceType: 'paper' | 'wechat' | 'web' | 'note'
   sourceUrl?: string
+  htmlUrl?: string
+  pdfUrl?: string
+  codeUrl?: string
+  translationUrl?: string
   publishDate: string
+  authors?: string[]
+  affiliation?: string
+  keywords?: string[]
+  primaryDomainSlug?: string
+  domainSlugs?: string[]
+  heroImage?: string
+  tldr?: string
+  intuition?: string
+  abstractEn?: string
+  abstractZh?: string
   summary: string
+  researchProblem?: string
+  backgroundMotivation?: string
+  backgroundGap?: string
+  methodOverview?: string
+  methodCore?: string
+  methodBreakdown?: string[]
+  methodTakeaways?: string[]
   keyTakeaways: string[]
+  experimentalSignals?: string[]
+  resultHighlights?: string[]
+  resultsTable?: { columns: string[]; rows: string[][] }
+  strengths?: string[]
+  limitations?: string[]
+  insights?: string[]
+  insightCore?: string[]
+  insightRelations?: string[]
+  insightBorrowable?: string[]
+  borrowableIdeas?: string[]
+  methodRelations?: string[]
+  riskLimitations?: string[]
+  riskScenarios?: string[]
+  riskJudgment?: string[]
+  risks?: string
+  applicationScenarios?: string[]
+  criticalNotes?: string[]
+  figureGallery?: { zone?: string; src: string; caption: string }[]
   relatedTopicSlugs: string[]
   relatedBlogPosts: { title: string; href: string }[]
 }
@@ -45,6 +89,9 @@ export type WikiSynthesis = {
   relatedTopicSlugs: string[]
   relatedSourceSlugs: string[]
   updatedDate: string
+  body?: string
+  sourceTitles?: string[]
+  relatedPages?: string[]
 }
 
 type WikiRecentItem =
@@ -346,6 +393,137 @@ export const wikiSources: WikiSource[] = [
   }
 ]
 
+function slugifySourceTitle(title: string) {
+  const hit = normalizedSyncedWikiSources.find((source) => source.title === title)
+  return hit ? hit.slug : ''
+}
+
+type SyncedSourceWithDomains = (typeof syncedWikiSources)[number] & {
+  primaryDomainSlug?: string
+  domainSlugs?: string[]
+}
+
+type SyncedTopicWithDomain = (typeof syncedWikiTopics)[number] & {
+  domain?: string
+  primaryDomainSlug?: string
+  sourceSlugs?: string[]
+  synthesisSlugs?: string[]
+  openQuestions?: string[]
+}
+
+type SyncedSynthesisWithRelations = (typeof syncedWikiSyntheses)[number] & {
+  sourceSlugs?: string[]
+  topicSlugs?: string[]
+  judgment?: string
+  claims?: string[]
+  openQuestions?: string[]
+}
+
+const normalizeKnownDomainSlug = (value?: string) => {
+  const raw = String(value || '').trim()
+  if (!raw) return ''
+  const exact = wikiDomains.find((domain) => domain.slug === raw)
+  if (exact) return exact.slug
+  const byName = wikiDomains.find((domain) => domain.name.toLowerCase() === raw.toLowerCase())
+  return byName?.slug || raw
+}
+
+const getSyncedTopicDomain = (topic: SyncedTopicWithDomain) => {
+  const direct = normalizeKnownDomainSlug(topic.domain || topic.primaryDomainSlug)
+  if (direct) return direct
+  const tagDomain = (topic.tags || []).map(normalizeKnownDomainSlug).find((slug) => wikiDomains.some((domain) => domain.slug === slug))
+  return tagDomain || 'physical-embodied-intelligence'
+}
+
+const normalizedSyncedWikiSources: WikiSource[] = syncedWikiSources.map((source) => {
+  const sourceRecord = source as SyncedSourceWithDomains & Record<string, any>
+  const sourceType = ['paper', 'wechat', 'web', 'note'].includes(String(source.sourceType))
+    ? (source.sourceType as WikiSource['sourceType'])
+    : 'web'
+  return {
+    slug: source.slug,
+    title: source.title,
+    sourceType,
+    sourceUrl: source.sourceUrl || '',
+    htmlUrl: source.htmlUrl || '',
+    pdfUrl: source.pdfUrl || '',
+    codeUrl: source.codeUrl || '',
+    translationUrl: source.translationUrl || '',
+    publishDate: source.publishDate || '',
+    authors: source.authors || [],
+    affiliation: source.affiliation || '',
+    keywords: source.keywords || [],
+    primaryDomainSlug: sourceRecord.primaryDomainSlug || '',
+    domainSlugs: sourceRecord.domainSlugs || [],
+    heroImage: source.heroImage && source.heroImage !== 'none' ? source.heroImage : undefined,
+    tldr: source.tldr || '',
+    intuition: source.intuition || '',
+    abstractEn: source.abstractEn || '',
+    abstractZh: source.abstractZh || '',
+    summary: source.tldr || source.abstractZh || source.abstractEn || source.title,
+    researchProblem: sourceRecord.background || '',
+    backgroundMotivation: sourceRecord.backgroundMotivation || '',
+    backgroundGap: sourceRecord.backgroundGap || '',
+    methodOverview: sourceRecord.method || '',
+    methodCore: sourceRecord.methodCore || '',
+    methodBreakdown: sourceRecord.methodBreakdown || [],
+    methodTakeaways: sourceRecord.methodTakeaways || [],
+    keyTakeaways: sourceRecord.methodTakeaways || [],
+    experimentalSignals: sourceRecord.resultHighlights || [],
+    resultHighlights: sourceRecord.resultHighlights || [],
+    resultsTable:
+      sourceRecord.resultsTable && Array.isArray(sourceRecord.resultsTable.columns) && Array.isArray(sourceRecord.resultsTable.rows)
+        ? sourceRecord.resultsTable
+        : undefined,
+    strengths: [],
+    limitations: sourceRecord.riskLimitations || [],
+    insights: sourceRecord.insightCore || [],
+    insightCore: sourceRecord.insightCore || [],
+    insightRelations: sourceRecord.insightRelations || [],
+    insightBorrowable: sourceRecord.insightBorrowable || [],
+    borrowableIdeas: sourceRecord.insightBorrowable || [],
+    methodRelations: sourceRecord.insightRelations || [],
+    riskLimitations: sourceRecord.riskLimitations || [],
+    riskScenarios: sourceRecord.riskScenarios || [],
+    riskJudgment: sourceRecord.riskJudgment || [],
+    risks: sourceRecord.risks || '',
+    applicationScenarios: sourceRecord.riskScenarios || [],
+    criticalNotes: sourceRecord.riskJudgment || [],
+    figureGallery: source.figureGallery || [],
+    relatedTopicSlugs: source.relatedTopicSlugs || [],
+    relatedBlogPosts: []
+  }
+})
+
+const mergedWikiSourcesMap = new Map<string, WikiSource>()
+for (const source of wikiSources) mergedWikiSourcesMap.set(source.slug, source)
+for (const source of normalizedSyncedWikiSources) mergedWikiSourcesMap.set(source.slug, source)
+const mergedWikiSources: WikiSource[] = Array.from(mergedWikiSourcesMap.values())
+
+const normalizedSyncedWikiTopics: WikiTopic[] = syncedWikiTopics.map((topic) => {
+  const topicWithDomain = topic as SyncedTopicWithDomain
+  const relatedSourceSlugs = topicWithDomain.sourceSlugs?.length
+    ? topicWithDomain.sourceSlugs
+    : (topic.sourceTitles || []).map((title) => slugifySourceTitle(title)).filter(Boolean)
+  return {
+    slug: topic.slug,
+    title: topic.title,
+    domain: getSyncedTopicDomain(topicWithDomain),
+    summary: topic.summary,
+    definition: topic.summary,
+    whyItMatters: topic.summary,
+    keyQuestions: [],
+    relatedSourceSlugs,
+    relatedTopicSlugs: [],
+    relatedSynthesisSlugs: topicWithDomain.synthesisSlugs || [],
+    relatedBlogPosts: [],
+    updatedDate: topic.updated || topic.created || '',
+    body: topic.body || '',
+    sourceTitles: topic.sourceTitles || [],
+    relatedPages: topic.relatedPages || []
+  }
+})
+
 export const wikiSyntheses: WikiSynthesis[] = [
   {
     slug: 'reasoning-systems-overview',
@@ -367,43 +545,97 @@ export const wikiSyntheses: WikiSynthesis[] = [
   }
 ]
 
+const normalizedSyncedWikiSyntheses: WikiSynthesis[] = syncedWikiSyntheses.map((entry) => {
+  const entryWithRelations = entry as SyncedSynthesisWithRelations
+  return {
+    slug: entry.slug,
+    title: entry.title,
+    kind: 'overview',
+    summary: entry.summary,
+    relatedTopicSlugs: entryWithRelations.topicSlugs || [],
+    relatedSourceSlugs: entryWithRelations.sourceSlugs?.length
+      ? entryWithRelations.sourceSlugs
+      : (entry.sourceTitles || []).map((title) => slugifySourceTitle(title)).filter(Boolean),
+    updatedDate: entry.updated || entry.created || '',
+    body: entry.body || '',
+    sourceTitles: entry.sourceTitles || [],
+    relatedPages: entry.relatedPages || []
+  }
+})
+
+const mergedWikiTopicsMap = new Map<string, WikiTopic>()
+for (const topic of wikiTopics) mergedWikiTopicsMap.set(topic.slug, topic)
+for (const topic of normalizedSyncedWikiTopics) mergedWikiTopicsMap.set(topic.slug, topic)
+export const allWikiTopics: WikiTopic[] = Array.from(mergedWikiTopicsMap.values())
+
+const getDomainSlugsFromTopics = (topicSlugs: string[]) =>
+  Array.from(
+    new Set(
+      topicSlugs
+        .map((slug) => allWikiTopics.find((topic) => topic.slug === slug)?.domain)
+        .filter((slug): slug is string => Boolean(slug))
+    )
+  )
+
+const normalizeSourceDomains = (source: WikiSource): WikiSource => {
+  const explicitDomains = Array.isArray(source.domainSlugs) ? source.domainSlugs.filter(Boolean) : []
+  const inferredDomains = getDomainSlugsFromTopics(source.relatedTopicSlugs || [])
+  const domainSlugs = Array.from(new Set([...explicitDomains, ...inferredDomains])).slice(0, 2)
+  const primaryDomainSlug = source.primaryDomainSlug || domainSlugs[0] || ''
+  return {
+    ...source,
+    primaryDomainSlug,
+    domainSlugs
+  }
+}
+
+export const allWikiSources: WikiSource[] = mergedWikiSources.map(normalizeSourceDomains)
+
+const mergedWikiSynthesesMap = new Map<string, WikiSynthesis>()
+for (const entry of wikiSyntheses) mergedWikiSynthesesMap.set(entry.slug, entry)
+for (const entry of normalizedSyncedWikiSyntheses) mergedWikiSynthesesMap.set(entry.slug, entry)
+export const allWikiSyntheses: WikiSynthesis[] = Array.from(mergedWikiSynthesesMap.values())
+
 export const getWikiDomainBySlug = (slug: string) => wikiDomains.find((domain) => domain.slug === slug)
-export const getWikiTopicBySlug = (slug: string) => wikiTopics.find((topic) => topic.slug === slug)
-export const getWikiSourceBySlug = (slug: string) => wikiSources.find((source) => source.slug === slug)
-export const getWikiSynthesisBySlug = (slug: string) => wikiSyntheses.find((entry) => entry.slug === slug)
+export const getWikiTopicBySlug = (slug: string) => allWikiTopics.find((topic) => topic.slug === slug)
+export const getWikiSourceBySlug = (slug: string) => allWikiSources.find((source) => source.slug === slug)
+export const getWikiSynthesisBySlug = (slug: string) => allWikiSyntheses.find((entry) => entry.slug === slug)
 
 export const getTopicsByDomain = (domainSlug: string) =>
-  wikiTopics
+  allWikiTopics
     .filter((topic) => topic.domain === domainSlug)
     .sort((a, b) => +new Date(b.updatedDate) - +new Date(a.updatedDate))
 
 export const getSourcesByDomain = (domainSlug: string) => {
   const topicSlugs = new Set(getTopicsByDomain(domainSlug).map((topic) => topic.slug))
-  return wikiSources.filter((source) => source.relatedTopicSlugs.some((slug) => topicSlugs.has(slug)))
+  return allWikiSources.filter((source) => {
+    if (source.domainSlugs?.includes(domainSlug)) return true
+    return source.relatedTopicSlugs.some((slug) => topicSlugs.has(slug))
+  })
 }
 
 export const getSynthesesByDomain = (domainSlug: string) => {
   const topicSlugs = new Set(getTopicsByDomain(domainSlug).map((topic) => topic.slug))
-  return wikiSyntheses.filter((entry) => entry.relatedTopicSlugs.some((slug) => topicSlugs.has(slug)))
+  return allWikiSyntheses.filter((entry) => entry.relatedTopicSlugs.some((slug) => topicSlugs.has(slug)))
 }
 
 export const getRecentWikiItems = (limit = 6): WikiRecentItem[] => {
   const items: WikiRecentItem[] = [
-    ...wikiTopics.map((topic) => ({
+    ...allWikiTopics.map((topic) => ({
       type: 'topic' as const,
       slug: topic.slug,
       title: topic.title,
       date: topic.updatedDate,
       summary: topic.summary
     })),
-    ...wikiSources.map((source) => ({
+    ...allWikiSources.map((source) => ({
       type: 'source' as const,
       slug: source.slug,
       title: source.title,
       date: source.publishDate,
       summary: source.summary
     })),
-    ...wikiSyntheses.map((entry) => ({
+    ...allWikiSyntheses.map((entry) => ({
       type: 'synthesis' as const,
       slug: entry.slug,
       title: entry.title,
@@ -420,3 +652,5 @@ export const getWikiHref = (item: WikiRecentItem) => {
   if (item.type === 'source') return `/wiki/source/${item.slug}`
   return `/wiki/synthesis/${item.slug}`
 }
+
+export const wikiGraphData = syncedWikiGraphData

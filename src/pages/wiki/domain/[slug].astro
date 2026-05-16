@@ -16,49 +16,87 @@ const domainSlug = Astro.params.slug || (Astro.props as { domain?: WikiDomain })
 const { domain } = Astro.props as { domain: WikiDomain }
 
 const headings = [
-  { depth: 2, slug: 'definition', text: 'Definition' },
-  { depth: 2, slug: 'key-questions', text: 'Key Questions' },
-  { depth: 2, slug: 'focus-areas', text: 'Focus Areas' },
-  { depth: 2, slug: 'topics', text: 'Topics' },
-  { depth: 2, slug: 'sources', text: 'Sources' },
-  { depth: 2, slug: 'synthesis', text: 'Synthesis' },
-  { depth: 2, slug: 'recent-signals', text: 'Recent Signals' }
+  { depth: 2, slug: 'definition', text: '范围说明' },
+  { depth: 2, slug: 'questions', text: '关键问题' },
+  { depth: 2, slug: 'synthesis', text: '综述' },
+  { depth: 2, slug: 'topics', text: '主题路线' },
+  { depth: 2, slug: 'papers', text: '材料' }
 ]
 
 const current = getWikiDomainBySlug(domainSlug) || getWikiDomainBySlug(domain.slug) || domain
 const topics = getTopicsByDomain(current.slug)
 const sources = getSourcesByDomain(current.slug)
 const syntheses = getSynthesesByDomain(current.slug)
+const previewSyntheses = syntheses
+  .slice()
+  .sort((a, b) => +new Date(b.updatedDate) - +new Date(a.updatedDate))
+  .slice(0, 3)
+const previewTopics = topics.slice(0, 6)
+const previewSources = sources
+  .slice()
+  .sort((a, b) => +new Date(b.publishDate) - +new Date(a.publishDate))
+  .slice(0, 6)
+const sourceTypeNames: Record<string, string> = {
+  paper: '论文',
+  wechat: '公众号',
+  web: '网页',
+  note: '笔记'
+}
 ---
 
 <CommonPage title={current.name} {headings} info={`/wiki/domain/${current.slug}`}>
   <div class='space-y-8'>
-    <section class='rounded-2xl border border-primary/15 bg-gradient-to-br from-primary/10 via-background to-background p-6'>
-      <div class='flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between'>
-        <div class='space-y-2'>
-          <Label title='Domain Page' />
-          <h2 class='m-0 text-2xl font-semibold text-foreground sm:text-3xl'>{current.name}</h2>
-          <p class='max-w-3xl text-sm leading-6 text-muted-foreground'>{current.summary}</p>
+    <section class='overflow-hidden rounded-2xl border border-primary/15 bg-[linear-gradient(135deg,rgba(255,250,242,0.98),rgba(246,248,247,0.98)_48%,rgba(229,242,239,0.92))] p-5 shadow-[0_18px_48px_rgba(34,40,42,0.08)]'>
+      <div class='space-y-5'>
+        <div class='flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between'>
+          <div class='max-w-3xl space-y-3'>
+            <Label title='研究范围' />
+            <p class='m-0 text-sm leading-7 text-muted-foreground'>{current.summary}</p>
+          </div>
+          <div class='flex shrink-0 flex-wrap gap-2'>
+            <Button title='返回知识库' href='/wiki' style='back' />
+            <Button title='浏览材料' href='/wiki/papers' />
+          </div>
         </div>
-        <div class='flex flex-wrap gap-2'>
-          <Button title='Back to Wiki' href='/wiki' style='back' />
-          <Button title='Open Graph' href='/wiki/graph' style='ahead' />
+
+        <div class='grid grid-cols-3 gap-2'>
+          <a class='rounded-2xl border border-border/70 bg-background/75 p-3 text-center no-underline transition hover:border-primary/35 hover:bg-card' href='#synthesis'>
+            <span class='block text-[11px] text-muted-foreground'>综述</span>
+            <strong class='mt-1 block text-2xl font-semibold text-foreground'>{syntheses.length}</strong>
+          </a>
+          <a class='rounded-2xl border border-border/70 bg-background/75 p-3 text-center no-underline transition hover:border-primary/35 hover:bg-card' href='#topics'>
+            <span class='block text-[11px] text-muted-foreground'>主题</span>
+            <strong class='mt-1 block text-2xl font-semibold text-foreground'>{topics.length}</strong>
+          </a>
+          <a class='rounded-2xl border border-border/70 bg-background/75 p-3 text-center no-underline transition hover:border-primary/35 hover:bg-card' href='#papers'>
+            <span class='block text-[11px] text-muted-foreground'>材料</span>
+            <strong class='mt-1 block text-2xl font-semibold text-foreground'>{sources.length}</strong>
+          </a>
+        </div>
+
+        <div class='flex flex-col gap-3 rounded-2xl border border-border/70 bg-background/65 p-4 sm:flex-row sm:items-center'>
+          <p class='m-0 shrink-0 text-sm font-semibold text-muted-foreground'>关注点</p>
+          <div class='flex flex-wrap gap-2'>
+            {current.focusAreas.map((area: string) => (
+              <span class='rounded-full border border-border/70 bg-card/70 px-3 py-1.5 text-xs font-medium text-muted-foreground'>{area}</span>
+            ))}
+          </div>
         </div>
       </div>
     </section>
 
     <section class='space-y-3' aria-labelledby='definition'>
       <div class='border-b border-border/40 pb-3'>
-        <h2 id='definition' class='m-0 text-2xl font-semibold'>Definition</h2>
+        <h2 id='definition' class='m-0 text-2xl font-semibold'>范围说明</h2>
       </div>
       <div class='rounded-2xl border border-border bg-card p-5'>
         <p class='m-0 text-sm leading-7 text-muted-foreground'>{current.definition}</p>
       </div>
     </section>
 
-    <section class='space-y-3' aria-labelledby='key-questions'>
+    <section class='space-y-3' aria-labelledby='questions'>
       <div class='border-b border-border/40 pb-3'>
-        <h2 id='key-questions' class='m-0 text-2xl font-semibold'>Key Questions</h2>
+        <h2 id='questions' class='m-0 text-2xl font-semibold'>关键问题</h2>
       </div>
       <div class='rounded-2xl border border-border bg-card p-5'>
         <ul class='space-y-3 pl-5 text-sm leading-7 text-muted-foreground'>
@@ -69,25 +107,35 @@ const syntheses = getSynthesesByDomain(current.slug)
       </div>
     </section>
 
-    <section class='space-y-3' aria-labelledby='focus-areas'>
-      <div class='border-b border-border/40 pb-3'>
-        <h2 id='focus-areas' class='m-0 text-2xl font-semibold'>Focus Areas</h2>
-      </div>
-      <div class='rounded-2xl border border-border bg-card p-5'>
-        <ul class='space-y-3 pl-5 text-sm leading-7 text-muted-foreground'>
-          {current.focusAreas.map((area: string) => (
-            <li>{area}</li>
+    {syntheses.length ? (
+      <section class='space-y-3' aria-labelledby='synthesis'>
+        <div class='flex flex-col gap-3 border-b border-border/40 pb-3 sm:flex-row sm:items-end sm:justify-between'>
+          <h2 id='synthesis' class='m-0 text-2xl font-semibold'>综述</h2>
+          {syntheses.length > previewSyntheses.length ? <Button title='查看全部综述' href='/wiki/syntheses' /> : null}
+        </div>
+        <div class='space-y-3'>
+          {previewSyntheses.map((entry) => (
+            <article class='rounded-2xl border border-border bg-card p-5'>
+              <div class='grid gap-4 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center'>
+                <div>
+                  <h3 class='m-0 text-lg font-semibold text-foreground'>{entry.title}</h3>
+                  <p class='m-0 mt-2 text-sm leading-6 text-muted-foreground'>{entry.summary}</p>
+                </div>
+                <Button title='打开综述' href={`/wiki/synthesis/${entry.slug}`} style='ahead' />
+              </div>
+            </article>
           ))}
-        </ul>
-      </div>
-    </section>
+        </div>
+      </section>
+    ) : null}
 
     <section class='space-y-3' aria-labelledby='topics'>
-      <div class='border-b border-border/40 pb-3'>
-        <h2 id='topics' class='m-0 text-2xl font-semibold'>Topics</h2>
+      <div class='flex flex-col gap-3 border-b border-border/40 pb-3 sm:flex-row sm:items-end sm:justify-between'>
+        <h2 id='topics' class='m-0 text-2xl font-semibold'>主题路线</h2>
+        {topics.length > previewTopics.length ? <Button title='查看全部主题' href='/wiki/topics' /> : null}
       </div>
       <div class='grid grid-cols-1 gap-3 lg:grid-cols-2'>
-        {topics.map((topic) => (
+        {previewTopics.map((topic) => (
           <article class='rounded-2xl border border-border bg-card p-5'>
             <div class='space-y-3'>
               <div>
@@ -95,78 +143,39 @@ const syntheses = getSynthesesByDomain(current.slug)
                 <p class='m-0 mt-2 text-sm leading-6 text-muted-foreground'>{topic.summary}</p>
               </div>
               <div class='flex flex-wrap items-center gap-2 text-xs text-muted-foreground'>
-                <span>Updated {topic.updatedDate}</span>
+                <span>{topic.updatedDate}</span>
               </div>
-              <div class='flex flex-wrap gap-2'>
-                <Button title='Open Topic' href={`/wiki/topic/${topic.slug}`} style='ahead' />
-              </div>
+              <Button title='打开主题' href={`/wiki/topic/${topic.slug}`} style='ahead' />
             </div>
           </article>
         ))}
       </div>
     </section>
 
-    <section class='space-y-3' aria-labelledby='sources'>
-      <div class='border-b border-border/40 pb-3'>
-        <h2 id='sources' class='m-0 text-2xl font-semibold'>Sources</h2>
+    <section class='space-y-3' aria-labelledby='papers'>
+      <div class='flex flex-col gap-3 border-b border-border/40 pb-3 sm:flex-row sm:items-end sm:justify-between'>
+        <h2 id='papers' class='m-0 text-2xl font-semibold'>最近材料</h2>
+        {sources.length > previewSources.length ? <Button title='查看全部材料' href={`/wiki/papers?domain=${current.slug}`} /> : null}
       </div>
       <div class='space-y-3'>
-        {sources.map((source) => (
+        {previewSources.map((source) => (
           <article class='rounded-2xl border border-border bg-card p-5'>
-            <div class='space-y-3'>
-              <div class='flex flex-wrap items-center gap-2'>
-                <span class='rounded-full bg-primary/10 px-2.5 py-1 text-xs font-medium uppercase tracking-[0.14em] text-primary'>{source.sourceType}</span>
-                <span class='text-xs text-muted-foreground'>{source.publishDate}</span>
-              </div>
+            <div class='grid gap-4 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center'>
               <div>
-                <h3 class='m-0 text-lg font-semibold text-foreground'>{source.title}</h3>
-                <p class='m-0 mt-2 text-sm leading-6 text-muted-foreground'>{source.summary}</p>
+                <div class='flex flex-wrap items-center gap-2'>
+                  <span class='rounded-full bg-primary/10 px-2.5 py-1 text-xs font-medium text-primary'>{sourceTypeNames[source.sourceType] || source.sourceType}</span>
+                  <span class='text-xs text-muted-foreground'>{source.publishDate}</span>
+                </div>
+                <h3 class='m-0 mt-3 text-lg font-semibold text-foreground'>{source.title}</h3>
+                <p class='m-0 mt-2 text-sm leading-6 text-muted-foreground'>{source.tldr || source.summary}</p>
               </div>
               <div class='flex flex-wrap gap-2'>
-                <Button title='Open Source' href={`/wiki/source/${source.slug}`} style='ahead' />
-                {source.sourceUrl && <Button title='Original Link' href={source.sourceUrl} target='_blank' rel='noreferrer' />}
+                <Button title='阅读材料' href={`/wiki/source/${source.slug}`} style='ahead' />
+                {source.sourceUrl && <Button title='原文' href={source.sourceUrl} target='_blank' rel='noreferrer' />}
               </div>
             </div>
           </article>
         ))}
-      </div>
-    </section>
-
-    <section class='space-y-3' aria-labelledby='synthesis'>
-      <div class='border-b border-border/40 pb-3'>
-        <h2 id='synthesis' class='m-0 text-2xl font-semibold'>Synthesis</h2>
-      </div>
-      <div class='space-y-3'>
-        {syntheses.map((entry) => (
-          <article class='rounded-2xl border border-border bg-card p-5'>
-            <div class='space-y-3'>
-              <div class='flex flex-wrap items-center gap-2'>
-                <span class='rounded-full bg-primary/10 px-2.5 py-1 text-xs font-medium uppercase tracking-[0.14em] text-primary'>{entry.kind}</span>
-                <span class='text-xs text-muted-foreground'>Updated {entry.updatedDate}</span>
-              </div>
-              <div>
-                <h3 class='m-0 text-lg font-semibold text-foreground'>{entry.title}</h3>
-                <p class='m-0 mt-2 text-sm leading-6 text-muted-foreground'>{entry.summary}</p>
-              </div>
-              <div class='flex flex-wrap gap-2'>
-                <Button title='Open Synthesis' href={`/wiki/synthesis/${entry.slug}`} style='ahead' />
-              </div>
-            </div>
-          </article>
-        ))}
-      </div>
-    </section>
-
-    <section class='space-y-3' aria-labelledby='recent-signals'>
-      <div class='border-b border-border/40 pb-3'>
-        <h2 id='recent-signals' class='m-0 text-2xl font-semibold'>Recent Signals</h2>
-      </div>
-      <div class='rounded-2xl border border-border bg-card p-5'>
-        <ul class='space-y-3 pl-5 text-sm leading-7 text-muted-foreground'>
-          {current.recentSignals.map((signal: string) => (
-            <li>{signal}</li>
-          ))}
-        </ul>
       </div>
     </section>
   </div>

@@ -567,6 +567,14 @@ const deriveHjfyUrl = (item: FollowSourceItem) => {
           render()
         } catch (error) {
           console.warn(`Failed to hydrate remote source data for ${sourceKey}; keeping local static content.`, error)
+          if (summary instanceof HTMLElement && summary.textContent?.includes('Loading remote source data')) {
+            summary.textContent = `Failed to load remote ${sourceKey} data. Static fallback is not available in this build.`
+          }
+          if (cards.length === 0) {
+            empty.classList.remove('hidden')
+            container.classList.add('hidden')
+            empty.textContent = `Failed to load remote ${sourceKey} data.`
+          }
         }
       }
 

@@ -1,75 +1,410 @@
 ---
 import CommonPage from '@/layouts/CommonPage.astro'
-import { Button, Label } from '@/components/ui'
-import { getWikiSourceBySlug, getWikiTopicBySlug, wikiSources } from '@/data/wiki'
+import { Button, Icon } from '@/components/ui'
+import { allWikiSources, getWikiSourceBySlug, getWikiTopicBySlug } from '@/data/wiki'
+import { renderWikiSection } from '@/data/generated/wiki-render'
 
 export const prerender = true
 
 export const getStaticPaths = async () =>
-  wikiSources.map((source) => ({
+  allWikiSources.map((source) => ({
     params: { slug: source.slug },
     props: { source }
   }))
 
-const { source } = Astro.props as { source: (typeof wikiSources)[number] }
+const { source } = Astro.props as { source: (typeof allWikiSources)[number] }
 const current = getWikiSourceBySlug(Astro.params.slug || source.slug) || source
 
 const headings = [
-  { depth: 2, slug: 'summary', text: 'Summary' },
-  { depth: 2, slug: 'key-takeaways', text: 'Key Takeaways' },
-  { depth: 2, slug: 'related-topics', text: 'Related Topics' }
+  { depth: 2, slug: 'abstract', text: '摘要' },
+  { depth: 2, slug: 'background', text: '背景与问题' },
+  { depth: 2, slug: 'method', text: '方法' },
+  { depth: 2, slug: 'results', text: '结果' },
+  { depth: 2, slug: 'insights', text: '洞察' },
+  { depth: 2, slug: 'risks', text: '风险与判断' },
+  ...(current.figureGallery?.length ? [{ depth: 2, slug: 'figures', text: '图表' }] : []),
+  { depth: 2, slug: 'related-topics', text: '相关主题' }
 ]
 
 const relatedTopics = current.relatedTopicSlugs
   .map((slug) => getWikiTopicBySlug(slug))
   .filter((topic): topic is NonNullable<typeof topic> => Boolean(topic))
+
+const sortedSources = allWikiSources.slice().sort((a, b) => +new Date(a.publishDate) - +new Date(b.publishDate))
+const currentIndex = sortedSources.findIndex((source) => source.slug === current.slug)
+const previousSource = currentIndex > 0 ? sortedSources[currentIndex - 1] : null
+const nextSource = currentIndex >= 0 && currentIndex < sortedSources.length - 1 ? sortedSources[currentIndex + 1] : null
+
+const render = (value?: string) => ({ __html: renderWikiSection(String(value || '')) })
+const renderList = (items?: string[]) => render((items || []).map((item) => `- ${item}`).join('\n'))
+const extractLabeledBlock = (value: string | undefined, label: string) => {
+  const escapedLabel = label.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+  const match = String(value || '').match(new RegExp(`\\*\\*${escapedLabel}：\\*\\*\\s*([\\s\\S]*?)(?=\\n\\n\\*\\*|$)`))
+  return match?.[1]?.trim() || ''
+}
+
+const methodFigure = current.figureGallery?.find((figure) => figure.zone === 'method')
+const resultsFigure = current.figureGallery?.find((figure) => figure.zone === 'results')
+const insightsFigure = current.figureGallery?.find((figure) => figure.zone === 'insights')
+const risksFigure = current.figureGallery?.find((figure) => figure.zone === 'risks')
+const figures = current.figureGallery || []
+
+const getArxivId = (...urls: (string | undefined)[]) => {
+  for (const url of urls) {
+    const match = String(url || '').match(/arxiv\.org\/(?:abs|pdf|html)\/(\d{4}\.\d{4,5})(?:v\d+)?/i)
+    if (match) return match[1]
+  }
+  return ''
+}
+
+const arxivId = getArxivId(current.sourceUrl, current.htmlUrl, current.pdfUrl)
+const translationUrl = current.translationUrl || (arxivId ? `https://hjfy.top/arxiv/${arxivId}` : '')
+
+const rawExternalLinks = [
+  current.sourceUrl ? { label: arxivId ? 'arXiv' : '原文', href: current.sourceUrl, icon: 'link', caption: '论文主页' } : null,
+  current.htmlUrl ? { label: 'HTML', href: current.htmlUrl, icon: 'earth', caption: '在线正文' } : null,
+  current.pdfUrl ? { label: 'PDF', href: current.pdfUrl, icon: 'download', caption: '论文文件' } : null,
+  current.codeUrl ? { label: 'Code', href: current.codeUrl, icon: current.codeUrl.includes('github') ? 'github' : 'package', caption: '代码仓库' } : null,
+  translationUrl ? { label: '中英', href: translationUrl, icon: 'earth', caption: 'hjfy 双语阅读' } : null
+]
+const seenExternalLinks = new Set<string>()
+const externalLinks = rawExternalLinks.filter((link): link is { label: string; href: string; icon: string; caption: string } => {
+  if (!link?.href || seenExternalLinks.has(link.href)) return false
+  seenExternalLinks.add(link.href)
+  return true
+})
+
+const typeNames: Record<string, string> = {
+  paper: '论文',
+  wechat: '公众号',
+  web: '网页',
+  note: '笔记'
+}
+const sourceTypeName = typeNames[current.sourceType] || current.sourceType
+const primarySummary = current.tldr || current.summary
+const finalJudgmentText = current.riskJudgment?.length || current.criticalNotes?.length ? '' : extractLabeledBlock(current.risks, '最终判断')
+const heroImageUrl = current.heroImage ? current.heroImage.replace(/"/g, '\\"') : ''
+const heroVisualStyle = heroImageUrl
+  ? `background-image: linear-gradient(90deg, hsl(var(--card) / 0.98) 0%, hsl(var(--card) / 0.78) 48%, hsl(var(--card) / 0.16) 100%), url("${heroImageUrl}"); background-size: cover; background-position: center;`
+  : undefined
 ---
 
 <CommonPage title={current.title} {headings} info={`/wiki/source/${current.slug}`}>
   <div class='space-y-8'>
-    <section class='rounded-2xl border border-primary/15 bg-gradient-to-br from-primary/10 via-background to-background p-6'>
-      <div class='flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between'>
-        <div class='space-y-2'>
-          <Label title='Source' />
-          <h2 class='m-0 text-2xl font-semibold text-foreground sm:text-3xl'>{current.title}</h2>
-          <p class='max-w-3xl text-sm leading-6 text-muted-foreground'>
-            {current.sourceType} · {current.publishDate}
-          </p>
+    <div class='flex items-center justify-between gap-3'>
+      <Button title='返回材料库' href='/wiki/papers' style='back' />
+    </div>
+
+    <section class='relative overflow-hidden rounded-2xl border border-border bg-card shadow-sm'>
+      {heroVisualStyle ? <div class='absolute inset-y-0 right-0 hidden w-[46%] lg:block' style={heroVisualStyle}></div> : null}
+      <div class='relative space-y-6 p-5 sm:p-6 lg:max-w-[72%]'>
+        <div class='space-y-4'>
+          <div class='flex flex-wrap items-center gap-2'>
+            <span class='inline-flex items-center rounded-full border border-primary/20 bg-primary/10 px-3 py-1.5 text-xs font-medium text-primary'>
+              {sourceTypeName}
+            </span>
+            <span class='inline-flex items-center rounded-full border border-border/70 bg-background/80 px-3 py-1.5 text-xs font-medium text-muted-foreground'>
+              {current.publishDate}
+            </span>
+            {relatedTopics.slice(0, 3).map((topic) => (
+              <a class='rounded-full border border-border/70 bg-background/80 px-3 py-1.5 text-xs font-medium text-muted-foreground no-underline hover:border-primary/35 hover:text-foreground' href={`/wiki/topic/${topic.slug}`}>
+                {topic.title}
+              </a>
+            ))}
+          </div>
+
+          <h2 class='m-0 max-w-5xl text-3xl font-semibold leading-[1.08] text-foreground sm:text-4xl'>{current.title}</h2>
+
+          {current.authors?.length ? (
+            <p class='m-0 max-w-4xl text-sm leading-6 text-muted-foreground'>{current.authors.slice(0, 8).join(' · ')}{current.authors.length > 8 ? ' 等' : ''}</p>
+          ) : null}
         </div>
-        <div class='flex flex-wrap gap-2'>
-          {current.sourceUrl && <Button title='Original Link' href={current.sourceUrl} target='_blank' rel='noreferrer' style='ahead' />}
-          <Button title='Back to Wiki' href='/wiki' style='back' />
+
+        <div class='border-l-2 border-primary/40 pl-4'>
+          <p class='m-0 text-xs font-semibold uppercase tracking-[0.16em] text-primary/80'>一句话结论</p>
+          <p class='m-0 mt-2 max-w-4xl text-base leading-8 text-foreground'>{primarySummary}</p>
         </div>
+
+        {(externalLinks.length || current.keywords?.length) ? (
+          <div class='space-y-4 border-t border-border/50 pt-5'>
+            {externalLinks.length ? (
+              <div>
+                <p class='m-0 text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground/80'>链接</p>
+                <div class='mt-3 grid gap-2 sm:grid-cols-2 xl:grid-cols-3'>
+                  {externalLinks.map((link) => (
+                    <a class='group flex min-h-14 items-center justify-between gap-3 rounded-xl border border-border/70 bg-background/85 px-3 py-2 text-sm font-medium text-foreground no-underline transition hover:border-primary/35 hover:bg-primary/5' href={link.href} target='_blank' rel='noreferrer'>
+                      <span class='flex min-w-0 items-center gap-2'>
+                        <Icon class='size-4 shrink-0 text-muted-foreground transition group-hover:text-primary' name={link.icon as any} />
+                        <span class='min-w-0'>
+                          <span class='block'>{link.label}</span>
+                          <span class='block text-xs font-normal leading-5 text-muted-foreground'>{link.caption}</span>
+                        </span>
+                      </span>
+                      <span class='shrink-0 text-xs text-muted-foreground'>打开</span>
+                    </a>
+                  ))}
+                </div>
+              </div>
+            ) : null}
+
+            {current.keywords?.length ? (
+              <div>
+                <p class='m-0 inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground/80'>
+                  <Icon class='size-4' name='tag-2' />
+                  关键词
+                </p>
+                <div class='mt-3 flex flex-wrap gap-2'>
+                  {current.keywords.map((keyword) => (
+                    <span class='rounded-full border border-border/70 bg-background/85 px-3 py-1.5 text-xs font-medium text-muted-foreground'>{keyword}</span>
+                  ))}
+                </div>
+              </div>
+            ) : null}
+          </div>
+        ) : null}
       </div>
     </section>
 
-    <section class='space-y-3' aria-labelledby='summary'>
+    <section class='space-y-3' aria-labelledby='abstract'>
       <div class='border-b border-border/40 pb-3'>
-        <h2 id='summary' class='m-0 text-2xl font-semibold'>Summary</h2>
+        <h2 id='abstract' class='m-0 text-2xl font-semibold'>摘要</h2>
       </div>
-      <div class='rounded-2xl border border-border bg-card p-5'>
-        <p class='m-0 text-sm leading-7 text-muted-foreground'>{current.summary}</p>
+      <div class='grid gap-4 lg:grid-cols-2'>
+        <details class='rounded-2xl border border-border bg-card p-5' open>
+          <summary class='cursor-pointer text-sm font-semibold text-foreground'>中文摘要</summary>
+          <div class='wiki-rich mt-4 text-sm leading-7 text-muted-foreground' set:html={render(current.abstractZh || current.summary).__html} />
+        </details>
+        <details class='rounded-2xl border border-border bg-card p-5'>
+          <summary class='cursor-pointer text-sm font-semibold text-foreground'>英文摘要</summary>
+          <div class='wiki-rich mt-4 text-sm leading-7 text-muted-foreground' set:html={render(current.abstractEn || current.summary).__html} />
+        </details>
       </div>
     </section>
 
-    <section class='space-y-3' aria-labelledby='key-takeaways'>
-      <div class='border-b border-border/40 pb-3'>
-        <h2 id='key-takeaways' class='m-0 text-2xl font-semibold'>Key Takeaways</h2>
-      </div>
-      <div class='rounded-2xl border border-border bg-card p-5'>
-        <ul class='space-y-3 pl-5 text-sm leading-7 text-muted-foreground'>
-          {current.keyTakeaways.map((takeaway) => (
-            <li>{takeaway}</li>
+    <section class='grid gap-6'>
+      <article class='min-w-0 space-y-8'>
+        {current.intuition ? (
+          <section class='space-y-3'>
+            <div class='border-b border-border/40 pb-3'>
+              <h2 class='m-0 text-2xl font-semibold'>直观理解</h2>
+            </div>
+            <div class='rounded-2xl border border-emerald-700/10 bg-emerald-500/10 p-5'>
+              <div class='wiki-rich text-base leading-8 text-foreground' set:html={render(current.intuition).__html} />
+            </div>
+          </section>
+        ) : null}
+
+        <section class='space-y-3' aria-labelledby='background'>
+          <div class='border-b border-border/40 pb-3'>
+            <h2 id='background' class='m-0 text-2xl font-semibold'>背景与问题</h2>
+          </div>
+          <div class='rounded-2xl border border-border bg-card p-5'>
+            <div class='space-y-5 text-sm leading-7 text-muted-foreground'>
+              {current.backgroundMotivation ? (
+                <div>
+                  <h3 class='m-0 text-lg font-semibold text-foreground'>为什么做</h3>
+                  <p class='m-0 mt-2'>{current.backgroundMotivation}</p>
+                </div>
+              ) : null}
+              {current.backgroundGap ? (
+                <div>
+                  <h3 class='m-0 text-lg font-semibold text-foreground'>问题缺口</h3>
+                  <p class='m-0 mt-2'>{current.backgroundGap}</p>
+                </div>
+              ) : (
+                <div class='wiki-rich' set:html={render(current.researchProblem).__html} />
+              )}
+            </div>
+          </div>
+        </section>
+
+        <section class='space-y-3' aria-labelledby='method'>
+          <div class='border-b border-border/40 pb-3'>
+            <h2 id='method' class='m-0 text-2xl font-semibold'>方法</h2>
+          </div>
+          <div class='rounded-2xl border border-border bg-card p-5'>
+            <div class='space-y-6'>
+              <div class='space-y-5'>
+                <div>
+                  <h3 class='m-0 text-lg font-semibold text-foreground'>方法概述</h3>
+                  <div class='wiki-rich mt-2 text-sm leading-7 text-muted-foreground' set:html={render(current.methodOverview || current.summary).__html} />
+                </div>
+                {current.methodCore ? (
+                  <div>
+                    <h3 class='m-0 text-lg font-semibold text-foreground'>核心机制</h3>
+                    <div class='wiki-rich mt-2 text-sm leading-7 text-muted-foreground' set:html={render(current.methodCore).__html} />
+                  </div>
+                ) : null}
+                {current.methodBreakdown?.length ? (
+                  <div>
+                    <h3 class='m-0 text-lg font-semibold text-foreground'>方法拆解</h3>
+                    <div class='wiki-rich mt-2 text-sm leading-7 text-muted-foreground' set:html={renderList(current.methodBreakdown).__html} />
+                  </div>
+                ) : null}
+              </div>
+
+              {(methodFigure || current.methodTakeaways?.length) ? (
+              <div class='space-y-4 border-t border-border/40 pt-5'>
+                {methodFigure ? (
+                  <figure class='rounded-xl border border-border/50 bg-background/70 p-3'>
+                    <img class='h-auto w-full rounded-lg border border-border/40 bg-white object-contain' src={methodFigure.src} alt={methodFigure.caption} />
+                    <figcaption class='mt-3 text-sm leading-6 text-muted-foreground'>{methodFigure.caption}</figcaption>
+                  </figure>
+                ) : null}
+                {current.methodTakeaways?.length ? (
+                  <div class='rounded-xl border border-border/60 bg-background/70 p-4'>
+                    <p class='m-0 text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground/80'>关键要点</p>
+                    <div class='wiki-rich mt-3 text-sm leading-7 text-muted-foreground' set:html={renderList(current.methodTakeaways).__html} />
+                  </div>
+                ) : null}
+              </div>
+              ) : null}
+            </div>
+          </div>
+        </section>
+
+        <section class='space-y-3' aria-labelledby='results'>
+          <div class='border-b border-border/40 pb-3'>
+            <h2 id='results' class='m-0 text-2xl font-semibold'>结果</h2>
+          </div>
+          <div class='rounded-2xl border border-border bg-card p-5'>
+            <div class='space-y-5'>
+              <div class='wiki-rich text-sm leading-7 text-muted-foreground' set:html={renderList(current.resultHighlights || current.experimentalSignals).__html} />
+              {(resultsFigure || current.keyTakeaways?.length) ? (
+              <div class='space-y-4 border-t border-border/40 pt-5'>
+                {resultsFigure ? (
+                  <figure class='rounded-xl border border-border/50 bg-background/70 p-3'>
+                    <img class='h-auto w-full rounded-lg border border-border/40 bg-white object-contain' src={resultsFigure.src} alt={resultsFigure.caption} />
+                    <figcaption class='mt-3 text-sm leading-6 text-muted-foreground'>{resultsFigure.caption}</figcaption>
+                  </figure>
+                ) : null}
+                {current.keyTakeaways?.length ? (
+                  <div class='rounded-xl border border-border/60 bg-background/70 p-4'>
+                    <p class='m-0 text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground/80'>关键创新</p>
+                    <div class='wiki-rich mt-3 text-sm leading-7 text-muted-foreground' set:html={renderList(current.keyTakeaways).__html} />
+                  </div>
+                ) : null}
+              </div>
+              ) : null}
+            </div>
+          </div>
+        </section>
+
+        {current.resultsTable ? (
+          <section class='space-y-3'>
+            <div class='border-b border-border/40 pb-3'>
+              <h2 class='m-0 text-2xl font-semibold'>结果速览表</h2>
+            </div>
+            <div class='overflow-x-auto rounded-2xl border border-border bg-card'>
+              <table class='w-full border-collapse text-left text-sm leading-7 text-muted-foreground'>
+                <thead>
+                  <tr class='bg-primary/10 text-foreground'>
+                    {current.resultsTable.columns.map((column) => (
+                      <th class='border-b border-border/60 px-4 py-3 font-semibold'>{column}</th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {current.resultsTable.rows.map((row) => (
+                    <tr class='align-top'>
+                      {row.map((cell) => (
+                        <td class='border-b border-border/40 px-4 py-3'>{cell}</td>
+                      ))}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </section>
+        ) : null}
+
+        <section class='space-y-3' aria-labelledby='insights'>
+          <div class='border-b border-border/40 pb-3'>
+            <h2 id='insights' class='m-0 text-2xl font-semibold'>洞察</h2>
+          </div>
+          <div class='rounded-2xl border border-border bg-card p-5'>
+            <div class='space-y-5'>
+              <div class='wiki-rich text-sm leading-7 text-muted-foreground' set:html={renderList(current.insightCore || current.insights).__html} />
+              {current.insightRelations?.length ? (
+                <div class='border-t border-border/40 pt-4'>
+                  <h3 class='m-0 text-lg font-semibold text-foreground'>和已有方法的关系</h3>
+                  <div class='wiki-rich mt-2 text-sm leading-7 text-muted-foreground' set:html={renderList(current.insightRelations).__html} />
+                </div>
+              ) : null}
+              {current.insightBorrowable?.length ? (
+                <div class='border-t border-border/40 pt-4'>
+                  <h3 class='m-0 text-lg font-semibold text-foreground'>可借鉴点</h3>
+                  <div class='wiki-rich mt-2 text-sm leading-7 text-muted-foreground' set:html={renderList(current.insightBorrowable).__html} />
+                </div>
+              ) : null}
+              {insightsFigure ? (
+                <figure class='rounded-xl border border-border/50 bg-background/70 p-3'>
+                  <img class='h-auto w-full rounded-lg border border-border/40 bg-white object-contain' src={insightsFigure.src} alt={insightsFigure.caption} />
+                  <figcaption class='mt-3 text-sm leading-6 text-muted-foreground'>{insightsFigure.caption}</figcaption>
+                </figure>
+              ) : null}
+            </div>
+          </div>
+        </section>
+
+        <section class='space-y-3' aria-labelledby='risks'>
+          <div class='border-b border-border/40 pb-3'>
+            <h2 id='risks' class='m-0 text-2xl font-semibold'>风险与判断</h2>
+          </div>
+          <div class='rounded-2xl border border-border bg-card p-5'>
+            <div class='space-y-5'>
+              <div>
+                <h3 class='m-0 text-lg font-semibold text-foreground'>局限</h3>
+                <div class='wiki-rich mt-2 text-sm leading-7 text-muted-foreground' set:html={renderList(current.riskLimitations || current.limitations).__html} />
+              </div>
+              <div class='border-t border-border/40 pt-4'>
+                <h3 class='m-0 text-lg font-semibold text-foreground'>适用场景</h3>
+                <div class='wiki-rich mt-2 text-sm leading-7 text-muted-foreground' set:html={renderList(current.riskScenarios || current.applicationScenarios).__html} />
+              </div>
+              <div class='border-t border-border/40 pt-4'>
+                <h3 class='m-0 text-lg font-semibold text-foreground'>最终判断</h3>
+                <div
+                  class='wiki-rich mt-2 text-sm leading-7 text-muted-foreground'
+                  set:html={(current.riskJudgment?.length || current.criticalNotes?.length ? renderList(current.riskJudgment || current.criticalNotes) : render(finalJudgmentText)).__html}
+                />
+              </div>
+            </div>
+            {risksFigure ? (
+              <figure class='mt-5 rounded-xl border border-border/50 bg-background/70 p-3'>
+                <img class='h-auto w-full rounded-lg border border-border/40 bg-white object-contain' src={risksFigure.src} alt={risksFigure.caption} />
+                <figcaption class='mt-3 text-sm leading-6 text-muted-foreground'>{risksFigure.caption}</figcaption>
+              </figure>
+            ) : null}
+          </div>
+        </section>
+      </article>
+
+    </section>
+
+    {figures.length ? (
+      <section class='space-y-4' aria-labelledby='figures'>
+        <div class='border-b border-border/40 pb-3'>
+          <h2 id='figures' class='m-0 text-2xl font-semibold'>图表</h2>
+        </div>
+        <div class='grid gap-4 md:grid-cols-2 xl:grid-cols-3'>
+          {figures.map((figure) => (
+            <a class='group block overflow-hidden rounded-2xl border border-border bg-card no-underline shadow-sm transition hover:border-primary/35' href={figure.src} target='_blank' rel='noreferrer'>
+              <img class='aspect-[16/9] w-full bg-white object-cover' src={figure.src} alt={figure.caption} loading='lazy' />
+              <span class='flex items-start gap-2 border-t border-border/50 px-4 py-3 text-sm leading-6 text-muted-foreground'>
+                <Icon class='mt-0.5 size-4 shrink-0 text-muted-foreground transition group-hover:text-primary' name='image' />
+                {figure.caption}
+              </span>
+            </a>
           ))}
-        </ul>
-      </div>
-    </section>
+        </div>
+      </section>
+    ) : null}
 
-    <section class='space-y-3' aria-labelledby='related-topics'>
+    <section class='space-y-4' aria-labelledby='related-topics'>
       <div class='border-b border-border/40 pb-3'>
-        <h2 id='related-topics' class='m-0 text-2xl font-semibold'>Related Topics</h2>
+        <h2 id='related-topics' class='m-0 text-2xl font-semibold'>相关主题</h2>
       </div>
-      <div class='space-y-3'>
+      <div class='grid grid-cols-1 gap-4 lg:grid-cols-2'>
         {relatedTopics.map((topic) => (
           <article class='rounded-2xl border border-border bg-card p-5'>
             <div class='space-y-3'>
@@ -77,13 +412,41 @@ const relatedTopics = current.relatedTopicSlugs
                 <h3 class='m-0 text-lg font-semibold text-foreground'>{topic.title}</h3>
                 <p class='m-0 mt-2 text-sm leading-6 text-muted-foreground'>{topic.summary}</p>
               </div>
-              <div class='flex flex-wrap gap-2'>
-                <Button title='Open Topic' href={`/wiki/topic/${topic.slug}`} style='ahead' />
-              </div>
+              <Button title='打开主题' href={`/wiki/topic/${topic.slug}`} style='ahead' />
             </div>
           </article>
         ))}
       </div>
     </section>
+
+    {(previousSource || nextSource) ? (
+      <section class='space-y-4'>
+        <div class='border-b border-border/40 pb-3'>
+          <h2 class='m-0 text-2xl font-semibold'>继续阅读</h2>
+        </div>
+        <div class='grid grid-cols-1 gap-4 lg:grid-cols-2'>
+          {previousSource ? (
+            <article class='rounded-2xl border border-border bg-card p-5'>
+              <p class='m-0 text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground/80'>上一篇</p>
+              <h3 class='m-0 mt-3 text-lg font-semibold text-foreground'>{previousSource.title}</h3>
+              <p class='mt-3 text-sm leading-6 text-muted-foreground'>{previousSource.tldr || previousSource.summary}</p>
+              <div class='mt-4 flex flex-wrap gap-2'>
+                <Button title='打开阅读' href={`/wiki/source/${previousSource.slug}`} style='ahead' />
+              </div>
+            </article>
+          ) : null}
+          {nextSource ? (
+            <article class='rounded-2xl border border-border bg-card p-5'>
+              <p class='m-0 text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground/80'>下一篇</p>
+              <h3 class='m-0 mt-3 text-lg font-semibold text-foreground'>{nextSource.title}</h3>
+              <p class='mt-3 text-sm leading-6 text-muted-foreground'>{nextSource.tldr || nextSource.summary}</p>
+              <div class='mt-4 flex flex-wrap gap-2'>
+                <Button title='打开阅读' href={`/wiki/source/${nextSource.slug}`} style='ahead' />
+              </div>
+            </article>
+          ) : null}
+        </div>
+      </section>
+    ) : null}
   </div>
 </CommonPage>

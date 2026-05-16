@@ -1,59 +1,159 @@
 ---
 import CommonPage from '@/layouts/CommonPage.astro'
-import { Button, Label } from '@/components/ui'
+import { Button } from '@/components/ui'
+import { allWikiSources, allWikiSyntheses, allWikiTopics, wikiGraphData } from '@/data/wiki'
 
 const headings = [
-  { depth: 2, slug: 'graph-delivery', text: 'Graph Delivery' },
-  { depth: 2, slug: 'how-it-will-work', text: 'How It Will Work' }
+  { depth: 2, slug: 'graph', text: '知识图谱' }
 ]
+
+const sourceCount = allWikiSources.length
+const topicCount = allWikiTopics.length
+const synthesisCount = allWikiSyntheses.length
+const updatedDate = wikiGraphData.meta?.build_date
+  ? new Date(wikiGraphData.meta.build_date).toISOString().slice(0, 10)
+  : ''
+const graphDataHref = '/wiki/graph/data.json'
+const graphAppHref = `/wiki-graph/knowledge-graph.html?embed=1&data=${encodeURIComponent(graphDataHref)}`
 ---
 
-<CommonPage title='Knowledge Graph' {headings} info='/wiki/graph'>
-  <div class='space-y-8'>
-    <section class='rounded-2xl border border-primary/15 bg-gradient-to-br from-primary/10 via-background to-background p-6'>
-      <div class='flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between'>
-        <div class='space-y-2'>
-          <Label title='Graph' />
-          <h2 class='m-0 text-2xl font-semibold text-foreground sm:text-3xl'>Knowledge graph delivery point</h2>
-          <p class='max-w-3xl text-sm leading-6 text-muted-foreground'>
-            这里会承接 `llm-wiki` 生成的交互式图谱 HTML。当前先把图谱入口固定下来，后续再把构建产物同步到网站。
-          </p>
+<CommonPage title='知识图谱' {headings} info='/wiki/graph'>
+  <div class='wiki-graph-host space-y-4'>
+    <section class='graph-toolbar' aria-labelledby='graph'>
+      <div class='graph-title'>
+        <h2 id='graph' class='m-0 text-2xl font-semibold text-foreground'>知识图谱</h2>
+        <div class='graph-stats' aria-label='图谱状态'>
+          <span>材料 {sourceCount}</span>
+          <span>主题 {topicCount}</span>
+          <span>综述 {synthesisCount}</span>
+          {updatedDate ? <span>更新 {updatedDate}</span> : null}
         </div>
-        <div class='flex flex-wrap gap-2'>
-          <Button title='Back to Wiki' href='/wiki' style='back' />
-        </div>
+      </div>
+      <div class='graph-actions'>
+        <Button title='返回知识库' href='/wiki' style='back' />
+        <Button title='材料' href='/wiki/papers' />
+        <Button title='主题' href='/wiki/topics' />
+        <Button title='综述' href='/wiki/syntheses' style='ahead' />
       </div>
     </section>
 
-    <section class='space-y-3' aria-labelledby='graph-delivery'>
-      <div class='border-b border-border/40 pb-3'>
-        <h2 id='graph-delivery' class='m-0 text-2xl font-semibold'>Graph Delivery</h2>
-      </div>
-      <div class='rounded-2xl border border-border bg-card p-5'>
-        <p class='m-0 text-sm leading-7 text-muted-foreground'>
-          一期不重写图谱前端，直接复用 `llm-wiki` 输出的 `knowledge-graph.html`。站点负责提供稳定路由、说明文案和后续嵌入位置。
-        </p>
-      </div>
-    </section>
-
-    <section class='space-y-3' aria-labelledby='how-it-will-work'>
-      <div class='border-b border-border/40 pb-3'>
-        <h2 id='how-it-will-work' class='m-0 text-2xl font-semibold'>How It Will Work</h2>
-      </div>
-      <div class='grid grid-cols-1 gap-4 lg:grid-cols-3'>
-        <div class='rounded-2xl border border-border bg-card p-5'>
-          <p class='m-0 text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground/80'>1. Build</p>
-          <p class='mt-3 text-sm leading-6 text-muted-foreground'>本地使用 `llm-wiki` 生成 graph data 与 HTML。</p>
-        </div>
-        <div class='rounded-2xl border border-border bg-card p-5'>
-          <p class='m-0 text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground/80'>2. Sync</p>
-          <p class='mt-3 text-sm leading-6 text-muted-foreground'>将公开图谱产物同步到 Astro 站点的静态资源目录。</p>
-        </div>
-        <div class='rounded-2xl border border-border bg-card p-5'>
-          <p class='m-0 text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground/80'>3. Browse</p>
-          <p class='mt-3 text-sm leading-6 text-muted-foreground'>访问 `/wiki/graph` 进入交互式知识图谱，作为主题和来源的发现入口。</p>
-        </div>
-      </div>
+    <section class='graph-frame-shell' aria-label='知识图谱'>
+      <iframe src={graphAppHref} title='知识图谱' loading='eager'></iframe>
     </section>
   </div>
 </CommonPage>
+
+<style is:global>
+  body:has(.wiki-graph-host) #sidebar {
+    display: none;
+  }
+
+  body:has(.wiki-graph-host) main {
+    display: block;
+  }
+
+  body:has(.wiki-graph-host) main > article {
+    width: 100%;
+  }
+
+  .wiki-graph-host {
+    width: calc(100vw - 32px);
+    max-width: 1680px;
+    margin-left: calc(50% - 50vw + 16px);
+    padding-bottom: 24px;
+  }
+
+  .wiki-graph-host .graph-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    border: 1px solid hsl(var(--border));
+    border-radius: 16px;
+    background: hsl(var(--card) / 0.9);
+    padding: 14px 16px;
+    box-shadow: 0 18px 52px rgba(34, 40, 42, 0.08);
+  }
+
+  .wiki-graph-host .graph-title {
+    display: flex;
+    min-width: 0;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+
+  .wiki-graph-host .graph-stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .wiki-graph-host .graph-stats span {
+    display: inline-flex;
+    min-height: 30px;
+    align-items: center;
+    border: 1px solid hsl(var(--border));
+    border-radius: 999px;
+    background: hsl(var(--background) / 0.72);
+    padding: 0 10px;
+    color: hsl(var(--muted-foreground));
+    font-size: 12px;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  .wiki-graph-host .graph-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 8px;
+  }
+
+  .wiki-graph-host .graph-frame-shell {
+    overflow: hidden;
+    border: 1px solid hsl(var(--border));
+    border-radius: 18px;
+    background: hsl(var(--card));
+    box-shadow: 0 24px 70px rgba(34, 40, 42, 0.1);
+  }
+
+  .wiki-graph-host iframe {
+    display: block;
+    width: 100%;
+    height: min(900px, calc(100vh - 148px));
+    min-height: 740px;
+    border: 0;
+    background: transparent;
+  }
+
+  @media (min-width: 1712px) {
+    .wiki-graph-host {
+      margin-left: calc(50% - 840px);
+    }
+  }
+
+  @media (max-width: 1180px) {
+    .wiki-graph-host {
+      width: 100%;
+      margin-left: 0;
+    }
+  }
+
+  @media (max-width: 760px) {
+    .wiki-graph-host .graph-toolbar,
+    .wiki-graph-host .graph-title {
+      align-items: flex-start;
+      flex-direction: column;
+    }
+
+    .wiki-graph-host .graph-actions {
+      justify-content: flex-start;
+    }
+
+    .wiki-graph-host iframe {
+      height: calc(100vh - 148px);
+      min-height: 660px;
+    }
+  }
+</style>

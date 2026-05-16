@@ -1,7 +1,51 @@
 {
-  "generated_at": "2026-05-09T08:49:19.242977Z",
-  "latest_date": "2026-05-09",
+  "generated_at": "2026-05-16T12:27:58.205282Z",
+  "latest_date": "2026-05-15",
   "days": [
+    {
+      "date": "2026-05-15",
+      "summary": "2026-05-15 arXiv daily selected 9 papers for follow-up.",
+      "counts": {
+        "arxiv": 9,
+        "wechat": 0,
+        "x": 0,
+        "bilibili": 0
+      },
+      "path": "daily/2026-05-15.json"
+    },
+    {
+      "date": "2026-05-14",
+      "summary": "2026-05-14 arXiv daily selected 40 papers for follow-up.",
+      "counts": {
+        "arxiv": 40,
+        "wechat": 0,
+        "x": 0,
+        "bilibili": 0
+      },
+      "path": "daily/2026-05-14.json"
+    },
+    {
+      "date": "2026-05-12",
+      "summary": "2026-05-12 arXiv daily selected 49 papers for follow-up.",
+      "counts": {
+        "arxiv": 49,
+        "wechat": 0,
+        "x": 0,
+        "bilibili": 0
+      },
+      "path": "daily/2026-05-12.json"
+    },
+    {
+      "date": "2026-05-11",
+      "summary": "2026-05-11 arXiv daily selected 12 papers for follow-up.",
+      "counts": {
+        "arxiv": 12,
+        "wechat": 0,
+        "x": 0,
+        "bilibili": 0
+      },
+      "path": "daily/2026-05-11.json"
+    },
     {
       "date": "2026-05-09",
       "summary": "2026-05-09 arXiv daily selected 10 papers for follow-up.",
@@ -62,7 +106,7 @@
     {
       "source": "arxiv",
       "title": "arXiv",
-      "count": 29,
+      "count": 139,
       "path": "sources/arxiv.json"
     },
     {
@@ -88,26 +132,26 @@
     {
       "slug": "physical-embodied-intelligence",
       "name": "Physical/Embodied Intelligence",
-      "count": 26,
-      "latest_date": "2026-05-09"
+      "count": 133,
+      "latest_date": "2026-05-15"
     },
     {
       "slug": "llm-vlm",
       "name": "LLM/VLM",
-      "count": 9,
-      "latest_date": "2026-05-09"
+      "count": 56,
+      "latest_date": "2026-05-15"
+    },
+    {
+      "slug": "agent",
+      "name": "Agent",
+      "count": 11,
+      "latest_date": "2026-05-12"
     },
     {
       "slug": "uncategorized",
       "name": "Uncategorized",
       "count": 3,
       "latest_date": "2026-05-04"
-    },
-    {
-      "slug": "agent",
-      "name": "Agent",
-      "count": 1,
-      "latest_date": "2026-05-05"
     }
   ]
 }

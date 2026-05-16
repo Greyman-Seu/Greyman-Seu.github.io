@@ -1,0 +1,341 @@
+---
+import CommonPage from '@/layouts/CommonPage.astro'
+import { Button } from '@/components/ui'
+import { allWikiSources, allWikiTopics, getWikiTopicBySlug, wikiDomains } from '@/data/wiki'
+
+const headings = [
+  { depth: 2, slug: 'papers-browser', text: '材料浏览' },
+  { depth: 2, slug: 'latest-paper', text: '最近材料' }
+]
+
+const sources = allWikiSources.slice().sort((a, b) => +new Date(b.publishDate) - +new Date(a.publishDate))
+const sourceTypes = Array.from(new Set(sources.map((source) => source.sourceType))).sort()
+const topicPool = allWikiTopics
+  .slice()
+  .sort((a, b) => a.title.localeCompare(b.title, 'zh-Hans-CN'))
+const featured = sources[0]
+const topicDomainMap = new Map(allWikiTopics.map((topic) => [topic.slug, topic.domain]))
+
+const typeNames: Record<string, string> = {
+  paper: '论文',
+  wechat: '公众号',
+  web: '网页',
+  note: '笔记'
+}
+
+const getTopicTitle = (slug: string) => getWikiTopicBySlug(slug)?.title || slug
+---
+
+<CommonPage title='材料库' {headings} info='/wiki/papers'>
+  <div class='space-y-8 pb-24'>
+    <section class='space-y-5' aria-labelledby='papers-browser'>
+      <div class='flex flex-col gap-3 border-b border-border/40 pb-3 lg:flex-row lg:items-center lg:justify-between'>
+        <h2 id='papers-browser' class='m-0 text-2xl font-semibold'>材料浏览</h2>
+        <div class='flex flex-wrap gap-2'>
+          <Button title='返回知识库' href='/wiki' style='back' />
+          <Button title='主题路线' href='/wiki/topics' />
+          <Button title='图谱导航' href='/wiki/graph' style='ahead' />
+        </div>
+      </div>
+
+      <div class='space-y-3 rounded-2xl border border-border bg-card p-4'>
+        <label class='flex flex-col gap-2 text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground/80'>
+          搜索
+          <input id='paper-search' type='search' placeholder='搜索标题、摘要、作者、关键词' class='min-h-14 rounded-xl border border-border bg-background px-4 py-3 text-base font-normal tracking-normal text-foreground outline-none transition focus:border-primary/50 focus:ring-2 focus:ring-primary/10' />
+        </label>
+        <div class='grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-[minmax(0,1.2fr)_minmax(0,1.2fr)_minmax(0,0.8fr)_minmax(0,0.8fr)]'>
+          <label class='flex flex-col gap-2 text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground/80'>
+            范围
+            <select id='paper-domain' class='min-h-12 rounded-xl border border-border bg-background px-3 py-2.5 text-sm font-normal tracking-normal text-foreground outline-none transition focus:border-primary/40'>
+              <option value=''>全部范围</option>
+              {wikiDomains.map((domain) => <option value={domain.slug}>{domain.name}</option>)}
+            </select>
+          </label>
+          <label class='flex flex-col gap-2 text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground/80'>
+            主题
+            <select id='paper-topic' class='min-h-12 rounded-xl border border-border bg-background px-3 py-2.5 text-sm font-normal tracking-normal text-foreground outline-none transition focus:border-primary/40'>
+              <option value=''>全部主题</option>
+              {topicPool.map((topic) => <option value={topic.slug}>{topic.title}</option>)}
+            </select>
+          </label>
+          <label class='flex flex-col gap-2 text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground/80'>
+            类型
+            <select id='paper-type' class='min-h-12 rounded-xl border border-border bg-background px-3 py-2.5 text-sm font-normal tracking-normal text-foreground outline-none transition focus:border-primary/40'>
+              <option value=''>全部类型</option>
+              {sourceTypes.map((type) => <option value={type}>{typeNames[type] || type}</option>)}
+            </select>
+          </label>
+          <label class='flex flex-col gap-2 text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground/80'>
+            排序
+            <select id='paper-sort' class='min-h-12 rounded-xl border border-border bg-background px-3 py-2.5 text-sm font-normal tracking-normal text-foreground outline-none transition focus:border-primary/40'>
+              <option value='date-desc'>最新优先</option>
+              <option value='date-asc'>最早优先</option>
+              <option value='title-asc'>标题 A-Z</option>
+            </select>
+          </label>
+        </div>
+      </div>
+
+      <div id='paper-summary-wrap' class='hidden rounded-2xl border border-border bg-card px-4 py-3 text-sm text-muted-foreground'>
+        <span id='paper-summary'></span>
+      </div>
+
+      <div id='paper-grid' class='space-y-4'>
+        {sources.map((source) => {
+          const topicTitles = (source.relatedTopicSlugs || []).map(getTopicTitle)
+          const inferredDomains = (source.relatedTopicSlugs || []).map((slug) => topicDomainMap.get(slug)).filter(Boolean)
+          const sourceDomains = source.domainSlugs?.length ? source.domainSlugs : Array.from(new Set(inferredDomains))
+          return (
+            <article
+              class='paper-card rounded-2xl border border-border bg-card p-4 transition-all hover:border-foreground/20 hover:shadow-md'
+              data-title={source.title.toLowerCase()}
+              data-summary={(source.tldr || source.summary || '').toLowerCase()}
+              data-authors={(source.authors || []).join(' ').toLowerCase()}
+              data-keywords={(source.keywords || []).join('|').toLowerCase()}
+              data-topics={(source.relatedTopicSlugs || []).join('|').toLowerCase()}
+              data-domains={sourceDomains.join('|').toLowerCase()}
+              data-type={source.sourceType}
+              data-date={source.publishDate}
+            >
+              <div class='grid gap-4 md:grid-cols-[172px_minmax(0,1fr)] md:items-start'>
+                <a class='block overflow-hidden rounded-xl border border-border/70 bg-background no-underline' href={`/wiki/source/${source.slug}`}>
+                  {source.heroImage ? (
+                    <img class='aspect-[4/3] h-full w-full object-cover' src={source.heroImage} alt={source.title} loading='lazy' />
+                  ) : (
+                    <div class='flex aspect-[4/3] items-center justify-center px-4 text-center text-xs leading-5 text-muted-foreground'>
+                      暂无主图
+                    </div>
+                  )}
+                </a>
+
+                <div class='min-w-0 space-y-3'>
+                  <div class='flex flex-wrap items-center gap-2'>
+                    <span class='rounded-full bg-primary/10 px-2.5 py-1 text-xs font-medium text-primary'>{typeNames[source.sourceType] || source.sourceType}</span>
+                    <span class='rounded-full border border-border/60 bg-background/70 px-2.5 py-1 text-xs font-medium text-muted-foreground'>{source.publishDate}</span>
+                    {topicTitles.slice(0, 2).map((topicTitle) => (
+                      <span class='rounded-full border border-border/60 bg-background/70 px-2.5 py-1 text-xs font-medium text-muted-foreground'>{topicTitle}</span>
+                    ))}
+                  </div>
+
+                  <div>
+                    <h3 class='m-0 text-xl font-semibold leading-tight text-foreground'>
+                      <a class='paper-title-link no-underline' href={`/wiki/source/${source.slug}`}>{source.title}</a>
+                    </h3>
+                    {source.authors?.length ? <p class='m-0 mt-2 line-clamp-1 text-sm text-muted-foreground'>{source.authors.join(' · ')}</p> : null}
+                  </div>
+
+                  <p class='m-0 line-clamp-3 text-sm leading-7 text-muted-foreground'>{source.tldr || source.summary}</p>
+
+                  <div class='flex flex-wrap gap-2'>
+                    <Button title='阅读材料' href={`/wiki/source/${source.slug}`} style='ahead' />
+                    {source.sourceUrl ? <Button title='原文' href={source.sourceUrl} /> : null}
+                  </div>
+                </div>
+              </div>
+            </article>
+          )
+        })}
+      </div>
+
+      <div id='paper-pagination' class='sticky bottom-4 z-40 mx-auto flex max-w-3xl flex-col gap-3 rounded-2xl border border-border bg-card/95 px-4 py-3 text-sm text-muted-foreground shadow-[0_18px_48px_rgba(15,23,42,0.16)] backdrop-blur supports-[backdrop-filter]:bg-card/80 sm:flex-row sm:items-center sm:justify-between'>
+        <button id='paper-prev' type='button' class='min-h-11 rounded-xl border border-border bg-background px-4 py-2 font-medium text-foreground transition hover:border-foreground/30 disabled:cursor-not-allowed disabled:opacity-45'>上一页</button>
+        <div class='flex flex-col gap-2 text-center sm:items-center'>
+          <span id='paper-page-status'>第 1 页</span>
+          <label class='flex items-center justify-center gap-2 text-xs text-muted-foreground'>
+            跳到
+            <input id='paper-page-input' type='number' min='1' value='1' class='h-9 w-20 rounded-lg border border-border bg-background px-2 text-center text-sm text-foreground outline-none transition focus:border-primary/40' />
+            页
+            <button id='paper-jump' type='button' class='h-9 rounded-lg border border-border bg-background px-3 text-sm font-medium text-foreground transition hover:border-foreground/30'>跳转</button>
+          </label>
+        </div>
+        <button id='paper-next' type='button' class='min-h-11 rounded-xl border border-border bg-background px-4 py-2 font-medium text-foreground transition hover:border-foreground/30 disabled:cursor-not-allowed disabled:opacity-45'>下一页</button>
+      </div>
+    </section>
+
+    {featured ? (
+      <section class='space-y-4' aria-labelledby='latest-paper'>
+        <div class='border-b border-border/40 pb-3'>
+          <h2 id='latest-paper' class='m-0 text-2xl font-semibold'>最近材料</h2>
+        </div>
+
+        <article class='rounded-2xl border border-border bg-card p-5'>
+          <div class='grid gap-4 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center'>
+            <div>
+              <p class='m-0 text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground/80'>{featured.publishDate}</p>
+              <h3 class='paper-featured-title m-0 mt-2 text-xl font-semibold'>{featured.title}</h3>
+              <p class='m-0 mt-2 text-sm leading-7 text-muted-foreground'>{featured.tldr || featured.summary}</p>
+            </div>
+            <Button title='打开阅读' href={`/wiki/source/${featured.slug}`} style='ahead' />
+          </div>
+        </article>
+      </section>
+    ) : null}
+  </div>
+
+  <script>
+    const searchInput = document.getElementById('paper-search')
+    const domainSelect = document.getElementById('paper-domain')
+    const sortSelect = document.getElementById('paper-sort')
+    const typeSelect = document.getElementById('paper-type')
+    const topicSelect = document.getElementById('paper-topic')
+    const summaryWrap = document.getElementById('paper-summary-wrap')
+    const summary = document.getElementById('paper-summary')
+    const grid = document.getElementById('paper-grid')
+    const prevButton = document.getElementById('paper-prev')
+    const nextButton = document.getElementById('paper-next')
+    const pageStatus = document.getElementById('paper-page-status')
+    const pageInput = document.getElementById('paper-page-input')
+    const jumpButton = document.getElementById('paper-jump')
+
+    const cards = Array.from(document.querySelectorAll('.paper-card'))
+    const pageSize = 20
+    let currentPage = 1
+
+    const initialParams = new URLSearchParams(window.location.search)
+    const initialQuery = initialParams.get('q') || initialParams.get('search') || ''
+    const initialDomain = initialParams.get('domain') || ''
+    const initialTopic = initialParams.get('topic') || ''
+    const initialType = initialParams.get('type') || ''
+    const initialSort = initialParams.get('sort') || ''
+    const initialPage = Number(initialParams.get('page') || '1') || 1
+
+    function setSelectValue(select: Element | null, value: string) {
+      if (!(select instanceof HTMLSelectElement) || !value) return
+      const hasOption = Array.from(select.options).some((option) => option.value === value)
+      if (hasOption) select.value = value
+    }
+
+    if (searchInput instanceof HTMLInputElement && initialQuery) searchInput.value = initialQuery
+    setSelectValue(domainSelect, initialDomain)
+    setSelectValue(topicSelect, initialTopic)
+    setSelectValue(typeSelect, initialType)
+    setSelectValue(sortSelect, initialSort)
+
+    function getSelectedLabel(select: Element | null) {
+      if (!(select instanceof HTMLSelectElement) || !select.value) return ''
+      return select.selectedOptions[0]?.textContent?.trim() || select.value
+    }
+
+    function syncSearchParams(filters: { query: string; domain: string; topic: string; type: string; sort: string; page: number }) {
+      const params = new URLSearchParams()
+      if (filters.query) params.set('q', filters.query)
+      if (filters.domain) params.set('domain', filters.domain)
+      if (filters.topic) params.set('topic', filters.topic)
+      if (filters.type) params.set('type', filters.type)
+      if (filters.sort && filters.sort !== 'date-desc') params.set('sort', filters.sort)
+      if (filters.page > 1) params.set('page', String(filters.page))
+      const queryString = params.toString()
+      const nextUrl = `${window.location.pathname}${queryString ? `?${queryString}` : ''}${window.location.hash}`
+      window.history.replaceState(null, '', nextUrl)
+    }
+
+    function applyPaperFilters(page = 1) {
+      const query = String((searchInput instanceof HTMLInputElement ? searchInput.value : '') || '').trim().toLowerCase()
+      const domain = String((domainSelect instanceof HTMLSelectElement ? domainSelect.value : '') || '').trim().toLowerCase()
+      const sort = String((sortSelect instanceof HTMLSelectElement ? sortSelect.value : 'date-desc') || 'date-desc')
+      const type = String((typeSelect instanceof HTMLSelectElement ? typeSelect.value : '') || '')
+      const topic = String((topicSelect instanceof HTMLSelectElement ? topicSelect.value : '') || '').trim().toLowerCase()
+
+      const visible = cards.filter((card) => {
+        if (!(card instanceof HTMLElement)) return false
+        const title = card.dataset.title || ''
+        const body = `${card.dataset.summary || ''} ${card.dataset.authors || ''} ${card.dataset.keywords || ''}`
+        const sourceType = card.dataset.type || ''
+        const topics = (card.dataset.topics || '').split('|').filter(Boolean)
+        const domains = (card.dataset.domains || '').split('|').filter(Boolean)
+        if (query && !(`${title} ${body}`.includes(query))) return false
+        if (domain && !domains.includes(domain)) return false
+        if (type && sourceType !== type) return false
+        if (topic && !topics.includes(topic)) return false
+        return true
+      })
+
+      const sorted = visible.slice().sort((left, right) => {
+        const leftEl = left
+        const rightEl = right
+        if (!(leftEl instanceof HTMLElement) || !(rightEl instanceof HTMLElement)) return 0
+        const leftTitle = leftEl.dataset.title || ''
+        const rightTitle = rightEl.dataset.title || ''
+        const leftDate = Date.parse(leftEl.dataset.date || '') || 0
+        const rightDate = Date.parse(rightEl.dataset.date || '') || 0
+        if (sort === 'title-asc') return leftTitle.localeCompare(rightTitle, 'zh-Hans-CN')
+        if (sort === 'date-asc') return leftDate - rightDate
+        return rightDate - leftDate
+      })
+
+      const totalPages = Math.max(1, Math.ceil(sorted.length / pageSize))
+      currentPage = Math.max(1, Math.min(page, totalPages))
+      const pageStart = (currentPage - 1) * pageSize
+      const pageItems = sorted.slice(pageStart, pageStart + pageSize)
+      const activeLabels = [
+        query ? `搜索：${query}` : '',
+        domain ? `范围：${getSelectedLabel(domainSelect)}` : '',
+        topic ? `主题：${getSelectedLabel(topicSelect)}` : '',
+        type ? `类型：${getSelectedLabel(typeSelect)}` : ''
+      ].filter(Boolean)
+
+      cards.forEach((card) => {
+        card.classList.add('hidden')
+      })
+      pageItems.forEach((card) => {
+        card.classList.remove('hidden')
+        grid?.appendChild(card)
+      })
+      if (summary) {
+        summary.textContent = activeLabels.length ? `${activeLabels.join(' / ')}，匹配 ${sorted.length} 条` : ''
+      }
+      if (summaryWrap instanceof HTMLElement) {
+        summaryWrap.classList.toggle('hidden', activeLabels.length === 0)
+      }
+      if (pageStatus) pageStatus.textContent = sorted.length ? `第 ${currentPage} / ${totalPages} 页，每页 ${pageSize} 条` : '没有匹配的材料'
+      if (prevButton instanceof HTMLButtonElement) prevButton.disabled = currentPage <= 1
+      if (nextButton instanceof HTMLButtonElement) nextButton.disabled = currentPage >= totalPages
+      if (pageInput instanceof HTMLInputElement) {
+        pageInput.value = String(currentPage)
+        pageInput.min = '1'
+        pageInput.max = String(totalPages)
+        pageInput.disabled = sorted.length === 0
+      }
+      if (jumpButton instanceof HTMLButtonElement) jumpButton.disabled = sorted.length === 0
+      syncSearchParams({ query, domain, topic, type, sort, page: currentPage })
+    }
+
+    function jumpToInputPage() {
+      if (!(pageInput instanceof HTMLInputElement)) return
+      const targetPage = Number(pageInput.value || '1') || 1
+      applyPaperFilters(targetPage)
+    }
+
+    ;[searchInput, domainSelect, sortSelect, typeSelect, topicSelect].forEach((el) => {
+      el?.addEventListener('input', () => applyPaperFilters(1))
+      el?.addEventListener('change', () => applyPaperFilters(1))
+    })
+
+    prevButton?.addEventListener('click', () => applyPaperFilters(currentPage - 1))
+    nextButton?.addEventListener('click', () => applyPaperFilters(currentPage + 1))
+    jumpButton?.addEventListener('click', jumpToInputPage)
+    pageInput?.addEventListener('keydown', (event) => {
+      if (event instanceof KeyboardEvent && event.key === 'Enter') {
+        event.preventDefault()
+        jumpToInputPage()
+      }
+    })
+    applyPaperFilters(initialPage)
+  </script>
+
+  <style>
+    .paper-title-link {
+      color: hsl(var(--foreground)) !important;
+      opacity: 1 !important;
+      transition: color 160ms ease;
+    }
+
+    .paper-title-link:hover {
+      color: hsl(var(--primary)) !important;
+    }
+
+    .paper-featured-title {
+      color: hsl(var(--foreground)) !important;
+    }
+  </style>
+</CommonPage>

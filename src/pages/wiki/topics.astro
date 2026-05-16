@@ -1,0 +1,61 @@
+---
+import CommonPage from '@/layouts/CommonPage.astro'
+import { Button } from '@/components/ui'
+import { allWikiTopics } from '@/data/wiki'
+
+const headings = [
+  { depth: 2, slug: 'topics-browser', text: '主题浏览' }
+]
+
+const topics = allWikiTopics.slice().sort((a, b) => +new Date(b.updatedDate) - +new Date(a.updatedDate))
+const sourceCount = topics.reduce((total, topic) => total + (topic.relatedSourceSlugs?.length || 0), 0)
+const synthesisCount = topics.reduce((total, topic) => total + (topic.relatedSynthesisSlugs?.length || 0), 0)
+---
+
+<CommonPage title='主题路线' {headings} info='/wiki/topics'>
+  <div class='space-y-6'>
+    <section class='rounded-2xl border border-border bg-card p-4 shadow-sm sm:p-5'>
+      <div class='flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between'>
+        <div class='flex flex-wrap gap-2 text-sm'>
+          <span class='rounded-full border border-border/70 bg-background px-3 py-1.5 text-muted-foreground'>主题 {topics.length}</span>
+          <span class='rounded-full border border-border/70 bg-background px-3 py-1.5 text-muted-foreground'>材料 {sourceCount}</span>
+          <span class='rounded-full border border-border/70 bg-background px-3 py-1.5 text-muted-foreground'>综述 {synthesisCount}</span>
+        </div>
+        <nav class='flex flex-wrap gap-2' aria-label='主题页面导航'>
+          <Button title='返回知识库' href='/wiki' style='back' />
+          <Button title='浏览材料' href='/wiki/papers' />
+          <Button title='综述判断' href='/wiki/syntheses' style='ahead' />
+        </nav>
+      </div>
+    </section>
+
+    <section class='space-y-4' aria-labelledby='topics-browser'>
+      <div class='border-b border-border/40 pb-3'>
+        <h2 id='topics-browser' class='m-0 text-2xl font-semibold'>主题浏览</h2>
+      </div>
+
+      <div class='grid grid-cols-1 gap-4 lg:grid-cols-2'>
+        {topics.map((topic) => (
+          <a class='group block rounded-2xl border border-border bg-card p-5 no-underline transition hover:border-primary/35 hover:shadow-sm' href={`/wiki/topic/${topic.slug}`}>
+            <article class='flex h-full flex-col gap-4'>
+              <div class='space-y-3'>
+                <div class='flex flex-wrap items-center gap-2'>
+                  <span class='rounded-full bg-primary/10 px-2.5 py-1 text-xs font-medium text-primary'>主题</span>
+                  <span class='text-xs text-muted-foreground'>{topic.updatedDate}</span>
+                </div>
+                <div>
+                  <h3 class='m-0 text-lg font-semibold text-foreground group-hover:text-primary'>{topic.title}</h3>
+                  <p class='m-0 mt-2 line-clamp-4 text-sm leading-6 text-muted-foreground'>{topic.summary}</p>
+                </div>
+              </div>
+              <div class='mt-auto flex flex-wrap gap-2 border-t border-border/40 pt-3 text-xs text-muted-foreground'>
+                <span>材料 {topic.relatedSourceSlugs?.length || 0}</span>
+                <span>综述 {topic.relatedSynthesisSlugs?.length || 0}</span>
+              </div>
+            </article>
+          </a>
+        ))}
+      </div>
+    </section>
+  </div>
+</CommonPage>

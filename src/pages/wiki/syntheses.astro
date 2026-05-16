@@ -1,0 +1,61 @@
+---
+import CommonPage from '@/layouts/CommonPage.astro'
+import { Button } from '@/components/ui'
+import { allWikiSyntheses } from '@/data/wiki'
+
+const headings = [
+  { depth: 2, slug: 'syntheses-browser', text: '综述浏览' }
+]
+
+const syntheses = allWikiSyntheses.slice().sort((a, b) => +new Date(b.updatedDate) - +new Date(a.updatedDate))
+const sourceCount = syntheses.reduce((total, entry) => total + (entry.relatedSourceSlugs?.length || 0), 0)
+const topicCount = syntheses.reduce((total, entry) => total + (entry.relatedTopicSlugs?.length || 0), 0)
+---
+
+<CommonPage title='综述判断' {headings} info='/wiki/syntheses'>
+  <div class='space-y-6'>
+    <section class='rounded-2xl border border-border bg-card p-4 shadow-sm sm:p-5'>
+      <div class='flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between'>
+        <div class='flex flex-wrap gap-2 text-sm'>
+          <span class='rounded-full border border-border/70 bg-background px-3 py-1.5 text-muted-foreground'>综述 {syntheses.length}</span>
+          <span class='rounded-full border border-border/70 bg-background px-3 py-1.5 text-muted-foreground'>材料 {sourceCount}</span>
+          <span class='rounded-full border border-border/70 bg-background px-3 py-1.5 text-muted-foreground'>主题 {topicCount}</span>
+        </div>
+        <nav class='flex flex-wrap gap-2' aria-label='综述页面导航'>
+          <Button title='返回知识库' href='/wiki' style='back' />
+          <Button title='浏览材料' href='/wiki/papers' />
+          <Button title='主题路线' href='/wiki/topics' />
+        </nav>
+      </div>
+    </section>
+
+    <section class='space-y-4' aria-labelledby='syntheses-browser'>
+      <div class='border-b border-border/40 pb-3'>
+        <h2 id='syntheses-browser' class='m-0 text-2xl font-semibold'>综述浏览</h2>
+      </div>
+
+      <div class='space-y-4'>
+        {syntheses.map((entry) => (
+          <a class='group block rounded-2xl border border-border bg-card p-5 no-underline transition hover:border-primary/35 hover:shadow-sm' href={`/wiki/synthesis/${entry.slug}`}>
+            <article class='space-y-4'>
+              <div class='min-w-0 space-y-3'>
+                <div class='flex flex-wrap items-center gap-2'>
+                  <span class='rounded-full bg-primary/10 px-2.5 py-1 text-xs font-medium text-primary'>综述</span>
+                  <span class='text-xs text-muted-foreground'>{entry.updatedDate}</span>
+                </div>
+                <div>
+                  <h3 class='m-0 text-xl font-semibold text-foreground group-hover:text-primary'>{entry.title}</h3>
+                  <p class='m-0 mt-2 text-sm leading-7 text-muted-foreground'>{entry.summary}</p>
+                </div>
+              </div>
+              <div class='flex flex-wrap gap-2 border-t border-border/40 pt-3 text-xs text-muted-foreground'>
+                <span>材料 {entry.relatedSourceSlugs?.length || 0}</span>
+                <span>主题 {entry.relatedTopicSlugs?.length || 0}</span>
+              </div>
+            </article>
+          </a>
+        ))}
+      </div>
+    </section>
+  </div>
+</CommonPage>

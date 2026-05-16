@@ -1,0 +1,106 @@
+{
+  "data_version": "followhub-wiki-r2/v1",
+  "generated_at": "2026-05-16T14:03:09Z",
+  "wiki_root": "/Users/xiaomi/workspace/FollowHub/submodules/llm-wiki-skill/followhub-wiki",
+  "page_root": "",
+  "base_path": "wiki",
+  "latest_updated": "2026-05-16",
+  "counts": {
+    "sources": 6,
+    "topics": 5,
+    "synthesis": 1,
+    "graph_nodes": 12,
+    "graph_edges": 24
+  },
+  "files": {
+    "sources": "sources.json",
+    "topics": "topics.json",
+    "synthesis": "synthesis.json",
+    "graph_data": "graph-data.json",
+    "search_index": "search-index.json"
+  },
+  "collections": {
+    "source": [
+      {
+        "slug": "deximit-learning-bimanual-dexterous-manipulation-from-monocular-human-videos",
+        "path": "source/deximit-learning-bimanual-dexterous-manipulation-from-monocular-human-videos.json"
+      },
+      {
+        "slug": "emergence-of-human-to-robot-transfer-in-vision-language-action-models",
+        "path": "source/emergence-of-human-to-robot-transfer-in-vision-language-action-models.json"
+      },
+      {
+        "slug": "mem-multi-scale-embodied-memory-for-vision-language-action-models",
+        "path": "source/mem-multi-scale-embodied-memory-for-vision-language-action-models.json"
+      },
+      {
+        "slug": "openvla-an-open-source-vision-language-action-model",
+        "path": "source/openvla-an-open-source-vision-language-action-model.json"
+      },
+      {
+        "slug": "pi07-a-steerable-generalist-robotic-foundation-model-with-emergent-capabilities",
+        "path": "source/pi07-a-steerable-generalist-robotic-foundation-model-with-emergent-capabilities.json"
+      },
+      {
+        "slug": "rl-token-bootstrapping-online-rl-with-vision-language-action-models",
+        "path": "source/rl-token-bootstrapping-online-rl-with-vision-language-action-models.json"
+      }
+    ],
+    "topic": [
+      {
+        "slug": "human-video-robot-data-generation",
+        "path": "topic/human-video-robot-data-generation.json"
+      },
+      {
+        "slug": "human-to-robot-transfer",
+        "path": "topic/human-to-robot-transfer.json"
+      },
+      {
+        "slug": "long-horizon-memory-for-robot-policies",
+        "path": "topic/long-horizon-memory-for-robot-policies.json"
+      },
+      {
+        "slug": "online-rl-for-vla",
+        "path": "topic/online-rl-for-vla.json"
+      },
+      {
+        "slug": "vision-language-action",
+        "path": "topic/vision-language-action.json"
+      }
+    ],
+    "synthesis": [
+      {
+        "slug": "current-vla-landscape-foundation-control-memory-and-transfer",
+        "path": "synthesis/current-vla-landscape-foundation-control-memory-and-transfer.json"
+      }
+    ]
+  },
+  "graph_assets": {
+    "html": "graph/knowledge-graph.html",
+    "runtime": "graph/graph-wash.js",
+    "helpers": "graph/graph-wash-helpers.js"
+  },
+  "domains": [
+    {
+      "name": "LLM/VLM",
+      "slug": "llm-vlm"
+    },
+    {
+      "name": "Physical/Embodied Intelligence",
+      "slug": "physical-embodied-intelligence"
+    },
+    {
+      "name": "AIGC",
+      "slug": "aigc"
+    },
+    {
+      "name": "Agent",
+      "slug": "agent"
+    }
+  ],
+  "tag_policy": {
+    "min_per_source": 1,
+    "max_per_source": 2,
+    "preferred_per_source": 1
+  }
+}

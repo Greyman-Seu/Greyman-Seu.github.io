@@ -1,157 +1,120 @@
 ---
 import CommonPage from '@/layouts/CommonPage.astro'
 import { Button, Label } from '@/components/ui'
-import { getRecentWikiItems, getWikiHref, wikiDomains, wikiSyntheses, wikiTopics, wikiSources } from '@/data/wiki'
-import type { WikiDomain } from '@/data/wiki'
+import {
+  allWikiSources,
+  allWikiSyntheses,
+  allWikiTopics,
+  getRecentWikiItems,
+  getWikiHref,
+  wikiDomains
+} from '@/data/wiki'
 
 const headings = [
-  { depth: 2, slug: 'knowledge-domains', text: 'Knowledge Domains' },
-  { depth: 2, slug: 'recent-additions', text: 'Recent Additions' },
-  { depth: 2, slug: 'featured-layers', text: 'Featured Layers' },
-  { depth: 2, slug: 'how-to-use-this-wiki', text: 'How To Use This Wiki' }
+  { depth: 2, slug: 'scope', text: '覆盖范围' },
+  { depth: 2, slug: 'recent-additions', text: '最近更新' },
 ]
 
-const recentItems = getRecentWikiItems()
-const featuredTopic = wikiTopics[0]
-const featuredSource = wikiSources[0]
-const featuredSynthesis = wikiSyntheses[0]
+const recentItems = getRecentWikiItems(5)
+const latestSynthesis = allWikiSyntheses
+  .slice()
+  .sort((a, b) => +new Date(b.updatedDate) - +new Date(a.updatedDate))[0]
+
+const entryCards = [
+  {
+    title: '材料库',
+    value: `${allWikiSources.length} 条`,
+    href: '/wiki/papers'
+  },
+  {
+    title: '主题路线',
+    value: `${allWikiTopics.length} 个`,
+    href: '/wiki/topics'
+  },
+  {
+    title: '综述判断',
+    value: `${allWikiSyntheses.length} 篇`,
+    href: '/wiki/syntheses'
+  },
+  {
+    title: '图谱导航',
+    value: '关系视图',
+    href: '/wiki/graph'
+  }
+]
+
+const typeLabels: Record<string, string> = {
+  source: '材料',
+  topic: '主题',
+  synthesis: '综述判断'
+}
 ---
 
-<CommonPage title='Wiki' {headings} info='/wiki'>
-  <div class='space-y-10'>
-    <section class='rounded-2xl border border-primary/15 bg-gradient-to-br from-primary/10 via-background to-background p-6'>
-      <div class='flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between'>
-        <div class='space-y-2'>
-          <Label title='Knowledge Base' />
-          <h2 class='m-0 text-2xl font-semibold text-foreground sm:text-3xl'>A public knowledge base maintained with LLM workflows</h2>
-          <p class='max-w-3xl text-sm leading-6 text-muted-foreground'>
-            `wiki` 是知识沉淀层，不是博客归档。论文、网页、公众号、笔记与后续总结会先进入本地 `llm-wiki`，
-            再逐步整理为主题页、来源页、综合页与知识图谱，供自己复用，也供公开浏览。
-          </p>
+<CommonPage title='知识库' {headings} info='/wiki'>
+  <div class='space-y-8'>
+    <section class='overflow-hidden rounded-2xl border border-primary/15 bg-[linear-gradient(135deg,rgba(255,250,242,0.98),rgba(246,248,247,0.98)_48%,rgba(229,242,239,0.92))] p-6 shadow-[0_22px_64px_rgba(34,40,42,0.08)]'>
+      <div class='max-w-5xl space-y-5'>
+        <Label title='知识地图' />
+        <div class='grid grid-cols-2 gap-2 lg:grid-cols-4'>
+          {entryCards.map((card) => (
+            <a class='rounded-2xl border border-border/70 bg-background/75 p-3 text-center no-underline transition-all hover:border-primary/40 hover:bg-card hover:shadow-sm' href={card.href}>
+              <span class='block text-[11px] text-muted-foreground'>{card.title}</span>
+              <strong class='mt-1 block text-xl font-semibold text-foreground'>{card.value}</strong>
+            </a>
+          ))}
         </div>
-        <div class='flex flex-wrap gap-2'>
-          <Button title='Open Graph' href='/wiki/graph' style='ahead' />
-          <Button title='Browse Blog' href='/blog/research' />
-        </div>
-      </div>
-    </section>
-
-    <section class='space-y-6' aria-labelledby='knowledge-domains'>
-      <div class='border-b border-border/40 pb-3'>
-        <h2 id='knowledge-domains' class='m-0 text-2xl font-semibold'>Knowledge Domains</h2>
-        <p class='m-0 mt-1 text-sm text-muted-foreground'>领域页负责提供长期骨架。每个领域都会继续下钻到 topic、source 与 synthesis。</p>
-      </div>
-
-      <div class='grid grid-cols-1 gap-4 lg:grid-cols-2'>
-        {wikiDomains.map((domain: WikiDomain) => (
-          <article class='rounded-2xl border border-border bg-card p-5 transition-all hover:border-foreground/20 hover:shadow-md'>
-            <div class='space-y-4'>
-              <div class='space-y-2'>
-                <div class='flex flex-wrap items-center gap-2'>
-                  <h3 class='m-0 text-lg font-semibold text-foreground'>{domain.name}</h3>
-                  <span class='rounded-full bg-primary/10 px-2.5 py-1 text-xs font-medium text-primary'>domain</span>
-                </div>
-                <p class='m-0 text-sm leading-6 text-muted-foreground'>{domain.summary}</p>
-              </div>
-
-              <div>
-                <p class='m-0 mb-2 text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground/80'>Focus areas</p>
-                <ul class='space-y-2 pl-4 text-sm text-muted-foreground'>
-                  {domain.focusAreas.slice(0, 3).map((area: string) => (
-                    <li>{area}</li>
-                  ))}
-                </ul>
-              </div>
-
-              <div class='flex flex-wrap gap-2'>
-                <Button title='Open Domain' href={`/wiki/domain/${domain.slug}`} style='ahead' />
-              </div>
+        <section class='rounded-2xl border border-border/70 bg-background/65 p-4' aria-labelledby='scope'>
+          <div class='flex flex-col gap-3 sm:flex-row sm:items-center'>
+            <h3 id='scope' class='m-0 shrink-0 text-sm font-semibold text-muted-foreground'>覆盖范围</h3>
+            <div class='flex flex-wrap gap-2'>
+              {wikiDomains.map((domain) => (
+                <a class='rounded-full border border-border/70 bg-card/70 px-3 py-1.5 text-sm font-medium text-muted-foreground no-underline hover:border-primary/35 hover:bg-card hover:text-foreground' href={`/wiki/domain/${domain.slug}`}>
+                  {domain.name}
+                </a>
+              ))}
             </div>
-          </article>
-        ))}
+          </div>
+        </section>
       </div>
     </section>
+
+    {latestSynthesis ? (
+      <section class='rounded-2xl border border-border bg-card p-5'>
+        <div class='grid gap-4 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center'>
+          <div>
+            <p class='m-0 text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground/80'>推荐综述判断</p>
+            <h2 class='m-0 mt-2 text-2xl font-semibold text-foreground'>{latestSynthesis.title}</h2>
+            <p class='m-0 mt-2 text-sm leading-7 text-muted-foreground'>{latestSynthesis.summary}</p>
+          </div>
+          <Button title='打开综述' href={`/wiki/synthesis/${latestSynthesis.slug}`} style='ahead' />
+        </div>
+      </section>
+    ) : null}
 
     <section class='space-y-4' aria-labelledby='recent-additions'>
       <div class='border-b border-border/40 pb-3'>
-        <h2 id='recent-additions' class='m-0 text-2xl font-semibold'>Recent Additions</h2>
-        <p class='m-0 mt-1 text-sm text-muted-foreground'>这里展示最近沉淀进知识库的主题、来源和综合页，方便回访时直接进入上下文。</p>
+        <h2 id='recent-additions' class='m-0 text-2xl font-semibold'>最近更新</h2>
+        <p class='m-0 mt-1 text-sm text-muted-foreground'>按更新时间混排展示，标签只说明阅读类型，不暴露内部数据模型。</p>
       </div>
 
-      <div class='grid grid-cols-1 gap-4 lg:grid-cols-2'>
+      <div class='space-y-3'>
         {recentItems.map((item) => (
-          <article class='rounded-2xl border border-border bg-card p-5 transition-all hover:border-foreground/20 hover:shadow-md'>
-            <div class='space-y-3'>
-              <div class='flex flex-wrap items-center gap-2'>
-                <span class='rounded-full bg-primary/10 px-2.5 py-1 text-xs font-medium uppercase tracking-[0.14em] text-primary'>{item.type}</span>
-                <span class='text-xs text-muted-foreground'>{item.date}</span>
+          <article class='rounded-2xl border border-border bg-card p-4 transition-all hover:border-foreground/20 hover:shadow-sm'>
+            <div class='grid gap-3 sm:grid-cols-[92px_minmax(0,1fr)_auto] sm:items-center'>
+              <div class='flex items-center gap-2 sm:block'>
+                <span class='rounded-full bg-primary/10 px-2.5 py-1 text-xs font-medium text-primary'>{typeLabels[item.type]}</span>
+                <span class='text-xs text-muted-foreground sm:mt-2 sm:block'>{item.date}</span>
               </div>
-              <div>
-                <h3 class='m-0 text-lg font-semibold text-foreground'>{item.title}</h3>
-                <p class='m-0 mt-2 text-sm leading-6 text-muted-foreground'>{item.summary}</p>
+              <div class='min-w-0'>
+                <h3 class='m-0 text-base font-semibold text-foreground'>{item.title}</h3>
+                <p class='m-0 mt-1 line-clamp-2 text-sm leading-6 text-muted-foreground'>{item.summary}</p>
               </div>
-              <div class='flex flex-wrap gap-2'>
-                <Button title='Open Entry' href={getWikiHref(item)} style='ahead' />
-              </div>
+              <Button title='打开' href={getWikiHref(item)} style='ahead' />
             </div>
           </article>
         ))}
       </div>
     </section>
 
-    <section class='space-y-4' aria-labelledby='featured-layers'>
-      <div class='border-b border-border/40 pb-3'>
-        <h2 id='featured-layers' class='m-0 text-2xl font-semibold'>Featured Layers</h2>
-        <p class='m-0 mt-1 text-sm text-muted-foreground'>`wiki` 不是单一页面类型，而是由 topic、source、synthesis 与 graph 共同组成。</p>
-      </div>
-
-      <div class='grid grid-cols-1 gap-4 lg:grid-cols-3'>
-        <article class='rounded-2xl border border-border bg-card p-5'>
-          <p class='m-0 text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground/80'>Topic</p>
-          <h3 class='m-0 mt-3 text-lg font-semibold text-foreground'>{featuredTopic.title}</h3>
-          <p class='mt-3 text-sm leading-6 text-muted-foreground'>{featuredTopic.summary}</p>
-          <div class='mt-4 flex flex-wrap gap-2'>
-            <Button title='Open Topic' href={`/wiki/topic/${featuredTopic.slug}`} style='ahead' />
-          </div>
-        </article>
-        <article class='rounded-2xl border border-border bg-card p-5'>
-          <p class='m-0 text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground/80'>Source</p>
-          <h3 class='m-0 mt-3 text-lg font-semibold text-foreground'>{featuredSource.title}</h3>
-          <p class='mt-3 text-sm leading-6 text-muted-foreground'>{featuredSource.summary}</p>
-          <div class='mt-4 flex flex-wrap gap-2'>
-            <Button title='Open Source' href={`/wiki/source/${featuredSource.slug}`} style='ahead' />
-          </div>
-        </article>
-        <article class='rounded-2xl border border-border bg-card p-5'>
-          <p class='m-0 text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground/80'>Synthesis</p>
-          <h3 class='m-0 mt-3 text-lg font-semibold text-foreground'>{featuredSynthesis.title}</h3>
-          <p class='mt-3 text-sm leading-6 text-muted-foreground'>{featuredSynthesis.summary}</p>
-          <div class='mt-4 flex flex-wrap gap-2'>
-            <Button title='Open Synthesis' href={`/wiki/synthesis/${featuredSynthesis.slug}`} style='ahead' />
-          </div>
-        </article>
-      </div>
-    </section>
-
-    <section class='space-y-4' aria-labelledby='how-to-use-this-wiki'>
-      <div class='border-b border-border/40 pb-3'>
-        <h2 id='how-to-use-this-wiki' class='m-0 text-2xl font-semibold'>How To Use This Wiki</h2>
-      </div>
-
-      <div class='grid grid-cols-1 gap-4 lg:grid-cols-3'>
-        <div class='rounded-2xl border border-border bg-card p-5'>
-          <p class='m-0 text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground/80'>Collect</p>
-          <p class='mt-3 text-sm leading-6 text-muted-foreground'>把论文、网页、公众号、PDF 和自己的笔记先交给 agent，再由 `llm-wiki` 统一整理。</p>
-        </div>
-        <div class='rounded-2xl border border-border bg-card p-5'>
-          <p class='m-0 text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground/80'>Structure</p>
-          <p class='mt-3 text-sm leading-6 text-muted-foreground'>LLM 先写 source，再逐步上升为 topic、synthesis 与 graph，形成可长期维护的骨架。</p>
-        </div>
-        <div class='rounded-2xl border border-border bg-card p-5'>
-          <p class='m-0 text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground/80'>Reuse</p>
-          <p class='mt-3 text-sm leading-6 text-muted-foreground'>既可以自己回看，也可以继续让 agent 基于这些页面做查询、对比、总结与写回。</p>
-        </div>
-      </div>
-    </section>
   </div>
 </CommonPage>
