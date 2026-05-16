@@ -8,8 +8,8 @@ const headings = [
 ]
 
 const syntheses = allWikiSyntheses.slice().sort((a, b) => +new Date(b.updatedDate) - +new Date(a.updatedDate))
-const sourceCount = syntheses.reduce((total, entry) => total + (entry.relatedSourceSlugs?.length || 0), 0)
-const topicCount = syntheses.reduce((total, entry) => total + (entry.relatedTopicSlugs?.length || 0), 0)
+const sourceCount = new Set(syntheses.flatMap((entry) => entry.relatedSourceSlugs || [])).size
+const topicCount = new Set(syntheses.flatMap((entry) => entry.relatedTopicSlugs || [])).size
 ---
 
 <CommonPage title='综述判断' {headings} info='/wiki/syntheses'>

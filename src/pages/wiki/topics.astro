@@ -8,8 +8,8 @@ const headings = [
 ]
 
 const topics = allWikiTopics.slice().sort((a, b) => +new Date(b.updatedDate) - +new Date(a.updatedDate))
-const sourceCount = topics.reduce((total, topic) => total + (topic.relatedSourceSlugs?.length || 0), 0)
-const synthesisCount = topics.reduce((total, topic) => total + (topic.relatedSynthesisSlugs?.length || 0), 0)
+const sourceCount = new Set(topics.flatMap((topic) => topic.relatedSourceSlugs || [])).size
+const synthesisCount = new Set(topics.flatMap((topic) => topic.relatedSynthesisSlugs || [])).size
 ---
 
 <CommonPage title='主题路线' {headings} info='/wiki/topics'>
