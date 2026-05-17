@@ -1,0 +1,43 @@
+---
+import CommonPage from '@/layouts/CommonPage.astro'
+
+const headings = [{ depth: 2, slug: 'embodied-people', text: 'Embodied People' }]
+
+const people = [
+  {
+    name: '思哲',
+    note: '具身 oral 大师',
+    href: 'https://yangsizhe.github.io'
+  },
+  {
+    name: '林天威',
+    note: '知乎主页',
+    href: 'https://www.zhihu.com/people/wzmsltw'
+  }
+] as const
+---
+
+<CommonPage title='People' {headings} info='/people'>
+  <div class='space-y-8'>
+    <section class='space-y-6' aria-labelledby='embodied-people'>
+      <div class='border-b border-border/40 pb-3'>
+        <h2 id='embodied-people' class='m-0 text-2xl font-semibold'>Embodied People</h2>
+        <p class='m-0 mt-1 text-sm text-muted-foreground'>集中整理值得常看的个人主页，后续加人直接往这里扩。</p>
+      </div>
+
+      <div class='grid grid-cols-1 gap-4 md:grid-cols-2'>
+        {people.map((person) => (
+          <a
+            class='block rounded-2xl border border-border bg-card p-5 no-underline shadow-sm transition-all hover:border-foreground/20 hover:bg-muted/30 hover:shadow-md'
+            href={person.href}
+            target='_blank'
+            rel='noreferrer'
+          >
+            <p class='m-0 text-base font-semibold text-foreground'>{person.name}</p>
+            <p class='m-0 mt-2 text-sm leading-6 text-muted-foreground'>{person.note}</p>
+          </a>
+        ))}
+      </div>
+    </section>
+  </div>
+</CommonPage>
