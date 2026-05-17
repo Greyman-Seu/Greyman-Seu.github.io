@@ -1,11 +1,10 @@
 ---
 import CommonPage from '@/layouts/CommonPage.astro'
 import { Button } from '@/components/ui'
-import { followDigests, getSourceSummaries, type FollowDigest } from '@/data/follow'
+import { followDigests, type FollowDigest } from '@/data/follow'
 import { ENABLE_REMOTE_FOLLOW_DATA, FOLLOW_DATA_BASE_URL, REQUIRE_REMOTE_FOLLOW_DATA } from '@/data/generated/follow-client'
 
 const useRemoteFollowBootstrap = ENABLE_REMOTE_FOLLOW_DATA
-const sourceSummaries = useRemoteFollowBootstrap ? [] : getSourceSummaries()
 const timelineMonthOptions = useRemoteFollowBootstrap
   ? []
   : Array.from(new Set(followDigests.map((digest: FollowDigest) => digest.date.slice(0, 7)))).sort().reverse()
@@ -21,9 +20,57 @@ const visibleDigests = useRemoteFollowBootstrap
     })
 
 const headings = [
-  { depth: 2, slug: 'source-entries', text: 'Source Entries' },
+  { depth: 2, slug: 'favorite-sites', text: 'Favorite Sites' },
   { depth: 2, slug: 'daily-timeline', text: 'Daily Timeline' }
 ]
+
+const favoriteSiteGroups = [
+  {
+    title: '常用网站',
+    links: [
+      {
+        title: '机器人课题组',
+        note: 'Open Robo Academy CV 资源页',
+        href: 'https://openroboacademy.github.io/cv/'
+      },
+      {
+        title: '机器人华人天团',
+        note: 'Embodied Intelligence 华人研究者整理',
+        href: 'https://github.com/Will-Gao/Embodied_Intelligence'
+      },
+      {
+        title: '具身入门信息大全',
+        note: 'Embodied AI Guide',
+        href: 'https://github.com/tianxingchen/Embodied-AI-Guide'
+      }
+    ]
+  },
+  {
+    title: '公司主页',
+    links: [
+      {
+        title: 'PI',
+        note: 'Physical Intelligence',
+        href: 'https://www.pi.website'
+      }
+    ]
+  },
+  {
+    title: '个人主页',
+    links: [
+      {
+        title: '思哲',
+        note: '具身 oral 大师',
+        href: 'https://yangsizhe.github.io'
+      },
+      {
+        title: '林天威',
+        note: '知乎主页',
+        href: 'https://www.zhihu.com/people/wzmsltw'
+      }
+    ]
+  }
+] as const
 
 const sourceBadgeClass = {
   arxiv: 'bg-blue-500/10 text-blue-700 dark:text-blue-300',
@@ -35,60 +82,35 @@ const sourceBadgeClass = {
 
 <CommonPage title='Follow' {headings} info='/follow'>
   <div class='space-y-10'>
-    <section class='space-y-6' aria-labelledby='source-entries'>
+    <section class='space-y-6' aria-labelledby='favorite-sites'>
       <div class='border-b border-border/40 pb-3'>
-        <h2 id='source-entries' class='m-0 text-2xl font-semibold'>Source Entries</h2>
-        <p class='m-0 mt-1 text-sm text-muted-foreground'>Follow 首页只做 digest 和入口；具体来源详情与检索下沉到来源页。</p>
+        <h2 id='favorite-sites' class='m-0 text-2xl font-semibold'>Favorite Sites</h2>
+        <p class='m-0 mt-1 text-sm text-muted-foreground'>把常看的具身资料、公司主页和个人主页放在顶部，减少来回翻找。</p>
       </div>
 
-      <div class='grid grid-cols-1 gap-4 lg:grid-cols-2'>
-        {sourceSummaries.map((source) => (
-          <article class='follow-source-card rounded-2xl border border-border bg-card p-5 transition-all hover:border-foreground/20 hover:shadow-md' data-source={source.source}>
-            <div class='flex flex-col gap-4'>
-              <div class='space-y-2'>
-                <div class='flex flex-wrap items-center gap-2'>
-                  <span class={`source-title rounded-full px-2.5 py-1 text-xs font-medium ${sourceBadgeClass[source.source]}`}>
-                    {source.title}
-                  </span>
-                  <span class='source-total rounded-full bg-muted px-2.5 py-1 text-xs font-medium text-muted-foreground'>
-                    {source.totalCount} item(s)
-                  </span>
-                  {source.latestDate && (
-                    <span class='source-latest rounded-full bg-primary/10 px-2.5 py-1 text-xs font-medium text-primary'>
-                      latest {source.latestDate}
-                    </span>
-                  )}
-                </div>
-                <p class='source-description m-0 text-sm leading-6 text-muted-foreground'>{source.description}</p>
+      <div class='grid grid-cols-1 gap-4 xl:grid-cols-3'>
+        {favoriteSiteGroups.map((group) => (
+          <article class='rounded-2xl border border-border bg-card p-5 shadow-sm'>
+            <div class='space-y-4'>
+              <div class='space-y-1'>
+                <p class='m-0 text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground/80'>{group.title}</p>
               </div>
-
-              <div class='flex flex-wrap gap-2'>
-                <Button title={source.searchEnabled ? 'Open Search Page' : 'Open Source Page'} href={source.path} style='ahead' />
+              <div class='space-y-3'>
+                {group.links.map((link) => (
+                  <a
+                    class='block rounded-xl border border-border/70 bg-background/70 px-4 py-3 no-underline transition-all hover:border-foreground/20 hover:bg-muted/40'
+                    href={link.href}
+                    target='_blank'
+                    rel='noreferrer'
+                  >
+                    <p class='m-0 text-sm font-medium text-foreground'>{link.title}</p>
+                    <p class='m-0 mt-1 text-sm leading-6 text-muted-foreground'>{link.note}</p>
+                  </a>
+                ))}
               </div>
             </div>
           </article>
         ))}
-        {useRemoteFollowBootstrap && sourceSummaries.length === 0 && (
-          <>
-            {(['arxiv', 'wechat', 'x', 'bilibili'] as const).map((source) => (
-              <article class='follow-source-card rounded-2xl border border-border bg-card p-5 transition-all hover:border-foreground/20 hover:shadow-md' data-source={source}>
-                <div class='flex flex-col gap-4'>
-                  <div class='space-y-2'>
-                    <div class='flex flex-wrap items-center gap-2'>
-                      <span class={`source-title rounded-full px-2.5 py-1 text-xs font-medium ${sourceBadgeClass[source]}`}>
-                        {source}
-                      </span>
-                      <span class='source-total rounded-full bg-muted px-2.5 py-1 text-xs font-medium text-muted-foreground'>
-                        loading...
-                      </span>
-                    </div>
-                    <p class='source-description m-0 text-sm leading-6 text-muted-foreground'>Waiting for remote Follow source summary.</p>
-                  </div>
-                </div>
-              </article>
-            ))}
-          </>
-        )}
       </div>
     </section>
 
