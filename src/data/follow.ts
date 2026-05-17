@@ -130,6 +130,8 @@ type GeneratedDigest = {
         is_corresponding_author?: boolean
       }>
       first_affiliation?: string
+      related_organizations?: string[]
+      related_companies?: string[]
       hjfy_url?: string
       published?: string
       updated?: string
@@ -504,6 +506,12 @@ function normalizeGeneratedDigests(root: string): FollowDigest[] {
                         }))
                     : [],
                   firstAffiliation: String(item.first_affiliation || ''),
+                  relatedOrganizations: Array.isArray(item.related_organizations)
+                    ? item.related_organizations.map((organization) => String(organization)).filter(Boolean)
+                    : [],
+                  relatedCompanies: Array.isArray(item.related_companies)
+                    ? item.related_companies.map((company) => String(company)).filter(Boolean)
+                    : [],
                   hjfyUrl: String(item.hjfy_url || ''),
                   published: String(item.published || ''),
                   updated: String(item.updated || ''),
