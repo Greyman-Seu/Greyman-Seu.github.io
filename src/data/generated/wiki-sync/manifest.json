@@ -1,10 +1,10 @@
 {
   "data_version": "followhub-wiki-r2/v1",
-  "generated_at": "2026-05-16T14:03:09Z",
+  "generated_at": "2026-05-17T11:20:37Z",
   "wiki_root": "/Users/xiaomi/workspace/FollowHub/submodules/llm-wiki-skill/followhub-wiki",
   "page_root": "",
   "base_path": "wiki",
-  "latest_updated": "2026-05-16",
+  "latest_updated": "2026-05-17",
   "counts": {
     "sources": 6,
     "topics": 5,

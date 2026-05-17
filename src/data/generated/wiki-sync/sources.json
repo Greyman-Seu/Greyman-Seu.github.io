@@ -35,6 +35,8 @@
       "Jiangmiao Pang"
     ],
     "affiliation": "Shanghai AI Laboratory; Tsinghua University; The Chinese University of Hong Kong; NVIDIA",
+    "relatedOrganizations": [],
+    "relatedCompanies": [],
     "keywords": [
       "human-video-data-generation"
     ],
@@ -149,6 +151,8 @@
       "Suraj Nair"
     ],
     "affiliation": "",
+    "relatedOrganizations": [],
+    "relatedCompanies": [],
     "keywords": [
       "human-to-robot-transfer"
     ],
@@ -271,6 +275,8 @@
       "Danny Driess"
     ],
     "affiliation": "",
+    "relatedOrganizations": [],
+    "relatedCompanies": [],
     "keywords": [
       "long-horizon-memory"
     ],
@@ -389,6 +395,8 @@
       "Chelsea Finn"
     ],
     "affiliation": "",
+    "relatedOrganizations": [],
+    "relatedCompanies": [],
     "keywords": [
       "robot-foundation-model"
     ],
@@ -574,6 +582,8 @@
       "Ury Zhilinsky"
     ],
     "affiliation": "",
+    "relatedOrganizations": [],
+    "relatedCompanies": [],
     "keywords": [
       "robot-foundation-model"
     ],
@@ -674,7 +684,7 @@
     },
     "publishDate": "2026-04-24",
     "created": "2026-05-11",
-    "updated": "2026-05-16",
+    "updated": "2026-05-17",
     "authors": [
       "Charles Xu",
       "Jost Tobias Springenberg",
@@ -684,7 +694,13 @@
       "Sergey Levine",
       "Liyiming Ke"
     ],
-    "affiliation": "",
+    "affiliation": "Physical Intelligence",
+    "relatedOrganizations": [
+      "Physical Intelligence"
+    ],
+    "relatedCompanies": [
+      "Physical Intelligence"
+    ],
     "keywords": [
       "online-rl"
     ],
