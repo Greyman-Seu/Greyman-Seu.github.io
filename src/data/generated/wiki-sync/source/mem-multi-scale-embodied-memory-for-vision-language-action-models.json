@@ -3,11 +3,11 @@
   "title": "MEM: Multi-Scale Embodied Memory for Vision Language Action Models",
   "sourceType": "paper",
   "sourceUrl": "https://arxiv.org/abs/2603.03596",
-  "htmlUrl": "https://arxiv.org/html/2603.03596v1",
+  "htmlUrl": "https://arxiv.org/html/2603.03596",
   "pdfUrl": "https://arxiv.org/pdf/2603.03596.pdf",
   "codeUrl": "",
   "translationUrl": "https://hjfy.top/arxiv/2603.03596",
-  "publishDate": "2026-03-04",
+  "publishDate": "",
   "authors": [
     "Marcel Torne",
     "Karl Pertsch",
@@ -27,17 +27,22 @@
     "Chelsea Finn",
     "Danny Driess"
   ],
-  "affiliation": "Physical Intelligence and collaborators",
-  "keywords": [
-    "embodied memory",
-    "long-horizon control",
-    "video memory",
-    "text memory",
-    "VLA"
+  "affiliation": "Physical Intelligence",
+  "relatedOrganizations": [
+    "Physical Intelligence",
+    "Stanford University",
+    "UC Berkeley",
+    "MIT"
   ],
-  "primaryDomainSlug": "physical-embodied-intelligence",
+  "relatedCompanies": [
+    "Physical Intelligence"
+  ],
+  "keywords": [
+    "long-horizon-memory"
+  ],
+  "primaryDomainSlug": "physicalembodied-intelligence",
   "domainSlugs": [
-    "physical-embodied-intelligence"
+    "physicalembodied-intelligence"
   ],
   "heroImage": "https://arxiv.org/html/2603.03596v1/x1.png",
   "tldr": "这篇工作的重点，是把机器人策略里的“记忆”从单一历史帧堆叠，升级成多尺度、多模态的长期记忆结构。MEM 用视频短期记忆处理最近视觉细节，用文本长期记忆保留高层语义进度，从而把 VLA 推到更长时间跨度的任务上。",
@@ -133,6 +138,6 @@
   ],
   "relatedTopicSlugs": [
     "vision-language-action",
-    "long-horizon-robot-control"
+    "long-horizon-memory-for-robot-policies"
   ]
 }

@@ -3,6 +3,89 @@
   "title": "WeChat",
   "scope": "recent",
   "window_days": 30,
-  "item_count": 0,
-  "items": []
+  "item_count": 2,
+  "items": [
+    {
+      "id": "wechat:https://mp.weixin.qq.com/s?__biz=MzIzNjc1NzUzMw==&mid=2247893123&idx=1&sn=5d7d73a6ba59384a99ee4e5abc254e05",
+      "source_type": "wechat",
+      "title": "刚刚，国产AI自己造了AI，全球首例！",
+      "summary": "国产团队发布可用于自动生成 AI 系统的数据与训练方案更新。",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzIzNjc1NzUzMw==&mid=2247893123&idx=1&sn=5d7d73a6ba59384a99ee4e5abc254e05",
+      "importance": "medium",
+      "include_in_follow": true,
+      "authors": [],
+      "categories": [],
+      "author_meta": [],
+      "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
+      "hjfy_url": "",
+      "published": "",
+      "updated": "",
+      "abstract_en": "",
+      "one_liner_zh": "国产团队发布可用于自动生成 AI 系统的数据与训练方案更新。",
+      "summary_cn": "文章聚焦国产 AI 系统自我生成与训练效率提升，核心信号是训练速度相比英伟达 Megatron 提升约 10%，属于大模型训练与系统能力进展。",
+      "hot_score": 0.0,
+      "overall_score": 0.0,
+      "relevance_score": 0.0,
+      "is_favorite": false,
+      "domains": [
+        {
+          "slug": "llm-vlm",
+          "name": "LLM/VLM"
+        }
+      ],
+      "links": [
+        {
+          "label": "Article",
+          "href": "https://mp.weixin.qq.com/s?__biz=MzIzNjc1NzUzMw==&mid=2247893123&idx=1&sn=5d7d73a6ba59384a99ee4e5abc254e05"
+        }
+      ],
+      "date": "2026-05-26",
+      "source_title": "wechat"
+    },
+    {
+      "id": "wechat:https://mp.weixin.qq.com/s?__biz=MzIzNjc1NzUzMw==&mid=2247893123&idx=2&sn=132e34be318a96a7fbbb31b11172fb4b",
+      "source_type": "wechat",
+      "title": "龙虾之父教你省钱：开源Skill给你的Skill减肥",
+      "summary": "开源 Skill 压缩/减负方向内容，偏向 Agent 技能组织与工程优化。",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzIzNjc1NzUzMw==&mid=2247893123&idx=2&sn=132e34be318a96a7fbbb31b11172fb4b",
+      "importance": "medium",
+      "include_in_follow": true,
+      "authors": [],
+      "categories": [],
+      "author_meta": [],
+      "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
+      "hjfy_url": "",
+      "published": "",
+      "updated": "",
+      "abstract_en": "",
+      "one_liner_zh": "开源 Skill 压缩/减负方向内容，偏向 Agent 技能组织与工程优化。",
+      "summary_cn": "文章讨论通过开源 Skill 体系给已有 Skill 做压缩与优化，关注点在于降低成本、提升可执行性和工程可维护性，属于 Agent 工作流与模型工程交叉话题。",
+      "hot_score": 0.0,
+      "overall_score": 0.0,
+      "relevance_score": 0.0,
+      "is_favorite": false,
+      "domains": [
+        {
+          "slug": "agent",
+          "name": "Agent"
+        },
+        {
+          "slug": "llm-vlm",
+          "name": "LLM/VLM"
+        }
+      ],
+      "links": [
+        {
+          "label": "Article",
+          "href": "https://mp.weixin.qq.com/s?__biz=MzIzNjc1NzUzMw==&mid=2247893123&idx=2&sn=132e34be318a96a7fbbb31b11172fb4b"
+        }
+      ],
+      "date": "2026-05-26",
+      "source_title": "wechat"
+    }
+  ]
 }

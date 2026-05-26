@@ -3,8 +3,752 @@
   "title": "arXiv",
   "scope": "archive",
   "month": "2026-05",
-  "item_count": 139,
+  "item_count": 148,
   "items": [
+    {
+      "id": "arxiv:2605.23733",
+      "source_type": "arxiv",
+      "title": "Any2Any: Efficient Cross-Embodiment Transfer for Humanoid Whole-Body Tracking",
+      "summary": "跨 embodiment 迁移降低人形 whole-body tracking 的数据与算力成本。",
+      "importance": "high",
+      "include_in_follow": true,
+      "authors": [
+        "Yang, Ming",
+        "Yu, Tao",
+        "Li, Feng",
+        "Chen, Hua"
+      ],
+      "categories": [
+        "cs.RO",
+        "cs.AI"
+      ],
+      "author_meta": [
+        {
+          "name": "Yang, Ming",
+          "affiliations": [],
+          "is_first_author": true,
+          "is_corresponding_author": false
+        },
+        {
+          "name": "Yu, Tao",
+          "affiliations": [],
+          "is_first_author": false,
+          "is_corresponding_author": false
+        },
+        {
+          "name": "Li, Feng",
+          "affiliations": [],
+          "is_first_author": false,
+          "is_corresponding_author": false
+        },
+        {
+          "name": "Chen, Hua",
+          "affiliations": [],
+          "is_first_author": false,
+          "is_corresponding_author": false
+        }
+      ],
+      "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
+      "hjfy_url": "",
+      "published": "2026-05-22",
+      "updated": "2026-05-22",
+      "abstract_en": "Whole-body tracking (WBT) models have become a key foundation for humanoid robots, enabling them to imitate diverse motions with high fidelity. Training such models from scratch requires large-scale data and computation, making rapid deployment on new humanoid platforms costly. This raises a natural question: Can pretrained WBT models transfer across embodiments with minimal adaptation? To answer this question, we propose Any2Any, a paradigm that efficiently transfers an existing WBT specialist to a new humanoid embodiment with only a small amount of data and compute. Any2Any first performs kinematic alignment between source and target humanoids, aligning their input and output spaces so that the pretrained source policy can be meaningfully reused on the target embodiment.Any2Any then performs dynamics adaptation by applying lightweight parameter-efficient fine-tuning (PEFT) components to selected dynamics-sensitive modules, preserving useful behavioral priors while enabling targeted adaptation to the target robot. Extensive experiments on multiple humanoid platforms and pretrained backbones show that Any2Any substantially accelerates convergence and reduces training cost compared with training from scratch, while achieving competitive or superior tracking performance. Notably, using only 1% of the compute and data required for full training, Any2Any successfully transfers Sonic models pre-trained on Unitree G1 to LimX Oli and LimX Luna. These results suggest that pretrained WBT specialists can be efficiently reused across embodiments, providing a scalable path toward deploying humanoid whole-body control on new robots.",
+      "one_liner_zh": "跨 embodiment 迁移降低人形 whole-body tracking 的数据与算力成本。",
+      "summary_cn": "Whole-body tracking (WBT) models have become a key foundation for humanoid robots, enabling them to imitate diverse motions with high fidelity. Training such models from scratch requires large-scale data and computation, making rapid deployment on new humanoid platforms costly. This raises a natural question: Can pretrained WBT models transfer across embodiments with minimal adaptation? To answer this question, we propose Any2Any, a paradigm that efficiently transfers an existing WBT specialist to a new humanoid embodiment with only a small amount of data and compute. Any2Any first performs kinematic alignment between source and target humanoids, aligning their input and output spaces so that the pretrained source policy can be meaningfully reused on the target embodiment.Any2Any then performs dynamics adaptation by applying lightweight parameter-efficient fine-tuning (PEFT) components to selected dynamics-sensitive modules, preserving useful behavioral priors while enabling targeted adaptation to the target robot. Extensive experiments on multiple humanoid platforms and pretrained backbones show that Any2Any substantially accelerates convergence and reduces training cost compared with training from scratch, while achieving competitive or superior tracking performance. Notably, using only 1% of the compute and data required for full training, Any2Any successfully transfers Sonic models pre-trained on Unitree G1 to LimX Oli and LimX Luna. These results suggest that pretrained WBT specialists can be efficiently reused across embodiments, providing a scalable path toward deploying humanoid whole-body control on new robots.",
+      "hot_score": 2.0,
+      "overall_score": 2.55,
+      "relevance_score": 3.0,
+      "is_favorite": false,
+      "domains": [
+        {
+          "slug": "physical-embodied-intelligence",
+          "name": "Physical/Embodied Intelligence"
+        }
+      ],
+      "links": [
+        {
+          "label": "Abs",
+          "href": "https://arxiv.org/abs/2605.23733"
+        },
+        {
+          "label": "PDF",
+          "href": "https://arxiv.org/pdf/2605.23733"
+        }
+      ],
+      "date": "2026-05-25",
+      "source_title": "arXiv"
+    },
+    {
+      "id": "arxiv:2605.23477",
+      "source_type": "arxiv",
+      "title": "Semantically Structured Mixture-of-Experts for Compositional Robotic Manipulation",
+      "summary": "以语义结构化 MoE 提升扩散操作策略的效率与泛化。",
+      "importance": "high",
+      "include_in_follow": true,
+      "authors": [
+        "Deng, Chengyu",
+        "Chen, Guanqi",
+        "Chen, Yizhou",
+        "Liu, Zejia",
+        "Ruan, Zhiwen",
+        "Chen, Guanhua",
+        "Pan, Jia"
+      ],
+      "categories": [
+        "cs.RO"
+      ],
+      "author_meta": [
+        {
+          "name": "Deng, Chengyu",
+          "affiliations": [],
+          "is_first_author": true,
+          "is_corresponding_author": false
+        },
+        {
+          "name": "Chen, Guanqi",
+          "affiliations": [],
+          "is_first_author": false,
+          "is_corresponding_author": false
+        },
+        {
+          "name": "Chen, Yizhou",
+          "affiliations": [],
+          "is_first_author": false,
+          "is_corresponding_author": false
+        },
+        {
+          "name": "Liu, Zejia",
+          "affiliations": [],
+          "is_first_author": false,
+          "is_corresponding_author": false
+        },
+        {
+          "name": "Ruan, Zhiwen",
+          "affiliations": [],
+          "is_first_author": false,
+          "is_corresponding_author": false
+        },
+        {
+          "name": "Chen, Guanhua",
+          "affiliations": [],
+          "is_first_author": false,
+          "is_corresponding_author": false
+        },
+        {
+          "name": "Pan, Jia",
+          "affiliations": [],
+          "is_first_author": false,
+          "is_corresponding_author": false
+        }
+      ],
+      "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
+      "hjfy_url": "",
+      "published": "2026-05-22",
+      "updated": "2026-05-22",
+      "abstract_en": "Diffusion-based policies have established a new standard for precise robotic manipulation but face a critical scalability bottleneck: high-performance models are computationally expensive, while lightweight alternatives often fail to generalize across diverse multi-task environments. Mixture-of-Experts (MoE) architectures offer a promising path to efficiency by activating only a subset of parameters. However, existing MoE routing mechanisms typically rely on low-level noise or latent statistics, ignoring the compositional nature of manipulation tasks. This can fragment reusable behaviors across experts, limiting interpretability and transferability. We introduce Semantically Structured Mixture-of-Experts Diffusion Policy (SMoDP) for compositional robotic manipulation, a framework that grounds expert specialization in semantic task structure. SMoDP leverages a lightweight, inference-time skill predictor, supervised by offline annotations from Vision-Language Models (VLMs), to route action chunks to experts specialized for specific behavioral phases. To ensure robust assignment, we propose a dual contrastive alignment strategy that grounds multi-modal observations in language-defined skill semantics (Inter-modal) while enforcing routing consistency across visually distinct but functionally related behaviors (Intra-modal). Our approach outperforms representative diffusion and MoE-based baselines on multi-task benchmarks with significantly improved parameter efficiency and demonstrates effective compositional transfer to novel tasks through parameter-efficient fine-tuning. Project website: https://deng-cy20.github.io/SMoDP/",
+      "one_liner_zh": "以语义结构化 MoE 提升扩散操作策略的效率与泛化。",
+      "summary_cn": "Diffusion-based policies have established a new standard for precise robotic manipulation but face a critical scalability bottleneck: high-performance models are computationally expensive, while lightweight alternatives often fail to generalize across diverse multi-task environments. Mixture-of-Experts (MoE) architectures offer a promising path to efficiency by activating only a subset of parameters. However, existing MoE routing mechanisms typically rely on low-level noise or latent statistics, ignoring the compositional nature of manipulation tasks. This can fragment reusable behaviors across experts, limiting interpretability and transferability. We introduce Semantically Structured Mixture-of-Experts Diffusion Policy (SMoDP) for compositional robotic manipulation, a framework that grounds expert specialization in semantic task structure. SMoDP leverages a lightweight, inference-time skill predictor, supervised by offline annotations from Vision-Language Models (VLMs), to route action chunks to experts specialized for specific behavioral phases. To ensure robust assignment, we propose a dual contrastive alignment strategy that grounds multi-modal observations in language-defined skill semantics (Inter-modal) while enforcing routing consistency across visually distinct but functionally related behaviors (Intra-modal). Our approach outperforms representative diffusion and MoE-based baselines on multi-task benchmarks with significantly improved parameter efficiency and demonstrates effective compositional transfer to novel tasks through parameter-efficient fine-tuning. Project website: https://deng-cy20.github.io/SMoDP/",
+      "hot_score": 2.0,
+      "overall_score": 2.47,
+      "relevance_score": 2.8,
+      "is_favorite": true,
+      "domains": [
+        {
+          "slug": "physical-embodied-intelligence",
+          "name": "Physical/Embodied Intelligence"
+        }
+      ],
+      "links": [
+        {
+          "label": "Abs",
+          "href": "https://arxiv.org/abs/2605.23477"
+        },
+        {
+          "label": "PDF",
+          "href": "https://arxiv.org/pdf/2605.23477"
+        },
+        {
+          "label": "Project 1",
+          "href": "https://deng-cy20.github.io/SMoDP/"
+        }
+      ],
+      "date": "2026-05-25",
+      "source_title": "arXiv"
+    },
+    {
+      "id": "arxiv:2605.23568",
+      "source_type": "arxiv",
+      "title": "TactileReflex: Noise-Statistics-Driven Vision-Tactile Reflex Control for Force-Sensitive Manipulation",
+      "summary": "视觉触觉反射控制用于易碎物体精细操作。",
+      "importance": "high",
+      "include_in_follow": true,
+      "authors": [
+        "Feng, Ziyan",
+        "Fu, Yulong",
+        "Li, Zheng",
+        "He, Yuxin",
+        "Ren, Jieji",
+        "Wang, Lujia",
+        "Zhou, Jinni",
+        "Zhong, Yudong",
+        "Nie, Qiang"
+      ],
+      "categories": [
+        "cs.RO",
+        "eess.SY"
+      ],
+      "author_meta": [
+        {
+          "name": "Feng, Ziyan",
+          "affiliations": [],
+          "is_first_author": true,
+          "is_corresponding_author": false
+        },
+        {
+          "name": "Fu, Yulong",
+          "affiliations": [],
+          "is_first_author": false,
+          "is_corresponding_author": false
+        },
+        {
+          "name": "Li, Zheng",
+          "affiliations": [],
+          "is_first_author": false,
+          "is_corresponding_author": false
+        },
+        {
+          "name": "He, Yuxin",
+          "affiliations": [],
+          "is_first_author": false,
+          "is_corresponding_author": false
+        },
+        {
+          "name": "Ren, Jieji",
+          "affiliations": [],
+          "is_first_author": false,
+          "is_corresponding_author": false
+        },
+        {
+          "name": "Wang, Lujia",
+          "affiliations": [],
+          "is_first_author": false,
+          "is_corresponding_author": false
+        },
+        {
+          "name": "Zhou, Jinni",
+          "affiliations": [],
+          "is_first_author": false,
+          "is_corresponding_author": false
+        },
+        {
+          "name": "Zhong, Yudong",
+          "affiliations": [],
+          "is_first_author": false,
+          "is_corresponding_author": false
+        },
+        {
+          "name": "Nie, Qiang",
+          "affiliations": [],
+          "is_first_author": false,
+          "is_corresponding_author": false
+        }
+      ],
+      "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
+      "hjfy_url": "",
+      "published": "2026-05-22",
+      "updated": "2026-05-22",
+      "abstract_en": "Manipulating fragile deformable containers, such as disposable plastic cups filled with liquid, demands real-time grip-force adaptation within an extremely narrow force margin: insufficient force causes slip, while excessive force irreversibly deforms the thin wall. Existing approaches struggle to achieve such force-sensitive manipulation tasks. We propose a noise-statistics-based calibration-driven reflex control paradigm with vision-based tactile sensing: by analyzing the sensor's intrinsic noise characteristics (via a brief static-hold-and-unload protocol), we directly derive all controller thresholds, eliminating external force calibration, trial-and-error manual tuning, or material-specific physical models. Instantiating this paradigm, we present TactileReflex, a three-channel closed-loop controller that extracts three image-level proxies, shear intensity ($S_y$), contact intensity ($F_n$), and center of pressure ($C$), from dual visuo-tactile sensors and drives prioritized reflex channels at ~12 Hz for slip suppression, weight-adaptive release, and force protection. Each channel closes the loop directly on its proxy via noise-derived thresholds. Ablation demonstrates that only the full three-channel system is able to prevent irreversible container deformation (5/5 success vs. at most 1/5 for partial configurations). In a dynamic pouring task, fixed-effort baselines fail in all 10 attempts due to pose drift, while TactileReflex achieves 9/10 success across two water volumes. As a self-contained and interpretable controller, TactileReflex can serve as a plug-and-play safety layer beneath high-level manipulation pipelines, including haptic-free VR teleoperation and vision-language-action (VLA) policies.",
+      "one_liner_zh": "视觉触觉反射控制用于易碎物体精细操作。",
+      "summary_cn": "Manipulating fragile deformable containers, such as disposable plastic cups filled with liquid, demands real-time grip-force adaptation within an extremely narrow force margin: insufficient force causes slip, while excessive force irreversibly deforms the thin wall. Existing approaches struggle to achieve such force-sensitive manipulation tasks. We propose a noise-statistics-based calibration-driven reflex control paradigm with vision-based tactile sensing: by analyzing the sensor's intrinsic noise characteristics (via a brief static-hold-and-unload protocol), we directly derive all controller thresholds, eliminating external force calibration, trial-and-error manual tuning, or material-specific physical models. Instantiating this paradigm, we present TactileReflex, a three-channel closed-loop controller that extracts three image-level proxies, shear intensity ($S_y$), contact intensity ($F_n$), and center of pressure ($C$), from dual visuo-tactile sensors and drives prioritized reflex channels at ~12 Hz for slip suppression, weight-adaptive release, and force protection. Each channel closes the loop directly on its proxy via noise-derived thresholds. Ablation demonstrates that only the full three-channel system is able to prevent irreversible container deformation (5/5 success vs. at most 1/5 for partial configurations). In a dynamic pouring task, fixed-effort baselines fail in all 10 attempts due to pose drift, while TactileReflex achieves 9/10 success across two water volumes. As a self-contained and interpretable controller, TactileReflex can serve as a plug-and-play safety layer beneath high-level manipulation pipelines, including haptic-free VR teleoperation and vision-language-action (VLA) policies.",
+      "hot_score": 2.0,
+      "overall_score": 2.45,
+      "relevance_score": 3.0,
+      "is_favorite": true,
+      "domains": [
+        {
+          "slug": "physical-embodied-intelligence",
+          "name": "Physical/Embodied Intelligence"
+        }
+      ],
+      "links": [
+        {
+          "label": "Abs",
+          "href": "https://arxiv.org/abs/2605.23568"
+        },
+        {
+          "label": "PDF",
+          "href": "https://arxiv.org/pdf/2605.23568"
+        }
+      ],
+      "date": "2026-05-25",
+      "source_title": "arXiv"
+    },
+    {
+      "id": "arxiv:2605.22896",
+      "source_type": "arxiv",
+      "title": "Agentic-VLA: Efficient Online Adaptation for Vision-Language-Action Models",
+      "summary": "VLA 在线自适应训练与 reward synthesis/exploration memory 直接服务机器人操作泛化和效率。",
+      "importance": "high",
+      "include_in_follow": true,
+      "authors": [
+        "Jin, Ruofan",
+        "Zhang, Zaixi"
+      ],
+      "categories": [
+        "cs.RO",
+        "cs.AI",
+        "cs.LG"
+      ],
+      "author_meta": [
+        {
+          "name": "Jin, Ruofan",
+          "affiliations": [],
+          "is_first_author": true,
+          "is_corresponding_author": false
+        },
+        {
+          "name": "Zhang, Zaixi",
+          "affiliations": [],
+          "is_first_author": false,
+          "is_corresponding_author": false
+        }
+      ],
+      "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
+      "hjfy_url": "",
+      "published": "2026-05-21",
+      "updated": "2026-05-21",
+      "abstract_en": "Vision-Language-Action (VLA) models have emerged as a promising paradigm for robotic manipulation by leveraging pre-trained vision-language representations. However, current VLA training methods suffer from two critical limitations: poor generalization to novel environments and low training efficiency requiring extensive demonstrations. We introduce Agentic-VLA, an agentic training framework that enables VLAs to efficiently adapt online through three key innovations: (1) Adaptive Reward Synthesis, which dynamically generates and adjusts reward functions based on the VLA's current capabilities and task complexity, decomposing complex tasks into learnable sub-goals for curriculum learning; (2) Language-Guided Exploration, where a critic model provides structured guidance for systematic exploration rather than random sampling; and (3) Experience Memory,which stores and retrieves task-relevant policy weights for warm-starting adaptation to similar tasks. We evaluate Agentic-VLA on the LIBERO benchmark, achieving substantial improvements: +12.3% on long-horizon tasks, +28.5% in 1-shot learning, and enabling cross-task transfer from 0% to 31.2% without task-specific demonstrations. Our framework also demonstrates 2.4x faster convergence compared to existing online adaptation methods. Beyond LIBERO, Agentic-VLA retains its advantage on the dual-arm RoboTwin 2.0 benchmark, including under its randomized Hard setting. These results establish Agentic-VLA as a significant step toward truly adaptive VLA systems capable of continuous learning in deployment.",
+      "one_liner_zh": "VLA 在线自适应训练与 reward synthesis/exploration memory 直接服务机器人操作泛化和效率。",
+      "summary_cn": "Vision-Language-Action (VLA) models have emerged as a promising paradigm for robotic manipulation by leveraging pre-trained vision-language representations. However, current VLA training methods suffer from two critical limitations: poor generalization to novel environments and low training efficiency requiring extensive demonstrations. We introduce Agentic-VLA, an agentic training framework that enables VLAs to efficiently adapt online through three key innovations: (1) Adaptive Reward Synthesis, which dynamically generates and adjusts reward functions based on the VLA's current capabilities and task complexity, decomposing complex tasks into learnable sub-goals for curriculum learning; (2) Language-Guided Exploration, where a critic model provides structured guidance for systematic exploration rather than random sampling; and (3) Experience Memory,which stores and retrieves task-relevant policy weights for warm-starting adaptation to similar tasks. We evaluate Agentic-VLA on the LIBERO benchmark, achieving substantial improvements: +12.3% on long-horizon tasks, +28.5% in 1-shot learning, and enabling cross-task transfer from 0% to 31.2% without task-specific demonstrations. Our framework also demonstrates 2.4x faster convergence compared to existing online adaptation methods. Beyond LIBERO, Agentic-VLA retains its advantage on the dual-arm RoboTwin 2.0 benchmark, including under its randomized Hard setting. These results establish Agentic-VLA as a significant step toward truly adaptive VLA systems capable of continuous learning in deployment.",
+      "hot_score": 2.0,
+      "overall_score": 2.45,
+      "relevance_score": 3.0,
+      "is_favorite": true,
+      "domains": [
+        {
+          "slug": "physical-embodied-intelligence",
+          "name": "Physical/Embodied Intelligence"
+        },
+        {
+          "slug": "agent",
+          "name": "Agent"
+        }
+      ],
+      "links": [
+        {
+          "label": "Abs",
+          "href": "https://arxiv.org/abs/2605.22896"
+        },
+        {
+          "label": "PDF",
+          "href": "https://arxiv.org/pdf/2605.22896"
+        }
+      ],
+      "date": "2026-05-25",
+      "source_title": "arXiv"
+    },
+    {
+      "id": "arxiv:2605.23847",
+      "source_type": "arxiv",
+      "title": "Instrumentation for Imitation Learning: Enhancing Training Datasets for Clothes Hanger Insertion",
+      "summary": "通过 instrumented imitation learning 提升机器人操作数据效率。",
+      "importance": "high",
+      "include_in_follow": true,
+      "authors": [
+        "Proesmans, Remko",
+        "Lips, Thomas",
+        "wyffels, Francis"
+      ],
+      "categories": [
+        "cs.RO"
+      ],
+      "author_meta": [
+        {
+          "name": "Proesmans, Remko",
+          "affiliations": [],
+          "is_first_author": true,
+          "is_corresponding_author": false
+        },
+        {
+          "name": "Lips, Thomas",
+          "affiliations": [],
+          "is_first_author": false,
+          "is_corresponding_author": false
+        },
+        {
+          "name": "wyffels, Francis",
+          "affiliations": [],
+          "is_first_author": false,
+          "is_corresponding_author": false
+        }
+      ],
+      "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
+      "hjfy_url": "",
+      "published": "2026-05-22",
+      "updated": "2026-05-22",
+      "abstract_en": "Large behaviour models have transformed the field of robotic manipulation, but prohibitive data requirements have thus far prevented a revolution similar to vision language models. We believe that instrumentation, i.e. sensor integration in objects, can provide invaluable state information and enable efficient learning for robotic manipulation. In this paper, we present instrumented imitation learning of clothes hanger insertion. Using 180 teleoperated demonstrations, we train diffusion policies with and without access to instrumentation data. Results show that policies leveraging instrumentation outperform vision-only counterparts by 14-25 %pt and exhibit greater task awareness. Crucially, a black-box imitation learning policy learns to prioritise instrumentation signals without explicit guidance. In addition, enhancing the teleoperation dataset with rollouts from an instrumented expert policy, enables a vision-only student policy to achieve performance comparable to the instrumented expert, thereby surpassing the original vision-only policy. These findings establish instrumentation as a promising strategy to enhance imitation learning for robotic manipulation. Datasets are available on Zenodo.",
+      "one_liner_zh": "通过 instrumented imitation learning 提升机器人操作数据效率。",
+      "summary_cn": "Large behaviour models have transformed the field of robotic manipulation, but prohibitive data requirements have thus far prevented a revolution similar to vision language models. We believe that instrumentation, i.e. sensor integration in objects, can provide invaluable state information and enable efficient learning for robotic manipulation. In this paper, we present instrumented imitation learning of clothes hanger insertion. Using 180 teleoperated demonstrations, we train diffusion policies with and without access to instrumentation data. Results show that policies leveraging instrumentation outperform vision-only counterparts by 14-25 %pt and exhibit greater task awareness. Crucially, a black-box imitation learning policy learns to prioritise instrumentation signals without explicit guidance. In addition, enhancing the teleoperation dataset with rollouts from an instrumented expert policy, enables a vision-only student policy to achieve performance comparable to the instrumented expert, thereby surpassing the original vision-only policy. These findings establish instrumentation as a promising strategy to enhance imitation learning for robotic manipulation. Datasets are available on Zenodo.",
+      "hot_score": 2.0,
+      "overall_score": 2.37,
+      "relevance_score": 2.8,
+      "is_favorite": true,
+      "domains": [
+        {
+          "slug": "physical-embodied-intelligence",
+          "name": "Physical/Embodied Intelligence"
+        }
+      ],
+      "links": [
+        {
+          "label": "Abs",
+          "href": "https://arxiv.org/abs/2605.23847"
+        },
+        {
+          "label": "PDF",
+          "href": "https://arxiv.org/pdf/2605.23847"
+        }
+      ],
+      "date": "2026-05-25",
+      "source_title": "arXiv"
+    },
+    {
+      "id": "arxiv:2605.22986",
+      "source_type": "arxiv",
+      "title": "Robots That Know What to Ask: Recovering Misaligned Rewards through Targeted Explanations",
+      "summary": "机器人通过解释主动发现并修复奖励错配。",
+      "importance": "high",
+      "include_in_follow": true,
+      "authors": [
+        "Merker, Helena",
+        "Walker, Nick",
+        "Bobu, Andreea"
+      ],
+      "categories": [
+        "cs.RO",
+        "cs.AI",
+        "cs.HC",
+        "cs.LG"
+      ],
+      "author_meta": [
+        {
+          "name": "Merker, Helena",
+          "affiliations": [],
+          "is_first_author": true,
+          "is_corresponding_author": false
+        },
+        {
+          "name": "Walker, Nick",
+          "affiliations": [],
+          "is_first_author": false,
+          "is_corresponding_author": false
+        },
+        {
+          "name": "Bobu, Andreea",
+          "affiliations": [],
+          "is_first_author": false,
+          "is_corresponding_author": false
+        }
+      ],
+      "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
+      "hjfy_url": "",
+      "published": "2026-05-21",
+      "updated": "2026-05-21",
+      "abstract_en": "Learning reward functions from demonstrations assumes that demonstrations provide adequate supervision over all features -- or task-relevant aspects of behavior. In practice, demonstrations are often imperfect: humans may under-emphasize certain features due to cognitive load or physical difficulty, or the training regime may fail to sufficiently cover all relevant situations. In either case, important features may be underspecified, leading to ambiguity in the learned reward function and misaligned behavior at deployment. We propose a framework that detects such underspecified features and actively solicits targeted corrective demonstrations. Our key insight is that demonstrations implicitly reveal which features are well specified: features that are consistently optimized show little variation across demonstrations, while features that are underspecified vary widely. We leverage this statistical signal to infer which features may have been insufficiently demonstrated. The robot then explains which features it is uncertain about in natural language and queries for demonstrations that explicitly address the identified gaps. We evaluate our approach in a simulated tabletop manipulation domain and in a user study with a real Franka robot. Targeted, explanation-guided queries significantly improve reward recovery compared to random querying and passive data collection, reducing ambiguity that would otherwise persist in learning from imperfect demonstrations.",
+      "one_liner_zh": "机器人通过解释主动发现并修复奖励错配。",
+      "summary_cn": "Learning reward functions from demonstrations assumes that demonstrations provide adequate supervision over all features -- or task-relevant aspects of behavior. In practice, demonstrations are often imperfect: humans may under-emphasize certain features due to cognitive load or physical difficulty, or the training regime may fail to sufficiently cover all relevant situations. In either case, important features may be underspecified, leading to ambiguity in the learned reward function and misaligned behavior at deployment. We propose a framework that detects such underspecified features and actively solicits targeted corrective demonstrations. Our key insight is that demonstrations implicitly reveal which features are well specified: features that are consistently optimized show little variation across demonstrations, while features that are underspecified vary widely. We leverage this statistical signal to infer which features may have been insufficiently demonstrated. The robot then explains which features it is uncertain about in natural language and queries for demonstrations that explicitly address the identified gaps. We evaluate our approach in a simulated tabletop manipulation domain and in a user study with a real Franka robot. Targeted, explanation-guided queries significantly improve reward recovery compared to random querying and passive data collection, reducing ambiguity that would otherwise persist in learning from imperfect demonstrations.",
+      "hot_score": 2.0,
+      "overall_score": 2.35,
+      "relevance_score": 3.0,
+      "is_favorite": true,
+      "domains": [
+        {
+          "slug": "physical-embodied-intelligence",
+          "name": "Physical/Embodied Intelligence"
+        }
+      ],
+      "links": [
+        {
+          "label": "Abs",
+          "href": "https://arxiv.org/abs/2605.22986"
+        },
+        {
+          "label": "PDF",
+          "href": "https://arxiv.org/pdf/2605.22986"
+        }
+      ],
+      "date": "2026-05-25",
+      "source_title": "arXiv"
+    },
+    {
+      "id": "arxiv:2605.23856",
+      "source_type": "arxiv",
+      "title": "Point Tracking Improves World Action Models",
+      "summary": "将点轨迹纳入 world-action model 来提升机器人长期动态建模。",
+      "importance": "high",
+      "include_in_follow": true,
+      "authors": [
+        "Guan, Jiarui",
+        "Zhao, Wenshuai",
+        "Pei, Yue",
+        "Chen, Ziliang",
+        "Solin, Arno",
+        "Kannala, Juho"
+      ],
+      "categories": [
+        "cs.RO"
+      ],
+      "author_meta": [
+        {
+          "name": "Guan, Jiarui",
+          "affiliations": [],
+          "is_first_author": true,
+          "is_corresponding_author": false
+        },
+        {
+          "name": "Zhao, Wenshuai",
+          "affiliations": [],
+          "is_first_author": false,
+          "is_corresponding_author": false
+        },
+        {
+          "name": "Pei, Yue",
+          "affiliations": [],
+          "is_first_author": false,
+          "is_corresponding_author": false
+        },
+        {
+          "name": "Chen, Ziliang",
+          "affiliations": [],
+          "is_first_author": false,
+          "is_corresponding_author": false
+        },
+        {
+          "name": "Solin, Arno",
+          "affiliations": [],
+          "is_first_author": false,
+          "is_corresponding_author": false
+        },
+        {
+          "name": "Kannala, Juho",
+          "affiliations": [],
+          "is_first_author": false,
+          "is_corresponding_author": false
+        }
+      ],
+      "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
+      "hjfy_url": "",
+      "published": "2026-05-22",
+      "updated": "2026-05-22",
+      "abstract_en": "Robot policy learning benefits from world-action models that capture environment dynamics, but pixel-level prediction entangles dynamics with nuisance factors such as lighting and texture, making learned representations vulnerable to task-irrelevant visual variation. We propose JOPAT, a JOint Pixel-And-Track World-Action Model that predicts latent visual observations, 2D point tracks with visibility, and actions in a single denoising diffusion transformer. The key insight is that tracks provide an explicit representation of motion that captures long-horizon dynamics and remains robust under occlusion or partial out-of-frame motion, offering greater utility than modeling pixel appearance alone. On LIBERO and real-world LeRobot tasks, JOPAT improves over pixel-based baselines, with the largest gains on long-horizon tasks involving occlusion, object interaction, and off-screen motion.",
+      "one_liner_zh": "将点轨迹纳入 world-action model 来提升机器人长期动态建模。",
+      "summary_cn": "Robot policy learning benefits from world-action models that capture environment dynamics, but pixel-level prediction entangles dynamics with nuisance factors such as lighting and texture, making learned representations vulnerable to task-irrelevant visual variation. We propose JOPAT, a JOint Pixel-And-Track World-Action Model that predicts latent visual observations, 2D point tracks with visibility, and actions in a single denoising diffusion transformer. The key insight is that tracks provide an explicit representation of motion that captures long-horizon dynamics and remains robust under occlusion or partial out-of-frame motion, offering greater utility than modeling pixel appearance alone. On LIBERO and real-world LeRobot tasks, JOPAT improves over pixel-based baselines, with the largest gains on long-horizon tasks involving occlusion, object interaction, and off-screen motion.",
+      "hot_score": 2.0,
+      "overall_score": 2.35,
+      "relevance_score": 3.0,
+      "is_favorite": true,
+      "domains": [
+        {
+          "slug": "physical-embodied-intelligence",
+          "name": "Physical/Embodied Intelligence"
+        }
+      ],
+      "links": [
+        {
+          "label": "Abs",
+          "href": "https://arxiv.org/abs/2605.23856"
+        },
+        {
+          "label": "PDF",
+          "href": "https://arxiv.org/pdf/2605.23856"
+        }
+      ],
+      "date": "2026-05-25",
+      "source_title": "arXiv"
+    },
+    {
+      "id": "arxiv:2605.23128",
+      "source_type": "arxiv",
+      "title": "$\\pi_0$-EqM: Equilibrium Matching for Closed-Loop Vision-Language-Action Control",
+      "summary": "针对 VLA 控制解码器的闭环高效推理改造。",
+      "importance": "high",
+      "include_in_follow": true,
+      "authors": [
+        "Liu, Huanming",
+        "Xu, Congsheng",
+        "Ji, Jianmin",
+        "Mu, Yao"
+      ],
+      "categories": [
+        "cs.RO"
+      ],
+      "author_meta": [
+        {
+          "name": "Liu, Huanming",
+          "affiliations": [],
+          "is_first_author": true,
+          "is_corresponding_author": false
+        },
+        {
+          "name": "Xu, Congsheng",
+          "affiliations": [],
+          "is_first_author": false,
+          "is_corresponding_author": false
+        },
+        {
+          "name": "Ji, Jianmin",
+          "affiliations": [],
+          "is_first_author": false,
+          "is_corresponding_author": false
+        },
+        {
+          "name": "Mu, Yao",
+          "affiliations": [],
+          "is_first_author": false,
+          "is_corresponding_author": false
+        }
+      ],
+      "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
+      "hjfy_url": "",
+      "published": "2026-05-22",
+      "updated": "2026-05-22",
+      "abstract_en": "Currently, Vision-Language-Action (VLA) models have become the most adopted paradigm for robotic manipulation for its great potential for task generalization. While most generative flow-matching action decoders for VLA control are often deployed with fixed sampling horizons, limiting state-dependent compute and temporal reuse across control cycles. We present $\\pi_0$-EqM, which replaces the flow-matching expert in $\\pi_0$ with an Equilibrium Matching (EqM) decoder while leaving the upstream VLA stack unchanged. Under a matched 300-step budget, $\\pi_0$-EqM improves RoboTwin average success from 40.4% to 50.2% across 19 tasks and remains competitive on LIBERO, with its clearest gain on LIBERO-10 (87.0%). Two threshold scans reveal a task-dependent non-monotonic relation between residual and success, which we term the stationarity--executability gap. The results suggest that inference depth in iterative VLA control is part of policy design and introduce an energy-based VLA perspective that may inform future work on composable action generation across tasks and embodiments.",
+      "one_liner_zh": "针对 VLA 控制解码器的闭环高效推理改造。",
+      "summary_cn": "Currently, Vision-Language-Action (VLA) models have become the most adopted paradigm for robotic manipulation for its great potential for task generalization. While most generative flow-matching action decoders for VLA control are often deployed with fixed sampling horizons, limiting state-dependent compute and temporal reuse across control cycles. We present $\\pi_0$-EqM, which replaces the flow-matching expert in $\\pi_0$ with an Equilibrium Matching (EqM) decoder while leaving the upstream VLA stack unchanged. Under a matched 300-step budget, $\\pi_0$-EqM improves RoboTwin average success from 40.4% to 50.2% across 19 tasks and remains competitive on LIBERO, with its clearest gain on LIBERO-10 (87.0%). Two threshold scans reveal a task-dependent non-monotonic relation between residual and success, which we term the stationarity--executability gap. The results suggest that inference depth in iterative VLA control is part of policy design and introduce an energy-based VLA perspective that may inform future work on composable action generation across tasks and embodiments.",
+      "hot_score": 2.0,
+      "overall_score": 2.35,
+      "relevance_score": 3.0,
+      "is_favorite": true,
+      "domains": [
+        {
+          "slug": "physical-embodied-intelligence",
+          "name": "Physical/Embodied Intelligence"
+        }
+      ],
+      "links": [
+        {
+          "label": "Abs",
+          "href": "https://arxiv.org/abs/2605.23128"
+        },
+        {
+          "label": "PDF",
+          "href": "https://arxiv.org/pdf/2605.23128"
+        }
+      ],
+      "date": "2026-05-25",
+      "source_title": "arXiv"
+    },
+    {
+      "id": "arxiv:2605.23762",
+      "source_type": "arxiv",
+      "title": "Direct Dynamic Retargeting for Humanoid Imitation Learning from Videos",
+      "summary": "直接动态 retargeting 用于人形视频模仿学习。",
+      "importance": "medium",
+      "include_in_follow": true,
+      "authors": [
+        "Roux, Constant",
+        "De Matteïs, Ludovic",
+        "Jordana, Armand",
+        "Guillet, Valentin",
+        "Mansard, Nicolas",
+        "Stasse, Olivier",
+        "Souères, Philippe"
+      ],
+      "categories": [
+        "cs.RO"
+      ],
+      "author_meta": [
+        {
+          "name": "Roux, Constant",
+          "affiliations": [],
+          "is_first_author": true,
+          "is_corresponding_author": false
+        },
+        {
+          "name": "De Matteïs, Ludovic",
+          "affiliations": [],
+          "is_first_author": false,
+          "is_corresponding_author": false
+        },
+        {
+          "name": "Jordana, Armand",
+          "affiliations": [],
+          "is_first_author": false,
+          "is_corresponding_author": false
+        },
+        {
+          "name": "Guillet, Valentin",
+          "affiliations": [],
+          "is_first_author": false,
+          "is_corresponding_author": false
+        },
+        {
+          "name": "Mansard, Nicolas",
+          "affiliations": [],
+          "is_first_author": false,
+          "is_corresponding_author": false
+        },
+        {
+          "name": "Stasse, Olivier",
+          "affiliations": [],
+          "is_first_author": false,
+          "is_corresponding_author": false
+        },
+        {
+          "name": "Souères, Philippe",
+          "affiliations": [],
+          "is_first_author": false,
+          "is_corresponding_author": false
+        }
+      ],
+      "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
+      "hjfy_url": "",
+      "published": "2026-05-22",
+      "updated": "2026-05-22",
+      "abstract_en": "Imitation Learning from monocular video demonstrations provides a scalable approach for teaching complex skills to humanoid robots. However, translating human motion to humanoids requires overcoming significant morphological mismatches. Standard approaches rely on Geometric Retargeting or Indirect Dynamic Retargeting pipelines. We identify that these intermediate kinematic projections introduce a geometric bias, restricting the search space and yielding suboptimal dynamic behaviors. In this paper, we propose Direct Dynamic Retargeting (DDR), a novel single-stage framework that generates high-fidelity, dynamically feasible trajectories directly from expert videos. By formulating the problem in the task space and leveraging a sampling-based Model Predictive Control solver within a physics simulator, DDR natively optimizes over complex contact sequences while mitigating input drift. Our experiments demonstrate that bypassing the geometric bias allows DDR to outperform state-of-the-art baselines in demonstration tracking accuracy. Furthermore, we establish that providing such physically viable references to RL agents accelerates training convergence and enhances the final execution of agile and balancing behaviors. Source code will be made publicly available.",
+      "one_liner_zh": "直接动态 retargeting 用于人形视频模仿学习。",
+      "summary_cn": "Imitation Learning from monocular video demonstrations provides a scalable approach for teaching complex skills to humanoid robots. However, translating human motion to humanoids requires overcoming significant morphological mismatches. Standard approaches rely on Geometric Retargeting or Indirect Dynamic Retargeting pipelines. We identify that these intermediate kinematic projections introduce a geometric bias, restricting the search space and yielding suboptimal dynamic behaviors. In this paper, we propose Direct Dynamic Retargeting (DDR), a novel single-stage framework that generates high-fidelity, dynamically feasible trajectories directly from expert videos. By formulating the problem in the task space and leveraging a sampling-based Model Predictive Control solver within a physics simulator, DDR natively optimizes over complex contact sequences while mitigating input drift. Our experiments demonstrate that bypassing the geometric bias allows DDR to outperform state-of-the-art baselines in demonstration tracking accuracy. Furthermore, we establish that providing such physically viable references to RL agents accelerates training convergence and enhances the final execution of agile and balancing behaviors. Source code will be made publicly available.",
+      "hot_score": 2.0,
+      "overall_score": 2.21,
+      "relevance_score": 1.9,
+      "is_favorite": false,
+      "domains": [
+        {
+          "slug": "physical-embodied-intelligence",
+          "name": "Physical/Embodied Intelligence"
+        }
+      ],
+      "links": [
+        {
+          "label": "Abs",
+          "href": "https://arxiv.org/abs/2605.23762"
+        },
+        {
+          "label": "PDF",
+          "href": "https://arxiv.org/pdf/2605.23762"
+        }
+      ],
+      "date": "2026-05-25",
+      "source_title": "arXiv"
+    },
     {
       "id": "arxiv:2605.15153",
       "source_type": "arxiv",
@@ -210,6 +954,8 @@
         }
       ],
       "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
       "hjfy_url": "",
       "published": "2026-05-14",
       "updated": "2026-05-14",
@@ -338,6 +1084,8 @@
         }
       ],
       "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
       "hjfy_url": "",
       "published": "2026-05-14",
       "updated": "2026-05-14",
@@ -442,6 +1190,8 @@
         }
       ],
       "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
       "hjfy_url": "",
       "published": "2026-05-14",
       "updated": "2026-05-14",
@@ -509,6 +1259,8 @@
         }
       ],
       "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
       "hjfy_url": "",
       "published": "2026-05-14",
       "updated": "2026-05-14",
@@ -614,6 +1366,8 @@
         }
       ],
       "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
       "hjfy_url": "",
       "published": "2026-05-14",
       "updated": "2026-05-14",
@@ -705,6 +1459,8 @@
         }
       ],
       "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
       "hjfy_url": "",
       "published": "2026-05-14",
       "updated": "2026-05-14",
@@ -799,6 +1555,8 @@
         }
       ],
       "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
       "hjfy_url": "",
       "published": "2026-05-14",
       "updated": "2026-05-14",
@@ -884,6 +1642,8 @@
         }
       ],
       "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
       "hjfy_url": "",
       "published": "2026-05-13",
       "updated": "2026-05-13",
@@ -1013,6 +1773,8 @@
         }
       ],
       "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
       "hjfy_url": "",
       "published": "2026-05-14",
       "updated": "2026-05-14",
@@ -1127,6 +1889,8 @@
         }
       ],
       "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
       "hjfy_url": "",
       "published": "2026-05-12",
       "updated": "2026-05-12",
@@ -1259,6 +2023,8 @@
         }
       ],
       "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
       "hjfy_url": "",
       "published": "2026-05-12",
       "updated": "2026-05-12",
@@ -1342,6 +2108,8 @@
         }
       ],
       "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
       "hjfy_url": "",
       "published": "2026-05-12",
       "updated": "2026-05-12",
@@ -1400,6 +2168,8 @@
         }
       ],
       "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
       "hjfy_url": "",
       "published": "2026-05-11",
       "updated": "2026-05-11",
@@ -1498,6 +2268,8 @@
         }
       ],
       "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
       "hjfy_url": "",
       "published": "2026-05-12",
       "updated": "2026-05-12",
@@ -1585,6 +2357,8 @@
         }
       ],
       "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
       "hjfy_url": "",
       "published": "2026-05-12",
       "updated": "2026-05-12",
@@ -1655,6 +2429,8 @@
         }
       ],
       "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
       "hjfy_url": "",
       "published": "2026-05-11",
       "updated": "2026-05-11",
@@ -1718,6 +2494,8 @@
         }
       ],
       "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
       "hjfy_url": "",
       "published": "2026-05-11",
       "updated": "2026-05-11",
@@ -1788,6 +2566,8 @@
         }
       ],
       "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
       "hjfy_url": "",
       "published": "2026-05-12",
       "updated": "2026-05-12",
@@ -1865,6 +2645,8 @@
         }
       ],
       "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
       "hjfy_url": "",
       "published": "2026-05-12",
       "updated": "2026-05-12",
@@ -2053,6 +2835,8 @@
         }
       ],
       "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
       "hjfy_url": "",
       "published": "2026-05-12",
       "updated": "2026-05-12",
@@ -2164,6 +2948,8 @@
         }
       ],
       "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
       "hjfy_url": "",
       "published": "2026-05-09",
       "updated": "2026-05-09",
@@ -2264,6 +3050,8 @@
         }
       ],
       "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
       "hjfy_url": "",
       "published": "2026-05-12",
       "updated": "2026-05-12",
@@ -2373,6 +3161,8 @@
         }
       ],
       "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
       "hjfy_url": "",
       "published": "2026-05-12",
       "updated": "2026-05-12",
@@ -2457,6 +3247,8 @@
         }
       ],
       "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
       "hjfy_url": "",
       "published": "2026-05-12",
       "updated": "2026-05-12",
@@ -2557,6 +3349,8 @@
         }
       ],
       "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
       "hjfy_url": "",
       "published": "2026-05-12",
       "updated": "2026-05-12",
@@ -2662,6 +3456,8 @@
         }
       ],
       "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
       "hjfy_url": "",
       "published": "2026-05-12",
       "updated": "2026-05-12",
@@ -2770,6 +3566,8 @@
         }
       ],
       "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
       "hjfy_url": "",
       "published": "2026-05-13",
       "updated": "2026-05-13",
@@ -2858,6 +3656,8 @@
         }
       ],
       "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
       "hjfy_url": "",
       "published": "2026-05-13",
       "updated": "2026-05-13",
@@ -2973,6 +3773,8 @@
         }
       ],
       "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
       "hjfy_url": "",
       "published": "2026-05-13",
       "updated": "2026-05-13",
@@ -3071,6 +3873,8 @@
         }
       ],
       "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
       "hjfy_url": "",
       "published": "2026-05-13",
       "updated": "2026-05-13",
@@ -3173,6 +3977,8 @@
         }
       ],
       "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
       "hjfy_url": "",
       "published": "2026-05-13",
       "updated": "2026-05-13",
@@ -3285,6 +4091,8 @@
         }
       ],
       "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
       "hjfy_url": "",
       "published": "2026-05-13",
       "updated": "2026-05-13",
@@ -3410,6 +4218,8 @@
         }
       ],
       "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
       "hjfy_url": "",
       "published": "2026-05-13",
       "updated": "2026-05-13",
@@ -3493,6 +4303,8 @@
         }
       ],
       "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
       "hjfy_url": "",
       "published": "2026-05-13",
       "updated": "2026-05-13",
@@ -3577,6 +4389,8 @@
         }
       ],
       "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
       "hjfy_url": "",
       "published": "2026-05-13",
       "updated": "2026-05-13",
@@ -3688,6 +4502,8 @@
         }
       ],
       "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
       "hjfy_url": "",
       "published": "2026-05-13",
       "updated": "2026-05-13",
@@ -3793,6 +4609,8 @@
         }
       ],
       "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
       "hjfy_url": "",
       "published": "2026-05-13",
       "updated": "2026-05-13",
@@ -3898,6 +4716,8 @@
         }
       ],
       "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
       "hjfy_url": "",
       "published": "2026-05-13",
       "updated": "2026-05-13",
@@ -3974,6 +4794,8 @@
         }
       ],
       "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
       "hjfy_url": "",
       "published": "2026-05-12",
       "updated": "2026-05-12",
@@ -4066,6 +4888,8 @@
         }
       ],
       "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
       "hjfy_url": "",
       "published": "2026-05-10",
       "updated": "2026-05-10",
@@ -4173,6 +4997,8 @@
         }
       ],
       "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
       "hjfy_url": "",
       "published": "2026-05-12",
       "updated": "2026-05-12",
@@ -4247,6 +5073,8 @@
         }
       ],
       "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
       "hjfy_url": "",
       "published": "2026-05-12",
       "updated": "2026-05-12",
@@ -4344,6 +5172,8 @@
         }
       ],
       "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
       "hjfy_url": "",
       "published": "2026-05-12",
       "updated": "2026-05-12",
@@ -4458,6 +5288,8 @@
         }
       ],
       "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
       "hjfy_url": "",
       "published": "2026-05-12",
       "updated": "2026-05-12",
@@ -4541,6 +5373,8 @@
         }
       ],
       "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
       "hjfy_url": "",
       "published": "2026-05-12",
       "updated": "2026-05-12",
@@ -4641,6 +5475,8 @@
         }
       ],
       "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
       "hjfy_url": "",
       "published": "2026-05-12",
       "updated": "2026-05-12",
@@ -4713,6 +5549,8 @@
         }
       ],
       "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
       "hjfy_url": "",
       "published": "2026-05-12",
       "updated": "2026-05-12",
@@ -4796,6 +5634,8 @@
         }
       ],
       "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
       "hjfy_url": "",
       "published": "2026-05-13",
       "updated": "2026-05-13",
@@ -4863,6 +5703,8 @@
         }
       ],
       "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
       "hjfy_url": "",
       "published": "2026-05-13",
       "updated": "2026-05-13",
@@ -4998,6 +5840,8 @@
         }
       ],
       "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
       "hjfy_url": "",
       "published": "2026-05-11",
       "updated": "2026-05-11",
@@ -5137,6 +5981,8 @@
         }
       ],
       "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
       "hjfy_url": "",
       "published": "2026-05-11",
       "updated": "2026-05-11",
@@ -5262,6 +6108,8 @@
         }
       ],
       "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
       "hjfy_url": "",
       "published": "2026-05-11",
       "updated": "2026-05-11",
@@ -5335,6 +6183,8 @@
         }
       ],
       "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
       "hjfy_url": "",
       "published": "2026-05-09",
       "updated": "2026-05-09",
@@ -5411,6 +6261,8 @@
         }
       ],
       "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
       "hjfy_url": "",
       "published": "2026-05-09",
       "updated": "2026-05-09",
@@ -5483,6 +6335,8 @@
         }
       ],
       "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
       "hjfy_url": "",
       "published": "2026-05-09",
       "updated": "2026-05-09",
@@ -5582,6 +6436,8 @@
         }
       ],
       "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
       "hjfy_url": "",
       "published": "2026-05-11",
       "updated": "2026-05-11",
@@ -5697,6 +6553,8 @@
         }
       ],
       "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
       "hjfy_url": "",
       "published": "2026-05-11",
       "updated": "2026-05-11",
@@ -5802,6 +6660,8 @@
         }
       ],
       "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
       "hjfy_url": "",
       "published": "2026-05-09",
       "updated": "2026-05-09",
@@ -5914,6 +6774,8 @@
         }
       ],
       "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
       "hjfy_url": "",
       "published": "2026-05-11",
       "updated": "2026-05-11",
@@ -6022,6 +6884,8 @@
         }
       ],
       "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
       "hjfy_url": "",
       "published": "2026-05-11",
       "updated": "2026-05-11",
@@ -6204,6 +7068,8 @@
         }
       ],
       "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
       "hjfy_url": "",
       "published": "2026-05-10",
       "updated": "2026-05-10",
@@ -6287,6 +7153,8 @@
         }
       ],
       "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
       "hjfy_url": "",
       "published": "2026-05-09",
       "updated": "2026-05-09",
@@ -6386,6 +7254,8 @@
         }
       ],
       "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
       "hjfy_url": "",
       "published": "2026-05-11",
       "updated": "2026-05-11",
@@ -6497,6 +7367,8 @@
         }
       ],
       "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
       "hjfy_url": "",
       "published": "2026-05-08",
       "updated": "2026-05-08",
@@ -6566,6 +7438,8 @@
         }
       ],
       "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
       "hjfy_url": "",
       "published": "2026-05-10",
       "updated": "2026-05-10",
@@ -6666,6 +7540,8 @@
         }
       ],
       "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
       "hjfy_url": "",
       "published": "2026-05-11",
       "updated": "2026-05-11",
@@ -6810,6 +7686,8 @@
         }
       ],
       "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
       "hjfy_url": "",
       "published": "2026-05-11",
       "updated": "2026-05-11",
@@ -6908,6 +7786,8 @@
         }
       ],
       "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
       "hjfy_url": "",
       "published": "2026-05-10",
       "updated": "2026-05-10",
@@ -6971,6 +7851,8 @@
         }
       ],
       "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
       "hjfy_url": "",
       "published": "2026-05-09",
       "updated": "2026-05-09",
@@ -7054,6 +7936,8 @@
         }
       ],
       "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
       "hjfy_url": "",
       "published": "2026-05-08",
       "updated": "2026-05-08",
@@ -7162,6 +8046,8 @@
         }
       ],
       "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
       "hjfy_url": "",
       "published": "2026-05-10",
       "updated": "2026-05-10",
@@ -7259,6 +8145,8 @@
         }
       ],
       "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
       "hjfy_url": "",
       "published": "2026-05-11",
       "updated": "2026-05-11",
@@ -7322,6 +8210,8 @@
         }
       ],
       "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
       "hjfy_url": "",
       "published": "2026-05-08",
       "updated": "2026-05-08",
@@ -7402,6 +8292,8 @@
         }
       ],
       "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
       "hjfy_url": "",
       "published": "2026-05-11",
       "updated": "2026-05-11",
@@ -7517,6 +8409,8 @@
         }
       ],
       "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
       "hjfy_url": "",
       "published": "2026-05-09",
       "updated": "2026-05-09",
@@ -7612,6 +8506,8 @@
         }
       ],
       "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
       "hjfy_url": "",
       "published": "2026-05-09",
       "updated": "2026-05-09",
@@ -7748,6 +8644,8 @@
         }
       ],
       "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
       "hjfy_url": "",
       "published": "2026-05-11",
       "updated": "2026-05-11",
@@ -7817,6 +8715,8 @@
         }
       ],
       "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
       "hjfy_url": "",
       "published": "2026-05-09",
       "updated": "2026-05-09",
@@ -7882,6 +8782,8 @@
         }
       ],
       "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
       "hjfy_url": "",
       "published": "2026-05-09",
       "updated": "2026-05-09",
@@ -7961,6 +8863,8 @@
         }
       ],
       "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
       "hjfy_url": "",
       "published": "2026-05-08",
       "updated": "2026-05-08",
@@ -8052,6 +8956,8 @@
         }
       ],
       "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
       "hjfy_url": "",
       "published": "2026-05-10",
       "updated": "2026-05-10",
@@ -8121,6 +9027,8 @@
         }
       ],
       "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
       "hjfy_url": "",
       "published": "2026-05-11",
       "updated": "2026-05-11",
@@ -8173,6 +9081,8 @@
         }
       ],
       "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
       "hjfy_url": "",
       "published": "2026-05-09",
       "updated": "2026-05-09",
@@ -8239,6 +9149,8 @@
         }
       ],
       "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
       "hjfy_url": "",
       "published": "2026-05-09",
       "updated": "2026-05-09",
@@ -8311,6 +9223,8 @@
         }
       ],
       "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
       "hjfy_url": "",
       "published": "2026-05-10",
       "updated": "2026-05-10",
@@ -8364,6 +9278,8 @@
         }
       ],
       "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
       "hjfy_url": "",
       "published": "2026-05-04",
       "updated": "2026-05-04",
@@ -8445,6 +9361,8 @@
         }
       ],
       "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
       "hjfy_url": "",
       "published": "2026-05-11",
       "updated": "2026-05-11",
@@ -8524,6 +9442,8 @@
         }
       ],
       "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
       "hjfy_url": "",
       "published": "2026-05-09",
       "updated": "2026-05-09",
@@ -8624,6 +9544,8 @@
         }
       ],
       "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
       "hjfy_url": "",
       "published": "2026-05-11",
       "updated": "2026-05-11",
@@ -8689,6 +9611,8 @@
         }
       ],
       "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
       "hjfy_url": "",
       "published": "2026-05-09",
       "updated": "2026-05-09",
@@ -8842,6 +9766,8 @@
         }
       ],
       "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
       "hjfy_url": "",
       "published": "2026-05-11",
       "updated": "2026-05-11",
@@ -8939,6 +9865,8 @@
         }
       ],
       "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
       "hjfy_url": "",
       "published": "2026-05-09",
       "updated": "2026-05-09",
@@ -9072,6 +10000,8 @@
         }
       ],
       "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
       "hjfy_url": "",
       "published": "2026-05-11",
       "updated": "2026-05-11",
@@ -9151,6 +10081,8 @@
         }
       ],
       "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
       "hjfy_url": "",
       "published": "2026-05-10",
       "updated": "2026-05-10",
@@ -9216,6 +10148,8 @@
         }
       ],
       "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
       "hjfy_url": "",
       "published": "2026-05-09",
       "updated": "2026-05-09",
@@ -9295,6 +10229,8 @@
         }
       ],
       "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
       "hjfy_url": "",
       "published": "2026-05-09",
       "updated": "2026-05-09",
@@ -9396,6 +10332,8 @@
         }
       ],
       "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
       "hjfy_url": "",
       "published": "2026-05-11",
       "updated": "2026-05-11",
@@ -9461,6 +10399,8 @@
         }
       ],
       "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
       "hjfy_url": "",
       "published": "2026-05-10",
       "updated": "2026-05-10",
@@ -9561,6 +10501,8 @@
         }
       ],
       "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
       "hjfy_url": "",
       "published": "2026-05-08",
       "updated": "2026-05-08",
@@ -9684,6 +10626,8 @@
         }
       ],
       "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
       "hjfy_url": "",
       "published": "2026-05-08",
       "updated": "2026-05-08",
@@ -9782,6 +10726,8 @@
         }
       ],
       "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
       "hjfy_url": "",
       "published": "2026-05-08",
       "updated": "2026-05-08",
@@ -9872,6 +10818,8 @@
         }
       ],
       "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
       "hjfy_url": "",
       "published": "2026-05-08",
       "updated": "2026-05-08",
@@ -9937,6 +10885,8 @@
         }
       ],
       "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
       "hjfy_url": "",
       "published": "2026-05-08",
       "updated": "2026-05-08",
@@ -10034,6 +10984,8 @@
         }
       ],
       "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
       "hjfy_url": "",
       "published": "2026-05-08",
       "updated": "2026-05-08",
@@ -10132,6 +11084,8 @@
         }
       ],
       "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
       "hjfy_url": "",
       "published": "2026-05-07",
       "updated": "2026-05-07",
@@ -10184,6 +11138,8 @@
         }
       ],
       "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
       "hjfy_url": "",
       "published": "2026-05-08",
       "updated": "2026-05-08",
@@ -10265,6 +11221,8 @@
         }
       ],
       "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
       "hjfy_url": "",
       "published": "2026-05-08",
       "updated": "2026-05-08",
@@ -10386,6 +11344,8 @@
         }
       ],
       "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
       "hjfy_url": "",
       "published": "2026-05-08",
       "updated": "2026-05-08",
@@ -10467,6 +11427,8 @@
         }
       ],
       "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
       "hjfy_url": "",
       "published": "2026-05-08",
       "updated": "2026-05-08",
@@ -10544,6 +11506,8 @@
         }
       ],
       "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
       "hjfy_url": "",
       "published": "2026-05-08",
       "updated": "2026-05-08",
@@ -10628,6 +11592,8 @@
         }
       ],
       "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
       "hjfy_url": "https://hjfy.top/arxiv/2605.05241",
       "published": "2026-05-03",
       "updated": "2026-05-03",
@@ -10729,6 +11695,8 @@
         }
       ],
       "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
       "hjfy_url": "https://hjfy.top/arxiv/2605.06175",
       "published": "2026-05-07",
       "updated": "2026-05-07",
@@ -10831,6 +11799,8 @@
         }
       ],
       "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
       "hjfy_url": "https://hjfy.top/arxiv/2605.06222",
       "published": "2026-05-07",
       "updated": "2026-05-07",
@@ -10949,6 +11919,8 @@
         }
       ],
       "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
       "hjfy_url": "https://hjfy.top/arxiv/2605.06247",
       "published": "2026-05-07",
       "updated": "2026-05-07",
@@ -11071,6 +12043,8 @@
         }
       ],
       "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
       "hjfy_url": "https://hjfy.top/arxiv/2605.06481",
       "published": "2026-05-07",
       "updated": "2026-05-07",
@@ -11155,6 +12129,8 @@
         }
       ],
       "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
       "hjfy_url": "https://hjfy.top/arxiv/2605.06246",
       "published": "2026-05-07",
       "updated": "2026-05-07",
@@ -11232,6 +12208,8 @@
         }
       ],
       "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
       "hjfy_url": "https://hjfy.top/arxiv/2605.05236",
       "published": "2026-05-01",
       "updated": "2026-05-01",
@@ -11308,6 +12286,8 @@
         }
       ],
       "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
       "hjfy_url": "https://hjfy.top/arxiv/2605.05925",
       "published": "2026-05-07",
       "updated": "2026-05-07",
@@ -11400,6 +12380,8 @@
         }
       ],
       "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
       "hjfy_url": "https://hjfy.top/arxiv/2605.06593",
       "published": "2026-05-07",
       "updated": "2026-05-07",
@@ -11505,6 +12487,8 @@
         }
       ],
       "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
       "hjfy_url": "https://hjfy.top/arxiv/2605.05411",
       "published": "2026-05-06",
       "updated": "2026-05-06",
@@ -11599,6 +12583,8 @@
         }
       ],
       "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
       "hjfy_url": "https://hjfy.top/arxiv/2605.05126",
       "published": "2026-05-06",
       "updated": "2026-05-06",
@@ -11667,6 +12653,8 @@
         }
       ],
       "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
       "hjfy_url": "https://hjfy.top/arxiv/2605.04568",
       "published": "2026-05-06",
       "updated": "2026-05-06",
@@ -11769,6 +12757,8 @@
         }
       ],
       "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
       "hjfy_url": "https://hjfy.top/arxiv/2605.04678",
       "published": "2026-05-06",
       "updated": "2026-05-06",
@@ -11847,6 +12837,8 @@
         }
       ],
       "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
       "hjfy_url": "https://hjfy.top/arxiv/2605.04413",
       "published": "2026-05-06",
       "updated": "2026-05-06",
@@ -11901,6 +12893,8 @@
       "categories": [],
       "author_meta": [],
       "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
       "hjfy_url": "",
       "published": "",
       "updated": "",
@@ -11955,6 +12949,8 @@
       "categories": [],
       "author_meta": [],
       "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
       "hjfy_url": "",
       "published": "",
       "updated": "",
@@ -12006,6 +13002,8 @@
       "categories": [],
       "author_meta": [],
       "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
       "hjfy_url": "",
       "published": "",
       "updated": "",
@@ -12048,6 +13046,8 @@
       "categories": [],
       "author_meta": [],
       "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
       "hjfy_url": "",
       "published": "",
       "updated": "",
@@ -12099,6 +13099,8 @@
       "categories": [],
       "author_meta": [],
       "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
       "hjfy_url": "",
       "published": "",
       "updated": "",
@@ -12160,6 +13162,8 @@
       "categories": [],
       "author_meta": [],
       "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
       "hjfy_url": "",
       "published": "",
       "updated": "",
@@ -12209,6 +13213,8 @@
       "categories": [],
       "author_meta": [],
       "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
       "hjfy_url": "",
       "published": "",
       "updated": "",
@@ -12252,6 +13258,8 @@
       "categories": [],
       "author_meta": [],
       "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
       "hjfy_url": "",
       "published": "",
       "updated": "",
@@ -12303,6 +13311,8 @@
       "categories": [],
       "author_meta": [],
       "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
       "hjfy_url": "",
       "published": "",
       "updated": "",
@@ -12348,6 +13358,8 @@
       "categories": [],
       "author_meta": [],
       "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
       "hjfy_url": "",
       "published": "",
       "updated": "",
@@ -12400,6 +13412,8 @@
       "categories": [],
       "author_meta": [],
       "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
       "hjfy_url": "",
       "published": "",
       "updated": "",
@@ -12445,6 +13459,8 @@
       "categories": [],
       "author_meta": [],
       "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
       "hjfy_url": "",
       "published": "",
       "updated": "",
@@ -12493,6 +13509,8 @@
       "categories": [],
       "author_meta": [],
       "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
       "hjfy_url": "",
       "published": "",
       "updated": "",
@@ -12545,6 +13563,8 @@
       "categories": [],
       "author_meta": [],
       "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
       "hjfy_url": "",
       "published": "",
       "updated": "",
@@ -12604,6 +13624,8 @@
       "categories": [],
       "author_meta": [],
       "first_affiliation": "",
+      "related_organizations": [],
+      "related_companies": [],
       "hjfy_url": "",
       "published": "",
       "updated": "",

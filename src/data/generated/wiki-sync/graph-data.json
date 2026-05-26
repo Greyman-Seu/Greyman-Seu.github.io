@@ -19,10 +19,7 @@
       "openvla-an-open-source-vision-language-action-model"
     ],
     "degraded": false,
-    "insights_degraded": false,
-    "source_count": 6,
-    "topic_count": 5,
-    "synthesis_count": 1
+    "insights_degraded": false
   },
   "nodes": [
     {

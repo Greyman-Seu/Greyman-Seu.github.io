@@ -1,106 +1,32 @@
 {
-  "data_version": "followhub-wiki-r2/v1",
-  "generated_at": "2026-05-17T11:20:37Z",
   "wiki_root": "/Users/xiaomi/workspace/FollowHub/submodules/llm-wiki-skill/followhub-wiki",
-  "page_root": "",
-  "base_path": "wiki",
-  "latest_updated": "2026-05-17",
-  "counts": {
-    "sources": 6,
-    "topics": 5,
-    "synthesis": 1,
-    "graph_nodes": 12,
-    "graph_edges": 24
-  },
-  "files": {
-    "sources": "sources.json",
-    "topics": "topics.json",
-    "synthesis": "synthesis.json",
-    "graph_data": "graph-data.json",
-    "search_index": "search-index.json"
-  },
-  "collections": {
-    "source": [
-      {
-        "slug": "deximit-learning-bimanual-dexterous-manipulation-from-monocular-human-videos",
-        "path": "source/deximit-learning-bimanual-dexterous-manipulation-from-monocular-human-videos.json"
-      },
-      {
-        "slug": "emergence-of-human-to-robot-transfer-in-vision-language-action-models",
-        "path": "source/emergence-of-human-to-robot-transfer-in-vision-language-action-models.json"
-      },
-      {
-        "slug": "mem-multi-scale-embodied-memory-for-vision-language-action-models",
-        "path": "source/mem-multi-scale-embodied-memory-for-vision-language-action-models.json"
-      },
-      {
-        "slug": "openvla-an-open-source-vision-language-action-model",
-        "path": "source/openvla-an-open-source-vision-language-action-model.json"
-      },
-      {
-        "slug": "pi07-a-steerable-generalist-robotic-foundation-model-with-emergent-capabilities",
-        "path": "source/pi07-a-steerable-generalist-robotic-foundation-model-with-emergent-capabilities.json"
-      },
-      {
-        "slug": "rl-token-bootstrapping-online-rl-with-vision-language-action-models",
-        "path": "source/rl-token-bootstrapping-online-rl-with-vision-language-action-models.json"
-      }
-    ],
-    "topic": [
-      {
-        "slug": "human-video-robot-data-generation",
-        "path": "topic/human-video-robot-data-generation.json"
-      },
-      {
-        "slug": "human-to-robot-transfer",
-        "path": "topic/human-to-robot-transfer.json"
-      },
-      {
-        "slug": "long-horizon-memory-for-robot-policies",
-        "path": "topic/long-horizon-memory-for-robot-policies.json"
-      },
-      {
-        "slug": "online-rl-for-vla",
-        "path": "topic/online-rl-for-vla.json"
-      },
-      {
-        "slug": "vision-language-action",
-        "path": "topic/vision-language-action.json"
-      }
-    ],
-    "synthesis": [
-      {
-        "slug": "current-vla-landscape-foundation-control-memory-and-transfer",
-        "path": "synthesis/current-vla-landscape-foundation-control-memory-and-transfer.json"
-      }
-    ]
-  },
-  "graph_assets": {
-    "html": "graph/knowledge-graph.html",
-    "runtime": "graph/graph-wash.js",
-    "helpers": "graph/graph-wash-helpers.js"
-  },
-  "domains": [
-    {
-      "name": "LLM/VLM",
-      "slug": "llm-vlm"
-    },
-    {
-      "name": "Physical/Embodied Intelligence",
-      "slug": "physical-embodied-intelligence"
-    },
-    {
-      "name": "AIGC",
-      "slug": "aigc"
-    },
-    {
-      "name": "Agent",
-      "slug": "agent"
-    }
+  "page_root": "/Users/xiaomi/workspace/FollowHub/submodules/page_github",
+  "sources": [
+    "/Users/xiaomi/workspace/FollowHub/submodules/llm-wiki-skill/followhub-wiki/wiki/sources/deximit-learning-bimanual-dexterous-manipulation-from-monocular-human-videos.md",
+    "/Users/xiaomi/workspace/FollowHub/submodules/llm-wiki-skill/followhub-wiki/wiki/sources/emergence-of-human-to-robot-transfer-in-vision-language-action-models.md",
+    "/Users/xiaomi/workspace/FollowHub/submodules/llm-wiki-skill/followhub-wiki/wiki/sources/mem-multi-scale-embodied-memory-for-vision-language-action-models.md",
+    "/Users/xiaomi/workspace/FollowHub/submodules/llm-wiki-skill/followhub-wiki/wiki/sources/openvla-an-open-source-vision-language-action-model.md",
+    "/Users/xiaomi/workspace/FollowHub/submodules/llm-wiki-skill/followhub-wiki/wiki/sources/pi07-a-steerable-generalist-robotic-foundation-model-with-emergent-capabilities.md",
+    "/Users/xiaomi/workspace/FollowHub/submodules/llm-wiki-skill/followhub-wiki/wiki/sources/rl-token-bootstrapping-online-rl-with-vision-language-action-models.md"
   ],
-  "tag_policy": {
-    "min_per_source": 1,
-    "max_per_source": 2,
-    "preferred_per_source": 1
-  }
+  "topics": [
+    "/Users/xiaomi/workspace/FollowHub/submodules/llm-wiki-skill/followhub-wiki/wiki/topics/Human Video Robot Data Generation.md",
+    "/Users/xiaomi/workspace/FollowHub/submodules/llm-wiki-skill/followhub-wiki/wiki/topics/Human-to-Robot Transfer.md",
+    "/Users/xiaomi/workspace/FollowHub/submodules/llm-wiki-skill/followhub-wiki/wiki/topics/Long-Horizon Memory for Robot Policies.md",
+    "/Users/xiaomi/workspace/FollowHub/submodules/llm-wiki-skill/followhub-wiki/wiki/topics/Online RL for VLA.md",
+    "/Users/xiaomi/workspace/FollowHub/submodules/llm-wiki-skill/followhub-wiki/wiki/topics/Vision-Language-Action.md"
+  ],
+  "synthesis": [
+    "/Users/xiaomi/workspace/FollowHub/submodules/llm-wiki-skill/followhub-wiki/wiki/synthesis/current-vla-landscape-foundation-control-memory-and-transfer.md"
+  ],
+  "graph_assets": [
+    "/Users/xiaomi/workspace/FollowHub/submodules/llm-wiki-skill/followhub-wiki/wiki/knowledge-graph.html",
+    "/Users/xiaomi/workspace/FollowHub/submodules/llm-wiki-skill/followhub-wiki/wiki/graph-data.json",
+    "/Users/xiaomi/workspace/FollowHub/submodules/llm-wiki-skill/followhub-wiki/wiki/d3.min.js",
+    "/Users/xiaomi/workspace/FollowHub/submodules/llm-wiki-skill/followhub-wiki/wiki/rough.min.js",
+    "/Users/xiaomi/workspace/FollowHub/submodules/llm-wiki-skill/followhub-wiki/wiki/marked.min.js",
+    "/Users/xiaomi/workspace/FollowHub/submodules/llm-wiki-skill/followhub-wiki/wiki/purify.min.js",
+    "/Users/xiaomi/workspace/FollowHub/submodules/llm-wiki-skill/followhub-wiki/wiki/graph-wash.js",
+    "/Users/xiaomi/workspace/FollowHub/submodules/llm-wiki-skill/followhub-wiki/wiki/graph-wash-helpers.js"
+  ]
 }

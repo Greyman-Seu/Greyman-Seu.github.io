@@ -1,94 +1,33 @@
 {
   "domains": [
     {
-      "slug": "physical-embodied-intelligence",
-      "name": "Physical/Embodied Intelligence",
-      "count": 133,
-      "latest_date": "2026-05-15",
-      "highlights": [
-        {
-          "title": "Pelican-Unified 1.0: A Unified Embodied Intelligence Model for Understanding, Reasoning, Imagination and Action",
-          "summary": "Pelican-Unified 1.0 用单一统一模型同时做理解、推理、想象和动作，证明 embodied foundation model 可以不靠多专家拼接。",
-          "date": "2026-05-15"
-        },
-        {
-          "title": "IntentVLA: Short-Horizon Intent Modeling for Aliased Robot Manipulation",
-          "summary": "IntentVLA 用短时程意图表示稳定 VLA 的 chunk 级决策，缓解观测混叠下的跨步冲突。",
-          "date": "2026-05-15"
-        },
-        {
-          "title": "DSSP: Diffusion State Space Policy with Full-History Encoding",
-          "summary": "DSSP 用 state space model 做全历史编码，让扩散式操作策略在长时程任务中兼顾性能与效率。",
-          "date": "2026-05-15"
-        }
-      ]
-    },
-    {
       "slug": "llm-vlm",
       "name": "LLM/VLM",
-      "count": 56,
-      "latest_date": "2026-05-15",
+      "count": 2,
+      "latest_date": "2026-05-26",
       "highlights": [
         {
-          "title": "Pelican-Unified 1.0: A Unified Embodied Intelligence Model for Understanding, Reasoning, Imagination and Action",
-          "summary": "Pelican-Unified 1.0 用单一统一模型同时做理解、推理、想象和动作，证明 embodied foundation model 可以不靠多专家拼接。",
-          "date": "2026-05-15"
+          "title": "刚刚，国产AI自己造了AI，全球首例！",
+          "summary": "国产团队发布可用于自动生成 AI 系统的数据与训练方案更新。",
+          "date": "2026-05-26"
         },
         {
-          "title": "IntentVLA: Short-Horizon Intent Modeling for Aliased Robot Manipulation",
-          "summary": "IntentVLA 用短时程意图表示稳定 VLA 的 chunk 级决策，缓解观测混叠下的跨步冲突。",
-          "date": "2026-05-15"
-        },
-        {
-          "title": "Hand-in-the-Loop: Improving Dexterous VLA via Seamless Interventional Correction",
-          "summary": "HandITL 用无缝人类介入校正解决 dexterous VLA takeover 时的手势跳变问题。",
-          "date": "2026-05-15"
+          "title": "龙虾之父教你省钱：开源Skill给你的Skill减肥",
+          "summary": "开源 Skill 压缩/减负方向内容，偏向 Agent 技能组织与工程优化。",
+          "date": "2026-05-26"
         }
       ]
     },
     {
       "slug": "agent",
       "name": "Agent",
-      "count": 11,
-      "latest_date": "2026-05-12",
+      "count": 1,
+      "latest_date": "2026-05-26",
       "highlights": [
         {
-          "title": "MCP-Cosmos: World Model-Augmented Agents for Complex Task Execution in MCP Environments",
-          "summary": "MCP-Cosmos 将 world model 引入 MCP agent 环境，为复杂任务执行提供预测式自动化能力。",
-          "date": "2026-05-12"
-        },
-        {
-          "title": "How Mobile World Model Guides GUI Agents?",
-          "summary": "How Mobile World Model Guides GUI Agents?",
-          "date": "2026-05-12"
-        },
-        {
-          "title": "Hierarchical Prompting with Dual LLM Modules for Robotic Task and Motion Planning",
-          "summary": "用双 LLM 模块分层完成机器人任务与运动规划，把语言指令拆成可执行动作序列。",
-          "date": "2026-05-12"
-        }
-      ]
-    },
-    {
-      "slug": "uncategorized",
-      "name": "Uncategorized",
-      "count": 3,
-      "latest_date": "2026-05-04",
-      "highlights": [
-        {
-          "title": "E$^2$DT: Efficient and Effective Decision Transformer with Experience-Aware Sampling for Robotic Manipulation",
-          "summary": "用经验感知采样提升 Decision Transformer 在机器人长程操作中的样本效率与探索质量。",
-          "date": "2026-05-04"
-        },
-        {
-          "title": "Lucid-XR: An Extended-Reality Data Engine for Robotic Manipulation",
-          "summary": "Lucid-XR通过XR交互、物理仿真和语言可控视频生成构建机器人操作数据引擎，用合成数据训练可零样本迁移的视觉策略。",
-          "date": "2026-05-04"
-        },
-        {
-          "title": "World Model for Robot Learning: A Comprehensive Survey",
-          "summary": "系统综述机器人学习中的世界模型范式、作用分工与评测脉络。",
-          "date": "2026-05-04"
+          "title": "龙虾之父教你省钱：开源Skill给你的Skill减肥",
+          "summary": "开源 Skill 压缩/减负方向内容，偏向 Agent 技能组织与工程优化。",
+          "date": "2026-05-26"
         }
       ]
     }

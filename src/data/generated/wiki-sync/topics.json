@@ -1,192 +1,91 @@
 [
   {
-    "id": "human-video-robot-data-generation",
     "slug": "human-video-robot-data-generation",
     "title": "Human Video Robot Data Generation",
-    "type": "topic",
-    "domain": "physical-embodied-intelligence",
-    "domains": [
-      "Physical/Embodied Intelligence"
-    ],
+    "domain": "",
+    "summary": "> 这条主题关注如何把 human videos 编译成机器人能直接训练或执行的数据，而不是只把人类视频当作预训练语料。",
+    "body": "# Human Video Robot Data Generation\n\n> 这条主题关注如何把 human videos 编译成机器人能直接训练或执行的数据，而不是只把人类视频当作预训练语料。\n\n## 主题概述\n\nHuman video 覆盖大量自然操作、工具使用和长时程任务，但人手和机器人灵巧手之间存在 embodiment gap。这个主题关注一类更工程化的路线：先从视频里恢复手-物体交互，再生成物理可行的机器人轨迹或 demonstrations，最后用增强和过滤让数据能服务真实部署。\n\n## 为什么重要\n\n- 它绕开了“直接从人类视频学动作”的动作空间不一致问题。\n- 它把互联网视频、人工拍摄视频、甚至视频生成模型产物都变成潜在机器人数据来源。\n- 它和 VLA co-training 互补：显式数据生成提供更接近机器人动作空间的监督，VLA 负责吸收和泛化。\n\n## 当前知识库里的代表工作\n\n- [来源: DexImit: Learning Bimanual Dexterous Manipulation from Monocular Human Videos](../sources/deximit-learning-bimanual-dexterous-manipulation-from-monocular-human-videos.md)\n  这条主题的主工作。它提出四阶段 pipeline：单目 4D 重建、action-centric 双手调度、force-closure 抓取与运动规划、面向零样本真实部署的数据增强。\n\n## 当前理解\n\n- `DexImit` 的核心贡献不是一个新策略网络，而是一个 human-video-to-robot-data compiler。\n- 这条路线的关键难点在数据生成链路的每一层：几何尺度、遮挡、手-物体接触、双手协作调度、轨迹物理可行性和真实传感器噪声。\n- 相比直接 human-to-robot representation transfer，它更可解释，也更容易插入检查点和过滤器；但它会受到重建误差和模块串联误差限制。\n\n## 和相关主题的关系\n\n- [[Human-to-Robot Transfer]] 关注人类数据什么时候变成机器人能力；本主题更关注一种具体机制：把人类视频显式转换成机器人数据。\n- [[Vision-Language-Action]] 关注 foundation policy 的输入与控制接口；本主题生成的数据未来可以成为 VLA 训练或微调的上游材料。\n\n## 值得后续关注的问题\n\n- human video data engine 与 VLA co-training 如何组合，才不会重复引入噪声？\n- 是否可以用更强的 3D reconstruction / world model 降低对人工修正的依赖？\n- 自动过滤是否足以支撑大规模数据生成，还是仍需要人工验收关键样本？\n\n## 相关页面\n\n- [[DexImit: Learning Bimanual Dexterous Manipulation from Monocular Human Videos]]\n- [[Human-to-Robot Transfer]]\n- [[当前 VLA 路线图：基座、可控性、在线精修、记忆与人类数据]]",
     "tags": [
       "human-video-data-generation"
     ],
-    "summary": "把人类操作视频转换成机器人可训练数据的路线，关注重建、调度、物理可行性和 sim-to-real。",
-    "status": "active",
     "created": "2026-05-16",
     "updated": "2026-05-16",
-    "sourceSlugs": [
-      "deximit-learning-bimanual-dexterous-manipulation-from-monocular-human-videos"
-    ],
-    "synthesisSlugs": [
-      "current-vla-landscape-foundation-control-memory-and-transfer"
-    ],
-    "sourceTitles": [
-      "DexImit: Learning Bimanual Dexterous Manipulation from Monocular Human Videos"
-    ],
+    "sourceTitles": [],
     "relatedPages": [
       "Human-to-Robot Transfer",
       "Vision-Language-Action",
       "DexImit: Learning Bimanual Dexterous Manipulation from Monocular Human Videos",
-      "当前 VLA 路线图：基座、可控性、在线精修、记忆与人类数据",
-      "来源: DexImit: Learning Bimanual Dexterous Manipulation from Monocular Human Videos"
-    ],
-    "openQuestions": [
-      "从单目视频生成的数据，什么时候比直接 human-to-robot co-training 更可靠？",
-      "VLM 负责语义分解与过滤时，错误如何被发现和纠正？",
-      "这条路线能否扩展到移动操作、软体/关节物体和 in-hand manipulation？"
-    ],
-    "body": "# Human Video Robot Data Generation\n\n> 这条主题关注如何把 human videos 编译成机器人能直接训练或执行的数据，而不是只把人类视频当作预训练语料。\n\n## 主题概述\n\nHuman video 覆盖大量自然操作、工具使用和长时程任务，但人手和机器人灵巧手之间存在 embodiment gap。这个主题关注一类更工程化的路线：先从视频里恢复手-物体交互，再生成物理可行的机器人轨迹或 demonstrations，最后用增强和过滤让数据能服务真实部署。\n\n## 为什么重要\n\n- 它绕开了“直接从人类视频学动作”的动作空间不一致问题。\n- 它把互联网视频、人工拍摄视频、甚至视频生成模型产物都变成潜在机器人数据来源。\n- 它和 VLA co-training 互补：显式数据生成提供更接近机器人动作空间的监督，VLA 负责吸收和泛化。\n\n## 当前知识库里的代表工作\n\n- [来源: DexImit: Learning Bimanual Dexterous Manipulation from Monocular Human Videos](../sources/deximit-learning-bimanual-dexterous-manipulation-from-monocular-human-videos.md)\n  这条主题的主工作。它提出四阶段 pipeline：单目 4D 重建、action-centric 双手调度、force-closure 抓取与运动规划、面向零样本真实部署的数据增强。\n\n## 当前理解\n\n- `DexImit` 的核心贡献不是一个新策略网络，而是一个 human-video-to-robot-data compiler。\n- 这条路线的关键难点在数据生成链路的每一层：几何尺度、遮挡、手-物体接触、双手协作调度、轨迹物理可行性和真实传感器噪声。\n- 相比直接 human-to-robot representation transfer，它更可解释，也更容易插入检查点和过滤器；但它会受到重建误差和模块串联误差限制。\n\n## 和相关主题的关系\n\n- [[Human-to-Robot Transfer]] 关注人类数据什么时候变成机器人能力；本主题更关注一种具体机制：把人类视频显式转换成机器人数据。\n- [[Vision-Language-Action]] 关注 foundation policy 的输入与控制接口；本主题生成的数据未来可以成为 VLA 训练或微调的上游材料。\n\n## 值得后续关注的问题\n\n- human video data engine 与 VLA co-training 如何组合，才不会重复引入噪声？\n- 是否可以用更强的 3D reconstruction / world model 降低对人工修正的依赖？\n- 自动过滤是否足以支撑大规模数据生成，还是仍需要人工验收关键样本？\n\n## 相关页面\n\n- [[DexImit: Learning Bimanual Dexterous Manipulation from Monocular Human Videos]]\n- [[Human-to-Robot Transfer]]\n- [[当前 VLA 路线图：基座、可控性、在线精修、记忆与人类数据]]\n"
+      "当前 VLA 路线图：基座、可控性、在线精修、记忆与人类数据"
+    ]
   },
   {
-    "id": "human-to-robot-transfer",
     "slug": "human-to-robot-transfer",
     "title": "Human-to-Robot Transfer",
-    "type": "topic",
-    "domain": "physical-embodied-intelligence",
-    "domains": [
-      "Physical/Embodied Intelligence"
-    ],
+    "domain": "",
+    "summary": "> 人类视频什么时候能真正变成机器人能力，不只是数据源问题，也是表示能力和预训练多样性问题。",
+    "body": "# Human-to-Robot Transfer\n\n> 人类视频什么时候能真正变成机器人能力，不只是数据源问题，也是表示能力和预训练多样性问题。\n\n## 主题概述\n\n这条主题关注 human video、human embodiment data 与 robot policy 之间的迁移。核心问题不是“人类数据多不多”，而是“模型什么时候开始有能力利用这些数据”。\n\n## 当前知识库里的代表工作\n\n- [来源: Emergence of Human to Robot Transfer in Vision-Language-Action Models](../sources/emergence-of-human-to-robot-transfer-in-vision-language-action-models.md)\n  这条主题的主工作。它提出：human-to-robot transfer 不是固定技巧，而是会随着 VLA 预训练多样性增长而涌现。\n\n- [来源: π0.7: a Steerable Generalist Robotic Foundation Model with Emergent Capabilities](../sources/pi07-a-steerable-generalist-robotic-foundation-model-with-emergent-capabilities.md)\n  虽然不是专门研究 human transfer，但它展示了 non-robot data、egocentric human data 与 robot data 可以被统一吸纳到 foundation model 训练中。\n\n- [来源: DexImit: Learning Bimanual Dexterous Manipulation from Monocular Human Videos](../sources/deximit-learning-bimanual-dexterous-manipulation-from-monocular-human-videos.md)\n  这篇补上了另一条路线：不直接让模型从 human video 中学表示，而是把单目人类操作视频重建、调度、规划并增强成双手灵巧机器人训练数据。\n\n## 当前判断\n\n- `Human-to-Robot Transfer` 这篇更强调“能力何时出现”\n- `π0.7` 更强调“多源数据如何被统一利用”\n- `DexImit` 更强调“人类视频如何被编译成物理可行的机器人数据”\n- 放在一起看，可以把问题理解成：\n  - 预训练多样性负责让 shared representation 成熟\n  - richer context / prompt 负责让这些能力在控制中被真正调用出来\n  - 显式数据生成 pipeline 负责把一部分 human video 转成更接近机器人动作空间的 supervision\n\n## 值得后续关注的问题\n\n- human data 在 pretraining 阶段和 finetuning 阶段的作用是否不同\n- human-to-robot transfer 与 cross-embodiment transfer 是否本质同源\n- 显式 data generation 与 VLA co-training 是替代关系，还是更适合组合使用\n- 这种能力的出现，更依赖模型规模还是数据多样性\n\n## 相关页面\n\n- [[Emergence of Human to Robot Transfer in Vision-Language-Action Models]]\n- [[π0.7: a Steerable Generalist Robotic Foundation Model with Emergent Capabilities]]\n- [[DexImit: Learning Bimanual Dexterous Manipulation from Monocular Human Videos]]\n- [[Human Video Robot Data Generation]]\n- [[Vision-Language-Action]]",
     "tags": [
       "human-to-robot-transfer"
     ],
-    "summary": "这条主题关注 human video、human embodiment data 与 robot policy 之间的迁移。核心问题不是“人类数据多不多”，而是“模型什么时候开始有能力利用这些数据”。",
-    "status": "active",
     "created": "2026-05-11",
     "updated": "2026-05-16",
-    "sourceSlugs": [
-      "emergence-of-human-to-robot-transfer-in-vision-language-action-models",
-      "pi07-a-steerable-generalist-robotic-foundation-model-with-emergent-capabilities",
-      "deximit-learning-bimanual-dexterous-manipulation-from-monocular-human-videos"
-    ],
-    "synthesisSlugs": [
-      "current-vla-landscape-foundation-control-memory-and-transfer"
-    ],
-    "sourceTitles": [
-      "Emergence of Human to Robot Transfer in Vision-Language-Action Models",
-      "π0.7: a Steerable Generalist Robotic Foundation Model with Emergent Capabilities",
-      "DexImit: Learning Bimanual Dexterous Manipulation from Monocular Human Videos"
-    ],
+    "sourceTitles": [],
     "relatedPages": [
       "Emergence of Human to Robot Transfer in Vision-Language-Action Models",
       "π0.7: a Steerable Generalist Robotic Foundation Model with Emergent Capabilities",
       "DexImit: Learning Bimanual Dexterous Manipulation from Monocular Human Videos",
       "Human Video Robot Data Generation",
-      "Vision-Language-Action",
-      "来源: Emergence of Human to Robot Transfer in Vision-Language-Action Models",
-      "来源: π0.7: a Steerable Generalist Robotic Foundation Model with Emergent Capabilities",
-      "来源: DexImit: Learning Bimanual Dexterous Manipulation from Monocular Human Videos"
-    ],
-    "openQuestions": [],
-    "body": "# Human-to-Robot Transfer\n\n> 人类视频什么时候能真正变成机器人能力，不只是数据源问题，也是表示能力和预训练多样性问题。\n\n## 主题概述\n\n这条主题关注 human video、human embodiment data 与 robot policy 之间的迁移。核心问题不是“人类数据多不多”，而是“模型什么时候开始有能力利用这些数据”。\n\n## 当前知识库里的代表工作\n\n- [来源: Emergence of Human to Robot Transfer in Vision-Language-Action Models](../sources/emergence-of-human-to-robot-transfer-in-vision-language-action-models.md)\n  这条主题的主工作。它提出：human-to-robot transfer 不是固定技巧，而是会随着 VLA 预训练多样性增长而涌现。\n\n- [来源: π0.7: a Steerable Generalist Robotic Foundation Model with Emergent Capabilities](../sources/pi07-a-steerable-generalist-robotic-foundation-model-with-emergent-capabilities.md)\n  虽然不是专门研究 human transfer，但它展示了 non-robot data、egocentric human data 与 robot data 可以被统一吸纳到 foundation model 训练中。\n\n- [来源: DexImit: Learning Bimanual Dexterous Manipulation from Monocular Human Videos](../sources/deximit-learning-bimanual-dexterous-manipulation-from-monocular-human-videos.md)\n  这篇补上了另一条路线：不直接让模型从 human video 中学表示，而是把单目人类操作视频重建、调度、规划并增强成双手灵巧机器人训练数据。\n\n## 当前判断\n\n- `Human-to-Robot Transfer` 这篇更强调“能力何时出现”\n- `π0.7` 更强调“多源数据如何被统一利用”\n- `DexImit` 更强调“人类视频如何被编译成物理可行的机器人数据”\n- 放在一起看，可以把问题理解成：\n  - 预训练多样性负责让 shared representation 成熟\n  - richer context / prompt 负责让这些能力在控制中被真正调用出来\n  - 显式数据生成 pipeline 负责把一部分 human video 转成更接近机器人动作空间的 supervision\n\n## 值得后续关注的问题\n\n- human data 在 pretraining 阶段和 finetuning 阶段的作用是否不同\n- human-to-robot transfer 与 cross-embodiment transfer 是否本质同源\n- 显式 data generation 与 VLA co-training 是替代关系，还是更适合组合使用\n- 这种能力的出现，更依赖模型规模还是数据多样性\n\n## 相关页面\n\n- [[Emergence of Human to Robot Transfer in Vision-Language-Action Models]]\n- [[π0.7: a Steerable Generalist Robotic Foundation Model with Emergent Capabilities]]\n- [[DexImit: Learning Bimanual Dexterous Manipulation from Monocular Human Videos]]\n- [[Human Video Robot Data Generation]]\n- [[Vision-Language-Action]]\n"
+      "Vision-Language-Action"
+    ]
   },
   {
-    "id": "long-horizon-memory-for-robot-policies",
     "slug": "long-horizon-memory-for-robot-policies",
     "title": "Long-Horizon Memory for Robot Policies",
-    "type": "topic",
-    "domain": "physical-embodied-intelligence",
-    "domains": [
-      "Physical/Embodied Intelligence"
-    ],
+    "domain": "",
+    "summary": "> 长时程机器人控制不是只把上下文窗口拉长，而是要决定不同时间尺度的信息如何表示。",
+    "body": "# Long-Horizon Memory for Robot Policies\n\n> 长时程机器人控制不是只把上下文窗口拉长，而是要决定不同时间尺度的信息如何表示。\n\n## 主题概述\n\n这条主题关注机器人策略如何处理分钟级任务。关键不是更多帧，而是多尺度记忆：哪些信息应该保留为短期视觉痕迹，哪些应该抽象成长期语义状态。\n\n## 当前知识库里的代表工作\n\n- [来源: MEM: Multi-Scale Embodied Memory for Vision Language Action Models](../sources/mem-multi-scale-embodied-memory-for-vision-language-action-models.md)\n  明确把 memory 分解成视频短期记忆和语言长期记忆，是这条主题的主工作。\n\n- [来源: π0.7: a Steerable Generalist Robotic Foundation Model with Emergent Capabilities](../sources/pi07-a-steerable-generalist-robotic-foundation-model-with-emergent-capabilities.md)\n  通过 subgoal image、subtask instruction、episode metadata 给策略提供 richer context，本质上也是在补 memory 和 progress control。\n\n## 当前判断\n\n- `MEM` 是显式 memory 架构路线\n- `π0.7` 更偏通过 richer prompt 和 context 让模型具备更强的阶段性控制\n- 这两条路线未来很可能会合流：显式 memory + 可控 prompt 共同支撑 long-horizon embodied policy\n\n## 值得后续关注的问题\n\n- 语言长期记忆如何更新、压缩和纠错\n- 视频短期记忆如何在保证实时性的同时保留关键信息\n- high-level memory 与 low-level control 的接口应如何设计\n\n## 相关页面\n\n- [[MEM: Multi-Scale Embodied Memory for Vision Language Action Models]]\n- [[π0.7: a Steerable Generalist Robotic Foundation Model with Emergent Capabilities]]\n- [[Vision-Language-Action]]",
     "tags": [
       "long-horizon-memory"
     ],
-    "summary": "这条主题关注机器人策略如何处理分钟级任务。关键不是更多帧，而是多尺度记忆：哪些信息应该保留为短期视觉痕迹，哪些应该抽象成长期语义状态。",
-    "status": "active",
     "created": "2026-05-11",
     "updated": "2026-05-11",
-    "sourceSlugs": [
-      "mem-multi-scale-embodied-memory-for-vision-language-action-models",
-      "pi07-a-steerable-generalist-robotic-foundation-model-with-emergent-capabilities"
-    ],
-    "synthesisSlugs": [
-      "current-vla-landscape-foundation-control-memory-and-transfer"
-    ],
-    "sourceTitles": [
-      "MEM: Multi-Scale Embodied Memory for Vision Language Action Models",
-      "π0.7: a Steerable Generalist Robotic Foundation Model with Emergent Capabilities"
-    ],
+    "sourceTitles": [],
     "relatedPages": [
       "MEM: Multi-Scale Embodied Memory for Vision Language Action Models",
       "π0.7: a Steerable Generalist Robotic Foundation Model with Emergent Capabilities",
-      "Vision-Language-Action",
-      "来源: MEM: Multi-Scale Embodied Memory for Vision Language Action Models",
-      "来源: π0.7: a Steerable Generalist Robotic Foundation Model with Emergent Capabilities"
-    ],
-    "openQuestions": [],
-    "body": "# Long-Horizon Memory for Robot Policies\n\n> 长时程机器人控制不是只把上下文窗口拉长，而是要决定不同时间尺度的信息如何表示。\n\n## 主题概述\n\n这条主题关注机器人策略如何处理分钟级任务。关键不是更多帧，而是多尺度记忆：哪些信息应该保留为短期视觉痕迹，哪些应该抽象成长期语义状态。\n\n## 当前知识库里的代表工作\n\n- [来源: MEM: Multi-Scale Embodied Memory for Vision Language Action Models](../sources/mem-multi-scale-embodied-memory-for-vision-language-action-models.md)\n  明确把 memory 分解成视频短期记忆和语言长期记忆，是这条主题的主工作。\n\n- [来源: π0.7: a Steerable Generalist Robotic Foundation Model with Emergent Capabilities](../sources/pi07-a-steerable-generalist-robotic-foundation-model-with-emergent-capabilities.md)\n  通过 subgoal image、subtask instruction、episode metadata 给策略提供 richer context，本质上也是在补 memory 和 progress control。\n\n## 当前判断\n\n- `MEM` 是显式 memory 架构路线\n- `π0.7` 更偏通过 richer prompt 和 context 让模型具备更强的阶段性控制\n- 这两条路线未来很可能会合流：显式 memory + 可控 prompt 共同支撑 long-horizon embodied policy\n\n## 值得后续关注的问题\n\n- 语言长期记忆如何更新、压缩和纠错\n- 视频短期记忆如何在保证实时性的同时保留关键信息\n- high-level memory 与 low-level control 的接口应如何设计\n\n## 相关页面\n\n- [[MEM: Multi-Scale Embodied Memory for Vision Language Action Models]]\n- [[π0.7: a Steerable Generalist Robotic Foundation Model with Emergent Capabilities]]\n- [[Vision-Language-Action]]\n"
+      "Vision-Language-Action"
+    ]
   },
   {
-    "id": "online-rl-for-vla",
     "slug": "online-rl-for-vla",
     "title": "Online RL for VLA",
-    "type": "topic",
-    "domain": "physical-embodied-intelligence",
-    "domains": [
-      "Physical/Embodied Intelligence"
-    ],
+    "domain": "",
+    "summary": "> 通才策略已经有了，接下来的问题是怎样把它快速打磨到高精度 specialist 表现。",
+    "body": "# Online RL for VLA\n\n> 通才策略已经有了，接下来的问题是怎样把它快速打磨到高精度 specialist 表现。\n\n## 主题概述\n\n这条主题关注 VLA 预训练之后的在线适配。核心问题不是“VLA 能不能泛化”，而是“当真实机器人需要更高精度、更高速度时，怎么以较低样本成本继续优化它”。\n\n## 当前知识库里的代表工作\n\n- [来源: RL Token: Bootstrapping Online RL with Vision-Language-Action Models](../sources/rl-token-bootstrapping-online-rl-with-vision-language-action-models.md)\n  代表作。通过 `RL token` 把预训练 VLA 与轻量 actor-critic 接起来，让 online RL 重点修正 critical phase。\n\n- [来源: π0.7: a Steerable Generalist Robotic Foundation Model with Emergent Capabilities](../sources/pi07-a-steerable-generalist-robotic-foundation-model-with-emergent-capabilities.md)\n  虽然主体不是 RL 论文，但它明确展示了 generalist policy 可以蒸馏和吸收 specialist 经验，也说明 online optimization 与 foundation policy 不是对立关系。\n\n## 当前判断\n\n- `RLT` 给出的是一条很现实的 engineering 路线：不要重训整个 VLA，只给它暴露一个适合 RL 的接口\n- `π0.7` 则从另一个角度说明，generalist policy 最终仍然需要 specialist-style refinement，只是 refinement 的位置和形式不同\n\n## 值得后续关注的问题\n\n- online RL 的接口应该放在 VLA 哪一层最合适\n- 是 refinement head 更重要，还是 reward design 更重要\n- 对不同 embodiment，这类轻量接口是否还能保持稳定性\n\n## 相关页面\n\n- [[RL Token: Bootstrapping Online RL with Vision-Language-Action Models]]\n- [[π0.7: a Steerable Generalist Robotic Foundation Model with Emergent Capabilities]]\n- [[Vision-Language-Action]]",
     "tags": [
       "online-rl"
     ],
-    "summary": "这条主题关注 VLA 预训练之后的在线适配。核心问题不是“VLA 能不能泛化”，而是“当真实机器人需要更高精度、更高速度时，怎么以较低样本成本继续优化它”。",
-    "status": "active",
     "created": "2026-05-11",
     "updated": "2026-05-11",
-    "sourceSlugs": [
-      "rl-token-bootstrapping-online-rl-with-vision-language-action-models",
-      "pi07-a-steerable-generalist-robotic-foundation-model-with-emergent-capabilities"
-    ],
-    "synthesisSlugs": [
-      "current-vla-landscape-foundation-control-memory-and-transfer"
-    ],
-    "sourceTitles": [
-      "RL Token: Bootstrapping Online RL with Vision-Language-Action Models",
-      "π0.7: a Steerable Generalist Robotic Foundation Model with Emergent Capabilities"
-    ],
+    "sourceTitles": [],
     "relatedPages": [
       "RL Token: Bootstrapping Online RL with Vision-Language-Action Models",
       "π0.7: a Steerable Generalist Robotic Foundation Model with Emergent Capabilities",
-      "Vision-Language-Action",
-      "来源: RL Token: Bootstrapping Online RL with Vision-Language-Action Models",
-      "来源: π0.7: a Steerable Generalist Robotic Foundation Model with Emergent Capabilities"
-    ],
-    "openQuestions": [],
-    "body": "# Online RL for VLA\n\n> 通才策略已经有了，接下来的问题是怎样把它快速打磨到高精度 specialist 表现。\n\n## 主题概述\n\n这条主题关注 VLA 预训练之后的在线适配。核心问题不是“VLA 能不能泛化”，而是“当真实机器人需要更高精度、更高速度时，怎么以较低样本成本继续优化它”。\n\n## 当前知识库里的代表工作\n\n- [来源: RL Token: Bootstrapping Online RL with Vision-Language-Action Models](../sources/rl-token-bootstrapping-online-rl-with-vision-language-action-models.md)\n  代表作。通过 `RL token` 把预训练 VLA 与轻量 actor-critic 接起来，让 online RL 重点修正 critical phase。\n\n- [来源: π0.7: a Steerable Generalist Robotic Foundation Model with Emergent Capabilities](../sources/pi07-a-steerable-generalist-robotic-foundation-model-with-emergent-capabilities.md)\n  虽然主体不是 RL 论文，但它明确展示了 generalist policy 可以蒸馏和吸收 specialist 经验，也说明 online optimization 与 foundation policy 不是对立关系。\n\n## 当前判断\n\n- `RLT` 给出的是一条很现实的 engineering 路线：不要重训整个 VLA，只给它暴露一个适合 RL 的接口\n- `π0.7` 则从另一个角度说明，generalist policy 最终仍然需要 specialist-style refinement，只是 refinement 的位置和形式不同\n\n## 值得后续关注的问题\n\n- online RL 的接口应该放在 VLA 哪一层最合适\n- 是 refinement head 更重要，还是 reward design 更重要\n- 对不同 embodiment，这类轻量接口是否还能保持稳定性\n\n## 相关页面\n\n- [[RL Token: Bootstrapping Online RL with Vision-Language-Action Models]]\n- [[π0.7: a Steerable Generalist Robotic Foundation Model with Emergent Capabilities]]\n- [[Vision-Language-Action]]\n"
+      "Vision-Language-Action"
+    ]
   },
   {
-    "id": "vision-language-action",
     "slug": "vision-language-action",
     "title": "Vision-Language-Action",
-    "type": "topic",
-    "domain": "physical-embodied-intelligence",
-    "domains": [
-      "Physical/Embodied Intelligence"
-    ],
+    "domain": "",
+    "summary": "> 把视觉、语言和动作统一进同一策略建模框架，是当前具身智能主线之一。",
+    "body": "# Vision-Language-Action\n\n> 把视觉、语言和动作统一进同一策略建模框架，是当前具身智能主线之一。\n\n## 这条主题在讲什么\n\nVLA 的核心不是“把图像和文本都喂给机器人”，而是把机器人控制问题放进 foundation model 语境里，让预训练、多任务泛化、迁移、微调和跨 embodiment 学习都能在一套统一框架里讨论。\n\n## 为什么重要\n\n- VLA 是现在连接大模型能力与机器人执行能力的主干路线\n- 它把机器人学习从 task-specific policy 推向 reusable foundation policy\n- 很多后续方向，本质上都是在回答“VLA 还缺什么”\n  - 更强的可控性\n  - 更长的记忆\n  - 更高的精度\n  - 更好的跨 embodiment 迁移\n  - 更低成本地利用人类数据\n\n## 当前知识库里的几条子路线\n\n- **开源基座化**\n  来自 [来源: OpenVLA: An Open-Source Vision-Language-Action Model](../sources/openvla-an-open-source-vision-language-action-model.md)\n  OpenVLA 强调训练、微调、部署三件事一起开源，代表“VLA 作为公开基础设施”的路线。\n\n- **更强 steerability**\n  来自 [来源: π0.7: a Steerable Generalist Robotic Foundation Model with Emergent Capabilities](../sources/pi07-a-steerable-generalist-robotic-foundation-model-with-emergent-capabilities.md)\n  π0.7 通过 richer prompt、subgoal image、episode metadata 把“怎么做”也编码进策略上下文。\n\n- **在线 RL 精修**\n  来自 [来源: RL Token: Bootstrapping Online RL with Vision-Language-Action Models](../sources/rl-token-bootstrapping-online-rl-with-vision-language-action-models.md)\n  RLT 关注如何在保留 VLA 泛化先验的前提下，把精度和速度继续打磨到 specialist 水平。\n\n- **长时程记忆**\n  来自 [来源: MEM: Multi-Scale Embodied Memory for Vision Language Action Models](../sources/mem-multi-scale-embodied-memory-for-vision-language-action-models.md)\n  MEM 试图解决 VLA 在长达十几分钟任务中的任务进度保持和局部视觉记忆问题。\n\n- **利用 human data**\n  来自 [来源: Emergence of Human to Robot Transfer in Vision-Language-Action Models](../sources/emergence-of-human-to-robot-transfer-in-vision-language-action-models.md)\n  这条路线关注 VLA 何时开始能真正吃进 human video，并把它转化成机器人能力。\n\n## 当前判断\n\n这几篇放在一起看，VLA 主线已经很清楚：\n\n- `OpenVLA` 解决“基座是否开放、可训、可部署”\n- `π0.7` 解决“多源数据如何通过 prompt 变成可控能力”\n- `RLT` 解决“如何把通才策略继续打磨到高精度”\n- `MEM` 解决“如何把策略延长到 long-horizon”\n- `Human-to-Robot Transfer` 解决“如何把人类数据真正吸纳进来”\n\n也就是说，VLA 不再只是一个单点模型设计问题，而已经分化成一套系统问题族。\n\n## 相关页面\n\n- [[OpenVLA: An Open-Source Vision-Language-Action Model]]\n- [[π0.7: a Steerable Generalist Robotic Foundation Model with Emergent Capabilities]]\n- [[RL Token: Bootstrapping Online RL with Vision-Language-Action Models]]\n- [[MEM: Multi-Scale Embodied Memory for Vision Language Action Models]]\n- [[Emergence of Human to Robot Transfer in Vision-Language-Action Models]]\n- [[Online RL for VLA]]\n- [[Long-Horizon Memory for Robot Policies]]\n- [[Human-to-Robot Transfer]]",
     "tags": [
       "vision-language-action"
     ],
-    "summary": "这几篇放在一起看，VLA 主线已经很清楚：\nOpenVLA 解决“基座是否开放、可训、可部署”\nπ0.7 解决“多源数据如何通过 prompt 变成可控能力”\nRLT 解决“如何把通才策略继续打磨到高精度”\nMEM 解决“如何把策略延长到 long-horizon”\nHuman-to-Robot Transfer 解决“如何把人类数据真正吸纳进来”\n也就是说，VLA 不再只是一个单点模型设计问题，而已经分化成一套系统问题族。",
-    "status": "active",
     "created": "2026-05-11",
     "updated": "2026-05-11",
-    "sourceSlugs": [
-      "openvla-an-open-source-vision-language-action-model",
-      "pi07-a-steerable-generalist-robotic-foundation-model-with-emergent-capabilities",
-      "rl-token-bootstrapping-online-rl-with-vision-language-action-models",
-      "mem-multi-scale-embodied-memory-for-vision-language-action-models",
-      "emergence-of-human-to-robot-transfer-in-vision-language-action-models"
-    ],
-    "synthesisSlugs": [
-      "current-vla-landscape-foundation-control-memory-and-transfer"
-    ],
-    "sourceTitles": [
-      "OpenVLA: An Open-Source Vision-Language-Action Model",
-      "π0.7: a Steerable Generalist Robotic Foundation Model with Emergent Capabilities",
-      "RL Token: Bootstrapping Online RL with Vision-Language-Action Models",
-      "MEM: Multi-Scale Embodied Memory for Vision Language Action Models",
-      "Emergence of Human to Robot Transfer in Vision-Language-Action Models"
-    ],
+    "sourceTitles": [],
     "relatedPages": [
       "OpenVLA: An Open-Source Vision-Language-Action Model",
       "π0.7: a Steerable Generalist Robotic Foundation Model with Emergent Capabilities",
@@ -195,14 +94,7 @@
       "Emergence of Human to Robot Transfer in Vision-Language-Action Models",
       "Online RL for VLA",
       "Long-Horizon Memory for Robot Policies",
-      "Human-to-Robot Transfer",
-      "来源: OpenVLA: An Open-Source Vision-Language-Action Model",
-      "来源: π0.7: a Steerable Generalist Robotic Foundation Model with Emergent Capabilities",
-      "来源: RL Token: Bootstrapping Online RL with Vision-Language-Action Models",
-      "来源: MEM: Multi-Scale Embodied Memory for Vision Language Action Models",
-      "来源: Emergence of Human to Robot Transfer in Vision-Language-Action Models"
-    ],
-    "openQuestions": [],
-    "body": "# Vision-Language-Action\n\n> 把视觉、语言和动作统一进同一策略建模框架，是当前具身智能主线之一。\n\n## 这条主题在讲什么\n\nVLA 的核心不是“把图像和文本都喂给机器人”，而是把机器人控制问题放进 foundation model 语境里，让预训练、多任务泛化、迁移、微调和跨 embodiment 学习都能在一套统一框架里讨论。\n\n## 为什么重要\n\n- VLA 是现在连接大模型能力与机器人执行能力的主干路线\n- 它把机器人学习从 task-specific policy 推向 reusable foundation policy\n- 很多后续方向，本质上都是在回答“VLA 还缺什么”\n  - 更强的可控性\n  - 更长的记忆\n  - 更高的精度\n  - 更好的跨 embodiment 迁移\n  - 更低成本地利用人类数据\n\n## 当前知识库里的几条子路线\n\n- **开源基座化**\n  来自 [来源: OpenVLA: An Open-Source Vision-Language-Action Model](../sources/openvla-an-open-source-vision-language-action-model.md)\n  OpenVLA 强调训练、微调、部署三件事一起开源，代表“VLA 作为公开基础设施”的路线。\n\n- **更强 steerability**\n  来自 [来源: π0.7: a Steerable Generalist Robotic Foundation Model with Emergent Capabilities](../sources/pi07-a-steerable-generalist-robotic-foundation-model-with-emergent-capabilities.md)\n  π0.7 通过 richer prompt、subgoal image、episode metadata 把“怎么做”也编码进策略上下文。\n\n- **在线 RL 精修**\n  来自 [来源: RL Token: Bootstrapping Online RL with Vision-Language-Action Models](../sources/rl-token-bootstrapping-online-rl-with-vision-language-action-models.md)\n  RLT 关注如何在保留 VLA 泛化先验的前提下，把精度和速度继续打磨到 specialist 水平。\n\n- **长时程记忆**\n  来自 [来源: MEM: Multi-Scale Embodied Memory for Vision Language Action Models](../sources/mem-multi-scale-embodied-memory-for-vision-language-action-models.md)\n  MEM 试图解决 VLA 在长达十几分钟任务中的任务进度保持和局部视觉记忆问题。\n\n- **利用 human data**\n  来自 [来源: Emergence of Human to Robot Transfer in Vision-Language-Action Models](../sources/emergence-of-human-to-robot-transfer-in-vision-language-action-models.md)\n  这条路线关注 VLA 何时开始能真正吃进 human video，并把它转化成机器人能力。\n\n## 当前判断\n\n这几篇放在一起看，VLA 主线已经很清楚：\n\n- `OpenVLA` 解决“基座是否开放、可训、可部署”\n- `π0.7` 解决“多源数据如何通过 prompt 变成可控能力”\n- `RLT` 解决“如何把通才策略继续打磨到高精度”\n- `MEM` 解决“如何把策略延长到 long-horizon”\n- `Human-to-Robot Transfer` 解决“如何把人类数据真正吸纳进来”\n\n也就是说，VLA 不再只是一个单点模型设计问题，而已经分化成一套系统问题族。\n\n## 相关页面\n\n- [[OpenVLA: An Open-Source Vision-Language-Action Model]]\n- [[π0.7: a Steerable Generalist Robotic Foundation Model with Emergent Capabilities]]\n- [[RL Token: Bootstrapping Online RL with Vision-Language-Action Models]]\n- [[MEM: Multi-Scale Embodied Memory for Vision Language Action Models]]\n- [[Emergence of Human to Robot Transfer in Vision-Language-Action Models]]\n- [[Online RL for VLA]]\n- [[Long-Horizon Memory for Robot Policies]]\n- [[Human-to-Robot Transfer]]\n"
+      "Human-to-Robot Transfer"
+    ]
   }
 ]
