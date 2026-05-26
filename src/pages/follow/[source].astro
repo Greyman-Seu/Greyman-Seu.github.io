@@ -168,6 +168,12 @@ const deriveHjfyUrl = (item: FollowSourceItem) => {
               ?.filter((author) => author.isCorrespondingAuthor)
               .flatMap((author) => author.affiliations || []) || []
             const categoryTags = item.categories || []
+            const fullLink = sourceKey === 'wechat'
+              ? item.links.find((link) => link.label === 'Article')
+              : null
+            const otherLinks = sourceKey === 'wechat'
+              ? item.links.filter((link) => link !== fullLink)
+              : item.links
             return (
           <article
             class='follow-item rounded-2xl border border-border bg-card p-5 shadow-sm'
@@ -237,7 +243,19 @@ const deriveHjfyUrl = (item: FollowSourceItem) => {
                     </details>
                   ) : null}
                 </div>
-                {enableLocalFavorites ? <button type='button' class='favorite-toggle self-start rounded-full border border-border bg-background px-3 py-1 text-sm text-muted-foreground transition-colors hover:border-foreground/20 hover:text-foreground'>☆</button> : null}
+                <div class='flex items-start gap-2 self-start'>
+                  {fullLink ? (
+                    <a
+                      href={fullLink.href}
+                      target='_blank'
+                      rel='noreferrer'
+                      class='inline-flex items-center rounded-full border border-primary/20 bg-primary/6 px-3 py-1.5 text-xs font-semibold tracking-[0.08em] text-primary no-underline transition-all duration-200 hover:border-primary/35 hover:bg-primary/12 hover:text-primary'
+                    >
+                      全文
+                    </a>
+                  ) : null}
+                  {enableLocalFavorites ? <button type='button' class='favorite-toggle rounded-full border border-border bg-background px-3 py-1 text-sm text-muted-foreground transition-colors hover:border-foreground/20 hover:text-foreground'>☆</button> : null}
+                </div>
               </div>
 
               <div class='flex flex-wrap gap-2'>
@@ -261,9 +279,9 @@ const deriveHjfyUrl = (item: FollowSourceItem) => {
 
               <div class='flex flex-wrap gap-2'>
                 {[
-                  ...item.links.map((link) => ({
+                  ...otherLinks.map((link) => ({
                     ...link,
-                    label: source === 'wechat' && link.label === 'Article' ? '全文' : link.label,
+                    label: sourceKey === 'wechat' && link.label === 'Article' ? '全文' : link.label,
                   })),
                   ...(deriveHjfyUrl(item) && !item.links.some((link) => link.href === deriveHjfyUrl(item))
                     ? [{ label: '中英对照', href: deriveHjfyUrl(item) }]
@@ -340,9 +358,18 @@ const deriveHjfyUrl = (item: FollowSourceItem) => {
         return `<a href="/wiki/domain/${slug}" class="rounded-full bg-primary/10 px-2.5 py-1 text-xs font-medium text-primary no-underline transition-colors hover:bg-primary/15">${name}</a>`
       }).join('')
 
-      const linksHtml = (item.links || []).map((link) => (
-        `<a class="group relative inline-flex items-center gap-x-2 rounded-lg bg-muted border border-border px-3 py-2 text-sm font-medium text-muted-foreground transition-all duration-200 hover:border-foreground/20 hover:bg-muted/80 hover:text-foreground no-underline" href="${link.href}" target="_blank" rel="noreferrer" data-astro-prefetch="true"><div class="relative flex items-center gap-x-2"><p class="my-0 transition-colors duration-200">${source === 'wechat' && link.label === 'Article' ? '全文' : link.label}</p></div></a>`
+      const fullLink = sourceKey === 'wechat'
+        ? (item.links || []).find((link) => link.label === 'Article')
+        : null
+      const otherLinks = sourceKey === 'wechat'
+        ? (item.links || []).filter((link) => link !== fullLink)
+        : (item.links || [])
+      const linksHtml = otherLinks.map((link) => (
+        `<a class="group relative inline-flex items-center gap-x-2 rounded-lg bg-muted border border-border px-3 py-2 text-sm font-medium text-muted-foreground transition-all duration-200 hover:border-foreground/20 hover:bg-muted/80 hover:text-foreground no-underline" href="${link.href}" target="_blank" rel="noreferrer" data-astro-prefetch="true"><div class="relative flex items-center gap-x-2"><p class="my-0 transition-colors duration-200">${sourceKey === 'wechat' && link.label === 'Article' ? '全文' : link.label}</p></div></a>`
       )).join('')
+      const fullLinkHtml = fullLink
+        ? `<a class="inline-flex items-center rounded-full border border-primary/20 bg-primary/6 px-3 py-1.5 text-xs font-semibold tracking-[0.08em] text-primary no-underline transition-all duration-200 hover:border-primary/35 hover:bg-primary/12 hover:text-primary" href="${fullLink.href}" target="_blank" rel="noreferrer" data-astro-prefetch="true">全文</a>`
+        : ''
       const rawId = String(item.id || '').replace(/^arxiv:/, '')
       const derivedHjfyUrl = item.hjfy_url || (/^\d{4}\.\d{4,5}$/.test(rawId) ? `https://hjfy.top/arxiv/${rawId}` : '')
       const hjfyHtml = derivedHjfyUrl && !(item.links || []).some((link) => link.href === derivedHjfyUrl)
@@ -444,7 +471,10 @@ const deriveHjfyUrl = (item: FollowSourceItem) => {
                 ${summaryCnHtml}
                 ${abstractHtml}
               </div>
-              ${enableLocalFavorites ? `<button type="button" class="favorite-toggle self-start rounded-full border border-border bg-background px-3 py-1 text-sm text-muted-foreground transition-colors hover:border-foreground/20 hover:text-foreground">☆</button>` : ''}
+              <div class="flex items-start gap-2 self-start">
+                ${fullLinkHtml}
+                ${enableLocalFavorites ? `<button type="button" class="favorite-toggle rounded-full border border-border bg-background px-3 py-1 text-sm text-muted-foreground transition-colors hover:border-foreground/20 hover:text-foreground">☆</button>` : ''}
+              </div>
             </div>
             <div class="flex flex-wrap gap-2">${categoryHtml}${domainHtml}</div>
             <div class="flex flex-wrap gap-2">${linksHtml}${hjfyHtml}</div>
