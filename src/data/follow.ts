@@ -117,6 +117,7 @@ type GeneratedDigest = {
       source_type: FollowSource
       title: string
       summary: string
+      url?: string
       importance: FollowImportance
       include_in_follow?: boolean
       domains?: Array<{ slug: string; name: string }>
