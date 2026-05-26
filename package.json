@@ -4,6 +4,8 @@
   "version": "4.0.1-beta",
   "scripts": {
     "dev": "astro dev",
+    "dev:follow:remote": "PUBLIC_ENABLE_REMOTE_FOLLOW_DATA=true astro dev",
+    "dev:follow:local": "PUBLIC_ENABLE_REMOTE_FOLLOW_DATA=false astro dev",
     "dev:check": "astro check --watch & astro dev",
     "build:base": "npm run sync:wiki:optional && astro check && astro build",
     "build": "npm run build:base",
