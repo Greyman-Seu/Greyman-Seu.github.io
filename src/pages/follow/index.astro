@@ -24,46 +24,42 @@ const headings = [
   { depth: 2, slug: 'daily-timeline', text: 'Daily Timeline' }
 ]
 
-const favoriteSiteGroups = [
+const favoriteLinks = [
   {
-    title: '常用网站',
-    links: [
-      {
-        title: '机器人课题组',
-        note: 'Open Robo Academy CV 资源页',
-        href: 'https://openroboacademy.github.io/cv/'
-      },
-      {
-        title: '机器人华人天团',
-        note: 'Embodied Intelligence 华人研究者整理',
-        href: 'https://github.com/Will-Gao/Embodied_Intelligence'
-      },
-      {
-        title: '具身入门信息大全',
-        note: 'Embodied AI Guide',
-        href: 'https://github.com/tianxingchen/Embodied-AI-Guide'
-      }
-    ]
+    category: '个人知识库',
+    title: '个人飞书',
+    note: '飞书 Wiki 入口，直接查看个人整理内容',
+    href: 'https://my.feishu.cn/wiki/S0wswKSNSidL41kUYExcWUc3nMf'
   },
   {
-    title: '公司主页',
-    links: [
-      {
-        title: 'PI',
-        note: 'Physical Intelligence',
-        href: 'https://www.pi.website'
-      }
-    ]
+    category: '常用网站',
+    title: '机器人课题组',
+    note: 'Open Robo Academy CV 资源页',
+    href: 'https://openroboacademy.github.io/cv/'
   },
   {
+    category: '常用网站',
+    title: '机器人华人天团',
+    note: 'Embodied Intelligence 华人研究者整理',
+    href: 'https://github.com/Will-Gao/Embodied_Intelligence'
+  },
+  {
+    category: '常用网站',
+    title: '具身入门信息大全',
+    note: 'Embodied AI Guide',
+    href: 'https://github.com/tianxingchen/Embodied-AI-Guide'
+  },
+  {
+    category: '公司主页',
+    title: 'PI',
+    note: 'Physical Intelligence',
+    href: 'https://www.pi.website'
+  },
+  {
+    category: '人物页',
     title: '个人主页',
-    links: [
-      {
-        title: '进入人物页',
-        note: '集中收录个人主页，后续扩展直接在独立页面维护',
-        href: '/people'
-      }
-    ]
+    note: '进入独立人物页，后续统一扩展',
+    href: '/people'
   }
 ] as const
 
@@ -80,31 +76,24 @@ const sourceBadgeClass = {
     <section class='space-y-6' aria-labelledby='favorite-sites'>
       <div class='border-b border-border/40 pb-3'>
         <h2 id='favorite-sites' class='m-0 text-2xl font-semibold'>Favorite Sites</h2>
-        <p class='m-0 mt-1 text-sm text-muted-foreground'>把常看的具身资料、公司主页和个人主页放在顶部，减少来回翻找。</p>
+        <p class='m-0 mt-1 text-sm text-muted-foreground'>把常看的具身资料、公司主页和人物入口放在顶部，减少来回翻找。</p>
       </div>
 
-      <div class='grid grid-cols-1 gap-4 xl:grid-cols-3'>
-        {favoriteSiteGroups.map((group) => (
-          <article class='rounded-2xl border border-border bg-card p-5 shadow-sm'>
-            <div class='space-y-4'>
+      <div class='grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3'>
+        {favoriteLinks.map((link) => (
+          <a
+            class='block rounded-2xl border border-border bg-card p-5 no-underline shadow-sm transition-all hover:border-foreground/20 hover:bg-muted/30 hover:shadow-md'
+            href={link.href}
+            {...(link.href.startsWith('http') ? { target: '_blank', rel: 'noreferrer' } : {})}
+          >
+            <div class='space-y-3'>
+              <p class='m-0 text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground/80'>{link.category}</p>
               <div class='space-y-1'>
-                <p class='m-0 text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground/80'>{group.title}</p>
-              </div>
-              <div class='space-y-3'>
-                {group.links.map((link) => (
-                  <a
-                    class='block rounded-xl border border-border/70 bg-background/70 px-4 py-3 no-underline transition-all hover:border-foreground/20 hover:bg-muted/40'
-                    href={link.href}
-                    target='_blank'
-                    rel='noreferrer'
-                  >
-                    <p class='m-0 text-sm font-medium text-foreground'>{link.title}</p>
-                    <p class='m-0 mt-1 text-sm leading-6 text-muted-foreground'>{link.note}</p>
-                  </a>
-                ))}
+                <p class='m-0 text-base font-semibold text-foreground'>{link.title}</p>
+                <p class='m-0 text-sm leading-6 text-muted-foreground'>{link.note}</p>
               </div>
             </div>
-          </article>
+          </a>
         ))}
       </div>
     </section>

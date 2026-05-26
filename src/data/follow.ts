@@ -483,6 +483,7 @@ function normalizeGeneratedDigests(root: string): FollowDigest[] {
                   sourceType: item.source_type,
                   title: String(item.title || ''),
                   summary: String(item.summary || ''),
+                  url: String(item.url || ''),
                   importance: normalizeImportance(item.importance),
                   includeInFollow: item.include_in_follow !== false,
                   domains: Array.isArray(item.domains)

@@ -24,18 +24,21 @@ const typeNames: Record<string, string> = {
 }
 
 const getTopicTitle = (slug: string) => getWikiTopicBySlug(slug)?.title || slug
-const getSourceUnitLabels = (source: (typeof sources)[number]) =>
+const splitUnitLabels = (values: string[]) =>
   Array.from(
     new Set(
-      [
-        ...(source.relatedCompanies || []),
-        ...(source.relatedOrganizations || []),
-        source.affiliation || ''
-      ]
+      values
+        .flatMap((value) => String(value || '').split(/[;；、\n]+/))
         .map((value) => value.trim())
         .filter(Boolean)
     )
-  ).slice(0, 4)
+  )
+const getSourceUnitLabels = (source: (typeof sources)[number]) =>
+  splitUnitLabels([
+    ...(source.relatedCompanies || []),
+    ...(source.relatedOrganizations || []),
+    source.affiliation || ''
+  ]).slice(0, 4)
 ---
 
 <CommonPage title='材料库' {headings} info='/wiki/papers'>

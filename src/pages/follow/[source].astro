@@ -36,6 +36,16 @@ const domainOptions = useRemoteFollowBootstrap
       name: getFollowDomainBySlug(slug)?.name || slug,
     }))
 
+const splitOrganizationValues = (values: string[]) =>
+  Array.from(
+    new Set(
+      values
+        .flatMap((value) => String(value || '').split(/[;；、\n]+/))
+        .map((value) => value.trim())
+        .filter(Boolean)
+    )
+  )
+
 const dateOptions = useRemoteFollowBootstrap ? [] : Array.from(new Set(items.map((item: FollowSourceItem) => item.date))).sort().reverse()
 const monthOptions = useRemoteFollowBootstrap ? [] : Array.from(new Set(items.map((item: FollowSourceItem) => item.date.slice(0, 7)))).sort().reverse()
 const enableLocalFavorites = sourceKey === 'arxiv'
@@ -151,15 +161,9 @@ const deriveHjfyUrl = (item: FollowSourceItem) => {
             const normalizedOneLiner = (item.oneLinerZh || '').trim()
             const showSummary = !normalizedOneLiner || normalizedSummary !== normalizedOneLiner
             const firstAuthorAffiliations = item.authorMeta?.find((author) => author.isFirstAuthor)?.affiliations || []
-            const relatedOrganizations = item.relatedOrganizations || []
-            const relatedCompanies = item.relatedCompanies || []
-            const organizationLabels = Array.from(
-              new Set(
-                [...relatedCompanies, ...relatedOrganizations, item.firstAffiliation || '']
-                  .map((value) => value.trim())
-                  .filter(Boolean)
-              )
-            ).slice(0, 4)
+            const relatedOrganizations = splitOrganizationValues(item.relatedOrganizations || [])
+            const relatedCompanies = splitOrganizationValues(item.relatedCompanies || [])
+            const organizationLabels = splitOrganizationValues([...relatedCompanies, ...relatedOrganizations, item.firstAffiliation || '']).slice(0, 4)
             const correspondingAffiliations = item.authorMeta
               ?.filter((author) => author.isCorrespondingAuthor)
               .flatMap((author) => author.affiliations || []) || []
@@ -257,7 +261,10 @@ const deriveHjfyUrl = (item: FollowSourceItem) => {
 
               <div class='flex flex-wrap gap-2'>
                 {[
-                  ...item.links,
+                  ...item.links.map((link) => ({
+                    ...link,
+                    label: source === 'wechat' && link.label === 'Article' ? '全文' : link.label,
+                  })),
                   ...(deriveHjfyUrl(item) && !item.links.some((link) => link.href === deriveHjfyUrl(item))
                     ? [{ label: '中英对照', href: deriveHjfyUrl(item) }]
                     : []),
@@ -334,7 +341,7 @@ const deriveHjfyUrl = (item: FollowSourceItem) => {
       }).join('')
 
       const linksHtml = (item.links || []).map((link) => (
-        `<a class="group relative inline-flex items-center gap-x-2 rounded-lg bg-muted border border-border px-3 py-2 text-sm font-medium text-muted-foreground transition-all duration-200 hover:border-foreground/20 hover:bg-muted/80 hover:text-foreground no-underline" href="${link.href}" target="_blank" rel="noreferrer" data-astro-prefetch="true"><div class="relative flex items-center gap-x-2"><p class="my-0 transition-colors duration-200">${link.label}</p></div></a>`
+        `<a class="group relative inline-flex items-center gap-x-2 rounded-lg bg-muted border border-border px-3 py-2 text-sm font-medium text-muted-foreground transition-all duration-200 hover:border-foreground/20 hover:bg-muted/80 hover:text-foreground no-underline" href="${link.href}" target="_blank" rel="noreferrer" data-astro-prefetch="true"><div class="relative flex items-center gap-x-2"><p class="my-0 transition-colors duration-200">${source === 'wechat' && link.label === 'Article' ? '全文' : link.label}</p></div></a>`
       )).join('')
       const rawId = String(item.id || '').replace(/^arxiv:/, '')
       const derivedHjfyUrl = item.hjfy_url || (/^\d{4}\.\d{4,5}$/.test(rawId) ? `https://hjfy.top/arxiv/${rawId}` : '')
@@ -347,12 +354,17 @@ const deriveHjfyUrl = (item: FollowSourceItem) => {
       const categoryHtml = (item.categories || []).map((category) => (
         `<span class="rounded-full bg-muted px-2.5 py-1 text-xs font-medium text-muted-foreground">${category}</span>`
       )).join('')
-      const toStringList = (value) => Array.isArray(value) ? value.map((item) => String(item || '').trim()).filter(Boolean) : []
+      const toStringList = (value) => Array.isArray(value)
+        ? value.map((item) => String(item || '').trim()).filter(Boolean)
+        : typeof value === 'string' && value.trim()
+          ? [value.trim()]
+          : []
+      const splitOrganizationValues = (values) => Array.from(new Set(values.flatMap((value) => String(value || '').split(/[;；、\n]+/)).map((value) => value.trim()).filter(Boolean)))
       const authorMeta = Array.isArray(item.author_meta) ? item.author_meta : []
-      const relatedOrganizations = toStringList(item.related_organizations || item.relatedOrganizations)
-      const relatedCompanies = toStringList(item.related_companies || item.relatedCompanies)
+      const relatedOrganizations = splitOrganizationValues(toStringList(item.related_organizations || item.relatedOrganizations))
+      const relatedCompanies = splitOrganizationValues(toStringList(item.related_companies || item.relatedCompanies))
       const firstAffiliation = String(item.first_affiliation || item.firstAffiliation || '').trim()
-      const organizationLabels = Array.from(new Set([...relatedCompanies, ...relatedOrganizations, firstAffiliation].filter(Boolean))).slice(0, 4)
+      const organizationLabels = splitOrganizationValues([...relatedCompanies, ...relatedOrganizations, firstAffiliation]).slice(0, 4)
       const organizationBadgeHtml = organizationLabels.length > 0
         ? `<div class="flex flex-wrap gap-1.5"><span class="rounded-full border border-border/60 bg-background/70 px-2.5 py-1 text-xs font-medium text-muted-foreground">单位/公司</span>${organizationLabels.map((organization) => `<span class="rounded-full border border-primary/20 bg-primary/10 px-2.5 py-1 text-xs font-medium text-primary">${organization}</span>`).join('')}</div>`
         : ''
