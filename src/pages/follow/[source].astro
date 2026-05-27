@@ -167,7 +167,8 @@ const deriveHjfyUrl = (item: FollowSourceItem) => {
               .flatMap((author) => author.affiliations || []) || []
             const categoryTags = item.categories || []
             const fullLink = sourceKey === 'wechat'
-              ? item.links.find((link) => link.label === 'Article')
+              ? (item.links.find((link) => link.label === 'Article')
+                || (item.url ? { label: 'Article', href: item.url } : null))
               : null
             const otherLinks = sourceKey === 'wechat'
               ? item.links.filter((link) => link !== fullLink)
