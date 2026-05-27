@@ -32,6 +32,7 @@ export type FollowItem = {
   sourceType: FollowSource
   title: string
   summary: string
+  url?: string
   importance: FollowImportance
   includeInFollow?: boolean
   domains: string[]

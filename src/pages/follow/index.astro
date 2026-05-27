@@ -2,9 +2,8 @@
 import CommonPage from '@/layouts/CommonPage.astro'
 import { Button } from '@/components/ui'
 import { followDigests, type FollowDigest } from '@/data/follow'
-import { ENABLE_REMOTE_FOLLOW_DATA, FOLLOW_DATA_BASE_URL, REQUIRE_REMOTE_FOLLOW_DATA } from '@/data/generated/follow-client'
+import { FOLLOW_DATA_BASE_URL, REQUIRE_REMOTE_FOLLOW_DATA } from '@/data/generated/follow-client'
 
-const useRemoteFollowBootstrap = ENABLE_REMOTE_FOLLOW_DATA
 const timelineMonthOptions = Array.from(new Set(followDigests.map((digest: FollowDigest) => digest.date.slice(0, 7)))).sort().reverse()
 const latestDigestDate = followDigests[0]?.date || ''
 const latestDigestTime = latestDigestDate ? new Date(`${latestDigestDate}T00:00:00Z`).getTime() : 0
