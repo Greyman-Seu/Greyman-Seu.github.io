@@ -1,7 +1,7 @@
 ---
 import CommonPage from '@/layouts/CommonPage.astro'
 import { Button } from '@/components/ui'
-import { FOLLOW_DATA_BASE_URL, REQUIRE_REMOTE_FOLLOW_DATA } from '@/data/generated/follow-client'
+import { ENABLE_REMOTE_FOLLOW_DATA, FOLLOW_DATA_BASE_URL, REQUIRE_REMOTE_FOLLOW_DATA } from '@/data/generated/follow-client'
 import {
   followSources,
   getFollowDomainBySlug,
@@ -56,6 +56,14 @@ const deriveHjfyUrl = (item: FollowSourceItem) => {
   if (item.hjfyUrl) return item.hjfyUrl
   const rawId = item.id.replace(/^arxiv:/, '')
   return /^\d{4}\.\d{4,5}$/.test(rawId) ? `https://hjfy.top/arxiv/${rawId}` : ''
+}
+
+const deriveWechatArticleHref = (item: Pick<FollowSourceItem, 'id' | 'url' | 'links'>) => {
+  const linkedArticle = item.links.find((link) => link.label === 'Article' && link.href)?.href
+  if (linkedArticle) return linkedArticle
+  if (item.url) return item.url
+  const rawId = item.id.replace(/^wechat:/, '').trim()
+  return rawId.startsWith('https://mp.weixin.qq.com/') ? rawId : ''
 }
 ---
 
@@ -165,12 +173,12 @@ const deriveHjfyUrl = (item: FollowSourceItem) => {
               ?.filter((author) => author.isCorrespondingAuthor)
               .flatMap((author) => author.affiliations || []) || []
             const categoryTags = item.categories || []
-            const fullLink = sourceKey === 'wechat'
-              ? (item.links.find((link) => link.label === 'Article')
-                || (item.url ? { label: 'Article', href: item.url } : null))
+            const wechatArticleHref = deriveWechatArticleHref(item)
+            const fullLink = sourceKey === 'wechat' && wechatArticleHref
+              ? { label: 'Article', href: wechatArticleHref }
               : null
             const otherLinks = sourceKey === 'wechat'
-              ? item.links.filter((link) => link !== fullLink)
+              ? item.links.filter((link) => link.href && link.href !== fullLink?.href)
               : item.links
             return (
           <article
@@ -324,6 +332,15 @@ const deriveHjfyUrl = (item: FollowSourceItem) => {
     const FAVORITES_KEY = `followhub:follow-page:favorites:${sourceKey}`
     let favorites = new Set()
 
+    const deriveWechatArticleHref = (item) => {
+      const links = Array.isArray(item?.links) ? item.links : []
+      const linkedArticle = links.find((link) => link?.label === 'Article' && link?.href)?.href
+      if (linkedArticle) return linkedArticle
+      if (typeof item?.url === 'string' && item.url.trim()) return item.url.trim()
+      const rawId = String(item?.id || '').replace(/^wechat:/, '').trim()
+      return rawId.startsWith('https://mp.weixin.qq.com/') ? rawId : ''
+    }
+
     const loadFavorites = () => {
       if (!enableLocalFavorites) return
       try {
@@ -356,11 +373,12 @@ const deriveHjfyUrl = (item: FollowSourceItem) => {
         return `<a href="/wiki/domain/${slug}" class="rounded-full bg-primary/10 px-2.5 py-1 text-xs font-medium text-primary no-underline transition-colors hover:bg-primary/15">${name}</a>`
       }).join('')
 
-      const fullLink = sourceKey === 'wechat'
-        ? (item.links || []).find((link) => link.label === 'Article')
+      const wechatArticleHref = sourceKey === 'wechat' ? deriveWechatArticleHref(item) : ''
+      const fullLink = sourceKey === 'wechat' && wechatArticleHref
+        ? { label: 'Article', href: wechatArticleHref }
         : null
       const otherLinks = sourceKey === 'wechat'
-        ? (item.links || []).filter((link) => link !== fullLink)
+        ? (item.links || []).filter((link) => link?.href && link.href !== fullLink?.href)
         : (item.links || [])
       const linksHtml = otherLinks.map((link) => (
         `<a class="group relative inline-flex items-center gap-x-2 rounded-lg bg-muted border border-border px-3 py-2 text-sm font-medium text-muted-foreground transition-all duration-200 hover:border-foreground/20 hover:bg-muted/80 hover:text-foreground no-underline" href="${link.href}" target="_blank" rel="noreferrer" data-astro-prefetch="true"><div class="relative flex items-center gap-x-2"><p class="my-0 transition-colors duration-200">${sourceKey === 'wechat' && link.label === 'Article' ? '全文' : link.label}</p></div></a>`
