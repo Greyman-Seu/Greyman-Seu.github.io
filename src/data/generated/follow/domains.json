@@ -1,9 +1,32 @@
 {
   "domains": [
     {
+      "slug": "physical-embodied-intelligence",
+      "name": "Physical/Embodied Intelligence",
+      "count": 151,
+      "latest_date": "2026-05-26",
+      "highlights": [
+        {
+          "title": "X-DiffVLA: X-Embodied Diffusion Action Heads for Vision-Language-Action Models",
+          "summary": "X-DiffVLA 用统一的跨 embodiment 扩散式 action head 提升跨机器人知识迁移。",
+          "date": "2026-05-26"
+        },
+        {
+          "title": "Smoother Action Chunking Flow Policy via Prior-Corrected Orthogonal Trust-Region Guidance",
+          "summary": "POTR 改进 action chunking flow policy 的连续性与稳定性。",
+          "date": "2026-05-26"
+        },
+        {
+          "title": "OASIS: Observation-Action Space Alignment via SE(3) Trajectory Prediction for Robotic Manipulation",
+          "summary": "OASIS 用 SE(3) 轨迹预测对齐 observation 与 action space，提升机器人操作策略表示。",
+          "date": "2026-05-26"
+        }
+      ]
+    },
+    {
       "slug": "llm-vlm",
       "name": "LLM/VLM",
-      "count": 2,
+      "count": 58,
       "latest_date": "2026-05-26",
       "highlights": [
         {
@@ -15,19 +38,57 @@
           "title": "龙虾之父教你省钱：开源Skill给你的Skill减肥",
           "summary": "开源 Skill 压缩/减负方向内容，偏向 Agent 技能组织与工程优化。",
           "date": "2026-05-26"
+        },
+        {
+          "title": "Pelican-Unified 1.0: A Unified Embodied Intelligence Model for Understanding, Reasoning, Imagination and Action",
+          "summary": "Pelican-Unified 1.0 用单一统一模型同时做理解、推理、想象和动作，证明 embodied foundation model 可以不靠多专家拼接。",
+          "date": "2026-05-15"
         }
       ]
     },
     {
       "slug": "agent",
       "name": "Agent",
-      "count": 1,
+      "count": 13,
       "latest_date": "2026-05-26",
       "highlights": [
         {
           "title": "龙虾之父教你省钱：开源Skill给你的Skill减肥",
           "summary": "开源 Skill 压缩/减负方向内容，偏向 Agent 技能组织与工程优化。",
           "date": "2026-05-26"
+        },
+        {
+          "title": "Agentic-VLA: Efficient Online Adaptation for Vision-Language-Action Models",
+          "summary": "VLA 在线自适应训练与 reward synthesis/exploration memory 直接服务机器人操作泛化和效率。",
+          "date": "2026-05-25"
+        },
+        {
+          "title": "MCP-Cosmos: World Model-Augmented Agents for Complex Task Execution in MCP Environments",
+          "summary": "MCP-Cosmos 将 world model 引入 MCP agent 环境，为复杂任务执行提供预测式自动化能力。",
+          "date": "2026-05-12"
+        }
+      ]
+    },
+    {
+      "slug": "uncategorized",
+      "name": "Uncategorized",
+      "count": 3,
+      "latest_date": "2026-05-04",
+      "highlights": [
+        {
+          "title": "E$^2$DT: Efficient and Effective Decision Transformer with Experience-Aware Sampling for Robotic Manipulation",
+          "summary": "用经验感知采样提升 Decision Transformer 在机器人长程操作中的样本效率与探索质量。",
+          "date": "2026-05-04"
+        },
+        {
+          "title": "Lucid-XR: An Extended-Reality Data Engine for Robotic Manipulation",
+          "summary": "Lucid-XR通过XR交互、物理仿真和语言可控视频生成构建机器人操作数据引擎，用合成数据训练可零样本迁移的视觉策略。",
+          "date": "2026-05-04"
+        },
+        {
+          "title": "World Model for Robot Learning: A Comprehensive Survey",
+          "summary": "系统综述机器人学习中的世界模型范式、作用分工与评测脉络。",
+          "date": "2026-05-04"
         }
       ]
     }

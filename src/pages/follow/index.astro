@@ -64,6 +64,8 @@ const sourceBadgeClass = {
   x: 'bg-slate-500/10 text-slate-700 dark:text-slate-300',
   bilibili: 'bg-pink-500/10 text-pink-700 dark:text-pink-300'
 } as const
+
+const preferRemoteDigests = ENABLE_REMOTE_FOLLOW_DATA
 ---
 
 <CommonPage title='Follow' {headings} info='/follow'>
@@ -119,7 +121,11 @@ const sourceBadgeClass = {
       </div>
 
       <div class='space-y-5'>
-        {visibleDigests.length > 0 ? visibleDigests.map((digest: FollowDigest) => (
+        {preferRemoteDigests ? (
+          <div class='rounded-2xl border border-dashed border-border px-5 py-10 text-center text-sm text-muted-foreground'>
+            Loading latest Follow digests...
+          </div>
+        ) : visibleDigests.length > 0 ? visibleDigests.map((digest: FollowDigest) => (
           <article class='follow-digest-card rounded-2xl border border-border bg-card p-5 shadow-sm' data-digest-date={digest.date}>
             <div class='flex flex-col gap-4'>
               <div class='flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between'>

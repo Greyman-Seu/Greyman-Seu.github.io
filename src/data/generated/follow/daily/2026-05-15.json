@@ -23,6 +23,7 @@
           "source_type": "arxiv",
           "title": "Pelican-Unified 1.0: A Unified Embodied Intelligence Model for Understanding, Reasoning, Imagination and Action",
           "summary": "Pelican-Unified 1.0 用单一统一模型同时做理解、推理、想象和动作，证明 embodied foundation model 可以不靠多专家拼接。",
+          "url": "",
           "importance": "high",
           "include_in_follow": true,
           "authors": [
@@ -231,9 +232,9 @@
           "abstract_en": "We present Pelican-Unified 1.0, the first embodied foundation model trained according to the principle of unification. Pelican-Unified 1.0 uses a single VLM as a unified understanding module, mapping scenes, instructions, visual contexts, and action histories into a shared semantic space. The same VLM also serves as a unified reasoning module, autoregressively producing task-, action-, and future-oriented chains of thought in a single forward pass and projecting the final hidden state into a dense latent variable. A Unified Future Generator (UFG) then conditions on this latent variable and jointly generates future videos and future actions through two modality-specific output heads within the same denoising process. The language, video, and action losses are all backpropagated into the shared representation, enabling the model to jointly optimize understanding, reasoning, imagination, and action during training, rather than training three isolated expert systems. Experiments demonstrate that unification does not imply compromise. With a single checkpoint, Pelican-Unified 1.0 achieves strong performance across all three capabilities: 64.7 on eight VLM benchmarks, the best among comparable-scale models; 66.03 on WorldArena, ranking first; and 93.5 on RoboTwin, the second-best average among compared action methods. These results show that the unified paradigm succeeds in preserving specialist strength while bringing understanding, reasoning, imagination, and action into one model.",
           "one_liner_zh": "Pelican-Unified 1.0 用单一统一模型同时做理解、推理、想象和动作，证明 embodied foundation model 可以不靠多专家拼接。",
           "summary_cn": "Pelican-Unified 1.0 是一个按“统一”原则训练的 embodied foundation model。它用同一个 VLM 同时承担理解模块和推理模块，把场景、指令、视觉上下文和动作历史映射到共享语义空间，并在单次前向中生成任务、动作和未来导向的 CoT。随后，一个 Unified Future Generator 在同一去噪过程中联合生成未来视频和未来动作，使语言、视频和动作损失共同回传到共享表示。实验表明，单一 checkpoint 能同时在 VLM、世界建模和动作任务上取得强表现，说明 unified paradigm 在 embodied intelligence 上是可行的。",
-          "hot_score": 2.0,
+          "hot_score": 2,
           "overall_score": 2.65,
-          "relevance_score": 0.0,
+          "relevance_score": 0,
           "is_favorite": false,
           "domains": [
             {
@@ -261,6 +262,7 @@
           "source_type": "arxiv",
           "title": "IntentVLA: Short-Horizon Intent Modeling for Aliased Robot Manipulation",
           "summary": "IntentVLA 用短时程意图表示稳定 VLA 的 chunk 级决策，缓解观测混叠下的跨步冲突。",
+          "url": "",
           "importance": "high",
           "include_in_follow": true,
           "authors": [
@@ -359,9 +361,9 @@
           "abstract_en": "Robot imitation data are often multimodal: similar visual-language observations may be followed by different action chunks because human demonstrators act with different short-horizon intents, task phases, or recent context. Existing frame-conditioned VLA policies infer each chunk from the current observation and instruction alone, so under partial observability they may resample different intents across adjacent replanning steps, leading to inter-chunk conflict and unstable execution. We introduce IntentVLA, a history-conditioned VLA framework that encodes recent visual observations into a compact short-horizon intent representation and uses it to condition chunk generation. We further introduce AliasBench, a 12-task ambiguity-aware benchmark on RoboTwin2 with matched training data and evaluation environments that isolate short-horizon observation aliasing. Across AliasBench, SimplerEnv, LIBERO, and RoboCasa, IntentVLA improves rollout stability and outperforms strong VLA baselines",
           "one_liner_zh": "IntentVLA 用短时程意图表示稳定 VLA 的 chunk 级决策，缓解观测混叠下的跨步冲突。",
           "summary_cn": "IntentVLA 针对机器人模仿数据中的多模态问题提出一种 history-conditioned VLA 框架。作者指出，在部分可观测场景中，相似的视觉语言输入可能对应不同的短时程意图，现有只基于当前帧的 VLA 往往会在相邻重规划步之间反复采样不同意图，导致执行不稳定。为此，IntentVLA 将近期视觉观测编码为紧凑的短时程意图表示，用它来条件化动作块生成，并同时提出 AliasBench 来专门评估短时程观测混叠问题。在 AliasBench、SimplerEnv、LIBERO 和 RoboCasa 上，IntentVLA 提升了 rollout 稳定性并超过强基线。",
-          "hot_score": 2.0,
+          "hot_score": 2,
           "overall_score": 2.65,
-          "relevance_score": 0.0,
+          "relevance_score": 0,
           "is_favorite": false,
           "domains": [
             {
@@ -389,6 +391,7 @@
           "source_type": "arxiv",
           "title": "DSSP: Diffusion State Space Policy with Full-History Encoding",
           "summary": "DSSP 用 state space model 做全历史编码，让扩散式操作策略在长时程任务中兼顾性能与效率。",
+          "url": "",
           "importance": "high",
           "include_in_follow": true,
           "authors": [
@@ -463,9 +466,9 @@
           "abstract_en": "Diffusion-based imitation learning has shown strong promise for robot manipulation. However, most existing policies condition only on the current observation or a short window of recent observations, limiting their ability to resolve history-dependent ambiguities in long-horizon tasks. To address this, we introduce DSSP, a history-conditioned Diffusion State Space Policy that enables efficient, full-history conditioning for robot manipulation. Leveraging the continuous sequence modeling properties of State Space Models (SSMs), our history encoder effectively compresses the entire observation stream into a compact context representation. To ensure this context preserves critical information regarding future state evolution, the encoder is optimized with a dynamics-aware auxiliary training objective. This high-level context representation is then seamlessly fused with recent state observations to form a hierarchical conditioning mechanism for action generation. Furthermore, to maintain architectural consistency and minimize GPU memory overhead, we also instantiate the diffusion backbone itself using an SSM. Extensive experiments across simulation benchmarks and real-world manipulation tasks show that DSSP achieves state-of-the-art performance with a significantly smaller model size, demonstrating superior efficiency of the hierarchical conditioning in capturing crucial information as the history length increases.",
           "one_liner_zh": "DSSP 用 state space model 做全历史编码，让扩散式操作策略在长时程任务中兼顾性能与效率。",
           "summary_cn": "DSSP 提出一种 history-conditioned Diffusion State Space Policy，用连续序列建模能力更强的 State Space Model 来压缩完整观测历史，并通过 dynamics-aware 辅助目标确保该上下文保留对未来状态演化关键的信息。随后，模型将全历史上下文与最近状态层级融合，用于动作生成；扩散骨干本身也用 SSM 实现，以保持架构一致性和较低显存开销。仿真与真实操作实验显示，DSSP 以更小模型体积达到了更强的长时程操作性能。",
-          "hot_score": 2.0,
+          "hot_score": 2,
           "overall_score": 2.65,
-          "relevance_score": 0.0,
+          "relevance_score": 0,
           "is_favorite": false,
           "domains": [
             {
@@ -489,6 +492,7 @@
           "source_type": "arxiv",
           "title": "Slot-MPC: Goal-Conditioned Model Predictive Control with Object-Centric Representations",
           "summary": "Slot-MPC 将对象中心世界模型与可微 MPC 结合，在有限覆盖的操作数据下提升了规划效率和泛化。",
+          "url": "",
           "importance": "high",
           "include_in_follow": true,
           "authors": [
@@ -530,9 +534,9 @@
           "abstract_en": "Predictive world models enable agents to model scene dynamics and reason about the consequences of their actions. Inspired by human perception, object-centric world models capture scene dynamics using object-level representations, which can be used for downstream applications such as action planning. However, most object-centric world models and reinforcement learning (RL) approaches learn reactive policies that are fixed at inference time, limiting generalization to novel situations. We propose Slot-MPC, an object-centric world modeling framework that enables planning through Model Predictive Control (MPC). Slot-MPC leverages vision encoders to learn slot-based representations, which encode individual objects in the scene, and uses these structured representations to learn an action-conditioned object-centric dynamics model. At inference time, the learned dynamics model enables action planning via MPC, allowing agents to adapt to previously unseen situations. Since the learned world model is differentiable, we can use gradient-based MPC to directly optimize actions, which is computationally more efficient than relying on gradient-free, sampling-based MPC methods. Experiments on simulated robotic manipulation tasks show that Slot-MPC improves both task performance and planning efficiency compared to non-object-centric world model baselines. In the considered offline setting with limited state-action coverage, we find that gradient-based MPC performs better than gradient-free, sampling-based MPC. Our results demonstrate that explicitly structured, object-centric representations provide a strong inductive bias for controllable and generalizable decision-making. Code and additional results are available at https://slot-mpc.github.io.",
           "one_liner_zh": "Slot-MPC 将对象中心世界模型与可微 MPC 结合，在有限覆盖的操作数据下提升了规划效率和泛化。",
           "summary_cn": "Slot-MPC 是一个面向机器人操作的 object-centric world modeling 框架。方法通过视觉编码器学习 slot-based 对象表示，并在其上学习 action-conditioned 动力学模型；推理时直接在可微世界模型上做 gradient-based MPC，从而相比采样式 MPC 更高效地规划动作。作者在模拟操作任务上表明，这种显式对象结构既提升任务性能，也提升了规划效率，尤其在离线、状态动作覆盖有限的场景下表现更好。",
-          "hot_score": 2.0,
+          "hot_score": 2,
           "overall_score": 2.45,
-          "relevance_score": 0.0,
+          "relevance_score": 0,
           "is_favorite": false,
           "domains": [
             {
@@ -560,6 +564,7 @@
           "source_type": "arxiv",
           "title": "Hand-in-the-Loop: Improving Dexterous VLA via Seamless Interventional Correction",
           "summary": "HandITL 用无缝人类介入校正解决 dexterous VLA takeover 时的手势跳变问题。",
+          "url": "",
           "importance": "high",
           "include_in_follow": true,
           "authors": [
@@ -635,9 +640,9 @@
           "abstract_en": "Vision-Language-Action (VLA) models are prone to compounding errors in dexterous manipulation, where high-dimensional action spaces and contact-rich dynamics amplify small policy deviations over long horizons. While Interactive Imitation Learning (IIL) can refine policies through human takeover data, applying it to high-degree-of-freedom (DoF) robotic hands remains challenging due to a command mismatch between human teleoperation and policy execution at the takeover moment, which causes abrupt robot-hand configuration changes, or \"gesture jumps\". We present Hand-in-the-Loop (HandITL), a seamless human-in-the-loop intervention method that blends human corrective intent with autonomous policy execution to avoid gesture jumps during bimanual dexterous manipulation. Compared with direct teleoperation takeover, HandITL reduces takeover jitter by 99.8% and preserves robust post-takeover manipulation, reducing grasp failures by 87.5% and mean completion time by 19.1%. We validate HandITL on tasks requiring bimanual coordination, tool use, and fine-grained long-horizon manipulation. When used to collect intervention data for policy refinement, HandITL yields policies that outperform those trained with standard teleoperation data by 19% on average across three long-horizon dexterous tasks.",
           "one_liner_zh": "HandITL 用无缝人类介入校正解决 dexterous VLA takeover 时的手势跳变问题。",
           "summary_cn": "这篇论文关注高自由度灵巧手 VLA 在长时程接触丰富任务中的误差累积问题。虽然交互式模仿学习可以通过人类接管来修正策略，但在人类遥操作与策略执行切换瞬间，灵巧手往往会出现明显的“gesture jump”。作者提出 Hand-in-the-Loop，通过混合人类纠正意图与自主策略执行来实现平滑接管。在双手协调、工具使用和精细长时程任务上，该方法显著减少接管抖动、降低抓取失败并缩短完成时间；进一步用它收集干预数据训练出的策略，相比标准遥操作数据平均提升约 19%。",
-          "hot_score": 2.0,
+          "hot_score": 2,
           "overall_score": 2.45,
-          "relevance_score": 0.0,
+          "relevance_score": 0,
           "is_favorite": false,
           "domains": [
             {
@@ -665,6 +670,7 @@
           "source_type": "arxiv",
           "title": "ROAD: Adaptive Data Mixing for Offline-to-Online Reinforcement Learning via Bi-Level Optimization",
           "summary": "ROAD 用双层优化自适应调度 offline 与 online 数据回放，稳定提升 offline-to-online RL 微调表现。",
+          "url": "",
           "importance": "medium",
           "include_in_follow": true,
           "authors": [
@@ -726,9 +732,9 @@
           "abstract_en": "Offline-to-online reinforcement learning harnesses the stability of offline pretraining and the flexibility of online fine-tuning. A key challenge lies in the non-stationary distribution shift between offline datasets and the evolving online policy. Common approaches often rely on static mixing ratios or heuristic-based replay strategies, which lack adaptability to different environments and varying training dynamics, resulting in suboptimal tradeoff between stability and asymptotic performance. In this work, we propose Reinforcement Learning with Optimized Adaptive Data-mixing (ROAD), a dynamic plug-and-play framework that automates the data replay process. We identify a fundamental objective misalignment in existing approaches. To tackle this, we formulate the data selection problem as a bi-level optimization process, interpreting the data mixing strategy as a meta-decision governing the policy performance (outer-level) during online fine-tuning, while the conventional Q-learning updates operate at the inner level. To make it tractable, we propose a practical algorithm using a multi-armed bandit mechanism. This is guided by a surrogate objective approximating the bi-level gradient, which simultaneously maintains offline priors and prevents value overestimation. Our empirical results demonstrate that this approach consistently outperforms existing data replay methods across various datasets, eliminating the need for manual, context-specific adjustments while achieving superior stability and asymptotic performance.",
           "one_liner_zh": "ROAD 用双层优化自适应调度 offline 与 online 数据回放，稳定提升 offline-to-online RL 微调表现。",
           "summary_cn": "ROAD 关注 offline-to-online reinforcement learning 中 offline 数据与不断演化的 online policy 之间的分布错位。与固定混合比例或启发式 replay 不同，作者将数据选择建模为一个双层优化问题：外层把数据混合作为影响策略表现的元决策，内层仍执行常规 Q-learning 更新。为使其可训练，方法采用 multi-armed bandit 和近似双层梯度的 surrogate objective，在保留 offline prior 的同时抑制 value overestimation。实验显示 ROAD 在多种数据集上稳定优于已有回放策略。",
-          "hot_score": 2.0,
+          "hot_score": 2,
           "overall_score": 2.35,
-          "relevance_score": 0.0,
+          "relevance_score": 0,
           "is_favorite": false,
           "domains": [
             {
@@ -752,6 +758,7 @@
           "source_type": "arxiv",
           "title": "Let Robots Feel Your Touch: Visuo-Tactile Cortical Alignment for Embodied Mirror Resonance",
           "summary": "Mirror Touch Net 通过视觉-触觉皮层对齐，让机器人从 RGB 观察中预测细粒度触觉并产生镜像触摸反应。",
+          "url": "",
           "importance": "medium",
           "include_in_follow": true,
           "authors": [
@@ -820,9 +827,9 @@
           "abstract_en": "Observing touch on another's body can elicit corresponding tactile sensations in the observer, a phenomenon termed mirror touch that supports empathy and social perception. This visuo-tactile resonance is thought to rely on structural correspondence between visual and somatosensory cortices, yet robotic systems lack computational frameworks that instantiate this principle. Here we demonstrate that cortical correspondence can be operationalized to endow robots with mirror touch. We introduce Mirror Touch Net, which imposes semantic, distributional and geometric alignment between visual and tactile representations through multi-level constraints, enabling prediction of millimetre-scale tactile signals across 1,140 taxels on a robotic hand from RGB images. Manifold analysis reveals that these constraints reshape visual representations into geometry consistent with the tactile manifold, reducing the complexity of cross-modal mapping. Extending this alignment framework to cross-domain observations of human hands enables tactile prediction and reflexive responses to observed human touch. Our results link a neural principle of visuo-tactile resonance to robotic perception, providing an explainable route towards anticipatory touch and empathic human-robot interaction. Code is available at https://github.com/fun0515/Mirror-Touch-Net.",
           "one_liner_zh": "Mirror Touch Net 通过视觉-触觉皮层对齐，让机器人从 RGB 观察中预测细粒度触觉并产生镜像触摸反应。",
           "summary_cn": "Mirror Touch Net 试图把“镜像触摸”这一人类视觉-触觉共振现象计算化到机器人中。作者通过语义、分布和几何三层约束对齐视觉与触觉表征，使机器人能够仅凭 RGB 图像预测机械手上 1140 个 taxel 的毫米级触觉信号，并进一步扩展到观察人手时的触觉预测与反射式响应。结果表明，该框架为 visuo-tactile embodied perception 提供了一条更可解释的路径。",
-          "hot_score": 2.0,
+          "hot_score": 2,
           "overall_score": 2.35,
-          "relevance_score": 0.0,
+          "relevance_score": 0,
           "is_favorite": false,
           "domains": [
             {
@@ -850,6 +857,7 @@
           "source_type": "arxiv",
           "title": "WarmPrior: Straightening Flow-Matching Policies with Temporal Priors",
           "summary": "WarmPrior 用近期动作历史构造更贴近时序结构的先验，让 flow-matching 操作策略更直、更稳、更好学。",
+          "url": "",
           "importance": "medium",
           "include_in_follow": true,
           "authors": [
@@ -905,9 +913,9 @@
           "abstract_en": "Generative policies based on diffusion and flow matching have become a dominant paradigm for visuomotor robotic control. We show that replacing the standard Gaussian source distribution with WarmPrior, a simple temporally grounded prior constructed from readily available recent action history, consistently improves success rates on robotic manipulation tasks. We trace this gain to markedly straighter probability paths, echoing the effect of optimal-transport couplings in Rectified Flow. Beyond standard behavior cloning, WarmPrior also reshapes the exploration distribution in prior-space reinforcement learning, improving both sample efficiency and final performance. Collectively, these results identify the source distribution as an important and underexplored design axis in generative robot control.",
           "one_liner_zh": "WarmPrior 用近期动作历史构造更贴近时序结构的先验，让 flow-matching 操作策略更直、更稳、更好学。",
           "summary_cn": "这项工作研究 diffusion / flow matching 视觉运动控制策略中的源分布选择问题。作者提出 WarmPrior，用近期动作历史构造一个简单但具有时间结构的先验，替代标准高斯源分布。实验显示，这会显著拉直概率路径，带来更好的机器人操作成功率；在 prior-space reinforcement learning 中，它也改善了探索分布，从而同时提升样本效率和最终性能。",
-          "hot_score": 2.0,
+          "hot_score": 2,
           "overall_score": 2.31,
-          "relevance_score": 0.0,
+          "relevance_score": 0,
           "is_favorite": false,
           "domains": [
             {
@@ -931,6 +939,7 @@
           "source_type": "arxiv",
           "title": "Before the Body Moves: Learning Anticipatory Joint Intent for Language-Conditioned Humanoid Control",
           "summary": "DAJI 在语言条件 humanoid control 中显式编码未来接触与支撑转移的 joint intent。",
+          "url": "",
           "importance": "low",
           "include_in_follow": true,
           "authors": [
@@ -1034,9 +1043,9 @@
           "abstract_en": "Natural language is an intuitive interface for humanoid robots, yet streaming whole-body control requires control representations that are executable now and anticipatory of future physical transitions. Existing language-conditioned humanoid systems typically generate kinematic references that a low-level tracker must repair reactively, or use latent/action policies whose outputs do not explicitly encode upcoming contact changes, support transfers, and balance preparation. We propose \\textbf{DAJI} (\\emph{Dynamics-Aligned Joint Intent}), a hierarchical framework that learns an anticipatory joint-intent interface between language generation and closed-loop control. DAJI-Act distills a future-aware teacher into a deployable diffusion action policy through student-driven rollouts, while DAJI-Flow autoregressively generates future intent chunks from language and intent history. Experiments show that DAJI achieves strong results in anticipatory latent learning, single-instruction generation, and streaming instruction following, reaching 94.42\\% rollout success on HumanML3D-style generation and 0.152 subsequence FID on BABEL.",
           "one_liner_zh": "DAJI 在语言条件 humanoid control 中显式编码未来接触与支撑转移的 joint intent。",
           "summary_cn": "DAJI 面向语言条件的人形机器人控制，提出一个 anticipatory joint-intent 接口，把自然语言生成与闭环控制之间的耦合做得更前瞻。系统包含用于可部署扩散动作策略的 DAJI-Act，以及基于语言和 intent history 生成未来 intent chunk 的 DAJI-Flow，显式建模即将到来的接触变化、支撑转移和平衡准备。实验表明，该方法在 anticipatory latent learning、单指令生成和流式指令跟随任务上都有较强表现。",
-          "hot_score": 2.0,
+          "hot_score": 2,
           "overall_score": 2.05,
-          "relevance_score": 0.0,
+          "relevance_score": 0,
           "is_favorite": false,
           "domains": [
             {
