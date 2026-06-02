@@ -3,69 +3,69 @@
     {
       "slug": "physical-embodied-intelligence",
       "name": "Physical/Embodied Intelligence",
-      "count": 151,
-      "latest_date": "2026-05-26",
+      "count": 216,
+      "latest_date": "2026-06-02",
       "highlights": [
         {
-          "title": "X-DiffVLA: X-Embodied Diffusion Action Heads for Vision-Language-Action Models",
-          "summary": "X-DiffVLA 用统一的跨 embodiment 扩散式 action head 提升跨机器人知识迁移。",
-          "date": "2026-05-26"
+          "title": "HOIST: Humanoid Optimization with Imitation and Sample-efficient Tuning for Manipulating Suspended Loads",
+          "summary": "用人形机器人操纵悬挂的有效负载具有挑战性，因为机器人只能通过全身运动和间歇接触来影响欠驱动的振荡负载。",
+          "date": "2026-06-02"
         },
         {
-          "title": "Smoother Action Chunking Flow Policy via Prior-Corrected Orthogonal Trust-Region Guidance",
-          "summary": "POTR 改进 action chunking flow policy 的连续性与稳定性。",
-          "date": "2026-05-26"
+          "title": "FATE-VLA:Failue-aware test generation for vision-language-action models",
+          "summary": "视觉-语言-动作（VLA）模型越来越多地用作通用机器人策略，但它们的评估仍然在很大程度上依赖于随机采样任务场景的静态基准。",
+          "date": "2026-06-02"
         },
         {
-          "title": "OASIS: Observation-Action Space Alignment via SE(3) Trajectory Prediction for Robotic Manipulation",
-          "summary": "OASIS 用 SE(3) 轨迹预测对齐 observation 与 action space，提升机器人操作策略表示。",
-          "date": "2026-05-26"
+          "title": "Behavior Cloning of MPC for 3-DOF Robotic Manipulators",
+          "summary": "虽然模型预测控制（MPC）提供了强大的稳定性和鲁棒性，但它给实时系统带来了巨大的计算负担。",
+          "date": "2026-06-02"
         }
       ]
     },
     {
       "slug": "llm-vlm",
       "name": "LLM/VLM",
-      "count": 58,
-      "latest_date": "2026-05-26",
+      "count": 91,
+      "latest_date": "2026-06-02",
       "highlights": [
         {
-          "title": "刚刚，国产AI自己造了AI，全球首例！",
-          "summary": "国产团队发布可用于自动生成 AI 系统的数据与训练方案更新。",
-          "date": "2026-05-26"
+          "title": "HOIST: Humanoid Optimization with Imitation and Sample-efficient Tuning for Manipulating Suspended Loads",
+          "summary": "用人形机器人操纵悬挂的有效负载具有挑战性，因为机器人只能通过全身运动和间歇接触来影响欠驱动的振荡负载。",
+          "date": "2026-06-02"
         },
         {
-          "title": "龙虾之父教你省钱：开源Skill给你的Skill减肥",
-          "summary": "开源 Skill 压缩/减负方向内容，偏向 Agent 技能组织与工程优化。",
-          "date": "2026-05-26"
+          "title": "FATE-VLA:Failue-aware test generation for vision-language-action models",
+          "summary": "视觉-语言-动作（VLA）模型越来越多地用作通用机器人策略，但它们的评估仍然在很大程度上依赖于随机采样任务场景的静态基准。",
+          "date": "2026-06-02"
         },
         {
-          "title": "Pelican-Unified 1.0: A Unified Embodied Intelligence Model for Understanding, Reasoning, Imagination and Action",
-          "summary": "Pelican-Unified 1.0 用单一统一模型同时做理解、推理、想象和动作，证明 embodied foundation model 可以不靠多专家拼接。",
-          "date": "2026-05-15"
+          "title": "COMAP: Co-Evolving World Models and Agent Policies for LLM Agents",
+          "summary": "为语言代理配备世界模型，使它们能够预测环境动态并在执行之前评估候选操作。",
+          "date": "2026-06-02"
         }
       ]
     },
     {
       "slug": "agent",
       "name": "Agent",
-      "count": 13,
-      "latest_date": "2026-05-26",
+      "count": 16,
+      "latest_date": "2026-06-02",
       "highlights": [
         {
-          "title": "龙虾之父教你省钱：开源Skill给你的Skill减肥",
-          "summary": "开源 Skill 压缩/减负方向内容，偏向 Agent 技能组织与工程优化。",
-          "date": "2026-05-26"
+          "title": "PSG-Nav: Probabilistic Scene Graph Navigation via Multiverse Decision Making",
+          "summary": "开放词汇导航需要实体代理来管理由于语义模糊和模型错误而产生的重大感知不确定性。",
+          "date": "2026-06-02"
         },
         {
-          "title": "Agentic-VLA: Efficient Online Adaptation for Vision-Language-Action Models",
-          "summary": "VLA 在线自适应训练与 reward synthesis/exploration memory 直接服务机器人操作泛化和效率。",
-          "date": "2026-05-25"
+          "title": "Hierarchical Semantic-Augmented Navigation: Optimal Transport and Graph-Driven Reasoning for Vision-Language Navigation",
+          "summary": "连续环境中的视觉语言导航 (VLN-CE) 对自主代理提出了巨大的挑战，需要无缝集成自然语言指令和视觉观察来导航复杂的 3D 室内空间。",
+          "date": "2026-06-02"
         },
         {
-          "title": "MCP-Cosmos: World Model-Augmented Agents for Complex Task Execution in MCP Environments",
-          "summary": "MCP-Cosmos 将 world model 引入 MCP agent 环境，为复杂任务执行提供预测式自动化能力。",
-          "date": "2026-05-12"
+          "title": "Network Distributed Multi-Agent Reinforcement Learning for Consensus Control of Quadcopters",
+          "summary": "本文提出了一种用于四轴飞行器共识控制的网络分布式多智能体强化学习（ND-MARL）框架。",
+          "date": "2026-06-02"
         }
       ]
     },

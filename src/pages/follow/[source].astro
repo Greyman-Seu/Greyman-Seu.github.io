@@ -182,9 +182,10 @@ const normalizeDisplayPersonName = (value: string) => {
             const normalizedAuthors = (item.authors || []).map((author) => normalizeDisplayPersonName(author))
             const keyPeople = Array.from(new Set((item.keyPeople || []).map((person) => normalizeDisplayPersonName(person)).filter(Boolean))).slice(0, 6)
             const firstAuthorAffiliations = item.authorMeta?.find((author) => author.isFirstAuthor)?.affiliations || []
-            const relatedOrganizations = splitOrganizationValues(item.relatedOrganizations || [])
+            const firstAffiliationValue = String(item.firstAffiliation || '').trim()
+            const relatedOrganizations = splitOrganizationValues(item.relatedOrganizations || []).filter((organization) => organization !== firstAffiliationValue)
             const relatedCompanies = splitOrganizationValues(item.relatedCompanies || [])
-            const organizationLabels = splitOrganizationValues([...relatedCompanies, ...relatedOrganizations, item.firstAffiliation || '']).slice(0, 4)
+            const organizationLabels = splitOrganizationValues([...relatedCompanies, ...relatedOrganizations, firstAffiliationValue]).slice(0, 4)
             const correspondingAffiliations = normalizedAuthorMeta
               ?.filter((author) => author.isCorrespondingAuthor)
               .flatMap((author) => author.affiliations || []) || []
@@ -225,7 +226,7 @@ const normalizeDisplayPersonName = (value: string) => {
                       ))}
                     </div>
                   ) : null}
-                  {(normalizedAuthorMeta.length > 0) || normalizedAuthors.length > 0 || keyPeople.length > 0 || firstAuthorAffiliations.length > 0 || relatedOrganizations.length > 0 || correspondingAffiliations.length > 0 || item.firstAffiliation ? (
+                  {(normalizedAuthorMeta.length > 0) || normalizedAuthors.length > 0 || keyPeople.length > 0 || firstAuthorAffiliations.length > 0 || relatedOrganizations.length > 0 || correspondingAffiliations.length > 0 || firstAffiliationValue ? (
                     <div class='rounded-xl border border-border/40 bg-background/50 px-4 py-3 text-sm text-muted-foreground'>
                       {normalizedAuthorMeta.length > 0 ? (
                         <p class='m-0 leading-6'>
@@ -242,7 +243,7 @@ const normalizeDisplayPersonName = (value: string) => {
                       {firstAuthorAffiliations.length > 0 ? <p class='m-0 mt-2 leading-6'><span class='font-medium text-foreground'>First author affiliation:</span> {firstAuthorAffiliations.join('; ')}</p> : null}
                       {relatedOrganizations.length > 0 ? <p class='m-0 mt-2 leading-6'><span class='font-medium text-foreground'>相关单位：</span>{relatedOrganizations.join('; ')}{relatedCompanies.length > 0 ? ` · 相关公司：${relatedCompanies.join('; ')}` : ''}</p> : null}
                       {correspondingAffiliations.length > 0 ? <p class='m-0 mt-2 leading-6'><span class='font-medium text-foreground'>Corresponding affiliation:</span> {correspondingAffiliations.join('; ')}</p> : null}
-                      {!firstAuthorAffiliations.length && item.firstAffiliation ? <p class='m-0 mt-2 leading-6'><span class='font-medium text-foreground'>First affiliation:</span> {item.firstAffiliation}</p> : null}
+                      {!firstAuthorAffiliations.length && firstAffiliationValue ? <p class='m-0 mt-2 leading-6'><span class='font-medium text-foreground'>First affiliation:</span> {firstAffiliationValue}</p> : null}
                       {item.published || item.updated ? <p class='m-0 mt-2 leading-6'><span class='font-medium text-foreground'>Timeline:</span> {item.published ? `Published ${item.published}` : ''}{item.published && item.updated ? ' · ' : ''}{item.updated ? `Updated ${item.updated}` : ''}</p> : null}
                     </div>
                   ) : null}
@@ -433,9 +434,9 @@ const normalizeDisplayPersonName = (value: string) => {
       const authorMeta = (Array.isArray(item.author_meta) ? item.author_meta : []).map((author) => ({ ...author, name: normalizeDisplayPersonName(author?.name) }))
       const normalizedAuthors = Array.isArray(item.authors) ? item.authors.map((author) => normalizeDisplayPersonName(author)).filter(Boolean) : []
       const keyPeople = Array.isArray(item.key_people) ? Array.from(new Set(item.key_people.map((person) => normalizeDisplayPersonName(person)).filter(Boolean))).slice(0, 6) : []
-      const relatedOrganizations = splitOrganizationValues(toStringList(item.related_organizations || item.relatedOrganizations))
-      const relatedCompanies = splitOrganizationValues(toStringList(item.related_companies || item.relatedCompanies))
       const firstAffiliation = String(item.first_affiliation || item.firstAffiliation || '').trim()
+      const relatedOrganizations = splitOrganizationValues(toStringList(item.related_organizations || item.relatedOrganizations)).filter((organization) => organization !== firstAffiliation)
+      const relatedCompanies = splitOrganizationValues(toStringList(item.related_companies || item.relatedCompanies))
       const organizationLabels = splitOrganizationValues([...relatedCompanies, ...relatedOrganizations, firstAffiliation]).slice(0, 4)
       const organizationBadgeHtml = organizationLabels.length > 0
         ? `<div class="flex flex-wrap gap-1.5"><span class="rounded-full border border-border/60 bg-background/70 px-2.5 py-1 text-xs font-medium text-muted-foreground">单位/公司</span>${organizationLabels.map((organization) => `<span class="rounded-full border border-primary/20 bg-primary/10 px-2.5 py-1 text-xs font-medium text-primary">${organization}</span>`).join('')}</div>`

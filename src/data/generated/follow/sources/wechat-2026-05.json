@@ -1,6 +1,8 @@
 {
   "source": "wechat",
   "title": "WeChat",
+  "scope": "archive",
+  "month": "2026-05",
   "item_count": 2,
   "items": [
     {

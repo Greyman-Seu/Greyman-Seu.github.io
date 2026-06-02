@@ -98,9 +98,9 @@
           "abstract_en": "Learning universal policies from cross-embodied data remains a fundamental challenge in robotics. Although Vision-Language-Action (VLA) models are pre-trained on large and diverse datasets, they typically rely on embodiment-specific fine-tuning to achieve strong performance in downstream tasks. This requirement severely limits their generalization capability and restricts knowledge transfer across embodiments performing similar tasks. To overcome these limitations, we focus on cross-embodied settings with shared robotic bases and heterogeneous end-effectors, and propose X-DiffVLA, a diffusion-based VLA model featuring a unified cross-embodied action head. X-DiffVLA can leverage the generative strengths of diffusion models to capture both the diversity and latent correlations in cross-embodied datasets. Specifically, we introduce Embodiment Forcing, a classifier-free guidance technique to implicitly steer action generation toward embodiment-specific functional components, capturing fine-grained structural nuances without explicit supervision. In addition, a Morphological Tree Diffusion approach is designed to strengthen behavioral correlations across diverse end-effectors, maximizing the transferability of heterogeneous demonstrations. Experimental results across RoboCasa and Isaac Gym, covering different embodiments from grippers to dexterous hands, show that X-DiffVLA achieves state-of-the-art performance, with improvements of 15.3% and 12.5%, respectively. Real-world evaluations further validate the robustness of the proposed framework and its effectiveness in scalable cross-embodied policy learning.",
           "one_liner_zh": "X-DiffVLA 用统一的跨 embodiment 扩散式 action head 提升跨机器人知识迁移。",
           "summary_cn": "从跨 embodiment 数据中学习通用策略仍是机器人领域的一个基础性挑战。尽管 Vision-Language-Action（VLA）模型已经在大规模多样化数据集上完成预训练，但它们通常仍需针对具体 embodiment 进行微调，才能在下游任务中获得强性能。这种依赖严重限制了它们的泛化能力，也阻碍了相似任务在不同 embodiment 之间的知识迁移。为解决这一问题，我们聚焦于共享机器人底座但末端执行器异构的跨 embodiment 场景，提出 X-DiffVLA，这是一种带有统一跨 embodiment action head 的扩散式 VLA 模型。X-DiffVLA 利用扩散模型的生成能力，同时建模跨 embodiment 数据中的多样性与潜在相关性。具体而言，我们提出 Embodiment Forcing，一种 classifier-free guidance 技术，可以在没有显式监督的情况下，将动作生成隐式引导到特定 embodiment 的功能组件上，从而捕捉细粒度结构差异；此外，我们还设计了 Morphological Tree Diffusion，以增强不同末端执行器之间的行为相关性，最大化异构示范的可迁移性。覆盖从夹爪到灵巧手等不同 embodiment 的 RoboCasa 和 Isaac Gym 实验表明，X-DiffVLA 达到了当前最优性能，分别提升了 15.3% 和 12.5%。真实世界实验进一步验证了该框架的鲁棒性，以及其在可扩展跨 embodiment 策略学习中的有效性。",
-          "hot_score": 2,
+          "hot_score": 2.0,
           "overall_score": 2.65,
-          "relevance_score": 0,
+          "relevance_score": 0.0,
           "is_favorite": false,
           "domains": [
             {
@@ -165,9 +165,9 @@
           "abstract_en": "Flow-matching robot policies commonly use action-chunking inference for efficient closed-loop control, but chunk boundaries can introduce discontinuous action transitions. Existing RTC guidance improves continuity by injecting correction signals during denoising, yet its weight schedule is weak at intermediate timesteps and its unconstrained correction direction may introduce transverse perturbations. We propose POTR, a **p**rior-corrected **o**rthogonal **t**rust-**r**egion guidance method. First, we incorporate a data-prior scale $\\sigma_d$ into the RTC guidance weight, yielding stronger intermediate-time correction. Second, we decompose the guidance vector into components parallel and perpendicular to the denoising velocity, and constrain the perpendicular component within a trust region. On LIBERO with $\\pi_{0.5}$, POTR improves success rate and consistently reduces chunk-boundary discontinuity, acceleration, and jerk compared with RTC. Ablations show that the prior-corrected weight provides the main correction gain, while the orthogonal trust region further improves stability.",
           "one_liner_zh": "POTR 改进 action chunking flow policy 的连续性与稳定性。",
           "summary_cn": "基于 flow matching 的机器人策略通常采用 action-chunking 推理以实现高效闭环控制，但 chunk 的边界容易引入动作不连续。现有 RTC guidance 通过在去噪阶段注入修正信号来改善连续性，但其权重调度在中间时间步较弱，且未经约束的修正方向可能引入横向扰动。我们提出 POTR，一种带有先验修正的正交 trust-region guidance 方法。首先，我们将数据先验尺度 $\\sigma_d$ 引入 RTC guidance 的权重设计中，从而在中间时间步提供更强修正。其次，我们将 guidance 向量分解为平行于和垂直于去噪速度的两个分量，并将垂直分量约束在一个 trust region 内。在 LIBERO 基准和 $\\pi_{0.5}$ 设置下，POTR 相比 RTC 提升了成功率，并持续降低了 chunk 边界处的不连续性、加速度和 jerk。消融实验表明，先验修正权重带来了主要修正收益，而正交 trust region 则进一步增强了稳定性。",
-          "hot_score": 2,
+          "hot_score": 2.0,
           "overall_score": 2.65,
-          "relevance_score": 0,
+          "relevance_score": 0.0,
           "is_favorite": false,
           "domains": [
             {
@@ -267,9 +267,9 @@
           "abstract_en": "Recent vision-language-action (VLA) models and world action models (WAMs) advance robotic manipulation by enriching intermediate representations with auxiliary spatial features or future visual-state prediction. However, these representations largely remain within the observation space and do not share the rigid-body geometry of the action space, forcing the action decoder to implicitly recover this geometry. We propose OASIS, a visuomotor policy that aligns the intermediate representation with the action space via $SE(3)$ end-effector trajectory prediction. OASIS couples a 3D-aware feature encoder that fuses vision-language and metric-depth features with an $SE(3)$ trajectory predictor that produces a camera-frame end-effector trajectory. Conditioned on the predictor's pose-supervised hidden states, the action decoder generates action chunks consistent with rigid-body motion. Across simulation and real-world experiments, OASIS outperforms VLA and WAM baselines in success rate and out-of-distribution generalization. Our project page is available at https://npuhandsome.github.io/OASIS_web.",
           "one_liner_zh": "OASIS 用 SE(3) 轨迹预测对齐 observation 与 action space，提升机器人操作策略表示。",
           "summary_cn": "近期的 Vision-Language-Action（VLA）模型和 world action model（WAM）通过引入辅助空间特征或未来视觉状态预测，推动了机器人操作能力的发展。然而，这些中间表示大多仍停留在观测空间内，并不具备动作空间所具有的刚体几何结构，因此动作解码器不得不隐式地自行恢复这部分几何信息。我们提出 OASIS，这是一种通过 $SE(3)$ 末端执行器轨迹预测来对齐中间表示与动作空间的 visuomotor policy。OASIS 将一个融合视觉语言特征与度量深度特征的 3D-aware 编码器，与一个输出相机坐标系末端执行器轨迹的 $SE(3)$ 轨迹预测器结合起来。在轨迹预测器提供的、受到位姿监督的隐藏状态条件下，动作解码器生成与刚体运动一致的 action chunk。仿真与真实世界实验表明，OASIS 在成功率和分布外泛化方面均优于 VLA 和 WAM 基线。项目主页见 https://npuhandsome.github.io/OASIS_web 。",
-          "hot_score": 2,
+          "hot_score": 2.0,
           "overall_score": 2.65,
-          "relevance_score": 0,
+          "relevance_score": 0.0,
           "is_favorite": false,
           "domains": [
             {
@@ -351,9 +351,9 @@
           "abstract_en": "Diffusion models excel at generating diverse and multimodal trajectories for robotic planning, yet their iterative denoising process introduces latency that is incompatible with high-frequency closed-loop control. To address this problem, we propose Dynamic Neural Koopman Distillation, a framework that distills multistep diffusion inference into a single forward pass while retaining the multimodal expressivity of the teacher model. Specifically, we introduce a Factorized Dynamic Koopman layer that models the denoising process through a factorized latent transition with state-dependent modal gains. We evaluate the proposed method on standard D4RL MuJoCo locomotion benchmarks and a physical Kinova manipulator, comparing against one-step baselines. The results show that our method significantly outperforms existing one-step distillation approaches on the reported locomotion tasks, and reduces the inference latency to the millisecond regime compared with the teacher policy. Hardware experiments further demonstrate that our method enables smooth and fast closed-loop execution while maintaining task success and comparable accuracy. A project page is available at https://fdkoopman.github.io/.",
           "one_liner_zh": "用 Dynamic Neural Koopman Distillation 将扩散式机器人控制蒸馏到实时单步推理。",
           "summary_cn": "扩散模型擅长为机器人规划生成多样且多模态的轨迹，但其迭代式去噪过程会带来较高延迟，难以用于高频闭环控制。为解决这一问题，我们提出 Dynamic Neural Koopman Distillation，这是一种将多步扩散推理蒸馏为单次前向推理、同时保留 teacher 模型多模态表达能力的框架。具体来说，我们引入了一个 Factorized Dynamic Koopman layer，通过带有状态相关模态增益的因子化潜空间转移来刻画去噪过程。我们在标准 D4RL MuJoCo locomotion 基准和真实 Kinova 机械臂上评估了该方法，并与现有单步蒸馏基线进行对比。结果表明，该方法在所报告的 locomotion 任务上显著优于现有单步蒸馏方案，并将推理延迟从 teacher policy 的水平降低到毫秒级。硬件实验进一步表明，该方法在保持任务成功率和相近精度的同时，实现了平滑且快速的闭环执行。项目主页见 https://fdkoopman.github.io/ 。",
-          "hot_score": 2,
+          "hot_score": 2.0,
           "overall_score": 2.65,
-          "relevance_score": 0,
+          "relevance_score": 0.0,
           "is_favorite": false,
           "domains": [
             {
@@ -436,9 +436,9 @@
           "abstract_en": "The ability to efficiently and reliably learn new tasks has been a foundational challenge in robotics. Vision-Language-Action (VLA) models have demonstrated strong generalization across diverse manipulation tasks, yet pretrained policies consistently fall short of the reliability required for real-world deployment. Reinforcement learning (RL) fine-tuning offers a promising path to bridge this gap, but existing approaches either train from scratch without fully leveraging pretrained priors, or fine-tune VLAs without achieving the sample efficiency and success rates that practical deployment demands. We present EXPO-FT, a system for stable, sample-efficient RL finetuning of pretrained VLA policies that closes this gap. Our system solves a suite of challenging manipulation tasks, including routing string lights and inserting the plug to light it up, striking a pool ball into a pocket, and inserting a flower into a wine bottle, each requiring combinations of high precision, dynamic actions, and robustness to varied initial states. Our system achieves perfect task performance (30/30 successes) across all evaluated tasks within an average of 19.1 minutes of online robot data, outperforming both prior RL-from-scratch and VLA finetuning approaches. We release an open-source codebase with the aim of facilitating broader adoption of RL finetuning of VLA models in robotics.",
           "one_liner_zh": "EXPO-FT 面向预训练 VLA 做稳定且 sample-efficient 的 RL 微调。",
           "summary_cn": "如何高效且可靠地学习新任务，一直是机器人领域的基础性挑战。Vision-Language-Action（VLA）模型虽然在多样操作任务中展现出很强泛化能力，但预训练策略在真实部署所需的可靠性上仍然明显不足。强化学习（RL）微调是一条有希望弥补这一差距的路径，但现有方法要么从零训练、没有充分利用预训练先验，要么虽对 VLA 做了微调，却无法达到实际部署所要求的样本效率和成功率。我们提出 EXPO-FT，这是一套针对预训练 VLA 策略的稳定且高样本效率 RL 微调系统，用于填补这一空白。我们的系统解决了一组具有挑战性的操作任务，包括缠绕串灯并插上插头点亮、将台球击入口袋、以及将花插入酒瓶等，这些任务都需要兼顾高精度、动态动作与对初始状态变化的鲁棒性。实验表明，我们的方法在所有评估任务上都达到了完美表现（30/30 成功），且平均只需 19.1 分钟的在线机器人数据，优于此前从零开始的 RL 方法和 VLA 微调方法。我们还开源了完整代码库，希望推动 RL 微调 VLA 模型在机器人中的更广泛应用。",
-          "hot_score": 2,
+          "hot_score": 2.0,
           "overall_score": 2.55,
-          "relevance_score": 0,
+          "relevance_score": 0.0,
           "is_favorite": false,
           "domains": [
             {
@@ -551,9 +551,9 @@
           "abstract_en": "Vision-language-action (VLA) models have shown strong potential for generalist robot manipulation, yet they remain limited by insufficient spatial reasoning, particularly in determining where to interact in complex visual scenes. While recent efforts introduce various forms of visual planning to address this issue, existing approaches either rely on global geometric cues, symbolic intermediate representations, or externally generated visual signals, which are often weakly coupled with downstream action prediction. In this work, we revisit visual planning in VLA systems and argue that effective planning should be local, visually grounded, internally generated, and directly aligned with action. Based on this insight, we propose Afford-VLA, a unified framework that internalizes task-conditioned affordance as an explicit visual planning interface within VLA models. Concretely, we introduce learnable <AFF> tokens to query task-relevant interaction regions, decode affordance masks from multimodal features, and convert them into compact embeddings that directly condition action generation. This design enables affordance to be both generated and utilized within the VLA, forming a tightly coupled perception-action pathway. To further support this integration, we adopt a training strategy that allows the affordance pathway to be jointly optimized with action prediction, improving its effectiveness for downstream control. We evaluate our method on multiple simulation benchmarks, including LIBERO, LIBERO-Plus, and SimplerEnv, achieving consistent state-of-the-art performance, along with strong real-world results. These findings demonstrate that internalizing affordance as action-aligned visual planning provides a powerful paradigm for improving VLA systems.",
           "one_liner_zh": "Afford-VLA 将 task-conditioned affordance 内化到 VLA 中做 action-aligned visual planning。",
           "summary_cn": "Vision-language-action（VLA）模型已经展现出在通用机器人操作中的强大潜力，但它们在复杂视觉场景中判断“应与哪里交互”这一空间推理问题上仍然不足。近期虽有多种视觉规划方法试图缓解这一问题，但现有方案要么依赖全局几何线索、符号化中间表示，要么依赖外部生成的视觉信号，而这些规划信息往往与下游动作预测耦合不紧。本文重新审视了 VLA 系统中的视觉规划，认为有效的规划应当具备四个特征：局部、视觉 grounded、内部生成，并且与动作直接对齐。基于这一认识，我们提出 Afford-VLA，这是一个将任务条件化 affordance 内化为 VLA 内部显式视觉规划接口的统一框架。具体来说，我们引入可学习的 <AFF> token 来查询与任务相关的交互区域，从多模态特征中解码 affordance mask，并进一步将其压缩为可直接条件化动作生成的紧凑嵌入。该设计使 affordance 能够在 VLA 内部被同时生成和使用，从而形成紧密耦合的感知-动作通路。为支持这一整合，我们还采用了一种训练策略，使 affordance 通路与动作预测联合优化，从而增强其对下游控制的帮助。我们在包括 LIBERO、LIBERO-Plus 和 SimplerEnv 在内的多个仿真基准上进行了评估，并在真实世界场景中取得了强结果，整体表现稳定达到 SOTA。这些发现表明，将 affordance 内化为动作对齐的视觉规划，是提升 VLA 系统能力的一种强有力范式。",
-          "hot_score": 2,
+          "hot_score": 2.0,
           "overall_score": 2.55,
-          "relevance_score": 0,
+          "relevance_score": 0.0,
           "is_favorite": false,
           "domains": [
             {
@@ -639,9 +639,9 @@
           "abstract_en": "Existing embodied control research demonstrates remarkable performance improvements by scaling training data and model size. We instead explore inference-time strategy as an alternative axis. Non-deterministic generative models, such as diffusion and autoregressive models, have been widely adopted in the field of embodied control. However, the single-shot inference paradigm limits their performance. In this paper, we propose \\textbf{TapSampling}, a plug-and-play framework for inference-time sampling. First, we introduce an Action-VAE that represents actions in a low-dimensional latent space by mapping policy-generated initial actions into a compressed posterior distribution, from which any number of latent samples can be drawn and decoded into candidate actions that approximate the true action distribution. Second, we formulate action verification as task-progress outcome prediction, using the intrinsic sequential structure of robotic datasets to train a semantically grounded verifier for interpretable action selection. Furthermore, TapSampling is a policy-agnostic framework. Extensive experiments in both simulated and real-world environments demonstrate that our method substantially improves multiple generalist policies without further policy finetuning. Code and models are available at the project page.",
           "one_liner_zh": "TapSampling 通过 task-progress verifier 做机器人操作的 inference-time sampling。",
           "summary_cn": "现有具身控制研究通常通过扩展训练数据规模和模型规模来提升性能，而我们探索的是另一条路径：推理时策略。扩散模型和自回归模型等非确定性生成模型已经被广泛用于具身控制，但单次推理范式限制了它们的性能上限。本文提出 TapSampling，这是一种即插即用的推理时采样框架。首先，我们提出 Action-VAE，它通过将策略生成的初始动作映射到压缩后的后验分布中，在低维潜空间中表示动作；从该潜空间中可以采样任意数量的潜变量，并解码为近似真实动作分布的候选动作。其次，我们将动作验证建模为任务进展结果预测，利用机器人数据集天然的时序结构，训练出一个具有语义可解释性的 verifier 用于动作选择。此外，TapSampling 是一种与具体策略无关的框架。大量仿真和真实世界实验表明，在无需进一步微调原始策略的前提下，该方法能够显著提升多种通用控制策略的表现。代码和模型将发布在项目主页上。",
-          "hot_score": 2,
+          "hot_score": 2.0,
           "overall_score": 2.47,
-          "relevance_score": 0,
+          "relevance_score": 0.0,
           "is_favorite": false,
           "domains": [
             {
@@ -743,9 +743,9 @@
           "abstract_en": "Human egocentric video captures rich manipulation demonstrations without any robot hardware, yet transferring these skills to robots remains challenging due to the embodiment gap between human and robot in both visual appearance and kinematics. We present HumanEgo, a framework that bridges the embodiment gap by lifting each human demonstration to an entity-level representation of hand-object interaction, and training a flow matching policy with dense auxiliary objectives that amplify supervision from every trajectory. HumanEgo is robot-data-free, hardware-agnostic, data-efficient, and zero-shot human-to-robot transferable. With only 30 minutes of human videos per task, HumanEgo achieves 92.5% average success across four real-world tasks (75% with just 15 minutes), outperforms matched-time robot teleoperation by 41%, and robustly transfers zero-shot across novel robots, cameras, and environments.",
           "one_liner_zh": "HumanEgo 仅用少量人类第一视角视频实现 zero-shot 机器人学习。",
           "summary_cn": "人类第一视角视频能够在不依赖机器人硬件的情况下提供丰富的操作示范，但由于人类与机器人在视觉外观和运动学上的 embodiment gap，如何将这些技能迁移给机器人仍然很困难。我们提出 HumanEgo，这是一套通过将每条人类示范提升为“手-物体交互”的实体级表示来弥合 embodiment gap 的框架，并通过带有密集辅助目标的 flow matching policy 放大每条轨迹中的监督信号。HumanEgo 无需机器人数据、与硬件无关、数据高效，并且能够实现 zero-shot 的 human-to-robot transfer。每个任务只需 30 分钟的人类视频，HumanEgo 就能在 4 个真实世界任务上取得平均 92.5% 的成功率（即使只有 15 分钟数据也能达到 75%），比同等时长的机器人遥操作数据高出 41%，并且能够在新机器人、新相机和新环境之间实现鲁棒的零样本迁移。",
-          "hot_score": 2,
+          "hot_score": 2.0,
           "overall_score": 2.45,
-          "relevance_score": 0,
+          "relevance_score": 0.0,
           "is_favorite": false,
           "domains": [
             {
@@ -858,9 +858,9 @@
           "abstract_en": "This paper presents MuGen, a data-driven framework for learning and deploying multi-skill locomotion on humanoid robots. MuGen enables a robot to perform expressive motions like humans under the guidance of example motion sequences. To achieve this, we employ vector-quantized autoencoders (VQ-VAEs) trained with model-based reinforcement learning, resulting in a generative representation of locomotion that captures key patterns of human motion from hours of heterogeneous human performance data. We employ a teacher-student learning framework and develop a new policy distillation strategy to enable a deployable student policy learning this efficient latent representation. This policy allows the robot to track and mimic unseen human motions and further enables the robot to reuse the learned latent space for other tasks. We demonstrate the effectiveness of our framework through a diverse set of motions and accurate execution.",
           "one_liner_zh": "MuGen 学习人形机器人多技能生成式运动控制。",
           "summary_cn": "本文提出 MuGen，这是一种面向人形机器人的数据驱动多技能运动学习与部署框架。MuGen 使机器人能够在示例动作序列的引导下，像人类一样执行富有表现力的动作。为实现这一目标，我们采用结合基于模型强化学习训练的向量量化自编码器（VQ-VAE），从数小时异质化的人类动作数据中学习一种生成式运动潜表示，捕捉人类动作的关键模式。随后，我们采用 teacher-student 学习框架，并设计了一种新的策略蒸馏方法，使 student policy 学会这一高效潜表示并能够直接部署。该策略不仅可以跟踪和模仿未见过的人类动作，还能将学到的潜空间复用于其他任务。我们通过多样动作和精确执行实验验证了该框架的有效性。",
-          "hot_score": 2,
+          "hot_score": 2.0,
           "overall_score": 2.35,
-          "relevance_score": 0,
+          "relevance_score": 0.0,
           "is_favorite": false,
           "domains": [
             {
@@ -906,9 +906,9 @@
           "abstract_en": "",
           "one_liner_zh": "国产团队发布可用于自动生成 AI 系统的数据与训练方案更新。",
           "summary_cn": "文章聚焦国产 AI 系统自我生成与训练效率提升，核心信号是训练速度相比英伟达 Megatron 提升约 10%，属于大模型训练与系统能力进展。",
-          "hot_score": 0,
-          "overall_score": 0,
-          "relevance_score": 0,
+          "hot_score": 0.0,
+          "overall_score": 0.0,
+          "relevance_score": 0.0,
           "is_favorite": false,
           "domains": [
             {
@@ -943,9 +943,9 @@
           "abstract_en": "",
           "one_liner_zh": "开源 Skill 压缩/减负方向内容，偏向 Agent 技能组织与工程优化。",
           "summary_cn": "文章讨论通过开源 Skill 体系给已有 Skill 做压缩与优化，关注点在于降低成本、提升可执行性和工程可维护性，属于 Agent 工作流与模型工程交叉话题。",
-          "hot_score": 0,
-          "overall_score": 0,
-          "relevance_score": 0,
+          "hot_score": 0.0,
+          "overall_score": 0.0,
+          "relevance_score": 0.0,
           "is_favorite": false,
           "domains": [
             {
