@@ -65,6 +65,16 @@ const deriveWechatArticleHref = (item: Pick<FollowSourceItem, 'id' | 'url' | 'li
   const rawId = item.id.replace(/^wechat:/, '').trim()
   return rawId.startsWith('https://mp.weixin.qq.com/') ? rawId : ''
 }
+
+const normalizeDisplayPersonName = (value: string) => {
+  const raw = String(value || '').trim()
+  if (!raw) return ''
+  if (raw.includes(',') && raw.split(',').length === 2) {
+    const [left, right] = raw.split(',', 2).map((part) => part.trim())
+    if (left && right) return `${right} ${left}`
+  }
+  return raw
+}
 ---
 
 <CommonPage title={pageTitle} {headings} info={`/follow/${sourceKey}`}>
@@ -165,11 +175,17 @@ const deriveWechatArticleHref = (item: Pick<FollowSourceItem, 'id' | 'url' | 'li
             const normalizedSummary = (item.summary || '').trim()
             const normalizedOneLiner = (item.oneLinerZh || '').trim()
             const showSummary = !normalizedOneLiner || normalizedSummary !== normalizedOneLiner
+            const normalizedAuthorMeta = (item.authorMeta || []).map((author) => ({
+              ...author,
+              name: normalizeDisplayPersonName(author.name),
+            }))
+            const normalizedAuthors = (item.authors || []).map((author) => normalizeDisplayPersonName(author))
+            const keyPeople = Array.from(new Set((item.keyPeople || []).map((person) => normalizeDisplayPersonName(person)).filter(Boolean))).slice(0, 6)
             const firstAuthorAffiliations = item.authorMeta?.find((author) => author.isFirstAuthor)?.affiliations || []
             const relatedOrganizations = splitOrganizationValues(item.relatedOrganizations || [])
             const relatedCompanies = splitOrganizationValues(item.relatedCompanies || [])
             const organizationLabels = splitOrganizationValues([...relatedCompanies, ...relatedOrganizations, item.firstAffiliation || '']).slice(0, 4)
-            const correspondingAffiliations = item.authorMeta
+            const correspondingAffiliations = normalizedAuthorMeta
               ?.filter((author) => author.isCorrespondingAuthor)
               .flatMap((author) => author.affiliations || []) || []
             const categoryTags = item.categories || []
@@ -209,19 +225,20 @@ const deriveWechatArticleHref = (item: Pick<FollowSourceItem, 'id' | 'url' | 'li
                       ))}
                     </div>
                   ) : null}
-                  {(item.authorMeta && item.authorMeta.length > 0) || (item.authors && item.authors.length > 0) || firstAuthorAffiliations.length > 0 || relatedOrganizations.length > 0 || correspondingAffiliations.length > 0 || item.firstAffiliation ? (
+                  {(normalizedAuthorMeta.length > 0) || normalizedAuthors.length > 0 || keyPeople.length > 0 || firstAuthorAffiliations.length > 0 || relatedOrganizations.length > 0 || correspondingAffiliations.length > 0 || item.firstAffiliation ? (
                     <div class='rounded-xl border border-border/40 bg-background/50 px-4 py-3 text-sm text-muted-foreground'>
-                      {item.authorMeta && item.authorMeta.length > 0 ? (
+                      {normalizedAuthorMeta.length > 0 ? (
                         <p class='m-0 leading-6'>
                           <span class='font-medium text-foreground'>Authors:</span>{' '}
-                          {item.authorMeta.map((author, index) => (
+                          {normalizedAuthorMeta.map((author, index) => (
                             <>
-                              {index > 0 ? ', ' : ''}
+                              {index > 0 ? ' · ' : ''}
                               {author.isFirstAuthor ? <strong class='font-semibold text-foreground'>{author.name}</strong> : author.name}
                             </>
                           ))}
                         </p>
-                      ) : item.authors && item.authors.length > 0 ? <p class='m-0 leading-6'><span class='font-medium text-foreground'>Authors:</span> {item.authors.join(', ')}</p> : null}
+                      ) : normalizedAuthors.length > 0 ? <p class='m-0 leading-6'><span class='font-medium text-foreground'>Authors:</span> {normalizedAuthors.join(' · ')}</p> : null}
+                      {keyPeople.length > 0 ? <p class='m-0 mt-2 leading-6'><span class='font-medium text-foreground'>关键人物：</span>{keyPeople.join(' · ')}</p> : null}
                       {firstAuthorAffiliations.length > 0 ? <p class='m-0 mt-2 leading-6'><span class='font-medium text-foreground'>First author affiliation:</span> {firstAuthorAffiliations.join('; ')}</p> : null}
                       {relatedOrganizations.length > 0 ? <p class='m-0 mt-2 leading-6'><span class='font-medium text-foreground'>相关单位：</span>{relatedOrganizations.join('; ')}{relatedCompanies.length > 0 ? ` · 相关公司：${relatedCompanies.join('; ')}` : ''}</p> : null}
                       {correspondingAffiliations.length > 0 ? <p class='m-0 mt-2 leading-6'><span class='font-medium text-foreground'>Corresponding affiliation:</span> {correspondingAffiliations.join('; ')}</p> : null}
@@ -341,6 +358,16 @@ const deriveWechatArticleHref = (item: Pick<FollowSourceItem, 'id' | 'url' | 'li
       return rawId.startsWith('https://mp.weixin.qq.com/') ? rawId : ''
     }
 
+    const normalizeDisplayPersonName = (value) => {
+      const raw = String(value || '').trim()
+      if (!raw) return ''
+      if (raw.includes(',') && raw.split(',').length === 2) {
+        const [left, right] = raw.split(',', 2).map((part) => part.trim())
+        if (left && right) return `${right} ${left}`
+      }
+      return raw
+    }
+
     const loadFavorites = () => {
       if (!enableLocalFavorites) return
       try {
@@ -403,7 +430,9 @@ const deriveWechatArticleHref = (item: Pick<FollowSourceItem, 'id' | 'url' | 'li
           ? [value.trim()]
           : []
       const splitOrganizationValues = (values) => Array.from(new Set(values.flatMap((value) => String(value || '').split(/[;；、\n]+/)).map((value) => value.trim()).filter(Boolean)))
-      const authorMeta = Array.isArray(item.author_meta) ? item.author_meta : []
+      const authorMeta = (Array.isArray(item.author_meta) ? item.author_meta : []).map((author) => ({ ...author, name: normalizeDisplayPersonName(author?.name) }))
+      const normalizedAuthors = Array.isArray(item.authors) ? item.authors.map((author) => normalizeDisplayPersonName(author)).filter(Boolean) : []
+      const keyPeople = Array.isArray(item.key_people) ? Array.from(new Set(item.key_people.map((person) => normalizeDisplayPersonName(person)).filter(Boolean))).slice(0, 6) : []
       const relatedOrganizations = splitOrganizationValues(toStringList(item.related_organizations || item.relatedOrganizations))
       const relatedCompanies = splitOrganizationValues(toStringList(item.related_companies || item.relatedCompanies))
       const firstAffiliation = String(item.first_affiliation || item.firstAffiliation || '').trim()
@@ -412,10 +441,13 @@ const deriveWechatArticleHref = (item: Pick<FollowSourceItem, 'id' | 'url' | 'li
         ? `<div class="flex flex-wrap gap-1.5"><span class="rounded-full border border-border/60 bg-background/70 px-2.5 py-1 text-xs font-medium text-muted-foreground">单位/公司</span>${organizationLabels.map((organization) => `<span class="rounded-full border border-primary/20 bg-primary/10 px-2.5 py-1 text-xs font-medium text-primary">${organization}</span>`).join('')}</div>`
         : ''
       const authorsHtml = authorMeta.length > 0
-        ? `<p class="m-0 text-sm text-muted-foreground">Authors: ${authorMeta.map((author) => author.is_first_author ? `<strong class="font-semibold text-foreground">${author.name}</strong>` : author.name).join(', ')}</p>`
-        : Array.isArray(item.authors) && item.authors.length > 0
-          ? `<p class="m-0 text-sm text-muted-foreground">Authors: ${item.authors.join(', ')}</p>`
+        ? `<p class="m-0 text-sm text-muted-foreground">Authors: ${authorMeta.map((author) => author.is_first_author ? `<strong class="font-semibold text-foreground">${author.name}</strong>` : author.name).join(' · ')}</p>`
+        : normalizedAuthors.length > 0
+          ? `<p class="m-0 text-sm text-muted-foreground">Authors: ${normalizedAuthors.join(' · ')}</p>`
           : ''
+      const keyPeopleHtml = keyPeople.length > 0
+        ? `<p class="m-0 mt-2 text-sm text-muted-foreground"><span class="font-medium text-foreground">关键人物：</span>${keyPeople.join(' · ')}</p>`
+        : ''
       const firstAuthorAffiliations = authorMeta.find((author) => author.is_first_author)?.affiliations || []
       const correspondingAffiliations = authorMeta.filter((author) => author.is_corresponding_author).flatMap((author) => author.affiliations || [])
       const firstAuthorAffiliationHtml = firstAuthorAffiliations.length > 0
@@ -430,8 +462,8 @@ const deriveWechatArticleHref = (item: Pick<FollowSourceItem, 'id' | 'url' | 'li
       const affiliationHtml = firstAffiliation
         ? `<p class="m-0 text-sm text-muted-foreground">First affiliation: ${firstAffiliation}</p>`
         : ''
-      const metaBlockHtml = (authorsHtml || firstAuthorAffiliationHtml || relatedOrganizationHtml || correspondingAffiliationHtml || affiliationHtml)
-        ? `<div class="rounded-xl border border-border/40 bg-background/50 px-4 py-3 text-sm text-muted-foreground">${authorsHtml}${firstAuthorAffiliationHtml}${relatedOrganizationHtml}${correspondingAffiliationHtml}${!firstAuthorAffiliations.length ? affiliationHtml : ''}</div>`
+      const metaBlockHtml = (authorsHtml || keyPeopleHtml || firstAuthorAffiliationHtml || relatedOrganizationHtml || correspondingAffiliationHtml || affiliationHtml)
+        ? `<div class="rounded-xl border border-border/40 bg-background/50 px-4 py-3 text-sm text-muted-foreground">${authorsHtml}${keyPeopleHtml}${firstAuthorAffiliationHtml}${relatedOrganizationHtml}${correspondingAffiliationHtml}${!firstAuthorAffiliations.length ? affiliationHtml : ''}</div>`
         : ''
       const timelineHtml = item.published || item.updated
         ? `<p class="m-0 mt-2 leading-6"><span class="font-medium text-foreground">Timeline:</span> ${item.published ? `Published ${item.published}` : ''}${item.published && item.updated ? ' · ' : ''}${item.updated ? `Updated ${item.updated}` : ''}</p>`

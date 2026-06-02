@@ -40,6 +40,7 @@ export type FollowItem = {
   authors?: string[]
   categories?: string[]
   authorMeta?: FollowAuthorMeta[]
+  keyPeople?: string[]
   firstAffiliation?: string
   relatedOrganizations?: string[]
   relatedCompanies?: string[]
@@ -131,6 +132,7 @@ type GeneratedDigest = {
         is_first_author?: boolean
         is_corresponding_author?: boolean
       }>
+      key_people?: string[]
       first_affiliation?: string
       related_organizations?: string[]
       related_companies?: string[]
@@ -508,6 +510,7 @@ function normalizeGeneratedDigests(root: string): FollowDigest[] {
                           isCorrespondingAuthor: Boolean(author.is_corresponding_author),
                         }))
                     : [],
+                  keyPeople: Array.isArray(item.key_people) ? item.key_people.map((person) => String(person)).filter(Boolean) : [],
                   firstAffiliation: String(item.first_affiliation || ''),
                   relatedOrganizations: Array.isArray(item.related_organizations)
                     ? item.related_organizations.map((organization) => String(organization)).filter(Boolean)
