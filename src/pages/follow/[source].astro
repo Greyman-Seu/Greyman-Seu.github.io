@@ -186,6 +186,7 @@ const normalizeDisplayPersonName = (value: string) => {
             const relatedOrganizations = splitOrganizationValues(item.relatedOrganizations || []).filter((organization) => organization !== firstAffiliationValue)
             const relatedCompanies = splitOrganizationValues(item.relatedCompanies || [])
             const organizationLabels = splitOrganizationValues([...relatedCompanies, ...relatedOrganizations, firstAffiliationValue]).slice(0, 4)
+            const firstAffiliationAlreadyShown = firstAffiliationValue ? organizationLabels.includes(firstAffiliationValue) : false
             const correspondingAffiliations = normalizedAuthorMeta
               ?.filter((author) => author.isCorrespondingAuthor)
               .flatMap((author) => author.affiliations || []) || []
@@ -243,7 +244,7 @@ const normalizeDisplayPersonName = (value: string) => {
                       {firstAuthorAffiliations.length > 0 ? <p class='m-0 mt-2 leading-6'><span class='font-medium text-foreground'>First author affiliation:</span> {firstAuthorAffiliations.join('; ')}</p> : null}
                       {relatedOrganizations.length > 0 ? <p class='m-0 mt-2 leading-6'><span class='font-medium text-foreground'>相关单位：</span>{relatedOrganizations.join('; ')}{relatedCompanies.length > 0 ? ` · 相关公司：${relatedCompanies.join('; ')}` : ''}</p> : null}
                       {correspondingAffiliations.length > 0 ? <p class='m-0 mt-2 leading-6'><span class='font-medium text-foreground'>Corresponding affiliation:</span> {correspondingAffiliations.join('; ')}</p> : null}
-                      {!firstAuthorAffiliations.length && firstAffiliationValue ? <p class='m-0 mt-2 leading-6'><span class='font-medium text-foreground'>First affiliation:</span> {firstAffiliationValue}</p> : null}
+                      {!firstAuthorAffiliations.length && firstAffiliationValue && !firstAffiliationAlreadyShown ? <p class='m-0 mt-2 leading-6'><span class='font-medium text-foreground'>First affiliation:</span> {firstAffiliationValue}</p> : null}
                       {item.published || item.updated ? <p class='m-0 mt-2 leading-6'><span class='font-medium text-foreground'>Timeline:</span> {item.published ? `Published ${item.published}` : ''}{item.published && item.updated ? ' · ' : ''}{item.updated ? `Updated ${item.updated}` : ''}</p> : null}
                     </div>
                   ) : null}
@@ -438,6 +439,7 @@ const normalizeDisplayPersonName = (value: string) => {
       const relatedOrganizations = splitOrganizationValues(toStringList(item.related_organizations || item.relatedOrganizations)).filter((organization) => organization !== firstAffiliation)
       const relatedCompanies = splitOrganizationValues(toStringList(item.related_companies || item.relatedCompanies))
       const organizationLabels = splitOrganizationValues([...relatedCompanies, ...relatedOrganizations, firstAffiliation]).slice(0, 4)
+      const firstAffiliationAlreadyShown = firstAffiliation ? organizationLabels.includes(firstAffiliation) : false
       const organizationBadgeHtml = organizationLabels.length > 0
         ? `<div class="flex flex-wrap gap-1.5"><span class="rounded-full border border-border/60 bg-background/70 px-2.5 py-1 text-xs font-medium text-muted-foreground">单位/公司</span>${organizationLabels.map((organization) => `<span class="rounded-full border border-primary/20 bg-primary/10 px-2.5 py-1 text-xs font-medium text-primary">${organization}</span>`).join('')}</div>`
         : ''
@@ -460,7 +462,7 @@ const normalizeDisplayPersonName = (value: string) => {
       const relatedOrganizationHtml = relatedOrganizations.length > 0
         ? `<p class="m-0 text-sm text-muted-foreground"><span class="font-medium text-foreground">相关单位：</span>${relatedOrganizations.join('; ')}${relatedCompanies.length > 0 ? ` · <span class="font-medium text-foreground">相关公司：</span>${relatedCompanies.join('; ')}` : ''}</p>`
         : ''
-      const affiliationHtml = firstAffiliation
+      const affiliationHtml = firstAffiliation && !firstAffiliationAlreadyShown
         ? `<p class="m-0 text-sm text-muted-foreground">First affiliation: ${firstAffiliation}</p>`
         : ''
       const metaBlockHtml = (authorsHtml || keyPeopleHtml || firstAuthorAffiliationHtml || relatedOrganizationHtml || correspondingAffiliationHtml || affiliationHtml)
