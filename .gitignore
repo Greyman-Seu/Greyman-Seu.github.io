@@ -84,3 +84,6 @@ bun.lockb
 public/project-media/
 
 AGENTS.md/resume/
+
+# Synced remote follow data is runtime/build input, not source-of-truth.
+src/data/generated/follow/
