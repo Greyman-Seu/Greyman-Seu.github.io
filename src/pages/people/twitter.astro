@@ -1,0 +1,218 @@
+---
+import CommonPage from '@/layouts/CommonPage.astro'
+import { twitterPeople, twitterPeopleGroups, type TwitterPerson } from '@/data/twitter-people'
+
+const headings = twitterPeopleGroups.map((group) => ({
+  depth: 2,
+  slug: group.slug,
+  text: group.titleZh
+}))
+
+const groups = twitterPeopleGroups.map((group) => ({
+  ...group,
+  people: twitterPeople.filter((person) => person.group === group.slug)
+}))
+
+const totalPeople = twitterPeople.length
+const nitterHref = (handle: string) => `https://nitter.net/${handle}`
+const xHref = (handle: string) => `https://x.com/${handle}`
+const searchText = (person: TwitterPerson) =>
+  [person.name, person.handle, ...person.notes, person.group].join(' ').toLowerCase()
+---
+
+<CommonPage title='Twitter 快捷跳转' {headings} info='/people/twitter'>
+  <div class='space-y-10'>
+    <section class='overflow-hidden rounded-[28px] border border-border bg-card shadow-sm'>
+      <div class='grid gap-6 px-6 py-7 sm:px-8 xl:grid-cols-[minmax(0,1.45fr)_340px] xl:items-start'>
+        <div class='space-y-5'>
+          <div class='space-y-3'>
+            <p class='m-0 text-[11px] font-semibold uppercase tracking-[0.22em] text-muted-foreground/70'>Twitter / Nitter 目录</p>
+            <h2 class='m-0 max-w-3xl text-3xl font-semibold tracking-tight text-foreground sm:text-[2.65rem] sm:leading-[1.05]'>
+              常看 AI 人物的快捷入口
+            </h2>
+            <p class='m-0 max-w-2xl text-sm leading-7 text-muted-foreground'>
+              按研究人员、记者、创始人、投资人、作者和创作者分组整理。默认优先打开 Nitter，必要时再跳转到 X。
+            </p>
+          </div>
+
+          <div class='flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-muted-foreground'>
+            <span class='font-medium text-foreground'>{totalPeople} 人</span>
+            <span class='hidden text-border sm:inline'>/</span>
+            <span>{twitterPeopleGroups.length} 组</span>
+            <span class='hidden text-border sm:inline'>/</span>
+            <span>优先 Nitter</span>
+            <span class='hidden text-border sm:inline'>/</span>
+            <span>备用 X</span>
+          </div>
+        </div>
+
+        <div class='rounded-2xl border border-border/70 bg-background/65 p-4 shadow-sm'>
+          <div class='space-y-3'>
+            <div class='space-y-1'>
+              <p class='m-0 text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground/80'>搜索</p>
+              <p class='m-0 text-sm leading-6 text-muted-foreground'>按名字、handle、机构或角色关键词快速筛选。</p>
+            </div>
+            <label class='block'>
+              <span class='sr-only'>搜索人物</span>
+              <input
+                id='twitter-people-search'
+                type='search'
+                placeholder='OpenAI, DeepMind, journalist...'
+                class='w-full rounded-xl border border-border bg-card px-4 py-3 text-foreground outline-none transition-colors focus:border-primary'
+              />
+            </label>
+            <p id='twitter-people-results' class='m-0 text-sm text-muted-foreground'>
+              当前显示全部 {totalPeople} 人。
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class='space-y-5' aria-labelledby='group-overview'>
+      <div class='border-b border-border/40 pb-3'>
+        <h2 id='group-overview' class='m-0 text-2xl font-semibold'>分类目录</h2>
+        <p class='m-0 mt-1 text-sm text-muted-foreground'>先跳到你最常看的那一类，再做搜索。</p>
+      </div>
+
+      <div class='grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3'>
+        {groups.map((group) => (
+          <a
+            href={`#${group.slug}`}
+            class='group block rounded-2xl border border-border bg-card p-5 no-underline shadow-sm transition-all hover:-translate-y-0.5 hover:border-foreground/20 hover:bg-muted/20 hover:shadow-md'
+          >
+            <div class='space-y-3'>
+              <div class='flex items-center justify-between gap-3'>
+                <div>
+                  <p class='m-0 text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground/80'>{group.title}</p>
+                  <p class='m-0 mt-1 text-lg font-semibold text-foreground'>{group.titleZh}</p>
+                </div>
+                <span class='rounded-full border border-border/70 bg-background/70 px-3 py-1 text-sm font-semibold text-foreground'>
+                  {group.people.length} 人
+                </span>
+              </div>
+              <p class='m-0 text-sm leading-6 text-muted-foreground'>{group.description}</p>
+            </div>
+          </a>
+        ))}
+      </div>
+    </section>
+
+    <div class='space-y-10'>
+      {groups.map((group) => (
+        <section id={group.slug} class='space-y-6' aria-labelledby={`${group.slug}-title`} data-group-section>
+          <div class='flex flex-col gap-3 border-b border-border/40 pb-3 sm:flex-row sm:items-end sm:justify-between'>
+            <div class='space-y-1'>
+              <p class='m-0 text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground/80'>{group.title}</p>
+              <h2 id={`${group.slug}-title`} class='m-0 text-2xl font-semibold text-foreground'>{group.titleZh}</h2>
+              <p class='m-0 text-sm leading-6 text-muted-foreground'>{group.description}</p>
+            </div>
+            <div class='rounded-full border border-border/70 bg-card px-4 py-2 text-sm font-medium text-muted-foreground'>
+              <span data-group-count>{group.people.length}</span> 人
+            </div>
+          </div>
+
+          <div class='grid grid-cols-1 gap-4 xl:grid-cols-2'>
+            {group.people.map((person) => (
+              <article
+                class='rounded-2xl border border-border bg-card p-5 shadow-sm transition-all hover:border-foreground/20 hover:bg-muted/15'
+                data-person-card
+                data-search={searchText(person)}
+              >
+                <div class='flex flex-col gap-4'>
+                  <div class='flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between'>
+                    <div class='space-y-2'>
+                      <div class='flex flex-wrap items-center gap-2'>
+                        <span class='rounded-full bg-primary/10 px-2.5 py-1 text-xs font-medium text-primary'>#{person.index}</span>
+                        <span class='rounded-full bg-muted px-2.5 py-1 text-xs font-medium text-muted-foreground'>@{person.handle}</span>
+                      </div>
+                      <div>
+                        <h3 class='m-0 text-lg font-semibold text-foreground'>{person.name}</h3>
+                      </div>
+                    </div>
+
+                    <div class='flex flex-wrap gap-2 sm:justify-end'>
+                      <a
+                        href={nitterHref(person.handle)}
+                        target='_blank'
+                        rel='noreferrer'
+                        class='inline-flex items-center rounded-full border border-primary/20 bg-primary/8 px-3.5 py-1.5 text-sm font-medium text-primary no-underline transition-colors hover:border-primary/35 hover:bg-primary/12'
+                      >
+                        Nitter
+                      </a>
+                      <a
+                        href={xHref(person.handle)}
+                        target='_blank'
+                        rel='noreferrer'
+                        class='inline-flex items-center rounded-full border border-border bg-background px-3.5 py-1.5 text-sm font-medium text-muted-foreground no-underline transition-colors hover:border-foreground/20 hover:text-foreground'
+                      >
+                        X
+                      </a>
+                    </div>
+                  </div>
+
+                  <div class='rounded-xl border border-border/50 bg-muted/15 px-4 py-4'>
+                    <ul class='m-0 space-y-2 pl-4 text-sm leading-6 text-foreground/90'>
+                      {person.notes.map((note) => (
+                        <li>{note}</li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              </article>
+            ))}
+          </div>
+        </section>
+      ))}
+    </div>
+
+    <div id='twitter-people-empty' class='hidden rounded-2xl border border-dashed border-border px-5 py-10 text-center text-sm text-muted-foreground'>
+      没找到匹配的人物，试试换一个名字、handle 或机构关键词。
+    </div>
+  </div>
+
+  <script is:inline define:vars={{ totalPeople }}>
+    const searchInput = document.getElementById('twitter-people-search')
+    const resultLabel = document.getElementById('twitter-people-results')
+    const emptyState = document.getElementById('twitter-people-empty')
+    const sections = Array.from(document.querySelectorAll('[data-group-section]'))
+    const cards = Array.from(document.querySelectorAll('[data-person-card]'))
+
+    const renderTwitterPeople = () => {
+      const query = searchInput instanceof HTMLInputElement ? searchInput.value.trim().toLowerCase() : ''
+      let visibleCards = 0
+
+      cards.forEach((card) => {
+        if (!(card instanceof HTMLElement)) return
+        const haystack = String(card.dataset.search || '')
+        const visible = !query || haystack.includes(query)
+        card.classList.toggle('hidden', !visible)
+        if (visible) visibleCards += 1
+      })
+
+      sections.forEach((section) => {
+        if (!(section instanceof HTMLElement)) return
+        const sectionCards = Array.from(section.querySelectorAll('[data-person-card]'))
+        const sectionVisible = sectionCards.filter((card) => !(card instanceof HTMLElement) ? false : !card.classList.contains('hidden')).length
+        section.classList.toggle('hidden', sectionVisible === 0)
+        const counter = section.querySelector('[data-group-count]')
+        if (counter) counter.textContent = String(sectionVisible)
+      })
+
+      if (resultLabel instanceof HTMLElement) {
+        resultLabel.textContent = query
+          ? `当前匹配 ${visibleCards} 人。`
+          : `当前显示全部 ${totalPeople} 人。`
+      }
+
+      if (emptyState instanceof HTMLElement) {
+        emptyState.classList.toggle('hidden', visibleCards > 0)
+      }
+    }
+
+    if (searchInput instanceof HTMLInputElement) {
+      searchInput.addEventListener('input', renderTwitterPeople)
+      searchInput.addEventListener('change', renderTwitterPeople)
+    }
+  </script>
+</CommonPage>

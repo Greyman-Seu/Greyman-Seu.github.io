@@ -46,6 +46,7 @@ const splitOrganizationValues = (values: string[]) =>
 const dateOptions = Array.from(new Set(items.map((item: FollowSourceItem) => item.date))).sort().reverse()
 const monthOptions = Array.from(new Set(items.map((item: FollowSourceItem) => item.date.slice(0, 7)))).sort().reverse()
 const enableLocalFavorites = sourceKey === 'arxiv'
+const useCardGrid = sourceKey === 'x' || sourceKey === 'wechat'
 const headings = [
   { depth: 2, slug: 'filters', text: 'Filters' },
   { depth: 2, slug: 'items', text: `${sourceMeta.title} Items` },
@@ -169,7 +170,7 @@ const normalizeDisplayPersonName = (value: string) => {
         </div>
       </div>
 
-      <div id='follow-items' class='space-y-4'>
+      <div id='follow-items' class={useCardGrid ? 'grid grid-cols-1 gap-4 xl:grid-cols-2' : 'space-y-4'}>
         {items.map((item: FollowSourceItem) => (
           (() => {
             const normalizedSummary = (item.summary || '').trim()
@@ -200,7 +201,7 @@ const normalizeDisplayPersonName = (value: string) => {
               : item.links
             return (
           <article
-            class='follow-item rounded-2xl border border-border bg-card p-5 shadow-sm'
+            class='follow-item h-full rounded-2xl border border-border bg-card p-5 shadow-sm'
             data-item-id={item.id}
             data-date={item.date}
             data-importance={item.importance}
@@ -254,7 +255,21 @@ const normalizeDisplayPersonName = (value: string) => {
                       <p class='m-0 mt-2 text-sm font-medium leading-6 text-foreground'>{item.oneLinerZh}</p>
                     </div>
                   ) : null}
-                  {showSummary ? <p class='m-0 text-sm leading-6 text-muted-foreground'>{item.summary}</p> : null}
+                  {showSummary ? (
+                    sourceKey === 'x' ? (
+                      <div class='rounded-xl border border-border/50 bg-background/70 px-4 py-3'>
+                        <p class='m-0 text-xs font-semibold tracking-[0.16em] text-muted-foreground/80'>原文摘录</p>
+                        <p class='m-0 mt-2 text-sm leading-6 text-muted-foreground'>{item.summary}</p>
+                      </div>
+                    ) : sourceKey === 'wechat' ? (
+                      <div class='rounded-xl border border-border/50 bg-background/70 px-4 py-3'>
+                        <p class='m-0 text-xs font-semibold tracking-[0.16em] text-muted-foreground/80'>摘要</p>
+                        <p class='m-0 mt-2 text-sm leading-6 text-muted-foreground'>{item.summary}</p>
+                      </div>
+                    ) : (
+                      <p class='m-0 text-sm leading-6 text-muted-foreground'>{item.summary}</p>
+                    )
+                  ) : null}
                   {item.summaryCn ? (
                     <div class='rounded-xl border border-border/50 bg-muted/20 px-4 py-3'>
                       <p class='m-0 text-xs font-semibold tracking-[0.16em] text-muted-foreground/80'>中文翻译</p>
@@ -478,6 +493,13 @@ const normalizeDisplayPersonName = (value: string) => {
         ? `<div class="rounded-xl border border-primary/20 bg-primary/5 px-4 py-3"><p class="m-0 text-xs font-semibold tracking-[0.16em] text-primary/80">一句话总结</p><p class="m-0 mt-2 text-sm font-medium leading-6 text-foreground">${item.one_liner_zh}</p></div>`
         : ''
       const showSummary = !item.one_liner_zh || String(item.summary || '').trim() !== String(item.one_liner_zh || '').trim()
+      const summaryBlockHtml = showSummary
+        ? sourceKey === 'x'
+          ? `<div class="rounded-xl border border-border/50 bg-background/70 px-4 py-3"><p class="m-0 text-xs font-semibold tracking-[0.16em] text-muted-foreground/80">原文摘录</p><p class="m-0 mt-2 text-sm leading-6 text-muted-foreground">${item.summary || ''}</p></div>`
+          : sourceKey === 'wechat'
+            ? `<div class="rounded-xl border border-border/50 bg-background/70 px-4 py-3"><p class="m-0 text-xs font-semibold tracking-[0.16em] text-muted-foreground/80">摘要</p><p class="m-0 mt-2 text-sm leading-6 text-muted-foreground">${item.summary || ''}</p></div>`
+            : `<p class="m-0 text-sm leading-6 text-muted-foreground">${item.summary || ''}</p>`
+        : ''
       const summaryCnHtml = item.summary_cn
         ? `<div class="rounded-xl border border-border/50 bg-muted/20 px-4 py-3"><p class="m-0 text-xs font-semibold tracking-[0.16em] text-muted-foreground/80">中文翻译</p><p class="m-0 mt-2 text-sm leading-6 text-muted-foreground">${item.summary_cn}</p></div>`
         : ''
@@ -518,7 +540,7 @@ const normalizeDisplayPersonName = (value: string) => {
                 ${organizationBadgeHtml}
                 ${metaBlockWithTimelineHtml}
                 ${oneLinerHtml}
-                ${showSummary ? `<p class="m-0 text-sm leading-6 text-muted-foreground">${item.summary || ''}</p>` : ''}
+                ${summaryBlockHtml}
                 ${summaryCnHtml}
                 ${abstractHtml}
               </div>
@@ -542,6 +564,7 @@ const normalizeDisplayPersonName = (value: string) => {
       if (!(container instanceof HTMLElement) || !(empty instanceof HTMLElement) || !(summary instanceof HTMLElement)) return
 
       let cards = Array.from(container.querySelectorAll('.follow-item'))
+      const baseContainerClass = container.className
       const importanceValue = (value) => ({ high: 3, medium: 2, low: 1 }[value] || 0)
 
       const syncFavoriteButtons = () => {
@@ -682,6 +705,7 @@ const normalizeDisplayPersonName = (value: string) => {
 
           container.innerHTML = payload.items.map((item) => createFollowItemCard(item)).join('')
           cards = Array.from(container.querySelectorAll('.follow-item'))
+          container.className = baseContainerClass
           remoteWindowLoaded = `${scopeValue}:${monthValue || ''}`
           summary.textContent = enableLocalFavorites
             ? `${payload.item_count || payload.items.length} item(s) · ${favorites.size} favorite(s)`
