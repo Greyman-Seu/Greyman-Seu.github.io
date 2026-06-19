@@ -46,7 +46,6 @@ const splitOrganizationValues = (values: string[]) =>
 const dateOptions = Array.from(new Set(items.map((item: FollowSourceItem) => item.date))).sort().reverse()
 const monthOptions = Array.from(new Set(items.map((item: FollowSourceItem) => item.date.slice(0, 7)))).sort().reverse()
 const enableLocalFavorites = sourceKey === 'arxiv'
-const useCardGrid = sourceKey === 'x' || sourceKey === 'wechat'
 const headings = [
   { depth: 2, slug: 'filters', text: 'Filters' },
   { depth: 2, slug: 'items', text: `${sourceMeta.title} Items` },
@@ -76,6 +75,73 @@ const normalizeDisplayPersonName = (value: string) => {
   }
   return raw
 }
+
+const X_HANDLE_PAT = /(?:nitter\.net|x\.com|twitter\.com)\/([^/?#]+)/i
+
+const countCjkChars = (value: string) =>
+  Array.from(String(value || '')).filter((char) => /[\u4e00-\u9fff]/.test(char)).length
+
+const stripXAutoPrefix = (value: string) =>
+  String(value || '')
+    .replace(/^X\s*动态[:：]\s*/i, '')
+    .replace(/^原文摘要[:：]\s*/i, '')
+    .trim()
+
+const truncateDisplayText = (value: string, limit: number) => {
+  const text = String(value || '').replace(/\s+/g, ' ').trim()
+  if (text.length <= limit) return text
+  return `${text.slice(0, Math.max(0, limit - 1)).trim()}…`
+}
+
+const firstDisplaySentence = (value: string) => {
+  const text = String(value || '').replace(/\s+/g, ' ').trim()
+  if (!text) return ''
+  const parts = text.split(/(?<=[。！？!?])\s+/)
+  return parts[0]?.trim() || text
+}
+
+const deriveXOriginalHref = (item: Pick<FollowSourceItem, 'url' | 'links'>) =>
+  item.links.find((link) => ['Original', 'Thread'].includes(link.label) && link.href)?.href || item.url || ''
+
+const deriveXHandle = (item: Pick<FollowSourceItem, 'url' | 'links'>) => {
+  const href = deriveXOriginalHref(item)
+  const match = href.match(X_HANDLE_PAT)
+  return match?.[1]?.replace(/^@/, '').trim() || ''
+}
+
+const inferXBriefFromEnglish = (value: string, isRetweet: boolean) => {
+  const lowered = String(value || '').toLowerCase()
+  if (lowered.includes('persuasion') || lowered.includes('persuade')) return '讨论了 AI 说服能力及其潜在社会影响。'
+  if (['spend control', 'credit usage', 'admin console', 'enterprise'].some((token) => lowered.includes(token))) return '发布了企业额度分析与管理员支出控制相关更新。'
+  if (['jailbreak', 'security', 'safety', 'blocked request'].some((token) => lowered.includes(token))) return '讨论了模型越狱与安全限制相关动态。'
+  if (['open weights', 'open source', 'open model', 'open models'].some((token) => lowered.includes(token))) return '讨论了开源模型与开放生态的最新进展。'
+  if (['benchmark', 'evaluation', 'leaderboard', 'eval'].some((token) => lowered.includes(token))) return '分享了一个评测结果或 benchmark 观察。'
+  if (['robot', 'robotics', 'vla', 'manipulation', 'embodied'].some((token) => lowered.includes(token))) return '分享了机器人或具身智能相关进展。'
+  if (['video', 'demo', 'scanner', 'visualizer', 'livestream'].some((token) => lowered.includes(token))) return '分享了一段演示或产品展示。'
+  if (['launch', 'launched', 'release', 'released', 'rolling out', 'available', 'update', 'updated'].some((token) => lowered.includes(token))) return '发布了一项新功能或产品更新。'
+  if (['paper', 'research', 'study', 'arxiv'].some((token) => lowered.includes(token))) return '分享了一项研究进展。'
+  if (['model', 'llm', 'ai', 'agent', 'workflow'].some((token) => lowered.includes(token))) return '分享了一条 AI 相关动态。'
+  return isRetweet ? '转发并评论了一条值得关注的动态。' : '分享了一条值得查看的动态。'
+}
+
+const deriveXBrief = (item: FollowSourceItem) => {
+  const oneLiner = stripXAutoPrefix(item.oneLinerZh || '')
+  if (countCjkChars(oneLiner) >= 6) return truncateDisplayText(firstDisplaySentence(oneLiner), 48)
+  const summaryCn = stripXAutoPrefix(item.summaryCn || '')
+  if (countCjkChars(summaryCn) >= 10) return truncateDisplayText(firstDisplaySentence(summaryCn), 56)
+  const rawText = [item.title, item.summary, item.abstractEn || ''].filter(Boolean).join(' ')
+  const isRetweet = /^rt\b/i.test(String(item.title || '').trim())
+  return inferXBriefFromEnglish(rawText, isRetweet)
+}
+
+const deriveWechatOutline = (item: FollowSourceItem) =>
+  truncateDisplayText(String(item.summaryCn || item.summary || '').replace(/\s+/g, ' ').trim(), 180)
+
+const itemsContainerClass = sourceKey === 'wechat'
+  ? 'overflow-hidden rounded-2xl border border-border bg-card'
+  : sourceKey === 'x'
+    ? 'overflow-hidden rounded-2xl border border-border bg-card'
+    : 'space-y-4'
 ---
 
 <CommonPage title={pageTitle} {headings} info={`/follow/${sourceKey}`}>
@@ -170,7 +236,7 @@ const normalizeDisplayPersonName = (value: string) => {
         </div>
       </div>
 
-      <div id='follow-items' class={useCardGrid ? 'grid grid-cols-1 gap-4 xl:grid-cols-2' : 'space-y-4'}>
+      <div id='follow-items' class={itemsContainerClass}>
         {items.map((item: FollowSourceItem) => (
           (() => {
             const normalizedSummary = (item.summary || '').trim()
@@ -199,6 +265,108 @@ const normalizeDisplayPersonName = (value: string) => {
             const otherLinks = sourceKey === 'wechat'
               ? item.links.filter((link) => link.href && link.href !== fullLink?.href)
               : item.links
+            const xHandle = sourceKey === 'x' ? deriveXHandle(item) : ''
+            const xAccountLabel = xHandle ? `@${xHandle}` : 'X 账户'
+            const xOriginalHref = sourceKey === 'x' ? deriveXOriginalHref(item) : ''
+            const xBrief = sourceKey === 'x' ? deriveXBrief(item) : ''
+            if (sourceKey === 'x') {
+              return (
+                <article
+                  class='follow-item border-b border-border/60 px-4 py-3 last:border-b-0'
+                  data-item-id={item.id}
+                  data-date={item.date}
+                  data-importance={item.importance}
+                  data-domains={item.domains.join(',')}
+                  data-search={`${item.title} ${item.summary} ${item.abstractEn || ''} ${item.summaryCn || ''} ${item.oneLinerZh || ''} ${item.links.map((link) => link.label).join(' ')}`.toLowerCase()}
+                  data-score={item.importance === 'high' ? 3 : item.importance === 'medium' ? 2 : 1}
+                >
+                  <div class='flex flex-col gap-2 lg:flex-row lg:items-start lg:justify-between'>
+                    <div class='min-w-0 flex-1 space-y-1.5'>
+                      <div class='flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-muted-foreground'>
+                        <span class='font-semibold text-foreground'>{xAccountLabel}</span>
+                        {xOriginalHref ? (
+                          <a href={xOriginalHref} target='_blank' rel='noreferrer' class='text-primary no-underline transition-colors hover:text-primary/80'>
+                            原帖
+                          </a>
+                        ) : null}
+                        <span>{item.date}</span>
+                      </div>
+                      <p class='m-0 text-sm leading-6 text-foreground'>{xBrief}</p>
+                    </div>
+                    {item.domains.length > 0 ? (
+                      <div class='flex flex-wrap gap-1.5 lg:justify-end'>
+                        {item.domains.map((slug: string) => {
+                          const domain = getFollowDomainBySlug(slug)
+                          return (
+                            <a
+                              href={domain ? `/wiki/domain/${domain.slug}` : '/wiki'}
+                              class='rounded-full bg-primary/8 px-2 py-1 text-[11px] font-medium text-primary no-underline transition-colors hover:bg-primary/15'
+                            >
+                              {domain?.name || slug}
+                            </a>
+                          )
+                        })}
+                      </div>
+                    ) : null}
+                  </div>
+                </article>
+              )
+            }
+            const wechatOutline = sourceKey === 'wechat' ? deriveWechatOutline(item) : ''
+            if (sourceKey === 'wechat') {
+              return (
+                <article
+                  class='follow-item border-b border-border/60 px-4 py-4 last:border-b-0'
+                  data-item-id={item.id}
+                  data-date={item.date}
+                  data-importance={item.importance}
+                  data-domains={item.domains.join(',')}
+                  data-search={`${item.title} ${item.summary} ${item.summaryCn || ''} ${item.oneLinerZh || ''} ${relatedOrganizations.join(' ')} ${relatedCompanies.join(' ')} ${item.links.map((link) => link.label).join(' ')}`.toLowerCase()}
+                  data-score={item.importance === 'high' ? 3 : item.importance === 'medium' ? 2 : 1}
+                >
+                  <div class='flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between'>
+                    <div class='min-w-0 flex-1 space-y-2'>
+                      <div class='flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-muted-foreground'>
+                        <span>{item.date}</span>
+                        {fullLink ? (
+                          <a href={fullLink.href} target='_blank' rel='noreferrer' class='text-primary no-underline transition-colors hover:text-primary/80'>
+                            全文
+                          </a>
+                        ) : null}
+                      </div>
+                      <h3 class='m-0 text-base font-semibold leading-6 text-foreground'>{item.title}</h3>
+                      {item.oneLinerZh ? (
+                        <p class='m-0 text-sm leading-6 text-foreground'>
+                          <span class='font-medium text-foreground'>一句话总结：</span>
+                          {item.oneLinerZh}
+                        </p>
+                      ) : null}
+                      {wechatOutline ? (
+                        <p class='m-0 text-sm leading-6 text-muted-foreground'>
+                          <span class='font-medium text-foreground'>全文概要：</span>
+                          {wechatOutline}
+                        </p>
+                      ) : null}
+                    </div>
+                    {item.domains.length > 0 ? (
+                      <div class='flex flex-wrap gap-1.5 lg:justify-end'>
+                        {item.domains.map((slug: string) => {
+                          const domain = getFollowDomainBySlug(slug)
+                          return (
+                            <a
+                              href={domain ? `/wiki/domain/${domain.slug}` : '/wiki'}
+                              class='rounded-full bg-primary/8 px-2 py-1 text-[11px] font-medium text-primary no-underline transition-colors hover:bg-primary/15'
+                            >
+                              {domain?.name || slug}
+                            </a>
+                          )
+                        })}
+                      </div>
+                    ) : null}
+                  </div>
+                </article>
+              )
+            }
             return (
           <article
             class='follow-item h-full rounded-2xl border border-border bg-card p-5 shadow-sm'
@@ -256,19 +424,7 @@ const normalizeDisplayPersonName = (value: string) => {
                     </div>
                   ) : null}
                   {showSummary ? (
-                    sourceKey === 'x' ? (
-                      <div class='rounded-xl border border-border/50 bg-background/70 px-4 py-3'>
-                        <p class='m-0 text-xs font-semibold tracking-[0.16em] text-muted-foreground/80'>原文摘录</p>
-                        <p class='m-0 mt-2 text-sm leading-6 text-muted-foreground'>{item.summary}</p>
-                      </div>
-                    ) : sourceKey === 'wechat' ? (
-                      <div class='rounded-xl border border-border/50 bg-background/70 px-4 py-3'>
-                        <p class='m-0 text-xs font-semibold tracking-[0.16em] text-muted-foreground/80'>摘要</p>
-                        <p class='m-0 mt-2 text-sm leading-6 text-muted-foreground'>{item.summary}</p>
-                      </div>
-                    ) : (
-                      <p class='m-0 text-sm leading-6 text-muted-foreground'>{item.summary}</p>
-                    )
+                    <p class='m-0 text-sm leading-6 text-muted-foreground'>{item.summary}</p>
                   ) : null}
                   {item.summaryCn ? (
                     <div class='rounded-xl border border-border/50 bg-muted/20 px-4 py-3'>
@@ -321,7 +477,7 @@ const normalizeDisplayPersonName = (value: string) => {
                 {[
                   ...otherLinks.map((link) => ({
                     ...link,
-                    label: sourceKey === 'wechat' && link.label === 'Article' ? '全文' : link.label,
+                    label: link.label,
                   })),
                   ...(deriveHjfyUrl(item) && !item.links.some((link) => link.href === deriveHjfyUrl(item))
                     ? [{ label: '中英对照', href: deriveHjfyUrl(item) }]
@@ -385,6 +541,69 @@ const normalizeDisplayPersonName = (value: string) => {
       return raw
     }
 
+    const X_HANDLE_PAT = /(?:nitter\.net|x\.com|twitter\.com)\/([^/?#]+)/i
+
+    const countCjkChars = (value) =>
+      Array.from(String(value || '')).filter((char) => /[\u4e00-\u9fff]/.test(char)).length
+
+    const stripXAutoPrefix = (value) =>
+      String(value || '')
+        .replace(/^X\s*动态[:：]\s*/i, '')
+        .replace(/^原文摘要[:：]\s*/i, '')
+        .trim()
+
+    const truncateDisplayText = (value, limit) => {
+      const text = String(value || '').replace(/\s+/g, ' ').trim()
+      if (text.length <= limit) return text
+      return `${text.slice(0, Math.max(0, limit - 1)).trim()}…`
+    }
+
+    const firstDisplaySentence = (value) => {
+      const text = String(value || '').replace(/\s+/g, ' ').trim()
+      if (!text) return ''
+      const parts = text.split(/(?<=[。！？!?])\s+/)
+      return parts[0]?.trim() || text
+    }
+
+    const deriveXOriginalHref = (item) => {
+      const links = Array.isArray(item?.links) ? item.links : []
+      return links.find((link) => ['Original', 'Thread'].includes(link?.label) && link?.href)?.href || String(item?.url || '').trim()
+    }
+
+    const deriveXHandle = (item) => {
+      const href = deriveXOriginalHref(item)
+      const match = href.match(X_HANDLE_PAT)
+      return match?.[1]?.replace(/^@/, '').trim() || ''
+    }
+
+    const inferXBriefFromEnglish = (value, isRetweet) => {
+      const lowered = String(value || '').toLowerCase()
+      if (lowered.includes('persuasion') || lowered.includes('persuade')) return '讨论了 AI 说服能力及其潜在社会影响。'
+      if (['spend control', 'credit usage', 'admin console', 'enterprise'].some((token) => lowered.includes(token))) return '发布了企业额度分析与管理员支出控制相关更新。'
+      if (['jailbreak', 'security', 'safety', 'blocked request'].some((token) => lowered.includes(token))) return '讨论了模型越狱与安全限制相关动态。'
+      if (['open weights', 'open source', 'open model', 'open models'].some((token) => lowered.includes(token))) return '讨论了开源模型与开放生态的最新进展。'
+      if (['benchmark', 'evaluation', 'leaderboard', 'eval'].some((token) => lowered.includes(token))) return '分享了一个评测结果或 benchmark 观察。'
+      if (['robot', 'robotics', 'vla', 'manipulation', 'embodied'].some((token) => lowered.includes(token))) return '分享了机器人或具身智能相关进展。'
+      if (['video', 'demo', 'scanner', 'visualizer', 'livestream'].some((token) => lowered.includes(token))) return '分享了一段演示或产品展示。'
+      if (['launch', 'launched', 'release', 'released', 'rolling out', 'available', 'update', 'updated'].some((token) => lowered.includes(token))) return '发布了一项新功能或产品更新。'
+      if (['paper', 'research', 'study', 'arxiv'].some((token) => lowered.includes(token))) return '分享了一项研究进展。'
+      if (['model', 'llm', 'ai', 'agent', 'workflow'].some((token) => lowered.includes(token))) return '分享了一条 AI 相关动态。'
+      return isRetweet ? '转发并评论了一条值得关注的动态。' : '分享了一条值得查看的动态。'
+    }
+
+    const deriveXBrief = (item) => {
+      const oneLiner = stripXAutoPrefix(item?.one_liner_zh || item?.oneLinerZh || '')
+      if (countCjkChars(oneLiner) >= 6) return truncateDisplayText(firstDisplaySentence(oneLiner), 48)
+      const summaryCn = stripXAutoPrefix(item?.summary_cn || item?.summaryCn || '')
+      if (countCjkChars(summaryCn) >= 10) return truncateDisplayText(firstDisplaySentence(summaryCn), 56)
+      const rawText = [item?.title, item?.summary, item?.abstract_en || item?.abstractEn || ''].filter(Boolean).join(' ')
+      const isRetweet = /^rt\b/i.test(String(item?.title || '').trim())
+      return inferXBriefFromEnglish(rawText, isRetweet)
+    }
+
+    const deriveWechatOutline = (item) =>
+      truncateDisplayText(String(item?.summary_cn || item?.summaryCn || item?.summary || '').replace(/\s+/g, ' ').trim(), 180)
+
     const loadFavorites = () => {
       if (!enableLocalFavorites) return
       try {
@@ -417,10 +636,70 @@ const normalizeDisplayPersonName = (value: string) => {
         return `<a href="/wiki/domain/${slug}" class="rounded-full bg-primary/10 px-2.5 py-1 text-xs font-medium text-primary no-underline transition-colors hover:bg-primary/15">${name}</a>`
       }).join('')
 
+      const importanceScore = item.importance === 'high' ? 3 : item.importance === 'medium' ? 2 : 1
+      const domainsForFilter = (item.domains || []).map((domain) => typeof domain === 'string' ? domain : domain.slug).join(',')
       const wechatArticleHref = sourceKey === 'wechat' ? deriveWechatArticleHref(item) : ''
       const fullLink = sourceKey === 'wechat' && wechatArticleHref
         ? { label: 'Article', href: wechatArticleHref }
         : null
+
+      if (sourceKey === 'x') {
+        const xHandle = deriveXHandle(item)
+        const xAccountLabel = xHandle ? `@${xHandle}` : 'X 账户'
+        const xOriginalHref = deriveXOriginalHref(item)
+        const xBrief = deriveXBrief(item)
+        return `
+          <article
+            class="follow-item border-b border-border/60 px-4 py-3 last:border-b-0"
+            data-item-id="${item.id || ''}"
+            data-date="${item.date || ''}"
+            data-importance="${item.importance || 'medium'}"
+            data-domains="${domainsForFilter}"
+            data-search="${`${item.title || ''} ${item.summary || ''} ${item.abstract_en || item.abstractEn || ''} ${item.summary_cn || item.summaryCn || ''} ${item.one_liner_zh || item.oneLinerZh || ''} ${(item.links || []).map((link) => link.label).join(' ')}`.toLowerCase()}"
+            data-score="${importanceScore}"
+          >
+            <div class="flex flex-col gap-2 lg:flex-row lg:items-start lg:justify-between">
+              <div class="min-w-0 flex-1 space-y-1.5">
+                <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-muted-foreground">
+                  <span class="font-semibold text-foreground">${xAccountLabel}</span>
+                  ${xOriginalHref ? `<a href="${xOriginalHref}" target="_blank" rel="noreferrer" class="text-primary no-underline transition-colors hover:text-primary/80">原帖</a>` : ''}
+                  <span>${item.date || ''}</span>
+                </div>
+                <p class="m-0 text-sm leading-6 text-foreground">${xBrief}</p>
+              </div>
+              ${domainHtml ? `<div class="flex flex-wrap gap-1.5 lg:justify-end">${domainHtml}</div>` : ''}
+            </div>
+          </article>
+        `
+      }
+
+      if (sourceKey === 'wechat') {
+        const wechatOutline = deriveWechatOutline(item)
+        return `
+          <article
+            class="follow-item border-b border-border/60 px-4 py-4 last:border-b-0"
+            data-item-id="${item.id || ''}"
+            data-date="${item.date || ''}"
+            data-importance="${item.importance || 'medium'}"
+            data-domains="${domainsForFilter}"
+            data-search="${`${item.title || ''} ${item.summary || ''} ${item.summary_cn || item.summaryCn || ''} ${item.one_liner_zh || item.oneLinerZh || ''} ${(item.links || []).map((link) => link.label).join(' ')}`.toLowerCase()}"
+            data-score="${importanceScore}"
+          >
+            <div class="flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between">
+              <div class="min-w-0 flex-1 space-y-2">
+                <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-muted-foreground">
+                  <span>${item.date || ''}</span>
+                  ${fullLink ? `<a href="${fullLink.href}" target="_blank" rel="noreferrer" class="text-primary no-underline transition-colors hover:text-primary/80">全文</a>` : ''}
+                </div>
+                <h3 class="m-0 text-base font-semibold leading-6 text-foreground">${item.title || ''}</h3>
+                ${item.one_liner_zh || item.oneLinerZh ? `<p class="m-0 text-sm leading-6 text-foreground"><span class="font-medium text-foreground">一句话总结：</span>${item.one_liner_zh || item.oneLinerZh}</p>` : ''}
+                ${wechatOutline ? `<p class="m-0 text-sm leading-6 text-muted-foreground"><span class="font-medium text-foreground">全文概要：</span>${wechatOutline}</p>` : '' }
+              </div>
+              ${domainHtml ? `<div class="flex flex-wrap gap-1.5 lg:justify-end">${domainHtml}</div>` : ''}
+            </div>
+          </article>
+        `
+      }
       const otherLinks = sourceKey === 'wechat'
         ? (item.links || []).filter((link) => link?.href && link.href !== fullLink?.href)
         : (item.links || [])
@@ -435,9 +714,6 @@ const normalizeDisplayPersonName = (value: string) => {
       const hjfyHtml = derivedHjfyUrl && !(item.links || []).some((link) => link.href === derivedHjfyUrl)
         ? `<a class="group relative inline-flex items-center gap-x-2 rounded-lg bg-muted border border-border px-3 py-2 text-sm font-medium text-muted-foreground transition-all duration-200 hover:border-foreground/20 hover:bg-muted/80 hover:text-foreground no-underline" href="${derivedHjfyUrl}" target="_blank" rel="noreferrer" data-astro-prefetch="true"><div class="relative flex items-center gap-x-2"><p class="my-0 transition-colors duration-200">中英对照</p></div></a>`
         : ''
-
-      const importanceScore = item.importance === 'high' ? 3 : item.importance === 'medium' ? 2 : 1
-      const domainsForFilter = (item.domains || []).map((domain) => typeof domain === 'string' ? domain : domain.slug).join(',')
       const categoryHtml = (item.categories || []).map((category) => (
         `<span class="rounded-full bg-muted px-2.5 py-1 text-xs font-medium text-muted-foreground">${category}</span>`
       )).join('')
