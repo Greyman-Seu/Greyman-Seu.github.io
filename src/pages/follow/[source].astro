@@ -280,34 +280,36 @@ const itemsContainerClass = sourceKey === 'wechat'
                   data-search={`${item.title} ${item.summary} ${item.abstractEn || ''} ${item.summaryCn || ''} ${item.oneLinerZh || ''} ${item.links.map((link) => link.label).join(' ')}`.toLowerCase()}
                   data-score={item.importance === 'high' ? 3 : item.importance === 'medium' ? 2 : 1}
                 >
-                  <div class='flex flex-col gap-2 lg:flex-row lg:items-start lg:justify-between'>
-                    <div class='min-w-0 flex-1 space-y-1.5'>
-                      <div class='flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-muted-foreground'>
+                  <div class='grid gap-3 lg:grid-cols-[11rem_minmax(0,1fr)] lg:gap-4'>
+                    <div class='space-y-2'>
+                      <div class='flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-muted-foreground lg:flex-col lg:items-start lg:gap-x-0'>
                         <span class='font-semibold text-foreground'>{xAccountLabel}</span>
+                        <span>{item.date}</span>
                         {xOriginalHref ? (
                           <a href={xOriginalHref} target='_blank' rel='noreferrer' class='text-primary no-underline transition-colors hover:text-primary/80'>
                             原帖
                           </a>
                         ) : null}
-                        <span>{item.date}</span>
                       </div>
+                      {item.domains.length > 0 ? (
+                        <div class='flex flex-wrap gap-1.5'>
+                          {item.domains.map((slug: string) => {
+                            const domain = getFollowDomainBySlug(slug)
+                            return (
+                              <a
+                                href={domain ? `/wiki/domain/${domain.slug}` : '/wiki'}
+                                class='rounded-full bg-primary/8 px-2 py-1 text-[11px] font-medium text-primary no-underline transition-colors hover:bg-primary/15'
+                              >
+                                {domain?.name || slug}
+                              </a>
+                            )
+                          })}
+                        </div>
+                      ) : null}
+                    </div>
+                    <div class='min-w-0'>
                       <p class='m-0 text-sm leading-6 text-foreground'>{xBrief}</p>
                     </div>
-                    {item.domains.length > 0 ? (
-                      <div class='flex flex-wrap gap-1.5 lg:justify-end'>
-                        {item.domains.map((slug: string) => {
-                          const domain = getFollowDomainBySlug(slug)
-                          return (
-                            <a
-                              href={domain ? `/wiki/domain/${domain.slug}` : '/wiki'}
-                              class='rounded-full bg-primary/8 px-2 py-1 text-[11px] font-medium text-primary no-underline transition-colors hover:bg-primary/15'
-                            >
-                              {domain?.name || slug}
-                            </a>
-                          )
-                        })}
-                      </div>
-                    ) : null}
                   </div>
                 </article>
               )
@@ -658,16 +660,18 @@ const itemsContainerClass = sourceKey === 'wechat'
             data-search="${`${item.title || ''} ${item.summary || ''} ${item.abstract_en || item.abstractEn || ''} ${item.summary_cn || item.summaryCn || ''} ${item.one_liner_zh || item.oneLinerZh || ''} ${(item.links || []).map((link) => link.label).join(' ')}`.toLowerCase()}"
             data-score="${importanceScore}"
           >
-            <div class="flex flex-col gap-2 lg:flex-row lg:items-start lg:justify-between">
-              <div class="min-w-0 flex-1 space-y-1.5">
-                <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-muted-foreground">
+            <div class="grid gap-3 lg:grid-cols-[11rem_minmax(0,1fr)] lg:gap-4">
+              <div class="space-y-2">
+                <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-muted-foreground lg:flex-col lg:items-start lg:gap-x-0">
                   <span class="font-semibold text-foreground">${xAccountLabel}</span>
-                  ${xOriginalHref ? `<a href="${xOriginalHref}" target="_blank" rel="noreferrer" class="text-primary no-underline transition-colors hover:text-primary/80">原帖</a>` : ''}
                   <span>${item.date || ''}</span>
+                  ${xOriginalHref ? `<a href="${xOriginalHref}" target="_blank" rel="noreferrer" class="text-primary no-underline transition-colors hover:text-primary/80">原帖</a>` : ''}
                 </div>
+                ${domainHtml ? `<div class="flex flex-wrap gap-1.5">${domainHtml}</div>` : ''}
+              </div>
+              <div class="min-w-0">
                 <p class="m-0 text-sm leading-6 text-foreground">${xBrief}</p>
               </div>
-              ${domainHtml ? `<div class="flex flex-wrap gap-1.5 lg:justify-end">${domainHtml}</div>` : ''}
             </div>
           </article>
         `
