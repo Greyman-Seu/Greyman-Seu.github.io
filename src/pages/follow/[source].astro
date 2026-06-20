@@ -10,6 +10,7 @@ import {
   type FollowSource,
   type FollowSourceItem,
 } from '@/data/follow'
+import { twitterPeople } from '@/data/twitter-people'
 
 export const prerender = true
 
@@ -51,6 +52,20 @@ const headings = [
   { depth: 2, slug: 'items', text: `${sourceMeta.title} Items` },
 ]
 const pageTitle = `Follow / ${sourceMeta.title}`
+
+const supplementalXIdentityNotes: Record<string, string> = {
+  samcjg: '神经科学与生成建模方向研究者',
+  aditya_oberai: '机器人与生成模型方向研究者',
+  milksandmatcha: 'AI 评论作者，长期追踪模型与硬件',
+  vectorwang2: '具身智能与机器人学习方向研究者',
+}
+
+const xIdentityNotes = Object.fromEntries(
+  [
+    ...twitterPeople.map((person) => [person.handle.toLowerCase(), person.notes.slice(0, 2).join(' · ')] as const),
+    ...Object.entries(supplementalXIdentityNotes),
+  ].filter(([, note]) => String(note || '').trim())
+)
 
 const deriveHjfyUrl = (item: FollowSourceItem) => {
   if (item.hjfyUrl) return item.hjfyUrl
@@ -109,6 +124,8 @@ const deriveXHandle = (item: Pick<FollowSourceItem, 'url' | 'links'>) => {
   return match?.[1]?.replace(/^@/, '').trim() || ''
 }
 
+const deriveXIdentityNote = (handle: string) => xIdentityNotes[String(handle || '').toLowerCase()] || ''
+
 const inferXBriefFromEnglish = (value: string, isRetweet: boolean) => {
   const lowered = String(value || '').toLowerCase()
   if (lowered.includes('persuasion') || lowered.includes('persuade')) return '讨论了 AI 说服能力及其潜在社会影响。'
@@ -138,9 +155,9 @@ const deriveWechatOutline = (item: FollowSourceItem) =>
   truncateDisplayText(String(item.summaryCn || item.summary || '').replace(/\s+/g, ' ').trim(), 180)
 
 const itemsContainerClass = sourceKey === 'wechat'
-  ? 'overflow-hidden rounded-2xl border border-border bg-card'
+  ? 'space-y-4'
   : sourceKey === 'x'
-    ? 'overflow-hidden rounded-2xl border border-border bg-card'
+    ? 'space-y-4'
     : 'space-y-4'
 ---
 
@@ -267,6 +284,7 @@ const itemsContainerClass = sourceKey === 'wechat'
               : item.links
             const xHandle = sourceKey === 'x' ? deriveXHandle(item) : ''
             const xAccountLabel = xHandle ? `@${xHandle}` : 'X 账户'
+            const xIdentityNote = sourceKey === 'x' ? deriveXIdentityNote(xHandle) : ''
             const xOriginalHref = sourceKey === 'x' ? deriveXOriginalHref(item) : ''
             const xBrief = sourceKey === 'x' ? deriveXBrief(item) : ''
             if (sourceKey === 'x') {
@@ -280,32 +298,32 @@ const itemsContainerClass = sourceKey === 'wechat'
                   data-search={`${item.title} ${item.summary} ${item.abstractEn || ''} ${item.summaryCn || ''} ${item.oneLinerZh || ''} ${item.links.map((link) => link.label).join(' ')}`.toLowerCase()}
                   data-score={item.importance === 'high' ? 3 : item.importance === 'medium' ? 2 : 1}
                 >
-                  <div class='grid gap-3 lg:grid-cols-[11rem_minmax(0,1fr)] lg:gap-4'>
+                  <div class='grid gap-3 lg:grid-cols-[14rem_minmax(0,1fr)] lg:gap-5'>
                     <div class='space-y-2'>
-                      <div class='flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-muted-foreground lg:flex-col lg:items-start lg:gap-x-0'>
+                      <div class='space-y-1'>
                         <span class='font-semibold text-foreground'>{xAccountLabel}</span>
-                        <span>{item.date}</span>
+                        {xIdentityNote ? <p class='m-0 text-xs leading-5 text-muted-foreground'>{xIdentityNote}</p> : null}
+                      </div>
+                      <div class='flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-muted-foreground'>
                         {xOriginalHref ? (
                           <a href={xOriginalHref} target='_blank' rel='noreferrer' class='text-primary no-underline transition-colors hover:text-primary/80'>
                             原帖
                           </a>
                         ) : null}
                       </div>
-                      {item.domains.length > 0 ? (
-                        <div class='flex flex-wrap gap-1.5'>
-                          {item.domains.map((slug: string) => {
-                            const domain = getFollowDomainBySlug(slug)
-                            return (
-                              <a
-                                href={domain ? `/wiki/domain/${domain.slug}` : '/wiki'}
-                                class='rounded-full bg-primary/8 px-2 py-1 text-[11px] font-medium text-primary no-underline transition-colors hover:bg-primary/15'
-                              >
-                                {domain?.name || slug}
-                              </a>
-                            )
-                          })}
-                        </div>
-                      ) : null}
+                      <div class='flex flex-wrap gap-1.5'>
+                        {item.domains.map((slug: string) => {
+                          const domain = getFollowDomainBySlug(slug)
+                          return (
+                            <a
+                              href={domain ? `/wiki/domain/${domain.slug}` : '/wiki'}
+                              class='rounded-full bg-primary/8 px-2 py-1 text-[11px] font-medium text-primary no-underline transition-colors hover:bg-primary/15'
+                            >
+                              {domain?.name || slug}
+                            </a>
+                          )
+                        })}
+                      </div>
                     </div>
                     <div class='min-w-0'>
                       <p class='m-0 text-sm leading-6 text-foreground'>{xBrief}</p>
@@ -520,7 +538,7 @@ const itemsContainerClass = sourceKey === 'wechat'
     )}
   </div>
 
-  <script is:inline define:vars={{ searchEnabled: sourceMeta.searchEnabled, followDataBaseUrl: FOLLOW_DATA_BASE_URL, requireRemoteFollowData: REQUIRE_REMOTE_FOLLOW_DATA, enableRemoteFollowData: ENABLE_REMOTE_FOLLOW_DATA, enableLocalFavorites, sourceKey }}>
+  <script is:inline define:vars={{ searchEnabled: sourceMeta.searchEnabled, followDataBaseUrl: FOLLOW_DATA_BASE_URL, requireRemoteFollowData: REQUIRE_REMOTE_FOLLOW_DATA, enableRemoteFollowData: ENABLE_REMOTE_FOLLOW_DATA, enableLocalFavorites, sourceKey, xIdentityNotes }}>
     const FAVORITES_KEY = `followhub:follow-page:favorites:${sourceKey}`
     let favorites = new Set()
 
@@ -577,6 +595,8 @@ const itemsContainerClass = sourceKey === 'wechat'
       const match = href.match(X_HANDLE_PAT)
       return match?.[1]?.replace(/^@/, '').trim() || ''
     }
+
+    const deriveXIdentityNote = (handle) => xIdentityNotes?.[String(handle || '').toLowerCase()] || ''
 
     const inferXBriefFromEnglish = (value, isRetweet) => {
       const lowered = String(value || '').toLowerCase()
@@ -648,6 +668,7 @@ const itemsContainerClass = sourceKey === 'wechat'
       if (sourceKey === 'x') {
         const xHandle = deriveXHandle(item)
         const xAccountLabel = xHandle ? `@${xHandle}` : 'X 账户'
+        const xIdentityNote = deriveXIdentityNote(xHandle)
         const xOriginalHref = deriveXOriginalHref(item)
         const xBrief = deriveXBrief(item)
         return `
@@ -660,14 +681,16 @@ const itemsContainerClass = sourceKey === 'wechat'
             data-search="${`${item.title || ''} ${item.summary || ''} ${item.abstract_en || item.abstractEn || ''} ${item.summary_cn || item.summaryCn || ''} ${item.one_liner_zh || item.oneLinerZh || ''} ${(item.links || []).map((link) => link.label).join(' ')}`.toLowerCase()}"
             data-score="${importanceScore}"
           >
-            <div class="grid gap-3 lg:grid-cols-[11rem_minmax(0,1fr)] lg:gap-4">
+            <div class="grid gap-3 lg:grid-cols-[14rem_minmax(0,1fr)] lg:gap-5">
               <div class="space-y-2">
-                <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-muted-foreground lg:flex-col lg:items-start lg:gap-x-0">
+                <div class="space-y-1">
                   <span class="font-semibold text-foreground">${xAccountLabel}</span>
-                  <span>${item.date || ''}</span>
+                  ${xIdentityNote ? `<p class="m-0 text-xs leading-5 text-muted-foreground">${xIdentityNote}</p>` : ''}
+                </div>
+                <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-muted-foreground">
                   ${xOriginalHref ? `<a href="${xOriginalHref}" target="_blank" rel="noreferrer" class="text-primary no-underline transition-colors hover:text-primary/80">原帖</a>` : ''}
                 </div>
-                ${domainHtml ? `<div class="flex flex-wrap gap-1.5">${domainHtml}</div>` : ''}
+                <div class="flex flex-wrap gap-1.5">${domainHtml}</div>
               </div>
               <div class="min-w-0">
                 <p class="m-0 text-sm leading-6 text-foreground">${xBrief}</p>
@@ -846,6 +869,35 @@ const itemsContainerClass = sourceKey === 'wechat'
       let cards = Array.from(container.querySelectorAll('.follow-item'))
       const baseContainerClass = container.className
       const importanceValue = (value) => ({ high: 3, medium: 2, low: 1 }[value] || 0)
+      const useDateSections = sourceKey === 'x' || sourceKey === 'wechat'
+
+      const buildDateSection = (dateValue, sectionCards) => {
+        const section = document.createElement('section')
+        section.className = 'overflow-hidden rounded-2xl border border-border bg-card shadow-sm'
+
+        const header = document.createElement('div')
+        header.className = 'flex items-center justify-between gap-3 border-b border-border/60 bg-muted/20 px-4 py-3'
+
+        const title = document.createElement('h3')
+        title.className = 'm-0 text-sm font-semibold tracking-[0.08em] text-foreground'
+        title.textContent = dateValue
+
+        const count = document.createElement('span')
+        count.className = 'text-xs text-muted-foreground'
+        count.textContent = `${sectionCards.length} item(s)`
+
+        header.appendChild(title)
+        header.appendChild(count)
+        section.appendChild(header)
+
+        const body = document.createElement('div')
+        body.className = 'divide-y divide-border/60'
+        sectionCards.forEach((card) => {
+          body.appendChild(card)
+        })
+        section.appendChild(body)
+        return section
+      }
 
       const syncFavoriteButtons = () => {
         if (!enableLocalFavorites) return
@@ -923,10 +975,24 @@ const itemsContainerClass = sourceKey === 'wechat'
           container.appendChild(card)
         })
 
-        visible.forEach((card) => {
-          card.classList.remove('hidden')
-          container.appendChild(card)
-        })
+        if (useDateSections) {
+          const groups = new Map()
+          visible.forEach((card) => {
+            card.classList.remove('hidden')
+            const cardDate = card.getAttribute('data-date') || 'Unknown date'
+            if (!groups.has(cardDate)) groups.set(cardDate, [])
+            groups.get(cardDate).push(card)
+          })
+          container.innerHTML = ''
+          Array.from(groups.entries()).forEach(([dateValue, sectionCards]) => {
+            container.appendChild(buildDateSection(dateValue, sectionCards))
+          })
+        } else {
+          visible.forEach((card) => {
+            card.classList.remove('hidden')
+            container.appendChild(card)
+          })
+        }
 
         summary.textContent = enableLocalFavorites
           ? `${visible.length} item(s) visible · ${favorites.size} favorite(s)`
