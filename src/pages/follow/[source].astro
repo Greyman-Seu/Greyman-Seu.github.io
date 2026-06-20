@@ -311,19 +311,6 @@ const itemsContainerClass = sourceKey === 'wechat'
                           </a>
                         ) : null}
                       </div>
-                      <div class='flex flex-wrap gap-1.5'>
-                        {item.domains.map((slug: string) => {
-                          const domain = getFollowDomainBySlug(slug)
-                          return (
-                            <a
-                              href={domain ? `/wiki/domain/${domain.slug}` : '/wiki'}
-                              class='rounded-full bg-primary/8 px-2 py-1 text-[11px] font-medium text-primary no-underline transition-colors hover:bg-primary/15'
-                            >
-                              {domain?.name || slug}
-                            </a>
-                          )
-                        })}
-                      </div>
                     </div>
                     <div class='min-w-0'>
                       <p class='m-0 text-sm leading-6 text-foreground'>{xBrief}</p>
@@ -700,7 +687,6 @@ const itemsContainerClass = sourceKey === 'wechat'
                 <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-muted-foreground">
                   ${xOriginalHref ? `<a href="${escapeAttr(xOriginalHref)}" target="_blank" rel="noreferrer" class="text-primary no-underline transition-colors hover:text-primary/80">原帖</a>` : ''}
                 </div>
-                <div class="flex flex-wrap gap-1.5">${domainHtml}</div>
               </div>
               <div class="min-w-0">
                 <p class="m-0 text-sm leading-6 text-foreground">${escapeHtml(xBrief)}</p>
