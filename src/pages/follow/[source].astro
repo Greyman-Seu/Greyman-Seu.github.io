@@ -126,9 +126,9 @@ const inferXBriefFromEnglish = (value: string, isRetweet: boolean) => {
 
 const deriveXBrief = (item: FollowSourceItem) => {
   const oneLiner = stripXAutoPrefix(item.oneLinerZh || '')
-  if (countCjkChars(oneLiner) >= 6) return truncateDisplayText(firstDisplaySentence(oneLiner), 48)
+  if (countCjkChars(oneLiner) >= 6) return firstDisplaySentence(oneLiner)
   const summaryCn = stripXAutoPrefix(item.summaryCn || '')
-  if (countCjkChars(summaryCn) >= 10) return truncateDisplayText(firstDisplaySentence(summaryCn), 56)
+  if (countCjkChars(summaryCn) >= 10) return firstDisplaySentence(summaryCn)
   const rawText = [item.title, item.summary, item.abstractEn || ''].filter(Boolean).join(' ')
   const isRetweet = /^rt\b/i.test(String(item.title || '').trim())
   return inferXBriefFromEnglish(rawText, isRetweet)
@@ -595,9 +595,9 @@ const itemsContainerClass = sourceKey === 'wechat'
 
     const deriveXBrief = (item) => {
       const oneLiner = stripXAutoPrefix(item?.one_liner_zh || item?.oneLinerZh || '')
-      if (countCjkChars(oneLiner) >= 6) return truncateDisplayText(firstDisplaySentence(oneLiner), 48)
+      if (countCjkChars(oneLiner) >= 6) return firstDisplaySentence(oneLiner)
       const summaryCn = stripXAutoPrefix(item?.summary_cn || item?.summaryCn || '')
-      if (countCjkChars(summaryCn) >= 10) return truncateDisplayText(firstDisplaySentence(summaryCn), 56)
+      if (countCjkChars(summaryCn) >= 10) return firstDisplaySentence(summaryCn)
       const rawText = [item?.title, item?.summary, item?.abstract_en || item?.abstractEn || ''].filter(Boolean).join(' ')
       const isRetweet = /^rt\b/i.test(String(item?.title || '').trim())
       return inferXBriefFromEnglish(rawText, isRetweet)
