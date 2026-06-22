@@ -1,0 +1,99 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="760" viewBox="0 0 1200 760" role="img" aria-labelledby="title desc">
+  <title id="title">OpenClaw + FollowHub 第二大脑架构图</title>
+  <desc id="desc">聊天窗口作为唯一入口，OpenClaw 调度记忆、Agent 和 FollowHub Skill，最终通过 Page 输出知识与个人 IP。</desc>
+  <defs>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="strokeWidth">
+      <path d="M2,2 L10,6 L2,10 Z" fill="#475569" />
+    </marker>
+    <style>
+      .bg { fill: #f8fafc; }
+      .zone { fill: #ffffff; stroke: #cbd5e1; stroke-width: 2; rx: 22; }
+      .zone-title { font: 700 20px -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; fill: #0f172a; }
+      .node { fill: #f1f5f9; stroke: #94a3b8; stroke-width: 1.8; rx: 16; }
+      .node-input { fill: #ecfeff; stroke: #0891b2; }
+      .node-agent { fill: #eef2ff; stroke: #4f46e5; }
+      .node-store { fill: #f0fdf4; stroke: #16a34a; }
+      .node-output { fill: #fff7ed; stroke: #ea580c; }
+      .node-risk { fill: #fef2f2; stroke: #dc2626; }
+      .label { font: 700 18px -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; fill: #0f172a; }
+      .small { font: 14px -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; fill: #334155; }
+      .tiny { font: 12px -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; fill: #64748b; }
+      .edge { stroke: #475569; stroke-width: 2.2; fill: none; marker-end: url(#arrow); }
+      .edge-soft { stroke: #94a3b8; stroke-width: 1.8; fill: none; marker-end: url(#arrow); stroke-dasharray: 6 6; }
+      .caption { font: 15px -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; fill: #475569; }
+    </style>
+  </defs>
+  <rect class="bg" width="1200" height="760" />
+
+  <text x="60" y="56" class="zone-title" style="font-size:28px">大模型时代下的第二大脑</text>
+  <text x="60" y="84" class="caption">唯一入口是聊天窗口，唯一出口是 Page；中间由 OpenClaw、FollowHub Skill 与知识库把“记录”变成“维护”。</text>
+
+  <rect x="48" y="120" width="240" height="520" class="zone" />
+  <text x="78" y="158" class="zone-title">入口：Chat</text>
+  <rect x="78" y="195" width="180" height="92" class="node node-input" />
+  <text x="102" y="230" class="label">聊天窗口</text>
+  <text x="102" y="256" class="small">Feishu / Telegram</text>
+  <text x="102" y="276" class="small">Signal / Web</text>
+  <rect x="78" y="338" width="180" height="96" class="node" />
+  <text x="102" y="374" class="label">自然语言任务</text>
+  <text x="102" y="400" class="small">写作、整理、发布</text>
+  <text x="102" y="420" class="small">阅读、研究、复盘</text>
+  <rect x="78" y="488" width="180" height="96" class="node node-risk" />
+  <text x="102" y="524" class="label">不再编辑工具</text>
+  <text x="102" y="550" class="small">不直接改网页</text>
+  <text x="102" y="570" class="small">不在多处搬运</text>
+
+  <rect x="348" y="120" width="500" height="520" class="zone" />
+  <text x="378" y="158" class="zone-title">中枢：OpenClaw</text>
+  <rect x="390" y="194" width="180" height="96" class="node node-agent" />
+  <text x="420" y="230" class="label">OpenClaw</text>
+  <text x="420" y="256" class="small">多 Agent</text>
+  <text x="420" y="276" class="small">多 Channel / Account</text>
+  <rect x="625" y="194" width="180" height="96" class="node node-agent" />
+  <text x="655" y="230" class="label">Hermes / 其他</text>
+  <text x="655" y="256" class="small">可替换执行层</text>
+  <text x="655" y="276" class="small">隔离不同需求</text>
+
+  <rect x="390" y="345" width="180" height="100" class="node node-store" />
+  <text x="420" y="382" class="label">记忆与知识库</text>
+  <text x="420" y="408" class="small">沉淀上下文</text>
+  <text x="420" y="428" class="small">减少维护成本</text>
+  <rect x="625" y="345" width="180" height="100" class="node node-store" />
+  <text x="655" y="382" class="label">FollowHub</text>
+  <text x="655" y="408" class="small">人工设计 Skill</text>
+  <text x="655" y="428" class="small">人机共创流程</text>
+
+  <rect x="508" y="505" width="180" height="86" class="node" />
+  <text x="538" y="540" class="label">任务执行</text>
+  <text x="538" y="566" class="small">采集 / 分析 / 写作</text>
+  <text x="538" y="586" class="small">校验 / 发布</text>
+
+  <rect x="908" y="120" width="240" height="520" class="zone" />
+  <text x="938" y="158" class="zone-title">出口：Page</text>
+  <rect x="938" y="195" width="180" height="96" class="node node-output" />
+  <text x="968" y="230" class="label">网站首页</text>
+  <text x="968" y="256" class="small">知识入口</text>
+  <text x="968" y="276" class="small">个人 IP 展示</text>
+  <rect x="938" y="344" width="180" height="96" class="node node-output" />
+  <text x="968" y="380" class="label">Blog / Wiki</text>
+  <text x="968" y="406" class="small">长文、论文、主题</text>
+  <text x="968" y="426" class="small">可搜索、可引用</text>
+  <rect x="938" y="493" width="180" height="96" class="node node-output" />
+  <text x="968" y="529" class="label">Agent 隐藏页</text>
+  <text x="968" y="555" class="small">实时状态 / 感受</text>
+  <text x="968" y="575" class="small">复杂回答 HTML 化</text>
+
+  <path class="edge" d="M258 241 C310 241 330 241 390 241" />
+  <path class="edge-soft" d="M168 287 C168 315 168 320 168 338" />
+  <path class="edge" d="M570 242 C590 242 605 242 625 242" />
+  <path class="edge" d="M480 290 C480 320 480 325 480 345" />
+  <path class="edge" d="M715 290 C715 320 715 325 715 345" />
+  <path class="edge" d="M570 395 C595 395 600 395 625 395" />
+  <path class="edge" d="M598 445 C598 475 598 482 598 505" />
+  <path class="edge" d="M688 548 C760 548 850 243 938 243" />
+  <path class="edge" d="M688 548 C760 548 850 392 938 392" />
+  <path class="edge-soft" d="M688 548 C780 548 850 541 938 541" />
+
+  <rect x="54" y="682" width="1092" height="44" fill="#ffffff" stroke="#cbd5e1" rx="14" />
+  <text x="76" y="710" class="caption">产品定义：Chat 是输入和控制台，OpenClaw 是 Agent OS，FollowHub 是 Skill 仓库，Page 是知识出口和个人品牌资产。</text>
+</svg>
