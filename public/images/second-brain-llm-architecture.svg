@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="760" viewBox="0 0 1200 760" role="img" aria-labelledby="title desc">
   <title id="title">OpenClaw + FollowHub 第二大脑架构图</title>
-  <desc id="desc">聊天窗口作为唯一入口，OpenClaw 调度记忆、Agent 和 FollowHub Skill，最终通过 Page 输出知识与个人 IP。</desc>
+  <desc id="desc">聊天窗口作为唯一入口，OpenClaw 调度记忆、Agent 和 FollowHub Skill，最终通过个人 Page 输出知识与个人 IP。</desc>
   <defs>
     <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="strokeWidth">
       <path d="M2,2 L10,6 L2,10 Z" fill="#475569" />
@@ -26,7 +26,7 @@
   <rect class="bg" width="1200" height="760" />
 
   <text x="60" y="56" class="zone-title" style="font-size:28px">大模型时代下的第二大脑</text>
-  <text x="60" y="84" class="caption">唯一入口是聊天窗口，唯一出口是 Page；中间由 OpenClaw、FollowHub Skill 与知识库把“记录”变成“维护”。</text>
+  <text x="60" y="84" class="caption">唯一入口是聊天窗口，唯一出口是个人 Page；中间由 OpenClaw、记忆/知识库、人工 Skill 与 LLM 范式的 Wiki 把“记录”变成“维护”。</text>
 
   <rect x="48" y="120" width="240" height="520" class="zone" />
   <text x="78" y="158" class="zone-title">入口：Chat</text>
@@ -44,15 +44,15 @@
   <text x="102" y="570" class="small">不在多处搬运</text>
 
   <rect x="348" y="120" width="500" height="520" class="zone" />
-  <text x="378" y="158" class="zone-title">中枢：OpenClaw</text>
+  <text x="378" y="152" class="zone-title" style="font-size:17px"><tspan x="378" y="152">中枢：OpenClaw + 记忆/知识库</tspan><tspan x="378" y="176">+ 人工 Skill + LLM 范式 Wiki</tspan></text>
   <rect x="390" y="194" width="180" height="96" class="node node-agent" />
   <text x="420" y="230" class="label">OpenClaw</text>
   <text x="420" y="256" class="small">多 Agent</text>
   <text x="420" y="276" class="small">多 Channel / Account</text>
   <rect x="625" y="194" width="180" height="96" class="node node-agent" />
-  <text x="655" y="230" class="label">Hermes / 其他</text>
-  <text x="655" y="256" class="small">可替换执行层</text>
-  <text x="655" y="276" class="small">隔离不同需求</text>
+  <text x="655" y="230" class="label">LLM 范式 Wiki</text>
+  <text x="655" y="256" class="small">主题、source note</text>
+  <text x="655" y="276" class="small">持续连接与更新</text>
 
   <rect x="390" y="345" width="180" height="100" class="node node-store" />
   <text x="420" y="382" class="label">记忆与知识库</text>
@@ -69,7 +69,7 @@
   <text x="538" y="586" class="small">校验 / 发布</text>
 
   <rect x="908" y="120" width="240" height="520" class="zone" />
-  <text x="938" y="158" class="zone-title">出口：Page</text>
+  <text x="938" y="158" class="zone-title">出口：个人Page</text>
   <rect x="938" y="195" width="180" height="96" class="node node-output" />
   <text x="968" y="230" class="label">网站首页</text>
   <text x="968" y="256" class="small">知识入口</text>
@@ -95,5 +95,5 @@
   <path class="edge-soft" d="M688 548 C780 548 850 541 938 541" />
 
   <rect x="54" y="682" width="1092" height="44" fill="#ffffff" stroke="#cbd5e1" rx="14" />
-  <text x="76" y="710" class="caption">产品定义：Chat 是输入和控制台，OpenClaw 是 Agent OS，FollowHub 是 Skill 仓库，Page 是知识出口和个人品牌资产。</text>
+  <text x="76" y="710" class="caption">产品定义：Chat 是输入和控制台，OpenClaw 是 Agent OS，记忆/知识库与人工 Skill 共同形成 LLM 范式 Wiki，个人 Page 是知识出口和个人品牌资产。</text>
 </svg>

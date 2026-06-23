@@ -1,0 +1,109 @@
+---
+import { Paginator, PostPreview, CollectionPreview } from '@/components/pages';
+import { getBlogCollectionFiltered, getUniqueTags, sortMDByDate, getPostCollections } from '@/server';
+import { Button, Icon } from '@/components/ui';
+import PageLayout from '@/layouts/BaseLayout.astro';
+import config from '@/site-config';
+
+export const prerender = true;
+
+const allPosts = sortMDByDate(await getBlogCollectionFiltered());
+const uniqueTags = getUniqueTags(allPosts);
+const postCollections = await getPostCollections();
+const pageSize = config.content?.blogPageSize || 8;
+const lastPage = Math.max(1, Math.ceil(allPosts.length / pageSize));
+const blogPage = {
+  data: allPosts.slice(0, pageSize),
+  currentPage: 1,
+  lastPage,
+  url: {
+    current: '/blog',
+    prev: undefined,
+    next: allPosts.length > pageSize ? '/blog/2' : undefined,
+    first: '/blog',
+    last: lastPage > 1 ? `/blog/${lastPage}` : '/blog'
+  }
+};
+
+const meta = {
+  description: 'All blog posts',
+  title: 'Blog'
+};
+---
+
+<PageLayout meta={meta}>
+  <main class='mt-6 lg:mt-10'>
+    <div id='content-header' class='animate'>
+      <div class='mb-6 mt-6 sm:mt-10'>
+        <h1 class='inline-block text-3xl font-medium'>Blog</h1>
+      </div>
+    </div>
+    {
+      blogPage.data.length === 0 ? (
+        <p>No posts yet.</p>
+      ) : (
+        <div class='grid gap-y-16 sm:grid-cols-[3fr_1fr] sm:gap-x-8'>
+          <section aria-label='Blog posts list' class='animate' id='content'>
+            <div class='mb-3 flex flex-col justify-between text-sm sm:mb-5 sm:flex-row'>
+              <span class='text-muted-foreground'>
+                Showing {blogPage.data.length} of {allPosts.length} posts
+              </span>
+              <a aria-label='View all blog by years' href='/archives' data-astro-prefetch>
+                View all posts by years →
+              </a>
+            </div>
+            <ul class='flex flex-col gap-y-4 text-start'>
+              {blogPage.data.map((post) => (
+                <PostPreview post={post} detailed />
+              ))}
+            </ul>
+            {blogPage.lastPage > 1 && <Paginator currentPage={blogPage.currentPage} lastPage={blogPage.lastPage} url={blogPage.url} />}
+          </section>
+
+          {(!!uniqueTags.length || !!postCollections.length) && (
+            <aside class='animate' id='sidebar'>
+              {!!postCollections.length && (
+                <div class='mb-8'>
+                  <h2 class='mb-4 flex items-center text-lg font-semibold'>
+                    <Icon name='package' class='me-2' />
+                    Tutorials
+                  </h2>
+                  <ul class='flex flex-col gap-2'>
+                    {postCollections.slice(0, 5).map((collection) => (
+                      <CollectionPreview collection={collection} minimal />
+                    ))}
+                  </ul>
+                  <span class='mt-4 block sm:text-end'>
+                    <a aria-label='View all tutorials' href='/tutorials' data-astro-prefetch>
+                      View all →
+                    </a>
+                  </span>
+                </div>
+              )}
+              {!!uniqueTags.length && (
+                <div>
+                  <h2 class='mb-4 flex items-center text-lg font-semibold'>
+                    <Icon name='tag-2' class='me-2' />
+                    Tags
+                  </h2>
+                  <ul class='text-bgColor flex flex-wrap gap-2'>
+                    {uniqueTags.map((tag) => (
+                      <li>
+                        <Button title={tag} href={`/tags/${tag}`} style='pill' />
+                      </li>
+                    ))}
+                  </ul>
+                  <span class='mt-4 block sm:text-end'>
+                    <a aria-label='View all blog categories' href='/tags' data-astro-prefetch>
+                      View all →
+                    </a>
+                  </span>
+                </div>
+              )}
+            </aside>
+          )}
+        </div>
+      )
+    }
+  </main>
+</PageLayout>
