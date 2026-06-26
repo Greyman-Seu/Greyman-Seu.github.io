@@ -3,6 +3,7 @@
   "page_root": "/Users/xiaomi/workspace/FollowHub/submodules/page_github",
   "sources": [
     "/Users/xiaomi/workspace/FollowHub/submodules/llm-wiki-skill/followhub-wiki/wiki/sources/deximit-learning-bimanual-dexterous-manipulation-from-monocular-human-videos.md",
+    "/Users/xiaomi/workspace/FollowHub/submodules/llm-wiki-skill/followhub-wiki/wiki/sources/dexjoco-a-benchmark-and-toolkit-for-task-oriented-dexterous-manipulation-on-mujoco.md",
     "/Users/xiaomi/workspace/FollowHub/submodules/llm-wiki-skill/followhub-wiki/wiki/sources/emergence-of-human-to-robot-transfer-in-vision-language-action-models.md",
     "/Users/xiaomi/workspace/FollowHub/submodules/llm-wiki-skill/followhub-wiki/wiki/sources/mem-multi-scale-embodied-memory-for-vision-language-action-models.md",
     "/Users/xiaomi/workspace/FollowHub/submodules/llm-wiki-skill/followhub-wiki/wiki/sources/openvla-an-open-source-vision-language-action-model.md",
