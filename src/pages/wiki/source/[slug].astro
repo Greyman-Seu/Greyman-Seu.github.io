@@ -8,6 +8,14 @@ import { renderWikiSection } from '@/data/generated/wiki-render'
 
 const sourceSlug = Astro.params.slug || ''
 
+export const prerender = true
+
+export const getStaticPaths = async () =>
+  localWikiSources.map((source) => ({
+    params: { slug: source.slug },
+    props: { source }
+  }))
+
 const fetchRemoteJson = async <T,>(path: string): Promise<T | null> => {
   if (!ENABLE_REMOTE_WIKI_DATA) return null
   try {
@@ -23,10 +31,11 @@ const fetchRemoteJson = async <T,>(path: string): Promise<T | null> => {
   }
 }
 
+const { source: staticSource } = Astro.props as { source?: WikiSource }
 const remoteSources = await fetchRemoteJson<WikiSource[]>('sources.json')
 const allWikiSources = Array.isArray(remoteSources) && remoteSources.length ? remoteSources : localWikiSources
 const remoteSource = sourceSlug ? await fetchRemoteJson<WikiSource>(`source/${sourceSlug}.json`) : null
-const source = remoteSource || getWikiSourceBySlug(sourceSlug) || allWikiSources.find((item) => item.slug === sourceSlug) || allWikiSources[0]
+const source = remoteSource || staticSource || getWikiSourceBySlug(sourceSlug) || allWikiSources.find((item) => item.slug === sourceSlug) || allWikiSources[0]
 if (!source) return Astro.redirect('/wiki/papers')
 const current = source
 
