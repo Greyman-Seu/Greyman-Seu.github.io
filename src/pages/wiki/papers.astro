@@ -1,7 +1,36 @@
 ---
 import CommonPage from '@/layouts/CommonPage.astro'
 import { Button } from '@/components/ui'
-import { allWikiSources, allWikiTopics, getWikiTopicBySlug, wikiDomains } from '@/data/wiki'
+import {
+  allWikiSources as localWikiSources,
+  allWikiTopics as localWikiTopics,
+  getWikiTopicBySlug,
+  wikiDomains
+} from '@/data/wiki'
+import type { WikiSource, WikiTopic } from '@/data/wiki'
+import { ENABLE_REMOTE_WIKI_DATA, REQUIRE_REMOTE_WIKI_DATA, WIKI_DATA_BASE_URL } from '@/data/generated/wiki-client'
+
+const fetchRemoteJson = async <T,>(path: string): Promise<T | null> => {
+  if (!ENABLE_REMOTE_WIKI_DATA) return null
+  try {
+    const response = await fetch(`${WIKI_DATA_BASE_URL.replace(/\/+$/, '')}/${path.replace(/^\/+/, '')}`, { cache: 'no-store' })
+    if (!response.ok) {
+      if (REQUIRE_REMOTE_WIKI_DATA) throw new Error(`HTTP ${response.status} for ${path}`)
+      return null
+    }
+    return (await response.json()) as T
+  } catch (error) {
+    if (REQUIRE_REMOTE_WIKI_DATA) throw error
+    return null
+  }
+}
+
+const remoteSources = await fetchRemoteJson<WikiSource[]>('sources.json')
+const remoteTopics = await fetchRemoteJson<WikiTopic[]>('topics.json')
+const allWikiSources = Array.isArray(remoteSources) && remoteSources.length ? remoteSources : localWikiSources
+const allWikiTopics = Array.isArray(remoteTopics) && remoteTopics.length ? remoteTopics : localWikiTopics
+const topicBySlug = new Map(allWikiTopics.map((topic) => [topic.slug, topic]))
+const getTopic = (slug: string) => topicBySlug.get(slug) || getWikiTopicBySlug(slug)
 
 const headings = [
   { depth: 2, slug: 'papers-browser', text: '材料浏览' },
@@ -23,7 +52,7 @@ const typeNames: Record<string, string> = {
   note: '笔记'
 }
 
-const getTopicTitle = (slug: string) => getWikiTopicBySlug(slug)?.title || slug
+const getTopicTitle = (slug: string) => getTopic(slug)?.title || slug
 const splitUnitLabels = (values: string[]) =>
   Array.from(
     new Set(

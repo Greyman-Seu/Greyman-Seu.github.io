@@ -1,19 +1,34 @@
 ---
 import CommonPage from '@/layouts/CommonPage.astro'
 import { Button, Icon } from '@/components/ui'
-import { allWikiSources, getWikiSourceBySlug, getWikiTopicBySlug } from '@/data/wiki'
+import { allWikiSources as localWikiSources, getWikiSourceBySlug, getWikiTopicBySlug } from '@/data/wiki'
+import type { WikiSource } from '@/data/wiki'
+import { ENABLE_REMOTE_WIKI_DATA, REQUIRE_REMOTE_WIKI_DATA, WIKI_DATA_BASE_URL } from '@/data/generated/wiki-client'
 import { renderWikiSection } from '@/data/generated/wiki-render'
 
-export const prerender = true
+const sourceSlug = Astro.params.slug || ''
 
-export const getStaticPaths = async () =>
-  allWikiSources.map((source) => ({
-    params: { slug: source.slug },
-    props: { source }
-  }))
+const fetchRemoteJson = async <T,>(path: string): Promise<T | null> => {
+  if (!ENABLE_REMOTE_WIKI_DATA) return null
+  try {
+    const response = await fetch(`${WIKI_DATA_BASE_URL.replace(/\/+$/, '')}/${path.replace(/^\/+/, '')}`, { cache: 'no-store' })
+    if (!response.ok) {
+      if (REQUIRE_REMOTE_WIKI_DATA) throw new Error(`HTTP ${response.status} for ${path}`)
+      return null
+    }
+    return (await response.json()) as T
+  } catch (error) {
+    if (REQUIRE_REMOTE_WIKI_DATA) throw error
+    return null
+  }
+}
 
-const { source } = Astro.props as { source: (typeof allWikiSources)[number] }
-const current = getWikiSourceBySlug(Astro.params.slug || source.slug) || source
+const remoteSources = await fetchRemoteJson<WikiSource[]>('sources.json')
+const allWikiSources = Array.isArray(remoteSources) && remoteSources.length ? remoteSources : localWikiSources
+const remoteSource = sourceSlug ? await fetchRemoteJson<WikiSource>(`source/${sourceSlug}.json`) : null
+const source = remoteSource || getWikiSourceBySlug(sourceSlug) || allWikiSources.find((item) => item.slug === sourceSlug) || allWikiSources[0]
+if (!source) return Astro.redirect('/wiki/papers')
+const current = source
 
 const headings = [
   { depth: 2, slug: 'abstract', text: '摘要' },

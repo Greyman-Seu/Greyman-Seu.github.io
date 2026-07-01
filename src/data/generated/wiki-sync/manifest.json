@@ -2,6 +2,7 @@
   "wiki_root": "/Users/xiaomi/workspace/FollowHub/submodules/llm-wiki-skill/followhub-wiki",
   "page_root": "/Users/xiaomi/workspace/FollowHub/submodules/page_github",
   "sources": [
+    "/Users/xiaomi/workspace/FollowHub/submodules/llm-wiki-skill/followhub-wiki/wiki/sources/attena-rectifying-action-inequality-in-robotic-foundation-models.md",
     "/Users/xiaomi/workspace/FollowHub/submodules/llm-wiki-skill/followhub-wiki/wiki/sources/deximit-learning-bimanual-dexterous-manipulation-from-monocular-human-videos.md",
     "/Users/xiaomi/workspace/FollowHub/submodules/llm-wiki-skill/followhub-wiki/wiki/sources/dexjoco-a-benchmark-and-toolkit-for-task-oriented-dexterous-manipulation-on-mujoco.md",
     "/Users/xiaomi/workspace/FollowHub/submodules/llm-wiki-skill/followhub-wiki/wiki/sources/emergence-of-human-to-robot-transfer-in-vision-language-action-models.md",
