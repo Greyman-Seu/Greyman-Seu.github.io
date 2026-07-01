@@ -2,20 +2,67 @@
 import CommonPage from '@/layouts/CommonPage.astro'
 import { Button, Label } from '@/components/ui'
 import {
-  allWikiSources,
-  allWikiSyntheses,
-  allWikiTopics,
-  getRecentWikiItems,
+  allWikiSources as localWikiSources,
+  allWikiSyntheses as localWikiSyntheses,
+  allWikiTopics as localWikiTopics,
   getWikiHref,
   wikiDomains
 } from '@/data/wiki'
+import type { WikiSource, WikiSynthesis, WikiTopic } from '@/data/wiki'
+import { ENABLE_REMOTE_WIKI_DATA, REQUIRE_REMOTE_WIKI_DATA, WIKI_DATA_BASE_URL } from '@/data/generated/wiki-client'
+
+const fetchRemoteJson = async <T,>(path: string): Promise<T | null> => {
+  if (!ENABLE_REMOTE_WIKI_DATA) return null
+  try {
+    const response = await fetch(`${WIKI_DATA_BASE_URL.replace(/\/+$/, '')}/${path.replace(/^\/+/, '')}`, { cache: 'no-store' })
+    if (!response.ok) {
+      if (REQUIRE_REMOTE_WIKI_DATA) throw new Error(`HTTP ${response.status} for ${path}`)
+      return null
+    }
+    return (await response.json()) as T
+  } catch (error) {
+    if (REQUIRE_REMOTE_WIKI_DATA) throw error
+    return null
+  }
+}
+
+const remoteSources = await fetchRemoteJson<WikiSource[]>('sources.json')
+const remoteTopics = await fetchRemoteJson<WikiTopic[]>('topics.json')
+const remoteSyntheses = await fetchRemoteJson<WikiSynthesis[]>('synthesis.json')
+const allWikiSources = Array.isArray(remoteSources) && remoteSources.length ? remoteSources : localWikiSources
+const allWikiTopics = Array.isArray(remoteTopics) && remoteTopics.length ? remoteTopics : localWikiTopics
+const allWikiSyntheses = Array.isArray(remoteSyntheses) && remoteSyntheses.length ? remoteSyntheses : localWikiSyntheses
 
 const headings = [
   { depth: 2, slug: 'scope', text: '覆盖范围' },
   { depth: 2, slug: 'recent-additions', text: '最近更新' },
 ]
 
-const recentItems = getRecentWikiItems(5)
+const recentItems = [
+  ...allWikiTopics.map((topic) => ({
+    type: 'topic' as const,
+    slug: topic.slug,
+    title: topic.title,
+    date: topic.updatedDate,
+    summary: topic.summary
+  })),
+  ...allWikiSources.map((source) => ({
+    type: 'source' as const,
+    slug: source.slug,
+    title: source.title,
+    date: source.publishDate,
+    summary: source.summary
+  })),
+  ...allWikiSyntheses.map((entry) => ({
+    type: 'synthesis' as const,
+    slug: entry.slug,
+    title: entry.title,
+    date: entry.updatedDate,
+    summary: entry.summary
+  }))
+]
+  .sort((a, b) => +new Date(b.date) - +new Date(a.date))
+  .slice(0, 5)
 const latestSynthesis = allWikiSyntheses
   .slice()
   .sort((a, b) => +new Date(b.updatedDate) - +new Date(a.updatedDate))[0]
