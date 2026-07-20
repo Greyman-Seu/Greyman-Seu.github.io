@@ -18,34 +18,60 @@ const openSourceProjects = [
   {
     slug: 'internvla-m1',
     title: 'InternVLA-M1',
-    description: '面向通用机器人策略的 Vision-Language-Action 开源框架，强调 spatially guided、dual-system 和 dual-supervision 训练范式，将语言理解、空间感知与动作预测统一到同一套框架中。我主要负责 Sys2 pretrain，以及长任务拆解能力相关设计与落地。后续进一步延伸到 StarVLA，形成更模块化、可扩展的 VLA 开发生态。',
+    description:
+      '面向通用机器人策略的 Vision-Language-Action 开源框架，强调 spatially guided、dual-system 和 dual-supervision 训练范式，将语言理解、空间感知与动作预测统一到同一套框架中。我主要负责 Sys2 pretrain，以及长任务拆解能力相关设计与落地。后续进一步延伸到 StarVLA，形成更模块化、可扩展的 VLA 开发生态。',
     category: '具身智能 / VLA / 开源',
     status: 'completed' as const,
     links: [
       { type: 'github', href: 'https://github.com/InternRobotics/InternVLA-M1', label: 'GitHub' },
-      { type: 'github', href: 'https://github.com/starVLA/starVLA', label: 'StarVLA · 1.5k Stars' },
-      { type: 'huggingface', href: 'https://huggingface.co/InternRobotics/InternVLA-M1', label: 'Hugging Face' },
+      {
+        type: 'huggingface',
+        href: 'https://huggingface.co/InternRobotics/InternVLA-M1',
+        label: 'Hugging Face'
+      },
       { type: 'paper', href: 'https://arxiv.org/abs/2510.13778', label: 'Paper' }
     ]
   },
   {
+    slug: 'starvla',
+    title: 'StarVLA',
+    description:
+      '面向 VLA 研究与开发的模块化开源平台，将模型、数据、训练、配置和评测拆分为低耦合组件，支持多种 VLM / world model backbone、action head、训练范式与机器人 benchmark，便于快速原型验证、独立调试和社区协作。',
+    category: '具身智能 / VLA / 开源基础设施',
+    status: 'active' as const,
+    links: [
+      {
+        type: 'github',
+        href: 'https://github.com/starVLA/starVLA/tree/starVLA_dev',
+        label: '开发分支'
+      },
+      { type: 'site', href: 'https://starvla.github.io/', label: '项目主页' },
+      { type: 'huggingface', href: 'https://huggingface.co/StarVLA', label: '模型与数据' },
+      { type: 'paper', href: 'https://arxiv.org/abs/2604.05014', label: '技术报告' }
+    ]
+  },
+  {
     title: 'vllm-omni-internvla-a1',
-    description: '围绕 vLLM-Omni 的多模态 serving 基座，对 InternVLA-A1 做推理与部署侧适配，使模型更容易接入统一服务框架、接口协议和工程化部署链路。我这里主要负责将 A1 适配到 vLLM 框架。',
+    description:
+      '围绕 vLLM-Omni 的多模态 serving 基座，对 InternVLA-A1 做推理与部署侧适配，使模型更容易接入统一服务框架、接口协议和工程化部署链路。我这里主要负责将 A1 适配到 vLLM 框架。',
     category: 'Serving / 多模态部署 / 开源',
     status: 'active' as const,
     links: [
-      { type: 'github', href: 'https://github.com/Greyman-Seu/vllm-omni-internvla-a1', label: 'GitHub' },
+      {
+        type: 'github',
+        href: 'https://github.com/Greyman-Seu/vllm-omni-internvla-a1',
+        label: 'GitHub'
+      },
       { type: 'doc', href: 'https://vllm-omni.readthedocs.io/en/latest/', label: 'vLLM-Omni' }
     ]
   },
   {
     title: 'Quest_Tele',
-    description: '基于 Meta Quest 3 的 VR 双手位姿采集与机器人遥操作工具，支持手柄模式与人手追踪模式，通过局域网 HTTP / JSON 实时发送头显、手腕、手柄和 24 关节数据，并提供 Python 侧接收与可视化监控脚本，便于快速接入遥操作与采集流程。',
+    description:
+      '基于 Meta Quest 3 的 VR 双手位姿采集与机器人遥操作工具，支持手柄模式与人手追踪模式，通过局域网 HTTP / JSON 实时发送头显、手腕、手柄和 24 关节数据，并提供 Python 侧接收与可视化监控脚本，便于快速接入遥操作与采集流程。',
     category: 'VR / 遥操作 / 机器人工具 / 开源',
     status: 'completed' as const,
-    links: [
-      { type: 'github', href: 'https://github.com/Greyman-Seu/Quest_Tele', label: 'GitHub' }
-    ]
+    links: [{ type: 'github', href: 'https://github.com/Greyman-Seu/Quest_Tele', label: 'GitHub' }]
   }
 ]
 
@@ -54,7 +80,8 @@ const projects = [
     slug: 'traffic-police-vlm',
     title: '交警场景大模型',
     image: 'traffic-police.jpg',
-    description: '面向自动驾驶复杂场景中的交警指挥理解，推动公司内部首次 VLM 在自动驾驶场景实现量产级上线，并完成展车部署落地。该任务兼具高场景价值、高理解难度与强用户感知，是少数能够真正拉开智能化体验差距的复杂能力。',
+    description:
+      '面向自动驾驶复杂场景中的交警指挥理解，推动公司内部首次 VLM 在自动驾驶场景实现量产级上线，并完成展车部署落地。该任务兼具高场景价值、高理解难度与强用户感知，是少数能够真正拉开智能化体验差距的复杂能力。',
     category: '量产 / 大模型 / 展车落地',
     status: 'completed' as const,
     highlights: [
@@ -62,24 +89,24 @@ const projects = [
       '在交警指挥关键任务中，将模型 precision 从 GPT-4o 基线约 30% 提升至 95%+',
       '展示效果获得媒体自发传播与正向反馈，成为对外认知度很高的差异化亮点'
     ],
-    responsibilities: [
-      '交警算法负责人',
-      '5 人小组带队',
-      '数据闭环与方案迭代',
-      '展车落地'
-    ],
+    responsibilities: ['交警算法负责人', '5 人小组带队', '数据闭环与方案迭代', '展车落地'],
     links: [
       ...(showRemoteMediaLinks
         ? [{ type: 'video', href: '/works/traffic-police-demo-3-web.mp4', label: 'HMI DEMO' }]
         : []),
-      { type: 'doc', href: 'https://my.feishu.cn/wiki/FSfgwc9UviFf8VkYGUcceYUTnjg', label: 'Feishu Wiki' }
+      {
+        type: 'doc',
+        href: 'https://my.feishu.cn/wiki/FSfgwc9UviFf8VkYGUcceYUTnjg',
+        label: 'Feishu Wiki'
+      }
     ]
   },
   {
     slug: 'vision-pro-hand-eye',
     title: 'Vision Pro 手眼交互',
     image: 'visionpro-hand-eye.jpg',
-    description: '围绕 Apple Vision Pro 手眼交互能力打造车载展示与实车方案，在高复杂度、多模块强耦合约束下完成车载 15.6 寸屏首发落地，并进一步推进到多应用实车验证。整体交互精度、稳定性与展示效果达到领域首次、领域领先水平。',
+    description:
+      '围绕 Apple Vision Pro 手眼交互能力打造车载展示与实车方案，在高复杂度、多模块强耦合约束下完成车载 15.6 寸屏首发落地，并进一步推进到多应用实车验证。整体交互精度、稳定性与展示效果达到领域首次、领域领先水平。',
     category: '人手重建 / XR 交互 / 展示项目',
     status: 'completed' as const,
     highlights: [
@@ -87,28 +114,36 @@ const projects = [
       '牵头 15 名核心开发并协同 43 人跨团队推进，按车展节点完成高质量交付',
       '空间手势重建与视线协同交互效果显著优于同期方案，并获得客户正向反馈'
     ],
-    responsibilities: [
-      'VP 项目负责人',
-      '跨团队方案推进',
-      '车展展示落地',
-      '二期实车验证'
-    ],
+    responsibilities: ['VP 项目负责人', '跨团队方案推进', '车展展示落地', '二期实车验证'],
     links: [
       ...(showRemoteMediaLinks
         ? [
             { type: 'video', href: '/works/visionpro-hand-eye-web.mp4', label: '24年车展 Demo' },
-            { type: 'video', href: '/works/visionpro-hand-eye-phase2-web.mp4', label: '5*8 Icon 手眼交互' },
-            { type: 'video', href: '/works/visionpro-hand-eye-phase2-alt-web.mp4', label: 'HMI 手眼交互' }
+            {
+              type: 'video',
+              href: '/works/visionpro-hand-eye-phase2-web.mp4',
+              label: '5*8 Icon 手眼交互'
+            },
+            {
+              type: 'video',
+              href: '/works/visionpro-hand-eye-phase2-alt-web.mp4',
+              label: 'HMI 手眼交互'
+            }
           ]
         : []),
-      { type: 'doc', href: 'https://my.feishu.cn/wiki/FSfgwc9UviFf8VkYGUcceYUTnjg', label: 'Feishu Wiki' }
+      {
+        type: 'doc',
+        href: 'https://my.feishu.cn/wiki/FSfgwc9UviFf8VkYGUcceYUTnjg',
+        label: 'Feishu Wiki'
+      }
     ]
   },
   {
     slug: 'pointing-map',
     title: '指向地图 / 看哪问哪',
     image: 'pointing-map.jpg',
-    description: '面向车载场景打造“看哪问哪 / 指哪问哪”的人-车-环境联合交互方案，完成业内首次单目 3D 手势交互 Demo，实现从 0 到 1 的实车验证。项目贯通座舱与自动驾驶信息流，是舱驾一体多模态交互方向的代表性成果。',
+    description:
+      '面向车载场景打造“看哪问哪 / 指哪问哪”的人-车-环境联合交互方案，完成业内首次单目 3D 手势交互 Demo，实现从 0 到 1 的实车验证。项目贯通座舱与自动驾驶信息流，是舱驾一体多模态交互方向的代表性成果。',
     category: '多模态交互 / 实车展示 / 地图理解',
     status: 'completed' as const,
     highlights: [
@@ -116,10 +151,7 @@ const projects = [
       '吸引 10+ 主机厂及同行现场观摩与拍摄，具备很强展示性与传播性',
       '理想等客户多轮实车体验，并将相关能力纳入自身 Demo 体系与后续规划'
     ],
-    responsibilities: [
-      '指向地图算法模块负责人',
-      '0-1 Demo 落地'
-    ],
+    responsibilities: ['指向地图算法模块负责人', '0-1 Demo 落地'],
     links: [
       ...(showRemoteMediaLinks
         ? [
@@ -127,14 +159,19 @@ const projects = [
             { type: 'video', href: '/works/pointing-map-li-auto-web.mp4', label: '现场拍摄' }
           ]
         : []),
-      { type: 'doc', href: 'https://my.feishu.cn/wiki/FSfgwc9UviFf8VkYGUcceYUTnjg', label: 'Feishu Wiki' }
+      {
+        type: 'doc',
+        href: 'https://my.feishu.cn/wiki/FSfgwc9UviFf8VkYGUcceYUTnjg',
+        label: 'Feishu Wiki'
+      }
     ]
   },
   {
     slug: 'tof-remote',
     title: 'TOF 遥控',
     image: 'tof-remote.png',
-    description: '围绕 TOF 遥控器一期与广汽 POC TOF 两个阶段展开，目标是打造可量产演进的真 3D 控屏能力，并将方案从技术验证推进到客户可感知、可交付的量产级 POC。项目重点解决传统控屏方案易疲劳、稳定性不足和交互维度受限的问题。',
+    description:
+      '围绕 TOF 遥控器一期与广汽 POC TOF 两个阶段展开，目标是打造可量产演进的真 3D 控屏能力，并将方案从技术验证推进到客户可感知、可交付的量产级 POC。项目重点解决传统控屏方案易疲劳、稳定性不足和交互维度受限的问题。',
     category: '3D 交互 / POC / 客户交付',
     status: 'completed' as const,
     highlights: [
@@ -142,11 +179,7 @@ const projects = [
       '设计“捏合 + 指向”双范式控屏交互，有效降低手势疲劳感并提升稳定性',
       'Demo 体验优于市面方案并获得客户高度认可，形成从架构到 SDK 再到对外交付的完整闭环'
     ],
-    responsibilities: [
-      '前期架构参与',
-      'TOF SDK 项目负责人',
-      '量产级 POC 对外交付负责人'
-    ],
+    responsibilities: ['前期架构参与', 'TOF SDK 项目负责人', '量产级 POC 对外交付负责人'],
     links: [
       ...(showRemoteMediaLinks
         ? [
@@ -154,14 +187,19 @@ const projects = [
             { type: 'video', href: '/works/tof-remote-phase1-web.mp4', label: '23年车展宣传版本' }
           ]
         : []),
-      { type: 'doc', href: 'https://my.feishu.cn/wiki/FSfgwc9UviFf8VkYGUcceYUTnjg', label: 'Feishu Wiki' }
+      {
+        type: 'doc',
+        href: 'https://my.feishu.cn/wiki/FSfgwc9UviFf8VkYGUcceYUTnjg',
+        label: 'Feishu Wiki'
+      }
     ]
   },
   {
     slug: 'hand-gt-system',
     title: '车载人手重建 GT 系统',
     image: 'hand-gt-system.png',
-    description: '面向车载人手重建建设长期数据基建，围绕 GT 系统打通采集、标注、验证与算法迭代底座，为 TOF、单目、多目等多条技术路线提供统一高质量数据支撑。这类项目不直接面向用户，但决定了后续能力上限与迭代效率。',
+    description:
+      '面向车载人手重建建设长期数据基建，围绕 GT 系统打通采集、标注、验证与算法迭代底座，为 TOF、单目、多目等多条技术路线提供统一高质量数据支撑。这类项目不直接面向用户，但决定了后续能力上限与迭代效率。',
     category: '数据基建 / GT 系统 / 人手重建',
     status: 'completed' as const,
     highlights: [
@@ -169,19 +207,23 @@ const projects = [
       '基于 MANO 与多视角几何约束构建异构多目 4D GT 自动生成能力，显著降低 3D 数据获取成本',
       '支撑 TOF、单目、多目多路线并行迭代，是后续空间交互能力演进的关键基础设施'
     ],
-    responsibilities: [
-      '算法负责人',
-      'GT 系统建设',
-      '数据闭环支撑'
-    ],
+    responsibilities: ['算法负责人', 'GT 系统建设', '数据闭环支撑'],
     links: [
       ...(showRemoteMediaLinks
         ? [
-            { type: 'video', href: '/works/hand-gt-system-car-web.mp4', label: '车载可拆卸 GT 系统' },
+            {
+              type: 'video',
+              href: '/works/hand-gt-system-car-web.mp4',
+              label: '车载可拆卸 GT 系统'
+            },
             { type: 'video', href: '/works/demo-pose-norm-web.mp4', label: 'GT 系统效果' }
           ]
         : []),
-      { type: 'doc', href: 'https://my.feishu.cn/wiki/FSfgwc9UviFf8VkYGUcceYUTnjg', label: 'Feishu Wiki' }
+      {
+        type: 'doc',
+        href: 'https://my.feishu.cn/wiki/FSfgwc9UviFf8VkYGUcceYUTnjg',
+        label: 'Feishu Wiki'
+      }
     ]
   }
 ]
@@ -192,9 +234,7 @@ const mediaSharing = [
     description: '分享描述：在此放文章、视频、公开分享或系列输出。',
     category: '博客 / 视频 / 分享',
     status: 'completed' as const,
-    links: [
-      { type: 'site', href: '/blog', label: 'Blog' },
-    ]
+    links: [{ type: 'site', href: '/blog', label: 'Blog' }]
   }
 ]
 ---
@@ -207,20 +247,94 @@ const mediaSharing = [
 
   {/* ── 论文 ── */}
   <h2 id='publications'>论文<a class='anchor' href='#publications'>#</a></h2>
-  {config.personal?.googleScholar && (
-    <div class='not-prose'>
-      <a
-        href={config.personal.googleScholar}
-        target='_blank'
-        class='inline-flex items-center gap-x-2 rounded-lg border border-border/50 bg-muted/60 px-3 py-1.5 text-sm font-medium text-muted-foreground transition-all hover:border-primary/40 hover:text-primary hover:-translate-y-0.5'
-      >
-        <Icon name='earth' class='size-4' />
-        <span>Google Scholar</span>
-      </a>
-    </div>
-  )}
+  {
+    config.personal?.googleScholar && (
+      <div class='not-prose'>
+        <a
+          href={config.personal.googleScholar}
+          target='_blank'
+          class='inline-flex items-center gap-x-2 rounded-lg border border-border/50 bg-muted/60 px-3 py-1.5 text-sm font-medium text-muted-foreground transition-all hover:-translate-y-0.5 hover:border-primary/40 hover:text-primary'
+        >
+          <Icon name='earth' class='size-4' />
+          <span>Google Scholar</span>
+        </a>
+      </div>
+    )
+  }
   <PublicationSection
     publications={[
+      {
+        slug: 'paper-robosnap',
+        title:
+          'RoboSnap: One-Shot Real-to-Sim Scene Generation for Generalizable Robot Learning and Evaluation',
+        authors: [
+          { name: 'Shujie Zhang' },
+          { name: 'Jingkun Yi' },
+          { name: 'Weipeng Zhong' },
+          { name: 'Zirui Zhou' },
+          { name: 'Yangkun Zhu', isMe: true },
+          { name: 'Hanqing Wang' },
+          { name: 'Xudong Xu' },
+          { name: 'Weinan Zhang' },
+          { name: 'Chunhua Shen' }
+        ],
+        venue: 'ArXiv Preprint',
+        year: '2026',
+        type: 'preprint',
+        abstract:
+          '从单张 RGB 图像生成可交互、可复用的仿真场景：以前景碰撞感知资产保证物理稳定性，以 3D Gaussian Splatting 保留背景视觉真实感，并发布覆盖 564 个真实场景的 DROID-Sim 数据集。',
+        links: [
+          { type: 'arxiv', href: 'https://arxiv.org/abs/2607.06699' },
+          { type: 'website', href: 'https://robosnap.github.io' }
+        ],
+        status: 'preprint'
+      },
+      {
+        slug: 'paper-internvla-a15',
+        title:
+          'InternVLA-A1.5: Unifying Understanding, Latent Foresight, and Action for Compositional Generalization',
+        authors: [
+          { name: 'Haoxiang Ma' },
+          { name: 'Junhao Cai' },
+          { name: 'Xiaoxu Xu' },
+          { name: 'Hao Li' },
+          { name: 'Yuyin Yang' },
+          { name: 'Yang Tian' },
+          { name: 'Jiafei Cao' },
+          { name: 'Hongrui Zhu' },
+          { name: 'Zherui Qiu' },
+          { name: 'Zhaxizhuoma' },
+          { name: 'Yuqiang Yang' },
+          { name: 'Jiaqi Peng' },
+          { name: 'Xueyuan Wei' },
+          { name: 'Yangkun Zhu', isMe: true },
+          { name: 'Jiahao Jiang' },
+          { name: 'Xing Gao' },
+          { name: 'Hanqing Wang' },
+          { name: 'Feng Yuan' },
+          { name: 'Kailin Li' },
+          { name: 'Xueyue Zhu' },
+          { name: 'Tai Wang' },
+          { name: 'Yan Ding' },
+          { name: 'Jiangmiao Pang' },
+          { name: 'Jia Zeng' },
+          { name: 'Jingjing Zhang' },
+          { name: 'Bowen Zhou' },
+          { name: 'Yao Mu' },
+          { name: 'Chunhua Shen' },
+          { name: 'Weinan Zhang' }
+        ],
+        venue: 'ArXiv Preprint',
+        year: '2026',
+        type: 'preprint',
+        abstract:
+          '在原生 VLM 语义能力上统一理解、潜空间前瞻与动作生成，通过冻结视频生成模型监督少量 foresight tokens，在不增加推理期视频分支的前提下增强组合泛化与长程任务执行。',
+        links: [
+          { type: 'arxiv', href: 'https://arxiv.org/abs/2607.04988' },
+          { type: 'website', href: 'https://internrobotics.github.io/internvla-a15.github.io/' }
+        ],
+        status: 'preprint'
+      },
       {
         slug: 'paper-st4vla',
         title: 'ST4VLA: Spatially Guided Training for Vision-Language-Action Models',
@@ -235,15 +349,15 @@ const mediaSharing = [
         venue: 'ICLR 2026',
         year: '2026',
         type: 'conference',
-        abstract: '提出 Spatially Guided Training，将 spatial grounding pre-training 与 spatially guided action post-training 串联起来，在 SimplerEnv 上取得显著提升。',
-        links: [
-          { type: 'arxiv', href: 'https://arxiv.org/abs/2602.10109' }
-        ],
+        abstract:
+          '提出 Spatially Guided Training，将 spatial grounding pre-training 与 spatially guided action post-training 串联起来，在 SimplerEnv 上取得显著提升。',
+        links: [{ type: 'arxiv', href: 'https://arxiv.org/abs/2602.10109' }],
         status: 'accepted'
       },
       {
         slug: 'paper-internvla-m1',
-        title: 'InternVLA-M1: A Spatially Guided Vision-Language-Action Framework for Generalist Robot Policy',
+        title:
+          'InternVLA-M1: A Spatially Guided Vision-Language-Action Framework for Generalist Robot Policy',
         authors: [
           { name: 'Yilun Chen', isCoreContributor: true },
           { name: 'Ning Gao', isCoreContributor: true },
@@ -259,7 +373,8 @@ const mediaSharing = [
         venue: 'ArXiv Technical Report',
         year: '2025',
         type: 'preprint',
-        abstract: '将空间 grounding 与机器人控制统一到同一框架，通过两阶段 spatially guided 训练提升 instruction following、泛化与长任务鲁棒性。',
+        abstract:
+          '将空间 grounding 与机器人控制统一到同一框架，通过两阶段 spatially guided 训练提升 instruction following、泛化与长任务鲁棒性。',
         links: [
           { type: 'arxiv', href: 'https://arxiv.org/abs/2510.13778' },
           { type: 'github', href: 'https://github.com/InternRobotics/InternVLA-M1' },
@@ -269,7 +384,8 @@ const mediaSharing = [
       },
       {
         slug: 'paper-internvla-a1',
-        title: 'InternVLA-A1: Unifying Understanding, Generation and Action for Robotic Manipulation',
+        title:
+          'InternVLA-A1: Unifying Understanding, Generation and Action for Robotic Manipulation',
         authors: [
           { name: 'Junhao Cai' },
           { name: 'Yang Li' },
@@ -284,10 +400,9 @@ const mediaSharing = [
         venue: 'ArXiv Preprint',
         year: '2026',
         type: 'preprint',
-        abstract: '统一 understanding、generation 与 action 的机器人操作模型，以 Mixture-of-Transformers 协同 scene understanding、visual foresight 和 action execution。',
-        links: [
-          { type: 'arxiv', href: 'https://arxiv.org/abs/2601.02456' }
-        ],
+        abstract:
+          '统一 understanding、generation 与 action 的机器人操作模型，以 Mixture-of-Transformers 协同 scene understanding、visual foresight 和 action execution。',
+        links: [{ type: 'arxiv', href: 'https://arxiv.org/abs/2601.02456' }],
         status: 'preprint'
       }
     ]}
