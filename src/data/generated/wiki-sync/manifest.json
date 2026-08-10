@@ -2,6 +2,7 @@
   "wiki_root": "/home/yangkunzhu/workspace/openclaw_workspace/FollowHub/submodules/llm-wiki-skill/followhub-wiki",
   "page_root": "/home/yangkunzhu/workspace/openclaw_workspace/FollowHub/submodules/page_github",
   "sources": [
+    "/home/yangkunzhu/workspace/openclaw_workspace/FollowHub/submodules/llm-wiki-skill/followhub-wiki/wiki/sources/2606.29948-heterogeneous-tactile-transformer.md",
     "/home/yangkunzhu/workspace/openclaw_workspace/FollowHub/submodules/llm-wiki-skill/followhub-wiki/wiki/sources/attena-rectifying-action-inequality-in-robotic-foundation-models.md",
     "/home/yangkunzhu/workspace/openclaw_workspace/FollowHub/submodules/llm-wiki-skill/followhub-wiki/wiki/sources/deximit-learning-bimanual-dexterous-manipulation-from-monocular-human-videos.md",
     "/home/yangkunzhu/workspace/openclaw_workspace/FollowHub/submodules/llm-wiki-skill/followhub-wiki/wiki/sources/dexjoco-a-benchmark-and-toolkit-for-task-oriented-dexterous-manipulation-on-mujoco.md",
@@ -19,7 +20,8 @@
     "/home/yangkunzhu/workspace/openclaw_workspace/FollowHub/submodules/llm-wiki-skill/followhub-wiki/wiki/topics/Human-to-Robot Transfer.md",
     "/home/yangkunzhu/workspace/openclaw_workspace/FollowHub/submodules/llm-wiki-skill/followhub-wiki/wiki/topics/Long-Horizon Memory for Robot Policies.md",
     "/home/yangkunzhu/workspace/openclaw_workspace/FollowHub/submodules/llm-wiki-skill/followhub-wiki/wiki/topics/Online RL for VLA.md",
-    "/home/yangkunzhu/workspace/openclaw_workspace/FollowHub/submodules/llm-wiki-skill/followhub-wiki/wiki/topics/Vision-Language-Action.md"
+    "/home/yangkunzhu/workspace/openclaw_workspace/FollowHub/submodules/llm-wiki-skill/followhub-wiki/wiki/topics/Vision-Language-Action.md",
+    "/home/yangkunzhu/workspace/openclaw_workspace/FollowHub/submodules/llm-wiki-skill/followhub-wiki/wiki/topics/tactile-representation.md"
   ],
   "synthesis": [
     "/home/yangkunzhu/workspace/openclaw_workspace/FollowHub/submodules/llm-wiki-skill/followhub-wiki/wiki/synthesis/current-vla-landscape-foundation-control-memory-and-transfer.md"
