@@ -162,10 +162,10 @@ const preferRemoteDigests = ENABLE_REMOTE_FOLLOW_DATA
               </div>
 
               <div class='flex flex-wrap gap-2'>
-                <Button title='Open arXiv feed' href='/follow/arxiv' />
-                <Button title='Open X feed' href='/follow/x' />
-                <Button title='Open WeChat feed' href='/follow/wechat' />
-                <Button title='Open Bilibili feed' href='/follow/bilibili' />
+                <Button title='Open arXiv feed' href={`/follow/arxiv?date=${digest.date}`} />
+                <Button title='Open X feed' href={`/follow/x?date=${digest.date}`} />
+                <Button title='Open WeChat feed' href={`/follow/wechat?date=${digest.date}`} />
+                <Button title='Open Bilibili feed' href={`/follow/bilibili?date=${digest.date}`} />
               </div>
             </div>
           </article>
@@ -216,10 +216,10 @@ const preferRemoteDigests = ENABLE_REMOTE_FOLLOW_DATA
               <ul class="digest-highlights space-y-2 pl-4 text-sm text-foreground/90">${highlightsHtml}</ul>
             </div>
             <div class="flex flex-wrap gap-2">
-              <a class="group relative inline-flex items-center gap-x-2 rounded-lg bg-muted border border-border px-3 py-2 text-sm font-medium text-muted-foreground transition-all duration-200 hover:border-foreground/20 hover:bg-muted/80 hover:text-foreground no-underline" href="/follow/arxiv" data-astro-prefetch="true"><div class="relative flex items-center gap-x-2"><p class="my-0 transition-colors duration-200">Open arXiv feed</p></div></a>
-              <a class="group relative inline-flex items-center gap-x-2 rounded-lg bg-muted border border-border px-3 py-2 text-sm font-medium text-muted-foreground transition-all duration-200 hover:border-foreground/20 hover:bg-muted/80 hover:text-foreground no-underline" href="/follow/x" data-astro-prefetch="true"><div class="relative flex items-center gap-x-2"><p class="my-0 transition-colors duration-200">Open X feed</p></div></a>
-              <a class="group relative inline-flex items-center gap-x-2 rounded-lg bg-muted border border-border px-3 py-2 text-sm font-medium text-muted-foreground transition-all duration-200 hover:border-foreground/20 hover:bg-muted/80 hover:text-foreground no-underline" href="/follow/wechat" data-astro-prefetch="true"><div class="relative flex items-center gap-x-2"><p class="my-0 transition-colors duration-200">Open WeChat feed</p></div></a>
-              <a class="group relative inline-flex items-center gap-x-2 rounded-lg bg-muted border border-border px-3 py-2 text-sm font-medium text-muted-foreground transition-all duration-200 hover:border-foreground/20 hover:bg-muted/80 hover:text-foreground no-underline" href="/follow/bilibili" data-astro-prefetch="true"><div class="relative flex items-center gap-x-2"><p class="my-0 transition-colors duration-200">Open Bilibili feed</p></div></a>
+              <a class="group relative inline-flex items-center gap-x-2 rounded-lg bg-muted border border-border px-3 py-2 text-sm font-medium text-muted-foreground transition-all duration-200 hover:border-foreground/20 hover:bg-muted/80 hover:text-foreground no-underline" href="/follow/arxiv?date=${encodeURIComponent(digest.date || '')}" data-astro-prefetch="true"><div class="relative flex items-center gap-x-2"><p class="my-0 transition-colors duration-200">Open arXiv feed</p></div></a>
+              <a class="group relative inline-flex items-center gap-x-2 rounded-lg bg-muted border border-border px-3 py-2 text-sm font-medium text-muted-foreground transition-all duration-200 hover:border-foreground/20 hover:bg-muted/80 hover:text-foreground no-underline" href="/follow/x?date=${encodeURIComponent(digest.date || '')}" data-astro-prefetch="true"><div class="relative flex items-center gap-x-2"><p class="my-0 transition-colors duration-200">Open X feed</p></div></a>
+              <a class="group relative inline-flex items-center gap-x-2 rounded-lg bg-muted border border-border px-3 py-2 text-sm font-medium text-muted-foreground transition-all duration-200 hover:border-foreground/20 hover:bg-muted/80 hover:text-foreground no-underline" href="/follow/wechat?date=${encodeURIComponent(digest.date || '')}" data-astro-prefetch="true"><div class="relative flex items-center gap-x-2"><p class="my-0 transition-colors duration-200">Open WeChat feed</p></div></a>
+              <a class="group relative inline-flex items-center gap-x-2 rounded-lg bg-muted border border-border px-3 py-2 text-sm font-medium text-muted-foreground transition-all duration-200 hover:border-foreground/20 hover:bg-muted/80 hover:text-foreground no-underline" href="/follow/bilibili?date=${encodeURIComponent(digest.date || '')}" data-astro-prefetch="true"><div class="relative flex items-center gap-x-2"><p class="my-0 transition-colors duration-200">Open Bilibili feed</p></div></a>
             </div>
           </div>
         </article>

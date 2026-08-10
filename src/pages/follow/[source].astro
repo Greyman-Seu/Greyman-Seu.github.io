@@ -915,6 +915,9 @@ const itemsContainerClass = sourceKey === 'wechat'
       }
 
       let remoteWindowLoaded = ''
+      const requestedDate = new URLSearchParams(window.location.search).get('date') || ''
+      const hasRequestedDate = /^\d{4}-\d{2}-\d{2}$/.test(requestedDate)
+      const requestedMonth = hasRequestedDate ? requestedDate.slice(0, 7) : ''
 
       const render = () => {
         const queryInput = document.getElementById('follow-search')
@@ -1043,6 +1046,9 @@ const itemsContainerClass = sourceKey === 'wechat'
             dateSelect.innerHTML = '<option value="">All dates</option>' + dates
               .map((date) => `<option value="${date}">${date}</option>`)
               .join('')
+            if (hasRequestedDate && dates.includes(requestedDate)) {
+              dateSelect.value = requestedDate
+            }
           }
 
           container.innerHTML = payload.items.map((item) => createFollowItemCard(item)).join('')
@@ -1114,9 +1120,21 @@ const itemsContainerClass = sourceKey === 'wechat'
       }
 
       render()
+      const initialScopeNode = document.getElementById('follow-scope')
       const initialMonthNode = document.getElementById('follow-month')
-      const initialMonth = initialMonthNode instanceof HTMLSelectElement ? initialMonthNode.value : ''
-      hydrateRemoteSource('recent', initialMonth)
+      if (hasRequestedDate && initialScopeNode instanceof HTMLSelectElement) {
+        initialScopeNode.value = 'archive'
+      }
+      if (hasRequestedDate && initialMonthNode instanceof HTMLSelectElement) {
+        initialMonthNode.value = requestedMonth
+      }
+      const initialScope = hasRequestedDate ? 'archive' : 'recent'
+      const initialMonth = hasRequestedDate
+        ? requestedMonth
+        : initialMonthNode instanceof HTMLSelectElement
+          ? initialMonthNode.value
+          : ''
+      hydrateRemoteSource(initialScope, initialMonth)
     }
 
     const mountFloatingTools = () => {
