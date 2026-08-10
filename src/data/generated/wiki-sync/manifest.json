@@ -2,6 +2,7 @@
   "wiki_root": "/home/yangkunzhu/workspace/openclaw_workspace/FollowHub/submodules/llm-wiki-skill/followhub-wiki",
   "page_root": "/home/yangkunzhu/workspace/openclaw_workspace/FollowHub/submodules/page_github",
   "sources": [
+    "/home/yangkunzhu/workspace/openclaw_workspace/FollowHub/submodules/llm-wiki-skill/followhub-wiki/wiki/sources/2606.17846-qwen-robotmanip-alignment-unlocks-scale-for-robotic-manipulation-foundation-models.md",
     "/home/yangkunzhu/workspace/openclaw_workspace/FollowHub/submodules/llm-wiki-skill/followhub-wiki/wiki/sources/2606.29948-heterogeneous-tactile-transformer.md",
     "/home/yangkunzhu/workspace/openclaw_workspace/FollowHub/submodules/llm-wiki-skill/followhub-wiki/wiki/sources/attena-rectifying-action-inequality-in-robotic-foundation-models.md",
     "/home/yangkunzhu/workspace/openclaw_workspace/FollowHub/submodules/llm-wiki-skill/followhub-wiki/wiki/sources/deximit-learning-bimanual-dexterous-manipulation-from-monocular-human-videos.md",
