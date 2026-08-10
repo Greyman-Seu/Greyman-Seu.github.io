@@ -1332,5 +1332,196 @@
       "vision-language-action",
       "online-rl-for-vla"
     ]
+  },
+  {
+    "slug": "tactile-genesis-exploring-tactile-sensors-at-scale-for-learning-dexterous-tasks",
+    "title": "Tactile Genesis: Exploring Tactile Sensors at Scale for Learning Dexterous Tasks",
+    "sourceType": "paper",
+    "sourceUrl": "https://arxiv.org/abs/2606.22332",
+    "htmlUrl": "https://arxiv.org/html/2606.22332",
+    "pdfUrl": "https://arxiv.org/pdf/2606.22332",
+    "codeUrl": "https://neuroagents-lab.github.io/tactile-genesis/",
+    "translationUrl": "https://hjfy.top/arxiv/2606.22332",
+    "publishDate": "2026-07-09",
+    "authors": [
+      "Trinity Chung",
+      "Kashu Yamazaki",
+      "Dhruv Patel",
+      "Alexis Duburcq",
+      "Yiling Qiao",
+      "Katerina Fragkiadaki",
+      "Aran Nayebi"
+    ],
+    "affiliation": "",
+    "relatedOrganizations": [
+      "Carnegie Mellon University",
+      "Genesis AI"
+    ],
+    "relatedCompanies": [
+      "Genesis AI"
+    ],
+    "keywords": [
+      "tactile-sensing"
+    ],
+    "primaryDomainSlug": "physicalembodied-intelligence",
+    "domainSlugs": [
+      "physicalembodied-intelligence"
+    ],
+    "heroImage": "https://followhub.tenstep.top/papers/2606.22332-tactile-genesis/figure-1-overview-cropped.png",
+    "tldr": "Tactile Genesis 用大规模仿真比较触觉设计：先扩覆盖，再选类型，最后加分辨率。",
+    "intuition": "在同一只虚拟手上替换触觉配置，公平比较硬件观测的价值。\n\n![主要图](https://followhub.tenstep.top/papers/2606.22332-tactile-genesis/figure-1-overview-cropped.png)\n\n*主要图*",
+    "abstractEn": "Tactile Genesis is a GPU-parallel tactile simulation platform for comparing tactile abstractions in dexterous learning.",
+    "abstractZh": "Tactile Genesis 是用于比较灵巧操作触觉抽象的 GPU 并行仿真平台。",
+    "background": "**动机：** 每一种传感器配置几乎都等于一只新机器人，现实中难以在相同任务和策略下公平比较。视觉与本体感觉无法直接观测滑移、局部接触和力闭合丢失等状态。\n\n**问题缺口：** 在固定灵巧操作流程中，应优先选择何种触觉表示、将其布置在哪里、采用多少分辨率，并且这些结论在带漂移与坏点的噪声下是否保持。",
+    "backgroundMotivation": "每一种传感器配置几乎都等于一只新机器人，现实中难以在相同任务和策略下公平比较。视觉与本体感觉无法直接观测滑移、局部接触和力闭合丢失等状态。",
+    "backgroundGap": "在固定灵巧操作流程中，应优先选择何种触觉表示、将其布置在哪里、采用多少分辨率，并且这些结论在带漂移与坏点的噪声下是否保持。",
+    "method": "**方法概述：** 面向灵巧手触觉设计的受控学习消融。\n\n**核心机制：** 统一实现接触、深度、力/力矩、弹性体位移、接近、音频和温度；先用 PPO 训练可见特权状态的 teacher，再蒸馏只看本体感觉和一种触觉表示的 student。\n\n**方法拆解：** - 传感器可附着于任意机器人表面并共享位置与分辨率接口.\n- 统一建模读延迟、噪声、漂移、坏点、迟滞和串扰.\n- 控制变量不变，只替换触觉观测.\n\n为保证比较的是触觉而非策略，teacher 以完整物体状态和本体感觉训练；student 仅以本体感觉加一种触觉表示模仿 teacher，并用预测特权状态的辅助头作训练正则。实现上，接触 kernel 对 probes/environment 向量化，网格和点云查询用 BVH，弹性体 dilation/crosstalk 用 FFT，因此可进入大批量 student 训练的并行规模。\n\n![方法图](https://followhub.tenstep.top/papers/2606.22332-tactile-genesis/figure-1-overview-cropped.png)\n\n*方法图*",
+    "methodOverview": "面向灵巧手触觉设计的受控学习消融。",
+    "methodCore": "统一实现接触、深度、力/力矩、弹性体位移、接近、音频和温度；先用 PPO 训练可见特权状态的 teacher，再蒸馏只看本体感觉和一种触觉表示的 student。",
+    "methodBreakdown": [
+      "传感器可附着于任意机器人表面并共享位置与分辨率接口.",
+      "统一建模读延迟、噪声、漂移、坏点、迟滞和串扰.",
+      "控制变量不变，只替换触觉观测."
+    ],
+    "methodTakeaways": [],
+    "results": "**核心结果：** - 单 GPU 超过 20,000 并行环境和 1,000+ taxels，相对既有模拟器报告 3–20x 吞吐提升.\n- 整手约 200 taxels 已可覆盖实验任务.\n\n三项任务均显示本体感觉 baseline 落后于任意触觉 student。仅指尖明显差于整手；补上手掌和近端指节可填补大部分差距。掌内复位中 per-taxel force/torque 最能反映将发生的滑移；掌内旋转中 proximity 因在接触前感到物体而有优势；螺丝刀的短暂接触任务中各触觉类型都未追上 teacher，缺失的可能是时间整合或视觉而非更复杂接触阵列。\n\n作者还验证了弹性体读数：其 GelSight marker 位移拟合优于 FOTS/HydroShear，但对局部力向量任务不如 force/torque，因为邻近压入与剪切会共同影响一个 marker。真实 XHand1 的指尖聚合力策略得到连续 1–2 次旋转，和仿真中相近观测的趋势吻合，但不构成大规模真机成功率基准。\n\n**结果表：** | 设计选择 | 论文结论 |\\n| --- | --- |\\n| 覆盖位置 | 整手显著优于仅指尖 |\\n| 默认表示 | per-taxel 力/力矩最稳健 |",
+    "resultHighlights": [
+      "单 GPU 超过 20,000 并行环境和 1,000+ taxels，相对既有模拟器报告 3–20x 吞吐提升.",
+      "整手约 200 taxels 已可覆盖实验任务."
+    ],
+    "insights": "**核心 insight：** - 覆盖面积通常比指尖高分辨率更值得优先投资.\n- 传感器应按滑移、接近和短暂触点等失败机制匹配.\n\n**和已有方法的关系：** - 并列比较多种触觉抽象.\n\n**可借鉴点：** - 使用同一 teacher 和策略隔离观测设计作用.",
+    "insightCore": [
+      "覆盖面积通常比指尖高分辨率更值得优先投资.",
+      "传感器应按滑移、接近和短暂触点等失败机制匹配."
+    ],
+    "insightRelations": [
+      "并列比较多种触觉抽象."
+    ],
+    "insightBorrowable": [
+      "使用同一 teacher 和策略隔离观测设计作用."
+    ],
+    "risks": "**局限：** - teacher-student 设置限制学生策略上限.\n\n**适用场景：** - 灵巧手传感器布置与策略观测选择.\n\n**最终判断：** - 真机验证是趋势证据而非大规模成功率基准.\n\n硬件决策顺序应是：先覆盖手掌和近端指节，再选择 per-taxel 力/力矩，最后才为具体任务增加 proximity 或更高分辨率。该结论是受控仿真—蒸馏条件下的设计指导，采购真实硬件前仍须针对目标物体、传感器耐久和实际噪声验证。",
+    "riskLimitations": [
+      "teacher-student 设置限制学生策略上限."
+    ],
+    "riskScenarios": [
+      "灵巧手传感器布置与策略观测选择."
+    ],
+    "riskJudgment": [
+      "真机验证是趋势证据而非大规模成功率基准."
+    ],
+    "resultsTableMarkdown": "| 设计选择 | 论文结论 |\\n| --- | --- |\\n| 覆盖位置 | 整手显著优于仅指尖 |\\n| 默认表示 | per-taxel 力/力矩最稳健 |",
+    "resultsTable": {
+      "columns": [],
+      "rows": []
+    },
+    "figureGallery": [
+      {
+        "zone": "method",
+        "caption": "方法图",
+        "src": "https://followhub.tenstep.top/papers/2606.22332-tactile-genesis/figure-1-overview-cropped.png"
+      }
+    ],
+    "relatedTopicSlugs": [
+      "tactile-sensing"
+    ]
+  },
+  {
+    "slug": "turbovla-real-time-vision-language-action-model-at-32-hz-on-an-rtx-4090-with-1-gb-vram",
+    "title": "TurboVLA: Real-Time Vision-Language-Action Model at 32 Hz on an RTX 4090 with <1 GB VRAM",
+    "sourceType": "paper",
+    "sourceUrl": "https://arxiv.org/abs/2607.27205",
+    "htmlUrl": "https://arxiv.org/html/2607.27205",
+    "pdfUrl": "https://arxiv.org/pdf/2607.27205",
+    "codeUrl": "https://github.com/H-EmbodVis/TurboVLA",
+    "translationUrl": "https://hjfy.top/arxiv/2607.27205",
+    "publishDate": "2026-07-29",
+    "authors": [
+      "Hengyi Xie",
+      "Chenfei Yao",
+      "Xianjin Wu",
+      "Xuanyang Xi",
+      "Yiping Tang",
+      "Di Xu",
+      "Yingying Zhu",
+      "Dingkang Liang",
+      "Xiang Bai",
+      "Han Ding"
+    ],
+    "affiliation": "",
+    "relatedOrganizations": [
+      "Huazhong University of Science and Technology",
+      "Huawei Technologies"
+    ],
+    "relatedCompanies": [
+      "Huawei Technologies"
+    ],
+    "keywords": [
+      "vision-language-action"
+    ],
+    "primaryDomainSlug": "physicalembodied-intelligence",
+    "domainSlugs": [
+      "physicalembodied-intelligence"
+    ],
+    "heroImage": "https://arxiv.org/html/2607.27205v1/x2.png",
+    "tldr": "TurboVLA 将高频控制从 LLM 居中的 V→L→A 改为轻量的直接 V+L→A，在 LIBERO 达到 97.7% 且只需 0.2B、31.2ms、0.9GB。",
+    "intuition": "它将慢速规划与快速执行分离：执行器只负责把当前画面与指令对齐，并行输出连续动作。\n\n![主要图](https://arxiv.org/html/2607.27205v1/x2.png)\n\n*主要图*",
+    "abstractEn": "TurboVLA replaces the LLM-centric V→L→A pathway with lightweight bidirectional vision-language interaction and a compact continuous action decoder.",
+    "abstractZh": "TurboVLA 以轻量双向视觉—语言交互和紧凑连续动作解码器取代 LLM 居中的高频执行路径。",
+    "background": "**动机：** 现有 VLA 往往把视觉投影到大语言模型空间，再由该空间生成机器人动作。即使使用并行 action expert，LLM 仍处在每个控制周期的关键路径，因此带来显存、延迟和本地部署成本。\n\n**问题缺口：** 论文要验证的是：在任务指令主要描述对象、属性和空间关系的执行级操作中，是否能保留必要的语言 grounding，却不再让大语言模型充当视觉到动作的中心接口，从而提高控制频率。",
+    "backgroundMotivation": "现有 VLA 往往把视觉投影到大语言模型空间，再由该空间生成机器人动作。即使使用并行 action expert，LLM 仍处在每个控制周期的关键路径，因此带来显存、延迟和本地部署成本。",
+    "backgroundGap": "论文要验证的是：在任务指令主要描述对象、属性和空间关系的执行级操作中，是否能保留必要的语言 grounding，却不再让大语言模型充当视觉到动作的中心接口，从而提高控制频率。",
+    "method": "**方法概述：** 面向执行级操作的高效率 VLA。\n\n**核心机制：** DINOv3 和 BERT 分别编码视觉与指令，六层双向 cross-attention 交换信息；ACT 风格动作块 decoder 结合机器人状态并行预测动作。\n\n**方法拆解：** - 保留 token 级文本表示以对齐对象、属性和空间关系.\n- 双向 cross-attention 同时更新视觉与指令流.\n- 一次输出连续动作块，避免自回归动作 token.\n\n在 LIBERO 中，模型用 DINOv3 ViT-B、12 步 7-DoF 动作块和混合四套件训练；在 RoboTwin 2.0 中改用 ViT-L、50 步 14 维双臂动作块。论文的比较单位是“从多模态输入到一个动作块”，因此其延迟优势同时来自更轻的语义路径和非自回归输出，而不只是参数少。\n\n**关键要点：** - 执行级控制不必让大语言模型处于每个控制步的关键路径.\n\n![方法图](https://arxiv.org/html/2607.27205v1/x2.png)\n\n*方法图*",
+    "methodOverview": "面向执行级操作的高效率 VLA。",
+    "methodCore": "DINOv3 和 BERT 分别编码视觉与指令，六层双向 cross-attention 交换信息；ACT 风格动作块 decoder 结合机器人状态并行预测动作。",
+    "methodBreakdown": [
+      "保留 token 级文本表示以对齐对象、属性和空间关系.",
+      "双向 cross-attention 同时更新视觉与指令流.",
+      "一次输出连续动作块，避免自回归动作 token."
+    ],
+    "methodTakeaways": [
+      "执行级控制不必让大语言模型处于每个控制步的关键路径."
+    ],
+    "results": "**核心结果：** - LIBERO 97.7%，0.2B、31.2ms、0.9GB.\n- RoboTwin 2.0 为 60.2%，43.4ms.\n\n在 50 个双臂 RoboTwin 任务上，TurboVLA 的 60.2% 高于 π0.5 的 57.0%，且后者报告 95.6ms；真机 AgileX Piper 的四项任务为 92.5%、80%、90%、87.5%。真机方案以 LIBERO 预训练权重为起点，每任务用 65 条示范微调 12.5k steps，因此它验证的是快速执行的可部署性，而不是零样本开放世界泛化。\n\n消融表明语言没有被“简化掉”：去掉语言时平均成功率从 97.7% 降为 70.8%，Goal 套件从 97.4% 降为 11.6%。无交互、单向交互和双向交互分别为 95.2%、96.1/96.5% 和 97.7%；交互层数 2/4/6/8 的结果为 93.5/95.7/97.7/96.6%，动作 horizon 8/10/12/15 为 96.4/96.9/97.7/95.6%。\n\n**结果表：** | 指标 | TurboVLA |\\n| --- | --- |\\n| LIBERO 平均成功率 | 97.7% |\\n| 参数/延迟/显存 | 0.2B / 31.2ms / 0.9GB |",
+    "resultHighlights": [
+      "LIBERO 97.7%，0.2B、31.2ms、0.9GB.",
+      "RoboTwin 2.0 为 60.2%，43.4ms."
+    ],
+    "insights": "**核心 insight：** - 适合与慢速规划器组成分层系统.\n- 移除的是高频 LLM 中枢而不是语言条件.\n\n**和已有方法的关系：** - 直接对视觉与语言做双向交互.\n\n**可借鉴点：** - 让 LLM 留在任务规划而非高频控制路径.",
+    "insightCore": [
+      "适合与慢速规划器组成分层系统.",
+      "移除的是高频 LLM 中枢而不是语言条件."
+    ],
+    "insightRelations": [
+      "直接对视觉与语言做双向交互."
+    ],
+    "insightBorrowable": [
+      "让 LLM 留在任务规划而非高频控制路径."
+    ],
+    "risks": "**局限：** - 不证明长程规划或开放式语义推理能力.\n\n**适用场景：** - 消费级 GPU 本地语言条件操作.\n\n**最终判断：** - 跨模型延迟仍受动作块长度和实现细节影响.\n\n更完整的判断是：这不是“VLA 不需要 LLM”，而是将 LLM 放到任务分解、异常恢复或人机交互等低频层，把视觉—语言 grounding 与连续控制交给轻量执行器。对已经具备上层规划器的机器人系统，这是可信且具工程价值的模块化路线。",
+    "riskLimitations": [
+      "不证明长程规划或开放式语义推理能力."
+    ],
+    "riskScenarios": [
+      "消费级 GPU 本地语言条件操作."
+    ],
+    "riskJudgment": [
+      "跨模型延迟仍受动作块长度和实现细节影响."
+    ],
+    "resultsTableMarkdown": "| 指标 | TurboVLA |\\n| --- | --- |\\n| LIBERO 平均成功率 | 97.7% |\\n| 参数/延迟/显存 | 0.2B / 31.2ms / 0.9GB |",
+    "resultsTable": {
+      "columns": [],
+      "rows": []
+    },
+    "figureGallery": [
+      {
+        "zone": "method",
+        "caption": "方法图",
+        "src": "https://arxiv.org/html/2607.27205v1/x2.png"
+      }
+    ],
+    "relatedTopicSlugs": [
+      "vision-language-action"
+    ]
   }
 ]

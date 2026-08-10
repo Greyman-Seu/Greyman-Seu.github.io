@@ -10,7 +10,9 @@
     "/home/yangkunzhu/workspace/openclaw_workspace/FollowHub/submodules/llm-wiki-skill/followhub-wiki/wiki/sources/openvla-an-open-source-vision-language-action-model.md",
     "/home/yangkunzhu/workspace/openclaw_workspace/FollowHub/submodules/llm-wiki-skill/followhub-wiki/wiki/sources/pi07-a-steerable-generalist-robotic-foundation-model-with-emergent-capabilities.md",
     "/home/yangkunzhu/workspace/openclaw_workspace/FollowHub/submodules/llm-wiki-skill/followhub-wiki/wiki/sources/rl-token-bootstrapping-online-rl-with-vision-language-action-models.md",
-    "/home/yangkunzhu/workspace/openclaw_workspace/FollowHub/submodules/llm-wiki-skill/followhub-wiki/wiki/sources/steam-self-supervised-temporal-ensemble-advantage-modeling-for-real-world-robot-learning.md"
+    "/home/yangkunzhu/workspace/openclaw_workspace/FollowHub/submodules/llm-wiki-skill/followhub-wiki/wiki/sources/steam-self-supervised-temporal-ensemble-advantage-modeling-for-real-world-robot-learning.md",
+    "/home/yangkunzhu/workspace/openclaw_workspace/FollowHub/submodules/llm-wiki-skill/followhub-wiki/wiki/sources/tactile-genesis-exploring-tactile-sensors-at-scale-for-learning-dexterous-tasks.md",
+    "/home/yangkunzhu/workspace/openclaw_workspace/FollowHub/submodules/llm-wiki-skill/followhub-wiki/wiki/sources/turbovla-real-time-vision-language-action-model-at-32-hz-on-an-rtx-4090-with-1-gb-vram.md"
   ],
   "topics": [
     "/home/yangkunzhu/workspace/openclaw_workspace/FollowHub/submodules/llm-wiki-skill/followhub-wiki/wiki/topics/Human Video Robot Data Generation.md",
