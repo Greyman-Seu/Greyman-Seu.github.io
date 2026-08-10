@@ -22,8 +22,11 @@ const baseUrl = String(
 const outputDir = resolve(argValue('--output-dir', DEFAULT_OUTPUT_DIR))
 
 function fail(message) {
-  if (optional && existsSync(resolve(outputDir, 'manifest.json'))) {
-    console.warn(`[follow-sync] ${message}; keeping existing generated follow data`)
+  if (optional) {
+    const existing = existsSync(resolve(outputDir, 'manifest.json'))
+    console.warn(
+      `[follow-sync] ${message}; ${existing ? 'keeping existing generated follow data' : 'continuing without generated follow data'}`
+    )
     process.exit(0)
   }
   console.error(`[follow-sync] ${message}`)
