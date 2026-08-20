@@ -468,7 +468,7 @@ const normalizedSyncedWikiSources: WikiSource[] = syncedWikiSources.map((source)
     researchProblem: sourceRecord.background || '',
     backgroundMotivation: sourceRecord.backgroundMotivation || '',
     backgroundGap: sourceRecord.backgroundGap || '',
-    methodOverview: sourceRecord.method || '',
+    methodOverview: sourceRecord.methodOverview || sourceRecord.method || '',
     methodCore: sourceRecord.methodCore || '',
     methodBreakdown: sourceRecord.methodBreakdown || [],
     methodTakeaways: sourceRecord.methodTakeaways || [],
