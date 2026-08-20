@@ -240,13 +240,13 @@ const heroVisualStyle = heroImageUrl
               {current.backgroundMotivation ? (
                 <div>
                   <h3 class='m-0 text-lg font-semibold text-foreground'>为什么做</h3>
-                  <p class='m-0 mt-2'>{current.backgroundMotivation}</p>
+                  <div class='wiki-rich mt-2' set:html={render(current.backgroundMotivation).__html} />
                 </div>
               ) : null}
               {current.backgroundGap ? (
                 <div>
                   <h3 class='m-0 text-lg font-semibold text-foreground'>问题缺口</h3>
-                  <p class='m-0 mt-2'>{current.backgroundGap}</p>
+                  <div class='wiki-rich mt-2' set:html={render(current.backgroundGap).__html} />
                 </div>
               ) : (
                 <div class='wiki-rich' set:html={render(current.researchProblem).__html} />
