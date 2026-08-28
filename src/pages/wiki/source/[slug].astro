@@ -38,6 +38,16 @@ const remoteSource = sourceSlug ? await fetchRemoteJson<WikiSource>(`source/${so
 const source = remoteSource || staticSource || getWikiSourceBySlug(sourceSlug) || allWikiSources.find((item) => item.slug === sourceSlug) || allWikiSources[0]
 if (!source) return Astro.redirect('/wiki/papers')
 const current = source
+const figures = current.figureGallery || []
+const inlineFigureZones = new Set(['intuition', 'background', 'method', 'results', 'insights', 'risks'])
+const figuresForZone = (zone: string) => figures.filter((figure) => figure.zone === zone)
+const intuitionFigures = figuresForZone('intuition')
+const backgroundFigures = figuresForZone('background')
+const methodFigures = figuresForZone('method')
+const resultsFigures = figuresForZone('results')
+const insightsFigures = figuresForZone('insights')
+const risksFigures = figuresForZone('risks')
+const galleryFigures = figures.filter((figure) => !figure.zone || !inlineFigureZones.has(figure.zone))
 
 const headings = [
   { depth: 2, slug: 'abstract', text: '摘要' },
@@ -46,7 +56,7 @@ const headings = [
   { depth: 2, slug: 'results', text: '结果' },
   { depth: 2, slug: 'insights', text: '洞察' },
   { depth: 2, slug: 'risks', text: '风险与判断' },
-  ...(current.figureGallery?.length ? [{ depth: 2, slug: 'figures', text: '图表' }] : []),
+  ...(galleryFigures.length ? [{ depth: 2, slug: 'figures', text: '图表' }] : []),
   { depth: 2, slug: 'related-topics', text: '相关主题' }
 ]
 
@@ -66,12 +76,6 @@ const extractLabeledBlock = (value: string | undefined, label: string) => {
   const match = String(value || '').match(new RegExp(`\\*\\*${escapedLabel}：\\*\\*\\s*([\\s\\S]*?)(?=\\n\\n\\*\\*|$)`))
   return match?.[1]?.trim() || ''
 }
-
-const methodFigure = current.figureGallery?.find((figure) => figure.zone === 'method')
-const resultsFigure = current.figureGallery?.find((figure) => figure.zone === 'results')
-const insightsFigure = current.figureGallery?.find((figure) => figure.zone === 'insights')
-const risksFigure = current.figureGallery?.find((figure) => figure.zone === 'risks')
-const figures = current.figureGallery || []
 
 const getArxivId = (...urls: (string | undefined)[]) => {
   for (const url of urls) {
@@ -227,6 +231,18 @@ const heroVisualStyle = heroImageUrl
             </div>
             <div class='rounded-2xl border border-emerald-700/10 bg-emerald-500/10 p-5'>
               <div class='wiki-rich text-base leading-8 text-foreground' set:html={render(current.intuition).__html} />
+              {intuitionFigures.length ? (
+                <div class='mt-5 grid gap-4 md:grid-cols-2'>
+                  {intuitionFigures.map((figure) => (
+                    <figure class='rounded-xl border border-emerald-700/15 bg-background/70 p-3'>
+                      <a href={figure.src} target='_blank' rel='noreferrer'>
+                        <img class='h-auto w-full rounded-lg border border-border/40 bg-white object-contain' src={figure.src} alt={figure.caption} loading='lazy' />
+                      </a>
+                      <figcaption class='mt-3 text-sm leading-6 text-muted-foreground'>{figure.caption}</figcaption>
+                    </figure>
+                  ))}
+                </div>
+              ) : null}
             </div>
           </section>
         ) : null}
@@ -252,6 +268,18 @@ const heroVisualStyle = heroImageUrl
                 <div class='wiki-rich' set:html={render(current.researchProblem).__html} />
               )}
             </div>
+            {backgroundFigures.length ? (
+              <div class='mt-5 grid gap-4 border-t border-border/40 pt-5 md:grid-cols-2'>
+                {backgroundFigures.map((figure) => (
+                  <figure class='rounded-xl border border-border/50 bg-background/70 p-3'>
+                    <a href={figure.src} target='_blank' rel='noreferrer'>
+                      <img class='h-auto w-full rounded-lg border border-border/40 bg-white object-contain' src={figure.src} alt={figure.caption} loading='lazy' />
+                    </a>
+                    <figcaption class='mt-3 text-sm leading-6 text-muted-foreground'>{figure.caption}</figcaption>
+                  </figure>
+                ))}
+              </div>
+            ) : null}
           </div>
         </section>
 
@@ -280,13 +308,19 @@ const heroVisualStyle = heroImageUrl
                 ) : null}
               </div>
 
-              {(methodFigure || current.methodTakeaways?.length) ? (
+              {(methodFigures.length || current.methodTakeaways?.length) ? (
               <div class='space-y-4 border-t border-border/40 pt-5'>
-                {methodFigure ? (
-                  <figure class='rounded-xl border border-border/50 bg-background/70 p-3'>
-                    <img class='h-auto w-full rounded-lg border border-border/40 bg-white object-contain' src={methodFigure.src} alt={methodFigure.caption} />
-                    <figcaption class='mt-3 text-sm leading-6 text-muted-foreground'>{methodFigure.caption}</figcaption>
-                  </figure>
+                {methodFigures.length ? (
+                  <div class='grid gap-4 md:grid-cols-2'>
+                    {methodFigures.map((figure) => (
+                      <figure class='rounded-xl border border-border/50 bg-background/70 p-3'>
+                        <a href={figure.src} target='_blank' rel='noreferrer'>
+                          <img class='h-auto w-full rounded-lg border border-border/40 bg-white object-contain' src={figure.src} alt={figure.caption} loading='lazy' />
+                        </a>
+                        <figcaption class='mt-3 text-sm leading-6 text-muted-foreground'>{figure.caption}</figcaption>
+                      </figure>
+                    ))}
+                  </div>
                 ) : null}
                 {current.methodTakeaways?.length ? (
                   <div class='rounded-xl border border-border/60 bg-background/70 p-4'>
@@ -307,13 +341,19 @@ const heroVisualStyle = heroImageUrl
           <div class='rounded-2xl border border-border bg-card p-5'>
             <div class='space-y-5'>
               <div class='wiki-rich text-sm leading-7 text-muted-foreground' set:html={renderList(current.resultHighlights || current.experimentalSignals).__html} />
-              {(resultsFigure || current.keyTakeaways?.length) ? (
+              {(resultsFigures.length || current.keyTakeaways?.length) ? (
               <div class='space-y-4 border-t border-border/40 pt-5'>
-                {resultsFigure ? (
-                  <figure class='rounded-xl border border-border/50 bg-background/70 p-3'>
-                    <img class='h-auto w-full rounded-lg border border-border/40 bg-white object-contain' src={resultsFigure.src} alt={resultsFigure.caption} />
-                    <figcaption class='mt-3 text-sm leading-6 text-muted-foreground'>{resultsFigure.caption}</figcaption>
-                  </figure>
+                {resultsFigures.length ? (
+                  <div class='grid gap-4 md:grid-cols-2'>
+                    {resultsFigures.map((figure) => (
+                      <figure class='rounded-xl border border-border/50 bg-background/70 p-3'>
+                        <a href={figure.src} target='_blank' rel='noreferrer'>
+                          <img class='h-auto w-full rounded-lg border border-border/40 bg-white object-contain' src={figure.src} alt={figure.caption} loading='lazy' />
+                        </a>
+                        <figcaption class='mt-3 text-sm leading-6 text-muted-foreground'>{figure.caption}</figcaption>
+                      </figure>
+                    ))}
+                  </div>
                 ) : null}
                 {current.keyTakeaways?.length ? (
                   <div class='rounded-xl border border-border/60 bg-background/70 p-4'>
@@ -374,11 +414,17 @@ const heroVisualStyle = heroImageUrl
                   <div class='wiki-rich mt-2 text-sm leading-7 text-muted-foreground' set:html={renderList(current.insightBorrowable).__html} />
                 </div>
               ) : null}
-              {insightsFigure ? (
-                <figure class='rounded-xl border border-border/50 bg-background/70 p-3'>
-                  <img class='h-auto w-full rounded-lg border border-border/40 bg-white object-contain' src={insightsFigure.src} alt={insightsFigure.caption} />
-                  <figcaption class='mt-3 text-sm leading-6 text-muted-foreground'>{insightsFigure.caption}</figcaption>
-                </figure>
+              {insightsFigures.length ? (
+                <div class='grid gap-4 border-t border-border/40 pt-5 md:grid-cols-2'>
+                  {insightsFigures.map((figure) => (
+                    <figure class='rounded-xl border border-border/50 bg-background/70 p-3'>
+                      <a href={figure.src} target='_blank' rel='noreferrer'>
+                        <img class='h-auto w-full rounded-lg border border-border/40 bg-white object-contain' src={figure.src} alt={figure.caption} loading='lazy' />
+                      </a>
+                      <figcaption class='mt-3 text-sm leading-6 text-muted-foreground'>{figure.caption}</figcaption>
+                    </figure>
+                  ))}
+                </div>
               ) : null}
             </div>
           </div>
@@ -406,11 +452,17 @@ const heroVisualStyle = heroImageUrl
                 />
               </div>
             </div>
-            {risksFigure ? (
-              <figure class='mt-5 rounded-xl border border-border/50 bg-background/70 p-3'>
-                <img class='h-auto w-full rounded-lg border border-border/40 bg-white object-contain' src={risksFigure.src} alt={risksFigure.caption} />
-                <figcaption class='mt-3 text-sm leading-6 text-muted-foreground'>{risksFigure.caption}</figcaption>
-              </figure>
+            {risksFigures.length ? (
+              <div class='mt-5 grid gap-4 border-t border-border/40 pt-5 md:grid-cols-2'>
+                {risksFigures.map((figure) => (
+                  <figure class='rounded-xl border border-border/50 bg-background/70 p-3'>
+                    <a href={figure.src} target='_blank' rel='noreferrer'>
+                      <img class='h-auto w-full rounded-lg border border-border/40 bg-white object-contain' src={figure.src} alt={figure.caption} loading='lazy' />
+                    </a>
+                    <figcaption class='mt-3 text-sm leading-6 text-muted-foreground'>{figure.caption}</figcaption>
+                  </figure>
+                ))}
+              </div>
             ) : null}
           </div>
         </section>
@@ -418,13 +470,13 @@ const heroVisualStyle = heroImageUrl
 
     </section>
 
-    {figures.length ? (
+    {galleryFigures.length ? (
       <section class='space-y-4' aria-labelledby='figures'>
         <div class='border-b border-border/40 pb-3'>
           <h2 id='figures' class='m-0 text-2xl font-semibold'>图表</h2>
         </div>
         <div class='grid gap-4 md:grid-cols-2 xl:grid-cols-3'>
-          {figures.map((figure) => (
+          {galleryFigures.map((figure) => (
             <a class='group block overflow-hidden rounded-2xl border border-border bg-card no-underline shadow-sm transition hover:border-primary/35' href={figure.src} target='_blank' rel='noreferrer'>
               <img class='aspect-[16/9] w-full bg-white object-cover' src={figure.src} alt={figure.caption} loading='lazy' />
               <span class='flex items-start gap-2 border-t border-border/50 px-4 py-3 text-sm leading-6 text-muted-foreground'>
