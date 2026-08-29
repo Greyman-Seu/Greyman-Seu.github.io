@@ -1,0 +1,81 @@
+---
+const steps = [
+  {
+    title: '任务期待',
+    detail: '先说清楚希望模型做到什么，以及哪些差异必须保留。'
+  },
+  {
+    title: '表示与分解',
+    detail: '定义元素、关系、几何与组合方式，让规律能够重复出现。'
+  },
+  {
+    title: '有效监督',
+    detail: '让单位数据提供任务相关、非重复且覆盖关键变化的约束。'
+  },
+  {
+    title: '信用分配',
+    detail: '让结果好坏能够抵达真正需要改变的表示和参数。'
+  },
+  {
+    title: '参数复用',
+    detail: '让一个样本学到的规律帮助其他位置、样本与任务。'
+  },
+  {
+    title: '真实效用闭环',
+    detail: '检查代理损失的改善，是否兑现成最初期待的现实效果。'
+  }
+]
+---
+
+<figure
+  class='not-prose my-8 rounded-xl border border-border/60 bg-card p-3 sm:p-5'
+  aria-labelledby='scaling-loop-title scaling-loop-caption'
+>
+  <div class='mb-4 flex flex-col gap-1'>
+    <p id='scaling-loop-title' class='m-0 text-base font-semibold text-foreground'>
+      Scaling 能够积累的六步闭环
+    </p>
+    <p class='m-0 text-sm leading-6 text-muted-foreground'>
+      六步不是并列清单；前一步决定下一步能够接收到什么。
+    </p>
+  </div>
+
+  <ol class='m-0 grid list-none gap-3 p-0 sm:grid-cols-2' role='list'>
+    {
+      steps.map((step, index) => (
+        <li class='rounded-lg border border-border/60 bg-background/70 p-3'>
+          <div class='mb-1 flex items-center gap-2'>
+            <span class='flex size-7 shrink-0 items-center justify-center rounded-full bg-primary/15 text-sm font-semibold text-foreground'>
+              {index + 1}
+            </span>
+            <span class='font-semibold text-foreground'>{step.title}</span>
+          </div>
+          <p class='m-0 text-sm leading-6 text-muted-foreground'>{step.detail}</p>
+        </li>
+      ))
+    }
+  </ol>
+
+  <p class='my-3 text-center text-sm font-semibold tracking-wide text-primary' aria-hidden='true'>
+    1 → 2 → 3 → 4 → 5 → 6 ↺ 1
+  </p>
+
+  <div class='grid gap-3 sm:grid-cols-[1fr_auto_1fr] sm:items-center'>
+    <div
+      class='rounded-lg border border-primary/30 bg-primary/10 p-3 text-sm leading-6 text-foreground'
+    >
+      <span class='font-semibold'>反馈：</span>真实效用会反过来修正任务期待、表示与评测。
+    </div>
+    <span class='hidden text-xl text-primary sm:block' aria-hidden='true'>↺</span>
+    <div
+      class='rounded-lg border border-border/60 bg-muted/40 p-3 text-sm leading-6 text-foreground'
+    >
+      <span class='font-semibold'>放大器：</span
+      >数据、参数和计算作用于整条链，而不是替代其中任何一步。
+    </div>
+  </div>
+
+  <figcaption id='scaling-loop-caption' class='mt-3 text-sm leading-6 text-muted-foreground'>
+    图 1：问题表述决定规模是否存在可积累的方向；监督、信用和参数复用决定这些规律能否真正进入模型。
+  </figcaption>
+</figure>

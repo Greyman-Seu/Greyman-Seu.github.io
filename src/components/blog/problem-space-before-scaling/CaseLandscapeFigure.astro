@@ -1,0 +1,60 @@
+<figure
+  class='not-prose my-8 rounded-xl border border-border/60 bg-card p-3 sm:p-5'
+  aria-labelledby='case-landscape-title case-landscape-caption'
+>
+  <div class='mb-4 flex flex-col gap-1'>
+    <p id='case-landscape-title' class='m-0 text-base font-semibold text-foreground'>
+      成功案例主要打开了哪一个瓶颈
+    </p>
+    <p class='m-0 text-sm leading-6 text-muted-foreground'>
+      分组表示主要着力点，不代表某个案例只影响一个维度。
+    </p>
+  </div>
+
+  <div class='grid gap-3 lg:grid-cols-3'>
+    <section class='rounded-lg border border-border/60 bg-background/70 p-3'>
+      <h3 class='m-0 text-sm font-semibold text-foreground'>① 表示与分解</h3>
+      <p class='mb-3 mt-1 text-xs leading-5 text-muted-foreground'>让任务结构先变得可学习</p>
+      <ul class='m-0 space-y-2 p-0 text-sm text-foreground' role='list'>
+        <li class='list-none rounded-md bg-muted/50 px-2.5 py-2'>分类与 CNN</li>
+        <li class='list-none rounded-md bg-muted/50 px-2.5 py-2'>检测、分割与关键点</li>
+        <li class='list-none rounded-md bg-muted/50 px-2.5 py-2'>人脸识别与检索</li>
+        <li class='list-none rounded-md bg-muted/50 px-2.5 py-2'>BEV</li>
+        <li class='list-none rounded-md bg-muted/50 px-2.5 py-2'>AlphaFold2</li>
+      </ul>
+    </section>
+
+    <section class='rounded-lg border border-border/60 bg-background/70 p-3'>
+      <h3 class='m-0 text-sm font-semibold text-foreground'>② 有效监督</h3>
+      <p class='mb-3 mt-1 text-xs leading-5 text-muted-foreground'>让有限数据产生更多有效约束</p>
+      <ul class='m-0 space-y-2 p-0 text-sm text-foreground' role='list'>
+        <li class='list-none rounded-md bg-muted/50 px-2.5 py-2'>CLIP：关系与覆盖</li>
+        <li class='list-none rounded-md bg-muted/50 px-2.5 py-2'>语言模型：逐 token 目标</li>
+        <li class='list-none rounded-md bg-muted/50 px-2.5 py-2'>Diffusion：分噪声层级去噪</li>
+      </ul>
+    </section>
+
+    <section class='rounded-lg border border-border/60 bg-background/70 p-3'>
+      <h3 class='m-0 text-sm font-semibold text-foreground'>③ 信用分配与反馈</h3>
+      <p class='mb-3 mt-1 text-xs leading-5 text-muted-foreground'>
+        让结果抵达模型，或持续生成新的学习经验
+      </p>
+      <ul class='m-0 space-y-2 p-0 text-sm text-foreground' role='list'>
+        <li class='list-none rounded-md bg-muted/50 px-2.5 py-2'>NeRF：可微渲染</li>
+        <li class='list-none rounded-md bg-muted/50 px-2.5 py-2'>AlphaGo Zero：搜索与自博弈</li>
+      </ul>
+    </section>
+  </div>
+
+  <div class='mt-3 rounded-lg border border-dashed border-border bg-muted/30 p-3'>
+    <p class='m-0 text-sm font-semibold text-foreground'>对照组：问题空间并不能解释全部突破</p>
+    <p class='mb-0 mt-1 text-sm leading-6 text-muted-foreground'>
+      AlexNet 主要扩大数据、计算与可优化容量；ResNet 主要改善参数化和梯度传播；Transformer
+      主要改善跨位置交互与并行训练。
+    </p>
+  </div>
+
+  <figcaption id='case-landscape-caption' class='mt-3 text-sm leading-6 text-muted-foreground'>
+    图 2：同一套分析框架不是为了把所有成功解释成同一件事，而是辨认每项技术究竟解除了一处什么约束。
+  </figcaption>
+</figure>
