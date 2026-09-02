@@ -1,15 +1,51 @@
 [
   {
+    "id": "current-vla-landscape-foundation-control-memory-and-transfer",
     "slug": "current-vla-landscape-foundation-control-memory-and-transfer",
     "title": "当前 VLA 路线图：基座、可控性、在线精修、记忆与人类数据",
-    "summary": "> 这 6 篇论文放在一起看，已经足够勾勒出当前具身智能 VLA 与 human data 主线的几条关键分叉。",
-    "body": "# 当前 VLA 路线图：基座、可控性、在线精修、记忆与人类数据\n\n> 这 6 篇论文放在一起看，已经足够勾勒出当前具身智能 VLA 与 human data 主线的几条关键分叉。\n\n## 综述结论\n\n如果只看单篇论文，很容易觉得大家都在“继续做更强的 VLA”。但把 `OpenVLA`、`π0.7`、`RLT`、`MEM`、`Human-to-Robot Transfer`、`DexImit` 放在一起，会看到这条路线其实已经分化成六个相互关联的问题：\n\n1. `VLA 基座如何开放、可训、可部署`\n2. `heterogeneous data 如何变成可控能力`\n3. `通才策略如何继续被打磨到 specialist 级精度`\n4. `分钟级任务如何通过 memory 真正支撑起来`\n5. `人类数据何时开始能真正被机器人利用`\n6. `人类视频如何被显式编译成机器人可训练数据`\n\n这说明当前 VLA 研究已经不再只是单点模型设计，而是在演化成一套完整系统栈。\n\n## 路线 1：基座化\n\n代表工作：\n[来源: OpenVLA: An Open-Source Vision-Language-Action Model](../sources/openvla-an-open-source-vision-language-action-model.md)\n\nOpenVLA 回答的是最底层的问题：如果机器人领域要像语言模型一样进入 foundation model 时代，是否有一个真正公开、可训练、可微调、可部署的基座。它的意义不只是性能，而是把训练、适配、部署连成一条开源链路，使后续路线有了可复用底座。\n\n## 路线 2：可控性与多源数据吸纳\n\n代表工作：\n[来源: π0.7: a Steerable Generalist Robotic Foundation Model with Emergent Capabilities](../sources/pi07-a-steerable-generalist-robotic-foundation-model-with-emergent-capabilities.md)\n\nπ0.7 强调的是：当机器人基础模型开始吃 demonstration、autonomous data、human video、web data 时，真正的难点不是“数据够不够多”，而是“模型能不能分辨这些数据应该怎么用”。它通过子任务语言、subgoal image、episode metadata 把“怎么做”也写进 prompt，本质上是在解决 heterogeneous data 的 disambiguation 问题。\n\n## 路线 3：在线精修\n\n代表工作：\n[来源: RL Token: Bootstrapping Online RL with Vision-Language-Action Models](../sources/rl-token-bootstrapping-online-rl-with-vision-language-action-models.md)\n\nRLT 则往下游走一步，解决 foundation policy 落地时的高精度问题。它并不否定 VLA 的 generalist 路线，而是承认现实：很多真实机器人任务最终卡在最后几毫米。它给出的答案是用 `RL token` 之类的轻量接口，在不重训整套大模型的前提下，把关键阶段继续打磨成 specialist 级表现。\n\n## 路线 4：长时程记忆\n\n代表工作：\n[来源: MEM: Multi-Scale Embodied Memory for Vision Language Action Models](../sources/mem-multi-scale-embodied-memory-for-vision-language-action-models.md)\n\nMEM 进一步把问题拉长到分钟级任务。它说明单纯增加历史长度不能解决 long-horizon control，memory 必须是分层的：短期视觉记忆负责局部细节和遮挡补偿，长期语义记忆负责任务进度与阶段管理。这意味着 VLA 的未来很可能越来越像“带显式 memory module 的 embodied agent”。\n\n## 路线 5：人类数据吸纳\n\n代表工作：\n[来源: Emergence of Human to Robot Transfer in Vision-Language-Action Models](../sources/emergence-of-human-to-robot-transfer-in-vision-language-action-models.md)\n\nHuman-to-Robot Transfer 这篇把视角转向更上游的数据扩展问题。它的关键发现不是“human video useful”，而是“当 robot pretraining 多样性达到某个阈值后，human-to-robot transfer 才开始明显涌现”。这给出一个很重要的判断：具身智能里很多看似需要手工对齐的能力，可能其实是 scale 和 diversity 的副产物。\n\n## 路线 6：人类视频到机器人数据引擎\n\n代表工作：\n[来源: DexImit: Learning Bimanual Dexterous Manipulation from Monocular Human Videos](../sources/deximit-learning-bimanual-dexterous-manipulation-from-monocular-human-videos.md)\n\nDexImit 补上了 human data 的另一种用法：不是直接把 human video 作为另一种 embodiment 参与训练，而是把单目人类操作视频经过 4D 重建、双手调度、抓取与运动规划、数据增强，显式转换成双手灵巧机器人训练数据。它说明 human video 的价值不只在 representation transfer，也可能在于成为一个可规模化的数据生成入口。\n\n## 综合判断\n\n把这 5 篇合起来看，目前 VLA 主线至少有三个明显结论：\n\n- **第一，VLA 不是单一路线，而是平台化问题。**\n  从 `OpenVLA` 到 `RLT`，可以看到大家已经默认 foundation policy 是起点，不是终点。\n\n- **第二，真正的瓶颈在“如何把广泛数据转成可靠控制”。**\n  `π0.7` 关心 prompt 和 steerability，`MEM` 关心 memory abstraction，`Human-to-Robot Transfer` 关心 pretraining diversity，`DexImit` 关心显式 data generation，这些本质都在解决“广覆盖是否真的会变成能力”。\n\n- **第三，后续突破更可能来自系统组合，而不是单点模型变大。**\n  基座、可控性、在线精修、长时程记忆、人类数据和数据生成引擎，这些路线更像模块而不是相互替代关系。未来更可能出现的是它们的组合系统。\n\n- **第四，human data 至少有两条不同技术路线。**\n  一条是 `Human-to-Robot Transfer` 代表的 co-training / representation transfer，另一条是 `DexImit` 代表的 reconstruction / scheduling / planning data engine。前者更依赖预训练多样性，后者更依赖几何与物理可行性检查。\n\n## 当前知识库的合理结构判断\n\n基于现在只有 6 篇 source 的状态，真正成熟的 topic 其实还不多。\n\n- `Vision-Language-Action` 已经是一个成立的总主题\n- `Online RL for VLA`、`Long-Horizon Memory`、`Human-to-Robot Transfer`、`Human Video Robot Data Generation` 目前更像正在形成中的子主题\n\n因此当前更合理的入口，不是强行把每条子方向都做成厚 topic，而是先保留一个总主题页，再用这篇 synthesis 作为跨论文主入口。\n\n## 后续建议\n\n- 再补 2-3 篇 `online RL for VLA / policy refinement` 论文，再厚化 `Online RL for VLA`\n- 再补 2-3 篇 `memory / long horizon` 论文，再厚化 `Long-Horizon Memory`\n- 再补 `human video / cross-embodiment / multimodal transfer` 论文，再厚化 `Human-to-Robot Transfer`\n- 再补 `video-to-robot-data / dexterous data generation / imitation from video` 论文，再判断 `Human Video Robot Data Generation` 是否应升级为更重的综述入口\n- 到那时再做更重的 topic，而不是现在就假装它们已经成熟\n\n## 相关页面\n\n- [[Vision-Language-Action]]\n- [[OpenVLA: An Open-Source Vision-Language-Action Model]]\n- [[π0.7: a Steerable Generalist Robotic Foundation Model with Emergent Capabilities]]\n- [[RL Token: Bootstrapping Online RL with Vision-Language-Action Models]]\n- [[MEM: Multi-Scale Embodied Memory for Vision Language Action Models]]\n- [[Emergence of Human to Robot Transfer in Vision-Language-Action Models]]\n- [[DexImit: Learning Bimanual Dexterous Manipulation from Monocular Human Videos]]\n- [[Human Video Robot Data Generation]]",
+    "type": "synthesis",
+    "kind": "overview",
+    "domain": "physical-embodied-intelligence",
+    "domains": [
+      "Physical/Embodied Intelligence"
+    ],
     "tags": [
       "vision-language-action"
     ],
+    "summary": "如果只看单篇论文，很容易觉得大家都在“继续做更强的 VLA”。但把 OpenVLA、π0.7、RLT、MEM、Human-to-Robot Transfer、DexImit 放在一起，会看到这条路线其实已经分化成六个相互关联的问题：\n1. VLA 基座如何开放、可训、可部署\n2. heterogeneous data 如何变成可控能力\n3. 通才策略如何继续被打磨到 specialist 级精度\n4. 分钟级任务如何通过 memory 真正支撑起来\n5. 人类数据何时开始能真正被机器人利用\n6. 人类视频如何被显式编译成机器人可训练数据\n这说明当前 VLA 研究已经不再只是单点模型设计，而是在演化成一套完整系统栈。",
+    "judgment": "当前 VLA 研究已经从单点模型设计演化为基座、可控性、在线精修、记忆和人类数据共同组成的系统问题。",
     "created": "2026-05-11",
     "updated": "2026-05-16",
-    "sourceTitles": [],
+    "sourceSlugs": [
+      "openvla-an-open-source-vision-language-action-model",
+      "pi07-a-steerable-generalist-robotic-foundation-model-with-emergent-capabilities",
+      "rl-token-bootstrapping-online-rl-with-vision-language-action-models",
+      "mem-multi-scale-embodied-memory-for-vision-language-action-models",
+      "emergence-of-human-to-robot-transfer-in-vision-language-action-models",
+      "deximit-learning-bimanual-dexterous-manipulation-from-monocular-human-videos"
+    ],
+    "topicSlugs": [
+      "human-to-robot-transfer",
+      "human-video-robot-data-generation",
+      "long-horizon-memory-for-robot-policies",
+      "online-rl-for-vla",
+      "vision-language-action"
+    ],
+    "sourceTitles": [
+      "OpenVLA: An Open-Source Vision-Language-Action Model",
+      "π0.7: a Steerable Generalist Robotic Foundation Model with Emergent Capabilities",
+      "RL Token: Bootstrapping Online RL with Vision-Language-Action Models",
+      "MEM: Multi-Scale Embodied Memory for Vision Language Action Models",
+      "Emergence of Human to Robot Transfer in Vision-Language-Action Models",
+      "DexImit: Learning Bimanual Dexterous Manipulation from Monocular Human Videos"
+    ],
+    "topicTitles": [
+      "Human-to-Robot Transfer",
+      "Human Video Robot Data Generation",
+      "Long-Horizon Memory for Robot Policies",
+      "Online RL for VLA",
+      "Vision-Language-Action"
+    ],
     "relatedPages": [
       "Vision-Language-Action",
       "OpenVLA: An Open-Source Vision-Language-Action Model",
@@ -18,29 +54,163 @@
       "MEM: Multi-Scale Embodied Memory for Vision Language Action Models",
       "Emergence of Human to Robot Transfer in Vision-Language-Action Models",
       "DexImit: Learning Bimanual Dexterous Manipulation from Monocular Human Videos",
-      "Human Video Robot Data Generation"
-    ]
+      "Human Video Robot Data Generation",
+      "来源: OpenVLA: An Open-Source Vision-Language-Action Model",
+      "来源: π0.7: a Steerable Generalist Robotic Foundation Model with Emergent Capabilities",
+      "来源: RL Token: Bootstrapping Online RL with Vision-Language-Action Models",
+      "来源: MEM: Multi-Scale Embodied Memory for Vision Language Action Models",
+      "来源: Emergence of Human to Robot Transfer in Vision-Language-Action Models",
+      "来源: DexImit: Learning Bimanual Dexterous Manipulation from Monocular Human Videos"
+    ],
+    "claims": [],
+    "openQuestions": [],
+    "confidence": "INFERRED",
+    "body": "# 当前 VLA 路线图：基座、可控性、在线精修、记忆与人类数据\n\n> 这 6 篇论文放在一起看，已经足够勾勒出当前具身智能 VLA 与 human data 主线的几条关键分叉。\n\n## 综述结论\n\n如果只看单篇论文，很容易觉得大家都在“继续做更强的 VLA”。但把 `OpenVLA`、`π0.7`、`RLT`、`MEM`、`Human-to-Robot Transfer`、`DexImit` 放在一起，会看到这条路线其实已经分化成六个相互关联的问题：\n\n1. `VLA 基座如何开放、可训、可部署`\n2. `heterogeneous data 如何变成可控能力`\n3. `通才策略如何继续被打磨到 specialist 级精度`\n4. `分钟级任务如何通过 memory 真正支撑起来`\n5. `人类数据何时开始能真正被机器人利用`\n6. `人类视频如何被显式编译成机器人可训练数据`\n\n这说明当前 VLA 研究已经不再只是单点模型设计，而是在演化成一套完整系统栈。\n\n## 路线 1：基座化\n\n代表工作：\n[来源: OpenVLA: An Open-Source Vision-Language-Action Model](../sources/openvla-an-open-source-vision-language-action-model.md)\n\nOpenVLA 回答的是最底层的问题：如果机器人领域要像语言模型一样进入 foundation model 时代，是否有一个真正公开、可训练、可微调、可部署的基座。它的意义不只是性能，而是把训练、适配、部署连成一条开源链路，使后续路线有了可复用底座。\n\n## 路线 2：可控性与多源数据吸纳\n\n代表工作：\n[来源: π0.7: a Steerable Generalist Robotic Foundation Model with Emergent Capabilities](../sources/pi07-a-steerable-generalist-robotic-foundation-model-with-emergent-capabilities.md)\n\nπ0.7 强调的是：当机器人基础模型开始吃 demonstration、autonomous data、human video、web data 时，真正的难点不是“数据够不够多”，而是“模型能不能分辨这些数据应该怎么用”。它通过子任务语言、subgoal image、episode metadata 把“怎么做”也写进 prompt，本质上是在解决 heterogeneous data 的 disambiguation 问题。\n\n## 路线 3：在线精修\n\n代表工作：\n[来源: RL Token: Bootstrapping Online RL with Vision-Language-Action Models](../sources/rl-token-bootstrapping-online-rl-with-vision-language-action-models.md)\n\nRLT 则往下游走一步，解决 foundation policy 落地时的高精度问题。它并不否定 VLA 的 generalist 路线，而是承认现实：很多真实机器人任务最终卡在最后几毫米。它给出的答案是用 `RL token` 之类的轻量接口，在不重训整套大模型的前提下，把关键阶段继续打磨成 specialist 级表现。\n\n## 路线 4：长时程记忆\n\n代表工作：\n[来源: MEM: Multi-Scale Embodied Memory for Vision Language Action Models](../sources/mem-multi-scale-embodied-memory-for-vision-language-action-models.md)\n\nMEM 进一步把问题拉长到分钟级任务。它说明单纯增加历史长度不能解决 long-horizon control，memory 必须是分层的：短期视觉记忆负责局部细节和遮挡补偿，长期语义记忆负责任务进度与阶段管理。这意味着 VLA 的未来很可能越来越像“带显式 memory module 的 embodied agent”。\n\n## 路线 5：人类数据吸纳\n\n代表工作：\n[来源: Emergence of Human to Robot Transfer in Vision-Language-Action Models](../sources/emergence-of-human-to-robot-transfer-in-vision-language-action-models.md)\n\nHuman-to-Robot Transfer 这篇把视角转向更上游的数据扩展问题。它的关键发现不是“human video useful”，而是“当 robot pretraining 多样性达到某个阈值后，human-to-robot transfer 才开始明显涌现”。这给出一个很重要的判断：具身智能里很多看似需要手工对齐的能力，可能其实是 scale 和 diversity 的副产物。\n\n## 路线 6：人类视频到机器人数据引擎\n\n代表工作：\n[来源: DexImit: Learning Bimanual Dexterous Manipulation from Monocular Human Videos](../sources/deximit-learning-bimanual-dexterous-manipulation-from-monocular-human-videos.md)\n\nDexImit 补上了 human data 的另一种用法：不是直接把 human video 作为另一种 embodiment 参与训练，而是把单目人类操作视频经过 4D 重建、双手调度、抓取与运动规划、数据增强，显式转换成双手灵巧机器人训练数据。它说明 human video 的价值不只在 representation transfer，也可能在于成为一个可规模化的数据生成入口。\n\n## 综合判断\n\n把这 5 篇合起来看，目前 VLA 主线至少有三个明显结论：\n\n- **第一，VLA 不是单一路线，而是平台化问题。**\n  从 `OpenVLA` 到 `RLT`，可以看到大家已经默认 foundation policy 是起点，不是终点。\n\n- **第二，真正的瓶颈在“如何把广泛数据转成可靠控制”。**\n  `π0.7` 关心 prompt 和 steerability，`MEM` 关心 memory abstraction，`Human-to-Robot Transfer` 关心 pretraining diversity，`DexImit` 关心显式 data generation，这些本质都在解决“广覆盖是否真的会变成能力”。\n\n- **第三，后续突破更可能来自系统组合，而不是单点模型变大。**\n  基座、可控性、在线精修、长时程记忆、人类数据和数据生成引擎，这些路线更像模块而不是相互替代关系。未来更可能出现的是它们的组合系统。\n\n- **第四，human data 至少有两条不同技术路线。**\n  一条是 `Human-to-Robot Transfer` 代表的 co-training / representation transfer，另一条是 `DexImit` 代表的 reconstruction / scheduling / planning data engine。前者更依赖预训练多样性，后者更依赖几何与物理可行性检查。\n\n## 当前知识库的合理结构判断\n\n基于现在只有 6 篇 source 的状态，真正成熟的 topic 其实还不多。\n\n- `Vision-Language-Action` 已经是一个成立的总主题\n- `Online RL for VLA`、`Long-Horizon Memory`、`Human-to-Robot Transfer`、`Human Video Robot Data Generation` 目前更像正在形成中的子主题\n\n因此当前更合理的入口，不是强行把每条子方向都做成厚 topic，而是先保留一个总主题页，再用这篇 synthesis 作为跨论文主入口。\n\n## 后续建议\n\n- 再补 2-3 篇 `online RL for VLA / policy refinement` 论文，再厚化 `Online RL for VLA`\n- 再补 2-3 篇 `memory / long horizon` 论文，再厚化 `Long-Horizon Memory`\n- 再补 `human video / cross-embodiment / multimodal transfer` 论文，再厚化 `Human-to-Robot Transfer`\n- 再补 `video-to-robot-data / dexterous data generation / imitation from video` 论文，再判断 `Human Video Robot Data Generation` 是否应升级为更重的综述入口\n- 到那时再做更重的 topic，而不是现在就假装它们已经成熟\n\n## 相关页面\n\n- [[Vision-Language-Action]]\n- [[OpenVLA: An Open-Source Vision-Language-Action Model]]\n- [[π0.7: a Steerable Generalist Robotic Foundation Model with Emergent Capabilities]]\n- [[RL Token: Bootstrapping Online RL with Vision-Language-Action Models]]\n- [[MEM: Multi-Scale Embodied Memory for Vision Language Action Models]]\n- [[Emergence of Human to Robot Transfer in Vision-Language-Action Models]]\n- [[DexImit: Learning Bimanual Dexterous Manipulation from Monocular Human Videos]]\n- [[Human Video Robot Data Generation]]\n"
   },
   {
+    "id": "force-touch-robot-policy-review",
+    "slug": "force-touch-robot-policy-review",
+    "title": "力触如何进入机器人策略：表示、持续适配、执行闭环、柔顺与记忆",
+    "type": "synthesis",
+    "kind": "overview",
+    "domain": "physical-embodied-intelligence",
+    "domains": [
+      "Physical/Embodied Intelligence"
+    ],
+    "tags": [
+      "tactile-representation",
+      "contact-rich-manipulation"
+    ],
+    "summary": "八篇材料把力触进入机器人策略拆成五层：传感设计、表示迁移、持续适配、执行期闭环，以及把 force 进一步写成柔顺参数或长期事件记忆。",
+    "judgment": "力触的收益不来自“多加一个传感器”，而来自把事件可观测性、时间尺度和控制接口对齐：该记住什么、何时更新、由谁来执行。现有工作分别验证了局部环节，但还没有一条端到端路线同时覆盖跨硬件表示、旧能力保持、执行期修正、长期记忆和柔顺接口。",
+    "created": "2026-09-02",
+    "updated": "2026-09-02",
+    "sourceSlugs": [
+      "tactile-genesis-exploring-tactile-sensors-at-scale-for-learning-dexterous-tasks",
+      "2606.29948-heterogeneous-tactile-transformer",
+      "2606.30988-multisensory-continual-learning-adapting-pretrained-visuomotor-policies-to-force",
+      "2503.02881-reactive-diffusion-policy-slow-fast-visual-tactile-policy-learning-for-contact-rich-manipulation",
+      "t-rex-tactile-reactive-dexterous-manipulation",
+      "2608.25798-tacforcing-streaming-action-generation-with-execution-time-tactile-feedback",
+      "adaptive-compliance-policy-learning-approximate-compliance-for-diffusion-guided-control",
+      "fm-vla-force-based-memory-for-vision-language-action-models-in-contact-rich-manipulation"
+    ],
+    "topicSlugs": [
+      "tactile-representation",
+      "vision-language-action",
+      "contact-rich-manipulation",
+      "long-horizon-memory-for-robot-policies"
+    ],
+    "sourceTitles": [
+      "Tactile Genesis: Exploring Tactile Sensors at Scale for Learning Dexterous Tasks",
+      "Heterogeneous Tactile Transformer",
+      "Multisensory Continual Learning: Adapting Pretrained Visuomotor Policies to Force",
+      "Reactive Diffusion Policy: Slow-Fast Visual-Tactile Policy Learning for Contact-Rich Manipulation",
+      "T-Rex: Tactile-Reactive Dexterous Manipulation",
+      "TacForcing: Streaming Action Generation with Execution-Time Tactile Feedback",
+      "Adaptive Compliance Policy: Learning Approximate Compliance for Diffusion Guided Control",
+      "FM-VLA: Force-based Memory for Vision-Language-Action Models in Contact-Rich Manipulation"
+    ],
+    "topicTitles": [
+      "Tactile Representation",
+      "Vision-Language-Action",
+      "Contact-Rich Manipulation and Adaptive Compliance",
+      "Long-Horizon Memory for Robot Policies"
+    ],
+    "relatedPages": [
+      "tactile-genesis-exploring-tactile-sensors-at-scale-for-learning-dexterous-tasks|Tactile Genesis",
+      "2606.29948-heterogeneous-tactile-transformer|Heterogeneous Tactile Transformer",
+      "2606.30988-multisensory-continual-learning-adapting-pretrained-visuomotor-policies-to-force|MuSe",
+      "2503.02881-reactive-diffusion-policy-slow-fast-visual-tactile-policy-learning-for-contact-rich-manipulation|RDP",
+      "t-rex-tactile-reactive-dexterous-manipulation|T-Rex",
+      "2608.25798-tacforcing-streaming-action-generation-with-execution-time-tactile-feedback|TacForcing",
+      "adaptive-compliance-policy-learning-approximate-compliance-for-diffusion-guided-control|ACP",
+      "fm-vla-force-based-memory-for-vision-language-action-models-in-contact-rich-manipulation|FM-VLA",
+      "tactile-representation|Tactile Representation",
+      "contact-rich-manipulation|Contact-Rich Manipulation and Adaptive Compliance",
+      "long-horizon-memory-for-robot-policies|Long-Horizon Memory for Robot Policies",
+      "Vision-Language-Action",
+      "触觉与力觉如何进入预训练机器人策略：表示、持续适配与执行闭环"
+    ],
+    "claims": [
+      "力触在机器人策略里至少有五种角色：传感器选择、共享表示、持续适配信号、执行期反馈、episodic memory/compliance action。",
+      "时间尺度比单纯模态数更关键：RDP/TacForcing 对齐动作块执行时刻，FM-VLA 对齐整个 episode，ACP 则把柔顺直接写成策略动作。",
+      "离线适配与在线闭环是正交问题；MuSe 解决旧任务保持，T-Rex/TacForcing/RDP 解决执行中修正。",
+      "跨硬件泛化目前最强的证据停留在表示层，真正的控制层迁移仍弱。",
+      "当前最稳的设计原则是让 force/tactile 的输入或输出语义显式化，而不是默认拼接到视觉 token 后面。"
+    ],
+    "openQuestions": [
+      "能否把 HTT 式共享触觉 backbone、MuSe 式持续适配和 RDP/TacForcing 式执行期修正串成同一个系统？",
+      "当多个新模态依次加入时，replay、missing-modality mask 与参数高效适配如何避免成本线性增长？",
+      "双专家快慢回路、单专家流式生成与 latent-diffusion residual 在相同闭环频率和算力下谁更稳？",
+      "FM-VLA 式 episodic force memory 能否迁移到更多机器人和更长接触序列，而不会被固定 token 瓶颈卡死？",
+      "ACP 式 approximate compliance 能否与触觉 VLA、在线 RL 和安全控制一起形成可部署接口？"
+    ],
+    "confidence": "INFERRED",
+    "body": "# 力触如何进入机器人策略：表示、持续适配、执行闭环、柔顺与记忆\n\n> 当前最可靠的判断是：力触不是单一模态，而是一条贯穿表示、记忆与控制时序的接口栈。\n\n## 当前判断\n\n这八篇材料把 force / tactile 进入机器人策略的路径拆成了五层：先决定该感知哪些接触量，再把异构硬件压成可迁移表示；随后让只见过视觉数据的策略吸收新模态而不遗忘；接着把接触状态对齐到动作块执行时刻；最后把 force 进一步升级为柔顺参数或整个 episode 的事件记忆。\n\n最重要的分界不是“有没有触觉”，而是触觉被放在什么时间尺度上发挥作用：T-Rex、TacForcing 和 RDP 解决的是动作块内部的即时修正，ACP 解决的是把柔顺显式写进策略动作，FM-VLA 解决的是把整段 force history 变成 episodic memory。它们共享同一类传感器，却对应完全不同的接口层。\n\n## 五层路线\n\n| 层 | 核心问题 | 代表材料 | 当前证据 | 尚缺什么 |\n| --- | --- | --- | --- | --- |\n| 传感设计 | 应该感知哪里、哪种物理量、多少分辨率？ | [[tactile-genesis-exploring-tactile-sensors-at-scale-for-learning-dexterous-tasks|Tactile Genesis]] | 受控仿真显示覆盖面积通常比指尖高分辨率更优先，per-taxel 力/力矩是较稳健默认项 | 大规模真机与耐久、漂移、成本验证 |\n| 表示迁移 | 光学式、阵列式等异构触觉能否共享 backbone？ | [[2606.29948-heterogeneous-tactile-transformer|Heterogeneous Tactile Transformer]] | 1.6M 同步帧、四种传感器的自监督对齐，并在预训练未见的 Sharpa 指尖上验证策略迁移 | 信息不对称导致阵列侧退化；跨硬件闭环尚未验证 |\n| 持续适配 | 旧数据没有新模态标签时，怎样吸收 F/T 且保留旧能力？ | [[2606.30988-multisensory-continual-learning-adapting-pretrained-visuomotor-policies-to-force|MuSe]] | early + late fusion、未来视频/F/T 预测和旧数据 replay；去掉 replay 后旧任务表现显著塌陷 | 仍是离线适配，且主要覆盖一种 F/T 配置与有限任务 |\n| 执行闭环 | 高频接触状态怎样及时改写尚未执行的动作？ | [[2503.02881-reactive-diffusion-policy-slow-fast-visual-tactile-policy-learning-for-contact-rich-manipulation|RDP]]、[[t-rex-tactile-reactive-dexterous-manipulation|T-Rex]]、[[2608.25798-tacforcing-streaming-action-generation-with-execution-time-tactile-feedback|TacForcing]] | 分别对应慢快残差、双专家快慢回路、单专家流式生成；都说明“触觉有用”取决于是否进入可修订窗口 | 缺等算力延迟对比、跨传感器泛化与统一安全指标 |\n| 柔顺与记忆 | force 是 observation、action 还是 memory？ | [[adaptive-compliance-policy-learning-approximate-compliance-for-diffusion-guided-control|ACP]]、[[fm-vla-force-based-memory-for-vision-language-action-models-in-contact-rich-manipulation|FM-VLA]] | ACP 把柔顺写成策略动作；FM-VLA 把整段 wrench 历史压成 episodic memory token | 长时程、跨机器人和跨接触类型的统一验证 |\n\n## 三个最值得记住的分支\n\n### 1. 执行块内：RDP / T-Rex / TacForcing\n\nRDP 代表“慢策略生成高层动作、快 tokenizer 用最新触觉/force 修正末端位姿”的路线；T-Rex 代表“快慢专家共享一条 flow 轨迹”的路线；TacForcing 代表“单专家保留未来动作中间态，执行后再修订下一块”的路线。三者都反对一次性静态拼接触觉，都说明接触反馈的价值取决于它是否能在动作还没执行完时进入模型。\n\n### 2. 事件级：FM-VLA\n\n[[fm-vla-force-based-memory-for-vision-language-action-models-in-contact-rich-manipulation|FM-VLA]] 把 force 从短窗口反馈升级成 episode 记忆：先用 Force-VAE 重建整段 wrench 历史，再用 8 个 token 记录接触事件与进度，配合约 0.9 秒的短时 state token 维持运动上下文。它证明了 force 不只可以用来“纠偏”，还可以用来“记住已经发生了什么”。\n\n### 3. 接口级：ACP\n\n[[adaptive-compliance-policy-learning-approximate-compliance-for-diffusion-guided-control|ACP]] 把柔顺性从低层控制器参数提升为策略输出：参考位姿、虚拟目标和刚度幅值一起被学习。它和 FM-VLA 的共同点是都把 force 变成 policy state，只是一个把 force 写成动作接口，一个把 force 写成时间记忆。\n\n## Claims\n\n1. **力触在机器人策略里不是单一模态，而是接口栈。** Tactile Genesis、HTT、MuSe、RDP、T-Rex、TacForcing、ACP 和 FM-VLA 分别覆盖传感、表示、适配、执行时序、柔顺和记忆。\n2. **时间尺度比模态数量更关键。** 同样是 force / tactile，放在动作块执行窗口、整段 episode、还是低层 compliance controller 里，角色完全不同。\n3. **离线适配与在线闭环正交。** MuSe 解决旧任务保持，RDP/T-Rex/TacForcing 解决执行中修正，FM-VLA 解决历史进度记忆，ACP 解决接触后如何让步。\n4. **跨硬件泛化目前仍弱。** 表示层的迁移已经被证明，但控制层与长期记忆的跨平台证据还很少。\n5. **最稳的设计原则是显式化 force 的语义。** 不要默认把力拼进视觉 token；要明确它是观测、记忆还是动作变量。\n\n## 分歧与限制\n\n- 这些材料使用的 force / tactile 并非同一种信号：per-taxel、光学形变、阵列、六轴 wrench 和关节力矩估计都在覆盖范围内，不能把某一种上的收益直接外推到另一种。\n- Tactile Genesis 的主设计结论来自仿真—蒸馏设置；HTT 的跨硬件优势主要在表示层；RDP / T-Rex / TacForcing / ACP / FM-VLA 的强结果则集中在固定平台，证据链仍不对称。\n- MuSe 依赖外部 compliance controller，ACP 直接把柔顺变成策略动作，FM-VLA 则把 force 变成长时记忆；三种路线的成功率、任务难度和控制栈不同，现有数字不能横向排名。\n- RDP、T-Rex 和 TacForcing 都缺少统一的端到端延迟、触觉采样延迟、算力和安全过载指标，因此“更快”或“更稳”还不是部署级结论。\n\n## 什么会改变这个判断\n\n- 一个统一实验把 HTT 式共享表示、MuSe 式 replay/mask 适配、RDP/T-Rex/TacForcing 式在线修正、ACP 式柔顺输出和 FM-VLA 式 episodic memory 串起来。\n- 在等算力、等闭环频率和等动作时域下直接比较双专家、单专家和 latent diffusion residual 路线，同时报告延迟、抖动、力峰值和失败恢复。\n- 多个新模态按时间顺序加入同一 foundation policy 后，仍能以有界 replay 成本保持全部旧能力。\n- 从“单个平台多任务”扩展到跨机器人、跨手型、跨触觉传感器的真实接触基准，并给出统计置信区间。\n\n## 关联主题\n\n- [[tactile-representation|Tactile Representation]]：提供传感设计、表示迁移与基础触觉表示这条主问题线。\n- [[contact-rich-manipulation|Contact-Rich Manipulation and Adaptive Compliance]]：提供接触密集操作与柔顺接口这条主问题线。\n- [[long-horizon-memory-for-robot-policies|Long-Horizon Memory for Robot Policies]]：提供 episode 级记忆与进度控制这条主问题线。\n- [[Vision-Language-Action]]：提供预训练 foundation policy、动作生成与能力保持的系统背景。\n\n## 关联材料\n\n- [[tactile-genesis-exploring-tactile-sensors-at-scale-for-learning-dexterous-tasks|Tactile Genesis]]：上游传感配置与物理量选择。\n- [[2606.29948-heterogeneous-tactile-transformer|Heterogeneous Tactile Transformer]]：异构触觉共享表示与未见传感器迁移。\n- [[2606.30988-multisensory-continual-learning-adapting-pretrained-visuomotor-policies-to-force|MuSe]]：新 F/T 模态的持续适配、未来预测与防遗忘。\n- [[2503.02881-reactive-diffusion-policy-slow-fast-visual-tactile-policy-learning-for-contact-rich-manipulation|RDP]]：慢快视觉—触觉残差修正。\n- [[t-rex-tactile-reactive-dexterous-manipulation|T-Rex]]：多速率专家的高频触觉动作细化。\n- [[2608.25798-tacforcing-streaming-action-generation-with-execution-time-tactile-feedback|TacForcing]]：单专家流式生成和执行感知触觉注意力。\n- [[adaptive-compliance-policy-learning-approximate-compliance-for-diffusion-guided-control|ACP]]：把柔顺作为策略变量。\n- [[fm-vla-force-based-memory-for-vision-language-action-models-in-contact-rich-manipulation|FM-VLA]]：把 force 作为 episode 记忆。\n- [[触觉与力觉如何进入预训练机器人策略：表示、持续适配与执行闭环]]：更细分的子综述。\n\n"
+  },
+  {
+    "id": "tactile-force-into-pretrained-robot-policies",
     "slug": "tactile-force-into-pretrained-robot-policies",
     "title": "触觉与力觉如何进入预训练机器人策略：表示、持续适配与执行闭环",
-    "summary": "> 当前阶段最可靠的判断是：接触感知不是在输入端多拼一个 token，而是一条从传感器到控制时序都必须打通的系统链。",
-    "body": "# 触觉与力觉如何进入预训练机器人策略：表示、持续适配与执行闭环\n\n> 当前阶段最可靠的判断是：接触感知不是在输入端多拼一个 token，而是一条从传感器到控制时序都必须打通的系统链。\n\n## 当前判断\n\n把这五篇材料放在一起，触觉与力觉进入机器人基础策略至少需要四层接口同时成立：先决定哪些接触量值得感知，再把异构硬件压进可迁移表示；随后让原本只有视觉数据的策略吸收新模态而不遗忘；最后还要保证最新观测能在动作真正执行前进入仍可修订的控制状态。\n\n这四层目前已有分别成立的证据，但尚没有一篇工作把它们端到端贯通。`Tactile Genesis` 与 `HTT` 更接近上游感知基础设施，`MuSe` 补上预训练策略的持续适配，`T-Rex` 与 `TacForcing` 则给出两种执行期闭环。最重要的结论不是哪一篇替代另一篇，而是只解决其中一层不足以得到可扩展的接触控制系统。\n\n## 四层路线\n\n| 层 | 核心问题 | 代表材料 | 当前证据 | 尚缺什么 |\n| --- | --- | --- | --- | --- |\n| 传感设计 | 应该感知哪里、哪种物理量、多少分辨率？ | [[tactile-genesis-exploring-tactile-sensors-at-scale-for-learning-dexterous-tasks|Tactile Genesis]] | 受控仿真显示覆盖面积通常比指尖高分辨率更优先，per-taxel 力/力矩是较稳健默认项 | 大规模真机与耐久、漂移、成本验证 |\n| 表示迁移 | 光学式、阵列式等异构触觉能否共享 backbone？ | [[2606.29948-heterogeneous-tactile-transformer|Heterogeneous Tactile Transformer]] | 1.6M 同步帧、四种传感器的自监督对齐，并在预训练未见的 Sharpa 指尖上验证策略迁移 | 信息不对称导致阵列侧退化；跨硬件闭环尚未验证 |\n| 持续适配 | 旧数据没有新模态标签时，怎样吸收 F/T 且保留旧能力？ | [[2606.30988-multisensory-continual-learning-adapting-pretrained-visuomotor-policies-to-force|MuSe]] | early + late fusion、未来视频/F/T 预测和旧数据 replay；去掉 replay 后旧任务表现显著塌陷 | 仍是离线适配，且主要覆盖一种 F/T 配置与有限任务 |\n| 执行闭环 | 高频接触状态怎样及时改写尚未执行的动作？ | [[t-rex-tactile-reactive-dexterous-manipulation|T-Rex]]、[[2608.25798-tacforcing-streaming-action-generation-with-execution-time-tactile-feedback|TacForcing]] | T-Rex 用快慢专家共享 flow 轨迹；TacForcing 用单专家分块生成和 EATA 对齐观测—动作时间 | 缺等算力延迟对比、跨传感器泛化与统一安全指标 |\n\n## MuSe 补上的关键缺口\n\n在 MuSe 之前，这组材料已经说明“触觉应该怎样表示”和“执行中为什么要不断刷新”，但中间少了一层：一个已经用海量 vision-action 数据训练好的策略，如何在旧数据根本没有力标注时接入新传感器。\n\nMuSe 把这个问题明确写成 multisensory continual learning。它不把 434 条新多感官 episode 当作重训基础模型的替代品，而是把 1,271 条旧 episode 继续放进 replay；旧样本的 F/T 通道用 learnable mask 占位并屏蔽对应重建损失，动作与视频目标则继续约束原有世界模型。结果上，去掉 replay 后旧 wiping / peg 任务分别只剩 0.5/15 和 2/15，而完整 MuSe 达到 12.5/15 和 10/15。这个差距说明，新模态适配首先是知识连续性问题，其次才是融合结构问题。\n\nMuSe 也没有完成最后一层闭环。它预测未来 F/T，再把轨迹交给外部 adaptive compliance controller；因此它证明了“接触动力学可被预测并成为控制目标”，却还没有回答执行中观测变化后如何在线修订这条目标。这个缺口正好由 T-Rex 和 TacForcing 的时间接口补充。\n\n## 两条执行期反馈路线\n\n### 路线 A：快慢专家共享一条生成轨迹\n\n[[t-rex-tactile-reactive-dexterous-manipulation|T-Rex]] 用约 5 Hz 的动作专家处理视觉语言规划，再由约 20 Hz 的触觉专家复用缓存、继续细化同一条 flow-matching 去噪轨迹。完整模型在 12 个真机任务上平均 65%，最强基线为 35%；去掉触觉后，代表任务平均降到 42%。它的优势是频率职责清楚，代价是需要额外专家、100 小时触觉中训练数据和较高算力。\n\n### 路线 B：单专家内部交错生成与执行\n\n[[2608.25798-tacforcing-streaming-action-generation-with-execution-time-tactile-feedback|TacForcing]] 不增加独立快控制器，而是让近期动作块先完成并执行，远期块保持 flow 中间态；执行后的新触觉只通过 EATA 影响下一待执行块。其关键反例是固定触觉在消融中并不优于无触觉，真机平均甚至从 42% 降到 31%；加入执行期刷新后升到 48%，再加 EATA 达到 69%。这说明“有没有触觉”不如“触觉采集时刻、动作生效时刻和可修订窗口是否对齐”重要。\n\n两条路线都反对一次性静态拼接，也都让触觉进入同一动作分布；真正未决的是，在相同闭环频率、算力、传感延迟和动作时域下，多专家分工与单专家流式调度谁更稳、更容易部署。\n\n## Claims\n\n1. **接触感知是一条接口栈，不是单一模态特征。** Tactile Genesis、HTT、MuSe、T-Rex 和 TacForcing 分别覆盖传感、表示、适配与控制时序；任何一层的成功都不能自动推出下一层成立。\n2. **离线持续适配与在线执行闭环正交。** MuSe 主要解决跨数据阶段的 forward/backward transfer；T-Rex 和 TacForcing 主要解决单次执行时域内的观测—动作反馈。完整系统需要两种时间尺度同时成立。\n3. **静态接入不是可信基线终点。** MuSe 的 no-replay 退化和 TacForcing 的 fixed-tactile 反例都表明，直接融合新模态可能伤害旧能力或当前控制；必须显式设计记忆保持与时间作用域。\n4. **跨硬件仍是最薄弱的端到端证据。** HTT 已在表示层展示未见传感器迁移，但 MuSe、T-Rex、TacForcing 的主要控制结果仍绑定特定传感配置和平台。\n\n## 分歧与限制\n\n- 这五篇使用的“触觉/力觉”并非同一种信号：从 per-taxel 力/力矩、光学形变、阵列信号到六轴 F/T 都有覆盖，不能把某一种传感器上的收益直接外推到另一种。\n- Tactile Genesis 的主要设计结论来自仿真—蒸馏设置；HTT 的跨硬件优势主要在表示与少量下游任务；后三篇的强结果则集中在固定真机平台，证据链仍不对称。\n- MuSe 依赖外部 compliance controller，T-Rex 和 TacForcing 更直接修改动作生成；三者的成功率、任务难度和控制栈不同，现有数字不能横向排名。\n- T-Rex 与 TacForcing 都缺少统一的端到端延迟、触觉采样延迟、算力和安全过载指标，因此“无需独立快控制器”或“快专家更及时”都还不是部署级结论。\n\n## 什么会改变这个判断\n\n- 一个统一实验把 HTT 式跨传感器 encoder、MuSe 式 replay/mask 适配和 T-Rex 或 TacForcing 式在线反馈串起来，并在训练时未见硬件上保持旧任务与新任务表现。\n- 在等算力、等闭环频率和等动作时域下直接比较双专家与单专家路线，同时报告延迟、抖动、力峰值和失败恢复。\n- 多个新模态按时间顺序加入同一 foundation policy 后，仍能以有界 replay 成本保持全部旧能力。\n- 从“单个平台多任务”扩展到跨机器人、跨手型、跨触觉传感器的真实接触基准，并给出统计置信区间。\n\n## 关联主题\n\n- [[tactile-representation|Tactile Representation]]：提供传感设计、表示迁移、持续适配与反馈接口这条主问题线。\n- [[Vision-Language-Action]]：提供预训练 foundation policy、动作生成与能力保持的系统背景。\n\n## 关联材料\n\n- [[tactile-genesis-exploring-tactile-sensors-at-scale-for-learning-dexterous-tasks|Tactile Genesis]]：上游传感配置与物理量选择。\n- [[2606.29948-heterogeneous-tactile-transformer|Heterogeneous Tactile Transformer]]：异构触觉共享表示与未见传感器迁移。\n- [[2606.30988-multisensory-continual-learning-adapting-pretrained-visuomotor-policies-to-force|MuSe]]：新 F/T 模态的持续适配、未来预测与防遗忘。\n- [[t-rex-tactile-reactive-dexterous-manipulation|T-Rex]]：多速率专家的高频触觉动作细化。\n- [[2608.25798-tacforcing-streaming-action-generation-with-execution-time-tactile-feedback|TacForcing]]：单专家流式生成和执行感知触觉注意力。\n\n## 待跟进\n\n- 等待 T-Rex、TacForcing 的代码、统一延迟数据与跨硬件复现。\n- 跟踪 MuSe 是否扩展到触觉图像、音频或多种依次加入的新模态。\n- 在接触丰富操作主题成熟后，把 compliance / impedance 控制接口纳入同一证据链。",
+    "type": "synthesis",
+    "kind": "overview",
+    "domain": "physical-embodied-intelligence",
+    "domains": [
+      "Physical/Embodied Intelligence"
+    ],
     "tags": [
       "tactile-representation",
       "vision-language-action"
     ],
+    "summary": "五篇材料共同勾勒出触觉与力觉进入机器人基础策略的四层栈：传感设计、跨硬件表示、无遗忘持续适配，以及与动作生效时间对齐的执行闭环。",
+    "judgment": "触觉与力觉的收益不来自静态拼接；可扩展路线必须让可迁移表示、旧能力保持、可修订动作状态和低延迟反馈接口同时成立，而当前工作仍只分别验证了这条链上的局部环节。",
     "created": "2026-08-29",
     "updated": "2026-08-29",
-    "sourceTitles": [],
-    "relatedPages": [
+    "sourceSlugs": [
       "tactile-genesis-exploring-tactile-sensors-at-scale-for-learning-dexterous-tasks",
       "2606.29948-heterogeneous-tactile-transformer",
       "2606.30988-multisensory-continual-learning-adapting-pretrained-visuomotor-policies-to-force",
       "t-rex-tactile-reactive-dexterous-manipulation",
-      "2608.25798-tacforcing-streaming-action-generation-with-execution-time-tactile-feedback",
+      "2608.25798-tacforcing-streaming-action-generation-with-execution-time-tactile-feedback"
+    ],
+    "topicSlugs": [
       "tactile-representation",
+      "vision-language-action"
+    ],
+    "sourceTitles": [
+      "Tactile Genesis: Exploring Tactile Sensors at Scale for Learning Dexterous Tasks",
+      "Heterogeneous Tactile Transformer",
+      "Multisensory Continual Learning: Adapting Pretrained Visuomotor Policies to Force",
+      "T-Rex: Tactile-Reactive Dexterous Manipulation",
+      "TacForcing: Streaming Action Generation with Execution-Time Tactile Feedback"
+    ],
+    "topicTitles": [
+      "Tactile Representation",
       "Vision-Language-Action"
-    ]
+    ],
+    "relatedPages": [
+      "tactile-genesis-exploring-tactile-sensors-at-scale-for-learning-dexterous-tasks|Tactile Genesis",
+      "2606.29948-heterogeneous-tactile-transformer|Heterogeneous Tactile Transformer",
+      "2606.30988-multisensory-continual-learning-adapting-pretrained-visuomotor-policies-to-force|MuSe",
+      "t-rex-tactile-reactive-dexterous-manipulation|T-Rex",
+      "2608.25798-tacforcing-streaming-action-generation-with-execution-time-tactile-feedback|TacForcing",
+      "tactile-representation|Tactile Representation",
+      "Vision-Language-Action"
+    ],
+    "claims": [
+      "传感覆盖、物理量选择、表示迁移、策略适配和执行期反馈是相互依赖但不能互相替代的层。",
+      "MuSe 的离线持续适配与 T-Rex、TacForcing 的执行期闭环解决不同时间尺度的问题，完整系统需要把两者结合。",
+      "双专家快慢回路与单专家流式生成是两条尚未在等算力、等延迟条件下比较的闭环接口路线。",
+      "跨硬件泛化目前主要停留在表示层，尚未贯通到持续适配和真实闭环控制层。"
+    ],
+    "openQuestions": [
+      "HTT 式共享触觉 backbone 能否在 MuSe 式持续适配后，继续支撑 T-Rex 或 TacForcing 式执行期闭环？",
+      "当多个新模态依次加入时，replay、missing-modality mask 与参数高效适配如何避免成本线性增长？",
+      "双专家快慢回路和单专家流式生成在相同闭环频率、算力与动作时域下谁更稳定？",
+      "能否建立同时测量旧任务保持、新任务迁移、跨传感器泛化、闭环延迟和接触安全的统一基准？"
+    ],
+    "confidence": "INFERRED",
+    "body": "# 触觉与力觉如何进入预训练机器人策略：表示、持续适配与执行闭环\n\n> 当前阶段最可靠的判断是：接触感知不是在输入端多拼一个 token，而是一条从传感器到控制时序都必须打通的系统链。\n\n## 当前判断\n\n把这五篇材料放在一起，触觉与力觉进入机器人基础策略至少需要四层接口同时成立：先决定哪些接触量值得感知，再把异构硬件压进可迁移表示；随后让原本只有视觉数据的策略吸收新模态而不遗忘；最后还要保证最新观测能在动作真正执行前进入仍可修订的控制状态。\n\n这四层目前已有分别成立的证据，但尚没有一篇工作把它们端到端贯通。`Tactile Genesis` 与 `HTT` 更接近上游感知基础设施，`MuSe` 补上预训练策略的持续适配，`T-Rex` 与 `TacForcing` 则给出两种执行期闭环。最重要的结论不是哪一篇替代另一篇，而是只解决其中一层不足以得到可扩展的接触控制系统。\n\n## 四层路线\n\n| 层 | 核心问题 | 代表材料 | 当前证据 | 尚缺什么 |\n| --- | --- | --- | --- | --- |\n| 传感设计 | 应该感知哪里、哪种物理量、多少分辨率？ | [[tactile-genesis-exploring-tactile-sensors-at-scale-for-learning-dexterous-tasks|Tactile Genesis]] | 受控仿真显示覆盖面积通常比指尖高分辨率更优先，per-taxel 力/力矩是较稳健默认项 | 大规模真机与耐久、漂移、成本验证 |\n| 表示迁移 | 光学式、阵列式等异构触觉能否共享 backbone？ | [[2606.29948-heterogeneous-tactile-transformer|Heterogeneous Tactile Transformer]] | 1.6M 同步帧、四种传感器的自监督对齐，并在预训练未见的 Sharpa 指尖上验证策略迁移 | 信息不对称导致阵列侧退化；跨硬件闭环尚未验证 |\n| 持续适配 | 旧数据没有新模态标签时，怎样吸收 F/T 且保留旧能力？ | [[2606.30988-multisensory-continual-learning-adapting-pretrained-visuomotor-policies-to-force|MuSe]] | early + late fusion、未来视频/F/T 预测和旧数据 replay；去掉 replay 后旧任务表现显著塌陷 | 仍是离线适配，且主要覆盖一种 F/T 配置与有限任务 |\n| 执行闭环 | 高频接触状态怎样及时改写尚未执行的动作？ | [[t-rex-tactile-reactive-dexterous-manipulation|T-Rex]]、[[2608.25798-tacforcing-streaming-action-generation-with-execution-time-tactile-feedback|TacForcing]] | T-Rex 用快慢专家共享 flow 轨迹；TacForcing 用单专家分块生成和 EATA 对齐观测—动作时间 | 缺等算力延迟对比、跨传感器泛化与统一安全指标 |\n\n## MuSe 补上的关键缺口\n\n在 MuSe 之前，这组材料已经说明“触觉应该怎样表示”和“执行中为什么要不断刷新”，但中间少了一层：一个已经用海量 vision-action 数据训练好的策略，如何在旧数据根本没有力标注时接入新传感器。\n\nMuSe 把这个问题明确写成 multisensory continual learning。它不把 434 条新多感官 episode 当作重训基础模型的替代品，而是把 1,271 条旧 episode 继续放进 replay；旧样本的 F/T 通道用 learnable mask 占位并屏蔽对应重建损失，动作与视频目标则继续约束原有世界模型。结果上，去掉 replay 后旧 wiping / peg 任务分别只剩 0.5/15 和 2/15，而完整 MuSe 达到 12.5/15 和 10/15。这个差距说明，新模态适配首先是知识连续性问题，其次才是融合结构问题。\n\nMuSe 也没有完成最后一层闭环。它预测未来 F/T，再把轨迹交给外部 adaptive compliance controller；因此它证明了“接触动力学可被预测并成为控制目标”，却还没有回答执行中观测变化后如何在线修订这条目标。这个缺口正好由 T-Rex 和 TacForcing 的时间接口补充。\n\n## 两条执行期反馈路线\n\n### 路线 A：快慢专家共享一条生成轨迹\n\n[[t-rex-tactile-reactive-dexterous-manipulation|T-Rex]] 用约 5 Hz 的动作专家处理视觉语言规划，再由约 20 Hz 的触觉专家复用缓存、继续细化同一条 flow-matching 去噪轨迹。完整模型在 12 个真机任务上平均 65%，最强基线为 35%；去掉触觉后，代表任务平均降到 42%。它的优势是频率职责清楚，代价是需要额外专家、100 小时触觉中训练数据和较高算力。\n\n### 路线 B：单专家内部交错生成与执行\n\n[[2608.25798-tacforcing-streaming-action-generation-with-execution-time-tactile-feedback|TacForcing]] 不增加独立快控制器，而是让近期动作块先完成并执行，远期块保持 flow 中间态；执行后的新触觉只通过 EATA 影响下一待执行块。其关键反例是固定触觉在消融中并不优于无触觉，真机平均甚至从 42% 降到 31%；加入执行期刷新后升到 48%，再加 EATA 达到 69%。这说明“有没有触觉”不如“触觉采集时刻、动作生效时刻和可修订窗口是否对齐”重要。\n\n两条路线都反对一次性静态拼接，也都让触觉进入同一动作分布；真正未决的是，在相同闭环频率、算力、传感延迟和动作时域下，多专家分工与单专家流式调度谁更稳、更容易部署。\n\n## Claims\n\n1. **接触感知是一条接口栈，不是单一模态特征。** Tactile Genesis、HTT、MuSe、T-Rex 和 TacForcing 分别覆盖传感、表示、适配与控制时序；任何一层的成功都不能自动推出下一层成立。\n2. **离线持续适配与在线执行闭环正交。** MuSe 主要解决跨数据阶段的 forward/backward transfer；T-Rex 和 TacForcing 主要解决单次执行时域内的观测—动作反馈。完整系统需要两种时间尺度同时成立。\n3. **静态接入不是可信基线终点。** MuSe 的 no-replay 退化和 TacForcing 的 fixed-tactile 反例都表明，直接融合新模态可能伤害旧能力或当前控制；必须显式设计记忆保持与时间作用域。\n4. **跨硬件仍是最薄弱的端到端证据。** HTT 已在表示层展示未见传感器迁移，但 MuSe、T-Rex、TacForcing 的主要控制结果仍绑定特定传感配置和平台。\n\n## 分歧与限制\n\n- 这五篇使用的“触觉/力觉”并非同一种信号：从 per-taxel 力/力矩、光学形变、阵列信号到六轴 F/T 都有覆盖，不能把某一种传感器上的收益直接外推到另一种。\n- Tactile Genesis 的主要设计结论来自仿真—蒸馏设置；HTT 的跨硬件优势主要在表示与少量下游任务；后三篇的强结果则集中在固定真机平台，证据链仍不对称。\n- MuSe 依赖外部 compliance controller，T-Rex 和 TacForcing 更直接修改动作生成；三者的成功率、任务难度和控制栈不同，现有数字不能横向排名。\n- T-Rex 与 TacForcing 都缺少统一的端到端延迟、触觉采样延迟、算力和安全过载指标，因此“无需独立快控制器”或“快专家更及时”都还不是部署级结论。\n\n## 什么会改变这个判断\n\n- 一个统一实验把 HTT 式跨传感器 encoder、MuSe 式 replay/mask 适配和 T-Rex 或 TacForcing 式在线反馈串起来，并在训练时未见硬件上保持旧任务与新任务表现。\n- 在等算力、等闭环频率和等动作时域下直接比较双专家与单专家路线，同时报告延迟、抖动、力峰值和失败恢复。\n- 多个新模态按时间顺序加入同一 foundation policy 后，仍能以有界 replay 成本保持全部旧能力。\n- 从“单个平台多任务”扩展到跨机器人、跨手型、跨触觉传感器的真实接触基准，并给出统计置信区间。\n\n## 关联主题\n\n- [[tactile-representation|Tactile Representation]]：提供传感设计、表示迁移、持续适配与反馈接口这条主问题线。\n- [[Vision-Language-Action]]：提供预训练 foundation policy、动作生成与能力保持的系统背景。\n\n## 关联材料\n\n- [[tactile-genesis-exploring-tactile-sensors-at-scale-for-learning-dexterous-tasks|Tactile Genesis]]：上游传感配置与物理量选择。\n- [[2606.29948-heterogeneous-tactile-transformer|Heterogeneous Tactile Transformer]]：异构触觉共享表示与未见传感器迁移。\n- [[2606.30988-multisensory-continual-learning-adapting-pretrained-visuomotor-policies-to-force|MuSe]]：新 F/T 模态的持续适配、未来预测与防遗忘。\n- [[t-rex-tactile-reactive-dexterous-manipulation|T-Rex]]：多速率专家的高频触觉动作细化。\n- [[2608.25798-tacforcing-streaming-action-generation-with-execution-time-tactile-feedback|TacForcing]]：单专家流式生成和执行感知触觉注意力。\n\n## 待跟进\n\n- 等待 T-Rex、TacForcing 的代码、统一延迟数据与跨硬件复现。\n- 跟踪 MuSe 是否扩展到触觉图像、音频或多种依次加入的新模态。\n- 在接触丰富操作主题成熟后，把 compliance / impedance 控制接口纳入同一证据链。\n"
   }
 ]

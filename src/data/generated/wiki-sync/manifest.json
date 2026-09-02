@@ -1,53 +1,194 @@
 {
+  "data_version": "followhub-wiki-r2/v1",
+  "generated_at": "2026-09-02T06:59:58Z",
   "wiki_root": "/home/yangkunzhu/workspace/agent_space/FollowHub/submodules/llm-wiki-skill/followhub-wiki",
-  "page_root": "/home/yangkunzhu/workspace/agent_space/FollowHub/submodules/page_github",
-  "sources": [
-    "/home/yangkunzhu/workspace/agent_space/FollowHub/submodules/llm-wiki-skill/followhub-wiki/wiki/sources/2503.02881-reactive-diffusion-policy-slow-fast-visual-tactile-policy-learning-for-contact-rich-manipulation.md",
-    "/home/yangkunzhu/workspace/agent_space/FollowHub/submodules/llm-wiki-skill/followhub-wiki/wiki/sources/2606.17846-qwen-robotmanip-alignment-unlocks-scale-for-robotic-manipulation-foundation-models.md",
-    "/home/yangkunzhu/workspace/agent_space/FollowHub/submodules/llm-wiki-skill/followhub-wiki/wiki/sources/2606.29948-heterogeneous-tactile-transformer.md",
-    "/home/yangkunzhu/workspace/agent_space/FollowHub/submodules/llm-wiki-skill/followhub-wiki/wiki/sources/2606.30988-multisensory-continual-learning-adapting-pretrained-visuomotor-policies-to-force.md",
-    "/home/yangkunzhu/workspace/agent_space/FollowHub/submodules/llm-wiki-skill/followhub-wiki/wiki/sources/2608.19613-what-matters-for-latent-actions-in-robot-learning.md",
-    "/home/yangkunzhu/workspace/agent_space/FollowHub/submodules/llm-wiki-skill/followhub-wiki/wiki/sources/2608.25798-tacforcing-streaming-action-generation-with-execution-time-tactile-feedback.md",
-    "/home/yangkunzhu/workspace/agent_space/FollowHub/submodules/llm-wiki-skill/followhub-wiki/wiki/sources/adaptive-compliance-policy-learning-approximate-compliance-for-diffusion-guided-control.md",
-    "/home/yangkunzhu/workspace/agent_space/FollowHub/submodules/llm-wiki-skill/followhub-wiki/wiki/sources/attena-rectifying-action-inequality-in-robotic-foundation-models.md",
-    "/home/yangkunzhu/workspace/agent_space/FollowHub/submodules/llm-wiki-skill/followhub-wiki/wiki/sources/beyond-data-scaling-representation-centric-continued-pre-training-for-vision-language-action-models.md",
-    "/home/yangkunzhu/workspace/agent_space/FollowHub/submodules/llm-wiki-skill/followhub-wiki/wiki/sources/deximit-learning-bimanual-dexterous-manipulation-from-monocular-human-videos.md",
-    "/home/yangkunzhu/workspace/agent_space/FollowHub/submodules/llm-wiki-skill/followhub-wiki/wiki/sources/dexjoco-a-benchmark-and-toolkit-for-task-oriented-dexterous-manipulation-on-mujoco.md",
-    "/home/yangkunzhu/workspace/agent_space/FollowHub/submodules/llm-wiki-skill/followhub-wiki/wiki/sources/dm05-open-world-embodied-foundation-model.md",
-    "/home/yangkunzhu/workspace/agent_space/FollowHub/submodules/llm-wiki-skill/followhub-wiki/wiki/sources/emergence-of-human-to-robot-transfer-in-vision-language-action-models.md",
-    "/home/yangkunzhu/workspace/agent_space/FollowHub/submodules/llm-wiki-skill/followhub-wiki/wiki/sources/fm-vla-force-based-memory-for-vision-language-action-models-in-contact-rich-manipulation.md",
-    "/home/yangkunzhu/workspace/agent_space/FollowHub/submodules/llm-wiki-skill/followhub-wiki/wiki/sources/mem-multi-scale-embodied-memory-for-vision-language-action-models.md",
-    "/home/yangkunzhu/workspace/agent_space/FollowHub/submodules/llm-wiki-skill/followhub-wiki/wiki/sources/motus2-a-self-evolving-general-world-model-for-dexterous-manipulation.md",
-    "/home/yangkunzhu/workspace/agent_space/FollowHub/submodules/llm-wiki-skill/followhub-wiki/wiki/sources/openvla-an-open-source-vision-language-action-model.md",
-    "/home/yangkunzhu/workspace/agent_space/FollowHub/submodules/llm-wiki-skill/followhub-wiki/wiki/sources/pi07-a-steerable-generalist-robotic-foundation-model-with-emergent-capabilities.md",
-    "/home/yangkunzhu/workspace/agent_space/FollowHub/submodules/llm-wiki-skill/followhub-wiki/wiki/sources/qwen-vla.md",
-    "/home/yangkunzhu/workspace/agent_space/FollowHub/submodules/llm-wiki-skill/followhub-wiki/wiki/sources/rl-token-bootstrapping-online-rl-with-vision-language-action-models.md",
-    "/home/yangkunzhu/workspace/agent_space/FollowHub/submodules/llm-wiki-skill/followhub-wiki/wiki/sources/steam-self-supervised-temporal-ensemble-advantage-modeling-for-real-world-robot-learning.md",
-    "/home/yangkunzhu/workspace/agent_space/FollowHub/submodules/llm-wiki-skill/followhub-wiki/wiki/sources/t-rex-tactile-reactive-dexterous-manipulation.md",
-    "/home/yangkunzhu/workspace/agent_space/FollowHub/submodules/llm-wiki-skill/followhub-wiki/wiki/sources/tactile-genesis-exploring-tactile-sensors-at-scale-for-learning-dexterous-tasks.md",
-    "/home/yangkunzhu/workspace/agent_space/FollowHub/submodules/llm-wiki-skill/followhub-wiki/wiki/sources/turbovla-real-time-vision-language-action-model-at-32-hz-on-an-rtx-4090-with-1-gb-vram.md"
+  "page_root": "",
+  "base_path": "wiki",
+  "latest_updated": "2026-09-02",
+  "counts": {
+    "sources": 24,
+    "topics": 7,
+    "synthesis": 3,
+    "graph_nodes": 32,
+    "graph_edges": 64
+  },
+  "files": {
+    "sources": "sources.json",
+    "topics": "topics.json",
+    "synthesis": "synthesis.json",
+    "graph_data": "graph-data.json",
+    "search_index": "search-index.json"
+  },
+  "collections": {
+    "source": [
+      {
+        "slug": "2503.02881-reactive-diffusion-policy-slow-fast-visual-tactile-policy-learning-for-contact-rich-manipulation",
+        "path": "source/2503.02881-reactive-diffusion-policy-slow-fast-visual-tactile-policy-learning-for-contact-rich-manipulation.json"
+      },
+      {
+        "slug": "2606.17846-qwen-robotmanip-alignment-unlocks-scale-for-robotic-manipulation-foundation-models",
+        "path": "source/2606.17846-qwen-robotmanip-alignment-unlocks-scale-for-robotic-manipulation-foundation-models.json"
+      },
+      {
+        "slug": "2606.29948-heterogeneous-tactile-transformer",
+        "path": "source/2606.29948-heterogeneous-tactile-transformer.json"
+      },
+      {
+        "slug": "2606.30988-multisensory-continual-learning-adapting-pretrained-visuomotor-policies-to-force",
+        "path": "source/2606.30988-multisensory-continual-learning-adapting-pretrained-visuomotor-policies-to-force.json"
+      },
+      {
+        "slug": "2608.19613-what-matters-for-latent-actions-in-robot-learning",
+        "path": "source/2608.19613-what-matters-for-latent-actions-in-robot-learning.json"
+      },
+      {
+        "slug": "2608.25798-tacforcing-streaming-action-generation-with-execution-time-tactile-feedback",
+        "path": "source/2608.25798-tacforcing-streaming-action-generation-with-execution-time-tactile-feedback.json"
+      },
+      {
+        "slug": "adaptive-compliance-policy-learning-approximate-compliance-for-diffusion-guided-control",
+        "path": "source/adaptive-compliance-policy-learning-approximate-compliance-for-diffusion-guided-control.json"
+      },
+      {
+        "slug": "attena-rectifying-action-inequality-in-robotic-foundation-models",
+        "path": "source/attena-rectifying-action-inequality-in-robotic-foundation-models.json"
+      },
+      {
+        "slug": "beyond-data-scaling-representation-centric-continued-pre-training-for-vision-language-action-models",
+        "path": "source/beyond-data-scaling-representation-centric-continued-pre-training-for-vision-language-action-models.json"
+      },
+      {
+        "slug": "deximit-learning-bimanual-dexterous-manipulation-from-monocular-human-videos",
+        "path": "source/deximit-learning-bimanual-dexterous-manipulation-from-monocular-human-videos.json"
+      },
+      {
+        "slug": "dexjoco-a-benchmark-and-toolkit-for-task-oriented-dexterous-manipulation-on-mujoco",
+        "path": "source/dexjoco-a-benchmark-and-toolkit-for-task-oriented-dexterous-manipulation-on-mujoco.json"
+      },
+      {
+        "slug": "dm05-open-world-embodied-foundation-model",
+        "path": "source/dm05-open-world-embodied-foundation-model.json"
+      },
+      {
+        "slug": "emergence-of-human-to-robot-transfer-in-vision-language-action-models",
+        "path": "source/emergence-of-human-to-robot-transfer-in-vision-language-action-models.json"
+      },
+      {
+        "slug": "fm-vla-force-based-memory-for-vision-language-action-models-in-contact-rich-manipulation",
+        "path": "source/fm-vla-force-based-memory-for-vision-language-action-models-in-contact-rich-manipulation.json"
+      },
+      {
+        "slug": "mem-multi-scale-embodied-memory-for-vision-language-action-models",
+        "path": "source/mem-multi-scale-embodied-memory-for-vision-language-action-models.json"
+      },
+      {
+        "slug": "motus2-a-self-evolving-general-world-model-for-dexterous-manipulation",
+        "path": "source/motus2-a-self-evolving-general-world-model-for-dexterous-manipulation.json"
+      },
+      {
+        "slug": "openvla-an-open-source-vision-language-action-model",
+        "path": "source/openvla-an-open-source-vision-language-action-model.json"
+      },
+      {
+        "slug": "pi07-a-steerable-generalist-robotic-foundation-model-with-emergent-capabilities",
+        "path": "source/pi07-a-steerable-generalist-robotic-foundation-model-with-emergent-capabilities.json"
+      },
+      {
+        "slug": "qwen-vla",
+        "path": "source/qwen-vla.json"
+      },
+      {
+        "slug": "rl-token-bootstrapping-online-rl-with-vision-language-action-models",
+        "path": "source/rl-token-bootstrapping-online-rl-with-vision-language-action-models.json"
+      },
+      {
+        "slug": "steam-self-supervised-temporal-ensemble-advantage-modeling-for-real-world-robot-learning",
+        "path": "source/steam-self-supervised-temporal-ensemble-advantage-modeling-for-real-world-robot-learning.json"
+      },
+      {
+        "slug": "t-rex-tactile-reactive-dexterous-manipulation",
+        "path": "source/t-rex-tactile-reactive-dexterous-manipulation.json"
+      },
+      {
+        "slug": "tactile-genesis-exploring-tactile-sensors-at-scale-for-learning-dexterous-tasks",
+        "path": "source/tactile-genesis-exploring-tactile-sensors-at-scale-for-learning-dexterous-tasks.json"
+      },
+      {
+        "slug": "turbovla-real-time-vision-language-action-model-at-32-hz-on-an-rtx-4090-with-1-gb-vram",
+        "path": "source/turbovla-real-time-vision-language-action-model-at-32-hz-on-an-rtx-4090-with-1-gb-vram.json"
+      }
+    ],
+    "topic": [
+      {
+        "slug": "human-video-robot-data-generation",
+        "path": "topic/human-video-robot-data-generation.json"
+      },
+      {
+        "slug": "human-to-robot-transfer",
+        "path": "topic/human-to-robot-transfer.json"
+      },
+      {
+        "slug": "long-horizon-memory-for-robot-policies",
+        "path": "topic/long-horizon-memory-for-robot-policies.json"
+      },
+      {
+        "slug": "online-rl-for-vla",
+        "path": "topic/online-rl-for-vla.json"
+      },
+      {
+        "slug": "vision-language-action",
+        "path": "topic/vision-language-action.json"
+      },
+      {
+        "slug": "contact-rich-manipulation",
+        "path": "topic/contact-rich-manipulation.json"
+      },
+      {
+        "slug": "tactile-representation",
+        "path": "topic/tactile-representation.json"
+      }
+    ],
+    "synthesis": [
+      {
+        "slug": "current-vla-landscape-foundation-control-memory-and-transfer",
+        "path": "synthesis/current-vla-landscape-foundation-control-memory-and-transfer.json"
+      },
+      {
+        "slug": "force-touch-robot-policy-review",
+        "path": "synthesis/force-touch-robot-policy-review.json"
+      },
+      {
+        "slug": "tactile-force-into-pretrained-robot-policies",
+        "path": "synthesis/tactile-force-into-pretrained-robot-policies.json"
+      }
+    ]
+  },
+  "graph_assets": {
+    "html": "graph/knowledge-graph.html",
+    "runtime": "graph/graph-wash.js",
+    "helpers": "graph/graph-wash-helpers.js"
+  },
+  "domains": [
+    {
+      "name": "LLM/VLM",
+      "slug": "llm-vlm"
+    },
+    {
+      "name": "Physical/Embodied Intelligence",
+      "slug": "physical-embodied-intelligence"
+    },
+    {
+      "name": "AIGC",
+      "slug": "aigc"
+    },
+    {
+      "name": "Agent",
+      "slug": "agent"
+    }
   ],
-  "topics": [
-    "/home/yangkunzhu/workspace/agent_space/FollowHub/submodules/llm-wiki-skill/followhub-wiki/wiki/topics/Human Video Robot Data Generation.md",
-    "/home/yangkunzhu/workspace/agent_space/FollowHub/submodules/llm-wiki-skill/followhub-wiki/wiki/topics/Human-to-Robot Transfer.md",
-    "/home/yangkunzhu/workspace/agent_space/FollowHub/submodules/llm-wiki-skill/followhub-wiki/wiki/topics/Long-Horizon Memory for Robot Policies.md",
-    "/home/yangkunzhu/workspace/agent_space/FollowHub/submodules/llm-wiki-skill/followhub-wiki/wiki/topics/Online RL for VLA.md",
-    "/home/yangkunzhu/workspace/agent_space/FollowHub/submodules/llm-wiki-skill/followhub-wiki/wiki/topics/Vision-Language-Action.md",
-    "/home/yangkunzhu/workspace/agent_space/FollowHub/submodules/llm-wiki-skill/followhub-wiki/wiki/topics/contact-rich-manipulation.md",
-    "/home/yangkunzhu/workspace/agent_space/FollowHub/submodules/llm-wiki-skill/followhub-wiki/wiki/topics/tactile-representation.md"
-  ],
-  "synthesis": [
-    "/home/yangkunzhu/workspace/agent_space/FollowHub/submodules/llm-wiki-skill/followhub-wiki/wiki/synthesis/current-vla-landscape-foundation-control-memory-and-transfer.md",
-    "/home/yangkunzhu/workspace/agent_space/FollowHub/submodules/llm-wiki-skill/followhub-wiki/wiki/synthesis/tactile-force-into-pretrained-robot-policies.md"
-  ],
-  "graph_assets": [
-    "/home/yangkunzhu/workspace/agent_space/FollowHub/submodules/llm-wiki-skill/followhub-wiki/wiki/knowledge-graph.html",
-    "/home/yangkunzhu/workspace/agent_space/FollowHub/submodules/llm-wiki-skill/followhub-wiki/wiki/graph-data.json",
-    "/home/yangkunzhu/workspace/agent_space/FollowHub/submodules/llm-wiki-skill/followhub-wiki/wiki/d3.min.js",
-    "/home/yangkunzhu/workspace/agent_space/FollowHub/submodules/llm-wiki-skill/followhub-wiki/wiki/rough.min.js",
-    "/home/yangkunzhu/workspace/agent_space/FollowHub/submodules/llm-wiki-skill/followhub-wiki/wiki/marked.min.js",
-    "/home/yangkunzhu/workspace/agent_space/FollowHub/submodules/llm-wiki-skill/followhub-wiki/wiki/purify.min.js",
-    "/home/yangkunzhu/workspace/agent_space/FollowHub/submodules/llm-wiki-skill/followhub-wiki/wiki/graph-wash.js",
-    "/home/yangkunzhu/workspace/agent_space/FollowHub/submodules/llm-wiki-skill/followhub-wiki/wiki/graph-wash-helpers.js"
-  ]
+  "tag_policy": {
+    "min_per_source": 1,
+    "max_per_source": 2,
+    "preferred_per_source": 1
+  }
 }

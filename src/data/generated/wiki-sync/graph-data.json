@@ -37,7 +37,10 @@
       "beyond-data-scaling-representation-centric-continued-pre-training-for-vision-language-action-models"
     ],
     "degraded": false,
-    "insights_degraded": false
+    "insights_degraded": false,
+    "source_count": 24,
+    "topic_count": 7,
+    "synthesis_count": 3
   },
   "nodes": [
     {
