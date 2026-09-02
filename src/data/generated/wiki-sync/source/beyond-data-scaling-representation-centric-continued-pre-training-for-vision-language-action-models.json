@@ -1,0 +1,160 @@
+{
+  "slug": "beyond-data-scaling-representation-centric-continued-pre-training-for-vision-language-action-models",
+  "title": "Beyond Data Scaling: Representation-Centric Continued Pre-training for Vision-Language-Action Models",
+  "sourceType": "paper",
+  "sourceUrl": "https://arxiv.org/abs/2608.27550",
+  "htmlUrl": "https://arxiv.org/html/2608.27550",
+  "pdfUrl": "https://arxiv.org/pdf/2608.27550",
+  "codeUrl": "https://github.com/starVLA/VLAct",
+  "translationUrl": "https://hjfy.top/arxiv/2608.27550",
+  "publishDate": "2026-08-27",
+  "authors": [
+    "Senqiao Yang",
+    "Chengyao Wang",
+    "Yuxin Chen",
+    "Zixuan Wang",
+    "Longxiang Tang",
+    "Haokun Gui",
+    "Jinhui Ye",
+    "Changsheng Lu",
+    "Xiaoyang Wu",
+    "Mingkang Zhu",
+    "Pengguang Chen",
+    "Shu Liu",
+    "Zhuotao Tian",
+    "Hengshuang Zhao",
+    "Bei Yu",
+    "Jiaya Jia"
+  ],
+  "affiliation": "",
+  "relatedOrganizations": [
+    "[]"
+  ],
+  "relatedCompanies": [
+    "[]"
+  ],
+  "keywords": [
+    "vision-language-action"
+  ],
+  "primaryDomainSlug": "physicalembodied-intelligence",
+  "domainSlugs": [
+    "physicalembodied-intelligence"
+  ],
+  "heroImage": "https://followhub.tenstep.top/papers/2608.27550-beyond-data-scaling/figure-3-vlact-overview.png",
+  "tldr": "VLAct 说明 VLA 的下一条独立增长轴不只是继续堆机器人轨迹，而是改造 continued pre-training 如何塑造 backbone 表示。在固定下游微调协议下，它仅替换预训练后的 Qwen3-VL-4B backbone，就在多项仿真、真机与未见 embodiment 迁移任务上取得 7.6–21.4 个百分点增益；最值得记住的是“保护 VLM 先验、用多动作头抵抗 decoder lock-in、只在物理可比维度共享动作语义”这套配方。",
+  "intuition": "把 VLAct 想成给通用 VLM 做一轮“机器人专业化训练”，但训练目标不是直接得到一个绑定某种动作头的最终策略，而是得到一个更懂物体、空间、可供性与动作后果、又能被不同机器人控制头读取的底座。作者刻意保护底层视觉语言能力，同时让 OFT、PI、GR00T 三种连续动作头共同监督同一表示，并只在不同机器人真正共享物理含义的动作维度上做对齐。\n\n![主要图](https://followhub.tenstep.top/papers/2608.27550-beyond-data-scaling/figure-3-vlact-overview.png)\n\n*主要图*",
+  "abstractEn": "Scaling robot data is crucial for building generalist Vision-Language-Action (VLA) models, yet robot trajectories are harder to scale than web-scale image-text data because embodied collection is costly and sparsely covers the physical world. This makes representation quality a central bottleneck: under a fixed robot-data budget, continued pre-training must turn limited trajectories into transferable visual-action knowledge rather than merely fit actions. We propose VLAct, a VLA-oriented VLM backbone trained on broad, heterogeneous, multi-embodiment robot data before task-specific fine-tuning. VLAct preserves the broad VLM prior and encourages shared action semantics across embodiments through VLM-prior preservation, multi-head continuous action co-supervision, and a partially unified cross-embodiment action layout, while allowing task-specific action heads during fine-tuning. Across simulation, real-world, and unseen-embodiment transfer, VLAct consistently improves downstream performance under fixed fine-tuning protocols. On LIBERO-Plus and RoboTwin 2.0, VLAct surpasses industrial VLA systems including ABot-M0 and LingBot-VLA, achieving success rates of 82.6% and 92.5%. On RoboDojo, VLAct ranks sixth among all policies by success rate and outperforms all explicitly designated world-action model (WAM) entries on both metrics. Most notably, on RoboCasa-GR1, an unseen humanoid embodiment, VLAct using only 20% of downstream trajectories outperforms the full-data GR00T-N1.6 baseline. These results are obtained using fully open-source data and only a 16-GPU training setup, showing that representation-centric continued pre-training can deliver highly competitive performance under a modest compute budget and is an important independent axis of VLA progress beyond data scaling.",
+  "abstractZh": "扩展机器人数据对构建通用视觉—语言—动作模型至关重要，但机器人轨迹比互联网规模的图文数据更难扩展，因为具身采集成本高，而且对物理世界的覆盖稀疏。因此，表示质量成为核心瓶颈：在机器人数据预算固定时，持续预训练必须把有限轨迹转化为可迁移的视觉—动作知识，而不能只是拟合动作。作者提出 VLAct，一个面向 VLA 的 VLM 骨干，在下游任务特定微调之前，先利用广泛、异构、跨具身机器人数据进行持续预训练。VLAct 通过保护 VLM 先验、多连续动作头联合监督，以及部分统一的跨具身动作布局来保持广泛的视觉语言能力并鼓励共享动作语义，同时允许下游微调自由选择任务特定动作头。在仿真、真机和未见具身迁移实验中，VLAct 在固定微调协议下持续提升性能；它在 LIBERO-Plus 和 RoboTwin 2.0 上分别达到 82.6% 和 92.5%，在 RoboDojo 上按成功率排名第六，并超过所有明确标注的 WAM 条目。尤其是在持续预训练从未见过的 RoboCasa-GR1 人形具身上，仅用 20% 下游轨迹便超过使用全量数据的 GR00T-N1.6。所有结果都基于完全开源数据和 16 张 GPU，表明以表示为中心的持续预训练是数据规模之外另一条重要的 VLA 进步轴。",
+  "background": "**动机：** 机器人基础策略想复制语言和视觉领域的 scaling 成功，但机器人轨迹必须通过真实或仿真具身采集，成本高、场景重复、物理世界覆盖稀疏，不可能像网页图文那样轻易获得近乎穷举的多样性。于是同样数量的轨迹能否沉淀成可迁移的对象、可供性、空间关系和动作后果知识，开始比单纯增加动作拟合样本更决定下游任务、场景和机器人形态的泛化。\n\n**问题缺口：** 已有 VLA 持续预训练常把重点放在预训练分布上的动作预测，却忽略监督如何改变 backbone：窄机器人数据的全量更新会侵蚀通用 VLM 先验；单一连续动作头会让特征几何向该 decoder 过拟合，换头时甚至比从零微调更差；为每种 embodiment 建独立输出头又切断了开合夹爪等物理可比动作的共享。论文要解决的是在固定机器人数据预算下，如何同时保留通用感知语义、支持多种下游动作头并实现跨具身动作迁移。",
+  "backgroundMotivation": "机器人基础策略想复制语言和视觉领域的 scaling 成功，但机器人轨迹必须通过真实或仿真具身采集，成本高、场景重复、物理世界覆盖稀疏，不可能像网页图文那样轻易获得近乎穷举的多样性。于是同样数量的轨迹能否沉淀成可迁移的对象、可供性、空间关系和动作后果知识，开始比单纯增加动作拟合样本更决定下游任务、场景和机器人形态的泛化。",
+  "backgroundGap": "已有 VLA 持续预训练常把重点放在预训练分布上的动作预测，却忽略监督如何改变 backbone：窄机器人数据的全量更新会侵蚀通用 VLM 先验；单一连续动作头会让特征几何向该 decoder 过拟合，换头时甚至比从零微调更差；为每种 embodiment 建独立输出头又切断了开合夹爪等物理可比动作的共享。论文要解决的是在固定机器人数据预算下，如何同时保留通用感知语义、支持多种下游动作头并实现跨具身动作迁移。",
+  "method": "**方法概述：** VLAct 从预训练表示而非最终动作头出发重新设计 VLA continued pre-training：在 Qwen3-VL-4B 上冻结视觉编码器和下半层 LLM，并混入图像描述数据以保护通用 VLM 先验；让 OFT、PI、GR00T 三类连续动作头并行监督共享 latent，防止 backbone 锁死在单一 decoder 几何；再用部分统一的 20 维跨具身动作布局与周期关节 wrap-aware loss，只共享物理语义一致的动作维度。下游阶段丢弃预训练头并重新初始化任务头，因此性能增益可归因于 backbone 表示。\n\n**核心机制：** VLAct 的核心机制是把 continued pre-training 设计成表示约束问题。视觉编码器与 LLM 下半层被冻结，图像 caption 与机器人轨迹以联合损失训练上层表示；同一 backbone latent 同时送入 OFT、PI、GR00T 三个连续动作头预测相同 action chunk，以多 decoder 的冲突归纳偏置迫使动作信息保持可被多种参数化读取；跨机器人再映射到固定 20 维布局，只共享夹爪等物理一致坐标，其他臂维度按 embodiment 激活并 mask，同时对周期关节采用模 2π 的 wrap-aware 残差。微调时所有预训练动作头被丢弃并用新头替换，从而检验可迁移 backbone 而非复用策略头。\n\n**方法拆解：** - 保护 VLM 先验：持续预训练时冻结整个视觉编码器和 LLM 下半层，只更新上层与动作头；每个 batch 混入 caption 数据，以物体、属性、空间关系和场景语义的密集监督约束表示漂移。\n- 抵抗 decoder lock-in：OFT、PI、GR00T 三种连续动作头共享一次 backbone 前向和同一 latent，对相同 action chunk 求和监督，使骨干无法只保留某一种头最容易解码的特征方向。\n- 部分统一跨具身动作：用 20 维输出布局分别容纳 AgileX 左右臂、Franka 机械臂及共享夹爪坐标；样本只在其有效维度产生损失，避免把不同物理含义的关节强行对齐。\n- 修正周期关节几何：先把绝对关节角包裹到 [-π, π]，再对预测与目标的角度差做模 2π 的 wrap-aware L1，避免 179° 与 -179° 被误判为相距 358°。\n- 隔离 backbone 贡献：下游微调丢弃 caption 流和所有预训练动作头，重新初始化任务所需头，并保持数据、优化器与训练预算和基线一致。\n\n**关键要点：** - 动作头并非中性的输出模块，它会反向塑造 backbone 表示；同头性能强不等于骨干能被其他控制头复用。\n- 跨具身统一不应等于所有自由度强行共用一个坐标系，而应只共享物理含义一致的维度，并显式 mask 不兼容维度。\n- caption 数据在消融中是最强的单一辅助监督，说明 VLA 预训练的难点之一是避免遗忘原始 VLM 的视觉语言工作区间。\n\n![方法图](https://followhub.tenstep.top/papers/2608.27550-beyond-data-scaling/figure-3-vlact-overview.png)\n\n*方法图*",
+  "methodOverview": "VLAct 从预训练表示而非最终动作头出发重新设计 VLA continued pre-training：在 Qwen3-VL-4B 上冻结视觉编码器和下半层 LLM，并混入图像描述数据以保护通用 VLM 先验；让 OFT、PI、GR00T 三类连续动作头并行监督共享 latent，防止 backbone 锁死在单一 decoder 几何；再用部分统一的 20 维跨具身动作布局与周期关节 wrap-aware loss，只共享物理语义一致的动作维度。下游阶段丢弃预训练头并重新初始化任务头，因此性能增益可归因于 backbone 表示。",
+  "methodCore": "VLAct 的核心机制是把 continued pre-training 设计成表示约束问题。视觉编码器与 LLM 下半层被冻结，图像 caption 与机器人轨迹以联合损失训练上层表示；同一 backbone latent 同时送入 OFT、PI、GR00T 三个连续动作头预测相同 action chunk，以多 decoder 的冲突归纳偏置迫使动作信息保持可被多种参数化读取；跨机器人再映射到固定 20 维布局，只共享夹爪等物理一致坐标，其他臂维度按 embodiment 激活并 mask，同时对周期关节采用模 2π 的 wrap-aware 残差。微调时所有预训练动作头被丢弃并用新头替换，从而检验可迁移 backbone 而非复用策略头。",
+  "methodBreakdown": [
+    "保护 VLM 先验：持续预训练时冻结整个视觉编码器和 LLM 下半层，只更新上层与动作头；每个 batch 混入 caption 数据，以物体、属性、空间关系和场景语义的密集监督约束表示漂移。",
+    "抵抗 decoder lock-in：OFT、PI、GR00T 三种连续动作头共享一次 backbone 前向和同一 latent，对相同 action chunk 求和监督，使骨干无法只保留某一种头最容易解码的特征方向。",
+    "部分统一跨具身动作：用 20 维输出布局分别容纳 AgileX 左右臂、Franka 机械臂及共享夹爪坐标；样本只在其有效维度产生损失，避免把不同物理含义的关节强行对齐。",
+    "修正周期关节几何：先把绝对关节角包裹到 [-π, π]，再对预测与目标的角度差做模 2π 的 wrap-aware L1，避免 179° 与 -179° 被误判为相距 358°。",
+    "隔离 backbone 贡献：下游微调丢弃 caption 流和所有预训练动作头，重新初始化任务所需头，并保持数据、优化器与训练预算和基线一致。"
+  ],
+  "methodTakeaways": [
+    "动作头并非中性的输出模块，它会反向塑造 backbone 表示；同头性能强不等于骨干能被其他控制头复用。",
+    "跨具身统一不应等于所有自由度强行共用一个坐标系，而应只共享物理含义一致的维度，并显式 mask 不兼容维度。",
+    "caption 数据在消融中是最强的单一辅助监督，说明 VLA 预训练的难点之一是避免遗忘原始 VLM 的视觉语言工作区间。"
+  ],
+  "results": "**核心结果：** - LIBERO-Plus 总成功率 82.6%，较相同 Qwen3-VL backbone 与 OFT 下游头的 Qwen3VL-OFT 高 7.6 个百分点，也高于 ABot-M0 的 80.5%。\n- VLA-Arena 平均成功率 54.8%，比相同下游协议的 Qwen3VL-OFT 高 21.4 个百分点，比 π0.5 高 10.5 个百分点；Long-Horizon 与 Safety 分别领先 π0.5 21.0 和 11.7 个百分点。\n- RoboTwin 2.0 数据扩展设置中，VLAct-OFT 在 Clean/Random 达到 92.5%/90.8%；基础低数据设置为 80.5%/41.5%，明显高于 Qwen3VL-OFT 的 61.7%/10.5%。\n- RoboCasa-GR1 是预训练未见的人形具身：VLAct 用 20% 下游轨迹达到 49.5%，超过全数据 GR00T-N1.6 的 47.6%；全数据微调达到 54.0%。\n- 真机实验中，短时单臂平均成功率 92.5% 对 77.5%，双臂平均 72.0% 对 44.0%；在全物体替换的长时桌面清理上为 83.3% 对 46.6%。\n\n**结果表：**\n\n| 评测 | VLAct | 对照/结论 |\n| --- | ---: | --- |\n| LIBERO-Plus | 82.6% | Qwen3VL-OFT 75.0%，ABot-M0 80.5% |\n| VLA-Arena | 54.8% | Qwen3VL-OFT 33.4%，π0.5 44.3% |\n| RoboTwin 2.0 Clean / Random | 92.5% / 90.8% | 数据扩展设置，接近或超过强工业系统 |\n| DOMINO SR / MS | 18.50 / 34.20 | Qwen3VL-OFT 为 10.86 / 30.49 |\n| RoboCasa-GR1（20% 数据） | 49.5% | 超过全数据 GR00T-N1.6 的 47.6% |\n| RoboDojo 平均分 / 成功率 | 10.66 / 7.60% | 35 个策略中分数第 8、成功率第 6 |\n\n![结果图](https://followhub.tenstep.top/papers/2608.27550-beyond-data-scaling/figure-5-results.png)\n\n*结果图*",
+  "resultHighlights": [
+    "LIBERO-Plus 总成功率 82.6%，较相同 Qwen3-VL backbone 与 OFT 下游头的 Qwen3VL-OFT 高 7.6 个百分点，也高于 ABot-M0 的 80.5%。",
+    "VLA-Arena 平均成功率 54.8%，比相同下游协议的 Qwen3VL-OFT 高 21.4 个百分点，比 π0.5 高 10.5 个百分点；Long-Horizon 与 Safety 分别领先 π0.5 21.0 和 11.7 个百分点。",
+    "RoboTwin 2.0 数据扩展设置中，VLAct-OFT 在 Clean/Random 达到 92.5%/90.8%；基础低数据设置为 80.5%/41.5%，明显高于 Qwen3VL-OFT 的 61.7%/10.5%。",
+    "RoboCasa-GR1 是预训练未见的人形具身：VLAct 用 20% 下游轨迹达到 49.5%，超过全数据 GR00T-N1.6 的 47.6%；全数据微调达到 54.0%。",
+    "真机实验中，短时单臂平均成功率 92.5% 对 77.5%，双臂平均 72.0% 对 44.0%；在全物体替换的长时桌面清理上为 83.3% 对 46.6%。"
+  ],
+  "insights": "**核心 insight：** - 这篇论文把 VLA 的 scaling 问题从“轨迹总量”推进到“每条轨迹把 backbone 改造成什么样”。如果数据覆盖注定稀疏，避免窄分布遗忘与提高表示可读性，本身就是和数据规模正交的增长轴。\n- decoder lock-in 是很实用的诊断概念：预训练头和微调头相同获得高分，可能只是表示与 decoder 共适应，不能证明骨干具有通用动作知识。真正的 reusable backbone 必须在未见或更换动作头时仍易于优化。\n- “只共享物理可比维度”比追求形式上的全统一更可靠。它承认不同 kinematics 与控制约定不可硬对齐，同时仍让跨机器人共有语义得到联合监督，这是一种保守但工程上稳健的 heterogeneous data 接口。\n\n**和已有方法的关系：** - 相对 OpenVLA、π0/π0.5 等把重点放在更大数据混合与整体策略能力的工作，VLAct 不提出新的最终 action head，而是把预训练 backbone 如何兼容不同动作头作为第一类研究对象。\n- 相对 Qwen-RobotManip 的 canonical state-action slots，VLAct 同样重视跨具身动作对齐，但采取更局部的“按 embodiment role 分区 + 共享夹爪 + mask”策略，并额外研究了 VLM 先验保护与 decoder 几何锁定。\n- 论文与世界动作模型并非直接同构：VLAct 没有显式学习未来世界演化，而是提升视觉语言骨干中的动作相关表示；因此它可以与 WAM 或各种下游生成头组合，而不是只能替代它们。\n\n**可借鉴点：** - 评估任何 VLA 预训练方法时，应增加跨 action-head transfer probe：同头微调只能测兼容性，换头或未见头才更接近可复用表示质量。\n- 当下游数据远窄于基础模型预训练分布时，可以把冻结浅层与混入原任务监督当作防遗忘基线，并通过辅助数据类型消融确认真正有效的锚点。\n- 异构动作空间统一前先按物理语义列出哪些坐标可共享、哪些必须分区，再用 active-dimension mask；周期变量还需采用符合流形几何的损失。",
+  "insightCore": [
+    "这篇论文把 VLA 的 scaling 问题从“轨迹总量”推进到“每条轨迹把 backbone 改造成什么样”。如果数据覆盖注定稀疏，避免窄分布遗忘与提高表示可读性，本身就是和数据规模正交的增长轴。",
+    "decoder lock-in 是很实用的诊断概念：预训练头和微调头相同获得高分，可能只是表示与 decoder 共适应，不能证明骨干具有通用动作知识。真正的 reusable backbone 必须在未见或更换动作头时仍易于优化。",
+    "“只共享物理可比维度”比追求形式上的全统一更可靠。它承认不同 kinematics 与控制约定不可硬对齐，同时仍让跨机器人共有语义得到联合监督，这是一种保守但工程上稳健的 heterogeneous data 接口。"
+  ],
+  "insightRelations": [
+    "相对 OpenVLA、π0/π0.5 等把重点放在更大数据混合与整体策略能力的工作，VLAct 不提出新的最终 action head，而是把预训练 backbone 如何兼容不同动作头作为第一类研究对象。",
+    "相对 Qwen-RobotManip 的 canonical state-action slots，VLAct 同样重视跨具身动作对齐，但采取更局部的“按 embodiment role 分区 + 共享夹爪 + mask”策略，并额外研究了 VLM 先验保护与 decoder 几何锁定。",
+    "论文与世界动作模型并非直接同构：VLAct 没有显式学习未来世界演化，而是提升视觉语言骨干中的动作相关表示；因此它可以与 WAM 或各种下游生成头组合，而不是只能替代它们。"
+  ],
+  "insightBorrowable": [
+    "评估任何 VLA 预训练方法时，应增加跨 action-head transfer probe：同头微调只能测兼容性，换头或未见头才更接近可复用表示质量。",
+    "当下游数据远窄于基础模型预训练分布时，可以把冻结浅层与混入原任务监督当作防遗忘基线，并通过辅助数据类型消融确认真正有效的锚点。",
+    "异构动作空间统一前先按物理语义列出哪些坐标可共享、哪些必须分区，再用 active-dimension mask；周期变量还需采用符合流形几何的损失。"
+  ],
+  "risks": "**局限：** - 主体结论建立在 4B 规模 Qwen3-VL 上，尚未证明在更大 VLM、不同视觉编码器或明显更高机器人数据规模下，冻结层比例与辅助数据配方仍然最优。\n- 多头联合训练虽然共享 backbone 前向，但仍增加三套动作头和调参复杂度；论文没有给出完整训练 token、墙钟时间、能耗与单头配方的严格成本对照。\n- RoboDojo 的 Memory 维度依然明显弱，且不同公开系统的预训练数据、算力和 checkpoint 选择并未标准化；跨论文排行榜优势不能等同于严格同预算的绝对 SOTA。\n- 跨具身共享主要发生在夹爪等少数可比坐标，Franka 与 AgileX 的机械臂控制表示仍然分区；它证明了“部分共享”有效，但距离任意机器人形态的统一动作本体仍很远。\n\n**适用场景：** - 拥有多机器人、异构动作空间但机器人轨迹预算有限，希望训练一个可供不同下游动作头与新 embodiment 复用的 VLA backbone。\n- 基于强 VLM 做机器人 continued pre-training，又担心窄场景动作数据破坏通用视觉语言能力的研究或开源训练管线。\n- 需要比较 OFT、flow matching、diffusion/DiT 等多种控制头，并希望把 backbone 与最终 head 的贡献拆开评估的实验设计。\n\n**最终判断：** - VLAct 值得作为“VLA 表示学习与 continued pre-training 配方”的关键基线，而不应仅被记成又一个排行榜更高的策略。它最有价值的结论是：固定数据和下游协议下，通过保护先验、动作头多样性与物理语义对齐，可以显著提高 backbone 的可迁移性；但 4B 单一骨干、部分动作共享和跨系统预算不一致意味着它仍不是通用机器人表示问题的最终答案。",
+  "riskLimitations": [
+    "主体结论建立在 4B 规模 Qwen3-VL 上，尚未证明在更大 VLM、不同视觉编码器或明显更高机器人数据规模下，冻结层比例与辅助数据配方仍然最优。",
+    "多头联合训练虽然共享 backbone 前向，但仍增加三套动作头和调参复杂度；论文没有给出完整训练 token、墙钟时间、能耗与单头配方的严格成本对照。",
+    "RoboDojo 的 Memory 维度依然明显弱，且不同公开系统的预训练数据、算力和 checkpoint 选择并未标准化；跨论文排行榜优势不能等同于严格同预算的绝对 SOTA。",
+    "跨具身共享主要发生在夹爪等少数可比坐标，Franka 与 AgileX 的机械臂控制表示仍然分区；它证明了“部分共享”有效，但距离任意机器人形态的统一动作本体仍很远。"
+  ],
+  "riskScenarios": [
+    "拥有多机器人、异构动作空间但机器人轨迹预算有限，希望训练一个可供不同下游动作头与新 embodiment 复用的 VLA backbone。",
+    "基于强 VLM 做机器人 continued pre-training，又担心窄场景动作数据破坏通用视觉语言能力的研究或开源训练管线。",
+    "需要比较 OFT、flow matching、diffusion/DiT 等多种控制头，并希望把 backbone 与最终 head 的贡献拆开评估的实验设计。"
+  ],
+  "riskJudgment": [
+    "VLAct 值得作为“VLA 表示学习与 continued pre-training 配方”的关键基线，而不应仅被记成又一个排行榜更高的策略。它最有价值的结论是：固定数据和下游协议下，通过保护先验、动作头多样性与物理语义对齐，可以显著提高 backbone 的可迁移性；但 4B 单一骨干、部分动作共享和跨系统预算不一致意味着它仍不是通用机器人表示问题的最终答案。"
+  ],
+  "resultsTableMarkdown": "| 评测 | VLAct | 对照/结论 |\n| --- | ---: | --- |\n| LIBERO-Plus | 82.6% | Qwen3VL-OFT 75.0%，ABot-M0 80.5% |\n| VLA-Arena | 54.8% | Qwen3VL-OFT 33.4%，π0.5 44.3% |\n| RoboTwin 2.0 Clean / Random | 92.5% / 90.8% | 数据扩展设置，接近或超过强工业系统 |\n| DOMINO SR / MS | 18.50 / 34.20 | Qwen3VL-OFT 为 10.86 / 30.49 |\n| RoboCasa-GR1（20% 数据） | 49.5% | 超过全数据 GR00T-N1.6 的 47.6% |\n| RoboDojo 平均分 / 成功率 | 10.66 / 7.60% | 35 个策略中分数第 8、成功率第 6 |",
+  "resultsTable": {
+    "columns": [
+      "评测",
+      "VLAct",
+      "对照/结论"
+    ],
+    "rows": [
+      [
+        "LIBERO-Plus",
+        "82.6%",
+        "Qwen3VL-OFT 75.0%，ABot-M0 80.5%"
+      ],
+      [
+        "VLA-Arena",
+        "54.8%",
+        "Qwen3VL-OFT 33.4%，π0.5 44.3%"
+      ],
+      [
+        "RoboTwin 2.0 Clean / Random",
+        "92.5% / 90.8%",
+        "数据扩展设置，接近或超过强工业系统"
+      ],
+      [
+        "DOMINO SR / MS",
+        "18.50 / 34.20",
+        "Qwen3VL-OFT 为 10.86 / 30.49"
+      ],
+      [
+        "RoboCasa-GR1（20% 数据）",
+        "49.5%",
+        "超过全数据 GR00T-N1.6 的 47.6%"
+      ],
+      [
+        "RoboDojo 平均分 / 成功率",
+        "10.66 / 7.60%",
+        "35 个策略中分数第 8、成功率第 6"
+      ]
+    ]
+  },
+  "figureGallery": [
+    {
+      "zone": "method",
+      "caption": "方法图",
+      "src": "https://followhub.tenstep.top/papers/2608.27550-beyond-data-scaling/figure-3-vlact-overview.png"
+    },
+    {
+      "zone": "results",
+      "caption": "结果图",
+      "src": "https://followhub.tenstep.top/papers/2608.27550-beyond-data-scaling/figure-5-results.png"
+    }
+  ],
+  "relatedTopicSlugs": [
+    "vision-language-action"
+  ]
+}

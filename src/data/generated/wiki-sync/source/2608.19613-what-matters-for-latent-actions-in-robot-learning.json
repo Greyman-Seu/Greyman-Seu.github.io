@@ -1,0 +1,134 @@
+{
+  "slug": "2608.19613-what-matters-for-latent-actions-in-robot-learning",
+  "title": "What Matters for Latent Actions in Robot Learning",
+  "sourceType": "paper",
+  "sourceUrl": "https://arxiv.org/abs/2608.19613",
+  "htmlUrl": "https://arxiv.org/html/2608.19613v1",
+  "pdfUrl": "https://arxiv.org/pdf/2608.19613",
+  "codeUrl": "",
+  "translationUrl": "https://hjfy.top/arxiv/2608.19613",
+  "publishDate": "2026-08-20",
+  "authors": [
+    "Xizhou Bu",
+    "Qingda Hu",
+    "Lei Zhou",
+    "Lingfeng Zhang",
+    "Yingbo Tang",
+    "Zihao Liu",
+    "Xinyi Tao",
+    "Zhiqiang Ma",
+    "Qingqiu Huang",
+    "Chufeng Tang",
+    "Hongbo Wang",
+    "Jing Zhang",
+    "Jiayi Ma",
+    "Hangjun Ye",
+    "Wei Li",
+    "Xiaoshuai Hao"
+  ],
+  "affiliation": "",
+  "relatedOrganizations": [],
+  "relatedCompanies": [],
+  "keywords": [
+    "latent-action-model"
+  ],
+  "primaryDomainSlug": "physical-embodied-intelligence",
+  "domainSlugs": [
+    "physical-embodied-intelligence"
+  ],
+  "heroImage": "https://arxiv.org/html/2608.19613v1/main.png",
+  "tldr": "这是第一篇对 latent action model（LAM，隐式动作模型）做系统性实证研究的论文：把 LAPO、LAOF、CoMo、CFD-AE 等代表方法统一进同一个自编码框架，系统扫描了 41 个设计选择（建模范式、学习目标/正则化、隐式动作集成方式），并检验了 4 个代理指标能否预测下游操纵性能。核心结论是**原始 LAPO 反而是最强基线**，光学流（RAFT/SEA-RAFT）这类运动先验反而有害，隐式动作在 VLM 骨干微调后能显著提升下游策略与真实机械臂性能（真机成功率 64.75% → 79.25%）。对做「用无标注视频训练机器人」方向的人，这是一份可直接照抄的配方表。",
+  "intuition": "把「机器人动作」看作「两帧画面之间的隐含变化量」。LAM 的思路是：与其要昂贵的人工/遥操标签动作，不如让一个自编码器从 `(当前帧, 下一帧)` 里自己压出一个低维向量 z（隐式动作），它只要足以「还原下一帧」就说明捕获了转移动力学。这篇论文做的事，是把所有已知的「怎么压这个 z」的做法摆到同一个台子上打分，告诉你哪一步选什么最划算——最后发现最简单、直接学转移动力学的 LAPO 就够了，画蛇添足的显式光流约束反而掉分。",
+  "abstractEn": "Latent Action Models (LAMs) have emerged as a promising paradigm for enabling robot learning to leverage large-scale unlabeled videos through latent actions that serve as compact surrogates for physical actions. Despite rapid progress, research on LAM remains highly fragmented, with existing methods evaluating different design choices in isolation under inconsistent experimental settings, making it difficult to identify the factors that truly determine downstream robotic manipulation performance. In this work, we present the first comprehensive empirical study of latent action learning for robotic manipulation. We unify representative LAM methods within a common autoencoding framework and systematically investigate 41 LAM design choices across three dimensions, including latent action modeling paradigms, learning objectives and regularization methods, and latent action integration strategies. We further examine four proxy metrics for evaluating latent action quality and assess their ability to reliably predict downstream robotic manipulation performance. Extensive experiments on three widely used benchmarks provide strong empirical evidence that fine-tuning vision-language model (VLM) backbones with latent actions provides a stronger initialization for downstream policy learning, with further validation on real-world robot manipulation tasks.",
+  "abstractZh": "隐式动作模型（LAM）已成为一个有前景的范式：通过「隐式动作」作为物理动作的紧凑代理，让机器人学习能够利用大规模无标注视频。尽管进展迅速，LAM 研究仍高度碎片化——现有方法在不相一致的实验设定下各自评估不同的设计选择，难以识别真正决定下游机器人操纵性能的因素。本文提出首个面向机器人操纵的隐式动作学习系统性实证研究：将代表性 LAM 方法统一到一个共同的自编码框架下，沿着三个维度系统考察 41 个 LAM 设计选择（隐式动作建模范式、学习目标与正则化方法、隐式动作集成策略），并检验四个代理指标评估隐式动作质量的能力及其对下游操纵性能的预测力。在三个广泛使用的基准上的大量实验给出强证据：用隐式动作微调视觉-语言模型（VLM）骨干能为下游策略学习提供更强初始化，并在真实机器人操纵任务中进一步得到验证。",
+  "background": "**动机：** 具身基础模型的进步大多是从相邻范式继承而来（VLA 继承 VLM、WAM 继承视频生成模型），而动作建模本身受限于昂贵稀缺的机器人动作数据。无标注视频的规模远超动作数据几个数量级，LAM 用「隐式动作作为物理动作的紧凑代理」从海量视频里免费学动作表示，是绕过数据瓶颈最自然的路线。\n\n**问题缺口：** 尽管 LAPO、LAOF、CoMo、StaMo 等方法层出不穷，LAM 研究高度碎片化：各方法在建模范式、正则化、隐式动作集成方式上各不相同，且都在不一致的实验设定下各自评估，导致「到底哪个设计真正决定下游操纵性能」始终没有答案；同时缺乏一个可靠评价隐式动作质量的协议——现有代理指标是否可信也未被系统检验。",
+  "backgroundMotivation": "具身基础模型的进步大多是从相邻范式继承而来（VLA 继承 VLM、WAM 继承视频生成模型），而动作建模本身受限于昂贵稀缺的机器人动作数据。无标注视频的规模远超动作数据几个数量级，LAM 用「隐式动作作为物理动作的紧凑代理」从海量视频里免费学动作表示，是绕过数据瓶颈最自然的路线。",
+  "backgroundGap": "尽管 LAPO、LAOF、CoMo、StaMo 等方法层出不穷，LAM 研究高度碎片化：各方法在建模范式、正则化、隐式动作集成方式上各不相同，且都在不一致的实验设定下各自评估，导致「到底哪个设计真正决定下游操纵性能」始终没有答案；同时缺乏一个可靠评价隐式动作质量的协议——现有代理指标是否可信也未被系统检验。",
+  "method": "**方法概述：** 全文围绕「三阶段训练管线」展开：Stage I 用无标注视频（仅连续帧）自监督学一个 LAM 得到隐式动作编码器；Stage II 用学好的逆动力学模型给「语义标注的视频」自动打隐式动作标签，得到 `(观测, 隐式动作, 语言指令)` 三元组来微调 VLM 骨干；Stage III 再用少量真实机器人动作数据做下游策略学习。作者在这一框架下沿三个维度（建模范式、正则化、集成方式）逐项做消融。\n\n**核心机制：** 隐式动作之所以能替代物理动作，是因为「能否从当前帧 + z 重建下一帧」等价于「z 是否捕获了帧间转移动力学」。逆动力学模型（IDM）从连续帧编码 z、前向动力学模型（FDM）用 z 预测未来帧，二者自监督联合优化；只要信息瓶颈设计得当，z 就会收敛成不含冗余、只保留「什么在动、怎么动」的紧凑动作表示，从而在下游微调时给 VLM 骨干一个对物理世界交互更敏感的初始化。\n\n**方法拆解：**\n\n- **建模范式（Design I）**：对比隐式的 IDM-FDM 家族（LAPO、带光流监督的 LAOF、用帧差替换未来帧输入的 CoMo）与显式的 CFD-AE（对连续帧差 ΔRGB / 语义特征差 ΔDINO / 光流 RAFT、SEA-RAFT 做自编码重构），所有方法共享同一自编码管线、同一隐式动作维度以保证公平。\n- **学习目标与正则化（Design II）**：在统一目标 `ℒ = ℒ_method + λ_reg·ℒ_reg` 下对比 AE、VAE（KL 到高斯先验）、VQ-VAE（离散 codebook）、Sparsity（样本级稀疏 + VCM 防坍缩）、SIGReg（随机一维投影匹配各向同性高斯），并系统扫描正则化强度 λ_reg。\n- **集成方式（Design III）**：对比三种物理动作预测头 DAP（隐式动作只微调骨干、推理时丢弃）、LAP（隐式动作作为中间控制表示 `VLM→z→a`）、JAP（共享头联合预测隐式动作与物理动作），以及混合变体 JAP-DAP/JAP-LAP 来隔离物理动作监督对骨干微调的贡献。\n- **代理指标评估（Q4）**：考察 FDM 重建指标（SSIM Gain、MSE Gain）与探针指标（Linear Probe、MLP Probe）两类共 4 个代理指标，检验其与下游操纵性能的 Pearson/Spearman 相关性。\n\n**关键要点：**\n\n- 原始 LAPO 在无任何额外预处理的情况下就是最强基线（跨基准均值 0.7327），直接学转移动力学就够，显式光流约束会丢接触/遮挡/形变等视觉线索反而有害。\n- 隐式动作不应只当预训练目标：留在下游（尤其 JAP 联合优化）能持续正则化骨干朝 motion-aware 方向收敛，真机验证显示成功率 +14.5 个百分点。",
+  "methodOverview": "全文围绕「三阶段训练管线」展开：Stage I 用无标注视频（仅连续帧）自监督学一个 LAM 得到隐式动作编码器；Stage II 用学好的逆动力学模型给「语义标注的视频」自动打隐式动作标签，得到 `(观测, 隐式动作, 语言指令)` 三元组来微调 VLM 骨干；Stage III 再用少量真实机器人动作数据做下游策略学习。作者在这一框架下沿三个维度（建模范式、正则化、集成方式）逐项做消融。",
+  "methodCore": "隐式动作之所以能替代物理动作，是因为「能否从当前帧 + z 重建下一帧」等价于「z 是否捕获了帧间转移动力学」。逆动力学模型（IDM）从连续帧编码 z、前向动力学模型（FDM）用 z 预测未来帧，二者自监督联合优化；只要信息瓶颈设计得当，z 就会收敛成不含冗余、只保留「什么在动、怎么动」的紧凑动作表示，从而在下游微调时给 VLM 骨干一个对物理世界交互更敏感的初始化。",
+  "methodBreakdown": [
+    "**建模范式（Design I）**：对比隐式的 IDM-FDM 家族（LAPO、带光流监督的 LAOF、用帧差替换未来帧输入的 CoMo）与显式的 CFD-AE（对连续帧差 ΔRGB / 语义特征差 ΔDINO / 光流 RAFT、SEA-RAFT 做自编码重构），所有方法共享同一自编码管线、同一隐式动作维度以保证公平。",
+    "**学习目标与正则化（Design II）**：在统一目标 `ℒ = ℒ_method + λ_reg·ℒ_reg` 下对比 AE、VAE（KL 到高斯先验）、VQ-VAE（离散 codebook）、Sparsity（样本级稀疏 + VCM 防坍缩）、SIGReg（随机一维投影匹配各向同性高斯），并系统扫描正则化强度 λ_reg。",
+    "**集成方式（Design III）**：对比三种物理动作预测头 DAP（隐式动作只微调骨干、推理时丢弃）、LAP（隐式动作作为中间控制表示 `VLM→z→a`）、JAP（共享头联合预测隐式动作与物理动作），以及混合变体 JAP-DAP/JAP-LAP 来隔离物理动作监督对骨干微调的贡献。",
+    "**代理指标评估（Q4）**：考察 FDM 重建指标（SSIM Gain、MSE Gain）与探针指标（Linear Probe、MLP Probe）两类共 4 个代理指标，检验其与下游操纵性能的 Pearson/Spearman 相关性。"
+  ],
+  "methodTakeaways": [
+    "原始 LAPO 在无任何额外预处理的情况下就是最强基线（跨基准均值 0.7327），直接学转移动力学就够，显式光流约束会丢接触/遮挡/形变等视觉线索反而有害。",
+    "隐式动作不应只当预训练目标：留在下游（尤其 JAP 联合优化）能持续正则化骨干朝 motion-aware 方向收敛，真机验证显示成功率 +14.5 个百分点。"
+  ],
+  "results": "在 LIBERO、LIBERO-Plus、RoboTwin2.0 三个基准 + Franka Panda 真机上系统验证，核心结果如下：\n\n- **建模范式（Q1）**：跨基准平均排名 LAPO (0.7327) > ΔDINO (0.7280) > CoMo (0.7167) > ΔRGB (0.6973) > LAOF (0.6907) > SEA-RAFT (0.6433) > RAFT (0.6427)。光学流方法垫底，甚至不如简单 ΔRGB；提升光流质量（SEA-RAFT vs RAFT）不必然换来更好的隐式动作。\n- **正则化（Q2）**：正则化类型影响有限（LIBERO 上 VAE/Sparsity/SIGReg 均值 0.908–0.915），**强度**才是关键——过强会压制转移动力学、掉重建与动作指标。离散 VQ-VAE 在 LIBERO-Plus 零样本泛化最强（0.517），但在已饱和基准上反而落后。推荐 VAE（λ_reg=1e-7）、Sparsity（1e-5）、SIGReg（1e-3）、VQ-VAE（λ_reg=1）。\n- **集成方式（Q3）**：DAP 最弱 < LAP < JAP；JAP-DAP/JAP-LAP 同样强，说明收益主要来自「联合优化如何塑造骨干表示」而非具体动作头形式。video-only 时推荐 LAP，有动作标注时推荐 JAP-LAP。\n- **维度与归一化（Q5）**：隐式动作维度 d_z=32 整体最优（双臂 RoboTwin2.0 达到 0.856，明显高于 d_z=8 的 0.802）。正则得当后无需归一化：33 个组合中 28 个未归一化更优，平均增益 +0.0115。\n- **代理指标（Q4）**：FDM 重建指标比探针指标更可靠；Pearson 高、Spearman 明显偏低，说明适合**粗筛模型**而不适合细粒度排序，且不宜跨维度比较。\n- **规模化 + 真机（Q6/Q7）**：Stage II 数据从 14.5% 扩到 100% 一致提升（LIBERO-Plus 最多 +9.0%）。真机上 LA-Tuned 总成功率 79.25% vs 基线 64.75%（+14.5pp，相对 +22.4%），且 10k 步即达 85.0%，超过基线 40k 步的 76.25%，对无关干扰物更鲁棒。\n\n![Latent action design overview](https://arxiv.org/html/2608.19613v1/main.png)",
+  "resultHighlights": [],
+  "insights": "- **核心 insight**：LAM 是一个「信息瓶颈 + 转移动力学重建」问题，而不是「显式运动先验」问题。越直接地学「帧间发生了什么」，隐式动作越干净；把先验（光流）硬塞进去会丢弃接触、遮挡、形变等真正决定操纵的信息，反而不如让网络自己从重建信号里学。\n- **和已有方法的关系**：这篇是对 LAPO/LAOF/CoMo/StaMo 等单点工作的「统一消融裁判」——它不提出新架构，而是把散落的设计选择放进同一框架排座次，直接推翻了「加光流更好」「更高质量光流更好」的直觉。结论上也印证了 VLA 主线里「用无标注视频预训练动作表示」的价值，与 Qwen-VLA、π0.7 等把动作建模融入 VLM 骨干的方向互补。\n- **可借鉴点**：一是可直接复用的配方（LAPO + VAE λ_reg=1e-7 + d_z=32 + 不归一化 + JAP-LAP）；二是「FDM 重建指标用于粗筛」的轻量评估协议，能省掉跑完整三阶段管线的迭代成本；三是把隐式动作作为 VLM 骨干的连续微调信号（而非只在预训练用）这一集成原则，可直接移植到其他 world-model / VLA 训练流程。",
+  "insightCore": [],
+  "insightRelations": [],
+  "insightBorrowable": [],
+  "risks": "**局限：**\n\n- 隐式动作被主要当作**任务特定**的 VLM 微调监督，尚未上升到 foundation-level 动作表示（如文本嵌入之于大模型）的高度。\n- 结论基于现有开源机器人数据集，未覆盖泛在野生视频（YouTube/Bilibili）带来的多样性与规模上限。\n- 实验仅限机械臂操纵，未经灵巧手、四足、人形等其它 embodiment 验证。\n\n**适用场景：**\n\n- 想用无标注/低成本视频预训练机器人动作表示、但纠结「LAM 该怎么做」的团队，直接照抄配方可省大量消融成本。\n- 需要低成本评估隐式动作质量（用 FDM 重建指标做粗筛）的模型迭代场景。\n\n**最终判断：**\n\n- 这是 LAM 方向目前最有实用价值的「系统化消融」文献，澄清了范式、正则化、集成三大模糊地带并给出可复制的默认配置，值得作为该方向的基准参考保留；真机 +14.5pp 也证明了隐式动作对 VLA 骨干微调的真实增益。局限是「整理而非创新」，但它解决的问题正是阻碍后续创新的低效重复探索。",
+  "riskLimitations": [
+    "隐式动作被主要当作**任务特定**的 VLM 微调监督，尚未上升到 foundation-level 动作表示（如文本嵌入之于大模型）的高度。",
+    "结论基于现有开源机器人数据集，未覆盖泛在野生视频（YouTube/Bilibili）带来的多样性与规模上限。",
+    "实验仅限机械臂操纵，未经灵巧手、四足、人形等其它 embodiment 验证。"
+  ],
+  "riskScenarios": [
+    "想用无标注/低成本视频预训练机器人动作表示、但纠结「LAM 该怎么做」的团队，直接照抄配方可省大量消融成本。",
+    "需要低成本评估隐式动作质量（用 FDM 重建指标做粗筛）的模型迭代场景。"
+  ],
+  "riskJudgment": [
+    "这是 LAM 方向目前最有实用价值的「系统化消融」文献，澄清了范式、正则化、集成三大模糊地带并给出可复制的默认配置，值得作为该方向的基准参考保留；真机 +14.5pp 也证明了隐式动作对 VLA 骨干微调的真实增益。局限是「整理而非创新」，但它解决的问题正是阻碍后续创新的低效重复探索。"
+  ],
+  "resultsTableMarkdown": "| 维度 | 考察内容 | 关键结论 |\n| --- | --- | --- |\n| Design I 建模范式 | LAPO / LAOF / CoMo / ΔRGB / ΔDINO / RAFT / SEA-RAFT | LAPO (0.7327) 最强；光流方法垫底 |\n| Design II 正则化 | AE / VAE / VQ-VAE / Sparsity / SIGReg × 强度 | 强度比类型重要；VQ-VAE 零样本泛化最好 |\n| Design III 集成 | DAP / LAP / JAP / JAP-DAP / JAP-LAP | DAP < LAP < JAP；收益源于联合优化 |\n| Q4 代理指标 | FDM 重建 vs Linear/MLP 探针 | 重建指标更可靠；宜粗筛不宜精排 |\n| Q5 维度/归一化 | d_z ∈ {8..1024}，归一化与否 | d_z=32 最优；正则得当免归一化 |\n| Q6 规模化 | Stage II 数据 14.5% vs 100% | 数据越多越好，LIBERO-Plus +9.0% |\n| 真机 | OpenVLA-OFT vs LA-Tuned | 79.25% vs 64.75%（+14.5pp） |",
+  "resultsTable": {
+    "columns": [
+      "维度",
+      "考察内容",
+      "关键结论"
+    ],
+    "rows": [
+      [
+        "Design I 建模范式",
+        "LAPO / LAOF / CoMo / ΔRGB / ΔDINO / RAFT / SEA-RAFT",
+        "LAPO (0.7327) 最强；光流方法垫底"
+      ],
+      [
+        "Design II 正则化",
+        "AE / VAE / VQ-VAE / Sparsity / SIGReg × 强度",
+        "强度比类型重要；VQ-VAE 零样本泛化最好"
+      ],
+      [
+        "Design III 集成",
+        "DAP / LAP / JAP / JAP-DAP / JAP-LAP",
+        "DAP < LAP < JAP；收益源于联合优化"
+      ],
+      [
+        "Q4 代理指标",
+        "FDM 重建 vs Linear/MLP 探针",
+        "重建指标更可靠；宜粗筛不宜精排"
+      ],
+      [
+        "Q5 维度/归一化",
+        "d_z ∈ {8..1024}，归一化与否",
+        "d_z=32 最优；正则得当免归一化"
+      ],
+      [
+        "Q6 规模化",
+        "Stage II 数据 14.5% vs 100%",
+        "数据越多越好，LIBERO-Plus +9.0%"
+      ],
+      [
+        "真机",
+        "OpenVLA-OFT vs LA-Tuned",
+        "79.25% vs 64.75%（+14.5pp）"
+      ]
+    ]
+  },
+  "figureGallery": [
+    {
+      "zone": "results",
+      "caption": "Latent action design overview",
+      "src": "https://arxiv.org/html/2608.19613v1/main.png"
+    }
+  ],
+  "relatedTopicSlugs": [
+    "vision-language-action"
+  ]
+}

@@ -3,16 +3,17 @@
   "title": "Long-Horizon Memory for Robot Policies",
   "domain": "",
   "summary": "> 长时程机器人控制不是只把上下文窗口拉长，而是要决定不同时间尺度的信息如何表示。",
-  "body": "# Long-Horizon Memory for Robot Policies\n\n> 长时程机器人控制不是只把上下文窗口拉长，而是要决定不同时间尺度的信息如何表示。\n\n## 主题概述\n\n这条主题关注机器人策略如何处理分钟级任务。关键不是更多帧，而是多尺度记忆：哪些信息应该保留为短期视觉痕迹，哪些应该抽象成长期语义状态。\n\n## 当前知识库里的代表工作\n\n- [来源: MEM: Multi-Scale Embodied Memory for Vision Language Action Models](../sources/mem-multi-scale-embodied-memory-for-vision-language-action-models.md)\n  明确把 memory 分解成视频短期记忆和语言长期记忆，是这条主题的主工作。\n\n- [来源: π0.7: a Steerable Generalist Robotic Foundation Model with Emergent Capabilities](../sources/pi07-a-steerable-generalist-robotic-foundation-model-with-emergent-capabilities.md)\n  通过 subgoal image、subtask instruction、episode metadata 给策略提供 richer context，本质上也是在补 memory 和 progress control。\n\n## 当前判断\n\n- `MEM` 是显式 memory 架构路线\n- `π0.7` 更偏通过 richer prompt 和 context 让模型具备更强的阶段性控制\n- 这两条路线未来很可能会合流：显式 memory + 可控 prompt 共同支撑 long-horizon embodied policy\n\n## 值得后续关注的问题\n\n- 语言长期记忆如何更新、压缩和纠错\n- 视频短期记忆如何在保证实时性的同时保留关键信息\n- high-level memory 与 low-level control 的接口应如何设计\n\n## 相关页面\n\n- [[MEM: Multi-Scale Embodied Memory for Vision Language Action Models]]\n- [[π0.7: a Steerable Generalist Robotic Foundation Model with Emergent Capabilities]]\n- [[Vision-Language-Action]]",
+  "body": "# Long-Horizon Memory for Robot Policies\n\n> 长时程机器人控制不是只把上下文窗口拉长，而是要决定不同时间尺度的信息如何表示。\n\n## 主题概述\n\n这条主题关注机器人策略如何处理分钟级任务。关键不是更多帧，而是多尺度记忆：哪些信息应该保留为短期视觉痕迹，哪些应该抽象成长期语义状态。\n\n## 当前知识库里的代表工作\n\n- [来源: MEM: Multi-Scale Embodied Memory for Vision Language Action Models](../sources/mem-multi-scale-embodied-memory-for-vision-language-action-models.md)\n  明确把 memory 分解成视频短期记忆和语言长期记忆，是这条主题的主工作。\n\n- [来源: π0.7: a Steerable Generalist Robotic Foundation Model with Emergent Capabilities](../sources/pi07-a-steerable-generalist-robotic-foundation-model-with-emergent-capabilities.md)\n  通过 subgoal image、subtask instruction、episode metadata 给策略提供 richer context，本质上也是在补 memory 和 progress control。\n\n- [来源: FM-VLA: Force-based Memory for Vision-Language-Action Models in Contact-Rich Manipulation](../sources/fm-vla-force-based-memory-for-vision-language-action-models-in-contact-rich-manipulation.md)\n  把整个 episode 的腕部 wrench 历史压缩成 8 个事件记忆 token，并用短时关节状态稳定接触前运动，证明视觉或语言之外的物理信号也可以成为低成本长时记忆。\n\n## 当前判断\n\n- `MEM` 是显式 memory 架构路线\n- `π0.7` 更偏通过 richer prompt 和 context 让模型具备更强的阶段性控制\n- `FM-VLA` 补出第三类路线：按事件可观测性选择记忆模态，用 wrench 记录视觉上含混的接触进度\n- 后续更可能出现多模态、分时间尺度的记忆：视觉/语言保存场景与计划，force/state 保存接触事件与近期运动\n\n## 值得后续关注的问题\n\n- 语言长期记忆如何更新、压缩和纠错\n- 视频短期记忆如何在保证实时性的同时保留关键信息\n- 如何在视觉、语言、force/tactile 与 proprioception 之间动态选择记忆内容和时间尺度\n- high-level memory 与 low-level control 的接口应如何设计\n\n## 相关页面\n\n- [[MEM: Multi-Scale Embodied Memory for Vision Language Action Models]]\n- [[π0.7: a Steerable Generalist Robotic Foundation Model with Emergent Capabilities]]\n- [[FM-VLA: Force-based Memory for Vision-Language-Action Models in Contact-Rich Manipulation]]\n- [[Vision-Language-Action]]",
   "tags": [
     "long-horizon-memory"
   ],
   "created": "2026-05-11",
-  "updated": "2026-05-11",
+  "updated": "2026-09-01",
   "sourceTitles": [],
   "relatedPages": [
     "MEM: Multi-Scale Embodied Memory for Vision Language Action Models",
     "π0.7: a Steerable Generalist Robotic Foundation Model with Emergent Capabilities",
+    "FM-VLA: Force-based Memory for Vision-Language-Action Models in Contact-Rich Manipulation",
     "Vision-Language-Action"
   ]
 }
