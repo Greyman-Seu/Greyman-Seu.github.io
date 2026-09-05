@@ -36,9 +36,9 @@
     "force memory",
     "wrench sensing"
   ],
-  "primaryDomainSlug": "physicalembodied-intelligence",
+  "primaryDomainSlug": "physical-embodied-intelligence",
   "domainSlugs": [
-    "physicalembodied-intelligence"
+    "physical-embodied-intelligence"
   ],
   "heroImage": "https://arxiv.org/html/2607.18231v1/overview1.png",
   "tldr": "FM-VLA 的关键不是给 VLA 再塞一种当前时刻传感器，而是把整段腕部力/力矩历史压缩成可供动作专家读取的长期事件记忆。它在找隐藏积木、精确计数按钮按压与碗内擦拭三项非马尔可夫任务上达到 83.3% 平均成功率，显著超过视觉记忆 π-MEM 的 53.7%，推理延迟仅比无记忆 π0.5 增加 3.3 ms。最值得记住的是“长时 force + 短时 state”的职责分工，但证据目前仍限于单一双臂平台和小规模任务。",

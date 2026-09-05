@@ -7,7 +7,7 @@
   "pdfUrl": "",
   "codeUrl": "",
   "translationUrl": "https://hjfy.top/arxiv/2606.29834",
-  "publishDate": "",
+  "publishDate": "2026-06-29",
   "authors": [
     "Zhihao Liu",
     "Qiuyi Gu",
@@ -46,9 +46,9 @@
     "robot-rl",
     "advantage-modeling"
   ],
-  "primaryDomainSlug": "physicalembodied-intelligence",
+  "primaryDomainSlug": "physical-embodied-intelligence",
   "domainSlugs": [
-    "physicalembodied-intelligence"
+    "physical-embodied-intelligence"
   ],
   "heroImage": "https://arxiv.org/html/2606.29834v1/x1.png",
   "tldr": "STEAM 值得记住的点，是它把真实机器人数据清洗问题改写成“逐帧 advantage 建模”：不用人工奖励、不用 VLM 打分，也不假设整条轨迹好坏一致，而是从专家轨迹内部的时间顺序中学习哪些 frame pair 代表推进、停滞或倒退。它尤其适合 VLA/机器人策略在真实 rollout、人工纠正和混合质量数据上继续提升：先找出真正推进任务的局部片段，再把这些片段作为 CFGRL 的高质量训练信号。",

@@ -32,18 +32,16 @@
     "UESTC",
     "HUST"
   ],
-  "relatedCompanies": [
-    "[]"
-  ],
+  "relatedCompanies": [],
   "keywords": [
     "streaming action generation",
     "execution-time tactile feedback",
     "flow matching",
     "contact-rich manipulation"
   ],
-  "primaryDomainSlug": "physicalembodied-intelligence",
+  "primaryDomainSlug": "physical-embodied-intelligence",
   "domainSlugs": [
-    "physicalembodied-intelligence"
+    "physical-embodied-intelligence"
   ],
   "heroImage": "https://arxiv.org/html/2608.25798v1/Framwork.png",
   "tldr": "TacForcing 解决的不是“VLA 能否看到触觉”，而是“动作块执行到一半时，最新触觉能否继续改写尚未执行的动作”。它把一个动作 chunk 拆成顺序完成的块，保留未来块的 flow-matching 中间态，并用执行后新采集的触觉继续细化；EATA 只让最新触觉影响下一块，避免它提前污染更远期动作。六个 UniVTAC 仿真任务平均成功率 65%，三个真机任务平均 69%，但 v1 的真机评测每任务仅 16 次，尚不足以证明跨硬件泛化或实时成本优势。",

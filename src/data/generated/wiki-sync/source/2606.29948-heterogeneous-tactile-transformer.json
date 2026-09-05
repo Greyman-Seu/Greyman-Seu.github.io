@@ -21,9 +21,7 @@
   "relatedOrganizations": [
     "National University of Singapore"
   ],
-  "relatedCompanies": [
-    "[]"
-  ],
+  "relatedCompanies": [],
   "keywords": [
     "tactile-representation",
     "heterogeneous-sensors",
@@ -31,9 +29,9 @@
     "cross-modal-alignment",
     "robot-manipulation"
   ],
-  "primaryDomainSlug": "physicalembodied-intelligence",
+  "primaryDomainSlug": "physical-embodied-intelligence",
   "domainSlugs": [
-    "physicalembodied-intelligence"
+    "physical-embodied-intelligence"
   ],
   "heroImage": "https://arxiv.org/html/2606.29948v1/x1.png",
   "tldr": "HTT 是面向异构触觉传感器的自监督预训练框架：四种传感器共享同一个 Transformer trunk，靠 masked reconstruction + 双向跨模态预测把光学和阵列信号对齐到同一潜空间，并在未见过的新传感器上验证可迁移。",

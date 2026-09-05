@@ -22,9 +22,7 @@
   "relatedOrganizations": [
     "Stanford University"
   ],
-  "relatedCompanies": [
-    "[]"
-  ],
+  "relatedCompanies": [],
   "keywords": [
     "vision-language-action",
     "multisensory continual learning",
@@ -32,9 +30,9 @@
     "contact-rich manipulation",
     "experience replay"
   ],
-  "primaryDomainSlug": "physicalembodied-intelligence",
+  "primaryDomainSlug": "physical-embodied-intelligence",
   "domainSlugs": [
-    "physicalembodied-intelligence"
+    "physical-embodied-intelligence"
   ],
   "heroImage": "https://arxiv.org/html/2606.30988v3/teaser-v11.png",
   "tldr": "这篇论文最值得记住的不是“给 VLA 加一条触觉输入”，而是它把新模态接入表述成 continual learning：在少量新 contact-rich 数据上学会用 force，同时尽量不破坏旧的视觉动作能力。MuSe 的价值在于，它用 multisensory future prediction 和 replay 证明，旧任务上即使没有力标注，也能把力学结构以可迁移的方式对齐进预训练策略；真正的短板则是仍依赖离线适配和专门的 compliance 控制接口，而不是端到端解决全闭环接触控制。",

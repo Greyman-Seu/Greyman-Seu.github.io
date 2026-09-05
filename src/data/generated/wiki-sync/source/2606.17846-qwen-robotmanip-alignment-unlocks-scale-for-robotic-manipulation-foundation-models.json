@@ -48,9 +48,9 @@
     "human-to-robot synthesis",
     "out-of-distribution generalization"
   ],
-  "primaryDomainSlug": "physicalembodied-intelligence",
+  "primaryDomainSlug": "physical-embodied-intelligence",
   "domainSlugs": [
-    "physicalembodied-intelligence"
+    "physical-embodied-intelligence"
   ],
   "heroImage": "https://arxiv.org/html/2606.17846v2/myteaser_V6.png",
   "tldr": "Qwen-RobotManip 的核心不是“再堆更多机器人数据”，而是先把不同机器人在**表示、运动和行为**三个层面拉到同一坐标系，再讨论规模化。论文最有价值的证据是：统一动作表示后，跨具身数据在 OOD 验证误差和下游成功率上才出现清晰的规模趋势；但“只用公开数据”的说法只适用于 manipulation corpus，完整训练还混入了含 proprietary data 的 VL 数据。",

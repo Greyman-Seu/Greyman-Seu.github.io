@@ -26,9 +26,7 @@
     "Shanghai AI Laboratory",
     "Shanghai Innovation Institute"
   ],
-  "relatedCompanies": [
-    "[]"
-  ],
+  "relatedCompanies": [],
   "keywords": [
     "reactive diffusion policy",
     "contact-rich manipulation",
@@ -36,9 +34,9 @@
     "visual-tactile imitation learning",
     "asymmetric tokenizer"
   ],
-  "primaryDomainSlug": "physicalembodied-intelligence",
+  "primaryDomainSlug": "physical-embodied-intelligence",
   "domainSlugs": [
-    "physicalembodied-intelligence"
+    "physical-embodied-intelligence"
   ],
   "heroImage": "https://arxiv.org/html/2503.02881v3/teaser.png",
   "tldr": "RDP 的关键不是“把力塞进 Diffusion Policy”，而是把力放到正确的时间尺度和网络位置：低频 latent diffusion policy 负责生成约 0.67 秒的高层动作块，快速 asymmetric tokenizer 则以 24 FPS 读取最新触觉或六维 wrench，把潜在动作解码成末端相对位姿。模型不输出目标力、阻抗或力矩，学到的是“看到这种受力与任务阶段时，位置应该再压入、退出还是沿曲面移动一点”。\n\n这正面回应“小位移很难学、策略浮在表面”的问题。论文观察到有效修正确实只有亚毫米级：削皮器受力突增时向上卸力，接近黄瓜末端时向下压入以继续贴面，双臂夹杯接触后向外修正以免压瘪。真正决定能否学到的不是位移绝对值，而是示范中是否有稳定的“力变化—微位移—接触结果”相关性，以及训练、推理和机器人执行是否在时间上对齐。",

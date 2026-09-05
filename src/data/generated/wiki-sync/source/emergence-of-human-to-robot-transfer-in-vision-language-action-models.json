@@ -7,7 +7,7 @@
   "pdfUrl": "https://arxiv.org/pdf/2512.22414.pdf",
   "codeUrl": "",
   "translationUrl": "https://hjfy.top/arxiv/2512.22414",
-  "publishDate": "",
+  "publishDate": "2025-12-27",
   "authors": [
     "Simar Kareer",
     "Karl Pertsch",
@@ -29,9 +29,9 @@
   "keywords": [
     "human-to-robot-transfer"
   ],
-  "primaryDomainSlug": "physicalembodied-intelligence",
+  "primaryDomainSlug": "physical-embodied-intelligence",
   "domainSlugs": [
-    "physicalembodied-intelligence"
+    "physical-embodied-intelligence"
   ],
   "heroImage": "https://arxiv.org/html/2512.22414/figures/scalingAllV2.jpg",
   "tldr": "这篇论文的关键判断是：`human-to-robot transfer` 不是简单靠对齐技巧手工做出来的，而是会随着 VLA 预训练规模和多样性增长而“涌现”。也就是说，当机器人预训练覆盖足够多任务、场景和 embodiment 后，模型开始能够真正从 human video 中学到对机器人有用的东西。",

@@ -27,18 +27,14 @@
     "Jiaya Jia"
   ],
   "affiliation": "",
-  "relatedOrganizations": [
-    "[]"
-  ],
-  "relatedCompanies": [
-    "[]"
-  ],
+  "relatedOrganizations": [],
+  "relatedCompanies": [],
   "keywords": [
     "vision-language-action"
   ],
-  "primaryDomainSlug": "physicalembodied-intelligence",
+  "primaryDomainSlug": "physical-embodied-intelligence",
   "domainSlugs": [
-    "physicalembodied-intelligence"
+    "physical-embodied-intelligence"
   ],
   "heroImage": "https://followhub.tenstep.top/papers/2608.27550-beyond-data-scaling/figure-3-vlact-overview.png",
   "tldr": "VLAct 说明 VLA 的下一条独立增长轴不只是继续堆机器人轨迹，而是改造 continued pre-training 如何塑造 backbone 表示。在固定下游微调协议下，它仅替换预训练后的 Qwen3-VL-4B backbone，就在多项仿真、真机与未见 embodiment 迁移任务上取得 7.6–21.4 个百分点增益；最值得记住的是“保护 VLM 先验、用多动作头抵抗 decoder lock-in、只在物理可比维度共享动作语义”这套配方。",

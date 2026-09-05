@@ -32,9 +32,9 @@
     "diffusion policy",
     "force feedback"
   ],
-  "primaryDomainSlug": "physicalembodied-intelligence",
+  "primaryDomainSlug": "physical-embodied-intelligence",
   "domainSlugs": [
-    "physicalembodied-intelligence"
+    "physical-embodied-intelligence"
   ],
   "heroImage": "https://arxiv.org/html/2410.09309v2/complance-teaser-v5.png",
   "tldr": "ACP 把柔顺性从低层控制器里的固定超参数提升为策略需要预测的动作变量：它从单条人体示范近似标注空间与时间变化的刚度方向和幅值，再由扩散策略结合视觉、位姿和力反馈生成。真实机器人翻转与花瓶擦拭分别达到 96% 和 93.75% 总成功率，显著超过固定柔顺和刚性位置策略。最值得记住的是它把接触约束转成可学习标签，但结论依赖慢速、轻物体、非夹持接触等明确假设。",

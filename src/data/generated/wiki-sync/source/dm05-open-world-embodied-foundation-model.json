@@ -26,9 +26,9 @@
     "trajectory-alignment",
     "open-world-generalization"
   ],
-  "primaryDomainSlug": "physicalembodied-intelligence",
+  "primaryDomainSlug": "physical-embodied-intelligence",
   "domainSlugs": [
-    "physicalembodied-intelligence"
+    "physical-embodied-intelligence"
   ],
   "heroImage": "",
   "tldr": "DM0.5 延续 VLA 架构（4B VLM 多模态主干 + 680M Action Expert），核心不是堆规模，而是四项系统增强：长历史上下文、具身推理（CoT）、动态动作对齐监督、数据质量清洗。换来的是开放环境 Zero-Shot 泛化、更长记忆、更鲁棒动作和多机型迁移，在 RoboChallenge Table30 v2 真机评测拿下 SOTA，并在 LIBERO / RoboTwin2.0 / R2R+RxR 导航基准上多项领先。",

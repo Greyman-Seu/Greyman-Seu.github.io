@@ -64,9 +64,9 @@
     "vision-language-action",
     "asynchronous control"
   ],
-  "primaryDomainSlug": "physicalembodied-intelligence",
+  "primaryDomainSlug": "physical-embodied-intelligence",
   "domainSlugs": [
-    "physicalembodied-intelligence"
+    "physical-embodied-intelligence"
   ],
   "heroImage": "https://arxiv.org/html/2606.17055v2/teaser_v6_0609.png",
   "tldr": "T-Rex 的关键贡献不是把触觉当作又一种静态输入，而是让现有 VLA 的低频视觉动作规划与高频触觉修正协同工作。它用 22889 小时人类第一视角视频预训练、100 小时触觉同步机器人数据中训练和约 100 条任务示范后训练，在 12 个真实双手灵巧任务上达到 65% 平均成功率，相比最强基线 EgoScale 的 35% 高出 30 个百分点。结果很强，但目前仍是单一硬件平台上的研究级验证。",

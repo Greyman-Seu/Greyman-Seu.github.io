@@ -7,7 +7,7 @@
   "pdfUrl": "",
   "codeUrl": "",
   "translationUrl": "",
-  "publishDate": "",
+  "publishDate": "2026-04-16",
   "authors": [
     "Bo Ai",
     "Ali Amin",
@@ -107,9 +107,9 @@
   "keywords": [
     "robot-foundation-model"
   ],
-  "primaryDomainSlug": "physicalembodied-intelligence",
+  "primaryDomainSlug": "physical-embodied-intelligence",
   "domainSlugs": [
-    "physicalembodied-intelligence"
+    "physical-embodied-intelligence"
   ],
   "heroImage": "https://followhub.tenstep.top/papers/pi07-a-steerable-generalist-robotic-foundation-model-with-emergent-capabilities/figure-hero.png?v=20260511a",
   "tldr": "π0.7 的关键价值不只是把模型继续做大，而是把“可控的通才机器人策略”往前推了一步。它试图解决的核心问题是：当训练数据越来越杂时，机器人基础模型怎样既能吃下示范、失败轨迹、人类视频和网页数据，又不在推理时退化成平均化、含糊的动作。作者给出的答案是把“怎么做”也写进 prompt，包括子任务语言、子目标图像、质量/速度/错误等 episode metadata，让模型学会在多模态上下文里被 steer。",

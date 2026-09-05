@@ -28,9 +28,9 @@
   "keywords": [
     "tactile-sensing"
   ],
-  "primaryDomainSlug": "physicalembodied-intelligence",
+  "primaryDomainSlug": "physical-embodied-intelligence",
   "domainSlugs": [
-    "physicalembodied-intelligence"
+    "physical-embodied-intelligence"
   ],
   "heroImage": "https://followhub.tenstep.top/papers/2606.22332-tactile-genesis/figure-1-overview-cropped.png",
   "tldr": "Tactile Genesis 用大规模仿真比较触觉设计：先扩覆盖，再选类型，最后加分辨率。",

@@ -31,9 +31,9 @@
   "keywords": [
     "vision-language-action"
   ],
-  "primaryDomainSlug": "physicalembodied-intelligence",
+  "primaryDomainSlug": "physical-embodied-intelligence",
   "domainSlugs": [
-    "physicalembodied-intelligence"
+    "physical-embodied-intelligence"
   ],
   "heroImage": "https://arxiv.org/html/2607.27205v1/x2.png",
   "tldr": "TurboVLA 将高频控制从 LLM 居中的 V→L→A 改为轻量的直接 V+L→A，在 LIBERO 达到 97.7% 且只需 0.2B、31.2ms、0.9GB。",
