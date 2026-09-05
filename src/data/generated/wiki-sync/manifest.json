@@ -2,6 +2,7 @@
   "wiki_root": "/home/yangkunzhu/workspace/agent_space/FollowHub/submodules/llm-wiki-skill/followhub-wiki",
   "page_root": "/home/yangkunzhu/workspace/agent_space/FollowHub/submodules/page_github",
   "sources": [
+    "/home/yangkunzhu/workspace/agent_space/FollowHub/submodules/llm-wiki-skill/followhub-wiki/wiki/sources/2410.07554-forcemimic-force-centric-imitation-learning-with-force-motion-capture-system-for-contact-rich-manipulation.md",
     "/home/yangkunzhu/workspace/agent_space/FollowHub/submodules/llm-wiki-skill/followhub-wiki/wiki/sources/2503.02881-reactive-diffusion-policy-slow-fast-visual-tactile-policy-learning-for-contact-rich-manipulation.md",
     "/home/yangkunzhu/workspace/agent_space/FollowHub/submodules/llm-wiki-skill/followhub-wiki/wiki/sources/2606.17046-geometric-action-model-for-robot-policy-learning.md",
     "/home/yangkunzhu/workspace/agent_space/FollowHub/submodules/llm-wiki-skill/followhub-wiki/wiki/sources/2606.17846-qwen-robotmanip-alignment-unlocks-scale-for-robotic-manipulation-foundation-models.md",
