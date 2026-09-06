@@ -341,6 +341,214 @@
     ]
   },
   {
+    "slug": "2605.11048-forceflow-learning-to-feel-and-act-via-contact-driven-flow-matching",
+    "title": "ForceFlow: Learning to Feel and Act via Contact-Driven Flow Matching",
+    "sourceType": "paper",
+    "sourceUrl": "https://arxiv.org/abs/2605.11048",
+    "htmlUrl": "https://arxiv.org/html/2605.11048v2",
+    "pdfUrl": "https://arxiv.org/pdf/2605.11048",
+    "codeUrl": "",
+    "translationUrl": "https://hjfy.top/arxiv/2605.11048",
+    "publishDate": "2026-05-11",
+    "authors": [
+      "Shuoheng Zhang",
+      "Yifu Yuan",
+      "Hongyao Tang",
+      "Yan Zheng",
+      "Qiaojun Yu",
+      "Pengyi Li",
+      "Guowei Huang",
+      "Helong Huang",
+      "Xingyue Quan",
+      "Jianye Hao"
+    ],
+    "affiliation": "Tianjin University",
+    "relatedOrganizations": [
+      "Tianjin University",
+      "Huawei Noah's Ark Lab",
+      "Shanghai AI Lab"
+    ],
+    "relatedCompanies": [
+      "Huawei"
+    ],
+    "keywords": [
+      "flow matching",
+      "force-torque sensing",
+      "contact-rich manipulation"
+    ],
+    "primaryDomainSlug": "physical-embodied-intelligence",
+    "domainSlugs": [
+      "physical-embodied-intelligence"
+    ],
+    "heroImage": "https://arxiv.org/html/2605.11048v2/motivation.png",
+    "tldr": "ForceFlow 的关键不是简单给模仿策略多拼一组力信号，而是让十步力历史通过 AdaLN 在每个生成层持续调制动作，同时让视觉只通过 cross-attention 提供按需空间参考，再用“动作 + 下一步六维力”联合预测形成隐式柔顺正则。六项真机任务平均成功率为 81.67%，较输入模态相同的 ForceVLA 45% 高 36.67 个百分点；但它仍依赖高质量六轴力矩传感器、手工标注的 VLM 接触点数据与单一 xArm6 平台，不能直接外推成低成本通用接触策略。",
+    "intuition": "可以把 ForceFlow 看成两名接力选手。第一名 VLM 负责“看懂目标在哪里”，把机械臂送到目标附近；进入局部交互窗口后，第二名 ForceFlow 接管，主要依据最近十步腕部力矩变化判断是否已经碰到、是否因摩擦卡住、是否沿曲面失去压力。模型还会预测下一步应该感受到什么力来约束动作表示，但真正发给控制器的仍是位姿增量，预测力并不直接闭环控制执行器。\n\n![ForceFlow 总览：V2F 将视觉定位与力驱动接触执行分成两个阶段](https://arxiv.org/html/2605.11048v2/motivation.png)\n\n*图 1：VLM 负责 approach stage 的目标定位，ForceFlow 负责 contact stage 的局部接触执行；论文分别评测物理属性变化和空间位置变化。*",
+    "abstractEn": "Existing imitation learning methods enable robots to interact autonomously with the physical environment. However, contact-rich manipulation tasks remain a significant challenge due to complex contact dynamics that demand high-precision force feedback and control. Although recent efforts have attempted to integrate force/torque sensing into policies, how to build a simple yet effective framework that achieves robust generalization under multimodal observations remains an open question. In this paper, we propose ForceFlow, a force-aware reactive framework built upon flow matching. For contact-stage policy design, we investigate force signal fusion mechanisms and adopt an asymmetric multimodal fusion architecture that treats force as a global regulatory signal, combined with a joint prediction paradigm that enhances the policy's understanding of instantaneous force and historical information, thereby achieving deep coupling between force and motion. For task-level hierarchical decomposition, we divide manipulation into a vision-dominant approach stage (VLM-based pointing for target localization) and a touch-dominant interaction stage (force-driven contact execution), with a Vision-to-Force (V2F) handover mechanism that explicitly decouples spatial generalization from contact regulation. Experimental results across six real-world contact-rich tasks demonstrate that ForceFlow achieves a 37% success rate improvement over the strong baseline ForceVLA while maintaining significantly lower cost. Moreover, ForceFlow exhibits accurate force signal prediction and demonstrates superior performance in contact force self-regulation and zero-shot out-of-distribution (OOD) generalization.",
+    "abstractZh": "现有模仿学习方法已经能让机器人自主与物理环境交互，但接触密集操作仍然很困难，因为复杂的接触动力学要求高精度力反馈和控制。尽管近期工作开始把力/力矩感知加入策略，怎样在多模态观测下构建简单而有效、又具有稳健泛化能力的框架，仍是开放问题。本文提出 ForceFlow：一种基于 flow matching 的力感知反应式框架。在接触阶段，作者研究力信号融合方式，采用非对称多模态架构，把力视为全局调节信号，并联合预测动作与力，以增强策略对瞬时力和历史信息的理解，形成运动与力的深层耦合。在任务层级上，操作被分成视觉主导的接近阶段和触觉主导的交互阶段，通过 Vision-to-Force（V2F）交接机制显式分离空间泛化与接触调节。六项真实接触任务表明，ForceFlow 相比 ForceVLA 的平均成功率提高约 37 个百分点，同时保持更低的力偏差，并在力预测、自我调节与零样本 OOD 泛化上表现更好。",
+    "background": "**动机：** 视觉适合做宏观定位，却很难独立判断纸堆厚度、按钮弹簧阈值、插口中的摩擦卡滞以及曲面法向变化。接触发生后，遮挡、有限分辨率和物体外观相似会让相机继续“看见目标”，但机器人真正需要知道的是阻力是否开始、反作用力矩指向哪里、法向力是否稳定。因而接触操作不是单纯的几何轨迹生成问题，而是一个需要低维、高频、强时序反馈持续校正的动力学问题。\n\n**问题缺口：** 现有 force-aware 策略仍有两类结构性缺口。其一，高维视觉 token 容易在端到端优化中淹没低维 wrench，使模型表面上接入了力，实际上依旧主要跟随视觉。其二，大范围空间泛化依赖语义定位，局部接触泛化依赖快速物理反馈，把二者压进同一策略会产生职责冲突。ForceFlow 要回答的是：怎样让力信号在生成网络中成为无法忽略的全局约束，同时把空间 OOD 和未知刚度、摩擦、几何下的物理 OOD 分开处理。",
+    "backgroundMotivation": "视觉适合做宏观定位，却很难独立判断纸堆厚度、按钮弹簧阈值、插口中的摩擦卡滞以及曲面法向变化。接触发生后，遮挡、有限分辨率和物体外观相似会让相机继续“看见目标”，但机器人真正需要知道的是阻力是否开始、反作用力矩指向哪里、法向力是否稳定。因而接触操作不是单纯的几何轨迹生成问题，而是一个需要低维、高频、强时序反馈持续校正的动力学问题。",
+    "backgroundGap": "现有 force-aware 策略仍有两类结构性缺口。其一，高维视觉 token 容易在端到端优化中淹没低维 wrench，使模型表面上接入了力，实际上依旧主要跟随视觉。其二，大范围空间泛化依赖语义定位，局部接触泛化依赖快速物理反馈，把二者压进同一策略会产生职责冲突。ForceFlow 要回答的是：怎样让力信号在生成网络中成为无法忽略的全局约束，同时把空间 OOD 和未知刚度、摩擦、几何下的物理 OOD 分开处理。",
+    "method": "**方法概述：** ForceFlow 把任务拆成 approach stage 和 interaction stage。前者由微调后的 Embodied-R1 根据全局 RGB 与语言指令预测目标接触像素，经深度和相机内参反投影到三维 waypoint，再由运动规划器完成接近；位置条件满足后，V2F 把控制权交给局部策略。后者以 DiT-1D 为骨干，在双视角 RGB、7D 本体状态和十步 6D force-torque history 条件下，用 continuous rectified flow 生成 64 步混合动作块，执行前 32 步后重新观测和规划。\n\n**核心机制：** 关键是非对称条件化。力历史与本体状态经 MLP 得到全局向量条件 `c_vec`，在每个 Transformer block 中通过 AdaLN 改变特征的缩放与偏置，所以力不是偶尔被注意力读取的附加 token，而是贯穿整个生成过程的调节约束；双视角视觉则保留为序列条件 `c_seq`，由动作 token 通过 cross-attention 选择性读取。Flow Matching 在专家混合动作与高斯噪声之间学习确定性速度场，混合动作同时包含位姿/夹爪命令与下一步六维接触力；执行时只下发运动分量，预测力仅作为训练期辅助目标，迫使共享表示学习“动作会怎样改变接触”。\n\n**方法拆解：**\n\n- **VLM 指点与三维反投影**：在示范初始帧人工标注目标接触点，把图像、语言和二维坐标构造成 VQA 数据微调 VLM；推理时用深度与内参把预测像素变成机械臂基座坐标系中的 approach waypoint。\n- **位置触发的 V2F 接棒**：运动规划器先完成大尺度移动，到达局部交互区后严格按位置条件切换。VLM 不负责后续接触，ForceFlow 也不承担全工作空间语义搜索。\n- **两条不对称观测通路**：双视角、两帧 RGB 经预训练 ResNet-18 得到视觉序列；7D 本体状态与十步、每步六维的 wrench 历史形成向量条件。前者进入 cross-attention，后者进入所有 DiT block 的 AdaLN。\n- **混合动作空间**：动作维度为 13，包括 6D 末端位姿增量、1D 夹爪以及 6D 下一步力预测。作者在专家动作 `a₀` 与高斯噪声 `a₁` 之间使用线性概率路径 `aₖ=(1-k)a₀+ka₁`，学习常数目标漂移 `a₁-a₀`。\n- **确定性 ODE 采样**：推理从噪声侧 `k=1` 向数据侧 `k=0` 用 Euler solver 积分。模型生成 64 步动作块，但仅执行 32 步，随后刷新视觉、状态与力历史。\n- **未来力辅助监督**：预测的 `f̂(t+1)` 不直接进入低层力控制器。它的作用更接近物理一致性正则：如果动作表示无法解释接下来会出现的力，联合 flow-matching loss 就会惩罚它。\n\n**关键要点：**\n\n- 十步力历史主要决定“能不能做对”：Stamp 上缩成单步后成功率从 85% 降到 55%，说明瞬时力无法稳定区分传感器噪声、碰撞尖峰和真实接触状态。\n- 未来力预测主要决定“做得是否平顺”：移除预测分量后成功率只从 85% 降到 80%，但 Force Cost 从 10.61 N 增到 12.52 N。\n- V2F 解决空间定位，ForceFlow 解决局部接触；二者是职责分离而非一个端到端大模型。给所有基线配同一 V2F 后，ForceFlow+V2F 平均仍为 33.33%，高于 ForceVLA+V2F 的 13.33%。\n- 视觉在接触阶段仍不可省：屏蔽交互阶段视觉后，Stamp 和 Clean Whiteboard 仍有 80%/90%，但 Plug、Insert、Clean Vase 全部降到 0%，表明力负责顺应性，视觉仍负责持续空间锚定。\n\n![ForceFlow 架构：力与本体状态走 AdaLN，视觉走 cross-attention](https://arxiv.org/html/2605.11048v2/1.png)\n\n*图 2：非对称融合是论文的核心。预测输出同时含运动增量与下一步力，但执行器只接收运动命令。*",
+    "methodOverview": "ForceFlow 把任务拆成 approach stage 和 interaction stage。前者由微调后的 Embodied-R1 根据全局 RGB 与语言指令预测目标接触像素，经深度和相机内参反投影到三维 waypoint，再由运动规划器完成接近；位置条件满足后，V2F 把控制权交给局部策略。后者以 DiT-1D 为骨干，在双视角 RGB、7D 本体状态和十步 6D force-torque history 条件下，用 continuous rectified flow 生成 64 步混合动作块，执行前 32 步后重新观测和规划。",
+    "methodCore": "关键是非对称条件化。力历史与本体状态经 MLP 得到全局向量条件 `c_vec`，在每个 Transformer block 中通过 AdaLN 改变特征的缩放与偏置，所以力不是偶尔被注意力读取的附加 token，而是贯穿整个生成过程的调节约束；双视角视觉则保留为序列条件 `c_seq`，由动作 token 通过 cross-attention 选择性读取。Flow Matching 在专家混合动作与高斯噪声之间学习确定性速度场，混合动作同时包含位姿/夹爪命令与下一步六维接触力；执行时只下发运动分量，预测力仅作为训练期辅助目标，迫使共享表示学习“动作会怎样改变接触”。",
+    "methodBreakdown": [
+      "**VLM 指点与三维反投影**：在示范初始帧人工标注目标接触点，把图像、语言和二维坐标构造成 VQA 数据微调 VLM；推理时用深度与内参把预测像素变成机械臂基座坐标系中的 approach waypoint。",
+      "**位置触发的 V2F 接棒**：运动规划器先完成大尺度移动，到达局部交互区后严格按位置条件切换。VLM 不负责后续接触，ForceFlow 也不承担全工作空间语义搜索。",
+      "**两条不对称观测通路**：双视角、两帧 RGB 经预训练 ResNet-18 得到视觉序列；7D 本体状态与十步、每步六维的 wrench 历史形成向量条件。前者进入 cross-attention，后者进入所有 DiT block 的 AdaLN。",
+      "**混合动作空间**：动作维度为 13，包括 6D 末端位姿增量、1D 夹爪以及 6D 下一步力预测。作者在专家动作 `a₀` 与高斯噪声 `a₁` 之间使用线性概率路径 `aₖ=(1-k)a₀+ka₁`，学习常数目标漂移 `a₁-a₀`。",
+      "**确定性 ODE 采样**：推理从噪声侧 `k=1` 向数据侧 `k=0` 用 Euler solver 积分。模型生成 64 步动作块，但仅执行 32 步，随后刷新视觉、状态与力历史。",
+      "**未来力辅助监督**：预测的 `f̂(t+1)` 不直接进入低层力控制器。它的作用更接近物理一致性正则：如果动作表示无法解释接下来会出现的力，联合 flow-matching loss 就会惩罚它。"
+    ],
+    "methodTakeaways": [
+      "十步力历史主要决定“能不能做对”：Stamp 上缩成单步后成功率从 85% 降到 55%，说明瞬时力无法稳定区分传感器噪声、碰撞尖峰和真实接触状态。",
+      "未来力预测主要决定“做得是否平顺”：移除预测分量后成功率只从 85% 降到 80%，但 Force Cost 从 10.61 N 增到 12.52 N。",
+      "V2F 解决空间定位，ForceFlow 解决局部接触；二者是职责分离而非一个端到端大模型。给所有基线配同一 V2F 后，ForceFlow+V2F 平均仍为 33.33%，高于 ForceVLA+V2F 的 13.33%。",
+      "视觉在接触阶段仍不可省：屏蔽交互阶段视觉后，Stamp 和 Clean Whiteboard 仍有 80%/90%，但 Plug、Insert、Clean Vase 全部降到 0%，表明力负责顺应性，视觉仍负责持续空间锚定。"
+    ],
+    "results": "**核心结果：**\n\n- **六项主任务**：每项 20 次测试，ForceFlow 在 Stamp、Plug、Press、Insert、Clean Whiteboard、Clean Vase 上分别为 85%、90%、90%、60%、100%、65%，平均 81.67%。ForceVLA 平均 45%，Diffusion Policy 30.83%，π0.5 为 24.17%，ACT 为 8.33%。\n- **力一致性**：ForceFlow 的平均 Force Fidelity MAE 为 8.23 N，显著低于 Diffusion Policy 21.42 N、无力输入变体 22.67 N、ForceVLA 23.31 N。六项任务上它都是最低值。\n- **视觉歧义**：纸堆厚度从 1 张到约 5 cm、按钮对象具有不同弹簧阈值时，ForceFlow 分别达到 85% 和 90%；作者将其归因于力历史能把“碰到并达到阈值”作为状态切换依据。\n- **几何卡滞**：Plug 为 90%，亚毫米公差的 USB Insert 为 60%。模型利用错位产生的反作用力矩形成小幅横移与摆动，但这一行为证据主要来自定性观察，并非显式规划出的搜索策略。\n- **连续接触**：平面白板为 100%，曲面花瓶为 65%；ForceVLA 在白板同样 100%，但在花瓶为 0%，说明曲率变化比平面恒定法向更能区分调节能力。\n- **物理 OOD**：更换不同刚度、厚度的擦具和不同高度、弹簧阈值的瓶子，不微调时 ForceFlow 在 Press、Clean Whiteboard、Clean Vase 上为 80%、100%、60%，平均 80%；ForceVLA 平均约 43.3%。\n- **空间 OOD**：目标测试区与训练区不重叠。单独的 ForceFlow 与所有独立低层策略均为 0%；配 V2F 后 ForceFlow 在 Press、Plug、Clean Whiteboard 上为 40%、10%、50%，平均 33.33%。\n- **效率**：ForceFlow 单次下层推理约 83.3 ms，与 ForceVLA 的 84.1 ms 接近；每次执行 32/64 步，论文给出的重新规划周期约 1.15 s。VLM 上层约 1.805 s，但只运行一次。\n\n![六项任务中完整 ForceFlow 与无力输入变体的接触力分布](https://arxiv.org/html/2605.11048v2/RQ2force.svg)\n\n*图 3：每项任务 20 次的最大力或接触期有效平均力。完整模型的跨试验方差普遍更小；短接触任务用峰值、连续任务用阈值以上的平均力，二者不应直接横向比较绝对数值。*\n\n![ForceFlow 预测力与真实测量力的单次轨迹对齐](https://arxiv.org/html/2605.11048v2/RQ2predict.svg)\n\n*图 4：预测力与实测力在接触建立、释放及持续擦拭阶段同步变化。它支持“模型学到接触状态”这一解释，但论文没有报告跨测试集的预测误差汇总或校准指标。*",
+    "resultHighlights": [
+      "**六项主任务**：每项 20 次测试，ForceFlow 在 Stamp、Plug、Press、Insert、Clean Whiteboard、Clean Vase 上分别为 85%、90%、90%、60%、100%、65%，平均 81.67%。ForceVLA 平均 45%，Diffusion Policy 30.83%，π0.5 为 24.17%，ACT 为 8.33%。",
+      "**力一致性**：ForceFlow 的平均 Force Fidelity MAE 为 8.23 N，显著低于 Diffusion Policy 21.42 N、无力输入变体 22.67 N、ForceVLA 23.31 N。六项任务上它都是最低值。",
+      "**视觉歧义**：纸堆厚度从 1 张到约 5 cm、按钮对象具有不同弹簧阈值时，ForceFlow 分别达到 85% 和 90%；作者将其归因于力历史能把“碰到并达到阈值”作为状态切换依据。",
+      "**几何卡滞**：Plug 为 90%，亚毫米公差的 USB Insert 为 60%。模型利用错位产生的反作用力矩形成小幅横移与摆动，但这一行为证据主要来自定性观察，并非显式规划出的搜索策略。",
+      "**连续接触**：平面白板为 100%，曲面花瓶为 65%；ForceVLA 在白板同样 100%，但在花瓶为 0%，说明曲率变化比平面恒定法向更能区分调节能力。",
+      "**物理 OOD**：更换不同刚度、厚度的擦具和不同高度、弹簧阈值的瓶子，不微调时 ForceFlow 在 Press、Clean Whiteboard、Clean Vase 上为 80%、100%、60%，平均 80%；ForceVLA 平均约 43.3%。",
+      "**空间 OOD**：目标测试区与训练区不重叠。单独的 ForceFlow 与所有独立低层策略均为 0%；配 V2F 后 ForceFlow 在 Press、Plug、Clean Whiteboard 上为 40%、10%、50%，平均 33.33%。",
+      "**效率**：ForceFlow 单次下层推理约 83.3 ms，与 ForceVLA 的 84.1 ms 接近；每次执行 32/64 步，论文给出的重新规划周期约 1.15 s。VLM 上层约 1.805 s，但只运行一次。"
+    ],
+    "insights": "**核心 insight：**\n\n- 这篇论文真正针对的是 **modal masking** 与 **职责冲突**，而不只是“flow matching 比 diffusion 好”。把低维但控制关键的力信号放进归一化调制，把高维视觉降为按需读取的空间证据，是一种明确的模态权力分配。\n- 联合预测力不等于显式力控制。ForceFlow 没有把预测力送进阻抗或混合力位控制器，更准确的表述是：它用未来 wrench 监督学习隐式顺应性，使动作表示包含接触后果。\n- 作者把 force 的角色拆成三种：视觉不可辨时是主模态，精密插入卡滞时是辅助模态，沿面操作时是调节模态。同一个传感器是否有价值，取决于任务阶段和信息缺口，而非是否被简单拼进输入。\n- 成功率和力质量必须分别报告。无力输入变体在 Clean Whiteboard 也达到 100%，但整体 Force Cost 更高，说明“几何上完成任务”不能替代安全性、平顺性和接近专家接触分布的度量。\n- V2F 是一个务实的模块化设计：让通用模型只做一次语义定位，让较小策略专注局部动力学。代价是系统需要深度标定、运动规划、交接阈值与两套训练数据，集成复杂度从模型内部转移到了系统边界。\n\n**和已有方法的关系：**\n\n- **对 ForceVLA**：二者使用相同的多视角 RGB、EEF pose 与 6D EEF wrench，因而比较比跨触觉硬件的横向排名更可控；主要差异在融合机制、力历史以及生成目标。\n- **对 Diffusion Policy**：Continuous Rectified Flow 用确定性 ODE 路径追求平滑和少步采样，但实测推理延迟 83.3 ms 并未显著优于 ForceVLA 的 84.1 ms，不能仅凭生成范式宣称数量级加速。\n- **对 RDP / T-Rex / TacForcing**：这些路线强调在动作块执行期间用最新触觉快速修订未来动作；ForceFlow 执行 32 步、约 1.15 秒才重新规划，属于滚动闭环，但不等同于每个 30 Hz 控制 tick 都重新推理的高频反应层。\n- **对 Facet-0**：两者都联合提出运动与未来 wrench；ForceFlow 把未来力当训练期辅助目标，而 Facet-0 还在部署期让 critic 比较动作—wrench 后果。前者结构更简单，后者显式承担候选价值判断。\n- **对 FD-VLA**：FD-VLA 尝试用训练期真实力蒸馏出部署期无需力传感器的 token；ForceFlow 则保留实时六轴传感器，因而更能处理视觉、本体状态无法辨识的突发卡滞，但硬件门槛更高。\n\n**可借鉴点：**\n\n- 对统计性质极不对称的模态，不要默认 concat；可以让低维控制信号调制 LayerNorm，让高维空间信号走 cross-attention。\n- 辅助预测应选择动作的物理后果，例如未来 wrench，而不只是重建当前输入；这样能直接约束动作—接触耦合。\n- 若上层语义泛化与下层物理泛化需要不同频率、数据和模型容量，显式交接通常比强迫一个模型同时解决更容易诊断。\n- 接触策略评测至少应并列任务成功、峰值/有效力分布、跨 trial 方差、预测—实测一致性、物理 OOD、空间 OOD 和端到端重规划频率。\n\n![物理 OOD 与空间 OOD 的评测设置](https://arxiv.org/html/2605.11048v2/ood.png)\n\n*图 5：左侧更换工具/物体但固定空间位置，右侧把测试目标放到训练区域之外。论文用 V2F 显式区分两种泛化，而不是把它们混成一个成功率。*",
+    "insightCore": [
+      "这篇论文真正针对的是 **modal masking** 与 **职责冲突**，而不只是“flow matching 比 diffusion 好”。把低维但控制关键的力信号放进归一化调制，把高维视觉降为按需读取的空间证据，是一种明确的模态权力分配。",
+      "联合预测力不等于显式力控制。ForceFlow 没有把预测力送进阻抗或混合力位控制器，更准确的表述是：它用未来 wrench 监督学习隐式顺应性，使动作表示包含接触后果。",
+      "作者把 force 的角色拆成三种：视觉不可辨时是主模态，精密插入卡滞时是辅助模态，沿面操作时是调节模态。同一个传感器是否有价值，取决于任务阶段和信息缺口，而非是否被简单拼进输入。",
+      "成功率和力质量必须分别报告。无力输入变体在 Clean Whiteboard 也达到 100%，但整体 Force Cost 更高，说明“几何上完成任务”不能替代安全性、平顺性和接近专家接触分布的度量。",
+      "V2F 是一个务实的模块化设计：让通用模型只做一次语义定位，让较小策略专注局部动力学。代价是系统需要深度标定、运动规划、交接阈值与两套训练数据，集成复杂度从模型内部转移到了系统边界。"
+    ],
+    "insightRelations": [
+      "**对 ForceVLA**：二者使用相同的多视角 RGB、EEF pose 与 6D EEF wrench，因而比较比跨触觉硬件的横向排名更可控；主要差异在融合机制、力历史以及生成目标。",
+      "**对 Diffusion Policy**：Continuous Rectified Flow 用确定性 ODE 路径追求平滑和少步采样，但实测推理延迟 83.3 ms 并未显著优于 ForceVLA 的 84.1 ms，不能仅凭生成范式宣称数量级加速。",
+      "**对 RDP / T-Rex / TacForcing**：这些路线强调在动作块执行期间用最新触觉快速修订未来动作；ForceFlow 执行 32 步、约 1.15 秒才重新规划，属于滚动闭环，但不等同于每个 30 Hz 控制 tick 都重新推理的高频反应层。",
+      "**对 Facet-0**：两者都联合提出运动与未来 wrench；ForceFlow 把未来力当训练期辅助目标，而 Facet-0 还在部署期让 critic 比较动作—wrench 后果。前者结构更简单，后者显式承担候选价值判断。",
+      "**对 FD-VLA**：FD-VLA 尝试用训练期真实力蒸馏出部署期无需力传感器的 token；ForceFlow 则保留实时六轴传感器，因而更能处理视觉、本体状态无法辨识的突发卡滞，但硬件门槛更高。"
+    ],
+    "insightBorrowable": [
+      "对统计性质极不对称的模态，不要默认 concat；可以让低维控制信号调制 LayerNorm，让高维空间信号走 cross-attention。",
+      "辅助预测应选择动作的物理后果，例如未来 wrench，而不只是重建当前输入；这样能直接约束动作—接触耦合。",
+      "若上层语义泛化与下层物理泛化需要不同频率、数据和模型容量，显式交接通常比强迫一个模型同时解决更容易诊断。",
+      "接触策略评测至少应并列任务成功、峰值/有效力分布、跨 trial 方差、预测—实测一致性、物理 OOD、空间 OOD 和端到端重规划频率。"
+    ],
+    "risks": "**局限：**\n\n- 六项主任务都来自同一 xArm6、同一腕部六轴力矩传感器和同一实验室控制栈；每任务 50–100 条示范、20 次主测试，尚无跨机器人、跨传感器或多机构复现。\n- V2F 需要人工标注示范初始帧的二维接触关键点并微调 VLM，还依赖深度相机、相机内参、运动规划与位置阈值切换；它不是从语言到接触执行的端到端通用策略。\n- “主动力预测”不直接参与低层力控制，论文也没有为预测误差、错误接触判断或传感器漂移提供控制稳定性与安全保证。\n- 摘要中的“37% success rate improvement”实际对应 `81.67%-45%=36.67` 个百分点；若按相对提升计算则约为 81.5%，因此应理解为绝对百分点，而不是相对百分比。\n- Force Cost 以专家峰值力或接触期平均力的 MAE 为参照，不直接等价于损伤率、安全余量或任务最优接触力，而且短接触与连续接触使用不同统计量。\n- 下层重规划周期约 1.15 秒，所以“高频力反馈”更准确地描述传感信号和底层执行频率，而非策略在每个 30 Hz 控制周期都完成一次新推理。\n- 六项主任务主要比较单任务训练策略。论文展示了物体属性与位置 OOD，但没有证明跨任务、跨语言指令或开放场景中的通用接触迁移。\n\n**适用场景：**\n\n- 适合腕部六轴力矩可用、接触阶段局部且需要处理高度、刚度、摩擦或曲面变化的压、插、擦、削等操作。\n- 适合把已有视觉定位/VLM 与一个小型局部接触专家组合，尤其是在全工作空间端到端策略容易被空间变化和接触变化同时拖累时。\n- 不适合直接承担安全关键高速碰撞控制，也不适合没有可靠力传感、深度标定或局部运动规划能力的低成本平台。\n\n**最终判断：**\n\n- 这是一篇值得纳入接触策略设计路线的强系统论文：架构动机、同模态受控基线、六项主任务、力质量、两类 OOD 与组件消融基本形成闭环证据。\n- 最应该记住的是“力历史决定是否做对，未来力预测改善是否做得平顺”；最不应过度外推的是“通用、低成本、高频”，因为高质量六轴传感、人工关键点数据、约 1.15 秒重规划周期和单平台实验仍是硬约束。\n- 后续最关键的验证是：在等控制频率与等传感器条件下，与真正 execution-time tactile refinement 方法直接对比，并把任务成功、力峰值、损伤、延迟和扰动恢复放进统一评测。",
+    "riskLimitations": [
+      "六项主任务都来自同一 xArm6、同一腕部六轴力矩传感器和同一实验室控制栈；每任务 50–100 条示范、20 次主测试，尚无跨机器人、跨传感器或多机构复现。",
+      "V2F 需要人工标注示范初始帧的二维接触关键点并微调 VLM，还依赖深度相机、相机内参、运动规划与位置阈值切换；它不是从语言到接触执行的端到端通用策略。",
+      "“主动力预测”不直接参与低层力控制，论文也没有为预测误差、错误接触判断或传感器漂移提供控制稳定性与安全保证。",
+      "摘要中的“37% success rate improvement”实际对应 `81.67%-45%=36.67` 个百分点；若按相对提升计算则约为 81.5%，因此应理解为绝对百分点，而不是相对百分比。",
+      "Force Cost 以专家峰值力或接触期平均力的 MAE 为参照，不直接等价于损伤率、安全余量或任务最优接触力，而且短接触与连续接触使用不同统计量。",
+      "下层重规划周期约 1.15 秒，所以“高频力反馈”更准确地描述传感信号和底层执行频率，而非策略在每个 30 Hz 控制周期都完成一次新推理。",
+      "六项主任务主要比较单任务训练策略。论文展示了物体属性与位置 OOD，但没有证明跨任务、跨语言指令或开放场景中的通用接触迁移。"
+    ],
+    "riskScenarios": [
+      "适合腕部六轴力矩可用、接触阶段局部且需要处理高度、刚度、摩擦或曲面变化的压、插、擦、削等操作。",
+      "适合把已有视觉定位/VLM 与一个小型局部接触专家组合，尤其是在全工作空间端到端策略容易被空间变化和接触变化同时拖累时。",
+      "不适合直接承担安全关键高速碰撞控制，也不适合没有可靠力传感、深度标定或局部运动规划能力的低成本平台。"
+    ],
+    "riskJudgment": [
+      "这是一篇值得纳入接触策略设计路线的强系统论文：架构动机、同模态受控基线、六项主任务、力质量、两类 OOD 与组件消融基本形成闭环证据。",
+      "最应该记住的是“力历史决定是否做对，未来力预测改善是否做得平顺”；最不应过度外推的是“通用、低成本、高频”，因为高质量六轴传感、人工关键点数据、约 1.15 秒重规划周期和单平台实验仍是硬约束。",
+      "后续最关键的验证是：在等控制频率与等传感器条件下，与真正 execution-time tactile refinement 方法直接对比，并把任务成功、力峰值、损伤、延迟和扰动恢复放进统一评测。"
+    ],
+    "resultsTableMarkdown": "| 研究问题 | ForceFlow | 关键对照 | 如何解读 |\n| --- | ---: | ---: | --- |\n| 六任务平均成功率 | 81.67% | ForceVLA 45% | 高 36.67 个百分点；不是相对提高 37% |\n| 平均 Force Fidelity MAE | 8.23 N | Diffusion Policy 21.42 N；ForceVLA 23.31 N | 更接近专家力分布，六项均最低 |\n| Stamp：十步 → 单步力历史 | 85% → 55% | Force Cost 10.61 → 15.50 N | 时间上下文同时影响成功与稳定 |\n| Stamp：移除未来力预测 | 85% → 80% | Force Cost 10.61 → 12.52 N | 辅助预测更像执行品质正则 |\n| Stamp：两项同时移除 | 85% → 40% | Force Cost 10.61 → 18.21 N | 力历史与预测具有协同作用 |\n| 物理 OOD 平均 | 80% | ForceVLA 43.3% | 对未知刚度、厚度和工具有优势 |\n| 空间 OOD + V2F 平均 | 33.33% | ForceVLA+V2F 13.33% | 上层定位不能替代下层接触能力 |\n| 接触阶段屏蔽视觉 | 30.8% | 完整模型 81.6% | 纯力仅适合单轴/平面任务，复杂几何仍需视觉 |\n| 下层推理 / 重规划 | 83.3 ms / 约 1.15 s | ForceVLA 84.1 ms / 约 0.917 s | 生成延迟接近，但闭环刷新更慢 |",
+    "resultsTable": {
+      "columns": [
+        "研究问题",
+        "ForceFlow",
+        "关键对照",
+        "如何解读"
+      ],
+      "rows": [
+        [
+          "六任务平均成功率",
+          "81.67%",
+          "ForceVLA 45%",
+          "高 36.67 个百分点；不是相对提高 37%"
+        ],
+        [
+          "平均 Force Fidelity MAE",
+          "8.23 N",
+          "Diffusion Policy 21.42 N；ForceVLA 23.31 N",
+          "更接近专家力分布，六项均最低"
+        ],
+        [
+          "Stamp：十步 → 单步力历史",
+          "85% → 55%",
+          "Force Cost 10.61 → 15.50 N",
+          "时间上下文同时影响成功与稳定"
+        ],
+        [
+          "Stamp：移除未来力预测",
+          "85% → 80%",
+          "Force Cost 10.61 → 12.52 N",
+          "辅助预测更像执行品质正则"
+        ],
+        [
+          "Stamp：两项同时移除",
+          "85% → 40%",
+          "Force Cost 10.61 → 18.21 N",
+          "力历史与预测具有协同作用"
+        ],
+        [
+          "物理 OOD 平均",
+          "80%",
+          "ForceVLA 43.3%",
+          "对未知刚度、厚度和工具有优势"
+        ],
+        [
+          "空间 OOD + V2F 平均",
+          "33.33%",
+          "ForceVLA+V2F 13.33%",
+          "上层定位不能替代下层接触能力"
+        ],
+        [
+          "接触阶段屏蔽视觉",
+          "30.8%",
+          "完整模型 81.6%",
+          "纯力仅适合单轴/平面任务，复杂几何仍需视觉"
+        ],
+        [
+          "下层推理 / 重规划",
+          "83.3 ms / 约 1.15 s",
+          "ForceVLA 84.1 ms / 约 0.917 s",
+          "生成延迟接近，但闭环刷新更慢"
+        ]
+      ]
+    },
+    "figureGallery": [
+      {
+        "zone": "method",
+        "caption": "ForceFlow 架构：力与本体状态走 AdaLN，视觉走 cross-attention",
+        "src": "https://arxiv.org/html/2605.11048v2/1.png"
+      },
+      {
+        "zone": "results",
+        "caption": "六项任务中完整 ForceFlow 与无力输入变体的接触力分布",
+        "src": "https://arxiv.org/html/2605.11048v2/RQ2force.svg"
+      },
+      {
+        "zone": "results",
+        "caption": "ForceFlow 预测力与真实测量力的单次轨迹对齐",
+        "src": "https://arxiv.org/html/2605.11048v2/RQ2predict.svg"
+      },
+      {
+        "zone": "insights",
+        "caption": "物理 OOD 与空间 OOD 的评测设置",
+        "src": "https://arxiv.org/html/2605.11048v2/ood.png"
+      }
+    ],
+    "relatedTopicSlugs": [
+      "contact-rich-manipulation"
+    ]
+  },
+  {
     "slug": "2606.17046-geometric-action-model-for-robot-policy-learning",
     "title": "Geometric Action Model for Robot Policy Learning",
     "sourceType": "paper",
@@ -1279,6 +1487,172 @@
     "relatedTopicSlugs": [
       "vision-language-action",
       "tactile-representation"
+    ]
+  },
+  {
+    "slug": "action-to-action-flow-matching",
+    "title": "Action-to-Action Flow Matching",
+    "sourceType": "paper",
+    "sourceUrl": "https://arxiv.org/abs/2602.07322",
+    "htmlUrl": "https://arxiv.org/html/2602.07322v2",
+    "pdfUrl": "https://arxiv.org/pdf/2602.07322.pdf",
+    "codeUrl": "https://lorenzo-0-0.github.io/A2A_Flow_Matching",
+    "translationUrl": "https://hjfy.top/arxiv/2602.07322",
+    "publishDate": "2026-02-07",
+    "authors": [
+      "Jindou Jia",
+      "Gen Li",
+      "Xiangyu Chen",
+      "Tuo An",
+      "Yuxuan Hu",
+      "Jingliang Li",
+      "Xinying Guo",
+      "Jianfei Yang"
+    ],
+    "affiliation": "MARS Lab, Nanyang Technological University",
+    "relatedOrganizations": [
+      "MARS Lab",
+      "Nanyang Technological University",
+      "MARS Lab, Nanyang Technological University"
+    ],
+    "relatedCompanies": [],
+    "keywords": [
+      "action-to-action flow matching",
+      "proprioceptive history",
+      "real-time robot control"
+    ],
+    "primaryDomainSlug": "physical-embodied-intelligence",
+    "domainSlugs": [
+      "physical-embodied-intelligence"
+    ],
+    "heroImage": "https://arxiv.org/html/2602.07322v2/Figs/framework.png",
+    "tldr": "这篇论文值得记住，因为它重新审视了机器人扩散策略的起点：机器人已经有连续的本体反馈，就不必每次从无信息的高斯噪声开始生成动作。A2A 用已执行动作的历史序列初始化未来动作的 flow matching，在保持生成策略多模态与泛化能力的同时，把推理压到单步 0.56 ms。它的真正价值不是又一个更快的采样器，而是把控制策略的生成先验从“随机噪声”改成“机器人自身的动力学历史”。",
+    "intuition": "把普通 diffusion policy 想成每次先把动作计划擦成一团噪声，再花几十步把它还原；A2A 则直接拿机器人刚刚真实执行过的连续动作片段作为起点。历史动作经过 CNN 编码到 512 维 latent，视觉只提供全局条件，AdaLN-MLP flow net 把这个起点搬到未来动作 latent，最后由残差 MLP 解码出下一段动作，因此模型是在一条很短、很符合物理连续性的路径上做修正，而不是从零猜整段动作。\n\n![主要图](https://arxiv.org/html/2602.07322v2/Figs/framework.png)\n\n*主要图*",
+    "abstractEn": "Diffusion-based policies have recently achieved remarkable success in robotics by formulating action prediction as a conditional denoising process. However, the standard practice of sampling from random Gaussian noise often requires multiple iterative steps to produce clean actions, leading to high inference latency that incurs a major bottleneck for real-time control. In this paper, we challenge the necessity of uninformed noise sampling and propose Action-to-Action flow matching (A2A), a novel policy paradigm that shifts from random sampling to initialization informed by the previous proprioceptive action. Unlike existing methods that treat proprioceptive action feedback as static conditions, A2A leverages historical proprioceptive sequences, embedding them into a high-dimensional latent space as the starting point for action generation. This design bypasses costly iterative denoising while effectively capturing the robot's physical dynamics and temporal continuity. Extensive experiments demonstrate that A2A exhibits high training efficiency, fast inference speed, and improved generalization. Notably, A2A enables high-quality action generation in as few as a single inference step, and exhibits superior robustness to visual perturbations and enhanced generalization to unseen configurations. Lastly, we also extend A2A to video generation, demonstrating its broader versatility in temporal modeling.",
+    "abstractZh": "近年来，基于扩散的策略通过把动作预测建模为条件去噪过程，在机器人领域取得了显著成功。然而，从随机高斯噪声采样通常需要多次迭代才能得到干净动作，推理延迟因此成为实时控制的主要瓶颈。本文质疑这种无信息噪声采样是否必要，并提出 Action-to-Action Flow Matching（A2A）：用先前本体动作提供的信息初始化生成过程，而不是从随机噪声开始。不同于把本体反馈仅当作静态条件的已有方法，A2A 利用历史本体动作序列，并将其嵌入高维 latent 空间作为动作生成的起点。这个设计绕开昂贵的迭代去噪，同时捕捉机器人的物理动力学与时间连续性。大量实验显示，A2A 具有更高训练效率、更快推理速度和更强泛化能力；它在最低单步推理下仍能生成高质量动作，并对视觉扰动和未见配置更鲁棒。作者还把 A2A 扩展到视频生成，展示了它在时间建模任务中的通用性。",
+    "background": "**动机：** 机器人控制和图像生成的先验不同：控制循环每一时刻都能读取关节、末端执行器和已执行动作，这些低延迟反馈已经携带当前姿态、速度趋势与动力学约束。扩散策略仍从高斯噪声开始，等于丢掉了最容易获得的时间连续性；在需要高频闭环的操作任务中，多次去噪会直接转化为控制延迟和更高的部署成本。\n\n**问题缺口：** 已有回归策略容易把多模态动作平均掉，扩散和 flow matching 策略则通常从无信息噪声到动作分布，必须用很多步把两个相距很远的分布连接起来。简单把当前本体状态和高维视觉特征拼接也会稀释低维物理信号，甚至损害空间泛化。论文要解决的是：能否把历史已执行动作作为有物理意义的起点，缩短生成路径，同时保留生成策略对多模态和未见环境的鲁棒性，并让单步推理在真实机器人上可用？",
+    "backgroundMotivation": "机器人控制和图像生成的先验不同：控制循环每一时刻都能读取关节、末端执行器和已执行动作，这些低延迟反馈已经携带当前姿态、速度趋势与动力学约束。扩散策略仍从高斯噪声开始，等于丢掉了最容易获得的时间连续性；在需要高频闭环的操作任务中，多次去噪会直接转化为控制延迟和更高的部署成本。",
+    "backgroundGap": "已有回归策略容易把多模态动作平均掉，扩散和 flow matching 策略则通常从无信息噪声到动作分布，必须用很多步把两个相距很远的分布连接起来。简单把当前本体状态和高维视觉特征拼接也会稀释低维物理信号，甚至损害空间泛化。论文要解决的是：能否把历史已执行动作作为有物理意义的起点，缩短生成路径，同时保留生成策略对多模态和未见环境的鲁棒性，并让单步推理在真实机器人上可用？",
+    "method": "**方法概述：** A2A 是一个面向机器人控制的 action-to-action flow matching 策略：它把历史已执行本体动作编码成起始 latent z0，把未来动作编码成目标 latent z1，在共享的 512 维空间中学习条件向量场，将 z0 运输到 z1。视觉序列由 ResNet-18 和线性投影提供全局条件，flow net 使用 AdaLN-MLP，残差 MLP 解码未来动作。训练同时优化 latent flow matching、动作自编码器重建和推理一致性损失，目标是让短路径生成既准确又能回到可执行的物理动作。\n\n**核心机制：** A2A 的核心不是改变 flow matching 的损失形式，而是改变 source distribution：训练时不再从标准高斯 z0 出发，而是用历史本体动作 a≤t 经 CNN 自编码器得到的 latent 作为起点，并把未来动作 a>t 编码为目标 z1。视觉序列通过 ResNet-18 独立编码成条件 c，AdaLN-MLP flow net 学习 dzτ/dτ=vτ(zτ,c)；由于相邻动作块在物理上连续，z0 与 z1 的分布距离天然更小，少量 Euler 步甚至单步就能完成有效运输。训练再用 L1 自编码器重建和 inference consistency 约束 latent 与原动作空间，避免 latent collapse 和不可执行输出。\n\n**方法拆解：** - 历史动作路径：收集最近 n=8 帧由本体反馈推断出的已执行动作，而不是仅使用上一时刻的命令；CNN action encoder 将动作轨迹压缩到共享 512 维 latent，作为 z0。\n- 视觉条件路径：最近 m=8 帧图像由 ResNet-18 编码，经线性投影/MLP 得到全局条件 c；视觉不和低维本体量直接拼接，减少高维视觉对物理信号的掩盖。\n- latent action-to-action flow：未来动作片段通过 action encoder 得到 z1，flow net 在 z0 到 z1 之间学习条件向量场，并用离散 Euler 积分进行 1、4 或 6 步推理。\n- 可执行性约束：联合优化 flow matching loss、动作自编码器 L1 重建 loss 和 inference consistency loss，让 ODE 得到的 latent 既接近真实未来 latent，也能被 decoder 还原为可执行动作。\n- 不确定性处理：在历史动作编码前注入小幅高斯噪声，为原本偏确定性的 action-to-action 路径恢复一定多模态，并缓解初始姿态或动作历史误差。\n\n**关键要点：** - A2A 的低延迟来自更短的分布运输路径，而不是单纯减少网络层数：历史动作与未来动作在物理连续性作用下本来就更接近。\n- 作者把历史动作定义为本体反馈推断出的已执行动作，而不是先前命令，这使闭环策略能显式吸收低层跟踪误差。\n- latent 空间不是可有可无的压缩层；消融显示，直接在原始 action 空间做 flow matching 的收敛和泛化都更差。\n- A2A 仍保留生成模型的价值：相比 latent regression，它在环境扰动下明显更鲁棒；必要时给历史动作加噪声还能恢复多模态行为。\n\n![方法图](https://arxiv.org/html/2602.07322v2/Figs/pipeline.png)\n\n*方法图*",
+    "methodOverview": "A2A 是一个面向机器人控制的 action-to-action flow matching 策略：它把历史已执行本体动作编码成起始 latent z0，把未来动作编码成目标 latent z1，在共享的 512 维空间中学习条件向量场，将 z0 运输到 z1。视觉序列由 ResNet-18 和线性投影提供全局条件，flow net 使用 AdaLN-MLP，残差 MLP 解码未来动作。训练同时优化 latent flow matching、动作自编码器重建和推理一致性损失，目标是让短路径生成既准确又能回到可执行的物理动作。",
+    "methodCore": "A2A 的核心不是改变 flow matching 的损失形式，而是改变 source distribution：训练时不再从标准高斯 z0 出发，而是用历史本体动作 a≤t 经 CNN 自编码器得到的 latent 作为起点，并把未来动作 a>t 编码为目标 z1。视觉序列通过 ResNet-18 独立编码成条件 c，AdaLN-MLP flow net 学习 dzτ/dτ=vτ(zτ,c)；由于相邻动作块在物理上连续，z0 与 z1 的分布距离天然更小，少量 Euler 步甚至单步就能完成有效运输。训练再用 L1 自编码器重建和 inference consistency 约束 latent 与原动作空间，避免 latent collapse 和不可执行输出。",
+    "methodBreakdown": [
+      "历史动作路径：收集最近 n=8 帧由本体反馈推断出的已执行动作，而不是仅使用上一时刻的命令；CNN action encoder 将动作轨迹压缩到共享 512 维 latent，作为 z0。",
+      "视觉条件路径：最近 m=8 帧图像由 ResNet-18 编码，经线性投影/MLP 得到全局条件 c；视觉不和低维本体量直接拼接，减少高维视觉对物理信号的掩盖。",
+      "latent action-to-action flow：未来动作片段通过 action encoder 得到 z1，flow net 在 z0 到 z1 之间学习条件向量场，并用离散 Euler 积分进行 1、4 或 6 步推理。",
+      "可执行性约束：联合优化 flow matching loss、动作自编码器 L1 重建 loss 和 inference consistency loss，让 ODE 得到的 latent 既接近真实未来 latent，也能被 decoder 还原为可执行动作。",
+      "不确定性处理：在历史动作编码前注入小幅高斯噪声，为原本偏确定性的 action-to-action 路径恢复一定多模态，并缓解初始姿态或动作历史误差。"
+    ],
+    "methodTakeaways": [
+      "A2A 的低延迟来自更短的分布运输路径，而不是单纯减少网络层数：历史动作与未来动作在物理连续性作用下本来就更接近。",
+      "作者把历史动作定义为本体反馈推断出的已执行动作，而不是先前命令，这使闭环策略能显式吸收低层跟踪误差。",
+      "latent 空间不是可有可无的压缩层；消融显示，直接在原始 action 空间做 flow matching 的收敛和泛化都更差。",
+      "A2A 仍保留生成模型的价值：相比 latent regression，它在环境扰动下明显更鲁棒；必要时给历史动作加噪声还能恢复多模态行为。"
+    ],
+    "results": "**核心结果：** - 仿真 5 任务的统一比较中，A2A（6 步）在 Close Box、Pick Cube、Stack Cube、Open Drawer、Pick-Place Bowl 上分别达到 92%、92%、86%、92%、90%，均为最高或并列最高。\n- 训练效率测试中，Close Box 用 100 条示范时 A2A 在约 40 个 epoch 内达到稳定 100% 成功率；真实 Franka 的 Pick Cube 和 Open Drawer 只用 30 条轨迹就达到 100% in-distribution 成功率。\n- 推理成本测试在 RTX 5090 32GB 上进行，A2A 单步平均延迟为 0.56 ms，整体低于 1 ms；论文报告其收敛速度最高约为 vanilla diffusion 的 20 倍、普通 flow matching 的 5 倍。\n- 在视觉扰动的 Roboverse Level 1–3 中，A2A（6 步）仍保持 38%、42%、38% 成功率；真实测试将目标替换为未见的发光方块时，基线完全失败而 A2A 达到 80%。\n- 初始状态不确定性会暴露 A2A 对动作历史的依赖，但给历史动作注入 0.1 STD 噪声后，泛化显著提高；在 Level 1 的另一组实验中，0.02 STD 的动作扰动把成功率从 20% 提到 52%。\n\n**结果表：** | 对比维度 | A2A 结果 | 论文含义 |\n| --- | --- | --- |\n| 5 项仿真任务，6 步 | 92 / 92 / 86 / 92 / 90% | 相比 8 个基线整体最高 |\n| 单步推理 | 0.56 ms；32 epoch 后成功率超过 90% | 高频闭环控制可行 |\n| 真实 Franka，30 条轨迹 | Pick Cube、Open Drawer 均 100% in-distribution | 小数据和短训练更占优 |\n| 未见发光方块 | 80% 成功率，基线 0% | 历史动作提供视觉扰动下的物理锚点 |\n| Roboverse Level 1–3，6 步 | 38% / 42% / 38% | 对背景、光照、视角变化更鲁棒 |\n| 单步延迟对比 | 低于 1 ms，最佳 0.56 ms | 主要收益来自短路径和 MLP 架构 |\n\n![结果图](https://arxiv.org/html/2602.07322v2/Figs/inference_cost.png)\n\n*结果图*\n\n![结果图](https://arxiv.org/html/2602.07322v2/Figs/real_test.png)\n\n*结果图*",
+    "resultHighlights": [
+      "仿真 5 任务的统一比较中，A2A（6 步）在 Close Box、Pick Cube、Stack Cube、Open Drawer、Pick-Place Bowl 上分别达到 92%、92%、86%、92%、90%，均为最高或并列最高。",
+      "训练效率测试中，Close Box 用 100 条示范时 A2A 在约 40 个 epoch 内达到稳定 100% 成功率；真实 Franka 的 Pick Cube 和 Open Drawer 只用 30 条轨迹就达到 100% in-distribution 成功率。",
+      "推理成本测试在 RTX 5090 32GB 上进行，A2A 单步平均延迟为 0.56 ms，整体低于 1 ms；论文报告其收敛速度最高约为 vanilla diffusion 的 20 倍、普通 flow matching 的 5 倍。",
+      "在视觉扰动的 Roboverse Level 1–3 中，A2A（6 步）仍保持 38%、42%、38% 成功率；真实测试将目标替换为未见的发光方块时，基线完全失败而 A2A 达到 80%。",
+      "初始状态不确定性会暴露 A2A 对动作历史的依赖，但给历史动作注入 0.1 STD 噪声后，泛化显著提高；在 Level 1 的另一组实验中，0.02 STD 的动作扰动把成功率从 20% 提到 52%。"
+    ],
+    "insights": "**核心 insight：** - 这项工作把“加速扩散策略”提升为“重新选择生成先验”：机器人自身的历史状态比人工设计的 warm-start 或额外噪声网络更直接。\n- A2A 的鲁棒性并非来自视觉编码器更强，而是把视觉和本体历史解耦后，让物理连续性在视觉受干扰时仍能维持动作方向。\n- 论文同时说明生成与回归不是二选一的口号：训练分布内两者都能拟合，但 flow matching 在未见扰动下明显保留更多可迁移结构。\n\n**和已有方法的关系：** - 相对 DDPM/Score/Flow 的 noise-to-action，A2A 缩短了 source-target 分布距离；相对 ACT 等回归策略，它保留了生成式路径对扰动的鲁棒性。\n- 相对 warm-start 或 RL 优化初始噪声的方法，A2A 不需要额外模型预测噪声统计量，而是直接复用执行历史这一可观测先验。\n- 相对 VITA 等一步 flow policy，A2A 的差异在于 source 不是视觉条件下的随机 latent，而是有物理语义的历史动作 latent。\n\n**可借鉴点：** - 对任何连续时间控制任务，优先检查上一段真实执行轨迹能否作为下一段生成的近似 source，而不是默认从白噪声或零向量开始。\n- 将低维物理反馈和高维视觉采用独立编码、全局调制的接口，比简单拼接更适合保留互补信号。\n- 若 action-to-action 过于确定导致模式坍缩，可在历史轨迹编码前使用小幅噪声作为轻量随机性旋钮。\n\n![洞察图](https://arxiv.org/html/2602.07322v2/Figs/structure_ablation.png)\n\n*洞察图*",
+    "insightCore": [
+      "这项工作把“加速扩散策略”提升为“重新选择生成先验”：机器人自身的历史状态比人工设计的 warm-start 或额外噪声网络更直接。",
+      "A2A 的鲁棒性并非来自视觉编码器更强，而是把视觉和本体历史解耦后，让物理连续性在视觉受干扰时仍能维持动作方向。",
+      "论文同时说明生成与回归不是二选一的口号：训练分布内两者都能拟合，但 flow matching 在未见扰动下明显保留更多可迁移结构。"
+    ],
+    "insightRelations": [
+      "相对 DDPM/Score/Flow 的 noise-to-action，A2A 缩短了 source-target 分布距离；相对 ACT 等回归策略，它保留了生成式路径对扰动的鲁棒性。",
+      "相对 warm-start 或 RL 优化初始噪声的方法，A2A 不需要额外模型预测噪声统计量，而是直接复用执行历史这一可观测先验。",
+      "相对 VITA 等一步 flow policy，A2A 的差异在于 source 不是视觉条件下的随机 latent，而是有物理语义的历史动作 latent。"
+    ],
+    "insightBorrowable": [
+      "对任何连续时间控制任务，优先检查上一段真实执行轨迹能否作为下一段生成的近似 source，而不是默认从白噪声或零向量开始。",
+      "将低维物理反馈和高维视觉采用独立编码、全局调制的接口，比简单拼接更适合保留互补信号。",
+      "若 action-to-action 过于确定导致模式坍缩，可在历史轨迹编码前使用小幅噪声作为轻量随机性旋钮。"
+    ],
+    "risks": "**局限：** - 方法依赖动作连续性；二值夹爪开关等离散或突变维度无法直接从历史动作连续性中获益。\n- 闭环生成依赖可靠的已执行动作历史，初始姿态或低层跟踪误差较大时性能会下降，虽然动作加噪能部分缓解。\n- 总损失中的多个权重（论文使用 λ0=0.5、λ1=1、λ2=0.5、λ3=1）仍需手工调节，跨机器人和跨动作空间的稳定性尚未充分验证。\n- 视频 F2F 只在小规模模型和四个未见场景上展示，尚未证明预测视频接入控制策略后能带来实际闭环收益。\n\n**适用场景：** - 适合连续关节或末端位姿控制、需要高频闭环和低推理延迟的抓取、开抽屉、堆叠等操作任务。\n- 适合训练数据有限、视觉背景或光照变化较大的机器人部署，可用历史动作维持物理一致性。\n- 可迁移到未来帧预测、轨迹生成等具有明显时间连续性的任务，但需要重新验证大规模模型的收益。\n\n**最终判断：** - 整体判断：A2A 是一个有明确物理先验、证据链完整且工程收益清晰的策略生成范式；0.56 ms 单步推理是其最具部署价值的结果。\n- 谨慎判断：它不是通用替代 diffusion/VLA 的万能方案，离散动作、历史反馈失真和多模态复杂任务仍是主要边界；后续应重点看混合离散-连续动作和跨机器人迁移。",
+    "riskLimitations": [
+      "方法依赖动作连续性；二值夹爪开关等离散或突变维度无法直接从历史动作连续性中获益。",
+      "闭环生成依赖可靠的已执行动作历史，初始姿态或低层跟踪误差较大时性能会下降，虽然动作加噪能部分缓解。",
+      "总损失中的多个权重（论文使用 λ0=0.5、λ1=1、λ2=0.5、λ3=1）仍需手工调节，跨机器人和跨动作空间的稳定性尚未充分验证。",
+      "视频 F2F 只在小规模模型和四个未见场景上展示，尚未证明预测视频接入控制策略后能带来实际闭环收益。"
+    ],
+    "riskScenarios": [
+      "适合连续关节或末端位姿控制、需要高频闭环和低推理延迟的抓取、开抽屉、堆叠等操作任务。",
+      "适合训练数据有限、视觉背景或光照变化较大的机器人部署，可用历史动作维持物理一致性。",
+      "可迁移到未来帧预测、轨迹生成等具有明显时间连续性的任务，但需要重新验证大规模模型的收益。"
+    ],
+    "riskJudgment": [
+      "整体判断：A2A 是一个有明确物理先验、证据链完整且工程收益清晰的策略生成范式；0.56 ms 单步推理是其最具部署价值的结果。",
+      "谨慎判断：它不是通用替代 diffusion/VLA 的万能方案，离散动作、历史反馈失真和多模态复杂任务仍是主要边界；后续应重点看混合离散-连续动作和跨机器人迁移。"
+    ],
+    "resultsTableMarkdown": "| 对比维度 | A2A 结果 | 论文含义 |\n| --- | --- | --- |\n| 5 项仿真任务，6 步 | 92 / 92 / 86 / 92 / 90% | 相比 8 个基线整体最高 |\n| 单步推理 | 0.56 ms；32 epoch 后成功率超过 90% | 高频闭环控制可行 |\n| 真实 Franka，30 条轨迹 | Pick Cube、Open Drawer 均 100% in-distribution | 小数据和短训练更占优 |\n| 未见发光方块 | 80% 成功率，基线 0% | 历史动作提供视觉扰动下的物理锚点 |\n| Roboverse Level 1–3，6 步 | 38% / 42% / 38% | 对背景、光照、视角变化更鲁棒 |\n| 单步延迟对比 | 低于 1 ms，最佳 0.56 ms | 主要收益来自短路径和 MLP 架构 |",
+    "resultsTable": {
+      "columns": [
+        "对比维度",
+        "A2A 结果",
+        "论文含义"
+      ],
+      "rows": [
+        [
+          "5 项仿真任务，6 步",
+          "92 / 92 / 86 / 92 / 90%",
+          "相比 8 个基线整体最高"
+        ],
+        [
+          "单步推理",
+          "0.56 ms；32 epoch 后成功率超过 90%",
+          "高频闭环控制可行"
+        ],
+        [
+          "真实 Franka，30 条轨迹",
+          "Pick Cube、Open Drawer 均 100% in-distribution",
+          "小数据和短训练更占优"
+        ],
+        [
+          "未见发光方块",
+          "80% 成功率，基线 0%",
+          "历史动作提供视觉扰动下的物理锚点"
+        ],
+        [
+          "Roboverse Level 1–3，6 步",
+          "38% / 42% / 38%",
+          "对背景、光照、视角变化更鲁棒"
+        ],
+        [
+          "单步延迟对比",
+          "低于 1 ms，最佳 0.56 ms",
+          "主要收益来自短路径和 MLP 架构"
+        ]
+      ]
+    },
+    "figureGallery": [
+      {
+        "zone": "method",
+        "caption": "方法图",
+        "src": "https://arxiv.org/html/2602.07322v2/Figs/pipeline.png"
+      },
+      {
+        "zone": "results",
+        "caption": "结果图",
+        "src": "https://arxiv.org/html/2602.07322v2/Figs/inference_cost.png"
+      },
+      {
+        "zone": "results",
+        "caption": "结果图",
+        "src": "https://arxiv.org/html/2602.07322v2/Figs/real_test.png"
+      },
+      {
+        "zone": "insights",
+        "caption": "洞察图",
+        "src": "https://arxiv.org/html/2602.07322v2/Figs/structure_ablation.png"
+      }
+    ],
+    "relatedTopicSlugs": [
+      "vision-language-action"
     ]
   },
   {
@@ -2881,6 +3255,163 @@
     ]
   },
   {
+    "slug": "foar-force-aware-reactive-policy-for-contact-rich-robotic-manipulation",
+    "title": "FoAR: Force-Aware Reactive Policy for Contact-Rich Robotic Manipulation",
+    "sourceType": "paper",
+    "sourceUrl": "https://arxiv.org/abs/2411.15753",
+    "htmlUrl": "https://arxiv.org/html/2411.15753v2",
+    "pdfUrl": "https://arxiv.org/pdf/2411.15753",
+    "codeUrl": "https://tonyfang.net/FoAR/",
+    "translationUrl": "https://hjfy.top/arxiv/2411.15753",
+    "publishDate": "2025-05-02",
+    "authors": [
+      "Zihao He",
+      "Hongjie Fang",
+      "Jingjing Chen",
+      "Hao-Shu Fang",
+      "Cewu Lu"
+    ],
+    "affiliation": "Shanghai Jiao Tong University",
+    "relatedOrganizations": [
+      "Shanghai Jiao Tong University"
+    ],
+    "relatedCompanies": [],
+    "keywords": [
+      "contact-rich manipulation",
+      "force/torque sensing",
+      "reactive control"
+    ],
+    "primaryDomainSlug": "physical-embodied-intelligence",
+    "domainSlugs": [
+      "physical-embodied-intelligence"
+    ],
+    "heroImage": "https://arxiv.org/html/2411.15753v2/teaser.png",
+    "tldr": "FoAR 的关键不是把力/扭矩简单拼到视觉策略上，而是先预测未来是否会接触，再用这个概率门控力觉特征，并在部署时用力觉触发小步反应式修正。仅用 50 条示范，它在擦除、削皮和切菜等接触丰富任务上显著超过 RISE 与多种融合基线，并在白板被移动或重写后保持 100% 基本动作成功率。",
+    "intuition": "把机器人想成同时拥有“远视”和“触觉”：点云负责看清场景与目标，100Hz 力/扭矩历史负责判断是否真正压到物体。FoAR 先问“未来几步会不会接触”，只有答案接近会接触时才放大力觉信息；一旦预测要接触但当前力不足，就沿动作块的前进方向补一个很小的位置步长。这样既避免了非接触阶段的传感器噪声，又不需要完整的阻抗控制器。\n\n![主要图](https://arxiv.org/html/2411.15753v2/teaser.png)\n\n*主要图*",
+    "abstractEn": "Contact-rich tasks present significant challenges for robotic manipulation policies due to the complex dynamics of contact and the need for precise control. Vision-based policies often struggle with the skill required for such tasks, as they typically lack critical contact feedback modalities like force/torque information. To address this issue, we propose FoAR, a force-aware reactive policy that combines high-frequency force/torque sensing with visual inputs to enhance the performance in contact-rich manipulation. Built upon the RISE policy, FoAR incorporates a multimodal feature fusion mechanism guided by a future contact predictor, enabling dynamic adjustment of force/torque data usage between non-contact and contact phases. Its reactive control strategy also allows FoAR to accomplish contact-rich tasks accurately through simple position control. Experimental results demonstrate that FoAR significantly outperforms all baselines across various challenging contact-rich tasks while maintaining robust performance under unexpected dynamic disturbances.",
+    "abstractZh": "接触丰富任务具有复杂的接触动力学，并要求精确控制，因此对机器人操作策略很具挑战。基于视觉的策略通常缺少力/扭矩等关键接触反馈，难以完成这类任务。论文提出 FoAR，一种融合高频力/扭矩感知与视觉输入的力觉感知反应式策略。FoAR 构建在 RISE 之上，引入由未来接触预测器引导的多模态特征融合，在非接触和接触阶段动态调节力/扭矩数据的使用比例。其反应式控制策略还使机器人仅用简单的位置控制就能准确完成接触丰富操作。实验表明，FoAR 在多种具有挑战性的接触丰富任务上显著超过所有基线，并能在意外动态扰动下保持稳健性能。",
+    "background": "**动机：** 擦除、削皮、切菜等任务的难点不是到达某个视觉目标，而是在接触发生后持续保持合适的法向力、方向和时序。接触前后的 RGB 或点云差异很小，视觉策略无法可靠知道工具是否真正压到表面；力/扭矩传感器能直接暴露物理交互，但在抓取、移动等非接触阶段又会产生噪声。此前把力觉特征全程拼接或作为额外 token 的做法没有区分任务阶段，可能反过来伤害抓取和接近动作。\n\n**问题缺口：** 论文要解决的是一个具体的阶段选择问题：如何让策略只在即将接触或已经接触时依赖高频力/扭矩，同时保留视觉策略在非接触阶段的泛化能力；以及如何把这种接触判断转化为无需手工调刚度、接触方向的在线纠偏。FoAR 以未来接触概率作为共享接口，将感知融合和反应式控制统一起来。",
+    "backgroundMotivation": "擦除、削皮、切菜等任务的难点不是到达某个视觉目标，而是在接触发生后持续保持合适的法向力、方向和时序。接触前后的 RGB 或点云差异很小，视觉策略无法可靠知道工具是否真正压到表面；力/扭矩传感器能直接暴露物理交互，但在抓取、移动等非接触阶段又会产生噪声。此前把力觉特征全程拼接或作为额外 token 的做法没有区分任务阶段，可能反过来伤害抓取和接近动作。",
+    "backgroundGap": "论文要解决的是一个具体的阶段选择问题：如何让策略只在即将接触或已经接触时依赖高频力/扭矩，同时保留视觉策略在非接触阶段的泛化能力；以及如何把这种接触判断转化为无需手工调刚度、接触方向的在线纠偏。FoAR 以未来接触概率作为共享接口，将感知融合和反应式控制统一起来。",
+    "method": "**方法概述：** FoAR 将高频六维力/扭矩历史、RGB-D 点云和扩散动作头组合成一个阶段感知策略：独立预测未来接触概率 phi，用 phi 对力觉特征做软门控；部署时以 phi、8N 力阈值和 5N·m 扭矩阈值触发 0.006m 反应式位置修正。该设计在小样本真实机器人设置中同时改善接触精度与非接触动作可靠性。\n\n**核心机制：** 策略输入当前 RGB-D 点云 p_t、约 2 秒窗口的 100Hz 六维力/扭矩历史 f_(t-To:t) 和 RGB 图像 I_t。稀疏 3D 编码器与 Transformer 产出 512 维场景特征 h_s，三层 MLP 加时间 Transformer 产出 512 维力觉特征 h_f；独立的 ResNet18+MLP 接触预测器输出未来接触概率 phi。融合特征为 [h_s; phi*h_f+(1-phi)*h*]，再条件化扩散去噪动作头生成未来动作块；训练用动作 L2 损失与接触二元交叉熵之和，部署时按 phi 和力/扭矩阈值做反应式位置修正。\n\n**方法拆解：**\n\n- 阶段感知编码：点云经稀疏 3D ResNet 与 Transformer 得到场景 token；100Hz 力/扭矩序列经 MLP、正弦位置编码和时间 Transformer 得到力觉 token。\n- 未来接触门控：独立预测器用当前 RGB 与力觉历史预测未来接触概率 phi，并将力觉特征软门控到 phi*h_f+(1-phi)*h*，避免非接触噪声污染策略。\n- 扩散动作生成：门控后的多模态特征作为条件，扩散动作头逐步去噪生成长度为 T_a 的末端执行器动作块。\n- 部署反应式控制：当 phi>=0.9 且当前力低于 8N 或扭矩低于 5N·m 时，沿预测动作块的平均前进方向补偿 epsilon=0.006m；接触与非接触阶段使用独立时间集成缓冲区。\n\n**关键要点：**\n\n- “是否需要触觉”本身是可学习的时序决策，软门控比全程拼接或 token 注入更能处理接触稀疏性。\n- 未来接触预测和反应式控制是协同设计：预测器既控制特征融合，也决定何时启用力觉纠偏，降低了单独设计模块的接口错配。\n\n![方法图](https://arxiv.org/html/2411.15753v2/model.png)\n\n*方法图*\n\n![方法图](https://arxiv.org/html/2411.15753v2/task.png)\n\n*方法图*",
+    "methodOverview": "FoAR 将高频六维力/扭矩历史、RGB-D 点云和扩散动作头组合成一个阶段感知策略：独立预测未来接触概率 phi，用 phi 对力觉特征做软门控；部署时以 phi、8N 力阈值和 5N·m 扭矩阈值触发 0.006m 反应式位置修正。该设计在小样本真实机器人设置中同时改善接触精度与非接触动作可靠性。",
+    "methodCore": "策略输入当前 RGB-D 点云 p_t、约 2 秒窗口的 100Hz 六维力/扭矩历史 f_(t-To:t) 和 RGB 图像 I_t。稀疏 3D 编码器与 Transformer 产出 512 维场景特征 h_s，三层 MLP 加时间 Transformer 产出 512 维力觉特征 h_f；独立的 ResNet18+MLP 接触预测器输出未来接触概率 phi。融合特征为 [h_s; phi*h_f+(1-phi)*h*]，再条件化扩散去噪动作头生成未来动作块；训练用动作 L2 损失与接触二元交叉熵之和，部署时按 phi 和力/扭矩阈值做反应式位置修正。",
+    "methodBreakdown": [
+      "阶段感知编码：点云经稀疏 3D ResNet 与 Transformer 得到场景 token；100Hz 力/扭矩序列经 MLP、正弦位置编码和时间 Transformer 得到力觉 token。",
+      "未来接触门控：独立预测器用当前 RGB 与力觉历史预测未来接触概率 phi，并将力觉特征软门控到 phi*h_f+(1-phi)*h*，避免非接触噪声污染策略。",
+      "扩散动作生成：门控后的多模态特征作为条件，扩散动作头逐步去噪生成长度为 T_a 的末端执行器动作块。",
+      "部署反应式控制：当 phi>=0.9 且当前力低于 8N 或扭矩低于 5N·m 时，沿预测动作块的平均前进方向补偿 epsilon=0.006m；接触与非接触阶段使用独立时间集成缓冲区。"
+    ],
+    "methodTakeaways": [
+      "“是否需要触觉”本身是可学习的时序决策，软门控比全程拼接或 token 注入更能处理接触稀疏性。",
+      "未来接触预测和反应式控制是协同设计：预测器既控制特征融合，也决定何时启用力觉纠偏，降低了单独设计模块的接口错配。"
+    ],
+    "results": "**核心结果：**\n\n- 真实平台为 Flexiv Rizon + Dahuan AG-95 + OptoForce 六轴力/扭矩传感器 + RealSense D435，工作空间 45cm x 60cm x 40cm；每个擦除/削皮任务 50 条示范，切菜 40 条示范。\n- 擦除、一般擦除和削皮得分分别为 0.875、0.850、0.756，三项抓取与接触动作 ASR 均为 100%；对应最佳基线 RISE 得分为 0.500、0.500、0.377。\n- 切菜中 FoAR 平均切出 3.9±0.9 段，归一化段长均值/标准差 0.353/0.094；RISE 仅 1.8±0.6 段，0.727/0.411，FoAR 更接近示范 oracle 的 5.0 段和 0.200/0.056。\n- 擦除消融显示 100Hz+预测器+反应式控制得分 0.875、擦除 ASR 100%；去掉反应式控制得分降至 0.650，降到 2Hz/10Hz 时分别为 0.625/0.800。\n- 一般擦除的 Rewrite、Move、Rewrite+Move 扰动下，FoAR 得分/抓取 ASR/擦除 ASR 始终为 0.800-0.850/100%/100%，而 RISE 与 force-token 版本明显波动。\n\n**结果表：**\n\n| 任务/方法 | 得分 | 关键 ASR |\n| --- | ---: | ---: |\n| 擦除 FoAR | 0.875 | 抓取 100%，擦除 100% |\n| 擦除（一般）FoAR | 0.850 | 抓取 100%，擦除 100% |\n| 削皮 FoAR | 0.756 | 抓取 100%，削皮 100% |\n| 擦除 RISE | 0.500 | 抓取 100%，擦除 75% |\n| 削皮 RISE | 0.377 | 抓取 100%，削皮 50% |\n| 切菜 FoAR | 3.9±0.9 段 | Place ASR 70% |\n| 切菜 RISE | 1.8±0.6 段 | Place ASR 30% |\n\n![结果图](https://arxiv.org/html/2411.15753v2/peel.png)\n\n*结果图*\n\n![结果图](https://arxiv.org/html/2411.15753v2/chop-metric.png)\n\n*结果图*",
+    "resultHighlights": [
+      "真实平台为 Flexiv Rizon + Dahuan AG-95 + OptoForce 六轴力/扭矩传感器 + RealSense D435，工作空间 45cm x 60cm x 40cm；每个擦除/削皮任务 50 条示范，切菜 40 条示范。",
+      "擦除、一般擦除和削皮得分分别为 0.875、0.850、0.756，三项抓取与接触动作 ASR 均为 100%；对应最佳基线 RISE 得分为 0.500、0.500、0.377。",
+      "切菜中 FoAR 平均切出 3.9±0.9 段，归一化段长均值/标准差 0.353/0.094；RISE 仅 1.8±0.6 段，0.727/0.411，FoAR 更接近示范 oracle 的 5.0 段和 0.200/0.056。",
+      "擦除消融显示 100Hz+预测器+反应式控制得分 0.875、擦除 ASR 100%；去掉反应式控制得分降至 0.650，降到 2Hz/10Hz 时分别为 0.625/0.800。",
+      "一般擦除的 Rewrite、Move、Rewrite+Move 扰动下，FoAR 得分/抓取 ASR/擦除 ASR 始终为 0.800-0.850/100%/100%，而 RISE 与 force-token 版本明显波动。"
+    ],
+    "insights": "**核心 insight：**\n\n- 这项工作的主要贡献更像“控制接口设计”而非新的扩散骨干：把接触状态预测变成融合门控和控制触发器，使一个视觉策略能在不同物理阶段切换信息源。\n- FoAR (3D-cls) 共享点云编码器后反而显著变差，说明接触预测关注“是否接触”的粗粒度线索，而动作策略需要物体位置和末端姿态等细粒度线索，两个目标应保持表示隔离。\n- 100Hz 力觉并非越高越好，而是与 10Hz 动作输出形成快慢时标互补；2Hz/10Hz/100Hz 的消融直接展示了接触瞬态对采样率的敏感性。\n\n**和已有方法的关系：**\n\n- 相较 RISE、ACT 和 Diffusion Policy 的纯视觉路线，FoAR 增加了高频力觉和阶段门控；相较 force-token/force-concat，它显式建模接触时机而不是全程注入。\n\n**可借鉴点：**\n\n- 对任何稀疏激活的传感模态先学习一个“何时可信”的门控变量，再把门控同时接到特征融合和执行逻辑，可迁移到触觉、音频或事件相机。\n- 保留非接触与接触两套时间集成缓冲区，避免接触阶段的动作块污染自由空间轨迹，是实现反应式策略时一个低成本的工程细节。",
+    "insightCore": [
+      "这项工作的主要贡献更像“控制接口设计”而非新的扩散骨干：把接触状态预测变成融合门控和控制触发器，使一个视觉策略能在不同物理阶段切换信息源。",
+      "FoAR (3D-cls) 共享点云编码器后反而显著变差，说明接触预测关注“是否接触”的粗粒度线索，而动作策略需要物体位置和末端姿态等细粒度线索，两个目标应保持表示隔离。",
+      "100Hz 力觉并非越高越好，而是与 10Hz 动作输出形成快慢时标互补；2Hz/10Hz/100Hz 的消融直接展示了接触瞬态对采样率的敏感性。"
+    ],
+    "insightRelations": [
+      "相较 RISE、ACT 和 Diffusion Policy 的纯视觉路线，FoAR 增加了高频力觉和阶段门控；相较 force-token/force-concat，它显式建模接触时机而不是全程注入。"
+    ],
+    "insightBorrowable": [
+      "对任何稀疏激活的传感模态先学习一个“何时可信”的门控变量，再把门控同时接到特征融合和执行逻辑，可迁移到触觉、音频或事件相机。",
+      "保留非接触与接触两套时间集成缓冲区，避免接触阶段的动作块污染自由空间轨迹，是实现反应式策略时一个低成本的工程细节。"
+    ],
+    "risks": "**局限：**\n\n- 静态阈值（8N、5N·m、phi=0.9）依赖传感器、工具和任务，换环境后需要重新标定，尚未证明跨机器人或跨物体的阈值不变性。\n- 实验规模较小且为单臂、单相机、三类精心设计任务；切菜仅 FoAR 与 RISE 各 10 次，统计置信区间和失败模式覆盖有限。\n- 位置控制下的纠偏只是沿动作方向的固定小步，不能显式控制法向力、顺应性或切向摩擦；论文也承认复杂环境可能需要混合力/位置或阻抗控制。\n\n**适用场景：**\n\n- 适合擦除、削皮、插入、打磨、切割等接触状态难以从视觉区分、且需要持续或瞬时力调整的单臂操作。\n- 也适合作为现有视觉扩散策略的增量模块：当已有位置控制接口但缺少力觉闭环时，可先复用门控预测器和小步纠偏。\n\n**最终判断：**\n\n- 证据支持 FoAR 在受控真实机器人场景中显著改善接触成功率和动作质量，但不能据此宣称已解决通用力控；其优势依赖 OptoForce 传感器、示范分布和任务阈值，跨平台部署仍需校准与更强控制器。",
+    "riskLimitations": [
+      "静态阈值（8N、5N·m、phi=0.9）依赖传感器、工具和任务，换环境后需要重新标定，尚未证明跨机器人或跨物体的阈值不变性。",
+      "实验规模较小且为单臂、单相机、三类精心设计任务；切菜仅 FoAR 与 RISE 各 10 次，统计置信区间和失败模式覆盖有限。",
+      "位置控制下的纠偏只是沿动作方向的固定小步，不能显式控制法向力、顺应性或切向摩擦；论文也承认复杂环境可能需要混合力/位置或阻抗控制。"
+    ],
+    "riskScenarios": [
+      "适合擦除、削皮、插入、打磨、切割等接触状态难以从视觉区分、且需要持续或瞬时力调整的单臂操作。",
+      "也适合作为现有视觉扩散策略的增量模块：当已有位置控制接口但缺少力觉闭环时，可先复用门控预测器和小步纠偏。"
+    ],
+    "riskJudgment": [
+      "证据支持 FoAR 在受控真实机器人场景中显著改善接触成功率和动作质量，但不能据此宣称已解决通用力控；其优势依赖 OptoForce 传感器、示范分布和任务阈值，跨平台部署仍需校准与更强控制器。"
+    ],
+    "resultsTableMarkdown": "| 任务/方法 | 得分 | 关键 ASR |\n| --- | ---: | ---: |\n| 擦除 FoAR | 0.875 | 抓取 100%，擦除 100% |\n| 擦除（一般）FoAR | 0.850 | 抓取 100%，擦除 100% |\n| 削皮 FoAR | 0.756 | 抓取 100%，削皮 100% |\n| 擦除 RISE | 0.500 | 抓取 100%，擦除 75% |\n| 削皮 RISE | 0.377 | 抓取 100%，削皮 50% |\n| 切菜 FoAR | 3.9±0.9 段 | Place ASR 70% |\n| 切菜 RISE | 1.8±0.6 段 | Place ASR 30% |",
+    "resultsTable": {
+      "columns": [
+        "任务/方法",
+        "得分",
+        "关键 ASR"
+      ],
+      "rows": [
+        [
+          "擦除 FoAR",
+          "0.875",
+          "抓取 100%，擦除 100%"
+        ],
+        [
+          "擦除（一般）FoAR",
+          "0.850",
+          "抓取 100%，擦除 100%"
+        ],
+        [
+          "削皮 FoAR",
+          "0.756",
+          "抓取 100%，削皮 100%"
+        ],
+        [
+          "擦除 RISE",
+          "0.500",
+          "抓取 100%，擦除 75%"
+        ],
+        [
+          "削皮 RISE",
+          "0.377",
+          "抓取 100%，削皮 50%"
+        ],
+        [
+          "切菜 FoAR",
+          "3.9±0.9 段",
+          "Place ASR 70%"
+        ],
+        [
+          "切菜 RISE",
+          "1.8±0.6 段",
+          "Place ASR 30%"
+        ]
+      ]
+    },
+    "figureGallery": [
+      {
+        "zone": "method",
+        "caption": "方法图",
+        "src": "https://arxiv.org/html/2411.15753v2/model.png"
+      },
+      {
+        "zone": "method",
+        "caption": "方法图",
+        "src": "https://arxiv.org/html/2411.15753v2/task.png"
+      },
+      {
+        "zone": "results",
+        "caption": "结果图",
+        "src": "https://arxiv.org/html/2411.15753v2/peel.png"
+      },
+      {
+        "zone": "results",
+        "caption": "结果图",
+        "src": "https://arxiv.org/html/2411.15753v2/chop-metric.png"
+      }
+    ],
+    "relatedTopicSlugs": [
+      "contact-rich-manipulation"
+    ]
+  },
+  {
     "slug": "mem-multi-scale-embodied-memory-for-vision-language-action-models",
     "title": "MEM: Multi-Scale Embodied Memory for Vision Language Action Models",
     "sourceType": "paper",
@@ -4332,371 +4863,6 @@
     ],
     "relatedTopicSlugs": [
       "vision-language-action"
-    ]
-  },
-  {
-    "slug": "foar-force-aware-reactive-policy-for-contact-rich-robotic-manipulation",
-    "title": "FoAR: Force-Aware Reactive Policy for Contact-Rich Robotic Manipulation",
-    "sourceType": "paper",
-    "sourceUrl": "https://arxiv.org/abs/2411.15753",
-    "htmlUrl": "https://arxiv.org/html/2411.15753v2",
-    "pdfUrl": "https://arxiv.org/pdf/2411.15753",
-    "codeUrl": "https://tonyfang.net/FoAR/",
-    "translationUrl": "https://hjfy.top/arxiv/2411.15753",
-    "publishDate": "2025-05-02",
-    "authors": [
-      "Zihao He",
-      "Hongjie Fang",
-      "Jingjing Chen",
-      "Hao-Shu Fang",
-      "Cewu Lu"
-    ],
-    "affiliation": "Shanghai Jiao Tong University",
-    "relatedOrganizations": [
-      "Shanghai Jiao Tong University"
-    ],
-    "relatedCompanies": [],
-    "keywords": [
-      "contact-rich manipulation",
-      "force/torque sensing",
-      "reactive control"
-    ],
-    "primaryDomainSlug": "physical-embodied-intelligence",
-    "domainSlugs": [
-      "physical-embodied-intelligence"
-    ],
-    "heroImage": "https://arxiv.org/html/2411.15753v2/teaser.png",
-    "tldr": "FoAR 的关键不是把力/扭矩简单拼到视觉策略上，而是先预测未来是否会接触，再用这个概率门控力觉特征，并在部署时用力觉触发小步反应式修正。仅用 50 条示范，它在擦除、削皮和切菜等接触丰富任务上显著超过 RISE 与多种融合基线，并在白板被移动或重写后保持 100% 基本动作成功率。",
-    "intuition": "把机器人想成同时拥有“远视”和“触觉”：点云负责看清场景与目标，100Hz 力/扭矩历史负责判断是否真正压到物体。FoAR 先问“未来几步会不会接触”，只有答案接近会接触时才放大力觉信息；一旦预测要接触但当前力不足，就沿动作块的前进方向补一个很小的位置步长。这样既避免了非接触阶段的传感器噪声，又不需要完整的阻抗控制器。\n\n![主要图](https://arxiv.org/html/2411.15753v2/teaser.png)\n\n*主要图*",
-    "abstractEn": "Contact-rich tasks present significant challenges for robotic manipulation policies due to the complex dynamics of contact and the need for precise control. Vision-based policies often struggle with the skill required for such tasks, as they typically lack critical contact feedback modalities like force/torque information. To address this issue, we propose FoAR, a force-aware reactive policy that combines high-frequency force/torque sensing with visual inputs to enhance the performance in contact-rich manipulation. Built upon the RISE policy, FoAR incorporates a multimodal feature fusion mechanism guided by a future contact predictor, enabling dynamic adjustment of force/torque data usage between non-contact and contact phases. Its reactive control strategy also allows FoAR to accomplish contact-rich tasks accurately through simple position control. Experimental results demonstrate that FoAR significantly outperforms all baselines across various challenging contact-rich tasks while maintaining robust performance under unexpected dynamic disturbances.",
-    "abstractZh": "接触丰富任务具有复杂的接触动力学，并要求精确控制，因此对机器人操作策略很具挑战。基于视觉的策略通常缺少力/扭矩等关键接触反馈，难以完成这类任务。论文提出 FoAR，一种融合高频力/扭矩感知与视觉输入的力觉感知反应式策略。FoAR 构建在 RISE 之上，引入由未来接触预测器引导的多模态特征融合，在非接触和接触阶段动态调节力/扭矩数据的使用比例。其反应式控制策略还使机器人仅用简单的位置控制就能准确完成接触丰富操作。实验表明，FoAR 在多种具有挑战性的接触丰富任务上显著超过所有基线，并能在意外动态扰动下保持稳健性能。",
-    "background": "**动机：** 擦除、削皮、切菜等任务的难点不是到达某个视觉目标，而是在接触发生后持续保持合适的法向力、方向和时序。接触前后的 RGB 或点云差异很小，视觉策略无法可靠知道工具是否真正压到表面；力/扭矩传感器能直接暴露物理交互，但在抓取、移动等非接触阶段又会产生噪声。此前把力觉特征全程拼接或作为额外 token 的做法没有区分任务阶段，可能反过来伤害抓取和接近动作。\n\n**问题缺口：** 论文要解决的是一个具体的阶段选择问题：如何让策略只在即将接触或已经接触时依赖高频力/扭矩，同时保留视觉策略在非接触阶段的泛化能力；以及如何把这种接触判断转化为无需手工调刚度、接触方向的在线纠偏。FoAR 以未来接触概率作为共享接口，将感知融合和反应式控制统一起来。",
-    "backgroundMotivation": "擦除、削皮、切菜等任务的难点不是到达某个视觉目标，而是在接触发生后持续保持合适的法向力、方向和时序。接触前后的 RGB 或点云差异很小，视觉策略无法可靠知道工具是否真正压到表面；力/扭矩传感器能直接暴露物理交互，但在抓取、移动等非接触阶段又会产生噪声。此前把力觉特征全程拼接或作为额外 token 的做法没有区分任务阶段，可能反过来伤害抓取和接近动作。",
-    "backgroundGap": "论文要解决的是一个具体的阶段选择问题：如何让策略只在即将接触或已经接触时依赖高频力/扭矩，同时保留视觉策略在非接触阶段的泛化能力；以及如何把这种接触判断转化为无需手工调刚度、接触方向的在线纠偏。FoAR 以未来接触概率作为共享接口，将感知融合和反应式控制统一起来。",
-    "method": "**方法概述：** FoAR 将高频六维力/扭矩历史、RGB-D 点云和扩散动作头组合成一个阶段感知策略：独立预测未来接触概率 phi，用 phi 对力觉特征做软门控；部署时以 phi、8N 力阈值和 5N·m 扭矩阈值触发 0.006m 反应式位置修正。该设计在小样本真实机器人设置中同时改善接触精度与非接触动作可靠性。\n\n**核心机制：** 策略输入当前 RGB-D 点云 p_t、约 2 秒窗口的 100Hz 六维力/扭矩历史 f_(t-To:t) 和 RGB 图像 I_t。稀疏 3D 编码器与 Transformer 产出 512 维场景特征 h_s，三层 MLP 加时间 Transformer 产出 512 维力觉特征 h_f；独立的 ResNet18+MLP 接触预测器输出未来接触概率 phi。融合特征为 [h_s; phi*h_f+(1-phi)*h*]，再条件化扩散去噪动作头生成未来动作块；训练用动作 L2 损失与接触二元交叉熵之和，部署时按 phi 和力/扭矩阈值做反应式位置修正。\n\n**方法拆解：**\n\n- 阶段感知编码：点云经稀疏 3D ResNet 与 Transformer 得到场景 token；100Hz 力/扭矩序列经 MLP、正弦位置编码和时间 Transformer 得到力觉 token。\n- 未来接触门控：独立预测器用当前 RGB 与力觉历史预测未来接触概率 phi，并将力觉特征软门控到 phi*h_f+(1-phi)*h*，避免非接触噪声污染策略。\n- 扩散动作生成：门控后的多模态特征作为条件，扩散动作头逐步去噪生成长度为 T_a 的末端执行器动作块。\n- 部署反应式控制：当 phi>=0.9 且当前力低于 8N 或扭矩低于 5N·m 时，沿预测动作块的平均前进方向补偿 epsilon=0.006m；接触与非接触阶段使用独立时间集成缓冲区。\n\n**关键要点：**\n\n- “是否需要触觉”本身是可学习的时序决策，软门控比全程拼接或 token 注入更能处理接触稀疏性。\n- 未来接触预测和反应式控制是协同设计：预测器既控制特征融合，也决定何时启用力觉纠偏，降低了单独设计模块的接口错配。\n\n![方法图](https://arxiv.org/html/2411.15753v2/model.png)\n\n*方法图*\n\n![方法图](https://arxiv.org/html/2411.15753v2/task.png)\n\n*方法图*",
-    "methodOverview": "FoAR 将高频六维力/扭矩历史、RGB-D 点云和扩散动作头组合成一个阶段感知策略：独立预测未来接触概率 phi，用 phi 对力觉特征做软门控；部署时以 phi、8N 力阈值和 5N·m 扭矩阈值触发 0.006m 反应式位置修正。该设计在小样本真实机器人设置中同时改善接触精度与非接触动作可靠性。",
-    "methodCore": "策略输入当前 RGB-D 点云 p_t、约 2 秒窗口的 100Hz 六维力/扭矩历史 f_(t-To:t) 和 RGB 图像 I_t。稀疏 3D 编码器与 Transformer 产出 512 维场景特征 h_s，三层 MLP 加时间 Transformer 产出 512 维力觉特征 h_f；独立的 ResNet18+MLP 接触预测器输出未来接触概率 phi。融合特征为 [h_s; phi*h_f+(1-phi)*h*]，再条件化扩散去噪动作头生成未来动作块；训练用动作 L2 损失与接触二元交叉熵之和，部署时按 phi 和力/扭矩阈值做反应式位置修正。",
-    "methodBreakdown": [
-      "阶段感知编码：点云经稀疏 3D ResNet 与 Transformer 得到场景 token；100Hz 力/扭矩序列经 MLP、正弦位置编码和时间 Transformer 得到力觉 token。",
-      "未来接触门控：独立预测器用当前 RGB 与力觉历史预测未来接触概率 phi，并将力觉特征软门控到 phi*h_f+(1-phi)*h*，避免非接触噪声污染策略。",
-      "扩散动作生成：门控后的多模态特征作为条件，扩散动作头逐步去噪生成长度为 T_a 的末端执行器动作块。",
-      "部署反应式控制：当 phi>=0.9 且当前力低于 8N 或扭矩低于 5N·m 时，沿预测动作块的平均前进方向补偿 epsilon=0.006m；接触与非接触阶段使用独立时间集成缓冲区。"
-    ],
-    "methodTakeaways": [
-      "“是否需要触觉”本身是可学习的时序决策，软门控比全程拼接或 token 注入更能处理接触稀疏性。",
-      "未来接触预测和反应式控制是协同设计：预测器既控制特征融合，也决定何时启用力觉纠偏，降低了单独设计模块的接口错配。"
-    ],
-    "results": "**核心结果：**\n\n- 真实平台为 Flexiv Rizon + Dahuan AG-95 + OptoForce 六轴力/扭矩传感器 + RealSense D435，工作空间 45cm x 60cm x 40cm；每个擦除/削皮任务 50 条示范，切菜 40 条示范。\n- 擦除、一般擦除和削皮得分分别为 0.875、0.850、0.756，三项抓取与接触动作 ASR 均为 100%；对应最佳基线 RISE 得分为 0.500、0.500、0.377。\n- 切菜中 FoAR 平均切出 3.9±0.9 段，归一化段长均值/标准差 0.353/0.094；RISE 仅 1.8±0.6 段，0.727/0.411，FoAR 更接近示范 oracle 的 5.0 段和 0.200/0.056。\n- 擦除消融显示 100Hz+预测器+反应式控制得分 0.875、擦除 ASR 100%；去掉反应式控制得分降至 0.650，降到 2Hz/10Hz 时分别为 0.625/0.800。\n- 一般擦除的 Rewrite、Move、Rewrite+Move 扰动下，FoAR 得分/抓取 ASR/擦除 ASR 始终为 0.800-0.850/100%/100%，而 RISE 与 force-token 版本明显波动。\n\n**结果表：**\n\n| 任务/方法 | 得分 | 关键 ASR |\n| --- | ---: | ---: |\n| 擦除 FoAR | 0.875 | 抓取 100%，擦除 100% |\n| 擦除（一般）FoAR | 0.850 | 抓取 100%，擦除 100% |\n| 削皮 FoAR | 0.756 | 抓取 100%，削皮 100% |\n| 擦除 RISE | 0.500 | 抓取 100%，擦除 75% |\n| 削皮 RISE | 0.377 | 抓取 100%，削皮 50% |\n| 切菜 FoAR | 3.9±0.9 段 | Place ASR 70% |\n| 切菜 RISE | 1.8±0.6 段 | Place ASR 30% |\n\n![结果图](https://arxiv.org/html/2411.15753v2/peel.png)\n\n*结果图*\n\n![结果图](https://arxiv.org/html/2411.15753v2/chop-metric.png)\n\n*结果图*",
-    "resultHighlights": [
-      "真实平台为 Flexiv Rizon + Dahuan AG-95 + OptoForce 六轴力/扭矩传感器 + RealSense D435，工作空间 45cm x 60cm x 40cm；每个擦除/削皮任务 50 条示范，切菜 40 条示范。",
-      "擦除、一般擦除和削皮得分分别为 0.875、0.850、0.756，三项抓取与接触动作 ASR 均为 100%；对应最佳基线 RISE 得分为 0.500、0.500、0.377。",
-      "切菜中 FoAR 平均切出 3.9±0.9 段，归一化段长均值/标准差 0.353/0.094；RISE 仅 1.8±0.6 段，0.727/0.411，FoAR 更接近示范 oracle 的 5.0 段和 0.200/0.056。",
-      "擦除消融显示 100Hz+预测器+反应式控制得分 0.875、擦除 ASR 100%；去掉反应式控制得分降至 0.650，降到 2Hz/10Hz 时分别为 0.625/0.800。",
-      "一般擦除的 Rewrite、Move、Rewrite+Move 扰动下，FoAR 得分/抓取 ASR/擦除 ASR 始终为 0.800-0.850/100%/100%，而 RISE 与 force-token 版本明显波动。"
-    ],
-    "insights": "**核心 insight：**\n\n- 这项工作的主要贡献更像“控制接口设计”而非新的扩散骨干：把接触状态预测变成融合门控和控制触发器，使一个视觉策略能在不同物理阶段切换信息源。\n- FoAR (3D-cls) 共享点云编码器后反而显著变差，说明接触预测关注“是否接触”的粗粒度线索，而动作策略需要物体位置和末端姿态等细粒度线索，两个目标应保持表示隔离。\n- 100Hz 力觉并非越高越好，而是与 10Hz 动作输出形成快慢时标互补；2Hz/10Hz/100Hz 的消融直接展示了接触瞬态对采样率的敏感性。\n\n**和已有方法的关系：**\n\n- 相较 RISE、ACT 和 Diffusion Policy 的纯视觉路线，FoAR 增加了高频力觉和阶段门控；相较 force-token/force-concat，它显式建模接触时机而不是全程注入。\n\n**可借鉴点：**\n\n- 对任何稀疏激活的传感模态先学习一个“何时可信”的门控变量，再把门控同时接到特征融合和执行逻辑，可迁移到触觉、音频或事件相机。\n- 保留非接触与接触两套时间集成缓冲区，避免接触阶段的动作块污染自由空间轨迹，是实现反应式策略时一个低成本的工程细节。",
-    "insightCore": [
-      "这项工作的主要贡献更像“控制接口设计”而非新的扩散骨干：把接触状态预测变成融合门控和控制触发器，使一个视觉策略能在不同物理阶段切换信息源。",
-      "FoAR (3D-cls) 共享点云编码器后反而显著变差，说明接触预测关注“是否接触”的粗粒度线索，而动作策略需要物体位置和末端姿态等细粒度线索，两个目标应保持表示隔离。",
-      "100Hz 力觉并非越高越好，而是与 10Hz 动作输出形成快慢时标互补；2Hz/10Hz/100Hz 的消融直接展示了接触瞬态对采样率的敏感性。"
-    ],
-    "insightRelations": [
-      "相较 RISE、ACT 和 Diffusion Policy 的纯视觉路线，FoAR 增加了高频力觉和阶段门控；相较 force-token/force-concat，它显式建模接触时机而不是全程注入。"
-    ],
-    "insightBorrowable": [
-      "对任何稀疏激活的传感模态先学习一个“何时可信”的门控变量，再把门控同时接到特征融合和执行逻辑，可迁移到触觉、音频或事件相机。",
-      "保留非接触与接触两套时间集成缓冲区，避免接触阶段的动作块污染自由空间轨迹，是实现反应式策略时一个低成本的工程细节。"
-    ],
-    "risks": "**局限：**\n\n- 静态阈值（8N、5N·m、phi=0.9）依赖传感器、工具和任务，换环境后需要重新标定，尚未证明跨机器人或跨物体的阈值不变性。\n- 实验规模较小且为单臂、单相机、三类精心设计任务；切菜仅 FoAR 与 RISE 各 10 次，统计置信区间和失败模式覆盖有限。\n- 位置控制下的纠偏只是沿动作方向的固定小步，不能显式控制法向力、顺应性或切向摩擦；论文也承认复杂环境可能需要混合力/位置或阻抗控制。\n\n**适用场景：**\n\n- 适合擦除、削皮、插入、打磨、切割等接触状态难以从视觉区分、且需要持续或瞬时力调整的单臂操作。\n- 也适合作为现有视觉扩散策略的增量模块：当已有位置控制接口但缺少力觉闭环时，可先复用门控预测器和小步纠偏。\n\n**最终判断：**\n\n- 证据支持 FoAR 在受控真实机器人场景中显著改善接触成功率和动作质量，但不能据此宣称已解决通用力控；其优势依赖 OptoForce 传感器、示范分布和任务阈值，跨平台部署仍需校准与更强控制器。",
-    "riskLimitations": [
-      "静态阈值（8N、5N·m、phi=0.9）依赖传感器、工具和任务，换环境后需要重新标定，尚未证明跨机器人或跨物体的阈值不变性。",
-      "实验规模较小且为单臂、单相机、三类精心设计任务；切菜仅 FoAR 与 RISE 各 10 次，统计置信区间和失败模式覆盖有限。",
-      "位置控制下的纠偏只是沿动作方向的固定小步，不能显式控制法向力、顺应性或切向摩擦；论文也承认复杂环境可能需要混合力/位置或阻抗控制。"
-    ],
-    "riskScenarios": [
-      "适合擦除、削皮、插入、打磨、切割等接触状态难以从视觉区分、且需要持续或瞬时力调整的单臂操作。",
-      "也适合作为现有视觉扩散策略的增量模块：当已有位置控制接口但缺少力觉闭环时，可先复用门控预测器和小步纠偏。"
-    ],
-    "riskJudgment": [
-      "证据支持 FoAR 在受控真实机器人场景中显著改善接触成功率和动作质量，但不能据此宣称已解决通用力控；其优势依赖 OptoForce 传感器、示范分布和任务阈值，跨平台部署仍需校准与更强控制器。"
-    ],
-    "resultsTableMarkdown": "| 任务/方法 | 得分 | 关键 ASR |\n| --- | ---: | ---: |\n| 擦除 FoAR | 0.875 | 抓取 100%，擦除 100% |\n| 擦除（一般）FoAR | 0.850 | 抓取 100%，擦除 100% |\n| 削皮 FoAR | 0.756 | 抓取 100%，削皮 100% |\n| 擦除 RISE | 0.500 | 抓取 100%，擦除 75% |\n| 削皮 RISE | 0.377 | 抓取 100%，削皮 50% |\n| 切菜 FoAR | 3.9±0.9 段 | Place ASR 70% |\n| 切菜 RISE | 1.8±0.6 段 | Place ASR 30% |",
-    "resultsTable": {
-      "columns": [
-        "任务/方法",
-        "得分",
-        "关键 ASR"
-      ],
-      "rows": [
-        [
-          "擦除 FoAR",
-          "0.875",
-          "抓取 100%，擦除 100%"
-        ],
-        [
-          "擦除（一般）FoAR",
-          "0.850",
-          "抓取 100%，擦除 100%"
-        ],
-        [
-          "削皮 FoAR",
-          "0.756",
-          "抓取 100%，削皮 100%"
-        ],
-        [
-          "擦除 RISE",
-          "0.500",
-          "抓取 100%，擦除 75%"
-        ],
-        [
-          "削皮 RISE",
-          "0.377",
-          "抓取 100%，削皮 50%"
-        ],
-        [
-          "切菜 FoAR",
-          "3.9±0.9 段",
-          "Place ASR 70%"
-        ],
-        [
-          "切菜 RISE",
-          "1.8±0.6 段",
-          "Place ASR 30%"
-        ]
-      ]
-    },
-    "figureGallery": [
-      {
-        "zone": "method",
-        "caption": "方法图",
-        "src": "https://arxiv.org/html/2411.15753v2/model.png"
-      },
-      {
-        "zone": "method",
-        "caption": "方法图",
-        "src": "https://arxiv.org/html/2411.15753v2/task.png"
-      },
-      {
-        "zone": "results",
-        "caption": "结果图",
-        "src": "https://arxiv.org/html/2411.15753v2/peel.png"
-      },
-      {
-        "zone": "results",
-        "caption": "结果图",
-        "src": "https://arxiv.org/html/2411.15753v2/chop-metric.png"
-      }
-    ],
-    "relatedTopicSlugs": [
-      "contact-rich-manipulation"
-    ]
-  },
-  {
-    "slug": "2605.11048-forceflow-learning-to-feel-and-act-via-contact-driven-flow-matching",
-    "title": "ForceFlow: Learning to Feel and Act via Contact-Driven Flow Matching",
-    "sourceType": "paper",
-    "sourceUrl": "https://arxiv.org/abs/2605.11048",
-    "htmlUrl": "https://arxiv.org/html/2605.11048v2",
-    "pdfUrl": "https://arxiv.org/pdf/2605.11048",
-    "codeUrl": "",
-    "translationUrl": "https://hjfy.top/arxiv/2605.11048",
-    "publishDate": "2026-05-11",
-    "authors": [
-      "Shuoheng Zhang",
-      "Yifu Yuan",
-      "Hongyao Tang",
-      "Yan Zheng",
-      "Qiaojun Yu",
-      "Pengyi Li",
-      "Guowei Huang",
-      "Helong Huang",
-      "Xingyue Quan",
-      "Jianye Hao"
-    ],
-    "affiliation": "Tianjin University",
-    "relatedOrganizations": [
-      "Tianjin University",
-      "Huawei Noah's Ark Lab",
-      "Shanghai AI Lab"
-    ],
-    "relatedCompanies": [
-      "Huawei"
-    ],
-    "keywords": [
-      "flow matching",
-      "force-torque sensing",
-      "contact-rich manipulation"
-    ],
-    "primaryDomainSlug": "physical-embodied-intelligence",
-    "domainSlugs": [
-      "physical-embodied-intelligence"
-    ],
-    "heroImage": "https://arxiv.org/html/2605.11048v2/motivation.png",
-    "tldr": "ForceFlow 的关键不是简单给模仿策略多拼一组力信号，而是让十步力历史通过 AdaLN 在每个生成层持续调制动作，同时让视觉只通过 cross-attention 提供按需空间参考，再用“动作 + 下一步六维力”联合预测形成隐式柔顺正则。六项真机任务平均成功率为 81.67%，较输入模态相同的 ForceVLA 45% 高 36.67 个百分点；但它仍依赖高质量六轴力矩传感器、手工标注的 VLM 接触点数据与单一 xArm6 平台，不能直接外推成低成本通用接触策略。",
-    "intuition": "可以把 ForceFlow 看成两名接力选手。第一名 VLM 负责“看懂目标在哪里”，把机械臂送到目标附近；进入局部交互窗口后，第二名 ForceFlow 接管，主要依据最近十步腕部力矩变化判断是否已经碰到、是否因摩擦卡住、是否沿曲面失去压力。模型还会预测下一步应该感受到什么力来约束动作表示，但真正发给控制器的仍是位姿增量，预测力并不直接闭环控制执行器。\n\n![ForceFlow 总览：V2F 将视觉定位与力驱动接触执行分成两个阶段](https://arxiv.org/html/2605.11048v2/motivation.png)\n\n*图 1：VLM 负责 approach stage 的目标定位，ForceFlow 负责 contact stage 的局部接触执行；论文分别评测物理属性变化和空间位置变化。*",
-    "abstractEn": "Existing imitation learning methods enable robots to interact autonomously with the physical environment. However, contact-rich manipulation tasks remain a significant challenge due to complex contact dynamics that demand high-precision force feedback and control. Although recent efforts have attempted to integrate force/torque sensing into policies, how to build a simple yet effective framework that achieves robust generalization under multimodal observations remains an open question. In this paper, we propose ForceFlow, a force-aware reactive framework built upon flow matching. For contact-stage policy design, we investigate force signal fusion mechanisms and adopt an asymmetric multimodal fusion architecture that treats force as a global regulatory signal, combined with a joint prediction paradigm that enhances the policy's understanding of instantaneous force and historical information, thereby achieving deep coupling between force and motion. For task-level hierarchical decomposition, we divide manipulation into a vision-dominant approach stage (VLM-based pointing for target localization) and a touch-dominant interaction stage (force-driven contact execution), with a Vision-to-Force (V2F) handover mechanism that explicitly decouples spatial generalization from contact regulation. Experimental results across six real-world contact-rich tasks demonstrate that ForceFlow achieves a 37% success rate improvement over the strong baseline ForceVLA while maintaining significantly lower cost. Moreover, ForceFlow exhibits accurate force signal prediction and demonstrates superior performance in contact force self-regulation and zero-shot out-of-distribution (OOD) generalization.",
-    "abstractZh": "现有模仿学习方法已经能让机器人自主与物理环境交互，但接触密集操作仍然很困难，因为复杂的接触动力学要求高精度力反馈和控制。尽管近期工作开始把力/力矩感知加入策略，怎样在多模态观测下构建简单而有效、又具有稳健泛化能力的框架，仍是开放问题。本文提出 ForceFlow：一种基于 flow matching 的力感知反应式框架。在接触阶段，作者研究力信号融合方式，采用非对称多模态架构，把力视为全局调节信号，并联合预测动作与力，以增强策略对瞬时力和历史信息的理解，形成运动与力的深层耦合。在任务层级上，操作被分成视觉主导的接近阶段和触觉主导的交互阶段，通过 Vision-to-Force（V2F）交接机制显式分离空间泛化与接触调节。六项真实接触任务表明，ForceFlow 相比 ForceVLA 的平均成功率提高约 37 个百分点，同时保持更低的力偏差，并在力预测、自我调节与零样本 OOD 泛化上表现更好。",
-    "background": "**动机：** 视觉适合做宏观定位，却很难独立判断纸堆厚度、按钮弹簧阈值、插口中的摩擦卡滞以及曲面法向变化。接触发生后，遮挡、有限分辨率和物体外观相似会让相机继续“看见目标”，但机器人真正需要知道的是阻力是否开始、反作用力矩指向哪里、法向力是否稳定。因而接触操作不是单纯的几何轨迹生成问题，而是一个需要低维、高频、强时序反馈持续校正的动力学问题。\n\n**问题缺口：** 现有 force-aware 策略仍有两类结构性缺口。其一，高维视觉 token 容易在端到端优化中淹没低维 wrench，使模型表面上接入了力，实际上依旧主要跟随视觉。其二，大范围空间泛化依赖语义定位，局部接触泛化依赖快速物理反馈，把二者压进同一策略会产生职责冲突。ForceFlow 要回答的是：怎样让力信号在生成网络中成为无法忽略的全局约束，同时把空间 OOD 和未知刚度、摩擦、几何下的物理 OOD 分开处理。",
-    "backgroundMotivation": "视觉适合做宏观定位，却很难独立判断纸堆厚度、按钮弹簧阈值、插口中的摩擦卡滞以及曲面法向变化。接触发生后，遮挡、有限分辨率和物体外观相似会让相机继续“看见目标”，但机器人真正需要知道的是阻力是否开始、反作用力矩指向哪里、法向力是否稳定。因而接触操作不是单纯的几何轨迹生成问题，而是一个需要低维、高频、强时序反馈持续校正的动力学问题。",
-    "backgroundGap": "现有 force-aware 策略仍有两类结构性缺口。其一，高维视觉 token 容易在端到端优化中淹没低维 wrench，使模型表面上接入了力，实际上依旧主要跟随视觉。其二，大范围空间泛化依赖语义定位，局部接触泛化依赖快速物理反馈，把二者压进同一策略会产生职责冲突。ForceFlow 要回答的是：怎样让力信号在生成网络中成为无法忽略的全局约束，同时把空间 OOD 和未知刚度、摩擦、几何下的物理 OOD 分开处理。",
-    "method": "**方法概述：** ForceFlow 把任务拆成 approach stage 和 interaction stage。前者由微调后的 Embodied-R1 根据全局 RGB 与语言指令预测目标接触像素，经深度和相机内参反投影到三维 waypoint，再由运动规划器完成接近；位置条件满足后，V2F 把控制权交给局部策略。后者以 DiT-1D 为骨干，在双视角 RGB、7D 本体状态和十步 6D force-torque history 条件下，用 continuous rectified flow 生成 64 步混合动作块，执行前 32 步后重新观测和规划。\n\n**核心机制：** 关键是非对称条件化。力历史与本体状态经 MLP 得到全局向量条件 `c_vec`，在每个 Transformer block 中通过 AdaLN 改变特征的缩放与偏置，所以力不是偶尔被注意力读取的附加 token，而是贯穿整个生成过程的调节约束；双视角视觉则保留为序列条件 `c_seq`，由动作 token 通过 cross-attention 选择性读取。Flow Matching 在专家混合动作与高斯噪声之间学习确定性速度场，混合动作同时包含位姿/夹爪命令与下一步六维接触力；执行时只下发运动分量，预测力仅作为训练期辅助目标，迫使共享表示学习“动作会怎样改变接触”。\n\n**方法拆解：**\n\n- **VLM 指点与三维反投影**：在示范初始帧人工标注目标接触点，把图像、语言和二维坐标构造成 VQA 数据微调 VLM；推理时用深度与内参把预测像素变成机械臂基座坐标系中的 approach waypoint。\n- **位置触发的 V2F 接棒**：运动规划器先完成大尺度移动，到达局部交互区后严格按位置条件切换。VLM 不负责后续接触，ForceFlow 也不承担全工作空间语义搜索。\n- **两条不对称观测通路**：双视角、两帧 RGB 经预训练 ResNet-18 得到视觉序列；7D 本体状态与十步、每步六维的 wrench 历史形成向量条件。前者进入 cross-attention，后者进入所有 DiT block 的 AdaLN。\n- **混合动作空间**：动作维度为 13，包括 6D 末端位姿增量、1D 夹爪以及 6D 下一步力预测。作者在专家动作 `a₀` 与高斯噪声 `a₁` 之间使用线性概率路径 `aₖ=(1-k)a₀+ka₁`，学习常数目标漂移 `a₁-a₀`。\n- **确定性 ODE 采样**：推理从噪声侧 `k=1` 向数据侧 `k=0` 用 Euler solver 积分。模型生成 64 步动作块，但仅执行 32 步，随后刷新视觉、状态与力历史。\n- **未来力辅助监督**：预测的 `f̂(t+1)` 不直接进入低层力控制器。它的作用更接近物理一致性正则：如果动作表示无法解释接下来会出现的力，联合 flow-matching loss 就会惩罚它。\n\n**关键要点：**\n\n- 十步力历史主要决定“能不能做对”：Stamp 上缩成单步后成功率从 85% 降到 55%，说明瞬时力无法稳定区分传感器噪声、碰撞尖峰和真实接触状态。\n- 未来力预测主要决定“做得是否平顺”：移除预测分量后成功率只从 85% 降到 80%，但 Force Cost 从 10.61 N 增到 12.52 N。\n- V2F 解决空间定位，ForceFlow 解决局部接触；二者是职责分离而非一个端到端大模型。给所有基线配同一 V2F 后，ForceFlow+V2F 平均仍为 33.33%，高于 ForceVLA+V2F 的 13.33%。\n- 视觉在接触阶段仍不可省：屏蔽交互阶段视觉后，Stamp 和 Clean Whiteboard 仍有 80%/90%，但 Plug、Insert、Clean Vase 全部降到 0%，表明力负责顺应性，视觉仍负责持续空间锚定。\n\n![ForceFlow 架构：力与本体状态走 AdaLN，视觉走 cross-attention](https://arxiv.org/html/2605.11048v2/1.png)\n\n*图 2：非对称融合是论文的核心。预测输出同时含运动增量与下一步力，但执行器只接收运动命令。*",
-    "methodOverview": "ForceFlow 把任务拆成 approach stage 和 interaction stage。前者由微调后的 Embodied-R1 根据全局 RGB 与语言指令预测目标接触像素，经深度和相机内参反投影到三维 waypoint，再由运动规划器完成接近；位置条件满足后，V2F 把控制权交给局部策略。后者以 DiT-1D 为骨干，在双视角 RGB、7D 本体状态和十步 6D force-torque history 条件下，用 continuous rectified flow 生成 64 步混合动作块，执行前 32 步后重新观测和规划。",
-    "methodCore": "关键是非对称条件化。力历史与本体状态经 MLP 得到全局向量条件 `c_vec`，在每个 Transformer block 中通过 AdaLN 改变特征的缩放与偏置，所以力不是偶尔被注意力读取的附加 token，而是贯穿整个生成过程的调节约束；双视角视觉则保留为序列条件 `c_seq`，由动作 token 通过 cross-attention 选择性读取。Flow Matching 在专家混合动作与高斯噪声之间学习确定性速度场，混合动作同时包含位姿/夹爪命令与下一步六维接触力；执行时只下发运动分量，预测力仅作为训练期辅助目标，迫使共享表示学习“动作会怎样改变接触”。",
-    "methodBreakdown": [
-      "**VLM 指点与三维反投影**：在示范初始帧人工标注目标接触点，把图像、语言和二维坐标构造成 VQA 数据微调 VLM；推理时用深度与内参把预测像素变成机械臂基座坐标系中的 approach waypoint。",
-      "**位置触发的 V2F 接棒**：运动规划器先完成大尺度移动，到达局部交互区后严格按位置条件切换。VLM 不负责后续接触，ForceFlow 也不承担全工作空间语义搜索。",
-      "**两条不对称观测通路**：双视角、两帧 RGB 经预训练 ResNet-18 得到视觉序列；7D 本体状态与十步、每步六维的 wrench 历史形成向量条件。前者进入 cross-attention，后者进入所有 DiT block 的 AdaLN。",
-      "**混合动作空间**：动作维度为 13，包括 6D 末端位姿增量、1D 夹爪以及 6D 下一步力预测。作者在专家动作 `a₀` 与高斯噪声 `a₁` 之间使用线性概率路径 `aₖ=(1-k)a₀+ka₁`，学习常数目标漂移 `a₁-a₀`。",
-      "**确定性 ODE 采样**：推理从噪声侧 `k=1` 向数据侧 `k=0` 用 Euler solver 积分。模型生成 64 步动作块，但仅执行 32 步，随后刷新视觉、状态与力历史。",
-      "**未来力辅助监督**：预测的 `f̂(t+1)` 不直接进入低层力控制器。它的作用更接近物理一致性正则：如果动作表示无法解释接下来会出现的力，联合 flow-matching loss 就会惩罚它。"
-    ],
-    "methodTakeaways": [
-      "十步力历史主要决定“能不能做对”：Stamp 上缩成单步后成功率从 85% 降到 55%，说明瞬时力无法稳定区分传感器噪声、碰撞尖峰和真实接触状态。",
-      "未来力预测主要决定“做得是否平顺”：移除预测分量后成功率只从 85% 降到 80%，但 Force Cost 从 10.61 N 增到 12.52 N。",
-      "V2F 解决空间定位，ForceFlow 解决局部接触；二者是职责分离而非一个端到端大模型。给所有基线配同一 V2F 后，ForceFlow+V2F 平均仍为 33.33%，高于 ForceVLA+V2F 的 13.33%。",
-      "视觉在接触阶段仍不可省：屏蔽交互阶段视觉后，Stamp 和 Clean Whiteboard 仍有 80%/90%，但 Plug、Insert、Clean Vase 全部降到 0%，表明力负责顺应性，视觉仍负责持续空间锚定。"
-    ],
-    "results": "**核心结果：**\n\n- **六项主任务**：每项 20 次测试，ForceFlow 在 Stamp、Plug、Press、Insert、Clean Whiteboard、Clean Vase 上分别为 85%、90%、90%、60%、100%、65%，平均 81.67%。ForceVLA 平均 45%，Diffusion Policy 30.83%，π0.5 为 24.17%，ACT 为 8.33%。\n- **力一致性**：ForceFlow 的平均 Force Fidelity MAE 为 8.23 N，显著低于 Diffusion Policy 21.42 N、无力输入变体 22.67 N、ForceVLA 23.31 N。六项任务上它都是最低值。\n- **视觉歧义**：纸堆厚度从 1 张到约 5 cm、按钮对象具有不同弹簧阈值时，ForceFlow 分别达到 85% 和 90%；作者将其归因于力历史能把“碰到并达到阈值”作为状态切换依据。\n- **几何卡滞**：Plug 为 90%，亚毫米公差的 USB Insert 为 60%。模型利用错位产生的反作用力矩形成小幅横移与摆动，但这一行为证据主要来自定性观察，并非显式规划出的搜索策略。\n- **连续接触**：平面白板为 100%，曲面花瓶为 65%；ForceVLA 在白板同样 100%，但在花瓶为 0%，说明曲率变化比平面恒定法向更能区分调节能力。\n- **物理 OOD**：更换不同刚度、厚度的擦具和不同高度、弹簧阈值的瓶子，不微调时 ForceFlow 在 Press、Clean Whiteboard、Clean Vase 上为 80%、100%、60%，平均 80%；ForceVLA 平均约 43.3%。\n- **空间 OOD**：目标测试区与训练区不重叠。单独的 ForceFlow 与所有独立低层策略均为 0%；配 V2F 后 ForceFlow 在 Press、Plug、Clean Whiteboard 上为 40%、10%、50%，平均 33.33%。\n- **效率**：ForceFlow 单次下层推理约 83.3 ms，与 ForceVLA 的 84.1 ms 接近；每次执行 32/64 步，论文给出的重新规划周期约 1.15 s。VLM 上层约 1.805 s，但只运行一次。\n\n![六项任务中完整 ForceFlow 与无力输入变体的接触力分布](https://arxiv.org/html/2605.11048v2/RQ2force.svg)\n\n*图 3：每项任务 20 次的最大力或接触期有效平均力。完整模型的跨试验方差普遍更小；短接触任务用峰值、连续任务用阈值以上的平均力，二者不应直接横向比较绝对数值。*\n\n![ForceFlow 预测力与真实测量力的单次轨迹对齐](https://arxiv.org/html/2605.11048v2/RQ2predict.svg)\n\n*图 4：预测力与实测力在接触建立、释放及持续擦拭阶段同步变化。它支持“模型学到接触状态”这一解释，但论文没有报告跨测试集的预测误差汇总或校准指标。*",
-    "resultHighlights": [
-      "**六项主任务**：每项 20 次测试，ForceFlow 在 Stamp、Plug、Press、Insert、Clean Whiteboard、Clean Vase 上分别为 85%、90%、90%、60%、100%、65%，平均 81.67%。ForceVLA 平均 45%，Diffusion Policy 30.83%，π0.5 为 24.17%，ACT 为 8.33%。",
-      "**力一致性**：ForceFlow 的平均 Force Fidelity MAE 为 8.23 N，显著低于 Diffusion Policy 21.42 N、无力输入变体 22.67 N、ForceVLA 23.31 N。六项任务上它都是最低值。",
-      "**视觉歧义**：纸堆厚度从 1 张到约 5 cm、按钮对象具有不同弹簧阈值时，ForceFlow 分别达到 85% 和 90%；作者将其归因于力历史能把“碰到并达到阈值”作为状态切换依据。",
-      "**几何卡滞**：Plug 为 90%，亚毫米公差的 USB Insert 为 60%。模型利用错位产生的反作用力矩形成小幅横移与摆动，但这一行为证据主要来自定性观察，并非显式规划出的搜索策略。",
-      "**连续接触**：平面白板为 100%，曲面花瓶为 65%；ForceVLA 在白板同样 100%，但在花瓶为 0%，说明曲率变化比平面恒定法向更能区分调节能力。",
-      "**物理 OOD**：更换不同刚度、厚度的擦具和不同高度、弹簧阈值的瓶子，不微调时 ForceFlow 在 Press、Clean Whiteboard、Clean Vase 上为 80%、100%、60%，平均 80%；ForceVLA 平均约 43.3%。",
-      "**空间 OOD**：目标测试区与训练区不重叠。单独的 ForceFlow 与所有独立低层策略均为 0%；配 V2F 后 ForceFlow 在 Press、Plug、Clean Whiteboard 上为 40%、10%、50%，平均 33.33%。",
-      "**效率**：ForceFlow 单次下层推理约 83.3 ms，与 ForceVLA 的 84.1 ms 接近；每次执行 32/64 步，论文给出的重新规划周期约 1.15 s。VLM 上层约 1.805 s，但只运行一次。"
-    ],
-    "insights": "**核心 insight：**\n\n- 这篇论文真正针对的是 **modal masking** 与 **职责冲突**，而不只是“flow matching 比 diffusion 好”。把低维但控制关键的力信号放进归一化调制，把高维视觉降为按需读取的空间证据，是一种明确的模态权力分配。\n- 联合预测力不等于显式力控制。ForceFlow 没有把预测力送进阻抗或混合力位控制器，更准确的表述是：它用未来 wrench 监督学习隐式顺应性，使动作表示包含接触后果。\n- 作者把 force 的角色拆成三种：视觉不可辨时是主模态，精密插入卡滞时是辅助模态，沿面操作时是调节模态。同一个传感器是否有价值，取决于任务阶段和信息缺口，而非是否被简单拼进输入。\n- 成功率和力质量必须分别报告。无力输入变体在 Clean Whiteboard 也达到 100%，但整体 Force Cost 更高，说明“几何上完成任务”不能替代安全性、平顺性和接近专家接触分布的度量。\n- V2F 是一个务实的模块化设计：让通用模型只做一次语义定位，让较小策略专注局部动力学。代价是系统需要深度标定、运动规划、交接阈值与两套训练数据，集成复杂度从模型内部转移到了系统边界。\n\n**和已有方法的关系：**\n\n- **对 ForceVLA**：二者使用相同的多视角 RGB、EEF pose 与 6D EEF wrench，因而比较比跨触觉硬件的横向排名更可控；主要差异在融合机制、力历史以及生成目标。\n- **对 Diffusion Policy**：Continuous Rectified Flow 用确定性 ODE 路径追求平滑和少步采样，但实测推理延迟 83.3 ms 并未显著优于 ForceVLA 的 84.1 ms，不能仅凭生成范式宣称数量级加速。\n- **对 RDP / T-Rex / TacForcing**：这些路线强调在动作块执行期间用最新触觉快速修订未来动作；ForceFlow 执行 32 步、约 1.15 秒才重新规划，属于滚动闭环，但不等同于每个 30 Hz 控制 tick 都重新推理的高频反应层。\n- **对 Facet-0**：两者都联合提出运动与未来 wrench；ForceFlow 把未来力当训练期辅助目标，而 Facet-0 还在部署期让 critic 比较动作—wrench 后果。前者结构更简单，后者显式承担候选价值判断。\n- **对 FD-VLA**：FD-VLA 尝试用训练期真实力蒸馏出部署期无需力传感器的 token；ForceFlow 则保留实时六轴传感器，因而更能处理视觉、本体状态无法辨识的突发卡滞，但硬件门槛更高。\n\n**可借鉴点：**\n\n- 对统计性质极不对称的模态，不要默认 concat；可以让低维控制信号调制 LayerNorm，让高维空间信号走 cross-attention。\n- 辅助预测应选择动作的物理后果，例如未来 wrench，而不只是重建当前输入；这样能直接约束动作—接触耦合。\n- 若上层语义泛化与下层物理泛化需要不同频率、数据和模型容量，显式交接通常比强迫一个模型同时解决更容易诊断。\n- 接触策略评测至少应并列任务成功、峰值/有效力分布、跨 trial 方差、预测—实测一致性、物理 OOD、空间 OOD 和端到端重规划频率。\n\n![物理 OOD 与空间 OOD 的评测设置](https://arxiv.org/html/2605.11048v2/ood.png)\n\n*图 5：左侧更换工具/物体但固定空间位置，右侧把测试目标放到训练区域之外。论文用 V2F 显式区分两种泛化，而不是把它们混成一个成功率。*",
-    "insightCore": [
-      "这篇论文真正针对的是 **modal masking** 与 **职责冲突**，而不只是“flow matching 比 diffusion 好”。把低维但控制关键的力信号放进归一化调制，把高维视觉降为按需读取的空间证据，是一种明确的模态权力分配。",
-      "联合预测力不等于显式力控制。ForceFlow 没有把预测力送进阻抗或混合力位控制器，更准确的表述是：它用未来 wrench 监督学习隐式顺应性，使动作表示包含接触后果。",
-      "作者把 force 的角色拆成三种：视觉不可辨时是主模态，精密插入卡滞时是辅助模态，沿面操作时是调节模态。同一个传感器是否有价值，取决于任务阶段和信息缺口，而非是否被简单拼进输入。",
-      "成功率和力质量必须分别报告。无力输入变体在 Clean Whiteboard 也达到 100%，但整体 Force Cost 更高，说明“几何上完成任务”不能替代安全性、平顺性和接近专家接触分布的度量。",
-      "V2F 是一个务实的模块化设计：让通用模型只做一次语义定位，让较小策略专注局部动力学。代价是系统需要深度标定、运动规划、交接阈值与两套训练数据，集成复杂度从模型内部转移到了系统边界。"
-    ],
-    "insightRelations": [
-      "**对 ForceVLA**：二者使用相同的多视角 RGB、EEF pose 与 6D EEF wrench，因而比较比跨触觉硬件的横向排名更可控；主要差异在融合机制、力历史以及生成目标。",
-      "**对 Diffusion Policy**：Continuous Rectified Flow 用确定性 ODE 路径追求平滑和少步采样，但实测推理延迟 83.3 ms 并未显著优于 ForceVLA 的 84.1 ms，不能仅凭生成范式宣称数量级加速。",
-      "**对 RDP / T-Rex / TacForcing**：这些路线强调在动作块执行期间用最新触觉快速修订未来动作；ForceFlow 执行 32 步、约 1.15 秒才重新规划，属于滚动闭环，但不等同于每个 30 Hz 控制 tick 都重新推理的高频反应层。",
-      "**对 Facet-0**：两者都联合提出运动与未来 wrench；ForceFlow 把未来力当训练期辅助目标，而 Facet-0 还在部署期让 critic 比较动作—wrench 后果。前者结构更简单，后者显式承担候选价值判断。",
-      "**对 FD-VLA**：FD-VLA 尝试用训练期真实力蒸馏出部署期无需力传感器的 token；ForceFlow 则保留实时六轴传感器，因而更能处理视觉、本体状态无法辨识的突发卡滞，但硬件门槛更高。"
-    ],
-    "insightBorrowable": [
-      "对统计性质极不对称的模态，不要默认 concat；可以让低维控制信号调制 LayerNorm，让高维空间信号走 cross-attention。",
-      "辅助预测应选择动作的物理后果，例如未来 wrench，而不只是重建当前输入；这样能直接约束动作—接触耦合。",
-      "若上层语义泛化与下层物理泛化需要不同频率、数据和模型容量，显式交接通常比强迫一个模型同时解决更容易诊断。",
-      "接触策略评测至少应并列任务成功、峰值/有效力分布、跨 trial 方差、预测—实测一致性、物理 OOD、空间 OOD 和端到端重规划频率。"
-    ],
-    "risks": "**局限：**\n\n- 六项主任务都来自同一 xArm6、同一腕部六轴力矩传感器和同一实验室控制栈；每任务 50–100 条示范、20 次主测试，尚无跨机器人、跨传感器或多机构复现。\n- V2F 需要人工标注示范初始帧的二维接触关键点并微调 VLM，还依赖深度相机、相机内参、运动规划与位置阈值切换；它不是从语言到接触执行的端到端通用策略。\n- “主动力预测”不直接参与低层力控制，论文也没有为预测误差、错误接触判断或传感器漂移提供控制稳定性与安全保证。\n- 摘要中的“37% success rate improvement”实际对应 `81.67%-45%=36.67` 个百分点；若按相对提升计算则约为 81.5%，因此应理解为绝对百分点，而不是相对百分比。\n- Force Cost 以专家峰值力或接触期平均力的 MAE 为参照，不直接等价于损伤率、安全余量或任务最优接触力，而且短接触与连续接触使用不同统计量。\n- 下层重规划周期约 1.15 秒，所以“高频力反馈”更准确地描述传感信号和底层执行频率，而非策略在每个 30 Hz 控制周期都完成一次新推理。\n- 六项主任务主要比较单任务训练策略。论文展示了物体属性与位置 OOD，但没有证明跨任务、跨语言指令或开放场景中的通用接触迁移。\n\n**适用场景：**\n\n- 适合腕部六轴力矩可用、接触阶段局部且需要处理高度、刚度、摩擦或曲面变化的压、插、擦、削等操作。\n- 适合把已有视觉定位/VLM 与一个小型局部接触专家组合，尤其是在全工作空间端到端策略容易被空间变化和接触变化同时拖累时。\n- 不适合直接承担安全关键高速碰撞控制，也不适合没有可靠力传感、深度标定或局部运动规划能力的低成本平台。\n\n**最终判断：**\n\n- 这是一篇值得纳入接触策略设计路线的强系统论文：架构动机、同模态受控基线、六项主任务、力质量、两类 OOD 与组件消融基本形成闭环证据。\n- 最应该记住的是“力历史决定是否做对，未来力预测改善是否做得平顺”；最不应过度外推的是“通用、低成本、高频”，因为高质量六轴传感、人工关键点数据、约 1.15 秒重规划周期和单平台实验仍是硬约束。\n- 后续最关键的验证是：在等控制频率与等传感器条件下，与真正 execution-time tactile refinement 方法直接对比，并把任务成功、力峰值、损伤、延迟和扰动恢复放进统一评测。",
-    "riskLimitations": [
-      "六项主任务都来自同一 xArm6、同一腕部六轴力矩传感器和同一实验室控制栈；每任务 50–100 条示范、20 次主测试，尚无跨机器人、跨传感器或多机构复现。",
-      "V2F 需要人工标注示范初始帧的二维接触关键点并微调 VLM，还依赖深度相机、相机内参、运动规划与位置阈值切换；它不是从语言到接触执行的端到端通用策略。",
-      "“主动力预测”不直接参与低层力控制，论文也没有为预测误差、错误接触判断或传感器漂移提供控制稳定性与安全保证。",
-      "摘要中的“37% success rate improvement”实际对应 `81.67%-45%=36.67` 个百分点；若按相对提升计算则约为 81.5%，因此应理解为绝对百分点，而不是相对百分比。",
-      "Force Cost 以专家峰值力或接触期平均力的 MAE 为参照，不直接等价于损伤率、安全余量或任务最优接触力，而且短接触与连续接触使用不同统计量。",
-      "下层重规划周期约 1.15 秒，所以“高频力反馈”更准确地描述传感信号和底层执行频率，而非策略在每个 30 Hz 控制周期都完成一次新推理。",
-      "六项主任务主要比较单任务训练策略。论文展示了物体属性与位置 OOD，但没有证明跨任务、跨语言指令或开放场景中的通用接触迁移。"
-    ],
-    "riskScenarios": [
-      "适合腕部六轴力矩可用、接触阶段局部且需要处理高度、刚度、摩擦或曲面变化的压、插、擦、削等操作。",
-      "适合把已有视觉定位/VLM 与一个小型局部接触专家组合，尤其是在全工作空间端到端策略容易被空间变化和接触变化同时拖累时。",
-      "不适合直接承担安全关键高速碰撞控制，也不适合没有可靠力传感、深度标定或局部运动规划能力的低成本平台。"
-    ],
-    "riskJudgment": [
-      "这是一篇值得纳入接触策略设计路线的强系统论文：架构动机、同模态受控基线、六项主任务、力质量、两类 OOD 与组件消融基本形成闭环证据。",
-      "最应该记住的是“力历史决定是否做对，未来力预测改善是否做得平顺”；最不应过度外推的是“通用、低成本、高频”，因为高质量六轴传感、人工关键点数据、约 1.15 秒重规划周期和单平台实验仍是硬约束。",
-      "后续最关键的验证是：在等控制频率与等传感器条件下，与真正 execution-time tactile refinement 方法直接对比，并把任务成功、力峰值、损伤、延迟和扰动恢复放进统一评测。"
-    ],
-    "resultsTableMarkdown": "| 研究问题 | ForceFlow | 关键对照 | 如何解读 |\n| --- | ---: | ---: | --- |\n| 六任务平均成功率 | 81.67% | ForceVLA 45% | 高 36.67 个百分点；不是相对提高 37% |\n| 平均 Force Fidelity MAE | 8.23 N | Diffusion Policy 21.42 N；ForceVLA 23.31 N | 更接近专家力分布，六项均最低 |\n| Stamp：十步 → 单步力历史 | 85% → 55% | Force Cost 10.61 → 15.50 N | 时间上下文同时影响成功与稳定 |\n| Stamp：移除未来力预测 | 85% → 80% | Force Cost 10.61 → 12.52 N | 辅助预测更像执行品质正则 |\n| Stamp：两项同时移除 | 85% → 40% | Force Cost 10.61 → 18.21 N | 力历史与预测具有协同作用 |\n| 物理 OOD 平均 | 80% | ForceVLA 43.3% | 对未知刚度、厚度和工具有优势 |\n| 空间 OOD + V2F 平均 | 33.33% | ForceVLA+V2F 13.33% | 上层定位不能替代下层接触能力 |\n| 接触阶段屏蔽视觉 | 30.8% | 完整模型 81.6% | 纯力仅适合单轴/平面任务，复杂几何仍需视觉 |\n| 下层推理 / 重规划 | 83.3 ms / 约 1.15 s | ForceVLA 84.1 ms / 约 0.917 s | 生成延迟接近，但闭环刷新更慢 |",
-    "resultsTable": {
-      "columns": [
-        "研究问题",
-        "ForceFlow",
-        "关键对照",
-        "如何解读"
-      ],
-      "rows": [
-        [
-          "六任务平均成功率",
-          "81.67%",
-          "ForceVLA 45%",
-          "高 36.67 个百分点；不是相对提高 37%"
-        ],
-        [
-          "平均 Force Fidelity MAE",
-          "8.23 N",
-          "Diffusion Policy 21.42 N；ForceVLA 23.31 N",
-          "更接近专家力分布，六项均最低"
-        ],
-        [
-          "Stamp：十步 → 单步力历史",
-          "85% → 55%",
-          "Force Cost 10.61 → 15.50 N",
-          "时间上下文同时影响成功与稳定"
-        ],
-        [
-          "Stamp：移除未来力预测",
-          "85% → 80%",
-          "Force Cost 10.61 → 12.52 N",
-          "辅助预测更像执行品质正则"
-        ],
-        [
-          "Stamp：两项同时移除",
-          "85% → 40%",
-          "Force Cost 10.61 → 18.21 N",
-          "力历史与预测具有协同作用"
-        ],
-        [
-          "物理 OOD 平均",
-          "80%",
-          "ForceVLA 43.3%",
-          "对未知刚度、厚度和工具有优势"
-        ],
-        [
-          "空间 OOD + V2F 平均",
-          "33.33%",
-          "ForceVLA+V2F 13.33%",
-          "上层定位不能替代下层接触能力"
-        ],
-        [
-          "接触阶段屏蔽视觉",
-          "30.8%",
-          "完整模型 81.6%",
-          "纯力仅适合单轴/平面任务，复杂几何仍需视觉"
-        ],
-        [
-          "下层推理 / 重规划",
-          "83.3 ms / 约 1.15 s",
-          "ForceVLA 84.1 ms / 约 0.917 s",
-          "生成延迟接近，但闭环刷新更慢"
-        ]
-      ]
-    },
-    "figureGallery": [
-      {
-        "zone": "method",
-        "caption": "ForceFlow 架构：力与本体状态走 AdaLN，视觉走 cross-attention",
-        "src": "https://arxiv.org/html/2605.11048v2/1.png"
-      },
-      {
-        "zone": "results",
-        "caption": "六项任务中完整 ForceFlow 与无力输入变体的接触力分布",
-        "src": "https://arxiv.org/html/2605.11048v2/RQ2force.svg"
-      },
-      {
-        "zone": "results",
-        "caption": "ForceFlow 预测力与真实测量力的单次轨迹对齐",
-        "src": "https://arxiv.org/html/2605.11048v2/RQ2predict.svg"
-      },
-      {
-        "zone": "insights",
-        "caption": "物理 OOD 与空间 OOD 的评测设置",
-        "src": "https://arxiv.org/html/2605.11048v2/ood.png"
-      }
-    ],
-    "relatedTopicSlugs": [
-      "contact-rich-manipulation"
     ]
   }
 ]
