@@ -4864,5 +4864,169 @@
     "relatedTopicSlugs": [
       "vision-language-action"
     ]
+  },
+  {
+    "slug": "ge-act-2-0-pretraining-and-scaling-a-world-action-model-for-robotic-manipulation",
+    "title": "GE-Act 2.0: Pretraining and Scaling a World-Action Model for Robotic Manipulation",
+    "sourceType": "paper",
+    "sourceUrl": "",
+    "htmlUrl": "https://arxiv.org/html/2609.05588v1",
+    "pdfUrl": "https://arxiv.org/pdf/2609.05588.pdf",
+    "codeUrl": "",
+    "translationUrl": "https://hjfy.top/arxiv/2609.05588",
+    "publishDate": "2026-09-04",
+    "authors": [
+      "Renhang Liu",
+      "Wenzhi Zhao",
+      "Zhuo Yang",
+      "Liliang Chen",
+      "Pengfei Zhou",
+      "Shengcong Chen",
+      "Guanghui Ren",
+      "AgiBot Research Team"
+    ],
+    "affiliation": "AgiBot Research Team",
+    "relatedOrganizations": [
+      "AgiBot Research Team",
+      "Maniformer"
+    ],
+    "relatedCompanies": [
+      "AgiBot"
+    ],
+    "keywords": [
+      "world-action-model",
+      "robot-manipulation"
+    ],
+    "primaryDomainSlug": "physical-embodied-intelligence",
+    "domainSlugs": [
+      "physical-embodied-intelligence"
+    ],
+    "heroImage": "https://arxiv.org/html/2609.05588v1/fig_system_v04.png",
+    "tldr": "GE-Act 2.0 把 world model 的“预测未来画面”和 policy 的“输出动作”拆成可分别预训练、再可微分连接的两段，并用 KASO 解决“生成的未来与示范动作可能不是同一种正确行为”的监督错配。它最有价值的证据不是某个单点 benchmark，而是从 300 小时扩到 30,000 小时后，两个真实机器人上的零样本 OOD 操作成功率仍持续上升；但它目前仍是短视的 System-1 控制器，不等于开放环境中的完整机器人智能。",
+    "intuition": "给机器人一张多视角当前画面、一条语言指令和本体状态，GE-Act 2.0 先在极度压缩但保留控制信息的 latent 空间里“想象”一个完成后的未来状态，再让逆动力学模型回答“从现在到这个未来应该怎么动”。训练时它会从同一上下文采样多个未来，不把所有未来都硬配给示范动作，而是让当前 IDM 先判断哪些未来会诱导出与真实动作一致的控制，再只对这些候选回传梯度。这样既保留生成模型的多模态，又避免动作回归把不同策略平均成一个不可执行的中间动作。",
+    "abstractEn": "World–action models predict future states to guide robot actions, enabling learning from both action-free video and action-labeled interaction. Yet most inherit pretrained video generators, leaving pretraining and scaling of world–action models underexplored. We introduce Genie Envisioner Act 2.0 (GE-Act 2.0), a world–action model in which every trainable generative and action component is initialized from scratch on manipulation data.\n\nGE-Act 2.0 combines a control-oriented autoencoder (CoAE), a single-step visual planner (SVP), and an inverse dynamics model (IDM). CoAE retains action- and instruction-relevant information under aggressive compression, while SVP produces a completed future state in one differentiable pass, allowing visual planning and inverse dynamics to be pretrained separately on complementary data.\n\nThese components are then jointly trained using knowledge-aligned selective optimization (KASO), which reduces mismatched supervision by selecting only predicted future states judged behaviorally compatible with the recorded action. We evaluate pretrained checkpoints directly, without per-task fine-tuning, on 100 tasks across 20 manipulation skill groups, with held-out scenes, backgrounds, lighting conditions, and object instances.\n\nScaling co-training data from 300 to 30,000 hours raises success from 17.1% to 44.1% on G1-OP and from 13.4% to 31.1% on G2-90D. Despite comprising less than 2% of the co-training data, G2-90D improves by 17.7 points, suggesting useful cross-embodiment transfer from the broader corpus. The gains span 19/20 and 18/20 skill groups, respectively, and skill-specific coverage strongly correlates with zero-shot out-of-distribution (OOD) success (Pearson $r=0.80$; Spearman $\\rho=0.85$). Under the same zero-shot OOD protocol, the model grounds object, color, shape, and position references in at least 90% of trials; qualitative stress tests further show that it follows explicit instructions even when they conflict with an already-committed behavior or a conventional scene association.",
+    "abstractZh": "World-action model 通过预测未来状态来引导机器人动作，因此可以同时利用无动作视频和带动作标注的交互数据。但现有研究大多继承预训练视频生成器，对 world-action model 本身如何预训练和规模化讨论不足。作者提出 Genie Envisioner Act 2.0（GE-Act 2.0），其中所有可训练的生成组件和动作组件都在操作数据上从头初始化和预训练。\n\nGE-Act 2.0 由控制导向自编码器（CoAE）、单步视觉规划器（SVP）和逆动力学模型（IDM）组成。CoAE 在激进压缩下保留与动作和指令有关的信息；SVP 通过一次可微前向计算生成完整的未来状态，使视觉规划和逆动力学可以先在互补数据上分别预训练。\n\n随后，三者用知识对齐选择性优化（KASO）联合训练。KASO 只选择被判断为与记录动作在行为上兼容的预测未来状态，从而减少监督错配。作者直接评估预训练 checkpoint，不做按任务微调，在 20 个操作技能组的 100 个任务上使用未见过的场景、背景、光照和物体实例进行测试。\n\n当 co-training 数据从 300 小时扩展到 30,000 小时时，G1-OP 成功率从 17.1% 提升到 44.1%，G2-90D 从 13.4% 提升到 31.1%。尽管 G2-90D 只占 co-training 数据的不到 2%，其成功率仍提高 17.7 个百分点，显示更大规模的跨 embodiment 语料可以迁移到数据稀缺的平台。技能组收益分别覆盖 19/20 和 18/20 个组，技能专属数据覆盖与零样本 OOD 成功率高度相关（Pearson $r=0.80$，Spearman $\\rho=0.85$）。在同一零样本 OOD 协议下，模型对物体、颜色、形状和位置指代的 grounding 在至少 90% 的试验中正确；定性压力测试还显示，即使新指令与已经启动的行为或常见场景联想冲突，模型也能跟随显式指令。",
+    "background": "**动机：** 直接把视觉、语言映射到动作的 VLA 能从大规模示范中学到通用操作，但动作损失本身并不要求模型显式理解“动作会怎样改变物理世界”。World-action model 通过先预测未来视觉状态再生成动作，为无动作视频和没有语言/成功标注的机器人轨迹提供了进入训练闭环的入口。GE-Act 2.0 进一步把问题聚焦到“如何从零预训练并规模化整个 world-action 系统”，而不是只把一个已有视频生成器接到动作头上。\n\n**问题缺口：** 现有 WAM 路线有三个系统性断点：通用视频自编码器压缩率不足且不保证保留控制信息；多步视频生成成本高，使视觉规划器和 IDM 难以在互补数据上独立预训练；生成未来与示范动作即使都合理，也可能代表不同的行为模式，直接配对会产生 validity gap，让动作模型学到平均或冲突的监督。论文因此需要同时设计控制导向表示、单步可微规划接口和能识别动作兼容性的联合训练规则，并用不经任务微调的 OOD 评测证明预训练本身真的在增长能力。",
+    "backgroundMotivation": "直接把视觉、语言映射到动作的 VLA 能从大规模示范中学到通用操作，但动作损失本身并不要求模型显式理解“动作会怎样改变物理世界”。World-action model 通过先预测未来视觉状态再生成动作，为无动作视频和没有语言/成功标注的机器人轨迹提供了进入训练闭环的入口。GE-Act 2.0 进一步把问题聚焦到“如何从零预训练并规模化整个 world-action 系统”，而不是只把一个已有视频生成器接到动作头上。",
+    "backgroundGap": "现有 WAM 路线有三个系统性断点：通用视频自编码器压缩率不足且不保证保留控制信息；多步视频生成成本高，使视觉规划器和 IDM 难以在互补数据上独立预训练；生成未来与示范动作即使都合理，也可能代表不同的行为模式，直接配对会产生 validity gap，让动作模型学到平均或冲突的监督。论文因此需要同时设计控制导向表示、单步可微规划接口和能识别动作兼容性的联合训练规则，并用不经任务微调的 OOD 评测证明预训练本身真的在增长能力。",
+    "method": "**方法概述：** 系统先用 CoAE 把当前多视角观测压成每帧 24 个 token 的控制导向 latent；SVP 在这些 latent 上以指令为条件，只对未来帧做单步 MeanFlow 式去噪，输出稠密近未来和稀疏远未来状态；IDM 将当前 latent、预测未来 latent 和 proprioception 转成稠密执行动作块及稀疏长程动作。训练顺序是 CoAE/SVP 的视频预训练、IDM 的真实轨迹预训练，最后用 KASO 连接两者并保留各自预训练损失。\n\n**核心机制：** CoAE 不把重建清晰度当作唯一目标，而把像素/感知/GAN 重建与 SigLIP 2、V-JEPA 2.1、DINOv3 三个冻结视觉教师的特征对齐相加，使极端压缩后的 token 仍携带语言语义、时空结构和稠密视觉信息。SVP 采用条件化单步流生成：观测坐标始终保持干净，未来坐标从噪声一次性还原，因此生成结果可对 SVP 参数保持梯度。KASO 则在无梯度阶段采样 N 个未来，用 IDM 在高噪声动作流点比较每个未来与记录未来的动作响应，选出 top-k 后重放随机噪声并回传生成动作损失，避免把不同 outcome mode 强行配到同一个动作标签。\n\n**方法拆解：**\n\n- **CoAE 表示学习**：在 $256\\times384$ 输入上做 $64\\times$ 空间下采样，得到 $4\\times6$ 的 512 通道网格，即每帧 24 个 latent token；重建损失之外，用三类视觉教师进行余弦特征对齐。\n- **SVP 单步规划**：固定当前观测帧，只演化被 mask 的未来帧；在推理时用 $(r,t)=(0,1)$ 的一次前向完全去噪多视角未来 latent，降低多步视频采样成本并保留端到端梯度。\n- **IDM 动作恢复**：通过 future latent 的 cross-attention，同时预测控制频率的稠密动作 chunk 和更远时间的稀疏动作；部署时执行稠密 chunk，稀疏序列作为长程意图的辅助监督。\n- **KASO 选择性联合训练**：对同一上下文采样多个候选未来，使用 active IDM 的动作流响应计算兼容能量，只让 top-k 候选接受生成未来的动作损失，同时保留 SVP 与 IDM 的原始预训练损失。\n\n**关键要点：**\n\n- 论文把“视觉未来”和“动作”之间的接口明确化为一个可微的完整未来状态，而不是仅依赖生成器内部特征或并行动作头。\n- KASO 的判据在动作空间而不是像素空间：外观不同但诱导同一动作的未来可以兼容，而视觉逼真却对应另一行为模式的未来会被过滤。\n- 稀疏未来动作不是部署输出，而是让 IDM 在训练时同时看到近程执行和远程目标，缓解单纯短 horizon 控制的局限。\n\n![GE-Act 2.0 系统架构：SVP 生成未来视觉状态，IDM 将其转成动作](https://arxiv.org/html/2609.05588v1/fig_system_v04.png)\n\n*图 1：GE-Act 2.0 的 world-action 接口。*\n\n![CoAE 架构与多教师对齐目标](https://arxiv.org/html/2609.05588v1/fig_uae_architecture_v01.svg)\n\n*图 2：CoAE 的极端压缩和重建/教师对齐训练。*",
+    "methodOverview": "系统先用 CoAE 把当前多视角观测压成每帧 24 个 token 的控制导向 latent；SVP 在这些 latent 上以指令为条件，只对未来帧做单步 MeanFlow 式去噪，输出稠密近未来和稀疏远未来状态；IDM 将当前 latent、预测未来 latent 和 proprioception 转成稠密执行动作块及稀疏长程动作。训练顺序是 CoAE/SVP 的视频预训练、IDM 的真实轨迹预训练，最后用 KASO 连接两者并保留各自预训练损失。",
+    "methodCore": "CoAE 不把重建清晰度当作唯一目标，而把像素/感知/GAN 重建与 SigLIP 2、V-JEPA 2.1、DINOv3 三个冻结视觉教师的特征对齐相加，使极端压缩后的 token 仍携带语言语义、时空结构和稠密视觉信息。SVP 采用条件化单步流生成：观测坐标始终保持干净，未来坐标从噪声一次性还原，因此生成结果可对 SVP 参数保持梯度。KASO 则在无梯度阶段采样 N 个未来，用 IDM 在高噪声动作流点比较每个未来与记录未来的动作响应，选出 top-k 后重放随机噪声并回传生成动作损失，避免把不同 outcome mode 强行配到同一个动作标签。",
+    "methodBreakdown": [
+      "**CoAE 表示学习**：在 $256\\times384$ 输入上做 $64\\times$ 空间下采样，得到 $4\\times6$ 的 512 通道网格，即每帧 24 个 latent token；重建损失之外，用三类视觉教师进行余弦特征对齐。",
+      "**SVP 单步规划**：固定当前观测帧，只演化被 mask 的未来帧；在推理时用 $(r,t)=(0,1)$ 的一次前向完全去噪多视角未来 latent，降低多步视频采样成本并保留端到端梯度。",
+      "**IDM 动作恢复**：通过 future latent 的 cross-attention，同时预测控制频率的稠密动作 chunk 和更远时间的稀疏动作；部署时执行稠密 chunk，稀疏序列作为长程意图的辅助监督。",
+      "**KASO 选择性联合训练**：对同一上下文采样多个候选未来，使用 active IDM 的动作流响应计算兼容能量，只让 top-k 候选接受生成未来的动作损失，同时保留 SVP 与 IDM 的原始预训练损失。"
+    ],
+    "methodTakeaways": [
+      "论文把“视觉未来”和“动作”之间的接口明确化为一个可微的完整未来状态，而不是仅依赖生成器内部特征或并行动作头。",
+      "KASO 的判据在动作空间而不是像素空间：外观不同但诱导同一动作的未来可以兼容，而视觉逼真却对应另一行为模式的未来会被过滤。",
+      "稀疏未来动作不是部署输出，而是让 IDM 在训练时同时看到近程执行和远程目标，缓解单纯短 horizon 控制的局限。"
+    ],
+    "results": "**核心结果：**\n\n- **表示质量**：CoAE 的 action probe MAE 为 0.01673，仅比 token 数多 16 倍的 DINOv3（0.01273）和 V-JEPA 2.1（0.01487）高 13%-31%，但每帧只有 24 个 token；指令匹配错误率为 2.05%，优于 DC-AE 的 2.71% 和三个冻结教师。\n- **KASO 消融**：在同一套 39,000 小时 SVP、32,000 小时 IDM 初始化和 300 小时连接数据上，四物体场景的 pick success 从 E2E+PT 的 22.5% 提升到 KASO 的 37.5%，单物体场景从 12% 提升到 40%；follow score 也从 E2E 的 87.5% 提升到 95%。\n- **数据规模化**：G1-OP 的零样本 OOD suite success 从 300 小时的 17.1% 经 1,200/5,000 小时的 22.6%/27.3% 提升到 30,000 小时的 44.1%；G2-90D 从 13.4% 提升到 31.1%，在 18/20 个技能组有收益。\n- **技能覆盖效应**：除 Close 外的 19 个技能组中，训练小时与 30,000 小时模型的成功率显著相关（Pearson $r=0.80$，Spearman $\\rho=0.85$）；每增加 10 倍技能专属数据，拟合的成功率 logit 增加 1.94。\n- **语言 grounding**：在 295 次真实机器人 Pick/Place rollout 中，总体 follow score 为 83.1%，完整任务成功率为 72.9%；物体、颜色、直接位置和形状的 follow score 至少 90%，而 order 只有 Pick 13.3%/Place 26.7%，暴露出长尾指代表达的明显短板。\n\n**结果表：**\n\n| 实验/指标 | 关键设置 | GE-Act 2.0 结果 | 解释 |\n| --- | --- | ---: | --- |\n| CoAE action MAE | 400 train / 100 held-out shelf samples | 0.01673 | 以 1/16 token 数接近强视觉教师 |\n| CoAE instruction error | 5,000 GenieSim-Instruction episodes | 2.05% | 优于 DC-AE 2.71% |\n| KASO 四物体 pick success | 300h alignment，10 trials/target | 37.5% | 比 E2E+PT 高 15 个百分点 |\n| G1-OP OOD success | 300h → 30,000h | 17.1% → 44.1% | +27.0 个百分点 |\n| G2-90D OOD success | 300h → 30,000h | 13.4% → 31.1% | +17.7 个百分点，数据占比不到 2% |\n| 技能覆盖相关性 | 19 skill groups | $r=0.80$, $\\rho=0.85$ | 覆盖度是零样本能力的重要预测量 |\n\n![KASO 的候选未来筛选与可微重放](https://arxiv.org/html/2609.05588v1/fig_kapo_algorithm_v02.svg)\n\n*图 6：KASO 先用 IDM 评估动作兼容性，再对 top-k 候选重放梯度。*\n\n![两种 embodiment 的技能组规模化曲线](https://arxiv.org/html/2609.05588v1/fig_data_scaling_smallmult_g1g2_v02.svg)\n\n*图 9：G1-OP 和数据稀缺的 G2-90D 随 co-training 数据量增长的技能组成功率。*",
+    "resultHighlights": [
+      "**表示质量**：CoAE 的 action probe MAE 为 0.01673，仅比 token 数多 16 倍的 DINOv3（0.01273）和 V-JEPA 2.1（0.01487）高 13%-31%，但每帧只有 24 个 token；指令匹配错误率为 2.05%，优于 DC-AE 的 2.71% 和三个冻结教师。",
+      "**KASO 消融**：在同一套 39,000 小时 SVP、32,000 小时 IDM 初始化和 300 小时连接数据上，四物体场景的 pick success 从 E2E+PT 的 22.5% 提升到 KASO 的 37.5%，单物体场景从 12% 提升到 40%；follow score 也从 E2E 的 87.5% 提升到 95%。",
+      "**数据规模化**：G1-OP 的零样本 OOD suite success 从 300 小时的 17.1% 经 1,200/5,000 小时的 22.6%/27.3% 提升到 30,000 小时的 44.1%；G2-90D 从 13.4% 提升到 31.1%，在 18/20 个技能组有收益。",
+      "**技能覆盖效应**：除 Close 外的 19 个技能组中，训练小时与 30,000 小时模型的成功率显著相关（Pearson $r=0.80$，Spearman $\\rho=0.85$）；每增加 10 倍技能专属数据，拟合的成功率 logit 增加 1.94。",
+      "**语言 grounding**：在 295 次真实机器人 Pick/Place rollout 中，总体 follow score 为 83.1%，完整任务成功率为 72.9%；物体、颜色、直接位置和形状的 follow score 至少 90%，而 order 只有 Pick 13.3%/Place 26.7%，暴露出长尾指代表达的明显短板。"
+    ],
+    "insights": "**核心 insight：**\n\n- 这篇论文最重要的 scaling law 不是“参数越大越好”，而是“某个技能在训练混合物中被覆盖了多少”。Wipe 有 824.1 小时达到 76.7%，而动作相近但只有 64.6 小时的 Sweep 只有 3.3%，说明长尾技能覆盖比笼统的总小时数更接近能力瓶颈。\n- KASO 解决的是 world model 接入 policy 时常被忽略的条件分布问题：生成器可以保留多个合理未来，但动作标签只对应其中一个行为模式。若不选择，回归器会把模式平均掉；若只在动作上选择，既能保持视觉多模态，又能把动作条件绑定到可执行模式。\n- G2-90D 只占不到 2% 数据却获得 17.7 个百分点提升，说明共享操作语料在跨 embodiment 迁移上有实质价值，但硬件差异仍然会改变绝对上限，例如夹爪几何会影响 Shake/Stir 的表现。\n\n**和已有方法的关系：**\n\n- 相对继承 Wan/NVIDIA 等通用视频生成器的 WAM，GE-Act 2.0 选择在操作数据上从头训练生成和动作组件，把 latent 设计目标从“重建外观”改成“可用于控制”。\n- 相对多步 diffusion/flow video planner，SVP 的单步生成让 IDM 可以用没有指令的视频或没有成功标注的轨迹独立预训练，再通过显式未来状态连接两者。\n- 相对 teacher forcing 或直接 E2E，KASO 关注的不是生成未来与真实未来的像素差，而是生成未来在当前 IDM 下是否支持同一动作模式；这解释了为什么它在控制消融中比仅保留预训练损失更稳健。\n\n**可借鉴点：**\n\n- 做具身预训练时，应把数据混合设计成“技能覆盖矩阵”，同时记录每个原子技能的小时数，而不是只报总轨迹数。\n- 视觉表征的压缩率应由动作可恢复性和指令 grounding 共同约束；仅看重建指标很容易得到控制上无用的 token。\n- 对多模态生成器接动作头时，可以先在无梯度阶段用动作模型做兼容性筛选，再重放相同随机噪声回传梯度，这是保留多样性与避免错配之间的一个通用接口。\n- 评估基础能力时应固定零样本 OOD 协议，明确排除按任务 SFT，否则无法区分预训练获得的迁移能力和下游数据带来的适配能力。\n\n![技能覆盖小时数与零样本 OOD 成功率的关系](https://arxiv.org/html/2609.05588v1/fig_skill_hours_scatter_paper_v02.svg)\n\n*图 11：技能专属训练覆盖与 G1-OP 零样本 OOD 成功率的相关关系。*",
+    "insightCore": [
+      "这篇论文最重要的 scaling law 不是“参数越大越好”，而是“某个技能在训练混合物中被覆盖了多少”。Wipe 有 824.1 小时达到 76.7%，而动作相近但只有 64.6 小时的 Sweep 只有 3.3%，说明长尾技能覆盖比笼统的总小时数更接近能力瓶颈。",
+      "KASO 解决的是 world model 接入 policy 时常被忽略的条件分布问题：生成器可以保留多个合理未来，但动作标签只对应其中一个行为模式。若不选择，回归器会把模式平均掉；若只在动作上选择，既能保持视觉多模态，又能把动作条件绑定到可执行模式。",
+      "G2-90D 只占不到 2% 数据却获得 17.7 个百分点提升，说明共享操作语料在跨 embodiment 迁移上有实质价值，但硬件差异仍然会改变绝对上限，例如夹爪几何会影响 Shake/Stir 的表现。"
+    ],
+    "insightRelations": [
+      "相对继承 Wan/NVIDIA 等通用视频生成器的 WAM，GE-Act 2.0 选择在操作数据上从头训练生成和动作组件，把 latent 设计目标从“重建外观”改成“可用于控制”。",
+      "相对多步 diffusion/flow video planner，SVP 的单步生成让 IDM 可以用没有指令的视频或没有成功标注的轨迹独立预训练，再通过显式未来状态连接两者。",
+      "相对 teacher forcing 或直接 E2E，KASO 关注的不是生成未来与真实未来的像素差，而是生成未来在当前 IDM 下是否支持同一动作模式；这解释了为什么它在控制消融中比仅保留预训练损失更稳健。"
+    ],
+    "insightBorrowable": [
+      "做具身预训练时，应把数据混合设计成“技能覆盖矩阵”，同时记录每个原子技能的小时数，而不是只报总轨迹数。",
+      "视觉表征的压缩率应由动作可恢复性和指令 grounding 共同约束；仅看重建指标很容易得到控制上无用的 token。",
+      "对多模态生成器接动作头时，可以先在无梯度阶段用动作模型做兼容性筛选，再重放相同随机噪声回传梯度，这是保留多样性与避免错配之间的一个通用接口。",
+      "评估基础能力时应固定零样本 OOD 协议，明确排除按任务 SFT，否则无法区分预训练获得的迁移能力和下游数据带来的适配能力。"
+    ],
+    "risks": "**局限：**\n\n- 论文还没有按其潜力规模使用 egocentric video；因此“无动作视频能否进一步提升真实机器人能力”仍是待验证的外推，而不是当前结果。\n- 主评测虽然覆盖 100 个真实任务，但仍集中在预定义桌面操作和两种 embodiment；G2-90D 的绝对成功率只有 31.1%，跨硬件迁移不能理解为无需平台适配。\n- KASO 的兼容性分数依赖当前 active IDM。在 IDM 尚未学好、或真实任务存在未记录的新行为模式时，top-k 可能把有价值但陌生的未来过滤掉；论文主要用受控消融验证，尚未给出大规模探索阶段的选择偏差分析。\n- 语言实验限制在 Pick/Place 和六类指代维度，order 的 follow score 仍很低；行为冲突结果是定性压力测试，不应被解读为完整的在线指令修正能力。\n- 模拟 benchmark 需要按协议进行 SFT，且作者明确承认 simulator-to-real gap，因此模拟结果只能作为横向参考。\n\n**适用场景：**\n\n- 适合构建有大规模异构机器人视频/轨迹、希望先做通用预训练再进行 RL 或少量适配的操作模型。\n- 适合需要利用 action-free video、失败轨迹和无语言 rollout 的训练管线，因为 SVP 与 IDM 可以在不同数据源上先独立学习。\n- 适合研究“生成未来如何约束动作”的 world-action 接口、技能覆盖与跨 embodiment 迁移；不适合直接当作具备长程规划、记忆和安全保证的家庭机器人系统。\n\n**最终判断：**\n\n- GE-Act 2.0 的可信贡献是把 world-action model 的规模化问题拆成三个可测的工程对象：控制导向 latent、单步可微未来、动作兼容性选择，并用真实机器人零样本 OOD 曲线证明数据规模和技能覆盖确实带来持续收益。\n- 它比“视频生成 + 动作头”的拼接方案更接近可扩展预训练 recipe，但当前证据仍主要说明短时操作能力在增长。下一步真正决定路线价值的，是 egocentric video 的规模化、更多 embodiment 的受控迁移，以及把 System-1 控制器接入显式规划、记忆和自我纠错。",
+    "riskLimitations": [
+      "论文还没有按其潜力规模使用 egocentric video；因此“无动作视频能否进一步提升真实机器人能力”仍是待验证的外推，而不是当前结果。",
+      "主评测虽然覆盖 100 个真实任务，但仍集中在预定义桌面操作和两种 embodiment；G2-90D 的绝对成功率只有 31.1%，跨硬件迁移不能理解为无需平台适配。",
+      "KASO 的兼容性分数依赖当前 active IDM。在 IDM 尚未学好、或真实任务存在未记录的新行为模式时，top-k 可能把有价值但陌生的未来过滤掉；论文主要用受控消融验证，尚未给出大规模探索阶段的选择偏差分析。",
+      "语言实验限制在 Pick/Place 和六类指代维度，order 的 follow score 仍很低；行为冲突结果是定性压力测试，不应被解读为完整的在线指令修正能力。",
+      "模拟 benchmark 需要按协议进行 SFT，且作者明确承认 simulator-to-real gap，因此模拟结果只能作为横向参考。"
+    ],
+    "riskScenarios": [
+      "适合构建有大规模异构机器人视频/轨迹、希望先做通用预训练再进行 RL 或少量适配的操作模型。",
+      "适合需要利用 action-free video、失败轨迹和无语言 rollout 的训练管线，因为 SVP 与 IDM 可以在不同数据源上先独立学习。",
+      "适合研究“生成未来如何约束动作”的 world-action 接口、技能覆盖与跨 embodiment 迁移；不适合直接当作具备长程规划、记忆和安全保证的家庭机器人系统。"
+    ],
+    "riskJudgment": [
+      "GE-Act 2.0 的可信贡献是把 world-action model 的规模化问题拆成三个可测的工程对象：控制导向 latent、单步可微未来、动作兼容性选择，并用真实机器人零样本 OOD 曲线证明数据规模和技能覆盖确实带来持续收益。",
+      "它比“视频生成 + 动作头”的拼接方案更接近可扩展预训练 recipe，但当前证据仍主要说明短时操作能力在增长。下一步真正决定路线价值的，是 egocentric video 的规模化、更多 embodiment 的受控迁移，以及把 System-1 控制器接入显式规划、记忆和自我纠错。"
+    ],
+    "resultsTableMarkdown": "| 维度 | 结论 |\n| --- | --- |\n| 表示 | 24 tokens/frame 的 CoAE 保留较强动作恢复和指令 grounding |\n| 生成 | SVP 一次前向生成完整未来，允许视觉规划和 IDM 解耦预训练 |\n| 对齐 | KASO 通过 IDM 动作兼容性选择 top-k 未来，缓解 validity gap |\n| 规模化 | G1-OP 17.1% → 44.1%，G2-90D 13.4% → 31.1% |\n| 数据规律 | 技能覆盖与 OOD 成功率 Pearson $r=0.80$、Spearman $\\rho=0.85$ |\n| 语言短板 | order 指代 follow score 仅 Pick 13.3% / Place 26.7% |",
+    "resultsTable": {
+      "columns": [
+        "维度",
+        "结论"
+      ],
+      "rows": [
+        [
+          "表示",
+          "24 tokens/frame 的 CoAE 保留较强动作恢复和指令 grounding"
+        ],
+        [
+          "生成",
+          "SVP 一次前向生成完整未来，允许视觉规划和 IDM 解耦预训练"
+        ],
+        [
+          "对齐",
+          "KASO 通过 IDM 动作兼容性选择 top-k 未来，缓解 validity gap"
+        ],
+        [
+          "规模化",
+          "G1-OP 17.1% → 44.1%，G2-90D 13.4% → 31.1%"
+        ],
+        [
+          "数据规律",
+          "技能覆盖与 OOD 成功率 Pearson $r=0.80$、Spearman $\\rho=0.85$"
+        ],
+        [
+          "语言短板",
+          "order 指代 follow score 仅 Pick 13.3% / Place 26.7%"
+        ]
+      ]
+    },
+    "figureGallery": [
+      {
+        "zone": "method",
+        "caption": "GE-Act 2.0 系统架构：SVP 生成未来视觉状态，IDM 将其转成动作",
+        "src": "https://arxiv.org/html/2609.05588v1/fig_system_v04.png"
+      },
+      {
+        "zone": "method",
+        "caption": "CoAE 架构与多教师对齐目标",
+        "src": "https://arxiv.org/html/2609.05588v1/fig_uae_architecture_v01.svg"
+      },
+      {
+        "zone": "results",
+        "caption": "KASO 的候选未来筛选与可微重放",
+        "src": "https://arxiv.org/html/2609.05588v1/fig_kapo_algorithm_v02.svg"
+      },
+      {
+        "zone": "results",
+        "caption": "两种 embodiment 的技能组规模化曲线",
+        "src": "https://arxiv.org/html/2609.05588v1/fig_data_scaling_smallmult_g1g2_v02.svg"
+      },
+      {
+        "zone": "insights",
+        "caption": "技能覆盖小时数与零样本 OOD 成功率的关系",
+        "src": "https://arxiv.org/html/2609.05588v1/fig_skill_hours_scatter_paper_v02.svg"
+      }
+    ],
+    "relatedTopicSlugs": [
+      "vision-language-action"
+    ]
   }
 ]
