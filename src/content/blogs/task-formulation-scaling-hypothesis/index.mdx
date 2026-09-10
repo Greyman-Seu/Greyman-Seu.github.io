@@ -53,7 +53,15 @@ $$
 
 第一种是**没有被逐项写进需求，但仍能由问题空间已有的元素和规则组合出来**。例如，设计者只要求预测下一个 token，却没有逐条标注翻译、代码补全、文体模仿或问答；这些能力仍可能降低文本预测损失，因此存在稳定的积累方向。
 
-第二种是**既不影响训练目标，也没有被数据和评测区分的能力**。这类能力即使偶然出现，也没有理由随数据和参数稳定增强。它不应被当作可期待的“涌现”。
+第二种是**既不能改善训练目标，也没有在训练数据中留下可利用关联的能力**。共享表示可能让它偶然出现，但训练过程无法稳定区分“保留它”和“忘掉它”哪一个更好，因此不应期待它随规模单调增强。若后来真的观察到稳定 Scaling，通常意味着我们遗漏了某种间接信号，它应该被重新归入第一种。
+
+严格按这个定义，第二种没有可信的正面 Scaling 案例；那些看起来“无中生有”的成功，往往仍能找到目标中的选择压力：
+
+- **LLM 的翻译、代码和问答**没有被逐项标注，但相关结构存在于文本中，掌握它们可以改善 next-token prediction；
+- **[AlphaGo Zero](https://doi.org/10.1038/nature24270) 的局部战术与新策略**没有逐步动作标签，但更好的策略会提高搜索目标和最终胜率；
+- **CLIP 的零样本类别迁移**没有固定下游类别表，但图文匹配和语言关系持续塑造共同 embedding。
+
+真正接近第二种的是负面对照。[随机标签实验](https://arxiv.org/abs/1611.03530)中，网络可以记住训练集，却没有可复用的语义关系；[捷径学习](https://arxiv.org/abs/2004.07780)中，只看普通训练与 IID 评测，背景线索和人类期望的形状理解可能同样得分，模型没有理由选择后者；[Video PreTraining](https://openai.com/index/vpt/)则反过来说明，互联网视频只有“发生了什么”而缺少精确动作，必须用少量带动作的数据训练逆动力学模型，才能把海量视频接到行动学习上。
 
 所以，真正值得设计的不是一张穷尽未来能力的清单，而是一组具有开放组合性的基本元素和关系。好的元设计规定学习世界的语法，却不提前写死这个世界里只能出现哪些句子。
 
@@ -93,7 +101,7 @@ $$
 判断一个空间是否合适，可以先做两个反事实检查：
 
 - 如果模型完美解决了这个学习问题，真实期待是否也随之改善？
-- 如果模型拥有一种我们希望它涌现的能力，这种能力是否会在目标或数据关系中留下可见差异？
+- 如果模型真的学会了我们希望出现的新能力，现有训练 loss 会不会因此降低，或者数据中的关系会不会被解释得更好？如果完全不会，训练过程就不知道为什么应该保留这项能力。
 
 两个答案中任何一个是否定的，继续扩大数据和参数都可能只是在放大错位。
 
@@ -246,6 +254,10 @@ GPT 路线特别说明了“高上限和可见下限”如何共存：最低目�
 - [BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding](https://arxiv.org/abs/1810.04805)
 - [Improving Language Understanding with Unsupervised Learning](https://openai.com/index/language-unsupervised/)
 - [Learning Transferable Visual Models From Natural Language Supervision](https://proceedings.mlr.press/v139/radford21a.html)
+- [Mastering the Game of Go without Human Knowledge](https://doi.org/10.1038/nature24270)
+- [Learning to Play Minecraft with Video PreTraining](https://openai.com/index/vpt/)
+- [Understanding Deep Learning Requires Rethinking Generalization](https://arxiv.org/abs/1611.03530)
+- [Shortcut Learning in Deep Neural Networks](https://arxiv.org/abs/2004.07780)
 - [Deep Learning Scaling is Predictable, Empirically](https://arxiv.org/abs/1712.00409)
 - [Scaling Laws for Neural Language Models](https://arxiv.org/abs/2001.08361)
 - [Training Compute-Optimal Large Language Models](https://arxiv.org/abs/2203.15556)
