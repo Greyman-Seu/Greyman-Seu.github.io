@@ -1,0 +1,67 @@
+---
+const layers = [
+  {
+    symbol: 'W',
+    title: '真实任务',
+    formula: '(X, Y, A, P, U)',
+    detail: '固定人的期待、评测分布与最终效用。'
+  },
+  {
+    symbol: 'Φ',
+    title: '问题表述',
+    formula: '(Z, φ, R, q, ℓ)',
+    detail: '改变表示、结构、监督生成和代理损失。'
+  },
+  {
+    symbol: 'S',
+    title: '学习系统',
+    formula: '(Φ, H, O, B)',
+    detail: '控制模型族、优化器和资源预算。'
+  }
+]
+---
+
+<figure
+  class='not-prose my-8 overflow-hidden rounded-xl border border-border/60 bg-card'
+  aria-labelledby='hypothesis-layers-title hypothesis-layers-caption'
+>
+  <div class='p-3 sm:p-5'>
+    <p id='hypothesis-layers-title' class='m-0 text-base font-semibold text-foreground'>
+      先分层，才能做受控比较
+    </p>
+    <p class='mb-0 mt-1 text-sm leading-6 text-muted-foreground'>
+      问题表述是否更好，必须在真实任务和学习预算可比时判断。
+    </p>
+  </div>
+
+  <ol class='m-0 grid list-none border-y border-border/60 p-0 md:grid-cols-3' role='list'>
+    {
+      layers.map((layer, index) => (
+        <li
+          class:list={[
+            'grid grid-cols-[auto_1fr] gap-x-3 gap-y-1 px-3 py-4 sm:px-5',
+            index > 0 && 'border-t border-border/60 md:border-l md:border-t-0'
+          ]}
+        >
+          <span class='row-span-3 flex size-9 items-center justify-center rounded bg-primary/15 text-base font-semibold text-foreground'>
+            {layer.symbol}
+          </span>
+          <span class='font-semibold text-foreground'>{layer.title}</span>
+          <span class='font-mono text-xs text-primary'>{layer.formula}</span>
+          <span class='text-sm leading-6 text-muted-foreground'>{layer.detail}</span>
+        </li>
+      ))
+    }
+  </ol>
+
+  <p class='m-0 px-3 py-3 text-sm leading-6 text-foreground sm:px-5'>
+    <span class='font-semibold'>核心对照：</span>固定 W 与 H/O/B，只改变 Φ，再比较资源—效用前沿。
+  </p>
+
+  <figcaption
+    id='hypothesis-layers-caption'
+    class='border-t border-border/60 px-3 py-3 text-sm leading-6 text-muted-foreground sm:px-5'
+  >
+    图 1：任务、表述和求解系统混在一起时，“为什么更能 Scaling”无法归因。
+  </figcaption>
+</figure>
