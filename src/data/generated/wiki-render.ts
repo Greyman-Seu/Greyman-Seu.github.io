@@ -52,8 +52,10 @@ const normalizeWikiRoutes = (value: string) => {
       return `[${label}](/wiki/synthesis/${slug})`
     })
 
-  return text.replace(/\[\[([^\]]+)\]\]/g, (_match, label) => {
-    const key = normalizeLookupKey(label)
+  return text.replace(/\[\[([^\]]+)\]\]/g, (_match, rawTarget) => {
+    const [target, alias] = String(rawTarget).split('|', 2).map((part) => part.trim())
+    const label = alias || target
+    const key = normalizeLookupKey(target)
     const sourceSlug = sourceByKey.get(key)
     if (sourceSlug) return `[${label}](/wiki/source/${sourceSlug})`
     const topicSlug = topicByKey.get(key)
