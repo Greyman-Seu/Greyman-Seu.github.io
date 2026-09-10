@@ -1,0 +1,175 @@
+{
+  "slug": "2509.07962-ta-vla-elucidating-the-design-space-of-torque-aware-vision-language-action-models",
+  "title": "TA-VLA: Elucidating the Design Space of Torque-aware Vision-Language-Action Models",
+  "sourceType": "paper",
+  "sourceUrl": "https://arxiv.org/abs/2509.07962",
+  "htmlUrl": "https://arxiv.org/html/2509.07962v1",
+  "pdfUrl": "https://arxiv.org/pdf/2509.07962",
+  "codeUrl": "",
+  "translationUrl": "https://hjfy.top/arxiv/2509.07962",
+  "publishDate": "2025-09-09",
+  "authors": [
+    "Zongzheng Zhang",
+    "Haobo Xu",
+    "Zhuo Yang",
+    "Chenghao Yue",
+    "Zehao Lin",
+    "Huan-ang Gao",
+    "Ziwei Wang",
+    "Hao Zhao"
+  ],
+  "affiliation": "Beijing Academy of Artificial Intelligence",
+  "relatedOrganizations": [
+    "Beijing Academy of Artificial Intelligence",
+    "Tsinghua University",
+    "Nanyang Technological University"
+  ],
+  "relatedCompanies": [],
+  "keywords": [
+    "torque-aware VLA",
+    "joint torque",
+    "future torque prediction"
+  ],
+  "primaryDomainSlug": "physical-embodied-intelligence",
+  "domainSlugs": [
+    "physical-embodied-intelligence"
+  ],
+  "heroImage": "https://arxiv.org/html/2509.07962v1/teaser.png",
+  "tldr": "TA-VLA 不是只提出一种新网络，而是系统回答力矩应该怎样进入预训练 VLA：关节力矩应接到动作解码器而非视觉语言编码器；一段力矩历史应先聚合成一个 token，而不是逐帧占用多个 token；训练时还应让模型联合预测未来动作与未来力矩。三项设计叠加后，π0 在五项接触密集任务上的总成功率从 23/100 提升到 86/100，在五项普通操作上仍从 85% 小幅升到 89%。证据说明廉价电机电流推算的关节力矩确实能补足视觉，但它不是经标定的末端接触力，跨机器人证据也仍很有限。",
+  "intuition": "VLA 擅长根据图像和语言判断“拿什么、送到哪里”，却很难从画面看出插头是否已经顶住、按钮是否越过触发阈值或瓶盖是否拧紧。机器人电机电流天然携带关节负载信息，近似满足 `tau = k_t i`，无需额外腕部六轴传感器。TA-VLA 的关键发现是：这类细粒度物理信号不应塞进负责语义理解的视觉语言主干，而应靠近动作生成器；同时保持预训练解码器熟悉的 token 结构比简单堆更多历史 token 更重要。\n\n![TA-VLA 围绕接入位置、历史与未来预测研究力矩感知 VLA](https://arxiv.org/html/2509.07962v1/teaser.png)\n\n*图 1：论文围绕 where、when、how 三个设计问题组织实验，并在接触任务、跨模型和跨机器人场景中验证。*",
+  "abstractEn": "Vision-Language-Action models have demonstrated strong semantic generalization, yet remain brittle in contact-rich manipulation where visual observations alone cannot reveal interaction forces. We systematically investigate the design space of torque-aware VLA models along three dimensions: where torque should be integrated, how temporal torque history should be represented, and whether future torque should be jointly predicted with actions. Our study finds that decoder-side integration, single-token history aggregation, and joint action-torque prediction provide the strongest and most transferable design.",
+  "abstractZh": "视觉-语言-动作模型表现出较强的语义泛化能力，但在接触密集操作中仍然脆弱，因为仅靠视觉无法揭示交互力。本文从三个维度系统研究力矩感知 VLA 的设计空间：力矩应在何处融合、时间力矩历史应怎样表示、是否应与动作联合预测未来力矩。研究发现，将力矩接入解码器、把历史聚合成单个 token，并联合预测动作与未来力矩，是效果最好且具有较强可迁移性的设计。",
+  "background": "**动机：** VLA 把互联网规模的视觉语言知识和机器人动作生成结合起来，但接触状态往往是视觉不可辨的。同一张图像可能对应“刚碰到”“正在滑动”“已经卡住”或“载荷过大”。腕部六轴传感器能给出更直接的末端 wrench，却增加硬件、标定和布线成本；电机电流推算的关节力矩是许多机械臂原生可用的低成本信号。\n\n**问题缺口：** 知道“应该加力矩”并不等于知道怎样加。预训练 VLA 通常包含视觉语言编码器、状态 token 和动作专家/解码器，不同注入位置承担不同语义；力矩历史还会改变 token 数量和预训练输入分布。TA-VLA 因而把设计空间拆成三个问题：力矩放在哪里、时间历史怎样表示、未来力矩是否应该成为生成目标。",
+  "backgroundMotivation": "VLA 把互联网规模的视觉语言知识和机器人动作生成结合起来，但接触状态往往是视觉不可辨的。同一张图像可能对应“刚碰到”“正在滑动”“已经卡住”或“载荷过大”。腕部六轴传感器能给出更直接的末端 wrench，却增加硬件、标定和布线成本；电机电流推算的关节力矩是许多机械臂原生可用的低成本信号。",
+  "backgroundGap": "知道“应该加力矩”并不等于知道怎样加。预训练 VLA 通常包含视觉语言编码器、状态 token 和动作专家/解码器，不同注入位置承担不同语义；力矩历史还会改变 token 数量和预训练输入分布。TA-VLA 因而把设计空间拆成三个问题：力矩放在哪里、时间历史怎样表示、未来力矩是否应该成为生成目标。",
+  "method": "**方法概述：** TA-VLA 在预训练 VLA 上把关节力矩分别接入视觉语言编码器、状态 token 或动作解码器，通过受控实验确定 decoder-side 独立 token 最有效；随后比较单帧、多 token 历史和单 token 聚合历史，并把未来动作块与未来力矩块放进共享 flow/diffusion 生成目标。最终方案不改变底层动作接口，而是用力矩观测调节动作生成、用未来力矩监督动作表示。\n\n**核心机制：** 关节电流先按电机力矩常数转换为 torque 序列，历史经 MLP 压缩成一枚 token，放在 action expert 输入侧，与本体状态共同影响动作生成。训练时，模型在同一生成向量场中预测未来 50 步动作和力矩，并用 `L_action + beta L_torque` 优化。设计重点是让细粒度物理信号靠近动作通路，同时保持预训练 decoder 熟悉的 token 数量与排列。\n\n**方法拆解：**\n\n- **信号获取**：直接读取电机电流并用 `tau = k_t i` 得到关节力矩，不要求额外腕部六轴传感器。\n- **接入位置**：分别测试 encoder token、状态预拼接和 decoder 独立 token，并用噪声与 token 扰动确认模型是否真正依赖力矩。\n- **历史表达**：比较单帧、逐帧多 token 与整段历史单 token 聚合，控制时间信息量和预训练接口偏移。\n- **联合生成目标**：扩展输出头，联合预测动作块和未来力矩块；推理时仍执行动作，预测力矩不是底层力矩命令。\n\n**物理信号：** 电机电流通过力矩常数转换为关节力矩 `tau = k_t i`。外部末端接触力与关节外力矩满足 `tau_ext = J(q)^T F_ext`，因此力矩残差能反映接触；但测量同时混合重力、惯性、摩擦、构型和电机温漂，论文并未把它标定成统一末端坐标系下的六维 wrench。\n\n**问题一，力矩放在哪里：**\n\n- **Enc**：把力矩编码为 token，加入视觉语言条件编码器。\n- **DePre**：把力矩与零填充后的关节状态拼接，复用原有状态 token。\n- **DePost**：用 MLP adapter 把力矩变成独立 token，直接放到 action expert/decoder 的输入侧。\n\n在 Button 上三者分别为 7/20、8/20、10/20，基线 π0 为 5/20；在 Charger 上分别为 8/20、11/20、12/20，基线为 0/20。向力矩添加随机噪声时，decoder 侧性能跌幅也更大：Bottle 从 14/20 降到 8/20，而 encoder 侧为 12/20；Button 从 5/20 降到 0/20，而 encoder 侧为 4/20。这支持“动作解码器确实在使用力矩，而非把它当成无关条件”的解释。\n\n![三种力矩接入位置：编码器、状态预拼接与解码器独立 token](https://arxiv.org/html/2509.07962v1/where_embed.svg)\n\n*图 2：DePost 保持视觉语言编码器专注语义，并让力矩靠近本体状态与动作生成通路。*\n\n**问题二，历史怎样表示：** 作者比较单帧力矩、逐帧历史 token 和先聚合整段历史再形成一个 token。结果表明，decoder 侧单 token 历史聚合最好：Button 为 15/20、Charger 为 16/20；把历史展开成多个 decoder token 反而只有 9/20 和 7/20。打乱 token 结构也主要伤害 decoder：Bottle 从 14/20 降到 8/20，Button 从 5/20 降到 2/20；encoder 侧则只降到 13/20 和 5/20。作者进一步比较 MLP、RNN 和 Attention 聚合器，MLP 在仅观测/观测加目标两种设置下为 15/20、18/20，优于 RNN 的 7/20、10/20 和 Attention 的 13/20、17/20。\n\n![单帧、多历史 token 与单 token 历史聚合方案](https://arxiv.org/html/2509.07962v1/history.png)\n\n*图 3：历史本身有用，但在预训练动作解码器中，保持 token 数量和布局稳定比逐帧暴露所有历史更有效。*\n\n**问题三，未来力矩怎样监督：** 令未来动作块为 `A`，未来力矩块为 `T`，二者沿特征维拼接后用共享 flow/diffusion vector field 生成。损失写成动作损失与 `beta` 加权力矩损失之和，预测跨度 `H=50`。输出投影层扩展出力矩维度，原有动作权重保持预训练值，新维度小幅初始化。力矩只作为训练和生成目标，不直接作为底层力矩控制指令。\n\n**训练配置：** π0 使用三视角图像，对编码器和解码器做 LoRA 微调 30,000 步，使用 4 张 NVIDIA L20；RDT 全参数训练 40,000 步；ACT 训练 600 epochs。论文附录描述主要任务每项约 400 条遥操作示范，推理部署在 NVIDIA RTX 4090。\n\n**关键要点：**\n\n- 力矩最有效的入口是动作解码器；噪声和结构扰动实验共同表明，这一通路比视觉语言编码器更依赖细粒度物理信号。\n- 历史有效不代表 token 越多越好，单 token 聚合兼顾时间证据和预训练接口稳定性。\n- 未来力矩是动作后果的辅助生成目标，不是经安全验证的力矩控制命令，也不能单凭成功率证明模型形成了完整物理世界模型。",
+  "methodOverview": "TA-VLA 在预训练 VLA 上把关节力矩分别接入视觉语言编码器、状态 token 或动作解码器，通过受控实验确定 decoder-side 独立 token 最有效；随后比较单帧、多 token 历史和单 token 聚合历史，并把未来动作块与未来力矩块放进共享 flow/diffusion 生成目标。最终方案不改变底层动作接口，而是用力矩观测调节动作生成、用未来力矩监督动作表示。",
+  "methodCore": "关节电流先按电机力矩常数转换为 torque 序列，历史经 MLP 压缩成一枚 token，放在 action expert 输入侧，与本体状态共同影响动作生成。训练时，模型在同一生成向量场中预测未来 50 步动作和力矩，并用 `L_action + beta L_torque` 优化。设计重点是让细粒度物理信号靠近动作通路，同时保持预训练 decoder 熟悉的 token 数量与排列。",
+  "methodBreakdown": [
+    "**信号获取**：直接读取电机电流并用 `tau = k_t i` 得到关节力矩，不要求额外腕部六轴传感器。",
+    "**接入位置**：分别测试 encoder token、状态预拼接和 decoder 独立 token，并用噪声与 token 扰动确认模型是否真正依赖力矩。",
+    "**历史表达**：比较单帧、逐帧多 token 与整段历史单 token 聚合，控制时间信息量和预训练接口偏移。",
+    "**联合生成目标**：扩展输出头，联合预测动作块和未来力矩块；推理时仍执行动作，预测力矩不是底层力矩命令。"
+  ],
+  "methodTakeaways": [
+    "力矩最有效的入口是动作解码器；噪声和结构扰动实验共同表明，这一通路比视觉语言编码器更依赖细粒度物理信号。",
+    "历史有效不代表 token 越多越好，单 token 聚合兼顾时间证据和预训练接口稳定性。",
+    "未来力矩是动作后果的辅助生成目标，不是经安全验证的力矩控制命令，也不能单凭成功率证明模型形成了完整物理世界模型。"
+  ],
+  "results": "**十项真机任务：** 每项 20 次测试，前五项为接触密集任务，后五项为常规操作。下表汇总论文总计结果。\n\n| 模型 | 接触任务成功数 / 100 | 接触成功率 | 常规任务成功数 / 100 | 常规成功率 |\n| --- | ---: | ---: | ---: | ---: |\n| ACT | 14 | 14% | 69 | 69% |\n| RDT | 15 | 15% | 77 | 77% |\n| π0 | 23 | 23% | 85 | 85% |\n| π0 + torque observation | 78 | 78% | 87 | 87% |\n| π0 + torque objective | 64 | 64% | 84 | 84% |\n| π0 + observation + objective | 86 | 86% | 89 | 89% |\n\n**逐任务接触结果：** 完整模型在五项接触任务上分别为 18/20、17/20、17/20、19/20、15/20；对应 π0 为 5/20、0/20、0/20、16/20、2/20。观察输入单独贡献更直接，未来力矩目标单独也有明显改善，二者叠加最好。\n\n**跨模型验证：** 把同样设计迁移到 RDT，Button 从 4/20 升到 16/20，Charger 从 1/20 升到 15/20，Bottle 从 17/20 升到 19/20。它支持设计原则不只对 π0 有效，但仍限于同一实验平台与少数任务。\n\n**跨机器人展示：** 作者在 ROKAE SR 平台上用 200 条“快速插充电器”示范训练 50,000 步，再更换为慢速充电器做定性测试。该实验说明电流力矩方案可以移植到另一种机械臂，但不是训练后直接跨机器人零样本迁移，也没有给出完整统计成功率。\n\n**效率：** π0、仅观测、仅目标、完整模型单次推理分别为 90.70、90.81、90.61、93.96 ms；训练每迭代从基线 1.703 s 变为完整模型 1.640 s。完整设计仅增加约 3.26 ms 推理延迟。\n\n**损失权重：** 在 Button 上，仅力矩目标的 `beta={0.01,0.1,0.2,0.5,1}` 对应 6、8、10、9、11 次成功；观测加目标对应 14、18、18、15、12 次。作者分别为 objective-only 取 1，为 combined 取 0.1，说明辅助目标权重需要和已有观测信息共同调节。",
+  "resultHighlights": [],
+  "insights": "**核心 insight：**\n\n- 力矩是低维、快速、动作相关的物理信号，最自然的归属是 action decoder，而不是负责语义和场景表征的视觉语言 encoder。\n- “更多历史 token”不必然带来更强时序理解。对预训练模型而言，改变 token 数量和排列会造成接口分布偏移；先聚合再用一个 token，反而同时保留历史与预训练结构。\n- 联合预测未来力矩让动作潜变量学习接触后果，但它不是显式世界模型或力控制器。成功率提升也可能部分来自辅助任务正则，论文尚未用因果或校准实验区分这些解释。\n- 电机电流是规模化部署的现实入口：不需要新增腕部传感器，但原始关节力矩的物理语义比六维末端 wrench 更依赖构型和动力学补偿。\n- 接触任务从 23% 到 86%，普通任务只从 85% 到 89%，说明力矩主要填补视觉在物理交互上的信息缺口，而不是普遍提高所有操作。\n\n**和已有方法的关系：**\n\n- **对 force-aware VLA**：TA-VLA 把讨论从“是否接入力”推进到“接在预训练模型哪里、以几枚 token 接、是否预测未来”。\n- **对 ForceFlow/Facet-0**：三者都用未来 force/torque 作为动作后果监督；TA-VLA 使用关节力矩并依附通用 VLA，ForceFlow 使用末端六维 wrench 和局部策略，Facet-0 还显式训练后果 critic。\n- **对 TacDiffusion**：TacDiffusion 直接输出可执行前馈 wrench；TA-VLA 仍输出常规动作，力矩是观测和辅助预测目标，不能把两者都称为“力控制”。\n- **对触觉传感器方法**：关节力矩免去皮肤/腕力传感器，但难以提供接触位置、局部分布、切向滑移和材质等高空间分辨率信息。\n\n**可借鉴点：**\n\n- 向预训练 VLA 添加新本体模态时，应分别测试 encoder/decoder 注入、噪声敏感性和 token 布局扰动，而不只报告最终成功率。\n- 历史窗口设计要同时考虑信息量和预训练接口稳定性；单 token 聚合是一个低风险默认值。\n- 未来物理量可以作为动作生成的辅助目标，但应单独报告预测 MAE、时序对齐与校准，避免只用任务成功率间接证明“理解物理”。\n- 跨硬件比较前应明确力矩常数、重力/惯性补偿、关节定义和采样频率，否则同名 torque token 未必具有一致语义。",
+  "insightCore": [
+    "力矩是低维、快速、动作相关的物理信号，最自然的归属是 action decoder，而不是负责语义和场景表征的视觉语言 encoder。",
+    "“更多历史 token”不必然带来更强时序理解。对预训练模型而言，改变 token 数量和排列会造成接口分布偏移；先聚合再用一个 token，反而同时保留历史与预训练结构。",
+    "联合预测未来力矩让动作潜变量学习接触后果，但它不是显式世界模型或力控制器。成功率提升也可能部分来自辅助任务正则，论文尚未用因果或校准实验区分这些解释。",
+    "电机电流是规模化部署的现实入口：不需要新增腕部传感器，但原始关节力矩的物理语义比六维末端 wrench 更依赖构型和动力学补偿。",
+    "接触任务从 23% 到 86%，普通任务只从 85% 到 89%，说明力矩主要填补视觉在物理交互上的信息缺口，而不是普遍提高所有操作。"
+  ],
+  "insightRelations": [
+    "**对 force-aware VLA**：TA-VLA 把讨论从“是否接入力”推进到“接在预训练模型哪里、以几枚 token 接、是否预测未来”。",
+    "**对 ForceFlow/Facet-0**：三者都用未来 force/torque 作为动作后果监督；TA-VLA 使用关节力矩并依附通用 VLA，ForceFlow 使用末端六维 wrench 和局部策略，Facet-0 还显式训练后果 critic。",
+    "**对 TacDiffusion**：TacDiffusion 直接输出可执行前馈 wrench；TA-VLA 仍输出常规动作，力矩是观测和辅助预测目标，不能把两者都称为“力控制”。",
+    "**对触觉传感器方法**：关节力矩免去皮肤/腕力传感器，但难以提供接触位置、局部分布、切向滑移和材质等高空间分辨率信息。"
+  ],
+  "insightBorrowable": [
+    "向预训练 VLA 添加新本体模态时，应分别测试 encoder/decoder 注入、噪声敏感性和 token 布局扰动，而不只报告最终成功率。",
+    "历史窗口设计要同时考虑信息量和预训练接口稳定性；单 token 聚合是一个低风险默认值。",
+    "未来物理量可以作为动作生成的辅助目标，但应单独报告预测 MAE、时序对齐与校准，避免只用任务成功率间接证明“理解物理”。",
+    "跨硬件比较前应明确力矩常数、重力/惯性补偿、关节定义和采样频率，否则同名 torque token 未必具有一致语义。"
+  ],
+  "risks": "**局限：**\n\n- 关节力矩由电流估算，受到力矩常数误差、减速器摩擦、温度漂移、重力和惯性影响；它不是经标定的外部接触力，也不能直接跨构型比较数值。\n- 主要定量实验集中在 Cobot Magic ALOHA 和单一实验室环境，每任务约 400 条示范、每项 20 次测试，跨机构复现和长期漂移测试仍缺失。\n- ROKAE SR 实验在新机器人上重新收集 200 条数据并训练 50,000 步，只提供慢速充电器的定性展示，不能证明跨 embodiment 零样本泛化。\n- 未来力矩预测主要通过任务成功率和曲线示例论证，没有报告完整测试集的 torque MAE、校准误差或异常接触检测能力。\n- 接触任务总成功率从 23% 到 86% 很强，但论文没有与腕部六轴传感器、触觉皮肤或相同参数量的其他辅助任务做受控比较。\n- MLP 历史聚合优于 RNN/Attention 的结论来自少数任务和有限数据，不足以外推到更长接触阶段或高频振动信号。\n- 力矩参与策略推理但不构成安全控制保证；碰撞限力、急停和底层稳定性仍需独立控制系统承担。\n\n**适用场景：**\n\n- 适合机械臂能稳定读取电流或估算关节力矩、但不方便加装腕部六轴传感器的接触密集任务。\n- 适合已有预训练 VLA，希望以较小结构改动增强插接、按压、拧紧等物理反馈能力的系统。\n- 不适合需要精确接触点定位、局部压力分布或安全认证级外力测量的应用，也不能替代底层碰撞保护。\n\n**最终判断：**\n\n- TA-VLA 的价值在于给出一套有消融支持的力矩接入原则，而不仅是一个更高成功率模型：decoder-side、single-token history、future-torque objective。\n- 接触任务 23% 到 86% 和 RDT 上的复现使结论具有较强实用性；但跨机器人、信号标定和未来力矩预测质量的证据仍不足。\n- 后续最关键的验证是对同一任务同时比较原始电流、补偿后外力矩和末端 wrench，并在跨构型、跨负载、长时间热漂移下测试策略稳定性。",
+  "riskLimitations": [
+    "关节力矩由电流估算，受到力矩常数误差、减速器摩擦、温度漂移、重力和惯性影响；它不是经标定的外部接触力，也不能直接跨构型比较数值。",
+    "主要定量实验集中在 Cobot Magic ALOHA 和单一实验室环境，每任务约 400 条示范、每项 20 次测试，跨机构复现和长期漂移测试仍缺失。",
+    "ROKAE SR 实验在新机器人上重新收集 200 条数据并训练 50,000 步，只提供慢速充电器的定性展示，不能证明跨 embodiment 零样本泛化。",
+    "未来力矩预测主要通过任务成功率和曲线示例论证，没有报告完整测试集的 torque MAE、校准误差或异常接触检测能力。",
+    "接触任务总成功率从 23% 到 86% 很强，但论文没有与腕部六轴传感器、触觉皮肤或相同参数量的其他辅助任务做受控比较。",
+    "MLP 历史聚合优于 RNN/Attention 的结论来自少数任务和有限数据，不足以外推到更长接触阶段或高频振动信号。",
+    "力矩参与策略推理但不构成安全控制保证；碰撞限力、急停和底层稳定性仍需独立控制系统承担。"
+  ],
+  "riskScenarios": [
+    "适合机械臂能稳定读取电流或估算关节力矩、但不方便加装腕部六轴传感器的接触密集任务。",
+    "适合已有预训练 VLA，希望以较小结构改动增强插接、按压、拧紧等物理反馈能力的系统。",
+    "不适合需要精确接触点定位、局部压力分布或安全认证级外力测量的应用，也不能替代底层碰撞保护。"
+  ],
+  "riskJudgment": [
+    "TA-VLA 的价值在于给出一套有消融支持的力矩接入原则，而不仅是一个更高成功率模型：decoder-side、single-token history、future-torque objective。",
+    "接触任务 23% 到 86% 和 RDT 上的复现使结论具有较强实用性；但跨机器人、信号标定和未来力矩预测质量的证据仍不足。",
+    "后续最关键的验证是对同一任务同时比较原始电流、补偿后外力矩和末端 wrench，并在跨构型、跨负载、长时间热漂移下测试策略稳定性。"
+  ],
+  "resultsTableMarkdown": "| 研究问题 | 最佳结果 | 对照 | 如何解读 |\n| --- | ---: | ---: | --- |\n| π0 五项接触任务 | 86% | 原始 π0 23% | 观测与未来目标叠加后 +63 个百分点 |\n| π0 五项普通任务 | 89% | 原始 π0 85% | 没有明显牺牲常规操作 |\n| 注入位置：Button / Charger | DePost 10/20、12/20 | Enc 7/20、8/20 | 力矩更适合动作解码器 |\n| 单 token 历史：Button / Charger | 15/20、16/20 | 多历史 token 9/20、7/20 | 历史有用，但 token 布局更关键 |\n| RDT：Button / Charger | 16/20、15/20 | 4/20、1/20 | 设计原则可迁移到第二个 VLA |\n| 完整模型推理延迟 | 93.96 ms | π0 90.70 ms | 增加约 3.26 ms |\n| ROKAE SR 跨机器人 | 定性成功 | 200 条新示范并重新训练 | 不是零样本 embodiment transfer |",
+  "resultsTable": {
+    "columns": [
+      "研究问题",
+      "最佳结果",
+      "对照",
+      "如何解读"
+    ],
+    "rows": [
+      [
+        "π0 五项接触任务",
+        "86%",
+        "原始 π0 23%",
+        "观测与未来目标叠加后 +63 个百分点"
+      ],
+      [
+        "π0 五项普通任务",
+        "89%",
+        "原始 π0 85%",
+        "没有明显牺牲常规操作"
+      ],
+      [
+        "注入位置：Button / Charger",
+        "DePost 10/20、12/20",
+        "Enc 7/20、8/20",
+        "力矩更适合动作解码器"
+      ],
+      [
+        "单 token 历史：Button / Charger",
+        "15/20、16/20",
+        "多历史 token 9/20、7/20",
+        "历史有用，但 token 布局更关键"
+      ],
+      [
+        "RDT：Button / Charger",
+        "16/20、15/20",
+        "4/20、1/20",
+        "设计原则可迁移到第二个 VLA"
+      ],
+      [
+        "完整模型推理延迟",
+        "93.96 ms",
+        "π0 90.70 ms",
+        "增加约 3.26 ms"
+      ],
+      [
+        "ROKAE SR 跨机器人",
+        "定性成功",
+        "200 条新示范并重新训练",
+        "不是零样本 embodiment transfer"
+      ]
+    ]
+  },
+  "figureGallery": [
+    {
+      "zone": "intuition",
+      "caption": "TA-VLA 围绕接入位置、历史与未来预测研究力矩感知 VLA",
+      "src": "https://arxiv.org/html/2509.07962v1/teaser.png"
+    },
+    {
+      "zone": "method",
+      "caption": "三种力矩接入位置：编码器、状态预拼接与解码器独立 token",
+      "src": "https://arxiv.org/html/2509.07962v1/where_embed.svg"
+    },
+    {
+      "zone": "method",
+      "caption": "单帧、多历史 token 与单 token 历史聚合方案",
+      "src": "https://arxiv.org/html/2509.07962v1/history.png"
+    }
+  ],
+  "relatedTopicSlugs": [
+    "contact-rich-manipulation",
+    "vision-language-action"
+  ]
+}

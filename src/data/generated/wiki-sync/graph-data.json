@@ -1,9 +1,9 @@
 {
   "meta": {
-    "build_date": "2026-09-10T07:01:40Z",
+    "build_date": "2026-09-10T08:32:44Z",
     "wiki_title": "研究目的与方向",
-    "total_nodes": 43,
-    "total_edges": 86,
+    "total_nodes": 45,
+    "total_edges": 95,
     "initial_view": [
       "Human-to-Robot Transfer",
       "Long-Horizon Memory for Robot Policies",
@@ -17,8 +17,10 @@
       "2608.25798-tacforcing-streaming-action-generation-with-execution-time-tactile-feedback",
       "t-rex-tactile-reactive-dexterous-manipulation",
       "Human Video Robot Data Generation",
+      "2509.07962-ta-vla-elucidating-the-design-space-of-torque-aware-vision-language-action-models",
       "2606.29948-heterogeneous-tactile-transformer",
       "2609.05832-cr-vla-force",
+      "2409.11047-tacdiffusion-force-domain-diffusion-policy-for-precise-tactile-manipulation",
       "pi07-a-steerable-generalist-robotic-foundation-model-with-emergent-capabilities",
       "tactile-genesis-exploring-tactile-sensors-at-scale-for-learning-dexterous-tasks",
       "2605.11048-forceflow-learning-to-feel-and-act-via-contact-driven-flow-matching",
@@ -32,9 +34,7 @@
       "motus2-a-self-evolving-general-world-model-for-dexterous-manipulation",
       "rl-token-bootstrapping-online-rl-with-vision-language-action-models",
       "steam-self-supervised-temporal-ensemble-advantage-modeling-for-real-world-robot-learning",
-      "current-vla-landscape-foundation-control-memory-and-transfer",
-      "2410.07554-forcemimic-force-centric-imitation-learning-with-force-motion-capture-system-for-contact-rich-manipulation",
-      "2503.02881-reactive-diffusion-policy-slow-fast-visual-tactile-policy-learning-for-contact-rich-manipulation"
+      "current-vla-landscape-foundation-control-memory-and-transfer"
     ],
     "degraded": false,
     "insights_degraded": false
@@ -73,14 +73,14 @@
       "label": "Vision-Language-Action",
       "type": "topic",
       "community": "Vision-Language-Action",
-      "content": "# Vision-Language-Action\n\n> 把视觉、语言和动作统一进同一策略建模框架，是当前具身智能主线之一。\n\n## 这条主题在讲什么\n\nVLA 的核心不是“把图像和文本都喂给机器人”，而是把机器人控制问题放进 foundation model 语境里，让预训练、多任务泛化、迁移、微调和跨 embodiment 学习都能在一套统一框架里讨论。\n\n## 为什么重要\n\n- VLA 是现在连接大模型能力与机器人执行能力的主干路线\n- 它把机器人学习从 task-specific policy 推向 reusable foundation policy\n- 很多后续方向，本质上都是在回答“VLA 还缺什么”\n  - 更强的可控性\n  - 更长的记忆\n  - 更高的精度\n  - 更好的跨 embodiment 迁移\n  - 更低成本地利用人类数据\n  - 新感官模态的持续适配与低延迟闭环\n\n## 当前知识库里的几条子路线\n\n- **开源基座化**\n  来自 [来源: OpenVLA: An Open-Source Vision-Language-Action Model](../sources/openvla-an-open-source-vision-language-action-model.md)\n  OpenVLA 强调训练、微调、部署三件事一起开源，代表“VLA 作为公开基础设施”的路线。\n\n- **更强 steerability**\n  来自 [来源: π0.7: a Steerable Generalist Robotic Foundation Model with Emergent Capabilities](../sources/pi07-a-steerable-generalist-robotic-foundation-model-with-emergent-capabilities.md)\n  π0.7 通过 richer prompt、subgoal image、episode metadata 把“怎么做”也编码进策略上下文。\n\n- **在线 RL 精修**\n  来自 [来源: RL Token: Bootstrapping Online RL with Vision-Language-Action Models](../sources/rl-token-bootstrapping-online-rl-with-vision-language-action-models.md)\n  RLT 关注如何在保留 VLA 泛化先验的前提下，把精度和速度继续打磨到 specialist 水平。\n\n- **长时程记忆**\n  来自 [来源: MEM: Multi-Scale Embodied Memory for Vision Language Action Models](../sources/mem-multi-scale-embodied-memory-for-vision-language-action-models.md)\n  MEM 试图解决 VLA 在长达十几分钟任务中的任务进度保持和局部视觉记忆问题。\n\n- **利用 human data**\n  来自 [来源: Emergence of Human to Robot Transfer in Vision-Language-Action Models](../sources/emergence-of-human-to-robot-transfer-in-vision-language-action-models.md)\n  这条路线关注 VLA 何时开始能真正吃进 human video，并把它转化成机器人能力。\n\n- **跨具身对齐与 OOD 规模化**\n  来自 [来源: Qwen-RobotManip Technical Report](../sources/2606.17846-qwen-robotmanip-alignment-unlocks-scale-for-robotic-manipulation-foundation-models.md)\n  Qwen-RobotManip 把 canonical state-action slots、camera-frame delta EEF 和 episode context 组合成统一接口，重点回答异构机器人数据何时能随规模增长转化为 OOD、指令跟随和跨具身迁移能力。\n\n- **灵巧手基准与失败诊断**\n  来自 [来源: DexJoCo: A Benchmark and Toolkit for Task-Oriented Dexterous Manipulation on MuJoCo](../sources/dexjoco-a-benchmark-and-toolkit-for-task-oriented-dexterous-manipulation-on-mujoco.md)\n  DexJoCo 不提出新 VLA 模型，而是把 VLA/模仿学习策略在灵巧手、双手协作、按钮/插装/铰链交互和视觉随机化下的失败模式系统测出来。\n\n- **训练目标物理化**\n  来自 [来源: AttenA+: Rectifying Action Inequality in Robotic Foundation Models](../sources/attena-rectifying-action-inequality-in-robotic-foundation-models.md)\n  AttenA+ 不改 VLA/WAM 骨干，而是把动作速度场写进 loss 权重，让模型更重视低速、精细、接触关键的动作片段。\n\n- **新感官模态的持续适配**\n  来自 [来源: Multisensory Continual Learning: Adapting Pretrained Visuomotor Policies to Force](../sources/2606.30988-multisensory-continual-learning-adapting-pretrained-visuomotor-policies-to-force.md)\n  MuSe 把 force-torque 接入已有 visuomotor world model，并用未来视频/F/T 联合预测、旧数据 replay 与 missing-modality mask 同时优化新任务前向迁移和旧任务后向保持。\n\n- **训练期力蒸馏与部署期无传感器推理**\n  来自 [来源: FD-VLA: Force-Distilled Vision-Language-Action Model for Contact-Rich Manipulation](../sources/fd-vla-force-distilled-vision-language-action-model-for-contact-rich-manipulation.md)\n  FD-VLA 用真实力表示监督一个由视觉与机器人状态生成的潜在力 token，并以定向注意力保护冻结 VLM；它代表“昂贵物理模态只在训练期做教师、部署期由常见模态补全”的路线，同时暴露了突发接触不可观测的安全边界。\n\n- **联合动作—接触后果生成与价值后训练**\n  来自 [来源: Facet-0: A Robotic Foundation Model for Contact-Rich Precise Manipulation](../sources/facet-0.md)\n  Facet-0 将因果 wrench 历史接入 PaliGemma 与 flow-matching 动作专家，联合生成 7D 动作块和未来 6D wrench；Action–Wrench Critic 再用部署轨迹评价联合提案。它代表“不是只给 VLA 增加感官输入，而是改变动作专家所生成和价值模型所评价的对象”的路线。\n\n- **力—位示范采集与控制原语对接**\n  来自 [来源: ForceMimic: Force-Centric Imitation Learning with Force-Motion Capture System for Contact-Rich Manipulation](../sources/2410.07554-forcemimic-force-centric-imitation-learning-with-force-motion-capture-system-for-contact-rich-manipulation.md)\n  ForceMimic 不以 VLA 规模化为目标，而是用无机器人手持 ForceCapture 采集自然六维 wrench—位姿数据，再由 HybridIL 扩散策略预测未来位姿与 wrench，并交给正交混合力位控制器执行。它提醒 VLA 路线：新物理模态的收益首先取决于采集分布、坐标校准和动作接口，而不只是输入通道数量。\n\n- **异步快慢触觉闭环**\n  来自 [来源: T-Rex: Tactile-Reactive Dexterous Manipulation](../sources/t-rex-tactile-reactive-dexterous-manipulation.md)\n  T-Rex 让低频动作专家负责视觉语言规划、高频触觉专家复用缓存并沿同一 flow 轨迹细化动作，代表“多速率专家共享动作分布”的路线。\n\n- **chunk 内流式触觉反馈**\n  来自 [来源: TacForcing: Streaming Action Generation with Execution-Time Tactile Feedback](../sources/2608.25798-tacforcing-streaming-action-generation-with-execution-time-tactile-feedback.md)\n  TacForcing 不另设快触觉控制器，而是让同一个动作专家按块完成、执行并保留未来块中间态；每次执行后刷新触觉，EATA 只让最新触觉影响下一待执行块，把观测时刻与动作生效时刻显式对齐。\n\n- **历史上下文 + 具身推理 + 动作对齐的系统化**\n  来自 [来源: DM0.5: 面向开放世界的通用具身智能基础模型](../sources/dm05-open-world-embodied-foundation-model.md)\n  DM0.5 把长历史记忆（最长 60s）、11 种具身推理 CoT 任务、以及轨迹进展对齐三个设计做成一体，换来开放环境 Zero-Shot 泛化和真机 Table30 v2 SOTA。\n\n- **隐式动作（LAM）的系统化消融**\n  来自 [来源: What Matters for Latent Actions in Robot Learning](../sources/2608.19613-what-matters-for-latent-actions-in-robot-learning.md)\n  这篇把 LAPO/LAOF/CoMo/CFD-AE 等隐式动作建模方法统一进同一自编码框架，扫描 41 个设计选择，证明原始 LAPO 最强、光流先验有害，并给出「隐式动作微调 VLM 骨干」的可复制配方（真机 +14.5pp）。\n\n- **表示中心的持续预训练**\n  来自 [来源: Beyond Data Scaling: Representation-Centric Continued Pre-training for Vision-Language-Action Models](../sources/beyond-data-scaling-representation-centric-continued-pre-training-for-vision-language-action-models.md)\n  VLAct 不设计新的最终动作头，而是把 VLA continued pre-training 当作 backbone 表示学习：保护 VLM 浅层先验，以 OFT、PI、GR00T 多头联合监督减少 decoder lock-in，并只在物理可比的动作维度上做跨具身共享。\n\n- **几何原生的世界—动作模型**\n  来自 [来源: Geometric Action Model for Robot Policy Learning](../sources/2606.17046-geometric-action-model-for-robot-policy-learning.md)\n  GAM 把 GFM 在中间层切分，在几何潜空间因果预测未来状态与动作，再复用剩余深层共同解码未来深度和动作块；它代表“让几何骨干成为策略本体”而非仅做外部特征蒸馏的路线。\n\n- **模块化 WAM 设计与跨域预训练**\n  来自 [来源: OpenWAM: An Open, Modular Exploration Towards Systematic World-Action Model Pretraining](../sources/2609.07398-openwam-an-open-modular-exploration-towards-systematic-world-action-model-pretraining.md)\n  OpenWAM 把视频骨干、视觉潜空间、动作容量、跨流 attention、去噪调度和数据配方拆成受控变量，证明专用动作容量、世界到动作信息流与同步去噪共同决定协同；它也显示预训练主要抬升 OOD，而多帧像素 latent 在相机和噪声扰动下仍有明显上限。\n\n- **历史动作驱动的低延迟生成**\n  来自 [来源: Action-to-Action Flow Matching](../sources/action-to-action-flow-matching.md)\n  A2A 不再从高斯噪声启动动作 flow，而是把本体反馈得到的历史已执行动作编码成 source latent，再运输到未来动作 latent；它代表“用物理连续性缩短生成路径”的实时策略路线，单步推理达到 0.56 ms。\n\n- **慢速 VLA 与高频柔顺控制闭环**\n  来自 [来源: CR-VLA-Force](../sources/2609.05832-cr-vla-force.md)\n  CC-VLA 让 pi0 同时预测位姿与期望力，用历史力 token 和残差 MoE 保持接触状态，再把动作块交给 500 Hz 自适应柔顺控制器执行；它代表“VLA 提供语义与物理目标、经典控制器处理块内快速反应”的显式接口路线。\n\n## 当前判断\n\n这几篇放在一起看，VLA 主线已经很清楚：\n\n- `OpenVLA` 解决“基座是否开放、可训、可部署”\n- `π0.7` 解决“多源数据如何通过 prompt 变成可控能力”\n- `RLT` 解决“如何把通才策略继续打磨到高精度”\n- `MEM` 解决“如何把策略延长到 long-horizon”\n- `Human-to-Robot Transfer` 解决“如何把人类数据真正吸纳进来”\n- `DexJoCo` 解决“如何用灵巧手任务和失败模式检验这些策略是否真的具备接触密集、双手和长时程能力”\n- `AttenA+` 解决“训练目标是否应该反映动作序列内部的物理关键性”\n- `MuSe` 解决“如何把预训练时不存在的新力觉模态接入 foundation policy，同时避免旧能力遗忘”\n- `FD-VLA` 解决“如何把真实力降为训练期 privileged supervision，并在无力传感器部署时保留任务相关的接触先验”\n- `Facet-0` 解决“如何把未来接触后果绑定到候选动作，用部署价值挑出干净接触，并在安全动作盒内做零件级适配”\n- `ForceMimic` 解决“如何在无机器人条件下自然采集真实力—位示范，并通过混合控制原语把预测 wrench 接到执行层”\n- `T-Rex` 解决“如何让低频视觉规划与高频触觉动作细化在同一生成轨迹上协同”\n- `TacForcing` 解决“如何在同一个动作生成器内部交错 chunk 生成、执行与触觉更新，并限制反馈的时间作用域”\n- `DM0.5` 解决“如何把历史上下文、具身推理、动作监督三件事系统化地收进一个可用的通用 VLA”\n- `What Matters for Latent Actions` 解决“用无标注视频学隐式动作时，哪些设计真正决定下游性能、以及如何低成本评估隐式动作质量”\n- `VLAct` 解决“固定机器人数据预算下，如何让持续预训练得到可换动作头、可跨具身迁移的 VLA backbone”\n- `GAM` 解决“如何把预训练三维几何先验直接变成低延迟世界—动作骨干，并在相机扰动下保持空间鲁棒性”\n- `OpenWAM` 解决“如何把 WAM 的继承、耦合、去噪与跨域数据配方拆成可复现受控实验，并扩展成开放预训练基线”\n- `A2A` 解决“如何把历史已执行动作作为生成先验，缩短 flow 路径并把机器人策略推理压到单步”\n- `CC-VLA` 解决“如何让 1 Hz 的 VLA 把期望位姿和力交给 500 Hz 柔顺回路，在动作块内部保持可控接触”\n\n也就是说，VLA 不再只是一个单点模型设计问题，而已经分化成一套系统问题族。\n\n## 相关页面\n\n- [[OpenVLA: An Open-Source Vision-Language-Action Model]]\n- [[π0.7: a Steerable Generalist Robotic Foundation Model with Emergent Capabilities]]\n- [[RL Token: Bootstrapping Online RL with Vision-Language-Action Models]]\n- [[MEM: Multi-Scale Embodied Memory for Vision Language Action Models]]\n- [[Emergence of Human to Robot Transfer in Vision-Language-Action Models]]\n- [[Qwen-RobotManip Technical Report: Alignment Unlocks Scale for Robotic Manipulation Foundation Models]]\n- [[DexJoCo: A Benchmark and Toolkit for Task-Oriented Dexterous Manipulation on MuJoCo]]\n- [[AttenA+: Rectifying Action Inequality in Robotic Foundation Models]]\n- [[2606.30988-multisensory-continual-learning-adapting-pretrained-visuomotor-policies-to-force|Multisensory Continual Learning: Adapting Pretrained Visuomotor Policies to Force]]\n- [[FD-VLA: Force-Distilled Vision-Language-Action Model for Contact-Rich Manipulation]]\n- [[Facet-0: A Robotic Foundation Model for Contact-Rich Precise Manipulation]]\n- [[ForceMimic: Force-Centric Imitation Learning with Force-Motion Capture System for Contact-Rich Manipulation]]\n- [[t-rex-tactile-reactive-dexterous-manipulation|T-Rex: Tactile-Reactive Dexterous Manipulation]]\n- [[2608.25798-tacforcing-streaming-action-generation-with-execution-time-tactile-feedback|TacForcing: Streaming Action Generation with Execution-Time Tactile Feedback]]\n- [[force-touch-robot-policy-review|机器人策略中的力觉与触觉：从信号语义到闭环控制]]\n- [[DM0.5: 面向开放世界的通用具身智能基础模型]]\n- [[What Matters for Latent Actions in Robot Learning]]\n- [[Beyond Data Scaling: Representation-Centric Continued Pre-training for Vision-Language-Action Models]]\n- [[Geometric Action Model for Robot Policy Learning]]\n- [[OpenWAM: An Open, Modular Exploration Towards Systematic World-Action Model Pretraining]]\n- [[2609.05832-cr-vla-force|CR-VLA-Force: Learning Control-aware Compliance VLA Model for Robust Contact-rich Robotic Manipulation]]\n- [[Online RL for VLA]]\n- [[Long-Horizon Memory for Robot Policies]]\n- [[Human-to-Robot Transfer]]"
+      "content": "# Vision-Language-Action\n\n> 把视觉、语言和动作统一进同一策略建模框架，是当前具身智能主线之一。\n\n## 这条主题在讲什么\n\nVLA 的核心不是“把图像和文本都喂给机器人”，而是把机器人控制问题放进 foundation model 语境里，让预训练、多任务泛化、迁移、微调和跨 embodiment 学习都能在一套统一框架里讨论。\n\n## 为什么重要\n\n- VLA 是现在连接大模型能力与机器人执行能力的主干路线\n- 它把机器人学习从 task-specific policy 推向 reusable foundation policy\n- 很多后续方向，本质上都是在回答“VLA 还缺什么”\n  - 更强的可控性\n  - 更长的记忆\n  - 更高的精度\n  - 更好的跨 embodiment 迁移\n  - 更低成本地利用人类数据\n  - 新感官模态的持续适配与低延迟闭环\n\n## 当前知识库里的几条子路线\n\n- **开源基座化**\n  来自 [来源: OpenVLA: An Open-Source Vision-Language-Action Model](../sources/openvla-an-open-source-vision-language-action-model.md)\n  OpenVLA 强调训练、微调、部署三件事一起开源，代表“VLA 作为公开基础设施”的路线。\n\n- **更强 steerability**\n  来自 [来源: π0.7: a Steerable Generalist Robotic Foundation Model with Emergent Capabilities](../sources/pi07-a-steerable-generalist-robotic-foundation-model-with-emergent-capabilities.md)\n  π0.7 通过 richer prompt、subgoal image、episode metadata 把“怎么做”也编码进策略上下文。\n\n- **在线 RL 精修**\n  来自 [来源: RL Token: Bootstrapping Online RL with Vision-Language-Action Models](../sources/rl-token-bootstrapping-online-rl-with-vision-language-action-models.md)\n  RLT 关注如何在保留 VLA 泛化先验的前提下，把精度和速度继续打磨到 specialist 水平。\n\n- **长时程记忆**\n  来自 [来源: MEM: Multi-Scale Embodied Memory for Vision Language Action Models](../sources/mem-multi-scale-embodied-memory-for-vision-language-action-models.md)\n  MEM 试图解决 VLA 在长达十几分钟任务中的任务进度保持和局部视觉记忆问题。\n\n- **利用 human data**\n  来自 [来源: Emergence of Human to Robot Transfer in Vision-Language-Action Models](../sources/emergence-of-human-to-robot-transfer-in-vision-language-action-models.md)\n  这条路线关注 VLA 何时开始能真正吃进 human video，并把它转化成机器人能力。\n\n- **跨具身对齐与 OOD 规模化**\n  来自 [来源: Qwen-RobotManip Technical Report](../sources/2606.17846-qwen-robotmanip-alignment-unlocks-scale-for-robotic-manipulation-foundation-models.md)\n  Qwen-RobotManip 把 canonical state-action slots、camera-frame delta EEF 和 episode context 组合成统一接口，重点回答异构机器人数据何时能随规模增长转化为 OOD、指令跟随和跨具身迁移能力。\n\n- **灵巧手基准与失败诊断**\n  来自 [来源: DexJoCo: A Benchmark and Toolkit for Task-Oriented Dexterous Manipulation on MuJoCo](../sources/dexjoco-a-benchmark-and-toolkit-for-task-oriented-dexterous-manipulation-on-mujoco.md)\n  DexJoCo 不提出新 VLA 模型，而是把 VLA/模仿学习策略在灵巧手、双手协作、按钮/插装/铰链交互和视觉随机化下的失败模式系统测出来。\n\n- **训练目标物理化**\n  来自 [来源: AttenA+: Rectifying Action Inequality in Robotic Foundation Models](../sources/attena-rectifying-action-inequality-in-robotic-foundation-models.md)\n  AttenA+ 不改 VLA/WAM 骨干，而是把动作速度场写进 loss 权重，让模型更重视低速、精细、接触关键的动作片段。\n\n- **新感官模态的持续适配**\n  来自 [来源: Multisensory Continual Learning: Adapting Pretrained Visuomotor Policies to Force](../sources/2606.30988-multisensory-continual-learning-adapting-pretrained-visuomotor-policies-to-force.md)\n  MuSe 把 force-torque 接入已有 visuomotor world model，并用未来视频/F/T 联合预测、旧数据 replay 与 missing-modality mask 同时优化新任务前向迁移和旧任务后向保持。\n\n- **训练期力蒸馏与部署期无传感器推理**\n  来自 [来源: FD-VLA: Force-Distilled Vision-Language-Action Model for Contact-Rich Manipulation](../sources/fd-vla-force-distilled-vision-language-action-model-for-contact-rich-manipulation.md)\n  FD-VLA 用真实力表示监督一个由视觉与机器人状态生成的潜在力 token，并以定向注意力保护冻结 VLM；它代表“昂贵物理模态只在训练期做教师、部署期由常见模态补全”的路线，同时暴露了突发接触不可观测的安全边界。\n\n- **联合动作—接触后果生成与价值后训练**\n  来自 [来源: Facet-0: A Robotic Foundation Model for Contact-Rich Precise Manipulation](../sources/facet-0.md)\n  Facet-0 将因果 wrench 历史接入 PaliGemma 与 flow-matching 动作专家，联合生成 7D 动作块和未来 6D wrench；Action–Wrench Critic 再用部署轨迹评价联合提案。它代表“不是只给 VLA 增加感官输入，而是改变动作专家所生成和价值模型所评价的对象”的路线。\n\n- **力—位示范采集与控制原语对接**\n  来自 [来源: ForceMimic: Force-Centric Imitation Learning with Force-Motion Capture System for Contact-Rich Manipulation](../sources/2410.07554-forcemimic-force-centric-imitation-learning-with-force-motion-capture-system-for-contact-rich-manipulation.md)\n  ForceMimic 不以 VLA 规模化为目标，而是用无机器人手持 ForceCapture 采集自然六维 wrench—位姿数据，再由 HybridIL 扩散策略预测未来位姿与 wrench，并交给正交混合力位控制器执行。它提醒 VLA 路线：新物理模态的收益首先取决于采集分布、坐标校准和动作接口，而不只是输入通道数量。\n\n- **异步快慢触觉闭环**\n  来自 [来源: T-Rex: Tactile-Reactive Dexterous Manipulation](../sources/t-rex-tactile-reactive-dexterous-manipulation.md)\n  T-Rex 让低频动作专家负责视觉语言规划、高频触觉专家复用缓存并沿同一 flow 轨迹细化动作，代表“多速率专家共享动作分布”的路线。\n\n- **chunk 内流式触觉反馈**\n  来自 [来源: TacForcing: Streaming Action Generation with Execution-Time Tactile Feedback](../sources/2608.25798-tacforcing-streaming-action-generation-with-execution-time-tactile-feedback.md)\n  TacForcing 不另设快触觉控制器，而是让同一个动作专家按块完成、执行并保留未来块中间态；每次执行后刷新触觉，EATA 只让最新触觉影响下一待执行块，把观测时刻与动作生效时刻显式对齐。\n\n- **历史上下文 + 具身推理 + 动作对齐的系统化**\n  来自 [来源: DM0.5: 面向开放世界的通用具身智能基础模型](../sources/dm05-open-world-embodied-foundation-model.md)\n  DM0.5 把长历史记忆（最长 60s）、11 种具身推理 CoT 任务、以及轨迹进展对齐三个设计做成一体，换来开放环境 Zero-Shot 泛化和真机 Table30 v2 SOTA。\n\n- **隐式动作（LAM）的系统化消融**\n  来自 [来源: What Matters for Latent Actions in Robot Learning](../sources/2608.19613-what-matters-for-latent-actions-in-robot-learning.md)\n  这篇把 LAPO/LAOF/CoMo/CFD-AE 等隐式动作建模方法统一进同一自编码框架，扫描 41 个设计选择，证明原始 LAPO 最强、光流先验有害，并给出「隐式动作微调 VLM 骨干」的可复制配方（真机 +14.5pp）。\n\n- **表示中心的持续预训练**\n  来自 [来源: Beyond Data Scaling: Representation-Centric Continued Pre-training for Vision-Language-Action Models](../sources/beyond-data-scaling-representation-centric-continued-pre-training-for-vision-language-action-models.md)\n  VLAct 不设计新的最终动作头，而是把 VLA continued pre-training 当作 backbone 表示学习：保护 VLM 浅层先验，以 OFT、PI、GR00T 多头联合监督减少 decoder lock-in，并只在物理可比的动作维度上做跨具身共享。\n\n- **几何原生的世界—动作模型**\n  来自 [来源: Geometric Action Model for Robot Policy Learning](../sources/2606.17046-geometric-action-model-for-robot-policy-learning.md)\n  GAM 把 GFM 在中间层切分，在几何潜空间因果预测未来状态与动作，再复用剩余深层共同解码未来深度和动作块；它代表“让几何骨干成为策略本体”而非仅做外部特征蒸馏的路线。\n\n- **模块化 WAM 设计与跨域预训练**\n  来自 [来源: OpenWAM: An Open, Modular Exploration Towards Systematic World-Action Model Pretraining](../sources/2609.07398-openwam-an-open-modular-exploration-towards-systematic-world-action-model-pretraining.md)\n  OpenWAM 把视频骨干、视觉潜空间、动作容量、跨流 attention、去噪调度和数据配方拆成受控变量，证明专用动作容量、世界到动作信息流与同步去噪共同决定协同；它也显示预训练主要抬升 OOD，而多帧像素 latent 在相机和噪声扰动下仍有明显上限。\n\n- **历史动作驱动的低延迟生成**\n  来自 [来源: Action-to-Action Flow Matching](../sources/action-to-action-flow-matching.md)\n  A2A 不再从高斯噪声启动动作 flow，而是把本体反馈得到的历史已执行动作编码成 source latent，再运输到未来动作 latent；它代表“用物理连续性缩短生成路径”的实时策略路线，单步推理达到 0.56 ms。\n\n- **慢速 VLA 与高频柔顺控制闭环**\n  来自 [来源: CR-VLA-Force](../sources/2609.05832-cr-vla-force.md)\n  CC-VLA 让 pi0 同时预测位姿与期望力，用历史力 token 和残差 MoE 保持接触状态，再把动作块交给 500 Hz 自适应柔顺控制器执行；它代表“VLA 提供语义与物理目标、经典控制器处理块内快速反应”的显式接口路线。\n\n- **关节力矩感知 VLA 的接口设计**\n  来自 [来源: TA-VLA: Elucidating the Design Space of Torque-aware Vision-Language-Action Models](../sources/2509.07962-ta-vla-elucidating-the-design-space-of-torque-aware-vision-language-action-models.md)\n  TA-VLA 系统比较 torque 接入位置、历史表示和未来预测目标，发现 action decoder 侧融合、整段历史聚合为单 token、联合生成未来动作与 torque 的组合最有效；它代表“低成本连续物理模态必须适配预训练动作接口，而非简单扩张视觉语言 token”的路线。\n\n## 当前判断\n\n这几篇放在一起看，VLA 主线已经很清楚：\n\n- `OpenVLA` 解决“基座是否开放、可训、可部署”\n- `π0.7` 解决“多源数据如何通过 prompt 变成可控能力”\n- `RLT` 解决“如何把通才策略继续打磨到高精度”\n- `MEM` 解决“如何把策略延长到 long-horizon”\n- `Human-to-Robot Transfer` 解决“如何把人类数据真正吸纳进来”\n- `DexJoCo` 解决“如何用灵巧手任务和失败模式检验这些策略是否真的具备接触密集、双手和长时程能力”\n- `AttenA+` 解决“训练目标是否应该反映动作序列内部的物理关键性”\n- `MuSe` 解决“如何把预训练时不存在的新力觉模态接入 foundation policy，同时避免旧能力遗忘”\n- `FD-VLA` 解决“如何把真实力降为训练期 privileged supervision，并在无力传感器部署时保留任务相关的接触先验”\n- `Facet-0` 解决“如何把未来接触后果绑定到候选动作，用部署价值挑出干净接触，并在安全动作盒内做零件级适配”\n- `ForceMimic` 解决“如何在无机器人条件下自然采集真实力—位示范，并通过混合控制原语把预测 wrench 接到执行层”\n- `T-Rex` 解决“如何让低频视觉规划与高频触觉动作细化在同一生成轨迹上协同”\n- `TacForcing` 解决“如何在同一个动作生成器内部交错 chunk 生成、执行与触觉更新，并限制反馈的时间作用域”\n- `DM0.5` 解决“如何把历史上下文、具身推理、动作监督三件事系统化地收进一个可用的通用 VLA”\n- `What Matters for Latent Actions` 解决“用无标注视频学隐式动作时，哪些设计真正决定下游性能、以及如何低成本评估隐式动作质量”\n- `VLAct` 解决“固定机器人数据预算下，如何让持续预训练得到可换动作头、可跨具身迁移的 VLA backbone”\n- `GAM` 解决“如何把预训练三维几何先验直接变成低延迟世界—动作骨干，并在相机扰动下保持空间鲁棒性”\n- `OpenWAM` 解决“如何把 WAM 的继承、耦合、去噪与跨域数据配方拆成可复现受控实验，并扩展成开放预训练基线”\n- `A2A` 解决“如何把历史已执行动作作为生成先验，缩短 flow 路径并把机器人策略推理压到单步”\n- `CC-VLA` 解决“如何让 1 Hz 的 VLA 把期望位姿和力交给 500 Hz 柔顺回路，在动作块内部保持可控接触”\n- `TA-VLA` 解决“如何把电流估算的关节力矩接到预训练动作解码器，并用单 token 历史与未来 torque 目标增强接触操作”\n\n也就是说，VLA 不再只是一个单点模型设计问题，而已经分化成一套系统问题族。\n\n## 相关页面\n\n- [[OpenVLA: An Open-Source Vision-Language-Action Model]]\n- [[π0.7: a Steerable Generalist Robotic Foundation Model with Emergent Capabilities]]\n- [[RL Token: Bootstrapping Online RL with Vision-Language-Action Models]]\n- [[MEM: Multi-Scale Embodied Memory for Vision Language Action Models]]\n- [[Emergence of Human to Robot Transfer in Vision-Language-Action Models]]\n- [[Qwen-RobotManip Technical Report: Alignment Unlocks Scale for Robotic Manipulation Foundation Models]]\n- [[DexJoCo: A Benchmark and Toolkit for Task-Oriented Dexterous Manipulation on MuJoCo]]\n- [[AttenA+: Rectifying Action Inequality in Robotic Foundation Models]]\n- [[2606.30988-multisensory-continual-learning-adapting-pretrained-visuomotor-policies-to-force|Multisensory Continual Learning: Adapting Pretrained Visuomotor Policies to Force]]\n- [[FD-VLA: Force-Distilled Vision-Language-Action Model for Contact-Rich Manipulation]]\n- [[Facet-0: A Robotic Foundation Model for Contact-Rich Precise Manipulation]]\n- [[ForceMimic: Force-Centric Imitation Learning with Force-Motion Capture System for Contact-Rich Manipulation]]\n- [[t-rex-tactile-reactive-dexterous-manipulation|T-Rex: Tactile-Reactive Dexterous Manipulation]]\n- [[2608.25798-tacforcing-streaming-action-generation-with-execution-time-tactile-feedback|TacForcing: Streaming Action Generation with Execution-Time Tactile Feedback]]\n- [[force-touch-robot-policy-review|机器人策略中的力觉与触觉：从信号语义到闭环控制]]\n- [[DM0.5: 面向开放世界的通用具身智能基础模型]]\n- [[What Matters for Latent Actions in Robot Learning]]\n- [[Beyond Data Scaling: Representation-Centric Continued Pre-training for Vision-Language-Action Models]]\n- [[Geometric Action Model for Robot Policy Learning]]\n- [[OpenWAM: An Open, Modular Exploration Towards Systematic World-Action Model Pretraining]]\n- [[2609.05832-cr-vla-force|CR-VLA-Force: Learning Control-aware Compliance VLA Model for Robust Contact-rich Robotic Manipulation]]\n- [[2509.07962-ta-vla-elucidating-the-design-space-of-torque-aware-vision-language-action-models|TA-VLA: Elucidating the Design Space of Torque-aware Vision-Language-Action Models]]\n- [[Online RL for VLA]]\n- [[Long-Horizon Memory for Robot Policies]]\n- [[Human-to-Robot Transfer]]"
     },
     {
       "id": "contact-rich-manipulation",
       "label": "Contact-Rich Manipulation and Adaptive Compliance",
       "type": "topic",
       "community": "contact-rich-manipulation",
-      "content": "# Contact-Rich Manipulation and Adaptive Compliance\n\n> 这条路线研究机器人在持续接触中如何同时“走对轨迹”和“用对力”，并让柔顺方向与幅值随任务阶段、接触几何和扰动动态变化。\n\n## 这条主题在讲什么\n\n接触密集操作不是纯位置预测问题。刚性控制能压住轨迹误差，却可能把几毫米的视觉或标定偏差放大成巨大内力；各方向统一放软虽然降低碰撞风险，又会因摩擦和外力偏离目标。真正需要的是任务相关、方向相关、时间相关的柔顺性：接触前保证定位，接触后沿约束方向让步，在仍需追踪的方向保持足够刚度，并在几何变化或扰动出现时快速重估。\n\n这个问题会反复出现在擦拭、翻转、插入、沿面跟随、装配、灵巧手和双臂协作中，因此它不是普通 tag，而是一条连接示教学习、力/触觉表示、动作生成和低层控制器接口的持续问题线。\n\n## 为什么重要\n\n- 真实机器人误差不可避免，纯位置策略容易把误差转成危险接触力。\n- 固定均匀柔顺不能同时满足精确追踪和安全接触，柔顺性必须随方向与阶段变化。\n- 学习策略通常低频运行，稳定接触还需要高频导纳、阻抗或触觉反馈回路兜底。\n- 不同机器人开放的控制接口不同，动作表示是否能跨硬件执行会直接决定方法的工程价值。\n\n## 当前理解\n\n| 子问题 | 代表材料 | 当前证据 |\n| --- | --- | --- |\n| 单条示范无法辨识完整人体阻抗时，怎样得到可学习标签？ | [[Adaptive Compliance Policy: Learning Approximate Compliance for Diffusion Guided Control]] | 不恢复真实质量、阻尼和刚度；只构造满足避免巨大内力与鼓励轨迹跟踪两项性质的近似柔顺轮廓。 |\n| 柔顺方向怎样表示？ | [[Adaptive Compliance Policy: Learning Approximate Compliance for Diffusion Guided Control]] | 沿反馈力方向设低刚度、正交方向设高刚度；参考位姿与虚拟目标之差编码低刚度方向。 |\n| 学习策略和低层控制器怎样分工？ | [[Adaptive Compliance Policy: Learning Approximate Compliance for Diffusion Guided Control]] | 扩散策略滚动预测参考位姿、虚拟目标和刚度标量，高频导纳控制器执行重建后的刚度矩阵。 |\n| 不显式输出目标力时，怎样学到主动接触修正？ | [[Reactive Diffusion Policy: Slow-Fast Visual-Tactile Policy Learning for Contact-Rich Manipulation]] | 慢速 latent diffusion 规划 action chunk；快速非对称 tokenizer 用最新力/触觉条件化解码，在位姿动作空间产生亚毫米级闭环修正。 |\n| 高频接触反馈还能怎样进入现代生成策略？ | [[Reactive Diffusion Policy: Slow-Fast Visual-Tactile Policy Learning for Contact-Rich Manipulation]]、[[T-Rex: Tactile-Reactive Dexterous Manipulation]]、[[TacForcing: Streaming Action Generation with Execution-Time Tactile Feedback]] | 三种接口分别是独立快速动作解码器、共享 flow 轨迹上的快慢专家，以及单一流式专家内可修订的未来动作块。 |\n| 接触反馈怎样成为长期任务进度，而不只服务即时纠偏？ | [[FM-VLA: Force-based Memory for Vision-Language-Action Models in Contact-Rich Manipulation]] | 用重建预训练的 Force-VAE 把完整 wrench 历史压成 8 个长期事件 token，再由约 0.9 秒的 state token 提供接触前运动上下文。 |\n| 部署平台没有力传感器时，训练期真实力还能怎样发挥作用？ | [[FD-VLA: Force-Distilled Vision-Language-Action Model for Contact-Rich Manipulation]] | 用真实力潜变量监督视觉—状态条件化的 learnable query；推理时只保留预测力 token，但它是任务相关先验而非安全级闭环力反馈。 |\n| 怎样让策略在动作执行前就比较接触后果，而不只在碰撞后响应？ | [[Facet-0: A Robotic Foundation Model for Contact-Rich Precise Manipulation]] | 联合生成笛卡尔动作块与未来 wrist-wrench，再由分布式 Action–Wrench Critic 区分几何进度相似但接触结果不同的提案；预测 wrench 不直接执行。 |\n| 如何以自然的人手交互采集真实力—位示范，并将其迁移到机器人控制？ | [[ForceMimic: Force-Centric Imitation Learning with Force-Motion Capture System for Contact-Rich Manipulation]] | ForceCapture 在无机器人条件下记录六维 wrench、SLAM 位姿和 RGB-D；HybridIL 预测位姿—wrench，并由正交混合力位控制器执行。 |\n| 如何在不增加复杂低层力控参数的情况下，把高频力觉用于接触阶段纠偏？ | [[FoAR: Force-Aware Reactive Policy for Contact-Rich Robotic Manipulation]] | 独立未来接触预测器以 phi 门控力觉特征，并在 phi>=0.9 且力/扭矩不足时沿动作方向做 0.006m 位置修正；100Hz 力觉、反应式控制与视觉扩散策略协同工作。 |\n| 低维 wrench 怎样避免被高维视觉掩盖，并同时支持物理与空间 OOD？ | [[ForceFlow: Learning to Feel and Act via Contact-Driven Flow Matching]] | 十步 wrench 与本体状态通过 AdaLN 全局调制 flow-matching DiT，视觉只作 cross-attention 空间锚定；V2F 再把 VLM 定位与局部接触执行解耦。 |\n| 低频 VLA 怎样把期望力交给高频控制器，并在动作块内部持续柔顺？ | [[2609.05832-cr-vla-force|CR-VLA-Force]] | pi0 每秒预测一次位姿—夹爪—力动作块，历史力 token 与残差 MoE 负责接触感知，VG-ACC 以 500 Hz 根据力误差趋势调刚度；六条件平均成功率 89.2%，擦板 base 力误差 5.52%。 |\n\n<!-- confidence: INFERRED -->\n\n## 关键设计轴\n\n- **柔顺来源**：解析接触模型、重复示范统计、单示范近似标签、强化学习探索，或执行期触觉修正。\n- **空间结构**：统一标量刚度、逐轴对角刚度、完整六维刚度矩阵，还是由参考目标与虚拟目标隐式编码方向。\n- **时间结构**：接触前预调、接触后响应、动作 chunk 内反馈更新、突发扰动恢复，以及跨整个 episode 的接触事件计数与进度记忆。\n- **策略—控制接口**：策略直接输出力、刚度、导纳参数、虚拟目标，或只输出由独立高频控制器修正的位置动作。\n- **观测硬件**：腕部六轴力矩适合估计整体接触方向，指尖触觉适合局部滑移与形变；二者的可迁移性、成本和带宽不同。\n- **评测目标**：任务成功率之外，还应记录峰值力、工具/物体损坏、接触保持时间、轨迹误差和扰动恢复。\n\n## 当前判断\n\nACP 给出了一个很有价值的最小接口：策略无需显式知道接触雅可比，只需从示范学习参考位姿、虚拟目标和刚度幅值，就能把方向性柔顺交给成熟低层控制器执行。它证明“柔顺性应该成为策略动作的一部分”，而不是部署时手工固定的控制器超参数。\n\n但当前证据仍主要来自慢速、轻物体、非夹持接触和单一 UR5e 平台。后续路线需要把这一接口与高频指尖触觉、六维柔顺、跨硬件动作表示和在线恢复结合起来，才能判断它是否能从两项强演示扩展为通用接触操作方法。\n\nFM-VLA 又补充了另一条轴：force 不仅是高频控制反馈，也可以成为低成本的 episodic memory。它在按钮计数和重复擦拭上显著胜过视觉记忆，说明接触策略需要同时设计快反馈与慢记忆；不过固定 8-token 压缩目前只在单一双臂平台、三项小规模任务上成立。\n\nFD-VLA 则把真实力从“部署期输入”改成“训练期教师”：预测力 token 的三任务平均成功率为 61.1%，高于直接真实力 token 的 51.1%。这说明控制所需的接触表示可以经过视觉—状态条件化与任务损失筛选，但也划出清晰边界——没有实时传感器时，模型无法可靠捕捉视觉和本体状态不可辨识的突发碰撞、隐藏卡阻或摩擦突变。\n\nFacet-0 把这条路线再推进一步：历史 wrench 不只条件化动作生成，未来 wrench 也作为动作后果与动作块联合提出，并由部署期价值模型评价。五项亚毫米电脑装配中，完整系统平均成功率为 82%，而语义—接触对齐和价值后训练两级分别只有 16% 与 38%；这既支持预测接触后果的价值，也说明当前高成功率强依赖任务级 bounded actor，不能直接外推为无需适配的通用接触能力。\n\nForceMimic 则从数据入口补上另一块：ForceCapture 让人直接操作手持工具，五分钟完成一次削皮示范，避免力反馈遥操作的十三分钟级耗时和三次操作中断。它的 HybridIL 在单一西葫芦削皮任务中达到 100% 动作正确率和 85% 的连续长削皮率，但同时揭示了数据—控制一致性的硬门槛：仅把机器人力传感作为输入的 Force DP 反而只有 60%/10%，因为训练示范约 10N 的力分布与部署约 20N、局部超过 40N 的交互不匹配。\n\nForceFlow 进一步给出一条“力作为全局调节条件”的融合路线：十步 wrench history 通过 AdaLN 进入每个 DiT block，视觉序列只通过 cross-attention 提供空间锚定，同时把未来 wrench 作为动作生成的辅助目标。它在六项任务中达到 81.67% 平均成功率和 8.23 N 平均 Force Cost，消融又把历史与预测的角色拆开——前者主要决定可行性，后者主要改善力质量。不过 32/64 步执行、约 1.15 秒的重规划周期也说明，这仍是中频滚动策略，不能替代执行器侧的高频安全回路。\n\nCC-VLA 则把这个缺口变成显式系统接口：1 Hz 的 pi0 输出期望位姿和前馈力，500 Hz 的 VG-ACC 根据实时力误差在线调刚度。它在擦板 base/OOD 上把相对力误差压到 5.52%/8.78%，并在六个按钮、插入、开窗条件上达到 89.2% 平均成功率。这个结果支持“慢策略给目标、快控制器保接触”的路线，但其安全性仍只在单台 UR5e 和有限位姿偏移中验证，不能当作端到端形式化保证。\n\n## 未解决问题\n\n- 接触力不再主导、摩擦或惯性显著时，沿合力方向放软是否仍是正确近似？\n- 多点夹持会违反非夹持锥假设，如何在不丢失抓持稳定性的情况下选择柔顺子空间？\n- 一秒后见平滑能提前标注接触，但突发碰撞没有未来信息；训练和执行之间的差异如何补偿？\n- 能否用低成本腕力估计、视觉接触估计或电机电流替代高端六轴力矩传感器？\n- 面向安全的评测怎样避免“刚性基线先损坏工具、因而无法完成统计”这种不完整比较？\n\n## 相关页面\n\n- [[Adaptive Compliance Policy: Learning Approximate Compliance for Diffusion Guided Control]]\n- [[Reactive Diffusion Policy: Slow-Fast Visual-Tactile Policy Learning for Contact-Rich Manipulation]]\n- [[FM-VLA: Force-based Memory for Vision-Language-Action Models in Contact-Rich Manipulation]]\n- [[FD-VLA: Force-Distilled Vision-Language-Action Model for Contact-Rich Manipulation]]\n- [[Facet-0: A Robotic Foundation Model for Contact-Rich Precise Manipulation]]\n- [[ForceMimic: Force-Centric Imitation Learning with Force-Motion Capture System for Contact-Rich Manipulation]]\n- [[ForceFlow: Learning to Feel and Act via Contact-Driven Flow Matching]]\n- [[2609.05832-cr-vla-force|CR-VLA-Force: Learning Control-aware Compliance VLA Model for Robust Contact-rich Robotic Manipulation]]\n- [[T-Rex: Tactile-Reactive Dexterous Manipulation]]\n- [[TacForcing: Streaming Action Generation with Execution-Time Tactile Feedback]]\n- [[Tactile Representation]]\n- [[force-touch-robot-policy-review|机器人策略中的力觉与触觉：从信号语义到闭环控制]]\n- [[Physical/Embodied Intelligence]]（domain）"
+      "content": "# Contact-Rich Manipulation and Adaptive Compliance\n\n> 这条路线研究机器人在持续接触中如何同时“走对轨迹”和“用对力”，并让柔顺方向与幅值随任务阶段、接触几何和扰动动态变化。\n\n## 这条主题在讲什么\n\n接触密集操作不是纯位置预测问题。刚性控制能压住轨迹误差，却可能把几毫米的视觉或标定偏差放大成巨大内力；各方向统一放软虽然降低碰撞风险，又会因摩擦和外力偏离目标。真正需要的是任务相关、方向相关、时间相关的柔顺性：接触前保证定位，接触后沿约束方向让步，在仍需追踪的方向保持足够刚度，并在几何变化或扰动出现时快速重估。\n\n这个问题会反复出现在擦拭、翻转、插入、沿面跟随、装配、灵巧手和双臂协作中，因此它不是普通 tag，而是一条连接示教学习、力/触觉表示、动作生成和低层控制器接口的持续问题线。\n\n## 为什么重要\n\n- 真实机器人误差不可避免，纯位置策略容易把误差转成危险接触力。\n- 固定均匀柔顺不能同时满足精确追踪和安全接触，柔顺性必须随方向与阶段变化。\n- 学习策略通常低频运行，稳定接触还需要高频导纳、阻抗或触觉反馈回路兜底。\n- 不同机器人开放的控制接口不同，动作表示是否能跨硬件执行会直接决定方法的工程价值。\n\n## 当前理解\n\n| 子问题 | 代表材料 | 当前证据 |\n| --- | --- | --- |\n| 单条示范无法辨识完整人体阻抗时，怎样得到可学习标签？ | [[Adaptive Compliance Policy: Learning Approximate Compliance for Diffusion Guided Control]] | 不恢复真实质量、阻尼和刚度；只构造满足避免巨大内力与鼓励轨迹跟踪两项性质的近似柔顺轮廓。 |\n| 柔顺方向怎样表示？ | [[Adaptive Compliance Policy: Learning Approximate Compliance for Diffusion Guided Control]] | 沿反馈力方向设低刚度、正交方向设高刚度；参考位姿与虚拟目标之差编码低刚度方向。 |\n| 学习策略和低层控制器怎样分工？ | [[Adaptive Compliance Policy: Learning Approximate Compliance for Diffusion Guided Control]] | 扩散策略滚动预测参考位姿、虚拟目标和刚度标量，高频导纳控制器执行重建后的刚度矩阵。 |\n| 不显式输出目标力时，怎样学到主动接触修正？ | [[Reactive Diffusion Policy: Slow-Fast Visual-Tactile Policy Learning for Contact-Rich Manipulation]] | 慢速 latent diffusion 规划 action chunk；快速非对称 tokenizer 用最新力/触觉条件化解码，在位姿动作空间产生亚毫米级闭环修正。 |\n| 高频接触反馈还能怎样进入现代生成策略？ | [[Reactive Diffusion Policy: Slow-Fast Visual-Tactile Policy Learning for Contact-Rich Manipulation]]、[[T-Rex: Tactile-Reactive Dexterous Manipulation]]、[[TacForcing: Streaming Action Generation with Execution-Time Tactile Feedback]] | 三种接口分别是独立快速动作解码器、共享 flow 轨迹上的快慢专家，以及单一流式专家内可修订的未来动作块。 |\n| 接触反馈怎样成为长期任务进度，而不只服务即时纠偏？ | [[FM-VLA: Force-based Memory for Vision-Language-Action Models in Contact-Rich Manipulation]] | 用重建预训练的 Force-VAE 把完整 wrench 历史压成 8 个长期事件 token，再由约 0.9 秒的 state token 提供接触前运动上下文。 |\n| 部署平台没有力传感器时，训练期真实力还能怎样发挥作用？ | [[FD-VLA: Force-Distilled Vision-Language-Action Model for Contact-Rich Manipulation]] | 用真实力潜变量监督视觉—状态条件化的 learnable query；推理时只保留预测力 token，但它是任务相关先验而非安全级闭环力反馈。 |\n| 怎样让策略在动作执行前就比较接触后果，而不只在碰撞后响应？ | [[Facet-0: A Robotic Foundation Model for Contact-Rich Precise Manipulation]] | 联合生成笛卡尔动作块与未来 wrist-wrench，再由分布式 Action–Wrench Critic 区分几何进度相似但接触结果不同的提案；预测 wrench 不直接执行。 |\n| 如何以自然的人手交互采集真实力—位示范，并将其迁移到机器人控制？ | [[ForceMimic: Force-Centric Imitation Learning with Force-Motion Capture System for Contact-Rich Manipulation]] | ForceCapture 在无机器人条件下记录六维 wrench、SLAM 位姿和 RGB-D；HybridIL 预测位姿—wrench，并由正交混合力位控制器执行。 |\n| 如何在不增加复杂低层力控参数的情况下，把高频力觉用于接触阶段纠偏？ | [[FoAR: Force-Aware Reactive Policy for Contact-Rich Robotic Manipulation]] | 独立未来接触预测器以 phi 门控力觉特征，并在 phi>=0.9 且力/扭矩不足时沿动作方向做 0.006m 位置修正；100Hz 力觉、反应式控制与视觉扩散策略协同工作。 |\n| 低维 wrench 怎样避免被高维视觉掩盖，并同时支持物理与空间 OOD？ | [[ForceFlow: Learning to Feel and Act via Contact-Driven Flow Matching]] | 十步 wrench 与本体状态通过 AdaLN 全局调制 flow-matching DiT，视觉只作 cross-attention 空间锚定；V2F 再把 VLM 定位与局部接触执行解耦。 |\n| 低频 VLA 怎样把期望力交给高频控制器，并在动作块内部持续柔顺？ | [[2609.05832-cr-vla-force|CR-VLA-Force]] | pi0 每秒预测一次位姿—夹爪—力动作块，历史力 token 与残差 MoE 负责接触感知，VG-ACC 以 500 Hz 根据力误差趋势调刚度；六条件平均成功率 89.2%，擦板 base 力误差 5.52%。 |\n| 生成策略能否直接在力域学习专家接触行为？ | [[2409.11047-tacdiffusion-force-domain-diffusion-policy-for-precise-tactile-manipulation|TacDiffusion]] | DDPM 生成六维前馈 wrench，动态系统滤波升频至 1 kHz 并接入阻抗控制；DF3 未见几何平均 95.7%，而更大、更低损失但仅 51.2 Hz 的 DF4 退化。 |\n| 低成本关节力矩应如何接入预训练 VLA？ | [[2509.07962-ta-vla-elucidating-the-design-space-of-torque-aware-vision-language-action-models|TA-VLA]] | 力矩放 action decoder、整段历史压成一个 token、联合预测未来 torque 最有效；π0 五项接触任务从 23% 提升到 86%。 |\n\n<!-- confidence: INFERRED -->\n\n## 关键设计轴\n\n- **柔顺来源**：解析接触模型、重复示范统计、单示范近似标签、强化学习探索，或执行期触觉修正。\n- **空间结构**：统一标量刚度、逐轴对角刚度、完整六维刚度矩阵，还是由参考目标与虚拟目标隐式编码方向。\n- **时间结构**：接触前预调、接触后响应、动作 chunk 内反馈更新、突发扰动恢复，以及跨整个 episode 的接触事件计数与进度记忆。\n- **策略—控制接口**：策略直接输出力、刚度、导纳参数、虚拟目标，或只输出由独立高频控制器修正的位置动作。\n- **观测硬件**：腕部六轴力矩适合估计整体接触方向，指尖触觉适合局部滑移与形变；二者的可迁移性、成本和带宽不同。\n- **评测目标**：任务成功率之外，还应记录峰值力、工具/物体损坏、接触保持时间、轨迹误差和扰动恢复。\n\n## 当前判断\n\nACP 给出了一个很有价值的最小接口：策略无需显式知道接触雅可比，只需从示范学习参考位姿、虚拟目标和刚度幅值，就能把方向性柔顺交给成熟低层控制器执行。它证明“柔顺性应该成为策略动作的一部分”，而不是部署时手工固定的控制器超参数。\n\n但当前证据仍主要来自慢速、轻物体、非夹持接触和单一 UR5e 平台。后续路线需要把这一接口与高频指尖触觉、六维柔顺、跨硬件动作表示和在线恢复结合起来，才能判断它是否能从两项强演示扩展为通用接触操作方法。\n\nFM-VLA 又补充了另一条轴：force 不仅是高频控制反馈，也可以成为低成本的 episodic memory。它在按钮计数和重复擦拭上显著胜过视觉记忆，说明接触策略需要同时设计快反馈与慢记忆；不过固定 8-token 压缩目前只在单一双臂平台、三项小规模任务上成立。\n\nFD-VLA 则把真实力从“部署期输入”改成“训练期教师”：预测力 token 的三任务平均成功率为 61.1%，高于直接真实力 token 的 51.1%。这说明控制所需的接触表示可以经过视觉—状态条件化与任务损失筛选，但也划出清晰边界——没有实时传感器时，模型无法可靠捕捉视觉和本体状态不可辨识的突发碰撞、隐藏卡阻或摩擦突变。\n\nFacet-0 把这条路线再推进一步：历史 wrench 不只条件化动作生成，未来 wrench 也作为动作后果与动作块联合提出，并由部署期价值模型评价。五项亚毫米电脑装配中，完整系统平均成功率为 82%，而语义—接触对齐和价值后训练两级分别只有 16% 与 38%；这既支持预测接触后果的价值，也说明当前高成功率强依赖任务级 bounded actor，不能直接外推为无需适配的通用接触能力。\n\nForceMimic 则从数据入口补上另一块：ForceCapture 让人直接操作手持工具，五分钟完成一次削皮示范，避免力反馈遥操作的十三分钟级耗时和三次操作中断。它的 HybridIL 在单一西葫芦削皮任务中达到 100% 动作正确率和 85% 的连续长削皮率，但同时揭示了数据—控制一致性的硬门槛：仅把机器人力传感作为输入的 Force DP 反而只有 60%/10%，因为训练示范约 10N 的力分布与部署约 20N、局部超过 40N 的交互不匹配。\n\nForceFlow 进一步给出一条“力作为全局调节条件”的融合路线：十步 wrench history 通过 AdaLN 进入每个 DiT block，视觉序列只通过 cross-attention 提供空间锚定，同时把未来 wrench 作为动作生成的辅助目标。它在六项任务中达到 81.67% 平均成功率和 8.23 N 平均 Force Cost，消融又把历史与预测的角色拆开——前者主要决定可行性，后者主要改善力质量。不过 32/64 步执行、约 1.15 秒的重规划周期也说明，这仍是中频滚动策略，不能替代执行器侧的高频安全回路。\n\nCC-VLA 则把这个缺口变成显式系统接口：1 Hz 的 pi0 输出期望位姿和前馈力，500 Hz 的 VG-ACC 根据实时力误差在线调刚度。它在擦板 base/OOD 上把相对力误差压到 5.52%/8.78%，并在六个按钮、插入、开窗条件上达到 89.2% 平均成功率。这个结果支持“慢策略给目标、快控制器保接触”的路线，但其安全性仍只在单台 UR5e 和有限位姿偏移中验证，不能当作端到端形式化保证。\n\nTacDiffusion 与 TA-VLA 把动作接口和传感成本的两端补齐。前者直接生成六维前馈 wrench，并用动态系统把 DF3 的 141.8 Hz 目标升频到 1 kHz 阻抗回路；后者不改动作接口，只用原生电机电流估算的关节力矩条件化 VLA。TacDiffusion 证明闭环频率会让最低离线损失模型反而失败，TA-VLA 则证明 decoder 侧单 token 历史比堆叠多个历史 token 更有效。二者共同说明：接触能力既不是单纯的模型容量问题，也不是“接一条力输入”就能解决，策略—控制频率和预训练接口结构都属于方法本体。\n\n## 未解决问题\n\n- 接触力不再主导、摩擦或惯性显著时，沿合力方向放软是否仍是正确近似？\n- 多点夹持会违反非夹持锥假设，如何在不丢失抓持稳定性的情况下选择柔顺子空间？\n- 一秒后见平滑能提前标注接触，但突发碰撞没有未来信息；训练和执行之间的差异如何补偿？\n- 能否用低成本腕力估计、视觉接触估计或电机电流替代高端六轴力矩传感器？\n- 面向安全的评测怎样避免“刚性基线先损坏工具、因而无法完成统计”这种不完整比较？\n- 同一平台同时提供关节 torque、末端 wrench 和局部触觉时，怎样按任务阶段选择信号，而不是把不同坐标语义粗暴拼接？\n\n## 相关页面\n\n- [[Adaptive Compliance Policy: Learning Approximate Compliance for Diffusion Guided Control]]\n- [[Reactive Diffusion Policy: Slow-Fast Visual-Tactile Policy Learning for Contact-Rich Manipulation]]\n- [[FM-VLA: Force-based Memory for Vision-Language-Action Models in Contact-Rich Manipulation]]\n- [[FD-VLA: Force-Distilled Vision-Language-Action Model for Contact-Rich Manipulation]]\n- [[Facet-0: A Robotic Foundation Model for Contact-Rich Precise Manipulation]]\n- [[ForceMimic: Force-Centric Imitation Learning with Force-Motion Capture System for Contact-Rich Manipulation]]\n- [[ForceFlow: Learning to Feel and Act via Contact-Driven Flow Matching]]\n- [[2609.05832-cr-vla-force|CR-VLA-Force: Learning Control-aware Compliance VLA Model for Robust Contact-rich Robotic Manipulation]]\n- [[2409.11047-tacdiffusion-force-domain-diffusion-policy-for-precise-tactile-manipulation|TacDiffusion: Force-domain Diffusion Policy for Precise Tactile Manipulation]]\n- [[2509.07962-ta-vla-elucidating-the-design-space-of-torque-aware-vision-language-action-models|TA-VLA: Elucidating the Design Space of Torque-aware Vision-Language-Action Models]]\n- [[T-Rex: Tactile-Reactive Dexterous Manipulation]]\n- [[TacForcing: Streaming Action Generation with Execution-Time Tactile Feedback]]\n- [[Tactile Representation]]\n- [[force-touch-robot-policy-review|机器人策略中的力觉与触觉：从信号语义到闭环控制]]\n- [[Physical/Embodied Intelligence]]（domain）"
     },
     {
       "id": "tactile-representation",
@@ -88,6 +88,13 @@
       "type": "topic",
       "community": "tactile-representation",
       "content": "# Tactile Representation\n\n> 跟踪触觉与力觉从传感器选择、共享表示，到预训练策略适配和执行期反馈的完整接口链。\n\n## 这条主题在讲什么\n\n触觉是接触丰富操作的关键观测，但传感器天然异构：光学式（GelSight 类）给稠密空间信息但帧率受限，阵列式或 F/T 传感器给高频力学信号但空间结构更弱。问题也不止是学一个 backbone：旧的视觉策略通常没有触觉标签，动作生成器又可能在执行前一次性定稿。本主题因此追踪一条连续问题线——如何选传感信号、学习可迁移表示、把新模态接入已有策略并在执行时及时使用它。\n\n## 为什么重要\n\n- 触觉是 vision-language-action 模型目前缺的那一路高密度接触信号\n- 没有可迁移的触觉 backbone，每次换传感器都要重训策略\n- 触觉仿真（Tactile Genesis 类）和真实采集（HTT 类 HPT）正在互相补齐基础设施\n- 即使表示可用，策略仍需同时解决旧数据缺失新模态、灾难性遗忘和反馈时效性\n\n## 当前理解\n\n| 子问题 | 代表材料 | 立场 |\n| --- | --- | --- |\n| 触觉硬件配置（位置/分辨率/类型）如何选？ | [[tactile-genesis-exploring-tactile-sensors-at-scale-for-learning-dexterous-tasks]] | 覆盖面积优先于分辨率；per-taxel 力/力矩在大多数灵巧任务里最稳健 |\n| 异构传感器如何共享 backbone？ | [[2606.29948-heterogeneous-tactile-transformer]] | sensor-specific encoder + shared transformer trunk + 跨模态预测对齐；MAE 重建 + 双向跨模态预测 |\n| 触觉 backbone 能否迁移到训练时未见的传感器？ | [[2606.29948-heterogeneous-tactile-transformer]] | 已在未出现的 Sharpa 触觉指尖上验证 toy screw / grasp tofu 上的成功率显著提升 |\n| 旧数据没有 F/T 标注时，预训练策略如何吸收新模态而不遗忘？ | [[2606.30988-multisensory-continual-learning-adapting-pretrained-visuomotor-policies-to-force|Multisensory Continual Learning: Adapting Pretrained Visuomotor Policies to Force]] | early + late fusion 联合动作、视频、未来 F/T 预测；旧数据 replay 与 missing-modality mask 同时保留视觉动作先验 |\n| 高频力/触觉怎样决定动作的精确落点？ | [[Reactive Diffusion Policy: Slow-Fast Visual-Tactile Policy Learning for Contact-Rich Manipulation]] | action-only encoder 学高层 latent，触觉/力只进入 decoder；低维瓶颈让实时接触信号承担亚毫米级位置细节。 |\n| 高频触觉如何与低频 VLA 协同？ | [[t-rex-tactile-reactive-dexterous-manipulation|T-Rex: Tactile-Reactive Dexterous Manipulation]] | 慢动作专家缓存视觉语言上下文，快触觉专家沿同一 flow 去噪轨迹细化动作，形成约 5 Hz / 20 Hz 的异步闭环 |\n| 动作 chunk 执行期间，最新触觉如何继续修改未来动作？ | [[2608.25798-tacforcing-streaming-action-generation-with-execution-time-tactile-feedback|TacForcing: Streaming Action Generation with Execution-Time Tactile Feedback]] | 未来动作保留 flow 中间态，动作块边生成边执行；EATA 只让当前触觉条件化下一待执行块，避免远期动作接收陈旧信号 |\n\n## 关键设计要点\n\n- **统一输入规范**：时序窗 τ + 减参考帧，让不同采样率、不同维度的传感器在 backbone 内行为可比。\n- **跨模态监督源**：利用\"同一次接触被多传感器同步记录\"作为天然对齐信号，无需人工标注。\n- **解耦结构**：sensor-specific encoder/decoder + shared trunk，让每个传感器保留局部细节、共享语义进入统一潜空间。\n- **非对称条件解码**：RDP 让 action encoder 看不到力，只让 fast decoder 读取最新 wrench/触觉，并限制 latent 容量，使高层动作意图与接触期精确落点分工。\n- **imbalance 风险**：光学-阵列配对中，光学富信息会主导跨模态预测，阵列侧会出现 −4.3% 这种回退；需要 imbalance-aware 损失。\n- **持续适配接口**：MuSe 用缺失模态 mask、旧数据 replay 和未来多感官预测，让没有 F/T 标签的预训练数据仍能约束新模态适配，避免只在新任务上微调造成旧能力塌陷。\n- **多速率控制接口**：T-Rex 把低频视觉规划和高频触觉细化放在同一 flow 轨迹上，说明表示进入策略后还需要清楚的频率分工。\n- **时间作用域接口**：触觉更新不应无条件广播给所有未来动作；TacForcing 用 EATA 让当前触觉只影响下一动作块，并把更远动作保留为待后续触觉修订的中间态。\n\n## 当前判断\n\n这几条路线不是互相替代的模型技巧，而是同一条系统链上的不同层：Tactile Genesis 决定“感什么”，HTT 解决“跨硬件怎样表示”，MuSe 解决“怎样把新模态接进已有策略且不忘旧能力”，T-Rex 与 TacForcing 再回答“执行时怎样及时改动作”。当前证据已经说明静态拼接不足，但还没有一个系统同时证明跨传感器迁移、持续适配、旧任务保持和低延迟闭环。\n\n## 未解决问题\n\n- 异构 backbone 在纯阵列平台（无光学传感器）上是否仍可工作？\n- imbalance-aware 跨模态对齐是否能同时拿回阵列侧的损失？\n- 触觉 backbone 与 VLA 拼接的最优接口是什么（per-token fusion vs late fusion vs dual-stream）？\n- MuSe 的 replay + missing-modality mask 能否扩展到多个依次到来的新传感器，而不让回放成本随模态数量持续增长？\n- T-Rex 的双专家异步细化与 TacForcing 的单专家流式生成，在哪种算力、延迟和任务时域下各自更合适？\n- 单一流式专家已证明执行期更新与 EATA 有效，但论文尚未报告 block size、推理延迟、触觉采样延迟和等算力对比，不能据此判断真实闭环效率。\n- 触觉预训练需要多少跨传感器配对数据才能让 backbone 真正可迁移，而不是只适配原 4 种？\n\n## 相关页面\n\n- [[tactile-genesis-exploring-tactile-sensors-at-scale-for-learning-dexterous-tasks]]\n- [[2606.29948-heterogeneous-tactile-transformer]]\n- [[2606.30988-multisensory-continual-learning-adapting-pretrained-visuomotor-policies-to-force|Multisensory Continual Learning: Adapting Pretrained Visuomotor Policies to Force]]\n- [[Reactive Diffusion Policy: Slow-Fast Visual-Tactile Policy Learning for Contact-Rich Manipulation]]\n- [[t-rex-tactile-reactive-dexterous-manipulation|T-Rex: Tactile-Reactive Dexterous Manipulation]]\n- [[2608.25798-tacforcing-streaming-action-generation-with-execution-time-tactile-feedback|TacForcing: Streaming Action Generation with Execution-Time Tactile Feedback]]\n- [[force-touch-robot-policy-review|机器人策略中的力觉与触觉：从信号语义到闭环控制]]\n- [[Physical/Embodied Intelligence]]（domain）"
+    },
+    {
+      "id": "2409.11047-tacdiffusion-force-domain-diffusion-policy-for-precise-tactile-manipulation",
+      "label": "TacDiffusion: Force-domain Diffusion Policy for Precise Tactile Manipulation",
+      "type": "source",
+      "community": "contact-rich-manipulation",
+      "content": "# TacDiffusion: Force-domain Diffusion Policy for Precise Tactile Manipulation\n\n## 太长不看\n\nTacDiffusion 把扩散策略从常见的位姿/关节动作域移到六维力域：模型根据外部 wrench、内部 wrench 和末端速度生成前馈 wrench，动态系统滤波器再把 50–500 Hz 的模型输出平滑升频到 1 kHz，交给阻抗控制器执行。最佳的 DF3 在四种未见几何上的平均成功率为 95.7%，高于行为树专家基线的 83.3%；但更大的 DF4 虽然离线损失最低，却因只有 51.2 Hz 的推理频率而显著退化。这篇论文最强的结论不是“模型越大越好”，而是力策略的预测质量必须与控制带宽一起优化。\n\n## 直观理解\n\n普通 Diffusion Policy 通常回答“机械臂下一段该往哪里走”。TacDiffusion 回答的是“机械臂下一刻应该施加什么六维力和力矩”。阻抗控制器仍负责把位姿误差变成反馈力，但扩散模型额外提供前馈 wrench，借此表达插入时的试探、纠偏和沿接触面的顺应动作。由于神经网络无法稳定跑到机器人控制器的 1 kHz，作者又加了一个二阶动态系统，把稀疏、带噪的模型输出插值成连续的高速力指令。\n\n![TacDiffusion 的力域扩散模型、动态系统滤波与阻抗控制闭环](https://arxiv.org/html/2409.11047v2/DF_Flowchart_red_0914_7.svg)\n\n*图 1：策略直接生成六维 wrench；动态系统滤波负责升频和平滑，阻抗控制器把前馈力与位姿反馈项合成最终控制命令。*\n\n## 核心信息\n\n- **作者**：Yansong Wu、Zongxie Chen、Fan Wu、Lingyun Chen、Liding Zhang、Zhenshan Bing、Abdalla Swikir、Sami Haddadin、Alois Knoll\n- **作者单位**：Technical University of Munich；Centre for Tactile Internet with Human-in-the-Loop；Mohamed bin Zayed University of Artificial Intelligence；Nanjing University\n- **版本**：arXiv:2409.11047v2；v1 提交于 2024-09-17，v2 更新于 2025-03-06；论文标注为 ICRA 2025\n- **原文链接**：https://arxiv.org/abs/2409.11047\n- **HTML 正文**：https://arxiv.org/html/2409.11047v2\n- **PDF 地址**：https://arxiv.org/pdf/2409.11047\n- **代码仓库**：https://github.com/popnut123/TacDiffusion\n- **主题域**：Physical/Embodied Intelligence\n- **平台**：Franka Emika Panda、实时 Ubuntu 控制栈、NVIDIA RTX 3090\n- **训练数据**：在单一 Cuboid 插入任务上由专家行为树采集 1,500 条示范，原始数据频率 1 kHz\n\n## 背景与问题\n\n**动机：** 亚毫米间隙插入的成败取决于接触力的方向、大小和变化速度。只预测位姿轨迹时，策略仍要依赖固定的底层控制器把几何误差转成接触反应；若环境几何或摩擦改变，这个映射很容易失效。直接学习 wrench 可以更贴近接触动力学，也能把专家行为树中依赖力阈值、状态估计和多个力控制 primitive 的逻辑压进一个生成策略。\n\n**问题缺口：** 力域生成有一个比位姿域更尖锐的系统矛盾：扩散采样需要多次去噪，输出频率可能只有几十到几百赫兹，而机器人力控制通常运行在 1 kHz。若直接保持上一帧力命令，接触会出现阶跃和振荡；若一味增大网络容量改善离线预测，又会进一步降低闭环刷新率。TacDiffusion 因而同时研究力生成模型和跨频率接口，而不是只比较预测损失。\n\n## 论文摘要（英文原文）\n\nIn this paper, we propose TacDiffusion, a force-domain diffusion policy for precise tactile manipulation. Unlike conventional diffusion policies that generate motion trajectories, TacDiffusion directly generates force actions from tactile observations and integrates them with an impedance controller. A dynamic-system-based filter bridges the frequency gap between diffusion inference and high-frequency robot control. Experiments on high-precision insertion tasks demonstrate generalization from one demonstrated object to multiple unseen geometries and reveal the trade-off between model accuracy and inference frequency.\n\n## 论文摘要（中文翻译）\n\n本文提出 TacDiffusion，一种面向精密触觉操作的力域扩散策略。与生成运动轨迹的传统扩散策略不同，TacDiffusion 根据触觉观测直接生成力动作，并将其与阻抗控制器结合。一个基于动态系统的滤波器负责衔接扩散模型推理与机器人高频控制之间的频率差。精密插入实验展示了策略从单一示范物体迁移到多种未见几何的能力，也揭示了模型预测精度与推理频率之间的权衡。\n\n## 方法\n\n**方法概述：** 系统保留已有行为树技能的 approach 与建立接触阶段，然后用 TacDiffusion 替换后续两个力控制 primitive 和相应状态估计器。策略观测为 18 维：六维外部 wrench、六维内部 wrench 和六维末端速度；模型读取当前及上一时刻观测，用 DDPM 生成六维前馈 wrench。最终控制输入由前馈项与标准阻抗反馈项共同组成，并在 1 kHz 下执行。\n\n**核心机制：** 模型真正学习的是“触觉状态到前馈 wrench”的多模态条件分布，而不是末端轨迹。50 步去噪产生的新 wrench 目标先由二阶动态系统连续追踪，在 1 kHz 控制循环中再与阻抗反馈 `K e + D e_dot` 叠加。这样既让策略表达专家的力切换与纠偏行为，又由经典反馈项约束位姿误差；闭环效果因此同时取决于生成精度、推理刷新率、滤波相位和阻抗参数。\n\n**模型与控制接口：** 噪声预测器采用 residual MLP，执行 50 个反向扩散步。作者训练四个隐藏维度分别为 128、256、512、1,024 的模型。扩散输出先进入二阶动态系统滤波器，形式可理解为 `F_ff'' = alpha [beta(F_df - F_ff) - F_ff']`；实验固定 `alpha=0.9`、`beta=0.3`。滤波器把低频目标连续追踪成 1 kHz 指令，再与 `K e + D e_dot` 的阻抗反馈相加。\n\n**方法拆解：**\n\n- **18 维触觉观测**：外部 wrench 表示估计接触载荷，内部 wrench 表示控制器内部力状态，末端速度提供接触运动方向与阻尼相关信息。\n- **六维力动作**：策略输出三个轴向力和三个轴向力矩，不直接输出关节或笛卡尔位姿目标。\n- **两帧上下文**：当前和前一时刻观测组成短历史，使模型至少能看到 wrench 与速度的局部变化，但远短于显式长时力历史方法。\n- **50 步 DDPM**：固定去噪步数让不同容量模型的主要区别落在拟合能力和单步推理开销上。\n- **动态系统滤波**：滤波器既插值又平滑，避免模型输出在控制 tick 之间形成零阶保持阶跃；它是连接学习策略和高频控制器的关键系统组件。\n- **前馈阻抗控制**：扩散力不是独立力控制回路，而是叠加在稳定的阻抗反馈结构之上。几何误差仍由刚度和阻尼项处理。\n\n**关键要点：**\n\n- 直接生成力并不取消经典控制；论文的可执行闭环由学习前馈、动态系统滤波和阻抗反馈三部分共同构成。\n- 模型离线损失、策略刷新频率与 1 kHz 控制接口必须联合选择，DF4 的容量反转正是核心系统证据。\n- 所谓几何零样本迁移仍限于同一插入技能、同一机器人和同一底层控制器，不等价于跨任务通用策略。\n\n**训练配置：** 1,500 条专家轨迹来自 Cuboid 插入，按 80/20 划分训练与验证；训练 1,500 epochs，batch size 4,096，学习率 `1e-3`，最后转换为 ONNX 部署。每个采样点包含 18 维观测和六维专家力动作，共 24 维。\n\n## 结果\n\n**实验设置：** 训练物体 Cuboid 的装配间隙为 0.1 mm。零样本几何迁移测试包含 Key、Cyl-S（0.02 mm 间隙）、Cyl-L（0.025 mm）和 Prism（0.05 mm）。每种物体使用 50 个随机初始位姿，每个位姿重复两次；因此每个模型、每种物体共 100 次测试。\n\n| 模型 | 隐藏维度 | 验证损失 | 推理频率 | Cuboid | Key | Cyl-S | Cyl-L | Prism | 未见物体平均 |\n| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |\n| DF1 | 128 | 0.2751 | 503.8 Hz | 90% | 99% | 86% | 85% | 40% | 77.5% |\n| DF2 | 256 | 0.1653 | 297.5 Hz | 79% | 94% | 87% | 90% | 79% | 87.5% |\n| DF3 | 512 | 0.0716 | 141.8 Hz | 98% | 99% | 97% | 96% | 91% | 95.7% |\n| DF4 | 1,024 | 0.0288 | 51.2 Hz | 73% | 85% | 90% | 66% | 85% | 81.5% |\n| 专家行为树 | - | - | - | 92% | 94% | 61% | 82% | 96% | 83.3% |\n\n**关键观察：**\n\n- DF3 是唯一同时在训练物体和未见物体平均值上超过专家基线的候选：Cuboid 为 98%，未见物体平均 95.7%。\n- DF4 的验证损失只有 DF3 的约 40%，却因推理频率降至 51.2 Hz，在 Cuboid 和 Cyl-L 上明显退化。这说明离线拟合误差不能单独选择力控制策略。\n- DF1 最快，但在 Prism 上只有 40%；作者认为较小网络无法表达复杂几何中的力切换行为。\n- 论文报告 DF3 相对基线有 129.5% 的综合性能改善。该数字结合成功率与完成时间效率，不应误写成原始成功率提高 129.5%。\n- 动态系统滤波在 20 个“模型 × 物体”组合中改善 16 个、持平 3 个、下降 1 个，成功率平均提高 9.15 个百分点。\n\n![加入动态系统滤波前后的平均成功率](https://arxiv.org/html/2409.11047v2/average_success_rate_bar_line_0911.png)\n\n*图 2：滤波器在多数模型与几何组合上改善成功率，说明跨频率接口不是展示平滑曲线的后处理，而是会改变任务结果的控制组件。*\n\n## 洞察\n\n**核心 insight：**\n\n- TacDiffusion 把力从“观测条件”提升为“可执行控制目标”。这与预测位姿、把力仅作为输入的 force-aware policy 有本质差别。\n- 最有价值的消融是 DF3 与 DF4 的反转：模型容量改善了监督损失，却牺牲闭环更新率，最终让系统级表现下降。接触策略选型必须同时看预测误差、端到端延迟和底层控制频率。\n- 动态系统滤波器承担了学习系统与经典控制之间的接口契约。它让生成模型不必达到 1 kHz，但固定参数也会引入相位延迟并压制快速接触瞬态。\n- 所谓“零样本”是同一插入技能、同一机器人与控制器下的未见几何迁移，不是跨任务或开放世界通用策略。\n- 策略把原有行为树中的两个 primitive 和状态估计器合并，但 approach、接触建立、阻抗控制和任务编排仍由既有系统提供；它是局部技能替换，不是端到端任务解决方案。\n\n**和已有方法的关系：**\n\n- **对常规 Diffusion Policy**：动作空间从运动轨迹改为 wrench，执行端必须显式提供稳定的力/阻抗控制接口。\n- **对力感知 VLA/模仿策略**：多数方法用 wrench 调节位姿动作；TacDiffusion 则直接提出力目标，更接近混合力位控制中的前馈分量。\n- **对经典行为树**：模型学习了 primitive 切换和局部纠偏，但基线也提供示范，因此其性能上界和数据质量仍由专家系统塑造。\n- **对高频触觉修订方法**：滤波器以 1 kHz 输出并不等于策略以 1 kHz 重新观测和决策；DF3 的新模型目标约 141.8 Hz，其余 tick 是动态系统插值。\n\n**可借鉴点：**\n\n- 对直接输出力的学习策略，报告模型频率、控制频率及二者间的保持/滤波方式是必需项。\n- 模型选择应使用闭环成功率和恢复行为，而非只按验证损失排序。\n- 可把生成模型作为阻抗控制器的前馈通道，从而保留经典反馈稳定结构；但应进一步分析滤波器和学习前馈对稳定裕度的影响。\n- 几何迁移应按间隙、初始偏差、摩擦和材料分别分层，避免用“新物体”一个标签掩盖难度差异。\n\n## 风险与判断\n\n**局限：**\n\n- 训练使用单一 Cuboid、同一 Franka Panda 和同一控制栈，未验证跨机器人、跨末端工具、跨摩擦材料或跨任务泛化。\n- 1,500 条专家轨迹以 1 kHz 采集，数据规模和专家系统开发成本都不低；“从行为树中学习”并不代表免除专家工程。\n- 外部/内部 wrench 的来源依赖机器人力估计和控制器状态，并非任意低成本平台都能直接获得同质量信号。\n- 动态系统参数固定为经验值，没有任务自适应、频域分析或完整稳定性证明；强滤波可能延迟碰撞响应。\n- 对照主要是产生示范的专家行为树，没有与同数据、同控制带宽的位姿域 Diffusion Policy 或其他学习力控制方法直接比较。\n- 两帧观测只覆盖极短时间，尚不能证明能识别慢性摩擦积累、热漂移或长阶段接触状态。\n- 论文强调 129.5% 综合性能提升，但该指标混合成功与时间效率；最稳妥的可复核结论仍是 DF3 未见几何平均 95.7% 对基线 83.3%。\n\n**适用场景：**\n\n- 适合机器人已有稳定阻抗接口、能可靠估计六维 wrench，且任务是局部精密插入或接触搜索的系统。\n- 适合用学习策略替换复杂力 primitive 和手工状态机，同时保留上层任务编排与底层反馈控制。\n- 不适合直接用于安全关键高速碰撞，也不适合把低频神经网络输出未经带宽设计就送入刚性位置控制器。\n\n**最终判断：**\n\n- 这篇论文为“力可以是生成动作空间”提供了清楚的系统证据，并用模型容量反转实验展示了控制带宽的重要性。\n- 它的泛化证据在精密插入几何内部较强，但不支持跨技能通用性；滤波器和阻抗控制器也是成功不可分割的一部分。\n- 后续最关键的验证是固定端到端延迟与控制器后比较位姿域、力域和混合动作域，并报告接触峰值、稳定裕度和扰动恢复时间。\n\n## 结果速览表\n\n| 研究问题 | 结果 | 对照 | 如何解读 |\n| --- | ---: | ---: | --- |\n| 最佳未见几何平均成功率 | DF3 95.7% | 专家行为树 83.3% | 同一插入技能内的几何迁移 |\n| 训练物体 Cuboid | DF3 98% | 专家行为树 92% | 学习策略没有只记忆专家结果 |\n| 最低验证损失模型 | DF4 0.0288 | DF3 0.0716 | DF4 闭环表现反而更差 |\n| 推理频率 | DF3 141.8 Hz | DF4 51.2 Hz | 控制带宽解释容量反转的重要部分 |\n| 动态系统滤波 | 平均 +9.15 个百分点 | 无滤波版本 | 跨频率接口直接影响任务成功 |\n| 控制执行频率 | 1 kHz | 模型 51.2–503.8 Hz | 高频执行主要来自插值和平滑，而非每 tick 新推理 |\n\n## 相关主题\n\n- [[contact-rich-manipulation|Contact-Rich Manipulation and Adaptive Compliance]]：补充“直接生成 wrench、动态系统升频、前馈阻抗控制”这条力域策略路线。\n\n## 相关综述\n\n- [[force-touch-robot-policy-review|机器人策略中的力觉与触觉：从信号语义到闭环控制]]：作为“力是控制目标”而非仅是策略输入的代表工作。"
     },
     {
       "id": "2410.07554-forcemimic-force-centric-imitation-learning-with-force-motion-capture-system-for-contact-rich-manipulation",
@@ -102,6 +109,13 @@
       "type": "source",
       "community": "force-touch-robot-policy-review",
       "content": "# Reactive Diffusion Policy: Slow-Fast Visual-Tactile Policy Learning for Contact-Rich Manipulation\n\n## 太长不看\n\nRDP 的关键不是“把力塞进 Diffusion Policy”，而是把力放到正确的时间尺度和网络位置：低频 latent diffusion policy 负责生成约 0.67 秒的高层动作块，快速 asymmetric tokenizer 则以 24 FPS 读取最新触觉或六维 wrench，把潜在动作解码成末端相对位姿。模型不输出目标力、阻抗或力矩，学到的是“看到这种受力与任务阶段时，位置应该再压入、退出还是沿曲面移动一点”。\n\n这正面回应“小位移很难学、策略浮在表面”的问题。论文观察到有效修正确实只有亚毫米级：削皮器受力突增时向上卸力，接近黄瓜末端时向下压入以继续贴面，双臂夹杯接触后向外修正以免压瘪。真正决定能否学到的不是位移绝对值，而是示范中是否有稳定的“力变化—微位移—接触结果”相关性，以及训练、推理和机器人执行是否在时间上对齐。\n\n## 直观理解\n\n把慢策略想成先写出一段“大方向正确”的动作草稿：拿起削皮器、接近黄瓜、沿长度方向移动。普通 action chunk 一旦开始执行，即使力已经变化，后半段草稿仍照抄，因此会浮在表面、压得过深或丢失接触。RDP 的快策略像一名只负责手感的校稿员，每一帧都用最新力把下一步末端位置微调一点；力是条件，位置仍是动作输出。\n\n这条路线适合不想依赖厂商力控接口的机器人，但它并没有消除底层控制要求。主动接触力最终仍来自“位置偏置 × 机器人与环境的等效刚度”，所以需要稳定的位置/阻抗伺服、限速限力和异常撤离保护；RDP 本身不提供显式力跟踪或稳定性保证。\n\n![图 1：TactAR 数据采集系统与 RDP 快慢策略总览](https://arxiv.org/html/2503.02881v3/teaser.png)\n\n*图 1：左侧 TactAR 用 AR 向示教者反馈力/触觉，右侧 RDP 用慢策略生成潜在动作块、快策略根据最新接触反馈修正位置。*\n\n## 核心信息\n\n- **作者**：Han Xue、Jieji Ren、Wendi Chen、Gu Zhang、Yuan Fang、Guoying Gu、Huazhe Xu、Cewu Lu\n- **作者单位**：上海交通大学；清华大学 IIIS；上海期智研究院；上海人工智能实验室；上海创智学院\n- **会议状态**：RSS 2025 接收\n- **arXiv 版本**：v1 发布于 2025-03-04；本文核查 v3，更新于 2025-04-23\n- **原文链接**：https://arxiv.org/abs/2503.02881\n- **HTML 正文**：https://arxiv.org/html/2503.02881v3\n- **PDF 地址**：https://arxiv.org/pdf/2503.02881v3\n- **项目页**：https://reactive-diffusion-policy.github.io/\n- **代码地址**：https://github.com/xiaoxiaoxh/reactive_diffusion_policy\n- **中英翻译地址**：https://hjfy.top/arxiv/2503.02881\n- **主题域**：Physical/Embodied Intelligence\n\n## 背景与问题\n\n**动机：** Diffusion Policy、ACT 等方法用 action chunk 缓解长序列误差累积，并能表达停顿、振荡和多模态行为；代价是动作块一旦开始执行，就在约 0.67 秒内近似开环。接触密集任务中的物体扰动、曲面变化、滑移和受力尖峰发生得更快，而真正有效的动作调整往往只有亚毫米级。只在动作块开头读取一次力，或者只把触觉拼到低频观察中，都会让接触反馈在真正执行到后半段时失效。\n\n**问题缺口：** 直接缩短 chunk 可以提高重规划频率，却会破坏示范中的非马尔可夫结构；论文消融中，chunk 从 8 缩到 2 后，擦拭任务的抓取成功率从 100% 跌到 20%。Temporal ensemble 虽然形成半闭环，却对平滑系数非常敏感，并可能抹掉多模态动作。论文因此要同时保住两种能力：慢网络对长动作、停顿和多模态轨迹的生成能力，以及快网络在 chunk 执行期间依据最新触觉或力即时修正下一位置动作的能力。\n\n![图 5：普通动作块、时间集成、RDP 快慢闭环和人类控制模式对比](https://arxiv.org/html/2503.02881v3/pipeline_comparison.png)\n\n*图 5：RDP 不缩短高层动作时域，而是在同一个动作块内部增加高频反馈解码。*\n\n## 论文摘要（英文原文）\n\n> “Humans can accomplish complex contact-rich tasks using vision and touch, with highly reactive capabilities…”\n\n英文摘要要点：现有视觉模仿学习虽然能借助 action chunk 建模复杂行为，却不能在块执行期间即时利用触觉。论文提出 TactAR 数据采集系统和 RDP 快慢视觉—触觉模仿学习框架，用低频潜扩散生成高层动作块、用高频非对称 tokenizer 完成闭环触觉修正，并在三项真实接触任务和多种触觉/力传感器上验证。\n\n## 论文摘要（中文翻译）\n\n人类可以结合视觉与触觉完成复杂接触任务，并快速响应外界变化、适应性调节接触力；机器人仍难做到。现有视觉模仿学习依赖动作分块表达复杂行为，却无法在动作块执行期间立即响应实时触觉，而且常见遥操作系统也难以提供细粒度力/触觉反馈。论文提出低成本 AR 遥操作系统 TactAR，以及快慢视觉—触觉模仿学习算法 RDP：低频 latent diffusion policy 在潜空间预测高层动作块，高频 asymmetric tokenizer 根据最新触觉闭环解码位置动作，从而在一个框架内兼顾复杂轨迹生成与快速反应。三项接触密集任务的实验显示，RDP 明显超过视觉模仿学习基线，并兼容不同触觉与力传感器。\n\n## 方法\n\n**方法概述：** RDP 分两阶段训练。第一阶段只用动作块训练快速非对称 tokenizer：1D-CNN encoder 把真实末端轨迹压成低维 latent action，GRU decoder 再结合对应时刻的触觉 PCA 表示或六维 wrench 重建原动作。第二阶段冻结这一动作表示，用低频 latent diffusion policy 根据图像、触觉/力和本体状态预测 latent action chunk。推理时慢策略约 1–2 Hz 生成高层潜在动作，快策略以 24 FPS 用最新接触反馈重新解码下一位置动作，最后由 Flexiv RDK 插值并以超过 500 Hz 发送。\n\n**核心机制：** 非对称结构刻意不让 encoder 看触觉或力，只允许 decoder 使用它。这样，低维潜变量更适合保存任务阶段、运动方向和多模态轨迹，而示范中与瞬时接触相关的精确位置必须由 decoder 结合实时反馈恢复。训练目标不是目标力，而是动作重建：L1 位置/姿态重建损失加很小的 KL 正则；慢策略再以 DDPM 噪声预测目标学习 latent action 分布。它没有数学上保证网络一定利用力，但低维瓶颈、动作下采样和 decoder-only 条件共同提高了利用高频反馈的压力。\n\n**方法拆解：**\n\n- **力与触觉输入**：`RDP (Force)` 直接把六维 TCP wrench（3D 力 + 3D 力矩）拼进观察向量；GelSight/MCTac 则从标记点形变场提取 PCA 特征，实践中保留 15 个主成分。\n- **快速动作 tokenizer**：动作块 (A\\in\\mathbb{R}^{T\\times D}) 经 1D-CNN 压成 (Z=E(A))，GRU 用 \\(\\hat A=D([Z,F])\\) 重建真实动作；训练损失为 L1 重建加系数 (10^{-6}) 的 KL 正则。\n- **慢速 latent diffusion**：FiLM 条件化的 1D U-Net 在潜动作空间做 DDPM 去噪。输入观察包含视觉、触觉/力和 proprioception，推理 8 个 diffusion steps，约 100 ms。\n- **相对轨迹表示**：动作不是相邻帧 delta，而是相对 action chunk 最后一个 observation 帧的末端轨迹，既减少连续 delta 的累积误差，也压缩了快策略需要学习的动态范围。\n- **延迟匹配**：估计推理与执行延迟，丢弃已经过时的前几步预测，避免“当前受力却执行旧位置”造成训练—部署时间错位和 chunk 交界处异常动作。\n- **快慢执行频率**：慢策略约 1–2 Hz；动作观察/预测为 12 FPS；快策略读取 24 FPS 的力/触觉并输出 24 FPS 位置动作；快网络单次推理低于 1 ms，理论计算上可超过 300 Hz。\n\n**关键要点：**\n\n- 输出仍是末端相对位姿，不是目标力、刚度、导纳参数或关节力矩；主动施力由学习到的位置微调与底层伺服共同产生。\n- 快策略不是单纯的 `force → Δx` 映射。latent action 和 GRU 历史携带任务阶段，因此同一种受力在“应该继续贴面”和“应该卸力”阶段可以得到不同修正。\n- 默认 AT 预测窗口为 32 帧 @ 24 Hz，下采样比例 4；latent 维度很小，削皮为 4，擦拭和双臂抬杯为 8。这种容量限制是避免高层 latent 偷记所有亚毫米细节的关键工程选择。\n- 论文明确在采集示范时主动加入 reactive behaviors；如果数据只有轻触后沿表面运动，没有“丢失接触后再压入”的动作，模型不会凭空学出主动施力。\n\n![图 6：RDP 训练与推理架构](https://arxiv.org/html/2503.02881v3/network_pipeline.png)\n\n*图 6：第一阶段训练 action-only encoder 与力/触觉条件化 decoder，第二阶段在 latent action 上训练 diffusion；推理时快 decoder 用最新接触信号逐步修正动作。*\n\n## 结果\n\n**核心结果：**\n\n- Peeling 中，RDP Force 总分 0.95，视觉 DP 为 0.44；最难的接触后扰动设置中分别为 0.88 和 0.19，DP 加触觉 embedding 也只有 0.15。\n- Wiping 中，RDP Force 总分 0.87，视觉 DP 为 0.57；接触后扰动下为 0.80 对 0.25。\n- Bimanual Lifting 中，RDP Force 总分 0.70，视觉 DP 为 0.00；异构 GelSight + MCTac 组合也达到 0.48。\n- 三项任务中 RDP 相对各类 Diffusion Policy 基线均提升超过 35%。GelSight 与 MCTac 在 Peeling 上分别为 0.90 和 0.88，说明结构可跨两种光学触觉；噪声更大的关节力矩估计版反而最好，作者推测原因是延迟更低、维度更小。\n- 训练数据规模并不大：Peeling 60 条、Wiping 80 条、Bimanual Lifting 50 条示范。每种测试变化运行 10 次，并使用单盲评测。\n\n**结果表：**\n\n| 任务 | 视觉 DP | DP + 触觉 embedding | RDP 触觉 | RDP Force |\n| --- | ---: | ---: | ---: | ---: |\n| Peeling 总分 | 0.44 | 0.39 | 0.90（GelSight） | **0.95** |\n| Wiping 总分 | 0.57 | 0.50 | 0.77（GelSight） | **0.87** |\n| Bimanual Lifting 总分 | 0.00 | 0.08 | 0.48（GelSight + MCTac） | **0.70** |\n\n![图 7：Peeling、Wiping 与 Bimanual Lifting 三项任务](https://arxiv.org/html/2503.02881v3/task.png)\n\n*图 7：三项任务分别考察精确贴面与扰动恢复、曲面上的自适应接触，以及避免纸杯滑落或被压瘪的双臂协同。*\n\n![图 8：RDP 成功案例与基线失败模式](https://arxiv.org/html/2503.02881v3/evaluation_results_and_failure_cases.png)\n\n*图 8：普通 DP 容易轨迹不准并产生大力，DP 加触觉仍会因 chunk 内开环而响应慢、卡住或在不同接触状态间切换。*\n\n### 关键消融\n\n| Wiping 接触后扰动 | Chunk | Temporal ensemble | 抓取成功率 | 得分 |\n| --- | ---: | ---: | ---: | ---: |\n| DP + 触觉 embedding | 8 | 无 | 100% | 0.15 |\n| DP + 触觉 embedding | 2 | 无 | 20% | 0.10 |\n| DP + 触觉 embedding | 8 | τ=0.2 | 30% | 0.05 |\n| DP + 触觉 embedding | 8 | τ=0.5 | 0% | 0.00 |\n| DP + 触觉 embedding | 8 | τ=0.8 | 100% | 0.15 |\n| RDP GelSight | 8 | 无 | **100%** | **0.50** |\n\n| Peeling Force 版消融 | 无扰动 | 接触前扰动 | 接触后扰动 | 总分 |\n| --- | ---: | ---: | ---: | ---: |\n| 仅法向力 | 0.47 | 0.62 | 0.36 | 0.48 |\n| 对称 tokenizer | 0.75 | 0.62 | 0.36 | 0.58 |\n| 默认 RDP | **0.99** | **0.98** | **0.88** | **0.95** |\n\n这两组结果分别支持三点：不能靠缩短 chunk 简单换取闭环；切向力和扭矩包含必要信息；如果 encoder 也能读取力，潜变量更容易吞掉精确动作，decoder 对实时反馈的依赖会下降。\n\n### 数据质量证据\n\nTactAR 把示范的归一化削皮长度从 0.72 提高到 0.91，把稳定接触力比例从 0.58 提高到 0.87。用没有力反馈的传统 VR 数据训练同一 RDP，三种 Peeling 设置的策略得分分别下降 30.3%、43.9% 和 33.0%。这比单纯的架构对比更直接地说明：如果示范中受力一直漂、操作者没有稳定做出微小纠偏，快策略很难从低信噪比位移里识别可复用规律。\n\n## 洞察\n\n**核心 insight：**\n\n- “位移太小”不是唯一问题，更常见的是监督被大范围接近/抓取轨迹淹没。RDP 用两阶段训练和低维 latent 把粗动作与接触微调分开，让 fast decoder 的主要工作正是重建那些无法由高层 latent 单独解释的细节。\n- 高维触觉不一定比低维 wrench 更好。Force 版本虽然来自噪声较大的关节力矩估计，却在三项任务中最好；论文的合理解释是它延迟更低、维度更小。对闭环学习而言，反馈的新鲜度和可对齐性可能比表示精细度更重要。\n- 主动施力与被动卸力可以由同一位置残差接口表达：削皮器在力突增时向上退，但在曲面末端又向下压。决定符号的不是力本身，而是 latent action 所代表的任务阶段和接触意图。\n- Asymmetric tokenizer 只是结构性诱导，不是严格保证。若 latent 维度过大、示范太确定或力和动作时间错位，encoder 仍可能独自编码动作，decoder 继续忽略力。\n\n![图 9：快策略学到的亚毫米级主动修正](https://arxiv.org/html/2503.02881v3/explainability.png)\n\n*图 9：绿色箭头为放大显示的快策略修正。案例分别展示接触力突增后的卸力、曲面末端的向下贴合，以及夹杯后的向外减压。*\n\n### 对“小位移学不出来、最后浮在表面”的直接启发\n\n下面前四项来自论文机制，后四项是基于该机制的工程推论，不是论文已经验证的消融结论。\n\n1. **先修数据，再修网络**：示范必须包含“接触不足 → 小幅压入 → 力/任务进展恢复”和“力过大 → 小幅撤离”两种方向；论文作者明确主动采集 reactive behaviors。只展示理想贴面轨迹，模型很难识别主动纠偏。\n2. **把接触段从全轨迹中分出来**：RDP 用 fast decoder 独立承担接触细节。复现时至少要报告接触段的 action reconstruction，而不能只看整条轨迹平均 MSE。\n3. **用相对末端轨迹与严格时延对齐**：小位移在绝对位姿中动态范围太小，几十毫秒错位就会让当前力对应到错误动作。论文的 relative trajectory 和 latency matching 都带来大幅增益。\n4. **限制高层通道容量**：可从论文配置起步，downsample ratio 4、latent 维 4–8，让高层 latent 不容易绕开力输入；再检查 shuffle/drop force 后误差是否明显变差，以确认模型真的在用力。\n5. **显式学习位置残差**：工程上可让快头只输出局部接触坐标系中的 \\(\\Delta x_{fast}\\)，并对法向、切向分别归一化；粗轨迹与微位移不共享同一尺度，能减少大动作对损失的支配。\n6. **接触片段重采样或加权**：按接触状态、法向力变化和任务进展对 batch 分层；对“力变了但位置只动 0.1–1 mm”的窗口提高采样权重，而不是盲目放大全局位置误差。\n7. **建立反事实使用率检查**：固定 latent，替换/打乱 wrench，观察 fast action 是否随之变化；固定 wrench，改变任务阶段，检查修正方向能否从压入切换为退出。否则高成功率也可能主要来自视觉轨迹。\n8. **安全层独立于学习策略**：即便不使用厂商力控，也应在位置命令外设置最大单步位移、速度、法向力阈值和撤离状态机。RDP 学的是隐式目标力，不能替代部署安全控制。\n\n<!-- confidence: INFERRED -->\n\n**和已有方法的关系：**\n\n- 相对普通 Diffusion Policy，RDP 不是只添加触觉观察，而是让力/触觉在 action chunk 执行期间持续参与高频动作解码。\n- 相对 [[Adaptive Compliance Policy: Learning Approximate Compliance for Diffusion Guided Control]]，RDP 不输出目标力、刚度或虚拟目标；ACP 把柔顺参数交给高频导纳控制器，RDP 则用力输入学习末端位姿修正。\n- 相对 [[T-Rex: Tactile-Reactive Dexterous Manipulation]]，RDP 是 action tokenizer + latent diffusion 的两阶段慢—快结构；T-Rex 则用共享 flow 轨迹上的视觉慢专家与触觉快专家。\n- 相对 [[TacForcing: Streaming Action Generation with Execution-Time Tactile Feedback]]，RDP 维护独立快速 decoder；TacForcing 在单一 streaming action expert 内保留未来动作中间态，并让执行期触觉只修正下一块。\n\n**可借鉴点：**\n\n- 对“不愿输出力”的平台，粗位置轨迹 + 高频受力条件位置残差是一种可执行接口。\n- 可以用 decoder-only 条件和受限 latent 容量，迫使高频模态承担局部细节，而不是把所有模态无差别拼接。\n- 评测应同时记录任务进展、接触保持、峰值力、扰动恢复和局部残差；仅看最终位姿或全轨迹 MSE 会漏掉亚毫米修正的价值。\n\n## 风险与判断\n\n**局限：**\n\n- RDP 是单任务模仿学习，只在 Peeling、Wiping 和 Bimanual Lifting 三项任务上验证；不能据此证明跨任务或开放世界泛化。\n- 快策略只处理高频触觉/力，不能快速吸收图像变化；视觉层面的突发变化仍受慢策略 1–2 Hz 频率限制。\n- TactAR 与实验平台围绕两指夹爪设计，没有灵巧手、多点接触和更复杂接触拓扑的实证。\n- 论文没有显式目标 wrench、力误差损失、passivity 或闭环稳定性证明；主动接触力取决于位置命令、机器人伺服和环境刚度，换硬件后可能产生完全不同的力。\n- 不对称瓶颈和 L1 重建没有从理论上保证 decoder 使用力；论文也未报告 force shuffling、modality dropout 或互信息类使用率诊断。\n- 光学触觉内部延迟约 10–60 ms，TactAR 还有约 10 ms 标记追踪、10 ms AR 渲染和 1–6 ms 网络延迟；更换传感器与控制栈时需要重新做时间对齐。\n\n**适用场景：**\n\n- 适合剥皮、擦拭、沿曲面跟随、轻压装配、稳握和双臂夹持等“宏观轨迹变化慢、接触反馈变化快”的任务。\n- 适合已有视觉、本体和六维 wrench 输入，底层位置或阻抗伺服可靠，但不希望让学习策略直接输出目标力的机器人平台。\n- 更适合作为受安全限幅保护的局部闭环策略，不应未经重新验证直接用于高速冲击、脆弱物体、强摩擦卡死或安全关键的人机接触。\n\n**最终判断：**\n\n- RDP 是“力只做输入、动作仍是位置”路线中非常直接的证据：最简单的六维 wrench 输入配合正确的快慢结构，就能学到既会卸力、也会主动压入的亚毫米修正，而且在三项任务中优于更高维的光学触觉版本。\n- 它真正解决的是 action chunk 内的反馈时效性与表示分工，不是通用力控制。若现有模型浮在表面，优先检查示范是否包含主动压入、fast residual 是否被大轨迹损失淹没、力与动作是否严格对齐，以及 latent 是否过强导致忽略力。\n- 在工程上值得先复现一个最小版本：低维 slow latent + GRU fast residual、24–50 Hz wrench、接触片段均衡采样、局部坐标系残差和独立安全限幅；不要一开始就把目标力作为策略输出。\n\n## 结果速览表\n\n| 证据 | 对照 | RDP 结果 | 含义 |\n| --- | --- | --- | --- |\n| Peeling 总分 | 视觉 DP 0.44 | Force **0.95** | 力输入 + chunk 内闭环显著改善精确贴面 |\n| Wiping 总分 | 视觉 DP 0.57 | Force **0.87** | 能随曲面与扰动自适应调整接触 |\n| Bimanual Lifting 总分 | 视觉 DP 0.00 | Force **0.70** | 学到既夹稳又不压瘪纸杯的主动微调 |\n| Peeling 接触后扰动 | DP 触觉 0.15 | GelSight **0.80**；Force **0.88** | 高频反馈比静态触觉拼接更关键 |\n| Chunk 缩短 | 抓取成功 100% → 20% | RDP 保持 100% | 不能以牺牲长动作建模简单换闭环频率 |\n| 仅法向力 / 对称 tokenizer | 0.48 / 0.58 | 默认 **0.95** | 切向/扭矩与非对称瓶颈都重要 |\n| TactAR 数据质量 | 稳定接触力 0.58 | **0.87** | 示范中的稳定力—微调相关性是学习前提 |\n\n## 相关主题\n\n- [[Contact-Rich Manipulation and Adaptive Compliance]]：补充“不显式输出力或柔顺参数，而由高频力输入修正位置轨迹”的主动接触路线。\n- [[Tactile Representation]]：说明传感表示是否有效取决于其进入动作生成的时间位置；低维 wrench 也能优于高维触觉图像。\n\n## 相关页面\n\n- [[Adaptive Compliance Policy: Learning Approximate Compliance for Diffusion Guided Control]]\n- [[T-Rex: Tactile-Reactive Dexterous Manipulation]]\n- [[TacForcing: Streaming Action Generation with Execution-Time Tactile Feedback]]\n- [[Contact-Rich Manipulation and Adaptive Compliance]]\n- [[Tactile Representation]]\n\n<!-- confidence: INFERRED -->"
+    },
+    {
+      "id": "2509.07962-ta-vla-elucidating-the-design-space-of-torque-aware-vision-language-action-models",
+      "label": "TA-VLA: Elucidating the Design Space of Torque-aware Vision-Language-Action Models",
+      "type": "source",
+      "community": "contact-rich-manipulation",
+      "content": "# TA-VLA: Elucidating the Design Space of Torque-aware Vision-Language-Action Models\n\n## 太长不看\n\nTA-VLA 不是只提出一种新网络，而是系统回答力矩应该怎样进入预训练 VLA：关节力矩应接到动作解码器而非视觉语言编码器；一段力矩历史应先聚合成一个 token，而不是逐帧占用多个 token；训练时还应让模型联合预测未来动作与未来力矩。三项设计叠加后，π0 在五项接触密集任务上的总成功率从 23/100 提升到 86/100，在五项普通操作上仍从 85% 小幅升到 89%。证据说明廉价电机电流推算的关节力矩确实能补足视觉，但它不是经标定的末端接触力，跨机器人证据也仍很有限。\n\n## 直观理解\n\nVLA 擅长根据图像和语言判断“拿什么、送到哪里”，却很难从画面看出插头是否已经顶住、按钮是否越过触发阈值或瓶盖是否拧紧。机器人电机电流天然携带关节负载信息，近似满足 `tau = k_t i`，无需额外腕部六轴传感器。TA-VLA 的关键发现是：这类细粒度物理信号不应塞进负责语义理解的视觉语言主干，而应靠近动作生成器；同时保持预训练解码器熟悉的 token 结构比简单堆更多历史 token 更重要。\n\n![TA-VLA 围绕接入位置、历史与未来预测研究力矩感知 VLA](https://arxiv.org/html/2509.07962v1/teaser.png)\n\n*图 1：论文围绕 where、when、how 三个设计问题组织实验，并在接触任务、跨模型和跨机器人场景中验证。*\n\n## 核心信息\n\n- **作者**：Zongzheng Zhang、Haobo Xu、Zhuo Yang、Chenghao Yue、Zehao Lin、Huan-ang Gao、Ziwei Wang、Hao Zhao\n- **作者单位**：Beijing Academy of Artificial Intelligence；Institute for AI Industry Research, Tsinghua University；Nanyang Technological University\n- **版本**：arXiv:2509.07962v1，提交于 2025-09-09；论文标注为 CoRL 2025\n- **原文链接**：https://arxiv.org/abs/2509.07962\n- **HTML 正文**：https://arxiv.org/html/2509.07962v1\n- **PDF 地址**：https://arxiv.org/pdf/2509.07962\n- **项目页**：https://zzongzheng0918.github.io/Torque-Aware-VLA.github.io/\n- **主题域**：Physical/Embodied Intelligence\n- **主要平台**：Cobot Magic ALOHA 双臂平台，每臂 7 DoF，三台 Intel RealSense D435；电机电流推算关节力矩\n- **基础模型**：π0 为主；另在 RDT 上验证可迁移性，并以 ACT 作为对照\n\n## 背景与问题\n\n**动机：** VLA 把互联网规模的视觉语言知识和机器人动作生成结合起来，但接触状态往往是视觉不可辨的。同一张图像可能对应“刚碰到”“正在滑动”“已经卡住”或“载荷过大”。腕部六轴传感器能给出更直接的末端 wrench，却增加硬件、标定和布线成本；电机电流推算的关节力矩是许多机械臂原生可用的低成本信号。\n\n**问题缺口：** 知道“应该加力矩”并不等于知道怎样加。预训练 VLA 通常包含视觉语言编码器、状态 token 和动作专家/解码器，不同注入位置承担不同语义；力矩历史还会改变 token 数量和预训练输入分布。TA-VLA 因而把设计空间拆成三个问题：力矩放在哪里、时间历史怎样表示、未来力矩是否应该成为生成目标。\n\n## 论文摘要（英文原文）\n\nVision-Language-Action models have demonstrated strong semantic generalization, yet remain brittle in contact-rich manipulation where visual observations alone cannot reveal interaction forces. We systematically investigate the design space of torque-aware VLA models along three dimensions: where torque should be integrated, how temporal torque history should be represented, and whether future torque should be jointly predicted with actions. Our study finds that decoder-side integration, single-token history aggregation, and joint action-torque prediction provide the strongest and most transferable design.\n\n## 论文摘要（中文翻译）\n\n视觉-语言-动作模型表现出较强的语义泛化能力，但在接触密集操作中仍然脆弱，因为仅靠视觉无法揭示交互力。本文从三个维度系统研究力矩感知 VLA 的设计空间：力矩应在何处融合、时间力矩历史应怎样表示、是否应与动作联合预测未来力矩。研究发现，将力矩接入解码器、把历史聚合成单个 token，并联合预测动作与未来力矩，是效果最好且具有较强可迁移性的设计。\n\n## 方法\n\n**方法概述：** TA-VLA 在预训练 VLA 上把关节力矩分别接入视觉语言编码器、状态 token 或动作解码器，通过受控实验确定 decoder-side 独立 token 最有效；随后比较单帧、多 token 历史和单 token 聚合历史，并把未来动作块与未来力矩块放进共享 flow/diffusion 生成目标。最终方案不改变底层动作接口，而是用力矩观测调节动作生成、用未来力矩监督动作表示。\n\n**核心机制：** 关节电流先按电机力矩常数转换为 torque 序列，历史经 MLP 压缩成一枚 token，放在 action expert 输入侧，与本体状态共同影响动作生成。训练时，模型在同一生成向量场中预测未来 50 步动作和力矩，并用 `L_action + beta L_torque` 优化。设计重点是让细粒度物理信号靠近动作通路，同时保持预训练 decoder 熟悉的 token 数量与排列。\n\n**方法拆解：**\n\n- **信号获取**：直接读取电机电流并用 `tau = k_t i` 得到关节力矩，不要求额外腕部六轴传感器。\n- **接入位置**：分别测试 encoder token、状态预拼接和 decoder 独立 token，并用噪声与 token 扰动确认模型是否真正依赖力矩。\n- **历史表达**：比较单帧、逐帧多 token 与整段历史单 token 聚合，控制时间信息量和预训练接口偏移。\n- **联合生成目标**：扩展输出头，联合预测动作块和未来力矩块；推理时仍执行动作，预测力矩不是底层力矩命令。\n\n**物理信号：** 电机电流通过力矩常数转换为关节力矩 `tau = k_t i`。外部末端接触力与关节外力矩满足 `tau_ext = J(q)^T F_ext`，因此力矩残差能反映接触；但测量同时混合重力、惯性、摩擦、构型和电机温漂，论文并未把它标定成统一末端坐标系下的六维 wrench。\n\n**问题一，力矩放在哪里：**\n\n- **Enc**：把力矩编码为 token，加入视觉语言条件编码器。\n- **DePre**：把力矩与零填充后的关节状态拼接，复用原有状态 token。\n- **DePost**：用 MLP adapter 把力矩变成独立 token，直接放到 action expert/decoder 的输入侧。\n\n在 Button 上三者分别为 7/20、8/20、10/20，基线 π0 为 5/20；在 Charger 上分别为 8/20、11/20、12/20，基线为 0/20。向力矩添加随机噪声时，decoder 侧性能跌幅也更大：Bottle 从 14/20 降到 8/20，而 encoder 侧为 12/20；Button 从 5/20 降到 0/20，而 encoder 侧为 4/20。这支持“动作解码器确实在使用力矩，而非把它当成无关条件”的解释。\n\n![三种力矩接入位置：编码器、状态预拼接与解码器独立 token](https://arxiv.org/html/2509.07962v1/where_embed.svg)\n\n*图 2：DePost 保持视觉语言编码器专注语义，并让力矩靠近本体状态与动作生成通路。*\n\n**问题二，历史怎样表示：** 作者比较单帧力矩、逐帧历史 token 和先聚合整段历史再形成一个 token。结果表明，decoder 侧单 token 历史聚合最好：Button 为 15/20、Charger 为 16/20；把历史展开成多个 decoder token 反而只有 9/20 和 7/20。打乱 token 结构也主要伤害 decoder：Bottle 从 14/20 降到 8/20，Button 从 5/20 降到 2/20；encoder 侧则只降到 13/20 和 5/20。作者进一步比较 MLP、RNN 和 Attention 聚合器，MLP 在仅观测/观测加目标两种设置下为 15/20、18/20，优于 RNN 的 7/20、10/20 和 Attention 的 13/20、17/20。\n\n![单帧、多历史 token 与单 token 历史聚合方案](https://arxiv.org/html/2509.07962v1/history.png)\n\n*图 3：历史本身有用，但在预训练动作解码器中，保持 token 数量和布局稳定比逐帧暴露所有历史更有效。*\n\n**问题三，未来力矩怎样监督：** 令未来动作块为 `A`，未来力矩块为 `T`，二者沿特征维拼接后用共享 flow/diffusion vector field 生成。损失写成动作损失与 `beta` 加权力矩损失之和，预测跨度 `H=50`。输出投影层扩展出力矩维度，原有动作权重保持预训练值，新维度小幅初始化。力矩只作为训练和生成目标，不直接作为底层力矩控制指令。\n\n**训练配置：** π0 使用三视角图像，对编码器和解码器做 LoRA 微调 30,000 步，使用 4 张 NVIDIA L20；RDT 全参数训练 40,000 步；ACT 训练 600 epochs。论文附录描述主要任务每项约 400 条遥操作示范，推理部署在 NVIDIA RTX 4090。\n\n**关键要点：**\n\n- 力矩最有效的入口是动作解码器；噪声和结构扰动实验共同表明，这一通路比视觉语言编码器更依赖细粒度物理信号。\n- 历史有效不代表 token 越多越好，单 token 聚合兼顾时间证据和预训练接口稳定性。\n- 未来力矩是动作后果的辅助生成目标，不是经安全验证的力矩控制命令，也不能单凭成功率证明模型形成了完整物理世界模型。\n\n## 结果\n\n**十项真机任务：** 每项 20 次测试，前五项为接触密集任务，后五项为常规操作。下表汇总论文总计结果。\n\n| 模型 | 接触任务成功数 / 100 | 接触成功率 | 常规任务成功数 / 100 | 常规成功率 |\n| --- | ---: | ---: | ---: | ---: |\n| ACT | 14 | 14% | 69 | 69% |\n| RDT | 15 | 15% | 77 | 77% |\n| π0 | 23 | 23% | 85 | 85% |\n| π0 + torque observation | 78 | 78% | 87 | 87% |\n| π0 + torque objective | 64 | 64% | 84 | 84% |\n| π0 + observation + objective | 86 | 86% | 89 | 89% |\n\n**逐任务接触结果：** 完整模型在五项接触任务上分别为 18/20、17/20、17/20、19/20、15/20；对应 π0 为 5/20、0/20、0/20、16/20、2/20。观察输入单独贡献更直接，未来力矩目标单独也有明显改善，二者叠加最好。\n\n**跨模型验证：** 把同样设计迁移到 RDT，Button 从 4/20 升到 16/20，Charger 从 1/20 升到 15/20，Bottle 从 17/20 升到 19/20。它支持设计原则不只对 π0 有效，但仍限于同一实验平台与少数任务。\n\n**跨机器人展示：** 作者在 ROKAE SR 平台上用 200 条“快速插充电器”示范训练 50,000 步，再更换为慢速充电器做定性测试。该实验说明电流力矩方案可以移植到另一种机械臂，但不是训练后直接跨机器人零样本迁移，也没有给出完整统计成功率。\n\n**效率：** π0、仅观测、仅目标、完整模型单次推理分别为 90.70、90.81、90.61、93.96 ms；训练每迭代从基线 1.703 s 变为完整模型 1.640 s。完整设计仅增加约 3.26 ms 推理延迟。\n\n**损失权重：** 在 Button 上，仅力矩目标的 `beta={0.01,0.1,0.2,0.5,1}` 对应 6、8、10、9、11 次成功；观测加目标对应 14、18、18、15、12 次。作者分别为 objective-only 取 1，为 combined 取 0.1，说明辅助目标权重需要和已有观测信息共同调节。\n\n## 洞察\n\n**核心 insight：**\n\n- 力矩是低维、快速、动作相关的物理信号，最自然的归属是 action decoder，而不是负责语义和场景表征的视觉语言 encoder。\n- “更多历史 token”不必然带来更强时序理解。对预训练模型而言，改变 token 数量和排列会造成接口分布偏移；先聚合再用一个 token，反而同时保留历史与预训练结构。\n- 联合预测未来力矩让动作潜变量学习接触后果，但它不是显式世界模型或力控制器。成功率提升也可能部分来自辅助任务正则，论文尚未用因果或校准实验区分这些解释。\n- 电机电流是规模化部署的现实入口：不需要新增腕部传感器，但原始关节力矩的物理语义比六维末端 wrench 更依赖构型和动力学补偿。\n- 接触任务从 23% 到 86%，普通任务只从 85% 到 89%，说明力矩主要填补视觉在物理交互上的信息缺口，而不是普遍提高所有操作。\n\n**和已有方法的关系：**\n\n- **对 force-aware VLA**：TA-VLA 把讨论从“是否接入力”推进到“接在预训练模型哪里、以几枚 token 接、是否预测未来”。\n- **对 ForceFlow/Facet-0**：三者都用未来 force/torque 作为动作后果监督；TA-VLA 使用关节力矩并依附通用 VLA，ForceFlow 使用末端六维 wrench 和局部策略，Facet-0 还显式训练后果 critic。\n- **对 TacDiffusion**：TacDiffusion 直接输出可执行前馈 wrench；TA-VLA 仍输出常规动作，力矩是观测和辅助预测目标，不能把两者都称为“力控制”。\n- **对触觉传感器方法**：关节力矩免去皮肤/腕力传感器，但难以提供接触位置、局部分布、切向滑移和材质等高空间分辨率信息。\n\n**可借鉴点：**\n\n- 向预训练 VLA 添加新本体模态时，应分别测试 encoder/decoder 注入、噪声敏感性和 token 布局扰动，而不只报告最终成功率。\n- 历史窗口设计要同时考虑信息量和预训练接口稳定性；单 token 聚合是一个低风险默认值。\n- 未来物理量可以作为动作生成的辅助目标，但应单独报告预测 MAE、时序对齐与校准，避免只用任务成功率间接证明“理解物理”。\n- 跨硬件比较前应明确力矩常数、重力/惯性补偿、关节定义和采样频率，否则同名 torque token 未必具有一致语义。\n\n## 风险与判断\n\n**局限：**\n\n- 关节力矩由电流估算，受到力矩常数误差、减速器摩擦、温度漂移、重力和惯性影响；它不是经标定的外部接触力，也不能直接跨构型比较数值。\n- 主要定量实验集中在 Cobot Magic ALOHA 和单一实验室环境，每任务约 400 条示范、每项 20 次测试，跨机构复现和长期漂移测试仍缺失。\n- ROKAE SR 实验在新机器人上重新收集 200 条数据并训练 50,000 步，只提供慢速充电器的定性展示，不能证明跨 embodiment 零样本泛化。\n- 未来力矩预测主要通过任务成功率和曲线示例论证，没有报告完整测试集的 torque MAE、校准误差或异常接触检测能力。\n- 接触任务总成功率从 23% 到 86% 很强，但论文没有与腕部六轴传感器、触觉皮肤或相同参数量的其他辅助任务做受控比较。\n- MLP 历史聚合优于 RNN/Attention 的结论来自少数任务和有限数据，不足以外推到更长接触阶段或高频振动信号。\n- 力矩参与策略推理但不构成安全控制保证；碰撞限力、急停和底层稳定性仍需独立控制系统承担。\n\n**适用场景：**\n\n- 适合机械臂能稳定读取电流或估算关节力矩、但不方便加装腕部六轴传感器的接触密集任务。\n- 适合已有预训练 VLA，希望以较小结构改动增强插接、按压、拧紧等物理反馈能力的系统。\n- 不适合需要精确接触点定位、局部压力分布或安全认证级外力测量的应用，也不能替代底层碰撞保护。\n\n**最终判断：**\n\n- TA-VLA 的价值在于给出一套有消融支持的力矩接入原则，而不仅是一个更高成功率模型：decoder-side、single-token history、future-torque objective。\n- 接触任务 23% 到 86% 和 RDT 上的复现使结论具有较强实用性；但跨机器人、信号标定和未来力矩预测质量的证据仍不足。\n- 后续最关键的验证是对同一任务同时比较原始电流、补偿后外力矩和末端 wrench，并在跨构型、跨负载、长时间热漂移下测试策略稳定性。\n\n## 结果速览表\n\n| 研究问题 | 最佳结果 | 对照 | 如何解读 |\n| --- | ---: | ---: | --- |\n| π0 五项接触任务 | 86% | 原始 π0 23% | 观测与未来目标叠加后 +63 个百分点 |\n| π0 五项普通任务 | 89% | 原始 π0 85% | 没有明显牺牲常规操作 |\n| 注入位置：Button / Charger | DePost 10/20、12/20 | Enc 7/20、8/20 | 力矩更适合动作解码器 |\n| 单 token 历史：Button / Charger | 15/20、16/20 | 多历史 token 9/20、7/20 | 历史有用，但 token 布局更关键 |\n| RDT：Button / Charger | 16/20、15/20 | 4/20、1/20 | 设计原则可迁移到第二个 VLA |\n| 完整模型推理延迟 | 93.96 ms | π0 90.70 ms | 增加约 3.26 ms |\n| ROKAE SR 跨机器人 | 定性成功 | 200 条新示范并重新训练 | 不是零样本 embodiment transfer |\n\n## 相关主题\n\n- [[contact-rich-manipulation|Contact-Rich Manipulation and Adaptive Compliance]]：补充“低成本关节力矩、动作解码器侧融合、未来力矩监督”的路线。\n- [[vision-language-action|Vision-Language-Action Models]]：说明预训练 VLA 接入连续物理模态时，模型接口位置和 token 结构本身就是关键设计变量。\n\n## 相关综述\n\n- [[force-touch-robot-policy-review|机器人策略中的力觉与触觉：从信号语义到闭环控制]]：作为关节力矩感知 VLA 和未来物理后果预测的代表工作。"
     },
     {
       "id": "2605.11048-forceflow-learning-to-feel-and-act-via-contact-driven-flow-matching",
@@ -339,7 +353,7 @@
       "label": "机器人策略中的力觉与触觉：从信号语义到闭环控制",
       "type": "synthesis",
       "community": "force-touch-robot-policy-review",
-      "content": "# 机器人策略中的力觉与触觉：从信号语义到闭环控制\n\n> 综合 14 篇材料 | 更新日期：2026-09-10\n\n## 当前判断\n\n这批工作共同推翻了一个过于简单的叙事：给视觉策略多加一条 force/tactile 输入，并不会自然得到可靠的接触能力。接触信号是否有价值，取决于三个问题是否被同时回答：它代表什么物理语义、覆盖哪个时间尺度、最终由哪个执行接口把它变成动作。\n\n更准确的系统图景是：力/触觉先解决“感什么、怎样采集和跨硬件表示”，再解决“怎样接入已有策略且不遗忘”；进入执行阶段后，又分成动作块内即时反馈、跨 episode 的事件记忆、候选动作的接触后果预测，以及由策略直接输出期望力或柔顺参数。它们使用相近的传感器，却不是同一个学习问题。\n\n现阶段最稳健的工程路线不是让一个低频大模型包办所有闭环，而是分层：学习策略负责语义理解、任务阶段、动作与物理目标；高频触觉模块、反应式规则或导纳/阻抗控制器负责接触瞬态。FD-VLA 证明真实力可以在训练期充当教师，但它也划清了边界：预测出的力先验不是安全传感器，无法可靠观测视觉与本体状态中不存在的突发接触。\n\n## 先区分四种“力”\n\n| 信号角色 | 它回答什么 | 代表材料 | 能做什么 | 不能据此声称什么 |\n| --- | --- | --- | --- | --- |\n| 实测观测 | 机器人现在接触了什么、接触历史怎样变化？ | [[2606.30988-multisensory-continual-learning-adapting-pretrained-visuomotor-policies-to-force|MuSe]]、[[2503.02881-reactive-diffusion-policy-slow-fast-visual-tactile-policy-learning-for-contact-rich-manipulation|RDP]]、[[foar-force-aware-reactive-policy-for-contact-rich-robotic-manipulation|FoAR]]、[[2605.11048-forceflow-learning-to-feel-and-act-via-contact-driven-flow-matching|ForceFlow]]、[[fm-vla-force-based-memory-for-vision-language-action-models-in-contact-rich-manipulation|FM-VLA]] | 发现视觉不可辨的接触、滑移、卡滞与事件进度 | 原始读数越多越好，或静态拼接就足够 |\n| 蒸馏先验 | 仅凭视觉与状态，当前大概处于何种受力语境？ | [[fd-vla-force-distilled-vision-language-action-model-for-contact-rich-manipulation|FD-VLA]] | 降低部署传感器成本，为动作模型提供任务相关接触提示 | 替代突发碰撞检测或得到可校准的六维力估计 |\n| 预测后果 | 候选动作将引发什么接触结果？ | [[2605.11048-forceflow-learning-to-feel-and-act-via-contact-driven-flow-matching|ForceFlow]]、[[facet-0|Facet-0]] | 用辅助预测塑造动作表示，或让 critic 按接触质量选择动作 | 预测 wrench 已被控制器直接执行，或预测一定物理准确 |\n| 控制目标 | 机器人希望施加多大力、在哪个方向让步？ | [[adaptive-compliance-policy-learning-approximate-compliance-for-diffusion-guided-control|ACP]]、[[2410.07554-forcemimic-force-centric-imitation-learning-with-force-motion-capture-system-for-contact-rich-manipulation|ForceMimic]]、[[2609.05832-cr-vla-force|CR-VLA-Force]] | 把期望力、虚拟目标或刚度交给成熟低层控制器 | 学习策略自身已经具备高频稳定性或形式化安全保证 |\n\n这四类变量可以同时出现在一个系统中，但训练目标、误差含义与安全责任不同。综述和基准若只按“用了力/没用力”分组，会把真正决定效果的接口差异抹掉。\n\n## 从传感到执行的六层路线\n\n| 层 | 核心问题 | 代表材料 | 已有证据 | 主要缺口 |\n| --- | --- | --- | --- | --- |\n| 传感设计 | 感知位置、覆盖、分辨率和物理量怎样选择？ | [[tactile-genesis-exploring-tactile-sensors-at-scale-for-learning-dexterous-tasks|Tactile Genesis]] | 受控仿真表明覆盖面积常比局部高分辨率更重要，per-taxel 力/力矩是有竞争力的默认项 | 大规模真机、耐久、漂移与成本数据 |\n| 数据与表示 | 怎样自然采集力位示范，并跨异构硬件复用表示？ | [[2410.07554-forcemimic-force-centric-imitation-learning-with-force-motion-capture-system-for-contact-rich-manipulation|ForceMimic]]、[[2606.29948-heterogeneous-tactile-transformer|HTT]] | 手持 ForceCapture 降低采集门槛；HTT 用 1.6M 同步帧对齐四类传感器，并测试未见触觉指尖 | 采集到部署的动力学偏移；表示迁移尚未贯通控制层 |\n| 策略适配 | 旧数据没有力标签时怎样吸收新模态且保留旧能力？ | [[2606.30988-multisensory-continual-learning-adapting-pretrained-visuomotor-policies-to-force|MuSe]]、[[fd-vla-force-distilled-vision-language-action-model-for-contact-rich-manipulation|FD-VLA]] | replay、缺失模态 mask 和未来预测能缓解遗忘；训练期真实力可监督部署期潜在力先验 | 多模态连续到来时的成本；无传感器方案的不可观测接触 |\n| 执行期反馈 | 最新接触怎样在动作执行前改写仍可修订的动作？ | [[2503.02881-reactive-diffusion-policy-slow-fast-visual-tactile-policy-learning-for-contact-rich-manipulation|RDP]]、[[t-rex-tactile-reactive-dexterous-manipulation|T-Rex]]、[[2608.25798-tacforcing-streaming-action-generation-with-execution-time-tactile-feedback|TacForcing]]、[[foar-force-aware-reactive-policy-for-contact-rich-robotic-manipulation|FoAR]] | 快速解码、快慢专家、流式动作块和阶段门控均优于若干静态融合基线 | 缺等算力延迟比较、跨传感器复现和统一安全指标 |\n| 记忆与后果 | 接触历史怎样表示任务进度，未来接触怎样约束动作选择？ | [[fm-vla-force-based-memory-for-vision-language-action-models-in-contact-rich-manipulation|FM-VLA]]、[[facet-0|Facet-0]]、[[2605.11048-forceflow-learning-to-feel-and-act-via-contact-driven-flow-matching|ForceFlow]] | force memory 可记录视觉难辨的事件；未来 wrench 可作为辅助目标或 critic 的评价对象 | 长 episode 的容量、预测校准和 critic 的跨任务泛化 |\n| 力位与柔顺执行 | 学习策略怎样把物理目标交给稳定控制回路？ | [[adaptive-compliance-policy-learning-approximate-compliance-for-diffusion-guided-control|ACP]]、[[2410.07554-forcemimic-force-centric-imitation-learning-with-force-motion-capture-system-for-contact-rich-manipulation|ForceMimic]]、[[2609.05832-cr-vla-force|CR-VLA-Force]] | 虚拟目标/刚度、预测 wrench、期望力动作块均可由高频控制器落实 | 控制接口跨机器人迁移、错误目标检测与安全边界 |\n\n## 五条策略路线怎样取舍\n\n### 1. 用最新接触直接修订动作\n\nRDP 把慢速动作生成和快速触觉条件解码分开；T-Rex 让约 5 Hz 的视觉语言专家与约 20 Hz 的触觉专家沿同一 flow 轨迹协作；TacForcing 在单一专家内部保留远期动作中间态，每执行一块就用新触觉修订下一块；FoAR 则先预测接触阶段，再用 100 Hz wrench 门控特征和触发固定小步修正。\n\n共同结论是：反馈必须在动作仍可更改时进入。差异在于修改发生在 decoder、另一个专家、同一生成轨迹还是外部反应式规则中。现有实验协议不同，尚不能判定哪一种结构普遍更优。\n\n### 2. 让力主导局部动作生成\n\nForceFlow 让短窗 wrench 与本体状态通过 AdaLN 调制每个 flow-matching block，视觉只通过 cross-attention 提供空间锚点，并联合预测动作与下一步力。它强调低维物理信号不能被高维视觉淹没，但约 1.15 秒的重规划周期意味着它仍需要执行器侧安全回路处理更快的碰撞。\n\n### 3. 由策略给物理目标、控制器负责稳定\n\nACP 输出参考位姿、虚拟目标与刚度幅值，ForceMimic 输出位姿—wrench 后由正交混合力位控制器执行，CR-VLA-Force 则让约 1 Hz 的 VLA 输出位姿与前馈力、由 500 Hz 自适应柔顺控制器持续跟踪。这条路线把任务条件化交给学习，把稳定性与带宽交给控制器，是目前对持续接触最清晰的责任划分。\n\n### 4. 把真实力降为训练期教师\n\nFD-VLA 用真实力潜变量监督视觉—状态条件化的单个预测 token，推理时移除传感器。它适合成本敏感且接触大多可由常见模态推断的任务，但不适合把这个 token 当作过载保护、卡滞检测或可解释力估计。\n\n### 5. 用力记录过去、评价未来\n\nFM-VLA 把完整 episode 的 wrench 历史压成 8 个事件记忆 token，解决按钮计数和重复擦拭等视觉历史含混的问题。Facet-0 则把候选动作与未来 wrench 联合生成，再由 Action-Wrench Critic 评价接触后果。前者回答“已经发生了什么”，后者回答“这样做可能发生什么”，二者都把 force 从即时输入提升为决策状态。\n\n## 关键证据锚点\n\n| 材料 | 结果锚点 | 应怎样解读 |\n| --- | --- | --- |\n| MuSe | 去掉 replay 后旧 wiping/peg 任务分别降到 0.5/15、2/15；完整方法为 12.5/15、10/15 | 新模态接入首先是知识连续性问题 |\n| RDP | Force 版在 peeling、wiping、bimanual lifting 的任务得分为 0.95、0.87、0.70 | 高频接触条件解码能产生细粒度位姿修正，但指标只适用于其协议 |\n| T-Rex | 12 项真机任务平均成功率 65%，同协议最强基线 35% | 异步快慢专家具有实质收益，尚未验证跨手型与跨传感器 |\n| TacForcing | 六项 UniVTAC 平均 65%；真机消融中静态触觉 31%，执行期更新加 EATA 为 69% | 触觉采集时刻与动作生效时刻的对齐比静态拼接更关键 |\n| ACP | 翻转 96%、花瓶擦拭 93.75%，明显高于固定柔顺基线 | 策略化柔顺有效，但依赖慢速、轻物体和非夹持等假设 |\n| FM-VLA | 三任务平均 83.3%，视觉记忆基线 53.7%；延迟仅比无记忆策略增加 3.3 ms | wrench 可成为高效事件记忆，但证据来自单平台三任务 |\n| FD-VLA | 三任务平均 61.1%，真实力 token 版本 51.1%，无 FDM 为 38.9% | 任务相关潜在力可优于原始读数，不等于视觉替代真实传感器 |\n| Facet-0 | 五项亚毫米装配完整系统平均 82%，最强通用基线 15%；本地适配前为 38% | 接触后果评价有价值，但高结果强依赖受约束任务适配 |\n| ForceMimic | 单一削皮任务动作正确 100%、连续削皮超过 10 cm 为 85% | 自然力位示范与控制接口可行，泛化结论仍很窄 |\n| FoAR | 三项接触任务得分 0.875/0.850/0.756，扰动下接触 ASR 保持 100% | 阶段门控和简单反应修正有效，阈值与步长需跨任务重标定 |\n| ForceFlow | 六任务平均 81.67%、Force Fidelity MAE 8.23 N；ForceVLA 为 45%、23.31 N | 成功与力质量应同时评估，空间 OOD 仍依赖上层定位模块 |\n| CR-VLA-Force | 六条件平均成功率 89.2%；40 N 擦板力误差 5.52%（base）/8.78%（OOD） | 慢 VLA 与 500 Hz 柔顺回路互补，但不构成跨平台安全证明 |\n\n这些数字只能作为各自实验内部的证据锚点，不能据此做跨论文排行榜。\n\n## 跨材料结论\n\n1. **先定义语义，再设计融合。** ForceFlow 的历史与未来力、Facet-0 的候选后果、CR-VLA-Force 的期望力和 FD-VLA 的蒸馏 token 名字都含 force，但训练目标和部署责任完全不同。\n2. **时间尺度决定结构。** 动作块内修订适合 RDP/T-Rex/TacForcing/FoAR，episode 进度适合 FM-VLA，持续力跟踪则需要 CR-VLA-Force/ACP 一类高频控制接口。\n3. **低频学习策略不能自动成为安全回路。** 即使 ForceFlow 或 VLA 能预测接触结果，执行器仍要在模型下一次重规划前处理冲击、饱和和不稳定。\n4. **数据—控制一致性是硬门槛。** ForceMimic 中直接加入力的基线因示范约 10 N、部署约 20 N 且局部超过 40 N 的分布失配而退化，说明校准和控制映射不能留给网络自行吸收。\n5. **成功率不足以评价力策略。** 至少还要报告峰值力、力跟踪误差、接触保持、损伤、延迟与扰动恢复；ForceFlow 和 CR-VLA-Force 已部分补上这类指标，但尚无统一协议。\n\n## 工程选择指南\n\n| 需求 | 优先参考 | 采用前应确认 |\n| --- | --- | --- |\n| 已有视觉策略，新加少量带力数据且不能忘旧任务 | MuSe | replay 成本、缺失模态策略、外部控制器能力 |\n| 部署平台不装力传感器 | FD-VLA | 接触是否可由视觉/状态推断；另设独立安全保护 |\n| action chunk 执行期间接触快速变化 | RDP、T-Rex、TacForcing | 实际采样率、端到端延迟、可修订窗口与算力 |\n| 自由空间与接触阶段交替明显 | FoAR | 接触预测可靠性、阈值和固定修正步长的校准 |\n| 需要同时优化任务成功与接触质量 | ForceFlow | 重规划周期、力指标定义、空间定位模块 |\n| 任务进度由接触次数或覆盖轮次决定 | FM-VLA | 长序列容量、传感器漂移、跨任务记忆迁移 |\n| 精密装配需要按接触后果选择候选动作 | Facet-0 | 本地适配数据、动作安全盒和 critic 失效监控 |\n| 策略必须显式给出期望力或柔顺 | ACP、ForceMimic、CR-VLA-Force | 机器人控制接口、稳定性约束、错误目标拒绝机制 |\n| 先决定触觉硬件和共享表示 | Tactile Genesis、HTT | 仿真到真机差距、异构传感器信息不对称 |\n\n## 分歧与限制\n\n- **部署期是否必须有传感器。** FD-VLA 说明部分任务可用蒸馏先验降低成本，其他闭环路线则依赖实时触觉或 wrist wrench。二者面向的风险边界不同，不构成谁替代谁。\n- **端到端学习还是显式控制。** RDP、T-Rex、TacForcing 更深入地修改生成过程；ACP、ForceMimic、CR-VLA-Force 把稳定接触交给经典控制器。当前没有统一实验同时比较泛化、延迟与安全。\n- **“高频”口径不统一。** 传感采样、策略推理、动作输出和低层控制频率常被混合描述。100 Hz 传感器不等于 100 Hz 模型闭环，1 Hz VLA 也不等于系统只能 1 Hz 反应。\n- **证据集中在固定平台。** 多数结果来自单一机械臂或手型、少量任务与 10-30 次级别评测；跨机器人、跨材料、传感器故障和开放环境证据很弱。\n- **触觉和腕部力矩不可互换。** 指尖光学/阵列触觉擅长局部滑移与形变，腕部六轴 wrench 擅长整体接触方向和载荷；把二者统一为一个 token 会隐藏可观测性差异。\n\n## 什么会改变这个判断\n\n- 一个统一系统在训练时未见的机器人和传感器上，同时验证 HTT 式表示迁移、MuSe 式无遗忘适配、TacForcing/RDP 式动作块内更新、FM-VLA 式事件记忆与 CR-VLA-Force 式高频柔顺。\n- 在相同机器人、数据、算力、传感频率和控制器下，直接比较快速 decoder、快慢专家、单专家流式生成、阶段门控与经典高频力控。\n- 建立以任务成功、峰值力、力跟踪、损伤、延迟、恢复、标定漂移和硬件成本为共同维度的公开真机基准，并报告统计置信区间。\n- 对错误期望力、传感器饱和/掉线、未知材料、隐藏卡阻和突发碰撞进行系统压力测试，证明学习模型与低层安全约束能协同失效保护。\n\n## 关联主题\n\n- [[tactile-representation|Tactile Representation]]：传感设计、跨硬件表示和触觉策略接口。\n- [[contact-rich-manipulation|Contact-Rich Manipulation and Adaptive Compliance]]：运动—力联合学习、柔顺与接触安全。\n- [[vision-language-action|Vision-Language-Action]]：新物理模态怎样进入机器人基础策略。\n- [[long-horizon-memory-for-robot-policies|Long-Horizon Memory for Robot Policies]]：力历史怎样成为 episode 级事件记忆。\n\n## 关联材料\n\n- [[tactile-genesis-exploring-tactile-sensors-at-scale-for-learning-dexterous-tasks|Tactile Genesis]]\n- [[2606.29948-heterogeneous-tactile-transformer|Heterogeneous Tactile Transformer]]\n- [[2410.07554-forcemimic-force-centric-imitation-learning-with-force-motion-capture-system-for-contact-rich-manipulation|ForceMimic]]\n- [[2606.30988-multisensory-continual-learning-adapting-pretrained-visuomotor-policies-to-force|MuSe]]\n- [[fd-vla-force-distilled-vision-language-action-model-for-contact-rich-manipulation|FD-VLA]]\n- [[2503.02881-reactive-diffusion-policy-slow-fast-visual-tactile-policy-learning-for-contact-rich-manipulation|Reactive Diffusion Policy]]\n- [[t-rex-tactile-reactive-dexterous-manipulation|T-Rex]]\n- [[2608.25798-tacforcing-streaming-action-generation-with-execution-time-tactile-feedback|TacForcing]]\n- [[foar-force-aware-reactive-policy-for-contact-rich-robotic-manipulation|FoAR]]\n- [[2605.11048-forceflow-learning-to-feel-and-act-via-contact-driven-flow-matching|ForceFlow]]\n- [[fm-vla-force-based-memory-for-vision-language-action-models-in-contact-rich-manipulation|FM-VLA]]\n- [[facet-0|Facet-0]]\n- [[adaptive-compliance-policy-learning-approximate-compliance-for-diffusion-guided-control|Adaptive Compliance Policy]]\n- [[2609.05832-cr-vla-force|CR-VLA-Force]]"
+      "content": "# 机器人策略中的力觉与触觉：从信号语义到闭环控制\n\n> 综合 16 篇材料 | 更新日期：2026-09-10\n\n## 当前判断\n\n这批工作共同推翻了一个过于简单的叙事：给视觉策略多加一条 force/tactile 输入，并不会自然得到可靠的接触能力。接触信号是否有价值，取决于三个问题是否被同时回答：它代表什么物理语义、覆盖哪个时间尺度、最终由哪个执行接口把它变成动作。\n\n更准确的系统图景是：力/触觉先解决“感什么、怎样采集和跨硬件表示”，再解决“怎样接入已有策略且不遗忘”；进入执行阶段后，又分成动作块内即时反馈、跨 episode 的事件记忆、候选动作的接触后果预测，以及由策略直接输出期望力或柔顺参数。它们使用相近的传感器，却不是同一个学习问题。\n\n现阶段最稳健的工程路线不是让一个低频大模型包办所有闭环，而是分层：学习策略负责语义理解、任务阶段、动作与物理目标；高频触觉模块、反应式规则或导纳/阻抗控制器负责接触瞬态。FD-VLA 证明真实力可以在训练期充当教师，但它也划清了边界：预测出的力先验不是安全传感器，无法可靠观测视觉与本体状态中不存在的突发接触。新增的 TA-VLA 进一步说明，即使是真实关节力矩，接入预训练 VLA 的位置和 token 结构也决定它会成为有效动作条件还是被语义编码器弱化；TacDiffusion 则展示了另一端点——直接生成可执行前馈 wrench 时，模型精度必须和控制刷新率、滤波器及阻抗反馈共同设计。\n\n## 先区分四种“力”\n\n| 信号角色 | 它回答什么 | 代表材料 | 能做什么 | 不能据此声称什么 |\n| --- | --- | --- | --- | --- |\n| 实测观测 | 机器人现在接触了什么、接触历史怎样变化？ | [[2606.30988-multisensory-continual-learning-adapting-pretrained-visuomotor-policies-to-force|MuSe]]、[[2503.02881-reactive-diffusion-policy-slow-fast-visual-tactile-policy-learning-for-contact-rich-manipulation|RDP]]、[[foar-force-aware-reactive-policy-for-contact-rich-robotic-manipulation|FoAR]]、[[2605.11048-forceflow-learning-to-feel-and-act-via-contact-driven-flow-matching|ForceFlow]]、[[fm-vla-force-based-memory-for-vision-language-action-models-in-contact-rich-manipulation|FM-VLA]]、[[2509.07962-ta-vla-elucidating-the-design-space-of-torque-aware-vision-language-action-models|TA-VLA]] | 发现视觉不可辨的接触、滑移、卡滞与事件进度 | 原始读数越多越好，或静态拼接就足够 |\n| 蒸馏先验 | 仅凭视觉与状态，当前大概处于何种受力语境？ | [[fd-vla-force-distilled-vision-language-action-model-for-contact-rich-manipulation|FD-VLA]] | 降低部署传感器成本，为动作模型提供任务相关接触提示 | 替代突发碰撞检测或得到可校准的六维力估计 |\n| 预测后果 | 候选动作将引发什么接触结果？ | [[2605.11048-forceflow-learning-to-feel-and-act-via-contact-driven-flow-matching|ForceFlow]]、[[facet-0|Facet-0]]、[[2509.07962-ta-vla-elucidating-the-design-space-of-torque-aware-vision-language-action-models|TA-VLA]] | 用辅助预测塑造动作表示，或让 critic 按接触质量选择动作 | 预测 wrench/torque 已被控制器直接执行，或预测一定物理准确 |\n| 控制目标 | 机器人希望施加多大力、在哪个方向让步？ | [[adaptive-compliance-policy-learning-approximate-compliance-for-diffusion-guided-control|ACP]]、[[2410.07554-forcemimic-force-centric-imitation-learning-with-force-motion-capture-system-for-contact-rich-manipulation|ForceMimic]]、[[2609.05832-cr-vla-force|CR-VLA-Force]]、[[2409.11047-tacdiffusion-force-domain-diffusion-policy-for-precise-tactile-manipulation|TacDiffusion]] | 把期望力、虚拟目标、刚度或生成 wrench 交给成熟低层控制器 | 学习策略自身已经具备高频稳定性或形式化安全保证 |\n\n这四类变量可以同时出现在一个系统中，但训练目标、误差含义与安全责任不同。综述和基准若只按“用了力/没用力”分组，会把真正决定效果的接口差异抹掉。\n\n## 从传感到执行的六层路线\n\n| 层 | 核心问题 | 代表材料 | 已有证据 | 主要缺口 |\n| --- | --- | --- | --- | --- |\n| 传感设计 | 感知位置、覆盖、分辨率和物理量怎样选择？ | [[tactile-genesis-exploring-tactile-sensors-at-scale-for-learning-dexterous-tasks|Tactile Genesis]] | 受控仿真表明覆盖面积常比局部高分辨率更重要，per-taxel 力/力矩是有竞争力的默认项 | 大规模真机、耐久、漂移与成本数据 |\n| 数据与表示 | 怎样自然采集力位示范，并跨异构硬件复用表示？ | [[2410.07554-forcemimic-force-centric-imitation-learning-with-force-motion-capture-system-for-contact-rich-manipulation|ForceMimic]]、[[2606.29948-heterogeneous-tactile-transformer|HTT]] | 手持 ForceCapture 降低采集门槛；HTT 用 1.6M 同步帧对齐四类传感器，并测试未见触觉指尖 | 采集到部署的动力学偏移；表示迁移尚未贯通控制层 |\n| 策略适配 | 旧数据没有力标签时怎样吸收新模态且保留旧能力？ | [[2606.30988-multisensory-continual-learning-adapting-pretrained-visuomotor-policies-to-force|MuSe]]、[[fd-vla-force-distilled-vision-language-action-model-for-contact-rich-manipulation|FD-VLA]]、[[2509.07962-ta-vla-elucidating-the-design-space-of-torque-aware-vision-language-action-models|TA-VLA]] | replay、缺失模态 mask 和未来预测能缓解遗忘；训练期真实力可监督部署期潜在力先验；decoder-side 单 token 历史保持预训练接口 | 多模态连续到来时的成本；无传感器方案的不可观测接触；跨机器人力矩标定 |\n| 执行期反馈 | 最新接触怎样在动作执行前改写仍可修订的动作？ | [[2503.02881-reactive-diffusion-policy-slow-fast-visual-tactile-policy-learning-for-contact-rich-manipulation|RDP]]、[[t-rex-tactile-reactive-dexterous-manipulation|T-Rex]]、[[2608.25798-tacforcing-streaming-action-generation-with-execution-time-tactile-feedback|TacForcing]]、[[foar-force-aware-reactive-policy-for-contact-rich-robotic-manipulation|FoAR]] | 快速解码、快慢专家、流式动作块和阶段门控均优于若干静态融合基线 | 缺等算力延迟比较、跨传感器复现和统一安全指标 |\n| 记忆与后果 | 接触历史怎样表示任务进度，未来接触怎样约束动作选择？ | [[fm-vla-force-based-memory-for-vision-language-action-models-in-contact-rich-manipulation|FM-VLA]]、[[facet-0|Facet-0]]、[[2605.11048-forceflow-learning-to-feel-and-act-via-contact-driven-flow-matching|ForceFlow]]、[[2509.07962-ta-vla-elucidating-the-design-space-of-torque-aware-vision-language-action-models|TA-VLA]] | force memory 可记录视觉难辨的事件；未来 wrench/torque 可作为辅助目标或 critic 的评价对象 | 长 episode 的容量、预测校准和 critic 的跨任务泛化 |\n| 力位与柔顺执行 | 学习策略怎样把物理目标交给稳定控制回路？ | [[adaptive-compliance-policy-learning-approximate-compliance-for-diffusion-guided-control|ACP]]、[[2410.07554-forcemimic-force-centric-imitation-learning-with-force-motion-capture-system-for-contact-rich-manipulation|ForceMimic]]、[[2609.05832-cr-vla-force|CR-VLA-Force]]、[[2409.11047-tacdiffusion-force-domain-diffusion-policy-for-precise-tactile-manipulation|TacDiffusion]] | 虚拟目标/刚度、预测 wrench、期望力动作块或力域扩散前馈均可由高频控制器落实 | 控制接口跨机器人迁移、错误目标检测与安全边界 |\n\n## 五条策略路线怎样取舍\n\n### 1. 用最新接触直接修订动作\n\nRDP 把慢速动作生成和快速触觉条件解码分开；T-Rex 让约 5 Hz 的视觉语言专家与约 20 Hz 的触觉专家沿同一 flow 轨迹协作；TacForcing 在单一专家内部保留远期动作中间态，每执行一块就用新触觉修订下一块；FoAR 则先预测接触阶段，再用 100 Hz wrench 门控特征和触发固定小步修正。\n\n共同结论是：反馈必须在动作仍可更改时进入。差异在于修改发生在 decoder、另一个专家、同一生成轨迹还是外部反应式规则中。现有实验协议不同，尚不能判定哪一种结构普遍更优。\n\n### 2. 让力主导局部动作生成\n\nForceFlow 让短窗 wrench 与本体状态通过 AdaLN 调制每个 flow-matching block，视觉只通过 cross-attention 提供空间锚点，并联合预测动作与下一步力。它强调低维物理信号不能被高维视觉淹没，但约 1.15 秒的重规划周期意味着它仍需要执行器侧安全回路处理更快的碰撞。\n\nTA-VLA 把同一问题移到预训练 VLA：关节力矩接在 action decoder 比接在视觉语言 encoder 更有效，整段历史聚合成一个 token 又显著优于逐帧扩张 decoder token。完整方案令 π0 的五项接触任务总成功率从 23% 提升到 86%。这说明“让力主导”不仅取决于融合权重，也取决于物理模态离动作生成有多近、是否破坏预训练接口。\n\n### 3. 由策略给物理目标、控制器负责稳定\n\nACP 输出参考位姿、虚拟目标与刚度幅值，ForceMimic 输出位姿—wrench 后由正交混合力位控制器执行，CR-VLA-Force 则让约 1 Hz 的 VLA 输出位姿与前馈力、由 500 Hz 自适应柔顺控制器持续跟踪。TacDiffusion 走得更直接：DDPM 生成六维前馈 wrench，动态系统滤波升频到 1 kHz，再与阻抗反馈叠加。这条路线把任务条件化交给学习，把稳定性与带宽交给控制器，是目前对持续接触最清晰的责任划分；TacDiffusion 中 DF4 离线损失最低却因只有 51.2 Hz 而退化，更说明模型精度不能脱离闭环频率评价。\n\n### 4. 把真实力降为训练期教师\n\nFD-VLA 用真实力潜变量监督视觉—状态条件化的单个预测 token，推理时移除传感器。它适合成本敏感且接触大多可由常见模态推断的任务，但不适合把这个 token 当作过载保护、卡滞检测或可解释力估计。\n\n### 5. 用力记录过去、评价未来\n\nFM-VLA 把完整 episode 的 wrench 历史压成 8 个事件记忆 token，解决按钮计数和重复擦拭等视觉历史含混的问题。Facet-0 则把候选动作与未来 wrench 联合生成，再由 Action-Wrench Critic 评价接触后果。TA-VLA 也联合预测未来 torque，但只把它作为生成辅助目标，没有部署期 critic。前者回答“已经发生了什么”，后两者回答“这样做可能发生什么”，三者都把 force/torque 从即时输入提升为决策状态。\n\n## 关键证据锚点\n\n| 材料 | 结果锚点 | 应怎样解读 |\n| --- | --- | --- |\n| MuSe | 去掉 replay 后旧 wiping/peg 任务分别降到 0.5/15、2/15；完整方法为 12.5/15、10/15 | 新模态接入首先是知识连续性问题 |\n| RDP | Force 版在 peeling、wiping、bimanual lifting 的任务得分为 0.95、0.87、0.70 | 高频接触条件解码能产生细粒度位姿修正，但指标只适用于其协议 |\n| T-Rex | 12 项真机任务平均成功率 65%，同协议最强基线 35% | 异步快慢专家具有实质收益，尚未验证跨手型与跨传感器 |\n| TacForcing | 六项 UniVTAC 平均 65%；真机消融中静态触觉 31%，执行期更新加 EATA 为 69% | 触觉采集时刻与动作生效时刻的对齐比静态拼接更关键 |\n| ACP | 翻转 96%、花瓶擦拭 93.75%，明显高于固定柔顺基线 | 策略化柔顺有效，但依赖慢速、轻物体和非夹持等假设 |\n| FM-VLA | 三任务平均 83.3%，视觉记忆基线 53.7%；延迟仅比无记忆策略增加 3.3 ms | wrench 可成为高效事件记忆，但证据来自单平台三任务 |\n| FD-VLA | 三任务平均 61.1%，真实力 token 版本 51.1%，无 FDM 为 38.9% | 任务相关潜在力可优于原始读数，不等于视觉替代真实传感器 |\n| Facet-0 | 五项亚毫米装配完整系统平均 82%，最强通用基线 15%；本地适配前为 38% | 接触后果评价有价值，但高结果强依赖受约束任务适配 |\n| ForceMimic | 单一削皮任务动作正确 100%、连续削皮超过 10 cm 为 85% | 自然力位示范与控制接口可行，泛化结论仍很窄 |\n| FoAR | 三项接触任务得分 0.875/0.850/0.756，扰动下接触 ASR 保持 100% | 阶段门控和简单反应修正有效，阈值与步长需跨任务重标定 |\n| ForceFlow | 六任务平均 81.67%、Force Fidelity MAE 8.23 N；ForceVLA 为 45%、23.31 N | 成功与力质量应同时评估，空间 OOD 仍依赖上层定位模块 |\n| CR-VLA-Force | 六条件平均成功率 89.2%；40 N 擦板力误差 5.52%（base）/8.78%（OOD） | 慢 VLA 与 500 Hz 柔顺回路互补，但不构成跨平台安全证明 |\n| TacDiffusion | DF3 在四种未见插入几何上平均 95.7%，专家行为树为 83.3%；动态系统滤波平均 +9.15 个百分点 | 力域生成可行，但系统表现取决于推理频率、滤波与阻抗控制的共同设计 |\n| TA-VLA | π0 五项接触任务从 23% 提升到 86%；RDT 的 Button/Charger 从 4/20、1/20 提升到 16/20、15/20 | decoder-side 单 token 历史和未来 torque 目标有效，但 joint torque 不是已标定末端力 |\n\n这些数字只能作为各自实验内部的证据锚点，不能据此做跨论文排行榜。\n\n## 跨材料结论\n\n1. **先定义语义，再设计融合。** ForceFlow 的历史与未来力、Facet-0 的候选后果、CR-VLA-Force 的期望力和 FD-VLA 的蒸馏 token 名字都含 force，但训练目标和部署责任完全不同。\n2. **时间尺度决定结构。** 动作块内修订适合 RDP/T-Rex/TacForcing/FoAR，episode 进度适合 FM-VLA，持续力跟踪则需要 CR-VLA-Force/ACP 一类高频控制接口。\n3. **低频学习策略不能自动成为安全回路。** 即使 ForceFlow 或 VLA 能预测接触结果，执行器仍要在模型下一次重规划前处理冲击、饱和和不稳定。\n4. **数据—控制一致性是硬门槛。** ForceMimic 中直接加入力的基线因示范约 10 N、部署约 20 N 且局部超过 40 N 的分布失配而退化，说明校准和控制映射不能留给网络自行吸收。\n5. **成功率不足以评价力策略。** 至少还要报告峰值力、力跟踪误差、接触保持、损伤、延迟与扰动恢复；ForceFlow 和 CR-VLA-Force 已部分补上这类指标，但尚无统一协议。\n6. **坐标语义限制可迁移性。** TA-VLA 的电流关节力矩、腕部六维 wrench 和局部触觉阵列分别混入不同的构型、动力学与接触位置信息；融合成 token 前仍需回答补偿、归一化和跨硬件对齐。\n7. **预训练接口也是物理建模的一部分。** TA-VLA 中多历史 token 比单 token 聚合更差，说明时间信息增多可能因破坏 decoder 输入分布而失效；新模态设计必须同时消融信息内容和接口结构。\n\n## 工程选择指南\n\n| 需求 | 优先参考 | 采用前应确认 |\n| --- | --- | --- |\n| 已有视觉策略，新加少量带力数据且不能忘旧任务 | MuSe | replay 成本、缺失模态策略、外部控制器能力 |\n| 部署平台不装力传感器 | FD-VLA | 接触是否可由视觉/状态推断；另设独立安全保护 |\n| action chunk 执行期间接触快速变化 | RDP、T-Rex、TacForcing | 实际采样率、端到端延迟、可修订窗口与算力 |\n| 自由空间与接触阶段交替明显 | FoAR | 接触预测可靠性、阈值和固定修正步长的校准 |\n| 需要同时优化任务成功与接触质量 | ForceFlow | 重规划周期、力指标定义、空间定位模块 |\n| 已有预训练 VLA，希望用低成本关节力矩增强接触 | TA-VLA | 动力学补偿、decoder token 布局、跨负载归一化与底层安全保护 |\n| 任务进度由接触次数或覆盖轮次决定 | FM-VLA | 长序列容量、传感器漂移、跨任务记忆迁移 |\n| 精密装配需要按接触后果选择候选动作 | Facet-0 | 本地适配数据、动作安全盒和 critic 失效监控 |\n| 策略必须显式给出期望力或柔顺 | ACP、ForceMimic、CR-VLA-Force、TacDiffusion | 机器人控制接口、策略/控制频率、滤波相位、稳定性约束与错误目标拒绝机制 |\n| 先决定触觉硬件和共享表示 | Tactile Genesis、HTT | 仿真到真机差距、异构传感器信息不对称 |\n\n## 分歧与限制\n\n- **部署期是否必须有传感器。** FD-VLA 说明部分任务可用蒸馏先验降低成本，其他闭环路线则依赖实时触觉或 wrist wrench。二者面向的风险边界不同，不构成谁替代谁。\n- **端到端学习还是显式控制。** RDP、T-Rex、TacForcing 更深入地修改生成过程；ACP、ForceMimic、CR-VLA-Force 把稳定接触交给经典控制器。当前没有统一实验同时比较泛化、延迟与安全。\n- **“高频”口径不统一。** 传感采样、策略推理、动作输出和低层控制频率常被混合描述。100 Hz 传感器不等于 100 Hz 模型闭环，1 Hz VLA 也不等于系统只能 1 Hz 反应。\n- **证据集中在固定平台。** 多数结果来自单一机械臂或手型、少量任务与 10-30 次级别评测；跨机器人、跨材料、传感器故障和开放环境证据很弱。\n- **触觉和腕部力矩不可互换。** 指尖光学/阵列触觉擅长局部滑移与形变，腕部六轴 wrench 擅长整体接触方向和载荷；把二者统一为一个 token 会隐藏可观测性差异。\n- **关节力矩也不等于末端 wrench。** TA-VLA 的电流力矩含重力、惯性、摩擦、构型和热漂移；TacDiffusion 的外部/内部 wrench 更靠近控制坐标，但同样依赖机器人估计器。两者成功率不能据此直接比较传感优劣。\n- **“零样本”范围不同。** TacDiffusion 只在同一插入技能与控制器下更换几何；TA-VLA 的第二机器人结果重新采集 200 条示范并训练，且只做定性展示。二者都不证明开放任务或跨 embodiment 零样本迁移。\n\n## 什么会改变这个判断\n\n- 一个统一系统在训练时未见的机器人和传感器上，同时验证 HTT 式表示迁移、MuSe 式无遗忘适配、TacForcing/RDP 式动作块内更新、FM-VLA 式事件记忆与 CR-VLA-Force 式高频柔顺。\n- 在相同机器人、数据、算力、传感频率和控制器下，直接比较快速 decoder、快慢专家、单专家流式生成、阶段门控与经典高频力控。\n- 建立以任务成功、峰值力、力跟踪、损伤、延迟、恢复、标定漂移和硬件成本为共同维度的公开真机基准，并报告统计置信区间。\n- 对错误期望力、传感器饱和/掉线、未知材料、隐藏卡阻和突发碰撞进行系统压力测试，证明学习模型与低层安全约束能协同失效保护。\n- 在同一机器人上同时记录电机电流、补偿后关节外力矩、腕部六维 wrench 和局部触觉，比较它们对接触状态、未来后果和控制目标的可辨识性，并测试跨负载与热漂移。\n\n## 关联主题\n\n- [[tactile-representation|Tactile Representation]]：传感设计、跨硬件表示和触觉策略接口。\n- [[contact-rich-manipulation|Contact-Rich Manipulation and Adaptive Compliance]]：运动—力联合学习、柔顺与接触安全。\n- [[vision-language-action|Vision-Language-Action]]：新物理模态怎样进入机器人基础策略。\n- [[long-horizon-memory-for-robot-policies|Long-Horizon Memory for Robot Policies]]：力历史怎样成为 episode 级事件记忆。\n\n## 关联材料\n\n- [[tactile-genesis-exploring-tactile-sensors-at-scale-for-learning-dexterous-tasks|Tactile Genesis]]\n- [[2606.29948-heterogeneous-tactile-transformer|Heterogeneous Tactile Transformer]]\n- [[2410.07554-forcemimic-force-centric-imitation-learning-with-force-motion-capture-system-for-contact-rich-manipulation|ForceMimic]]\n- [[2606.30988-multisensory-continual-learning-adapting-pretrained-visuomotor-policies-to-force|MuSe]]\n- [[fd-vla-force-distilled-vision-language-action-model-for-contact-rich-manipulation|FD-VLA]]\n- [[2503.02881-reactive-diffusion-policy-slow-fast-visual-tactile-policy-learning-for-contact-rich-manipulation|Reactive Diffusion Policy]]\n- [[t-rex-tactile-reactive-dexterous-manipulation|T-Rex]]\n- [[2608.25798-tacforcing-streaming-action-generation-with-execution-time-tactile-feedback|TacForcing]]\n- [[foar-force-aware-reactive-policy-for-contact-rich-robotic-manipulation|FoAR]]\n- [[2605.11048-forceflow-learning-to-feel-and-act-via-contact-driven-flow-matching|ForceFlow]]\n- [[fm-vla-force-based-memory-for-vision-language-action-models-in-contact-rich-manipulation|FM-VLA]]\n- [[facet-0|Facet-0]]\n- [[adaptive-compliance-policy-learning-approximate-compliance-for-diffusion-guided-control|Adaptive Compliance Policy]]\n- [[2609.05832-cr-vla-force|CR-VLA-Force]]\n- [[2409.11047-tacdiffusion-force-domain-diffusion-policy-for-precise-tactile-manipulation|TacDiffusion]]\n- [[2509.07962-ta-vla-elucidating-the-design-space-of-torque-aware-vision-language-action-models|TA-VLA]]"
     }
   ],
   "edges": [
@@ -400,10 +414,10 @@
       "from": "Long-Horizon Memory for Robot Policies",
       "to": "force-touch-robot-policy-review",
       "type": "EXTRACTED",
-      "weight": 0.306,
+      "weight": 0.295,
       "source_signal_available": false,
       "signals": {
-        "co_citation": 0.111,
+        "co_citation": 0.091,
         "source_overlap": null,
         "type_affinity": 0.5
       }
@@ -502,20 +516,20 @@
     {
       "id": "e13",
       "from": "Vision-Language-Action",
-      "to": "Online RL for VLA",
+      "to": "2509.07962-ta-vla-elucidating-the-design-space-of-torque-aware-vision-language-action-models",
       "type": "EXTRACTED",
-      "weight": 0.46,
+      "weight": 0.25,
       "source_signal_available": false,
       "signals": {
-        "co_citation": 0.12,
+        "co_citation": 0,
         "source_overlap": null,
-        "type_affinity": 0.8
+        "type_affinity": 0.5
       }
     },
     {
       "id": "e14",
       "from": "Vision-Language-Action",
-      "to": "Long-Horizon Memory for Robot Policies",
+      "to": "Online RL for VLA",
       "type": "EXTRACTED",
       "weight": 0.46,
       "source_signal_available": false,
@@ -528,6 +542,19 @@
     {
       "id": "e15",
       "from": "Vision-Language-Action",
+      "to": "Long-Horizon Memory for Robot Policies",
+      "type": "EXTRACTED",
+      "weight": 0.46,
+      "source_signal_available": false,
+      "signals": {
+        "co_citation": 0.12,
+        "source_overlap": null,
+        "type_affinity": 0.8
+      }
+    },
+    {
+      "id": "e16",
+      "from": "Vision-Language-Action",
       "to": "Human-to-Robot Transfer",
       "type": "EXTRACTED",
       "weight": 0.48,
@@ -539,33 +566,59 @@
       }
     },
     {
-      "id": "e16",
+      "id": "e17",
       "from": "contact-rich-manipulation",
       "to": "2609.05832-cr-vla-force",
       "type": "EXTRACTED",
-      "weight": 0.417,
+      "weight": 0.35,
       "source_signal_available": false,
       "signals": {
-        "co_citation": 0.333,
-        "source_overlap": null,
-        "type_affinity": 0.5
-      }
-    },
-    {
-      "id": "e17",
-      "from": "contact-rich-manipulation",
-      "to": "force-touch-robot-policy-review",
-      "type": "EXTRACTED",
-      "weight": 0.25,
-      "source_signal_available": false,
-      "signals": {
-        "co_citation": 0,
+        "co_citation": 0.2,
         "source_overlap": null,
         "type_affinity": 0.5
       }
     },
     {
       "id": "e18",
+      "from": "contact-rich-manipulation",
+      "to": "2409.11047-tacdiffusion-force-domain-diffusion-policy-for-precise-tactile-manipulation",
+      "type": "EXTRACTED",
+      "weight": 0.35,
+      "source_signal_available": false,
+      "signals": {
+        "co_citation": 0.2,
+        "source_overlap": null,
+        "type_affinity": 0.5
+      }
+    },
+    {
+      "id": "e19",
+      "from": "contact-rich-manipulation",
+      "to": "2509.07962-ta-vla-elucidating-the-design-space-of-torque-aware-vision-language-action-models",
+      "type": "EXTRACTED",
+      "weight": 0.35,
+      "source_signal_available": false,
+      "signals": {
+        "co_citation": 0.2,
+        "source_overlap": null,
+        "type_affinity": 0.5
+      }
+    },
+    {
+      "id": "e20",
+      "from": "contact-rich-manipulation",
+      "to": "force-touch-robot-policy-review",
+      "type": "EXTRACTED",
+      "weight": 0.341,
+      "source_signal_available": false,
+      "signals": {
+        "co_citation": 0.182,
+        "source_overlap": null,
+        "type_affinity": 0.5
+      }
+    },
+    {
+      "id": "e21",
       "from": "tactile-representation",
       "to": "tactile-genesis-exploring-tactile-sensors-at-scale-for-learning-dexterous-tasks",
       "type": "EXTRACTED",
@@ -578,48 +631,9 @@
       }
     },
     {
-      "id": "e19",
-      "from": "tactile-representation",
-      "to": "2606.29948-heterogeneous-tactile-transformer",
-      "type": "EXTRACTED",
-      "weight": 0.5,
-      "source_signal_available": false,
-      "signals": {
-        "co_citation": 0.5,
-        "source_overlap": null,
-        "type_affinity": 0.5
-      }
-    },
-    {
-      "id": "e20",
-      "from": "tactile-representation",
-      "to": "2606.30988-multisensory-continual-learning-adapting-pretrained-visuomotor-policies-to-force",
-      "type": "EXTRACTED",
-      "weight": 0.375,
-      "source_signal_available": false,
-      "signals": {
-        "co_citation": 0.25,
-        "source_overlap": null,
-        "type_affinity": 0.5
-      }
-    },
-    {
-      "id": "e21",
-      "from": "tactile-representation",
-      "to": "t-rex-tactile-reactive-dexterous-manipulation",
-      "type": "EXTRACTED",
-      "weight": 0.5,
-      "source_signal_available": false,
-      "signals": {
-        "co_citation": 0.5,
-        "source_overlap": null,
-        "type_affinity": 0.5
-      }
-    },
-    {
       "id": "e22",
       "from": "tactile-representation",
-      "to": "2608.25798-tacforcing-streaming-action-generation-with-execution-time-tactile-feedback",
+      "to": "2606.29948-heterogeneous-tactile-transformer",
       "type": "EXTRACTED",
       "weight": 0.5,
       "source_signal_available": false,
@@ -632,31 +646,122 @@
     {
       "id": "e23",
       "from": "tactile-representation",
-      "to": "force-touch-robot-policy-review",
+      "to": "2606.30988-multisensory-continual-learning-adapting-pretrained-visuomotor-policies-to-force",
       "type": "EXTRACTED",
-      "weight": 0.417,
+      "weight": 0.375,
       "source_signal_available": false,
       "signals": {
-        "co_citation": 0.333,
+        "co_citation": 0.25,
         "source_overlap": null,
         "type_affinity": 0.5
       }
     },
     {
       "id": "e24",
-      "from": "2605.11048-forceflow-learning-to-feel-and-act-via-contact-driven-flow-matching",
-      "to": "contact-rich-manipulation",
+      "from": "tactile-representation",
+      "to": "t-rex-tactile-reactive-dexterous-manipulation",
       "type": "EXTRACTED",
-      "weight": 0.417,
+      "weight": 0.5,
       "source_signal_available": false,
       "signals": {
-        "co_citation": 0.333,
+        "co_citation": 0.5,
         "source_overlap": null,
         "type_affinity": 0.5
       }
     },
     {
       "id": "e25",
+      "from": "tactile-representation",
+      "to": "2608.25798-tacforcing-streaming-action-generation-with-execution-time-tactile-feedback",
+      "type": "EXTRACTED",
+      "weight": 0.5,
+      "source_signal_available": false,
+      "signals": {
+        "co_citation": 0.5,
+        "source_overlap": null,
+        "type_affinity": 0.5
+      }
+    },
+    {
+      "id": "e26",
+      "from": "tactile-representation",
+      "to": "force-touch-robot-policy-review",
+      "type": "EXTRACTED",
+      "weight": 0.386,
+      "source_signal_available": false,
+      "signals": {
+        "co_citation": 0.273,
+        "source_overlap": null,
+        "type_affinity": 0.5
+      }
+    },
+    {
+      "id": "e27",
+      "from": "2409.11047-tacdiffusion-force-domain-diffusion-policy-for-precise-tactile-manipulation",
+      "to": "contact-rich-manipulation",
+      "type": "EXTRACTED",
+      "weight": 0.35,
+      "source_signal_available": false,
+      "signals": {
+        "co_citation": 0.2,
+        "source_overlap": null,
+        "type_affinity": 0.5
+      }
+    },
+    {
+      "id": "e28",
+      "from": "2409.11047-tacdiffusion-force-domain-diffusion-policy-for-precise-tactile-manipulation",
+      "to": "force-touch-robot-policy-review",
+      "type": "EXTRACTED",
+      "weight": 0.295,
+      "source_signal_available": false,
+      "signals": {
+        "co_citation": 0.091,
+        "source_overlap": null,
+        "type_affinity": 0.5
+      }
+    },
+    {
+      "id": "e29",
+      "from": "2509.07962-ta-vla-elucidating-the-design-space-of-torque-aware-vision-language-action-models",
+      "to": "contact-rich-manipulation",
+      "type": "EXTRACTED",
+      "weight": 0.35,
+      "source_signal_available": false,
+      "signals": {
+        "co_citation": 0.2,
+        "source_overlap": null,
+        "type_affinity": 0.5
+      }
+    },
+    {
+      "id": "e30",
+      "from": "2509.07962-ta-vla-elucidating-the-design-space-of-torque-aware-vision-language-action-models",
+      "to": "force-touch-robot-policy-review",
+      "type": "EXTRACTED",
+      "weight": 0.341,
+      "source_signal_available": false,
+      "signals": {
+        "co_citation": 0.182,
+        "source_overlap": null,
+        "type_affinity": 0.5
+      }
+    },
+    {
+      "id": "e31",
+      "from": "2605.11048-forceflow-learning-to-feel-and-act-via-contact-driven-flow-matching",
+      "to": "contact-rich-manipulation",
+      "type": "EXTRACTED",
+      "weight": 0.35,
+      "source_signal_available": false,
+      "signals": {
+        "co_citation": 0.2,
+        "source_overlap": null,
+        "type_affinity": 0.5
+      }
+    },
+    {
+      "id": "e32",
       "from": "2606.17846-qwen-robotmanip-alignment-unlocks-scale-for-robotic-manipulation-foundation-models",
       "to": "Vision-Language-Action",
       "type": "EXTRACTED",
@@ -669,7 +774,7 @@
       }
     },
     {
-      "id": "e26",
+      "id": "e33",
       "from": "2606.29948-heterogeneous-tactile-transformer",
       "to": "tactile-representation",
       "type": "EXTRACTED",
@@ -682,20 +787,20 @@
       }
     },
     {
-      "id": "e27",
+      "id": "e34",
       "from": "2606.29948-heterogeneous-tactile-transformer",
       "to": "force-touch-robot-policy-review",
       "type": "EXTRACTED",
-      "weight": 0.361,
+      "weight": 0.341,
       "source_signal_available": false,
       "signals": {
-        "co_citation": 0.222,
+        "co_citation": 0.182,
         "source_overlap": null,
         "type_affinity": 0.5
       }
     },
     {
-      "id": "e28",
+      "id": "e35",
       "from": "2606.30988-multisensory-continual-learning-adapting-pretrained-visuomotor-policies-to-force",
       "to": "Vision-Language-Action",
       "type": "EXTRACTED",
@@ -708,7 +813,7 @@
       }
     },
     {
-      "id": "e29",
+      "id": "e36",
       "from": "2606.30988-multisensory-continual-learning-adapting-pretrained-visuomotor-policies-to-force",
       "to": "tactile-representation",
       "type": "EXTRACTED",
@@ -721,20 +826,20 @@
       }
     },
     {
-      "id": "e30",
+      "id": "e37",
       "from": "2606.30988-multisensory-continual-learning-adapting-pretrained-visuomotor-policies-to-force",
       "to": "force-touch-robot-policy-review",
       "type": "EXTRACTED",
-      "weight": 0.361,
+      "weight": 0.341,
       "source_signal_available": false,
       "signals": {
-        "co_citation": 0.222,
+        "co_citation": 0.182,
         "source_overlap": null,
         "type_affinity": 0.5
       }
     },
     {
-      "id": "e31",
+      "id": "e38",
       "from": "2606.30988-multisensory-continual-learning-adapting-pretrained-visuomotor-policies-to-force",
       "to": "2606.29948-heterogeneous-tactile-transformer",
       "type": "EXTRACTED",
@@ -747,7 +852,7 @@
       }
     },
     {
-      "id": "e32",
+      "id": "e39",
       "from": "2606.30988-multisensory-continual-learning-adapting-pretrained-visuomotor-policies-to-force",
       "to": "t-rex-tactile-reactive-dexterous-manipulation",
       "type": "EXTRACTED",
@@ -760,7 +865,7 @@
       }
     },
     {
-      "id": "e33",
+      "id": "e40",
       "from": "2606.30988-multisensory-continual-learning-adapting-pretrained-visuomotor-policies-to-force",
       "to": "2608.25798-tacforcing-streaming-action-generation-with-execution-time-tactile-feedback",
       "type": "EXTRACTED",
@@ -773,7 +878,7 @@
       }
     },
     {
-      "id": "e34",
+      "id": "e41",
       "from": "2608.19613-what-matters-for-latent-actions-in-robot-learning",
       "to": "Vision-Language-Action",
       "type": "EXTRACTED",
@@ -786,7 +891,7 @@
       }
     },
     {
-      "id": "e35",
+      "id": "e42",
       "from": "2608.25798-tacforcing-streaming-action-generation-with-execution-time-tactile-feedback",
       "to": "Vision-Language-Action",
       "type": "EXTRACTED",
@@ -799,20 +904,20 @@
       }
     },
     {
-      "id": "e36",
+      "id": "e43",
       "from": "2608.25798-tacforcing-streaming-action-generation-with-execution-time-tactile-feedback",
       "to": "force-touch-robot-policy-review",
       "type": "EXTRACTED",
-      "weight": 0.417,
+      "weight": 0.386,
       "source_signal_available": false,
       "signals": {
-        "co_citation": 0.333,
+        "co_citation": 0.273,
         "source_overlap": null,
         "type_affinity": 0.5
       }
     },
     {
-      "id": "e37",
+      "id": "e44",
       "from": "2609.05832-cr-vla-force",
       "to": "Vision-Language-Action",
       "type": "EXTRACTED",
@@ -825,20 +930,20 @@
       }
     },
     {
-      "id": "e38",
+      "id": "e45",
       "from": "2609.05832-cr-vla-force",
       "to": "contact-rich-manipulation",
       "type": "EXTRACTED",
-      "weight": 0.417,
+      "weight": 0.35,
       "source_signal_available": false,
       "signals": {
-        "co_citation": 0.333,
+        "co_citation": 0.2,
         "source_overlap": null,
         "type_affinity": 0.5
       }
     },
     {
-      "id": "e39",
+      "id": "e46",
       "from": "2609.07398-openwam-an-open-modular-exploration-towards-systematic-world-action-model-pretraining",
       "to": "Vision-Language-Action",
       "type": "EXTRACTED",
@@ -851,7 +956,7 @@
       }
     },
     {
-      "id": "e40",
+      "id": "e47",
       "from": "attena-rectifying-action-inequality-in-robotic-foundation-models",
       "to": "Vision-Language-Action",
       "type": "EXTRACTED",
@@ -864,7 +969,7 @@
       }
     },
     {
-      "id": "e41",
+      "id": "e48",
       "from": "deximit-learning-bimanual-dexterous-manipulation-from-monocular-human-videos",
       "to": "Human Video Robot Data Generation",
       "type": "EXTRACTED",
@@ -877,7 +982,7 @@
       }
     },
     {
-      "id": "e42",
+      "id": "e49",
       "from": "deximit-learning-bimanual-dexterous-manipulation-from-monocular-human-videos",
       "to": "Human-to-Robot Transfer",
       "type": "EXTRACTED",
@@ -890,7 +995,7 @@
       }
     },
     {
-      "id": "e43",
+      "id": "e50",
       "from": "dexjoco-a-benchmark-and-toolkit-for-task-oriented-dexterous-manipulation-on-mujoco",
       "to": "Vision-Language-Action",
       "type": "EXTRACTED",
@@ -903,7 +1008,7 @@
       }
     },
     {
-      "id": "e44",
+      "id": "e51",
       "from": "dexjoco-a-benchmark-and-toolkit-for-task-oriented-dexterous-manipulation-on-mujoco",
       "to": "Human-to-Robot Transfer",
       "type": "EXTRACTED",
@@ -916,7 +1021,7 @@
       }
     },
     {
-      "id": "e45",
+      "id": "e52",
       "from": "dm05-open-world-embodied-foundation-model",
       "to": "Vision-Language-Action",
       "type": "EXTRACTED",
@@ -929,7 +1034,7 @@
       }
     },
     {
-      "id": "e46",
+      "id": "e53",
       "from": "emergence-of-human-to-robot-transfer-in-vision-language-action-models",
       "to": "Vision-Language-Action",
       "type": "EXTRACTED",
@@ -942,7 +1047,7 @@
       }
     },
     {
-      "id": "e47",
+      "id": "e54",
       "from": "emergence-of-human-to-robot-transfer-in-vision-language-action-models",
       "to": "Human-to-Robot Transfer",
       "type": "EXTRACTED",
@@ -955,7 +1060,7 @@
       }
     },
     {
-      "id": "e48",
+      "id": "e55",
       "from": "facet-0",
       "to": "Vision-Language-Action",
       "type": "EXTRACTED",
@@ -968,7 +1073,7 @@
       }
     },
     {
-      "id": "e49",
+      "id": "e56",
       "from": "fd-vla-force-distilled-vision-language-action-model-for-contact-rich-manipulation",
       "to": "Vision-Language-Action",
       "type": "EXTRACTED",
@@ -981,7 +1086,7 @@
       }
     },
     {
-      "id": "e50",
+      "id": "e57",
       "from": "fm-vla-force-based-memory-for-vision-language-action-models-in-contact-rich-manipulation",
       "to": "Long-Horizon Memory for Robot Policies",
       "type": "EXTRACTED",
@@ -994,7 +1099,7 @@
       }
     },
     {
-      "id": "e51",
+      "id": "e58",
       "from": "ge-act-2-0-pretraining-and-scaling-a-world-action-model-for-robotic-manipulation",
       "to": "Vision-Language-Action",
       "type": "EXTRACTED",
@@ -1007,100 +1112,9 @@
       }
     },
     {
-      "id": "e52",
-      "from": "mem-multi-scale-embodied-memory-for-vision-language-action-models",
-      "to": "Vision-Language-Action",
-      "type": "EXTRACTED",
-      "weight": 0.25,
-      "source_signal_available": false,
-      "signals": {
-        "co_citation": 0,
-        "source_overlap": null,
-        "type_affinity": 0.5
-      }
-    },
-    {
-      "id": "e53",
-      "from": "mem-multi-scale-embodied-memory-for-vision-language-action-models",
-      "to": "Long-Horizon Memory for Robot Policies",
-      "type": "EXTRACTED",
-      "weight": 0.25,
-      "source_signal_available": false,
-      "signals": {
-        "co_citation": 0,
-        "source_overlap": null,
-        "type_affinity": 0.5
-      }
-    },
-    {
-      "id": "e54",
-      "from": "motus2-a-self-evolving-general-world-model-for-dexterous-manipulation",
-      "to": "Vision-Language-Action",
-      "type": "EXTRACTED",
-      "weight": 0.25,
-      "source_signal_available": false,
-      "signals": {
-        "co_citation": 0,
-        "source_overlap": null,
-        "type_affinity": 0.5
-      }
-    },
-    {
-      "id": "e55",
-      "from": "motus2-a-self-evolving-general-world-model-for-dexterous-manipulation",
-      "to": "Long-Horizon Memory for Robot Policies",
-      "type": "EXTRACTED",
-      "weight": 0.25,
-      "source_signal_available": false,
-      "signals": {
-        "co_citation": 0,
-        "source_overlap": null,
-        "type_affinity": 0.5
-      }
-    },
-    {
-      "id": "e56",
-      "from": "openvla-an-open-source-vision-language-action-model",
-      "to": "Vision-Language-Action",
-      "type": "EXTRACTED",
-      "weight": 0.25,
-      "source_signal_available": false,
-      "signals": {
-        "co_citation": 0,
-        "source_overlap": null,
-        "type_affinity": 0.5
-      }
-    },
-    {
-      "id": "e57",
-      "from": "pi07-a-steerable-generalist-robotic-foundation-model-with-emergent-capabilities",
-      "to": "Vision-Language-Action",
-      "type": "EXTRACTED",
-      "weight": 0.25,
-      "source_signal_available": false,
-      "signals": {
-        "co_citation": 0,
-        "source_overlap": null,
-        "type_affinity": 0.5
-      }
-    },
-    {
-      "id": "e58",
-      "from": "pi07-a-steerable-generalist-robotic-foundation-model-with-emergent-capabilities",
-      "to": "Online RL for VLA",
-      "type": "EXTRACTED",
-      "weight": 0.25,
-      "source_signal_available": false,
-      "signals": {
-        "co_citation": 0,
-        "source_overlap": null,
-        "type_affinity": 0.5
-      }
-    },
-    {
       "id": "e59",
-      "from": "pi07-a-steerable-generalist-robotic-foundation-model-with-emergent-capabilities",
-      "to": "Long-Horizon Memory for Robot Policies",
+      "from": "mem-multi-scale-embodied-memory-for-vision-language-action-models",
+      "to": "Vision-Language-Action",
       "type": "EXTRACTED",
       "weight": 0.25,
       "source_signal_available": false,
@@ -1112,8 +1126,8 @@
     },
     {
       "id": "e60",
-      "from": "pi07-a-steerable-generalist-robotic-foundation-model-with-emergent-capabilities",
-      "to": "Human-to-Robot Transfer",
+      "from": "mem-multi-scale-embodied-memory-for-vision-language-action-models",
+      "to": "Long-Horizon Memory for Robot Policies",
       "type": "EXTRACTED",
       "weight": 0.25,
       "source_signal_available": false,
@@ -1125,7 +1139,7 @@
     },
     {
       "id": "e61",
-      "from": "rl-token-bootstrapping-online-rl-with-vision-language-action-models",
+      "from": "motus2-a-self-evolving-general-world-model-for-dexterous-manipulation",
       "to": "Vision-Language-Action",
       "type": "EXTRACTED",
       "weight": 0.25,
@@ -1138,8 +1152,8 @@
     },
     {
       "id": "e62",
-      "from": "rl-token-bootstrapping-online-rl-with-vision-language-action-models",
-      "to": "Online RL for VLA",
+      "from": "motus2-a-self-evolving-general-world-model-for-dexterous-manipulation",
+      "to": "Long-Horizon Memory for Robot Policies",
       "type": "EXTRACTED",
       "weight": 0.25,
       "source_signal_available": false,
@@ -1151,7 +1165,7 @@
     },
     {
       "id": "e63",
-      "from": "steam-self-supervised-temporal-ensemble-advantage-modeling-for-real-world-robot-learning",
+      "from": "openvla-an-open-source-vision-language-action-model",
       "to": "Vision-Language-Action",
       "type": "EXTRACTED",
       "weight": 0.25,
@@ -1164,6 +1178,97 @@
     },
     {
       "id": "e64",
+      "from": "pi07-a-steerable-generalist-robotic-foundation-model-with-emergent-capabilities",
+      "to": "Vision-Language-Action",
+      "type": "EXTRACTED",
+      "weight": 0.25,
+      "source_signal_available": false,
+      "signals": {
+        "co_citation": 0,
+        "source_overlap": null,
+        "type_affinity": 0.5
+      }
+    },
+    {
+      "id": "e65",
+      "from": "pi07-a-steerable-generalist-robotic-foundation-model-with-emergent-capabilities",
+      "to": "Online RL for VLA",
+      "type": "EXTRACTED",
+      "weight": 0.25,
+      "source_signal_available": false,
+      "signals": {
+        "co_citation": 0,
+        "source_overlap": null,
+        "type_affinity": 0.5
+      }
+    },
+    {
+      "id": "e66",
+      "from": "pi07-a-steerable-generalist-robotic-foundation-model-with-emergent-capabilities",
+      "to": "Long-Horizon Memory for Robot Policies",
+      "type": "EXTRACTED",
+      "weight": 0.25,
+      "source_signal_available": false,
+      "signals": {
+        "co_citation": 0,
+        "source_overlap": null,
+        "type_affinity": 0.5
+      }
+    },
+    {
+      "id": "e67",
+      "from": "pi07-a-steerable-generalist-robotic-foundation-model-with-emergent-capabilities",
+      "to": "Human-to-Robot Transfer",
+      "type": "EXTRACTED",
+      "weight": 0.25,
+      "source_signal_available": false,
+      "signals": {
+        "co_citation": 0,
+        "source_overlap": null,
+        "type_affinity": 0.5
+      }
+    },
+    {
+      "id": "e68",
+      "from": "rl-token-bootstrapping-online-rl-with-vision-language-action-models",
+      "to": "Vision-Language-Action",
+      "type": "EXTRACTED",
+      "weight": 0.25,
+      "source_signal_available": false,
+      "signals": {
+        "co_citation": 0,
+        "source_overlap": null,
+        "type_affinity": 0.5
+      }
+    },
+    {
+      "id": "e69",
+      "from": "rl-token-bootstrapping-online-rl-with-vision-language-action-models",
+      "to": "Online RL for VLA",
+      "type": "EXTRACTED",
+      "weight": 0.25,
+      "source_signal_available": false,
+      "signals": {
+        "co_citation": 0,
+        "source_overlap": null,
+        "type_affinity": 0.5
+      }
+    },
+    {
+      "id": "e70",
+      "from": "steam-self-supervised-temporal-ensemble-advantage-modeling-for-real-world-robot-learning",
+      "to": "Vision-Language-Action",
+      "type": "EXTRACTED",
+      "weight": 0.25,
+      "source_signal_available": false,
+      "signals": {
+        "co_citation": 0,
+        "source_overlap": null,
+        "type_affinity": 0.5
+      }
+    },
+    {
+      "id": "e71",
       "from": "steam-self-supervised-temporal-ensemble-advantage-modeling-for-real-world-robot-learning",
       "to": "Online RL for VLA",
       "type": "EXTRACTED",
@@ -1176,7 +1281,7 @@
       }
     },
     {
-      "id": "e65",
+      "id": "e72",
       "from": "t-rex-tactile-reactive-dexterous-manipulation",
       "to": "Vision-Language-Action",
       "type": "EXTRACTED",
@@ -1189,20 +1294,20 @@
       }
     },
     {
-      "id": "e66",
+      "id": "e73",
       "from": "t-rex-tactile-reactive-dexterous-manipulation",
       "to": "force-touch-robot-policy-review",
       "type": "EXTRACTED",
-      "weight": 0.417,
+      "weight": 0.386,
       "source_signal_available": false,
       "signals": {
-        "co_citation": 0.333,
+        "co_citation": 0.273,
         "source_overlap": null,
         "type_affinity": 0.5
       }
     },
     {
-      "id": "e67",
+      "id": "e74",
       "from": "tactile-genesis-exploring-tactile-sensors-at-scale-for-learning-dexterous-tasks",
       "to": "tactile-representation",
       "type": "EXTRACTED",
@@ -1215,20 +1320,20 @@
       }
     },
     {
-      "id": "e68",
+      "id": "e75",
       "from": "tactile-genesis-exploring-tactile-sensors-at-scale-for-learning-dexterous-tasks",
       "to": "force-touch-robot-policy-review",
       "type": "EXTRACTED",
-      "weight": 0.306,
+      "weight": 0.295,
       "source_signal_available": false,
       "signals": {
-        "co_citation": 0.111,
+        "co_citation": 0.091,
         "source_overlap": null,
         "type_affinity": 0.5
       }
     },
     {
-      "id": "e69",
+      "id": "e76",
       "from": "current-vla-landscape-foundation-control-memory-and-transfer",
       "to": "Vision-Language-Action",
       "type": "EXTRACTED",
@@ -1241,7 +1346,7 @@
       }
     },
     {
-      "id": "e70",
+      "id": "e77",
       "from": "current-vla-landscape-foundation-control-memory-and-transfer",
       "to": "Human Video Robot Data Generation",
       "type": "EXTRACTED",
@@ -1254,20 +1359,20 @@
       }
     },
     {
-      "id": "e71",
+      "id": "e78",
       "from": "force-touch-robot-policy-review",
       "to": "2606.30988-multisensory-continual-learning-adapting-pretrained-visuomotor-policies-to-force",
       "type": "EXTRACTED",
-      "weight": 0.361,
+      "weight": 0.341,
       "source_signal_available": false,
       "signals": {
-        "co_citation": 0.222,
+        "co_citation": 0.182,
         "source_overlap": null,
         "type_affinity": 0.5
       }
     },
     {
-      "id": "e72",
+      "id": "e79",
       "from": "force-touch-robot-policy-review",
       "to": "2503.02881-reactive-diffusion-policy-slow-fast-visual-tactile-policy-learning-for-contact-rich-manipulation",
       "type": "EXTRACTED",
@@ -1280,7 +1385,7 @@
       }
     },
     {
-      "id": "e73",
+      "id": "e80",
       "from": "force-touch-robot-policy-review",
       "to": "foar-force-aware-reactive-policy-for-contact-rich-robotic-manipulation",
       "type": "EXTRACTED",
@@ -1293,7 +1398,7 @@
       }
     },
     {
-      "id": "e74",
+      "id": "e81",
       "from": "force-touch-robot-policy-review",
       "to": "2605.11048-forceflow-learning-to-feel-and-act-via-contact-driven-flow-matching",
       "type": "EXTRACTED",
@@ -1306,7 +1411,7 @@
       }
     },
     {
-      "id": "e75",
+      "id": "e82",
       "from": "force-touch-robot-policy-review",
       "to": "fm-vla-force-based-memory-for-vision-language-action-models-in-contact-rich-manipulation",
       "type": "EXTRACTED",
@@ -1319,7 +1424,20 @@
       }
     },
     {
-      "id": "e76",
+      "id": "e83",
+      "from": "force-touch-robot-policy-review",
+      "to": "2509.07962-ta-vla-elucidating-the-design-space-of-torque-aware-vision-language-action-models",
+      "type": "EXTRACTED",
+      "weight": 0.341,
+      "source_signal_available": false,
+      "signals": {
+        "co_citation": 0.182,
+        "source_overlap": null,
+        "type_affinity": 0.5
+      }
+    },
+    {
+      "id": "e84",
       "from": "force-touch-robot-policy-review",
       "to": "fd-vla-force-distilled-vision-language-action-model-for-contact-rich-manipulation",
       "type": "EXTRACTED",
@@ -1332,7 +1450,7 @@
       }
     },
     {
-      "id": "e77",
+      "id": "e85",
       "from": "force-touch-robot-policy-review",
       "to": "facet-0",
       "type": "EXTRACTED",
@@ -1345,7 +1463,7 @@
       }
     },
     {
-      "id": "e78",
+      "id": "e86",
       "from": "force-touch-robot-policy-review",
       "to": "adaptive-compliance-policy-learning-approximate-compliance-for-diffusion-guided-control",
       "type": "EXTRACTED",
@@ -1358,7 +1476,7 @@
       }
     },
     {
-      "id": "e79",
+      "id": "e87",
       "from": "force-touch-robot-policy-review",
       "to": "2410.07554-forcemimic-force-centric-imitation-learning-with-force-motion-capture-system-for-contact-rich-manipulation",
       "type": "EXTRACTED",
@@ -1371,92 +1489,105 @@
       }
     },
     {
-      "id": "e80",
+      "id": "e88",
       "from": "force-touch-robot-policy-review",
       "to": "2609.05832-cr-vla-force",
       "type": "EXTRACTED",
-      "weight": 0.361,
+      "weight": 0.341,
       "source_signal_available": false,
       "signals": {
-        "co_citation": 0.222,
+        "co_citation": 0.182,
         "source_overlap": null,
         "type_affinity": 0.5
       }
     },
     {
-      "id": "e81",
+      "id": "e89",
+      "from": "force-touch-robot-policy-review",
+      "to": "2409.11047-tacdiffusion-force-domain-diffusion-policy-for-precise-tactile-manipulation",
+      "type": "EXTRACTED",
+      "weight": 0.295,
+      "source_signal_available": false,
+      "signals": {
+        "co_citation": 0.091,
+        "source_overlap": null,
+        "type_affinity": 0.5
+      }
+    },
+    {
+      "id": "e90",
       "from": "force-touch-robot-policy-review",
       "to": "tactile-genesis-exploring-tactile-sensors-at-scale-for-learning-dexterous-tasks",
       "type": "EXTRACTED",
-      "weight": 0.306,
+      "weight": 0.295,
       "source_signal_available": false,
       "signals": {
-        "co_citation": 0.111,
+        "co_citation": 0.091,
         "source_overlap": null,
         "type_affinity": 0.5
       }
     },
     {
-      "id": "e82",
+      "id": "e91",
       "from": "force-touch-robot-policy-review",
       "to": "2606.29948-heterogeneous-tactile-transformer",
       "type": "EXTRACTED",
-      "weight": 0.361,
+      "weight": 0.341,
       "source_signal_available": false,
       "signals": {
-        "co_citation": 0.222,
+        "co_citation": 0.182,
         "source_overlap": null,
         "type_affinity": 0.5
       }
     },
     {
-      "id": "e83",
+      "id": "e92",
       "from": "force-touch-robot-policy-review",
       "to": "t-rex-tactile-reactive-dexterous-manipulation",
       "type": "EXTRACTED",
-      "weight": 0.417,
+      "weight": 0.386,
       "source_signal_available": false,
       "signals": {
-        "co_citation": 0.333,
+        "co_citation": 0.273,
         "source_overlap": null,
         "type_affinity": 0.5
       }
     },
     {
-      "id": "e84",
+      "id": "e93",
       "from": "force-touch-robot-policy-review",
       "to": "2608.25798-tacforcing-streaming-action-generation-with-execution-time-tactile-feedback",
       "type": "EXTRACTED",
-      "weight": 0.417,
+      "weight": 0.386,
       "source_signal_available": false,
       "signals": {
-        "co_citation": 0.333,
+        "co_citation": 0.273,
         "source_overlap": null,
         "type_affinity": 0.5
       }
     },
     {
-      "id": "e85",
+      "id": "e94",
       "from": "force-touch-robot-policy-review",
       "to": "tactile-representation",
       "type": "EXTRACTED",
-      "weight": 0.417,
+      "weight": 0.386,
       "source_signal_available": false,
       "signals": {
-        "co_citation": 0.333,
+        "co_citation": 0.273,
         "source_overlap": null,
         "type_affinity": 0.5
       }
     },
     {
-      "id": "e86",
+      "id": "e95",
       "from": "force-touch-robot-policy-review",
       "to": "contact-rich-manipulation",
       "type": "EXTRACTED",
-      "weight": 0.25,
+      "weight": 0.341,
       "source_signal_available": false,
       "signals": {
-        "co_citation": 0,
+        "co_citation": 0.182,
         "source_overlap": null,
         "type_affinity": 0.5
       }
@@ -1564,6 +1695,16 @@
     ],
     "bridge_nodes": [
       {
+        "id": "2509.07962-ta-vla-elucidating-the-design-space-of-torque-aware-vision-language-action-models",
+        "label": "TA-VLA: Elucidating the Design Space of Torque-aware Vision-Language-Action Models",
+        "community": "contact-rich-manipulation",
+        "connected_communities": [
+          "Vision-Language-Action",
+          "force-touch-robot-policy-review"
+        ],
+        "community_count": 2
+      },
+      {
         "id": "2606.30988-multisensory-continual-learning-adapting-pretrained-visuomotor-policies-to-force",
         "label": "Multisensory Continual Learning: Adapting Pretrained Visuomotor Policies to Force",
         "community": "tactile-representation",
@@ -1665,8 +1806,8 @@
     "sparse_communities": [],
     "meta": {
       "degraded": false,
-      "node_count": 43,
-      "edge_count": 86,
+      "node_count": 45,
+      "edge_count": 95,
       "max_insight_nodes": 250,
       "max_insight_edges": 1000
     }
@@ -1718,15 +1859,17 @@
           "force-touch-robot-policy-review",
           "tactile-representation",
           "2606.30988-multisensory-continual-learning-adapting-pretrained-visuomotor-policies-to-force",
+          "contact-rich-manipulation",
           "Human-to-Robot Transfer",
           "Long-Horizon Memory for Robot Policies",
           "2608.25798-tacforcing-streaming-action-generation-with-execution-time-tactile-feedback",
           "t-rex-tactile-reactive-dexterous-manipulation",
+          "2509.07962-ta-vla-elucidating-the-design-space-of-torque-aware-vision-language-action-models",
           "2606.29948-heterogeneous-tactile-transformer",
           "2609.05832-cr-vla-force",
-          "contact-rich-manipulation",
           "Human Video Robot Data Generation",
           "Online RL for VLA",
+          "2409.11047-tacdiffusion-force-domain-diffusion-policy-for-precise-tactile-manipulation",
           "pi07-a-steerable-generalist-robotic-foundation-model-with-emergent-capabilities",
           "tactile-genesis-exploring-tactile-sensors-at-scale-for-learning-dexterous-tasks",
           "2605.11048-forceflow-learning-to-feel-and-act-via-contact-driven-flow-matching",
@@ -1803,6 +1946,16 @@
         "recommended_start_node_id": "Human-to-Robot Transfer"
       },
       {
+        "id": "contact-rich-manipulation",
+        "label": "Contact-Rich Manipulation and Adaptive Compliance",
+        "node_count": 5,
+        "source_count": 4,
+        "internal_edge_weight": 2.45,
+        "is_primary": false,
+        "is_weak": false,
+        "recommended_start_node_id": "contact-rich-manipulation"
+      },
+      {
         "id": "Long-Horizon Memory for Robot Policies",
         "label": "Long-Horizon Memory for Robot Policies",
         "node_count": 4,
@@ -1821,16 +1974,6 @@
         "is_primary": false,
         "is_weak": false,
         "recommended_start_node_id": "Online RL for VLA"
-      },
-      {
-        "id": "contact-rich-manipulation",
-        "label": "Contact-Rich Manipulation and Adaptive Compliance",
-        "node_count": 3,
-        "source_count": 2,
-        "internal_edge_weight": 1.251,
-        "is_primary": false,
-        "is_weak": false,
-        "recommended_start_node_id": "2609.05832-cr-vla-force"
       }
     ],
     "degraded": {
