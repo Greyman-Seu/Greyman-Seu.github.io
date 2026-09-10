@@ -129,6 +129,11 @@
   },
   "figureGallery": [
     {
+      "zone": "intuition",
+      "caption": "DexJoCo overview",
+      "src": "https://arxiv.org/html/2605.16257v1/x1.png"
+    },
+    {
       "zone": "method",
       "caption": "DexJoCo pipeline",
       "src": "https://arxiv.org/html/2605.16257v1/x2.png"

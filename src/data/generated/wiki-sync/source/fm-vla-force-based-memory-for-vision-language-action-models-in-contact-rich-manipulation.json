@@ -150,6 +150,11 @@
   },
   "figureGallery": [
     {
+      "zone": "intuition",
+      "caption": "FM-VLA 两阶段架构总览",
+      "src": "https://arxiv.org/html/2607.18231v1/overview1.png"
+    },
+    {
       "zone": "method",
       "caption": "FM-VLA 的 Force-VAE 与记忆 token 注入流程",
       "src": "https://arxiv.org/html/2607.18231v1/overview1.png"

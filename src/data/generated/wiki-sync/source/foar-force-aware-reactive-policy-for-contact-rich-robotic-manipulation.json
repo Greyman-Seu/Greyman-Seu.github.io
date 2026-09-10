@@ -131,6 +131,11 @@
   },
   "figureGallery": [
     {
+      "zone": "intuition",
+      "caption": "主要图",
+      "src": "https://arxiv.org/html/2411.15753v2/teaser.png"
+    },
+    {
       "zone": "method",
       "caption": "方法图",
       "src": "https://arxiv.org/html/2411.15753v2/model.png"

@@ -143,6 +143,11 @@
   },
   "figureGallery": [
     {
+      "zone": "intuition",
+      "caption": "AttenA+ 总览",
+      "src": "https://followhub.tenstep.top/papers/attena-rectifying-action-inequality-in-robotic-foundation-models/figure-hero.png"
+    },
+    {
       "zone": "method",
       "caption": "速度场与关键动作",
       "src": "https://followhub.tenstep.top/papers/attena-rectifying-action-inequality-in-robotic-foundation-models/figure-method.png"

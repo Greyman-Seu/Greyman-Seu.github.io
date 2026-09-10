@@ -127,6 +127,11 @@
   },
   "figureGallery": [
     {
+      "zone": "intuition",
+      "caption": "主要图",
+      "src": "https://arxiv.org/html/2606.30988v3/teaser-v11.png"
+    },
+    {
       "zone": "method",
       "caption": "方法图",
       "src": "https://arxiv.org/html/2606.30988v3/method_4.png"

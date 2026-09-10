@@ -156,6 +156,11 @@
   },
   "figureGallery": [
     {
+      "zone": "intuition",
+      "caption": "FD-VLA 训练与无力传感器推理流程",
+      "src": "https://arxiv.org/html/2602.02142v2/overview.png"
+    },
+    {
       "zone": "method",
       "caption": "FD-VLA 的 Force Distillation Module 与定向多模态融合",
       "src": "https://arxiv.org/html/2602.02142v2/overview.png"

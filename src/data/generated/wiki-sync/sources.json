@@ -125,6 +125,11 @@
     },
     "figureGallery": [
       {
+        "zone": "intuition",
+        "caption": "主要图",
+        "src": "https://arxiv.org/html/2410.07554v3/pipeline.png"
+      },
+      {
         "zone": "method",
         "caption": "方法图",
         "src": "https://arxiv.org/html/2410.07554v3/pipeline.png"
@@ -314,6 +319,16 @@
       ]
     },
     "figureGallery": [
+      {
+        "zone": "intuition",
+        "caption": "图 1：TactAR 数据采集系统与 RDP 快慢策略总览",
+        "src": "https://arxiv.org/html/2503.02881v3/teaser.png"
+      },
+      {
+        "zone": "background",
+        "caption": "图 5：普通动作块、时间集成、RDP 快慢闭环和人类控制模式对比",
+        "src": "https://arxiv.org/html/2503.02881v3/pipeline_comparison.png"
+      },
       {
         "zone": "method",
         "caption": "图 6：RDP 训练与推理架构",
@@ -524,6 +539,11 @@
     },
     "figureGallery": [
       {
+        "zone": "intuition",
+        "caption": "ForceFlow 总览：V2F 将视觉定位与力驱动接触执行分成两个阶段",
+        "src": "https://arxiv.org/html/2605.11048v2/motivation.png"
+      },
+      {
         "zone": "method",
         "caption": "ForceFlow 架构：力与本体状态走 AdaLN，视觉走 cross-attention",
         "src": "https://arxiv.org/html/2605.11048v2/1.png"
@@ -689,6 +709,11 @@
     },
     "figureGallery": [
       {
+        "zone": "intuition",
+        "caption": "主要图",
+        "src": "https://arxiv.org/html/2606.17046v2/teaser3.png"
+      },
+      {
         "zone": "method",
         "caption": "方法图",
         "src": "https://arxiv.org/html/2606.17046v2/arch3.png"
@@ -847,6 +872,11 @@
       ]
     },
     "figureGallery": [
+      {
+        "zone": "intuition",
+        "caption": "Qwen-RobotManip 总览：数据规模化、三层对齐、OOD 与真实机器人验证",
+        "src": "https://arxiv.org/html/2606.17846v2/myteaser_V6.png"
+      },
       {
         "zone": "method",
         "caption": "Qwen-RobotManip 模型结构与三层对齐",
@@ -1013,6 +1043,11 @@
     },
     "figureGallery": [
       {
+        "zone": "intuition",
+        "caption": "架构总览",
+        "src": "https://arxiv.org/html/2606.29948v1/x1.png"
+      },
+      {
         "zone": "method",
         "caption": "方法细节与数据集",
         "src": "https://arxiv.org/html/2606.29948v1/x2.png"
@@ -1150,6 +1185,11 @@
       ]
     },
     "figureGallery": [
+      {
+        "zone": "intuition",
+        "caption": "主要图",
+        "src": "https://arxiv.org/html/2606.30988v3/teaser-v11.png"
+      },
       {
         "zone": "method",
         "caption": "方法图",
@@ -1469,6 +1509,11 @@
     },
     "figureGallery": [
       {
+        "zone": "intuition",
+        "caption": "主要图",
+        "src": "https://arxiv.org/html/2608.25798v1/Framwork.png"
+      },
+      {
         "zone": "method",
         "caption": "方法图",
         "src": "https://arxiv.org/html/2608.25798v1/Framwork.png"
@@ -1487,6 +1532,430 @@
     "relatedTopicSlugs": [
       "vision-language-action",
       "tactile-representation"
+    ]
+  },
+  {
+    "slug": "2609.05832-cr-vla-force",
+    "title": "CR-VLA-Force: Learning Control-aware Compliance VLA Model for Robust Contact-rich Robotic Manipulation",
+    "sourceType": "paper",
+    "sourceUrl": "https://arxiv.org/abs/2609.05832",
+    "htmlUrl": "https://arxiv.org/html/2609.05832v1",
+    "pdfUrl": "https://arxiv.org/pdf/2609.05832",
+    "codeUrl": "",
+    "translationUrl": "https://hjfy.top/arxiv/2609.05832",
+    "publishDate": "2026-09-05",
+    "authors": [
+      "Zhaohong Mai",
+      "Chao Wang",
+      "Chao Zeng",
+      "Sitong Mao",
+      "Heng Zhang",
+      "Shunbo Zhou",
+      "Chenguang Yang"
+    ],
+    "affiliation": "Huawei Technologies Co., Ltd.",
+    "relatedOrganizations": [
+      "Huawei Technologies Co., Ltd.",
+      "South China University of Technology",
+      "Ola Dimensions",
+      "The Hong Kong Polytechnic University"
+    ],
+    "relatedCompanies": [
+      "Huawei",
+      "Ola Dimensions"
+    ],
+    "keywords": [
+      "force-torque sensing",
+      "adaptive compliance control",
+      "vision-language-action"
+    ],
+    "primaryDomainSlug": "physical-embodied-intelligence",
+    "domainSlugs": [
+      "physical-embodied-intelligence"
+    ],
+    "heroImage": "https://arxiv.org/html/2609.05832v1/overall_structure2.png",
+    "tldr": "CR-VLA-Force 的真正贡献不是再给 VLA 增加一个力觉输入，而是把 1 Hz 的慢速 VLA 与 500 Hz 的自适应柔顺控制器组成分层闭环：模型联合预测位姿和前馈力，控制器用实时力误差连续调刚度。六个力觉/接触条件平均成功率达到 89.2%，高于 ForceVLA 的 73.2%；擦板 40 N 跟踪误差降到 5.52%（base）和 8.78%（OOD）。但它的泛化证据仅覆盖单台 UR5e、四类任务与有限位姿偏移，“安全”主要来自工程控制约束而非整个学习系统的形式化保证。",
+    "intuition": "可以把系统理解为“慢脑 + 快反射”：慢脑每秒读取双视角图像、语言、机器人状态和一段力历史，规划未来 40 步的位姿、夹爪与期望力；快反射把离散动作插值成连续命令，并在 500 Hz 下根据实测力与期望力的偏差调节刚度。这样，即使视觉位姿估错几毫米，机器人也不必等下一次 VLA 推理才卸力，而能先由低层柔顺回路避免把误差放大成危险接触。\n\n![CC-VLA 慢速策略与高频柔顺控制器组成的分层系统](https://arxiv.org/html/2609.05832v1/overall_structure2.png)\n\n*图 1：上层 CC-VLA 融合视觉、语言、本体状态与历史力，生成位姿和前馈力动作块；下层 VG-ACC 以 300-500 Hz 跟踪连续化后的参考位姿与期望力。*",
+    "abstractEn": "Integrating visuomotor policies or Vision-Language-Action (VLA) models with force/torque (F/T) perception has demonstrated significant progress in imitation learning for robotic manipulation. However, existing force-aware VLA models frequently exhibit limited capability in precise force tracking and rapid successive adjustments. This deficiency stems from the limitations of action-chunk execution strategies and the substantial latency between perception and real-time control. Such limitations can lead to task failures and safety risks, particularly when the execution of an action chunk exerts excessive interaction forces without timely adjustment. To overcome this challenge, we propose the Control-aware Compliance VLA (CC-VLA) framework for reactive control. The CC-VLA model employs a multimodal mixture-of-experts (MoE) to encode force signal sequences and vision-language fused feature. Furthermore, it utilizes a multi-stage training strategy to ensure robust perception within the visual-semantic space and effective force perception under sparse sampling conditions. Additionally, a VLA-guided adaptive compliance controller is designed to facilitate precise position tracking during contact-free motion and optimal force-position tracking for contact-rich tasks. To facilitate high-precision F/T data acquisition, we also implement an adversaria shared teleoperation strategy for contact-rich demonstrations that bolsters system safety and interactivity. Extensive real-world experiments demonstrate that CC-VLA significantly improves success rates in challenging force-perception tasks and enhances force-control precision, while providing multi-level safety and robustness under the tested partial-OOD pose-shift settings.",
+    "abstractZh": "将视觉运动策略或视觉-语言-动作模型与力/力矩感知结合，已经推动了机器人模仿学习，但现有力感知 VLA 往往难以精确跟踪作用力并快速连续调整。根因在于动作块一次生成、分段执行，以及感知推理与实时控制之间的明显延迟；当一个动作块持续施加过大的交互力而无法及时修正时，会带来任务失败和安全风险。本文提出用于反应式控制的控制感知柔顺 VLA（CC-VLA）：以多模态混合专家编码力序列和视觉-语言融合特征，用多阶段训练保护视觉语义感知并学习稀疏采样下的力觉，再由 VLA 引导的自适应柔顺控制器兼顾自由空间的位置跟踪与接触任务的力位跟踪。作者还设计了面向高精度力/力矩示范采集的共享遥操作方法。真实机器人实验显示，CC-VLA 提升了困难力觉任务的成功率和力控制精度，并在论文测试的部分 OOD 位姿偏移下保持多层安全性与鲁棒性。",
+    "background": "**动机：** 接触密集操作同时要求几何精度、足够作用力和碰撞时的让步能力。纯位置 VLA 通常以低频观测生成较长动作块，接触后的新力信号要等下一轮推理才能改变计划；在插头错位、窗框约束或擦拭法向变化时，几毫米误差就可能被刚性位置控制放大成过载。真正可部署的系统需要把 VLA 的语义与泛化能力同高频、稳定、可约束的柔顺控制连接起来。\n\n**问题缺口：** ForceVLA、TA-VLA 等方法虽然已把力或力矩加入 VLA，却主要仍以位置动作块为执行接口：低频模型难以跟踪精确期望力，也难以在一个动作块内部对连续接触变化作出反应。另一方面，视觉与力在维度、噪声、稀疏性和时间尺度上高度不平衡，过早或直接融合容易让视觉压过力信号，或让力噪声破坏预训练视觉语义。论文要补的是模型融合、动作接口和低层控制三者之间的系统缺口。",
+    "backgroundMotivation": "接触密集操作同时要求几何精度、足够作用力和碰撞时的让步能力。纯位置 VLA 通常以低频观测生成较长动作块，接触后的新力信号要等下一轮推理才能改变计划；在插头错位、窗框约束或擦拭法向变化时，几毫米误差就可能被刚性位置控制放大成过载。真正可部署的系统需要把 VLA 的语义与泛化能力同高频、稳定、可约束的柔顺控制连接起来。",
+    "backgroundGap": "ForceVLA、TA-VLA 等方法虽然已把力或力矩加入 VLA，却主要仍以位置动作块为执行接口：低频模型难以跟踪精确期望力，也难以在一个动作块内部对连续接触变化作出反应。另一方面，视觉与力在维度、噪声、稀疏性和时间尺度上高度不平衡，过早或直接融合容易让视觉压过力信号，或让力噪声破坏预训练视觉语义。论文要补的是模型融合、动作接口和低层控制三者之间的系统缺口。",
+    "method": "**方法概述：** CC-VLA 是一个建立在 pi0 上的慢快分层系统：上层以 PaliGemma、flow-based action expert、历史力序列编码器和稀疏 MoE 联合产生位姿、夹爪和前馈力动作块；下层将动作块异步插值到高频命令，并依据力跟踪误差在线调节笛卡尔刚度。训练先建立视觉、语言、本体和动作对齐，再把力融合专家作为残差分支加入，以减少视觉主导与力噪声对基础空间能力的干扰。\n\n**核心机制：** 上层观测包含双视角 RGB、语言指令、13 维本体状态（TCP 位姿、夹爪宽度与当前六维力）以及历史六维力序列；pi0 的 flow action expert 输出长度 40 的 13 维动作块，其中每步同时含位姿、夹爪和期望力。历史力先分段，经共享 MLP patch encoder 与时间位置编码，再由可学习 force token 通过 cross-attention 汇聚；第二阶段的稀疏 MoE 把它作为对视觉策略的残差修正。下层把离散位姿在位置空间和 SO(3) 上连续插值，以实测力减期望力形成误差；当误差幅值恶化时降低刚度、改善时提高刚度，步长与当前误差成比例，并经过低通、上下界投影、临界阻尼设置和刚度变化率约束，在 500 Hz 形成力位闭环。\n\n**方法拆解：**\n\n- 共享遥操作采集：在非力反馈输入设备与位置控制 UR5e 之间加入补偿虚拟阻抗，使机器人感受到的等效环境刚度低于真实环境，降低接触示教中的保护停机，并记录真实执行位姿和六维力。\n- 第一阶段视觉策略学习：微调 pi0，并用 block-wise attention mask 对齐视觉、语言、本体与动作空间，先建立不依赖噪声力信号的空间感知和一般操作能力。\n- 历史力序列编码：把推理间隔内的力/力矩序列切成连续 patch，共享 MLP 捕捉局部力矩耦合与变化趋势，时间位置编码保留顺序，可学习 force token 汇总接触建立、丢失、峰值和导数信息。\n- 第二阶段 MoE 残差融合：加入四专家稀疏跨模态分支，让不同任务阶段依据高层指令与低层交互反馈动态路由；训练力分支去细化既有视觉动作轨迹，而不是与视觉主干从头竞争。\n- VLA 引导的柔顺执行：将动作块异步插值到控制频率，位姿作为参考轨迹、预测力作为前馈项；自适应律根据连续力误差趋势逐轴调刚度，并以低通、饱和和稳定性条件约束变化。\n\n**关键要点：**\n\n- “反应式”能力主要来自分层接口：VLA 本身仅 1 Hz 推理、力历史仅 10 Hz 采样，真正处理动作块内部突发接触的是 500 Hz 的 VG-ACC，而非更快的神经策略。\n- 力在这里同时是输入和动作目标：历史力帮助识别任务阶段，预测前馈力把示范中的接触意图传给低层控制器，这比只让力条件化位姿动作更接近可执行的力位控制接口。\n- 两阶段训练把力学习定义为对已建立视觉策略的残差修正；按钮基准中成功率提升 12 个百分点、错误按压位姿率从 28% 降至 8%，说明融合顺序会影响空间能力保持。\n- 标题使用 CR-VLA-Force，而论文正文把核心框架称为 CC-VLA；阅读和检索时应把二者视为同一工作，不能误当成两个模型。\n\n![建立在 pi0 上的控制感知 VLA 模型结构](https://arxiv.org/html/2609.05832v1/VLA_model2.png)\n\n*图 2：PaliGemma 处理视觉与语言，历史力序列编码器产生 force token，稀疏跨模态 MoE 作为残差分支细化 flow-based action expert 的位姿与力动作。*\n\n![VLA 引导的自适应柔顺控制器](https://arxiv.org/html/2609.05832v1/force_controller.svg)\n\n*图 5：模型提供期望位姿与前馈力；控制器根据实测力误差调节刚度，经位置伺服与环境交互形成快速闭环。*",
+    "methodOverview": "CC-VLA 是一个建立在 pi0 上的慢快分层系统：上层以 PaliGemma、flow-based action expert、历史力序列编码器和稀疏 MoE 联合产生位姿、夹爪和前馈力动作块；下层将动作块异步插值到高频命令，并依据力跟踪误差在线调节笛卡尔刚度。训练先建立视觉、语言、本体和动作对齐，再把力融合专家作为残差分支加入，以减少视觉主导与力噪声对基础空间能力的干扰。",
+    "methodCore": "上层观测包含双视角 RGB、语言指令、13 维本体状态（TCP 位姿、夹爪宽度与当前六维力）以及历史六维力序列；pi0 的 flow action expert 输出长度 40 的 13 维动作块，其中每步同时含位姿、夹爪和期望力。历史力先分段，经共享 MLP patch encoder 与时间位置编码，再由可学习 force token 通过 cross-attention 汇聚；第二阶段的稀疏 MoE 把它作为对视觉策略的残差修正。下层把离散位姿在位置空间和 SO(3) 上连续插值，以实测力减期望力形成误差；当误差幅值恶化时降低刚度、改善时提高刚度，步长与当前误差成比例，并经过低通、上下界投影、临界阻尼设置和刚度变化率约束，在 500 Hz 形成力位闭环。",
+    "methodBreakdown": [
+      "共享遥操作采集：在非力反馈输入设备与位置控制 UR5e 之间加入补偿虚拟阻抗，使机器人感受到的等效环境刚度低于真实环境，降低接触示教中的保护停机，并记录真实执行位姿和六维力。",
+      "第一阶段视觉策略学习：微调 pi0，并用 block-wise attention mask 对齐视觉、语言、本体与动作空间，先建立不依赖噪声力信号的空间感知和一般操作能力。",
+      "历史力序列编码：把推理间隔内的力/力矩序列切成连续 patch，共享 MLP 捕捉局部力矩耦合与变化趋势，时间位置编码保留顺序，可学习 force token 汇总接触建立、丢失、峰值和导数信息。",
+      "第二阶段 MoE 残差融合：加入四专家稀疏跨模态分支，让不同任务阶段依据高层指令与低层交互反馈动态路由；训练力分支去细化既有视觉动作轨迹，而不是与视觉主干从头竞争。",
+      "VLA 引导的柔顺执行：将动作块异步插值到控制频率，位姿作为参考轨迹、预测力作为前馈项；自适应律根据连续力误差趋势逐轴调刚度，并以低通、饱和和稳定性条件约束变化。"
+    ],
+    "methodTakeaways": [
+      "“反应式”能力主要来自分层接口：VLA 本身仅 1 Hz 推理、力历史仅 10 Hz 采样，真正处理动作块内部突发接触的是 500 Hz 的 VG-ACC，而非更快的神经策略。",
+      "力在这里同时是输入和动作目标：历史力帮助识别任务阶段，预测前馈力把示范中的接触意图传给低层控制器，这比只让力条件化位姿动作更接近可执行的力位控制接口。",
+      "两阶段训练把力学习定义为对已建立视觉策略的残差修正；按钮基准中成功率提升 12 个百分点、错误按压位姿率从 28% 降至 8%，说明融合顺序会影响空间能力保持。",
+      "标题使用 CR-VLA-Force，而论文正文把核心框架称为 CC-VLA；阅读和检索时应把二者视为同一工作，不能误当成两个模型。"
+    ],
+    "results": "**核心结果：**\n\n- 六个成功率条件的平均值为 89.2%，对比 Diffusion Policy 31.3%、pi0 47.3%、pi0.5 44.7%、pi0 直接拼力 60.2% 和 ForceVLA 73.2%。\n- 在 PB-base、PB-OOD、PI-base、PI-Pro、OW-1、OW-2 上，CC-VLA 分别达到 84%、88%、88%、92%、100%、83%；ForceVLA 分别为 68%、64%、68%、72%、92%、75%。\n- 擦板任务的目标法向力为 40 N。CC-VLA 的相对力跟踪误差在 WB-base 为 5.52%、WB-OOD 为 8.78%；ForceVLA 分别为 35.57% 和 52.33%，pi0 与 pi0.5 还会因瞬时力超过 75 N 触发保护停机。\n- 去掉 VG-ACC、使用固定低刚度、固定高刚度和可变刚度时，WB-base 力误差分别为 17.73%、7.92%、13.30% 和 5.52%，说明模型给出的目标力与自适应柔顺控制器都有独立贡献。\n- 历史力编码器在视觉看不到插孔的 PI-Pro 中把成功率从 72% 提升到 92%；两阶段训练在 PB-base 提升 12 个百分点，在 PI-base 达到 76% 并提升 8 个百分点。\n\n**结果表：**\n\n| 条件 | DP | pi0 | pi0.5 | pi0 + force | ForceVLA | CC-VLA |\n| --- | ---: | ---: | ---: | ---: | ---: | ---: |\n| PB-base | 40% | 36% | 44% | 68% | 68% | **84%** |\n| PB-OOD（高度 -6 cm） | 0% | 40% | 24% | 52% | 64% | **88%** |\n| PI-base | 36% | 52% | 44% | 60% | 68% | **88%** |\n| PI-Pro（插孔不可见） | 48% | 40% | 56% | 72% | 72% | **92%** |\n| OW-1 | 40% | 58% | 58% | 67% | 92% | **100%** |\n| OW-2 | 24% | 58% | 42% | 42% | 75% | **83%** |\n| **六条件平均** | **31.3%** | **47.3%** | **44.7%** | **60.2%** | **73.2%** | **89.2%** |\n\n![六个接触条件下各方法的成功率](https://arxiv.org/html/2609.05832v1/exp_show_sucessrate_3task.png)\n\n*图 6：CC-VLA 在按钮按压、插头插入和开窗的六个条件下均为最高；该平均值不包含另行评估力跟踪的擦板任务。*\n\n![擦板任务中各方法的 Z 轴力轨迹](https://arxiv.org/html/2609.05832v1/WB_forceplot.png)\n\n*图 7：虚线为示范的 40 N 目标力。CC-VLA 在 base 与高度偏移 OOD 中都维持最稳定的跟踪；纯位置 pi0 系列因过载保护未画入。*\n\n![柔顺控制器和可变刚度的消融结果](https://arxiv.org/html/2609.05832v1/ablation.png)\n\n*图 8：没有 VG-ACC 时，CC-VLA 预测的位姿和力仍会产生更大波动；可变刚度在正常执行与外部扰动下主动改变轴向刚度。*",
+    "resultHighlights": [
+      "六个成功率条件的平均值为 89.2%，对比 Diffusion Policy 31.3%、pi0 47.3%、pi0.5 44.7%、pi0 直接拼力 60.2% 和 ForceVLA 73.2%。",
+      "在 PB-base、PB-OOD、PI-base、PI-Pro、OW-1、OW-2 上，CC-VLA 分别达到 84%、88%、88%、92%、100%、83%；ForceVLA 分别为 68%、64%、68%、72%、92%、75%。",
+      "擦板任务的目标法向力为 40 N。CC-VLA 的相对力跟踪误差在 WB-base 为 5.52%、WB-OOD 为 8.78%；ForceVLA 分别为 35.57% 和 52.33%，pi0 与 pi0.5 还会因瞬时力超过 75 N 触发保护停机。",
+      "去掉 VG-ACC、使用固定低刚度、固定高刚度和可变刚度时，WB-base 力误差分别为 17.73%、7.92%、13.30% 和 5.52%，说明模型给出的目标力与自适应柔顺控制器都有独立贡献。",
+      "历史力编码器在视觉看不到插孔的 PI-Pro 中把成功率从 72% 提升到 92%；两阶段训练在 PB-base 提升 12 个百分点，在 PI-base 达到 76% 并提升 8 个百分点。"
+    ],
+    "insights": "**核心 insight：**\n\n- 这篇工作把 force-aware VLA 的瓶颈从“能否看见力”改写为“谁在什么频率上消费力”。输入模态、动作语义和控制频率必须一起设计，单独提高 VLA 的力编码能力并不能解决动作块内部的接触延迟。\n- 预测期望力是系统的关键接口：它把学习到的示范意图交给经典控制器，使力不只是判断碰撞的观测，也成为可执行目标。相比只输出位置残差，这一接口更容易分别审计目标是否合理、跟踪是否稳定。\n- 两阶段训练和残差 MoE 的本质是模态权重治理：先保护高维视觉语义，再让低维稀疏力信号只负责接触修正。它与 ForceFlow 用 AdaLN 提升 force 话语权、FD-VLA 用定向注意力隔离控制 token 属于同一设计原则的不同实现。\n- 89.2% 平均成功率不能单独解释成 VLA 模型能力跃升，因为收益来自采集、融合、动作目标和控制器的联合系统。论文的价值恰恰在这种协同设计，而不是某一个网络模块的纯模型增益。\n\n**和已有方法的关系：**\n\n- 相对 ForceVLA，CC-VLA 继承稀疏 MoE 的视觉-语言-力融合思路，但把力历史编码、前馈力动作目标和高频自适应柔顺控制器补成完整闭环，因此增量主要在控制接口与时间尺度，而非 VLA 基座规模。\n- 相对 Reactive Diffusion Policy、FoAR 等快慢策略，CC-VLA 没有让高频神经网络持续重写动作；它让经典控制器在动作块内部反应，模型更新更慢但控制频率更高，工程稳定性与表达能力的权衡不同。\n- 相对 Adaptive Compliance Policy，二者都把柔顺从固定部署参数提升为策略相关变量；ACP 直接预测参考位姿、虚拟目标与刚度，CC-VLA 则预测期望位姿和力，由误差趋势在线产生刚度。\n- 相对 ForceFlow，二者都使用历史 wrench 并联合预测未来力与动作；ForceFlow 的预测力主要是训练期辅助目标、最终只执行位姿，CC-VLA 的预测力直接成为控制器前馈目标，因此控制语义更显式。\n\n**可借鉴点：**\n\n- 为低频生成策略设计双通道输出：一条输出几何参考轨迹，另一条输出由高频控制器消费的物理目标；用明确接口把学习层与稳定控制层解耦。\n- 新传感模态噪声大、信息密度低时，先训练基础感知和动作先验，再把新模态作为残差专家接入，并分别做空间能力保持与新模态有效性的消融。\n- 安全评测至少同时报告成功率、期望力跟踪误差、峰值力/保护停机和扰动响应；只有成功率会掩盖刚性控制完成任务时的危险过载。",
+    "insightCore": [
+      "这篇工作把 force-aware VLA 的瓶颈从“能否看见力”改写为“谁在什么频率上消费力”。输入模态、动作语义和控制频率必须一起设计，单独提高 VLA 的力编码能力并不能解决动作块内部的接触延迟。",
+      "预测期望力是系统的关键接口：它把学习到的示范意图交给经典控制器，使力不只是判断碰撞的观测，也成为可执行目标。相比只输出位置残差，这一接口更容易分别审计目标是否合理、跟踪是否稳定。",
+      "两阶段训练和残差 MoE 的本质是模态权重治理：先保护高维视觉语义，再让低维稀疏力信号只负责接触修正。它与 ForceFlow 用 AdaLN 提升 force 话语权、FD-VLA 用定向注意力隔离控制 token 属于同一设计原则的不同实现。",
+      "89.2% 平均成功率不能单独解释成 VLA 模型能力跃升，因为收益来自采集、融合、动作目标和控制器的联合系统。论文的价值恰恰在这种协同设计，而不是某一个网络模块的纯模型增益。"
+    ],
+    "insightRelations": [
+      "相对 ForceVLA，CC-VLA 继承稀疏 MoE 的视觉-语言-力融合思路，但把力历史编码、前馈力动作目标和高频自适应柔顺控制器补成完整闭环，因此增量主要在控制接口与时间尺度，而非 VLA 基座规模。",
+      "相对 Reactive Diffusion Policy、FoAR 等快慢策略，CC-VLA 没有让高频神经网络持续重写动作；它让经典控制器在动作块内部反应，模型更新更慢但控制频率更高，工程稳定性与表达能力的权衡不同。",
+      "相对 Adaptive Compliance Policy，二者都把柔顺从固定部署参数提升为策略相关变量；ACP 直接预测参考位姿、虚拟目标与刚度，CC-VLA 则预测期望位姿和力，由误差趋势在线产生刚度。",
+      "相对 ForceFlow，二者都使用历史 wrench 并联合预测未来力与动作；ForceFlow 的预测力主要是训练期辅助目标、最终只执行位姿，CC-VLA 的预测力直接成为控制器前馈目标，因此控制语义更显式。"
+    ],
+    "insightBorrowable": [
+      "为低频生成策略设计双通道输出：一条输出几何参考轨迹，另一条输出由高频控制器消费的物理目标；用明确接口把学习层与稳定控制层解耦。",
+      "新传感模态噪声大、信息密度低时，先训练基础感知和动作先验，再把新模态作为残差专家接入，并分别做空间能力保持与新模态有效性的消融。",
+      "安全评测至少同时报告成功率、期望力跟踪误差、峰值力/保护停机和扰动响应；只有成功率会掩盖刚性控制完成任务时的危险过载。"
+    ],
+    "risks": "**局限：**\n\n- 只在单台 UR5e、同一类腕部六轴力传感器、四项实验室任务上验证；每个条件仅 24–25 次试验，没有置信区间、显著性检验或跨机器人迁移。\n- 所谓 OOD 主要是按钮/白板高度下移 6 cm，以及插孔进入腕部相机盲区的近端起始；没有覆盖材料、摩擦、工具、负载、视觉背景或动力学的大范围分布外变化。\n- 整个系统仍依赖示范中的高质量力控制和时间一致性。作者明确承认数据采集质量是关键依赖，错误的期望力分布可能会作为前馈项直接进入控制器。\n- 自适应刚度使用受约束的启发式 Rprop 风格更新而非优化求解；论文给出控制器层稳定性约束，但没有证明包含感知误差、动作生成和异步插值的完整学习闭环具有形式化安全保证。\n- 当前只处理物体级末端柔顺，未涉及手指级夹持力、多个接触点、六维耦合刚度或灵巧手内操作；对高速冲击的响应也不应从 10 Hz 力历史直接外推。\n\n**适用场景：**\n\n- 需要持续法向力或受控插入力的工业操作，例如擦拭、抛光、打磨、插装、旋钮/窗体操作，以及视觉误差会迅速转化成危险内力的刚性环境交互。\n- 已有低频 VLA 或生成式动作策略，但机器人控制栈支持笛卡尔阻抗/导纳、实时力矩传感与高频控制，希望在不把大模型提速到控制频率的情况下增加接触鲁棒性。\n- 不适合直接用于没有可靠力传感、控制接口只接受低频位置命令、涉及高速冲击或多点灵巧接触、或需要可认证安全保证的场景。\n\n**最终判断：**\n\n- 值得重点跟踪。它比“再融合一种模态”的论文更接近部署系统设计，因为明确回答了慢速 VLA 如何把意图交给快速柔顺回路，并用成功率、力误差和保护停机共同验证。\n- 但应把结论限定为单平台、有限接触任务上的系统级证据：多层安全机制不等于端到端形式化安全，部分 OOD 也不等于开放世界泛化。后续关键验证是跨机器人/控制器迁移、错误期望力下的故障边界、摩擦与材料变化，以及手指级多接触扩展。",
+    "riskLimitations": [
+      "只在单台 UR5e、同一类腕部六轴力传感器、四项实验室任务上验证；每个条件仅 24–25 次试验，没有置信区间、显著性检验或跨机器人迁移。",
+      "所谓 OOD 主要是按钮/白板高度下移 6 cm，以及插孔进入腕部相机盲区的近端起始；没有覆盖材料、摩擦、工具、负载、视觉背景或动力学的大范围分布外变化。",
+      "整个系统仍依赖示范中的高质量力控制和时间一致性。作者明确承认数据采集质量是关键依赖，错误的期望力分布可能会作为前馈项直接进入控制器。",
+      "自适应刚度使用受约束的启发式 Rprop 风格更新而非优化求解；论文给出控制器层稳定性约束，但没有证明包含感知误差、动作生成和异步插值的完整学习闭环具有形式化安全保证。",
+      "当前只处理物体级末端柔顺，未涉及手指级夹持力、多个接触点、六维耦合刚度或灵巧手内操作；对高速冲击的响应也不应从 10 Hz 力历史直接外推。"
+    ],
+    "riskScenarios": [
+      "需要持续法向力或受控插入力的工业操作，例如擦拭、抛光、打磨、插装、旋钮/窗体操作，以及视觉误差会迅速转化成危险内力的刚性环境交互。",
+      "已有低频 VLA 或生成式动作策略，但机器人控制栈支持笛卡尔阻抗/导纳、实时力矩传感与高频控制，希望在不把大模型提速到控制频率的情况下增加接触鲁棒性。",
+      "不适合直接用于没有可靠力传感、控制接口只接受低频位置命令、涉及高速冲击或多点灵巧接触、或需要可认证安全保证的场景。"
+    ],
+    "riskJudgment": [
+      "值得重点跟踪。它比“再融合一种模态”的论文更接近部署系统设计，因为明确回答了慢速 VLA 如何把意图交给快速柔顺回路，并用成功率、力误差和保护停机共同验证。",
+      "但应把结论限定为单平台、有限接触任务上的系统级证据：多层安全机制不等于端到端形式化安全，部分 OOD 也不等于开放世界泛化。后续关键验证是跨机器人/控制器迁移、错误期望力下的故障边界、摩擦与材料变化，以及手指级多接触扩展。"
+    ],
+    "resultsTableMarkdown": "| 条件 | DP | pi0 | pi0.5 | pi0 + force | ForceVLA | CC-VLA |\n| --- | ---: | ---: | ---: | ---: | ---: | ---: |\n| PB-base | 40% | 36% | 44% | 68% | 68% | **84%** |\n| PB-OOD（高度 -6 cm） | 0% | 40% | 24% | 52% | 64% | **88%** |\n| PI-base | 36% | 52% | 44% | 60% | 68% | **88%** |\n| PI-Pro（插孔不可见） | 48% | 40% | 56% | 72% | 72% | **92%** |\n| OW-1 | 40% | 58% | 58% | 67% | 92% | **100%** |\n| OW-2 | 24% | 58% | 42% | 42% | 75% | **83%** |\n| **六条件平均** | **31.3%** | **47.3%** | **44.7%** | **60.2%** | **73.2%** | **89.2%** |",
+    "resultsTable": {
+      "columns": [
+        "条件",
+        "DP",
+        "pi0",
+        "pi0.5",
+        "pi0 + force",
+        "ForceVLA",
+        "CC-VLA"
+      ],
+      "rows": [
+        [
+          "PB-base",
+          "40%",
+          "36%",
+          "44%",
+          "68%",
+          "68%",
+          "**84%**"
+        ],
+        [
+          "PB-OOD（高度 -6 cm）",
+          "0%",
+          "40%",
+          "24%",
+          "52%",
+          "64%",
+          "**88%**"
+        ],
+        [
+          "PI-base",
+          "36%",
+          "52%",
+          "44%",
+          "60%",
+          "68%",
+          "**88%**"
+        ],
+        [
+          "PI-Pro（插孔不可见）",
+          "48%",
+          "40%",
+          "56%",
+          "72%",
+          "72%",
+          "**92%**"
+        ],
+        [
+          "OW-1",
+          "40%",
+          "58%",
+          "58%",
+          "67%",
+          "92%",
+          "**100%**"
+        ],
+        [
+          "OW-2",
+          "24%",
+          "58%",
+          "42%",
+          "42%",
+          "75%",
+          "**83%**"
+        ],
+        [
+          "**六条件平均**",
+          "**31.3%**",
+          "**47.3%**",
+          "**44.7%**",
+          "**60.2%**",
+          "**73.2%**",
+          "**89.2%**"
+        ]
+      ]
+    },
+    "figureGallery": [
+      {
+        "zone": "intuition",
+        "caption": "CC-VLA 慢速策略与高频柔顺控制器组成的分层系统",
+        "src": "https://arxiv.org/html/2609.05832v1/overall_structure2.png"
+      },
+      {
+        "zone": "method",
+        "caption": "建立在 pi0 上的控制感知 VLA 模型结构",
+        "src": "https://arxiv.org/html/2609.05832v1/VLA_model2.png"
+      },
+      {
+        "zone": "method",
+        "caption": "VLA 引导的自适应柔顺控制器",
+        "src": "https://arxiv.org/html/2609.05832v1/force_controller.svg"
+      },
+      {
+        "zone": "results",
+        "caption": "六个接触条件下各方法的成功率",
+        "src": "https://arxiv.org/html/2609.05832v1/exp_show_sucessrate_3task.png"
+      },
+      {
+        "zone": "results",
+        "caption": "擦板任务中各方法的 Z 轴力轨迹",
+        "src": "https://arxiv.org/html/2609.05832v1/WB_forceplot.png"
+      },
+      {
+        "zone": "results",
+        "caption": "柔顺控制器和可变刚度的消融结果",
+        "src": "https://arxiv.org/html/2609.05832v1/ablation.png"
+      }
+    ],
+    "relatedTopicSlugs": [
+      "vision-language-action",
+      "contact-rich-manipulation"
+    ]
+  },
+  {
+    "slug": "2609.07398-openwam-an-open-modular-exploration-towards-systematic-world-action-model-pretraining",
+    "title": "OpenWAM: An Open, Modular Exploration Towards Systematic World-Action Model Pretraining",
+    "sourceType": "paper",
+    "sourceUrl": "https://arxiv.org/abs/2609.07398",
+    "htmlUrl": "",
+    "pdfUrl": "https://arxiv.org/pdf/2609.07398",
+    "codeUrl": "https://github.com/OpenWAM-Official/OpenWAM",
+    "translationUrl": "https://hjfy.top/arxiv/2609.07398",
+    "publishDate": "2026-09-07",
+    "authors": [
+      "Yuran Wang",
+      "Siqiao Huang",
+      "Mingleyang Li",
+      "Chenhao Zhang",
+      "Jiaqi Liang",
+      "Weiyang Jin",
+      "Yue Chen",
+      "Xuemin Chi",
+      "Donghao Zhou",
+      "Qize Yu",
+      "Yu-Kai Wang",
+      "Yuhan Rui",
+      "Shenzhe Yao",
+      "Zhen Yuan",
+      "Zhenhao Shen",
+      "Kefei Zhu",
+      "Zijie Zhu",
+      "Ning Gao",
+      "Xiaowei Chi",
+      "Guanqi He",
+      "Shanghang Zhang",
+      "Hao Dong",
+      "Lin Shao",
+      "Hang Zhao"
+    ],
+    "affiliation": "National University of Singapore",
+    "relatedOrganizations": [
+      "National University of Singapore",
+      "Tsinghua University",
+      "Peking University",
+      "The University of Hong Kong",
+      "Zhejiang University",
+      "The Chinese University of Hong Kong",
+      "Shanghai Jiao Tong University"
+    ],
+    "relatedCompanies": [],
+    "keywords": [
+      "world-action-model"
+    ],
+    "primaryDomainSlug": "physical-embodied-intelligence",
+    "domainSlugs": [
+      "physical-embodied-intelligence"
+    ],
+    "heroImage": "https://followhub.tenstep.top/papers/2609.07398-openwam-an-open-modular-exploration-towards-systematic-world-action-model-pretraining/teaser-page1.jpg",
+    "tldr": "OpenWAM 最值得记住的不是“又一个视频生成模型改机器人策略”，而是它第一次把 WAM 的设计变量拆成可复现实验：骨干、潜空间、动作容量、世界/动作信息流、联合去噪和预训练数据配方分别控制，再把结论累积成一个开放模型。\n\n论文给出的强结论是：WAM 需要足够强的视频生成先验和紧凑、高信息量的视觉潜空间；动作必须有独立容量并在训练时读取世界特征；推理时同步联合去噪优于人为安排“先想未来、再反推动作”；跨域预训练的主要收益是 OOD 泛化，而不是继续抬高接近饱和的 ID 分数。\n\nOpenWAM-α 用约 6369 小时、5.185 亿帧的人类第一视角与异构机器人数据实现这套配方，在多数仿真和三类真机形态上达到强基线水平。但它在 LIBERO-Plus 只有 69.2%，相机扰动 33.8%、噪声扰动 39.8%，清楚暴露了“长时程像素潜空间预测 + 单臂数据覆盖不足”的 OOD 脆弱性。因此，这篇论文既是 WAM 的工程底座，也是比单纯 SOTA 宣传更有价值的失效边界报告。",
+    "intuition": "普通 VLA 看见当前画面和指令，直接生成动作；OpenWAM-α 则让两个生成器并行工作：一个视频 DiT 猜接下来的画面会怎样变化，一个 ActionDiT 猜下一段机器人动作。二者在每一层共享注意力，好比“想象未来”和“决定怎么动”不断交换草稿；训练时它们在各种噪声组合上一起学习，部署时从同一噪声进度同步变清晰，最后只把动作块交给机器人执行。\n\n![OpenWAM 总览](https://followhub.tenstep.top/papers/2609.07398-openwam-an-open-modular-exploration-towards-systematic-world-action-model-pretraining/teaser-page1.jpg)\n\n*OpenWAM 由模块化基础设施、六组受控研究问题和按结论扩展出的 OpenWAM-α 三部分组成。*",
+    "abstractEn": "World-Action Models inherit world knowledge from video-generative priors, and channel it into executable control signals through embodied experience. Existing systems, however, are monolithic: the generative backbone, visual representation, architecture, information flow, inference procedure, and training data are tightly coupled, obscuring which design choices matter and why. We introduce OpenWAM, an open research stack that turns world-action pretraining into a controlled experimental program. OpenWAM-Infra factorizes the WAM design space into composable modules with unified training, inference, deployment, and evaluation. On this substrate, OpenWAM-Study examines three questions through controlled experiments: what to inherit, how world and action learning interact, and how their synergy scales; and distills three principles: upstream knowledge transfers through a sufficiently capable generative backbone and a compact, information-rich latent space; world-action synergy requires dedicated action capacity, explicit world-to-action information flow, and synchronized joint denoising; and embodied pretraining principally improves out-of-domain generalization, with one-stage co-training over egocentric and robot data integrating world coverage and action grounding. Composing these principles, we build OpenWAM-α, an open WAM pretrained on roughly 6,400 hours of egocentric human and robot data and evaluated across simulation and real-world benchmarks. Across the eight simulation benchmarks and the real-robot experiments, which together span embodiments from single-arm and bimanual manipulation to dexterous hands, OpenWAM-α delivers consistently excellent performance, sustaining its top-tier standing from simulation to the physical world. We release the full stack, including infrastructure, evaluation protocols, pretrained models, and data recipes, to facilitate future research.",
+    "abstractZh": "世界—动作模型从视频生成先验中继承世界知识，并通过具身经验将其转化为可执行的控制信号。然而，现有系统通常是单体式的：生成骨干、视觉表示、架构、信息流、推理过程和训练数据紧密耦合，使人难以判断哪些设计选择真正重要以及原因何在。作者提出 OpenWAM，一个把世界—动作预训练变成受控实验计划的开放研究栈。OpenWAM-Infra 将 WAM 设计空间分解为可组合模块，并统一训练、推理、部署和评测。在此基础上，OpenWAM-Study 通过受控实验研究三个问题：应继承什么、世界与动作学习如何交互、二者协同如何扩展，并总结出三项原则：上游知识需要通过能力充分的生成骨干和紧凑且信息丰富的潜空间进行迁移；世界—动作协同需要专用动作容量、显式世界到动作的信息流以及同步联合去噪；具身预训练主要改善分布外泛化，而在人类第一视角和机器人数据上进行单阶段共训，可以整合世界覆盖与动作落地。基于这些原则，作者构建 OpenWAM-α，在约 6400 小时的人类第一视角和机器人数据上预训练，并在仿真与真实世界基准中评测。八个仿真基准和真机实验覆盖单臂、双臂到灵巧手等多种形态，OpenWAM-α 从仿真到物理世界都保持了较强表现。作者开放完整技术栈，包括基础设施、评测协议、预训练模型和数据配方，以推动后续研究。",
+    "background": "**动机：** 视频生成模型已经从海量视频中学到物体、场景和视觉动力学，而带可执行动作标签的机器人轨迹仍然稀缺。WAM 的吸引力在于把这种“世界如何变化”的先验转成“机器人怎样让它变化”的控制能力，使世界预测为动作提供状态与未来结构，动作监督反过来让模型关注与控制有关的变化，从而比只靠机器人示范从零学习更充分地利用非机器人视频。\n\n**问题缺口：** 现有 WAM 往往把视频骨干、视觉编码器、动作头、跨模态连接、训练目标、采样顺序和数据混合捆在一起；一个系统变强时，很难判断收益来自模型规模、潜空间、信息流还是数据。甚至“同时预测视频和动作”也不等于二者真的协同：动作可能读不到世界特征，推理调度可能离开训练分布，单域高分也可能只是记住下游场景。论文因此把问题收敛为三层：继承什么世界先验、怎样建立世界—动作协同、这种协同如何跨域扩展。",
+    "backgroundMotivation": "视频生成模型已经从海量视频中学到物体、场景和视觉动力学，而带可执行动作标签的机器人轨迹仍然稀缺。WAM 的吸引力在于把这种“世界如何变化”的先验转成“机器人怎样让它变化”的控制能力，使世界预测为动作提供状态与未来结构，动作监督反过来让模型关注与控制有关的变化，从而比只靠机器人示范从零学习更充分地利用非机器人视频。",
+    "backgroundGap": "现有 WAM 往往把视频骨干、视觉编码器、动作头、跨模态连接、训练目标、采样顺序和数据混合捆在一起；一个系统变强时，很难判断收益来自模型规模、潜空间、信息流还是数据。甚至“同时预测视频和动作”也不等于二者真的协同：动作可能读不到世界特征，推理调度可能离开训练分布，单域高分也可能只是记住下游场景。论文因此把问题收敛为三层：继承什么世界先验、怎样建立世界—动作协同、这种协同如何跨域扩展。",
+    "method": "**方法概述：** OpenWAM 先用 OpenWAM-Infra 把 WAM 表示成 `C(E, S, M)`：视觉编码器 `E` 决定要预测的潜空间，流骨干集合 `S` 承载世界流、动作流和可选理解流，注意力掩码 `M` 决定各流之间能否读取信息；统一训练器以联合 flow-matching 目标处理所有组合，统一策略服务器负责采样和动作映射。OpenWAM-Study 再按骨干、表示、架构、训练信息流、预训练数据和推理去噪六个问题递进消融，最后将得到的默认项组装成 OpenWAM-α。\n\n**核心机制：** OpenWAM-α 由冻结的 Wan2.2-VAE、预训练 Wan2.2-TI2V-5B 世界 DiT 和独立 1B ActionDiT 构成。视频未来 latent 与连续动作块分别加噪、使用独立时间步，在全部 30 对 Transformer 层中通过共同的 24 头注意力空间双向交换信息；联合 flow-matching 同时预测视频速度场和动作速度场，80 维固定槽位及有效维度 mask 只监督当前具身实际使用的动作坐标。训练独立采样视频/动作噪声以覆盖二维噪声平面，推理沿对角线做 10 步同步 Euler 去噪，使每一步的动作都读取逐渐清晰的未来世界特征，同时避免测试时人为“谁先去噪”造成偏移。\n\n**方法拆解：**\n\n- **模块化基础设施**：支持 4 类视觉编码器、5 类视频生成骨干、6 类架构变体和 4 种可见性掩码；训练、checkpoint 重建、策略服务和八项仿真评测通过统一接口连接，降低跨实现比较的混杂因素。\n- **世界先验选择**：依次比较 1.3B 到 14B 视频骨干，再在随机初始化同架构下比较 Wan2.2-VAE、FLUX.2-VAE、DINOv3 和 V-JEPA 2.1；表示编码器先经 S-VAE 压到 48 维，以区分“语义表示是否有效”和“高维 token 是否难优化”。\n- **动作容量与架构**：比较共享单系统、带动作专家的 MoE、独立世界/动作双系统及带 VLM 的三系统；结果选择复杂度更可控、性能接近最优的双系统 joint self-attention。\n- **训练期信息流**：用 attention mask 分别测试 isolated、video-sees-action、action-sees-video 和 mutual；动作能读取世界特征是约 5 个点性能差异的关键，预训练后双向 mutual 从近似打平变成稳定更优。\n- **推理期联合采样**：训练覆盖独立 `(t_video, t_action)` 噪声组合，部署比较同步、视频领先和动作领先多类轨迹；最终选同步 10 步去噪，而不是先生成视频再用 IDM 反推动作。\n- **多域预训练**：从约 14,348 小时原始池清洗并采样 6369 小时，其中 30.1% 为自建人类第一视角视频，69.9% 为真实/仿真机器人数据；人类视频只监督世界流，机器人轨迹同时提供动作、本体状态和世界监督。\n- **统一动作空间与部署**：80 维动作向量包含左右臂各 34 维（位置、6D 旋转、夹爪、24 维灵巧手）和 12 个保留槽；有效维度 mask 屏蔽未使用坐标，最终通过逆映射返回机器人原生动作空间，RTX 5090 上每个动作块约 170 ms。\n\n**关键要点：**\n\n- WAM 的协同不是“同时输出未来视频和动作”自动产生的；专用动作容量、训练期世界到动作的信息通路和匹配训练分布的联合采样缺一不可。\n- 潜空间的关键属性不是“重建式”或“表征式”标签，而是信息量、token 维度和时间压缩的共同平衡；DINOv3/V-JEPA 经压缩后可以接近原生视频 VAE。\n- 具身预训练的最大增益落在 OOD：ID 从 87.0% 只升到最高 88.5%，而 Clean2Random OOD 从 14.5% 升到 26.62%。\n- 单阶段人类视频 + 机器人数据共训胜在简单且略优，并不意味着无动作人类视频可以取代机器人轨迹；前者扩展视觉/交互覆盖，后者提供可执行动作 grounding。\n\n![OpenWAM-α 架构](https://followhub.tenstep.top/papers/2609.07398-openwam-an-open-modular-exploration-towards-systematic-world-action-model-pretraining/a-the-dual-system-architecture-a-video-generation-dit-and-an-actiondit-jointly-denoise-the-futur.jpg)\n\n*OpenWAM-α：视频 DiT 与 ActionDiT 通过 mutual attention 联合去噪，训练覆盖二维噪声平面，推理沿同步对角线前进。*",
+    "methodOverview": "OpenWAM 先用 OpenWAM-Infra 把 WAM 表示成 `C(E, S, M)`：视觉编码器 `E` 决定要预测的潜空间，流骨干集合 `S` 承载世界流、动作流和可选理解流，注意力掩码 `M` 决定各流之间能否读取信息；统一训练器以联合 flow-matching 目标处理所有组合，统一策略服务器负责采样和动作映射。OpenWAM-Study 再按骨干、表示、架构、训练信息流、预训练数据和推理去噪六个问题递进消融，最后将得到的默认项组装成 OpenWAM-α。",
+    "methodCore": "OpenWAM-α 由冻结的 Wan2.2-VAE、预训练 Wan2.2-TI2V-5B 世界 DiT 和独立 1B ActionDiT 构成。视频未来 latent 与连续动作块分别加噪、使用独立时间步，在全部 30 对 Transformer 层中通过共同的 24 头注意力空间双向交换信息；联合 flow-matching 同时预测视频速度场和动作速度场，80 维固定槽位及有效维度 mask 只监督当前具身实际使用的动作坐标。训练独立采样视频/动作噪声以覆盖二维噪声平面，推理沿对角线做 10 步同步 Euler 去噪，使每一步的动作都读取逐渐清晰的未来世界特征，同时避免测试时人为“谁先去噪”造成偏移。",
+    "methodBreakdown": [
+      "**模块化基础设施**：支持 4 类视觉编码器、5 类视频生成骨干、6 类架构变体和 4 种可见性掩码；训练、checkpoint 重建、策略服务和八项仿真评测通过统一接口连接，降低跨实现比较的混杂因素。",
+      "**世界先验选择**：依次比较 1.3B 到 14B 视频骨干，再在随机初始化同架构下比较 Wan2.2-VAE、FLUX.2-VAE、DINOv3 和 V-JEPA 2.1；表示编码器先经 S-VAE 压到 48 维，以区分“语义表示是否有效”和“高维 token 是否难优化”。",
+      "**动作容量与架构**：比较共享单系统、带动作专家的 MoE、独立世界/动作双系统及带 VLM 的三系统；结果选择复杂度更可控、性能接近最优的双系统 joint self-attention。",
+      "**训练期信息流**：用 attention mask 分别测试 isolated、video-sees-action、action-sees-video 和 mutual；动作能读取世界特征是约 5 个点性能差异的关键，预训练后双向 mutual 从近似打平变成稳定更优。",
+      "**推理期联合采样**：训练覆盖独立 `(t_video, t_action)` 噪声组合，部署比较同步、视频领先和动作领先多类轨迹；最终选同步 10 步去噪，而不是先生成视频再用 IDM 反推动作。",
+      "**多域预训练**：从约 14,348 小时原始池清洗并采样 6369 小时，其中 30.1% 为自建人类第一视角视频，69.9% 为真实/仿真机器人数据；人类视频只监督世界流，机器人轨迹同时提供动作、本体状态和世界监督。",
+      "**统一动作空间与部署**：80 维动作向量包含左右臂各 34 维（位置、6D 旋转、夹爪、24 维灵巧手）和 12 个保留槽；有效维度 mask 屏蔽未使用坐标，最终通过逆映射返回机器人原生动作空间，RTX 5090 上每个动作块约 170 ms。"
+    ],
+    "methodTakeaways": [
+      "WAM 的协同不是“同时输出未来视频和动作”自动产生的；专用动作容量、训练期世界到动作的信息通路和匹配训练分布的联合采样缺一不可。",
+      "潜空间的关键属性不是“重建式”或“表征式”标签，而是信息量、token 维度和时间压缩的共同平衡；DINOv3/V-JEPA 经压缩后可以接近原生视频 VAE。",
+      "具身预训练的最大增益落在 OOD：ID 从 87.0% 只升到最高 88.5%，而 Clean2Random OOD 从 14.5% 升到 26.62%。",
+      "单阶段人类视频 + 机器人数据共训胜在简单且略优，并不意味着无动作人类视频可以取代机器人轨迹；前者扩展视觉/交互覆盖，后者提供可执行动作 grounding。"
+    ],
+    "results": "**核心结果：**\n\n- 视频骨干从 Wan2.1-VACE-1.3B 扩到 Wan2.1-I2V-14B 时，RoboTwin2.0-Full 平均成功率由 90.14% 升至 93.79%；5B Wan2.2-TI2V 达 92.39%，仅落后 1.40 个点，因此被选作性能/成本折中。\n- 表示消融中，DINOv3/V-JEPA 直接输出高维特征时只有 80.91%/76.42%；经 S-VAE 压到 48 维后升至 90.30%/88.46%，接近 Wan2.2-VAE 的 90.30%，说明紧凑性会决定表示先验能否被 DiT 有效利用。\n- 架构消融中，单系统 Vanilla/MoE 为 85.50%/84.63%，双系统 joint self-attention 达 92.36%，三系统达 92.60%；动作独立容量贡献明显，但额外 VLM 理解流只带来很小增益。\n- 信息流消融中，isolated 和 video-sees-action 仅 87.41%/87.63%，action-sees-video 与 mutual 达 92.39%/92.15%；同步去噪为 93.0%，所有异步调度都未超过它。\n- 600 小时预训练消融中，ID 成功率由 87.0% 提升到最高 88.5%，而 OOD 由 14.5% 提升到 robot-only 23.8%、ego→robot 26.5%、ego+robot 共训 26.62%，证明主要收益来自跨分布迁移。\n- OpenWAM-α 在 LIBERO 达 99.3%，RoboTwin2.0-Full 达 93.60%，RoboCasa-GR1 达 60.5%；在 RoboTwin2.0-Clean2Random 达 89.4% Clean / 48.7% Randomized / 69.0% 平均，是当时最强 WAM，但仍低于 Qwen-RobotManip 的 77.1% 平均。\n- 真机单臂六任务平均 82.5%，高于 LingBot-VA 77.5% 和 π0.5 55.0%；RoboDojo 双臂 18 任务平均 Score/SR 为 37.6/24.4，对比 π0.5 的 22.9/12.8；未见 Wuji 灵巧手具身的四项 ID/OOD 设置均优于 π0.5。\n- 关键反例是 LIBERO-Plus：总平均仅 69.2%，相机/噪声扰动只有 33.8%/39.8%。作者将其归因于单臂预训练覆盖不足，以及多帧像素潜空间 rollout 对视角与噪声扰动敏感、误差会逐帧累积。\n\n**结果表：**\n\n| 评测或消融 | OpenWAM 结果 | 对照与含义 |\n| --- | ---: | --- |\n| 骨干规模 | 1.3B：90.14%；5B：92.39%；14B：93.79% | 更强视频生成骨干迁移更好，但收益不是纯参数量因果 |\n| 双系统 joint self-attention | 92.36% | 单系统 Vanilla 85.50%；三系统 92.60% |\n| 世界→动作信息流 | 92.39% | Isolated 87.41%，约 +5 个点 |\n| 600h 共训 OOD | 26.62% | From scratch 14.50%，+12.12 个点 |\n| LIBERO / RoboTwin2.0-Full | 99.3% / 93.60% | 接近饱和或顶级水平 |\n| RoboTwin C2R Clean / Random / Avg | 89.4% / 48.7% / 69.0% | 最强 WAM，但弱于最强 VLA 77.1% Avg |\n| LIBERO-Plus Avg | 69.2% | Qwen-RobotManip 89.0%；相机和噪声是主要失分项 |\n| 真机单臂 Avg | 82.5% | LingBot-VA 77.5%；π0.5 55.0% |\n| 真机双臂 RoboDojo Score / SR | 37.6 / 24.4% | π0.5 为 22.9 / 12.8% |\n\n![OpenWAM-α 仿真结果](https://followhub.tenstep.top/papers/2609.07398-openwam-an-open-modular-exploration-towards-systematic-world-action-model-pretraining/against-a-common-set-of-baselines-per-benchmark-every-bar-is-labelled-with-its-true-score-per-be.jpg)\n\n*OpenWAM-α 与代表性 VLA/WAM 在八个仿真 benchmark 上的汇总对比；强项和失效项并不均匀。*",
+    "resultHighlights": [
+      "视频骨干从 Wan2.1-VACE-1.3B 扩到 Wan2.1-I2V-14B 时，RoboTwin2.0-Full 平均成功率由 90.14% 升至 93.79%；5B Wan2.2-TI2V 达 92.39%，仅落后 1.40 个点，因此被选作性能/成本折中。",
+      "表示消融中，DINOv3/V-JEPA 直接输出高维特征时只有 80.91%/76.42%；经 S-VAE 压到 48 维后升至 90.30%/88.46%，接近 Wan2.2-VAE 的 90.30%，说明紧凑性会决定表示先验能否被 DiT 有效利用。",
+      "架构消融中，单系统 Vanilla/MoE 为 85.50%/84.63%，双系统 joint self-attention 达 92.36%，三系统达 92.60%；动作独立容量贡献明显，但额外 VLM 理解流只带来很小增益。",
+      "信息流消融中，isolated 和 video-sees-action 仅 87.41%/87.63%，action-sees-video 与 mutual 达 92.39%/92.15%；同步去噪为 93.0%，所有异步调度都未超过它。",
+      "600 小时预训练消融中，ID 成功率由 87.0% 提升到最高 88.5%，而 OOD 由 14.5% 提升到 robot-only 23.8%、ego→robot 26.5%、ego+robot 共训 26.62%，证明主要收益来自跨分布迁移。",
+      "OpenWAM-α 在 LIBERO 达 99.3%，RoboTwin2.0-Full 达 93.60%，RoboCasa-GR1 达 60.5%；在 RoboTwin2.0-Clean2Random 达 89.4% Clean / 48.7% Randomized / 69.0% 平均，是当时最强 WAM，但仍低于 Qwen-RobotManip 的 77.1% 平均。",
+      "真机单臂六任务平均 82.5%，高于 LingBot-VA 77.5% 和 π0.5 55.0%；RoboDojo 双臂 18 任务平均 Score/SR 为 37.6/24.4，对比 π0.5 的 22.9/12.8；未见 Wuji 灵巧手具身的四项 ID/OOD 设置均优于 π0.5。",
+      "关键反例是 LIBERO-Plus：总平均仅 69.2%，相机/噪声扰动只有 33.8%/39.8%。作者将其归因于单臂预训练覆盖不足，以及多帧像素潜空间 rollout 对视角与噪声扰动敏感、误差会逐帧累积。"
+    ],
+    "insights": "**核心 insight：**\n\n- 论文最重要的研究贡献是把 WAM 从“架构故事”变成可证伪的工程科学。尤其是从 scratch 时 action-sees-video 与 mutual 几乎打平，而大规模预训练后 mutual 反超，说明最佳信息流会随数据规模改变，不能只在小实验上定型。\n- “世界模型帮助动作”的证据更像表示学习而非显式规划：训练时动作必须看世界，但测试时刻意让视频先去噪并没有收益，同步去噪反而最好。这削弱了“模型先完整想象未来，再反推动作”的直观叙事。\n- OOD 收益与 LIBERO-Plus 失败共同说明，预训练不是抽象的规模奖励，而是覆盖匹配问题。人类第一视角数据扩大场景与交互分布，但无法自动补足特定机械臂、相机和带动作标注的单臂变化。\n- 80 维固定槽位是实用的异构数据接口，不是已经解决动作统一。它通过语义槽和 mask 避免错误监督，但跨具身共享仍依赖人为定义的坐标语义和下游微调。\n\n**和已有方法的关系：**\n\n- 相对 VLA，OpenWAM 继承的是视频生成中的视觉动力学先验，并额外使用未来视频 latent 作为训练目标；论文观察到 WAM 更擅长 ID 拟合，而 VLA 在强视觉 OOD 下更稳，但跨模型比较仍受数据与规模差异影响。\n- 相对 Fast-WAM、DreamZero、Motus 等单一实现，OpenWAM 的重点是把 single/dual/tri-system、joint/cross attention、IDM 和多种视频骨干放进同一基础设施，降低结论被实现差异污染的程度。\n- 相对 [[Geometric Action Model for Robot Policy Learning]]，OpenWAM 预测多帧像素重建 latent，获得强视频生成先验但承受相机/噪声敏感性；GAM 在几何潜空间做未来预测，更轻、更稳，但丢失像素级世界生成能力。\n- 相对 [[Beyond Data Scaling: Representation-Centric Continued Pre-training for Vision-Language-Action Models]]，OpenWAM 强调视频/动作两个生成流如何协同，VLAct 强调 VLM backbone 如何避免表示漂移和 decoder lock-in；两者分别对应 WAM 与 VLA 的预训练设计科学化。\n\n**可借鉴点：**\n\n- 设计世界—动作模型时，应把视觉表示、世界骨干、动作容量、跨模态可见性和去噪路径分别设为可控变量，并让每项结论在前一项确定的条件下继续验证。\n- 评测预训练必须同时报告 ID 与 OOD，尤其将相机、噪声、背景、布局、机器人形态和动作空间拆开；只看平均榜单会掩盖模型究竟学到动力学，还是覆盖了相近数据。\n- 异构机器人数据的统一接口需要固定语义槽、有效维度 mask、可逆原生动作映射和 checkpoint 内归一化统计，防止训练/部署间静默改变坐标含义。\n- 对 representation encoder，不应只比较语义质量；token 维度和时间压缩率会直接改变 DiT 训练难度，压缩适配器本身必须进入公平消融。",
+    "insightCore": [
+      "论文最重要的研究贡献是把 WAM 从“架构故事”变成可证伪的工程科学。尤其是从 scratch 时 action-sees-video 与 mutual 几乎打平，而大规模预训练后 mutual 反超，说明最佳信息流会随数据规模改变，不能只在小实验上定型。",
+      "“世界模型帮助动作”的证据更像表示学习而非显式规划：训练时动作必须看世界，但测试时刻意让视频先去噪并没有收益，同步去噪反而最好。这削弱了“模型先完整想象未来，再反推动作”的直观叙事。",
+      "OOD 收益与 LIBERO-Plus 失败共同说明，预训练不是抽象的规模奖励，而是覆盖匹配问题。人类第一视角数据扩大场景与交互分布，但无法自动补足特定机械臂、相机和带动作标注的单臂变化。",
+      "80 维固定槽位是实用的异构数据接口，不是已经解决动作统一。它通过语义槽和 mask 避免错误监督，但跨具身共享仍依赖人为定义的坐标语义和下游微调。"
+    ],
+    "insightRelations": [
+      "相对 VLA，OpenWAM 继承的是视频生成中的视觉动力学先验，并额外使用未来视频 latent 作为训练目标；论文观察到 WAM 更擅长 ID 拟合，而 VLA 在强视觉 OOD 下更稳，但跨模型比较仍受数据与规模差异影响。",
+      "相对 Fast-WAM、DreamZero、Motus 等单一实现，OpenWAM 的重点是把 single/dual/tri-system、joint/cross attention、IDM 和多种视频骨干放进同一基础设施，降低结论被实现差异污染的程度。",
+      "相对 [[Geometric Action Model for Robot Policy Learning]]，OpenWAM 预测多帧像素重建 latent，获得强视频生成先验但承受相机/噪声敏感性；GAM 在几何潜空间做未来预测，更轻、更稳，但丢失像素级世界生成能力。",
+      "相对 [[Beyond Data Scaling: Representation-Centric Continued Pre-training for Vision-Language-Action Models]]，OpenWAM 强调视频/动作两个生成流如何协同，VLAct 强调 VLM backbone 如何避免表示漂移和 decoder lock-in；两者分别对应 WAM 与 VLA 的预训练设计科学化。"
+    ],
+    "insightBorrowable": [
+      "设计世界—动作模型时，应把视觉表示、世界骨干、动作容量、跨模态可见性和去噪路径分别设为可控变量，并让每项结论在前一项确定的条件下继续验证。",
+      "评测预训练必须同时报告 ID 与 OOD，尤其将相机、噪声、背景、布局、机器人形态和动作空间拆开；只看平均榜单会掩盖模型究竟学到动力学，还是覆盖了相近数据。",
+      "异构机器人数据的统一接口需要固定语义槽、有效维度 mask、可逆原生动作映射和 checkpoint 内归一化统计，防止训练/部署间静默改变坐标含义。",
+      "对 representation encoder，不应只比较语义质量；token 维度和时间压缩率会直接改变 DiT 训练难度，压缩适配器本身必须进入公平消融。"
+    ],
+    "risks": "**局限：**\n\n- 六组实验按前一组的默认选择递进，而不是对所有变量做完整 factorial sweep；因此后续结论依赖早期选型，变量之间可能存在未测交互。\n- 视频骨干比较同时改变参数量、架构、预训练数据和训练目标，论文明确承认不能把 90.14%→93.79% 全部归因为规模。\n- WAM 与 VLA 的“ID/OOD 优势区域”主要来自不同公开模型的横向榜单，预训练数据、参数、微调和算力不统一，不能视为严格范式因果结论。\n- LIBERO-Plus 暴露像素重建 latent 对相机与噪声的脆弱性；未来视频长 horizon 还会累计误差，增加的世界监督可能同时带来更强拟合和更差视觉 OOD。\n- 论文主要研究具身预训练，尚未系统覆盖 post-training、在线适配、强化学习或安全约束；80 维动作空间也未纳入 UMI 风格数据和更一般的移动/触觉/力觉通道。\n- 真机虽然覆盖单臂、双臂和灵巧手，但任务仍是实验室操作且需要下游 SFT；“预训练未见灵巧手”不等于零样本直接控制未见机器人。\n\n**适用场景：**\n\n- 需要系统比较 WAM 视频骨干、视觉表示、融合架构、attention mask、数据配方或采样调度的研究团队。\n- 拥有人类第一视角视频与多机器人轨迹，希望用统一世界/动作目标训练可跨任务微调的机器人 foundation model。\n- 需要开放 checkpoint、统一 benchmark 接口和部署服务器，快速复现 WAM 设计或建立新消融基线的工程环境。\n- 不适合直接作为强相机扰动、强噪声、未知安全约束环境下的即插即用控制器；这些场景仍需要更鲁棒的潜表示、覆盖匹配数据和部署期安全机制。\n\n**最终判断：**\n\n- OpenWAM 是当前 WAM 路线非常值得长期跟踪的“研究底座型”工作。其价值排序应是：受控实验基础设施与开放资产第一，关于信息流和 OOD 的可复用设计原则第二，OpenWAM-α 的排行榜成绩第三。它证明视频生成先验可以在大规模异构预训练后形成强控制基线，也诚实展示像素潜空间的 OOD 天花板；后续最关键的问题不是继续照抄更大视频 DiT，而是寻找更紧凑、对环境变化更鲁棒的表示，并用更丰富、带精确动作标注的具身数据验证 WAM/VLA 的互补设计。",
+    "riskLimitations": [
+      "六组实验按前一组的默认选择递进，而不是对所有变量做完整 factorial sweep；因此后续结论依赖早期选型，变量之间可能存在未测交互。",
+      "视频骨干比较同时改变参数量、架构、预训练数据和训练目标，论文明确承认不能把 90.14%→93.79% 全部归因为规模。",
+      "WAM 与 VLA 的“ID/OOD 优势区域”主要来自不同公开模型的横向榜单，预训练数据、参数、微调和算力不统一，不能视为严格范式因果结论。",
+      "LIBERO-Plus 暴露像素重建 latent 对相机与噪声的脆弱性；未来视频长 horizon 还会累计误差，增加的世界监督可能同时带来更强拟合和更差视觉 OOD。",
+      "论文主要研究具身预训练，尚未系统覆盖 post-training、在线适配、强化学习或安全约束；80 维动作空间也未纳入 UMI 风格数据和更一般的移动/触觉/力觉通道。",
+      "真机虽然覆盖单臂、双臂和灵巧手，但任务仍是实验室操作且需要下游 SFT；“预训练未见灵巧手”不等于零样本直接控制未见机器人。"
+    ],
+    "riskScenarios": [
+      "需要系统比较 WAM 视频骨干、视觉表示、融合架构、attention mask、数据配方或采样调度的研究团队。",
+      "拥有人类第一视角视频与多机器人轨迹，希望用统一世界/动作目标训练可跨任务微调的机器人 foundation model。",
+      "需要开放 checkpoint、统一 benchmark 接口和部署服务器，快速复现 WAM 设计或建立新消融基线的工程环境。",
+      "不适合直接作为强相机扰动、强噪声、未知安全约束环境下的即插即用控制器；这些场景仍需要更鲁棒的潜表示、覆盖匹配数据和部署期安全机制。"
+    ],
+    "riskJudgment": [
+      "OpenWAM 是当前 WAM 路线非常值得长期跟踪的“研究底座型”工作。其价值排序应是：受控实验基础设施与开放资产第一，关于信息流和 OOD 的可复用设计原则第二，OpenWAM-α 的排行榜成绩第三。它证明视频生成先验可以在大规模异构预训练后形成强控制基线，也诚实展示像素潜空间的 OOD 天花板；后续最关键的问题不是继续照抄更大视频 DiT，而是寻找更紧凑、对环境变化更鲁棒的表示，并用更丰富、带精确动作标注的具身数据验证 WAM/VLA 的互补设计。"
+    ],
+    "resultsTableMarkdown": "| 评测或消融 | OpenWAM 结果 | 对照与含义 |\n| --- | ---: | --- |\n| 骨干规模 | 1.3B：90.14%；5B：92.39%；14B：93.79% | 更强视频生成骨干迁移更好，但收益不是纯参数量因果 |\n| 双系统 joint self-attention | 92.36% | 单系统 Vanilla 85.50%；三系统 92.60% |\n| 世界→动作信息流 | 92.39% | Isolated 87.41%，约 +5 个点 |\n| 600h 共训 OOD | 26.62% | From scratch 14.50%，+12.12 个点 |\n| LIBERO / RoboTwin2.0-Full | 99.3% / 93.60% | 接近饱和或顶级水平 |\n| RoboTwin C2R Clean / Random / Avg | 89.4% / 48.7% / 69.0% | 最强 WAM，但弱于最强 VLA 77.1% Avg |\n| LIBERO-Plus Avg | 69.2% | Qwen-RobotManip 89.0%；相机和噪声是主要失分项 |\n| 真机单臂 Avg | 82.5% | LingBot-VA 77.5%；π0.5 55.0% |\n| 真机双臂 RoboDojo Score / SR | 37.6 / 24.4% | π0.5 为 22.9 / 12.8% |",
+    "resultsTable": {
+      "columns": [
+        "评测或消融",
+        "OpenWAM 结果",
+        "对照与含义"
+      ],
+      "rows": [
+        [
+          "骨干规模",
+          "1.3B：90.14%；5B：92.39%；14B：93.79%",
+          "更强视频生成骨干迁移更好，但收益不是纯参数量因果"
+        ],
+        [
+          "双系统 joint self-attention",
+          "92.36%",
+          "单系统 Vanilla 85.50%；三系统 92.60%"
+        ],
+        [
+          "世界→动作信息流",
+          "92.39%",
+          "Isolated 87.41%，约 +5 个点"
+        ],
+        [
+          "600h 共训 OOD",
+          "26.62%",
+          "From scratch 14.50%，+12.12 个点"
+        ],
+        [
+          "LIBERO / RoboTwin2.0-Full",
+          "99.3% / 93.60%",
+          "接近饱和或顶级水平"
+        ],
+        [
+          "RoboTwin C2R Clean / Random / Avg",
+          "89.4% / 48.7% / 69.0%",
+          "最强 WAM，但弱于最强 VLA 77.1% Avg"
+        ],
+        [
+          "LIBERO-Plus Avg",
+          "69.2%",
+          "Qwen-RobotManip 89.0%；相机和噪声是主要失分项"
+        ],
+        [
+          "真机单臂 Avg",
+          "82.5%",
+          "LingBot-VA 77.5%；π0.5 55.0%"
+        ],
+        [
+          "真机双臂 RoboDojo Score / SR",
+          "37.6 / 24.4%",
+          "π0.5 为 22.9 / 12.8%"
+        ]
+      ]
+    },
+    "figureGallery": [
+      {
+        "zone": "intuition",
+        "caption": "OpenWAM 总览",
+        "src": "https://followhub.tenstep.top/papers/2609.07398-openwam-an-open-modular-exploration-towards-systematic-world-action-model-pretraining/teaser-page1.jpg"
+      },
+      {
+        "zone": "method",
+        "caption": "OpenWAM-α 架构",
+        "src": "https://followhub.tenstep.top/papers/2609.07398-openwam-an-open-modular-exploration-towards-systematic-world-action-model-pretraining/a-the-dual-system-architecture-a-video-generation-dit-and-an-actiondit-jointly-denoise-the-futur.jpg"
+      },
+      {
+        "zone": "results",
+        "caption": "OpenWAM-α 仿真结果",
+        "src": "https://followhub.tenstep.top/papers/2609.07398-openwam-an-open-modular-exploration-towards-systematic-world-action-model-pretraining/against-a-common-set-of-baselines-per-benchmark-every-bar-is-labelled-with-its-true-score-per-be.jpg"
+      }
+    ],
+    "relatedTopicSlugs": [
+      "vision-language-action"
     ]
   },
   {
@@ -1630,6 +2099,11 @@
       ]
     },
     "figureGallery": [
+      {
+        "zone": "intuition",
+        "caption": "主要图",
+        "src": "https://arxiv.org/html/2602.07322v2/Figs/framework.png"
+      },
       {
         "zone": "method",
         "caption": "方法图",
@@ -1801,6 +2275,11 @@
       ]
     },
     "figureGallery": [
+      {
+        "zone": "intuition",
+        "caption": "主要图",
+        "src": "https://arxiv.org/html/2410.09309v2/complance-teaser-v5.png"
+      },
       {
         "zone": "method",
         "caption": "方法图",
@@ -1986,6 +2465,11 @@
     },
     "figureGallery": [
       {
+        "zone": "intuition",
+        "caption": "AttenA+ 总览",
+        "src": "https://followhub.tenstep.top/papers/attena-rectifying-action-inequality-in-robotic-foundation-models/figure-hero.png"
+      },
+      {
         "zone": "method",
         "caption": "速度场与关键动作",
         "src": "https://followhub.tenstep.top/papers/attena-rectifying-action-inequality-in-robotic-foundation-models/figure-method.png"
@@ -2142,6 +2626,11 @@
     },
     "figureGallery": [
       {
+        "zone": "intuition",
+        "caption": "主要图",
+        "src": "https://followhub.tenstep.top/papers/2608.27550-beyond-data-scaling/figure-3-vlact-overview.png"
+      },
+      {
         "zone": "method",
         "caption": "方法图",
         "src": "https://followhub.tenstep.top/papers/2608.27550-beyond-data-scaling/figure-3-vlact-overview.png"
@@ -2288,6 +2777,11 @@
     },
     "figureGallery": [
       {
+        "zone": "intuition",
+        "caption": "主要图",
+        "src": "https://arxiv.org/html/2602.10105/src/pipeline_new.png"
+      },
+      {
         "zone": "method",
         "caption": "方法图",
         "src": "https://arxiv.org/html/2602.10105/src/pipeline_new.png"
@@ -2433,6 +2927,11 @@
       ]
     },
     "figureGallery": [
+      {
+        "zone": "intuition",
+        "caption": "DexJoCo overview",
+        "src": "https://arxiv.org/html/2605.16257v1/x1.png"
+      },
       {
         "zone": "method",
         "caption": "DexJoCo pipeline",
@@ -2696,6 +3195,11 @@
     },
     "figureGallery": [
       {
+        "zone": "intuition",
+        "caption": "主要图",
+        "src": "https://arxiv.org/html/2512.22414/figures/scalingAllV2.jpg"
+      },
+      {
         "zone": "method",
         "caption": "方法图",
         "src": "https://arxiv.org/html/2512.22414/figures/arch.jpg"
@@ -2889,6 +3393,11 @@
     },
     "figureGallery": [
       {
+        "zone": "intuition",
+        "caption": "主要图",
+        "src": "https://arxiv.org/html/2609.01596v1/Teaser1.png"
+      },
+      {
         "zone": "method",
         "caption": "方法图",
         "src": "https://arxiv.org/html/2609.01596v1/Pipeline0828.png"
@@ -3062,6 +3571,11 @@
     },
     "figureGallery": [
       {
+        "zone": "intuition",
+        "caption": "FD-VLA 训练与无力传感器推理流程",
+        "src": "https://arxiv.org/html/2602.02142v2/overview.png"
+      },
+      {
         "zone": "method",
         "caption": "FD-VLA 的 Force Distillation Module 与定向多模态融合",
         "src": "https://arxiv.org/html/2602.02142v2/overview.png"
@@ -3229,6 +3743,11 @@
     },
     "figureGallery": [
       {
+        "zone": "intuition",
+        "caption": "FM-VLA 两阶段架构总览",
+        "src": "https://arxiv.org/html/2607.18231v1/overview1.png"
+      },
+      {
         "zone": "method",
         "caption": "FM-VLA 的 Force-VAE 与记忆 token 注入流程",
         "src": "https://arxiv.org/html/2607.18231v1/overview1.png"
@@ -3387,6 +3906,11 @@
     },
     "figureGallery": [
       {
+        "zone": "intuition",
+        "caption": "主要图",
+        "src": "https://arxiv.org/html/2411.15753v2/teaser.png"
+      },
+      {
         "zone": "method",
         "caption": "方法图",
         "src": "https://arxiv.org/html/2411.15753v2/model.png"
@@ -3409,6 +3933,170 @@
     ],
     "relatedTopicSlugs": [
       "contact-rich-manipulation"
+    ]
+  },
+  {
+    "slug": "ge-act-2-0-pretraining-and-scaling-a-world-action-model-for-robotic-manipulation",
+    "title": "GE-Act 2.0: Pretraining and Scaling a World-Action Model for Robotic Manipulation",
+    "sourceType": "paper",
+    "sourceUrl": "",
+    "htmlUrl": "https://arxiv.org/html/2609.05588v1",
+    "pdfUrl": "https://arxiv.org/pdf/2609.05588.pdf",
+    "codeUrl": "",
+    "translationUrl": "https://hjfy.top/arxiv/2609.05588",
+    "publishDate": "2026-09-04",
+    "authors": [
+      "Renhang Liu",
+      "Wenzhi Zhao",
+      "Zhuo Yang",
+      "Liliang Chen",
+      "Pengfei Zhou",
+      "Shengcong Chen",
+      "Guanghui Ren",
+      "AgiBot Research Team"
+    ],
+    "affiliation": "AgiBot Research Team",
+    "relatedOrganizations": [
+      "AgiBot Research Team",
+      "Maniformer"
+    ],
+    "relatedCompanies": [
+      "AgiBot"
+    ],
+    "keywords": [
+      "world-action-model",
+      "robot-manipulation"
+    ],
+    "primaryDomainSlug": "physical-embodied-intelligence",
+    "domainSlugs": [
+      "physical-embodied-intelligence"
+    ],
+    "heroImage": "https://arxiv.org/html/2609.05588v1/fig_system_v04.png",
+    "tldr": "GE-Act 2.0 把 world model 的“预测未来画面”和 policy 的“输出动作”拆成可分别预训练、再可微分连接的两段，并用 KASO 解决“生成的未来与示范动作可能不是同一种正确行为”的监督错配。它最有价值的证据不是某个单点 benchmark，而是从 300 小时扩到 30,000 小时后，两个真实机器人上的零样本 OOD 操作成功率仍持续上升；但它目前仍是短视的 System-1 控制器，不等于开放环境中的完整机器人智能。",
+    "intuition": "给机器人一张多视角当前画面、一条语言指令和本体状态，GE-Act 2.0 先在极度压缩但保留控制信息的 latent 空间里“想象”一个完成后的未来状态，再让逆动力学模型回答“从现在到这个未来应该怎么动”。训练时它会从同一上下文采样多个未来，不把所有未来都硬配给示范动作，而是让当前 IDM 先判断哪些未来会诱导出与真实动作一致的控制，再只对这些候选回传梯度。这样既保留生成模型的多模态，又避免动作回归把不同策略平均成一个不可执行的中间动作。",
+    "abstractEn": "World–action models predict future states to guide robot actions, enabling learning from both action-free video and action-labeled interaction. Yet most inherit pretrained video generators, leaving pretraining and scaling of world–action models underexplored. We introduce Genie Envisioner Act 2.0 (GE-Act 2.0), a world–action model in which every trainable generative and action component is initialized from scratch on manipulation data.\n\nGE-Act 2.0 combines a control-oriented autoencoder (CoAE), a single-step visual planner (SVP), and an inverse dynamics model (IDM). CoAE retains action- and instruction-relevant information under aggressive compression, while SVP produces a completed future state in one differentiable pass, allowing visual planning and inverse dynamics to be pretrained separately on complementary data.\n\nThese components are then jointly trained using knowledge-aligned selective optimization (KASO), which reduces mismatched supervision by selecting only predicted future states judged behaviorally compatible with the recorded action. We evaluate pretrained checkpoints directly, without per-task fine-tuning, on 100 tasks across 20 manipulation skill groups, with held-out scenes, backgrounds, lighting conditions, and object instances.\n\nScaling co-training data from 300 to 30,000 hours raises success from 17.1% to 44.1% on G1-OP and from 13.4% to 31.1% on G2-90D. Despite comprising less than 2% of the co-training data, G2-90D improves by 17.7 points, suggesting useful cross-embodiment transfer from the broader corpus. The gains span 19/20 and 18/20 skill groups, respectively, and skill-specific coverage strongly correlates with zero-shot out-of-distribution (OOD) success (Pearson $r=0.80$; Spearman $\\rho=0.85$). Under the same zero-shot OOD protocol, the model grounds object, color, shape, and position references in at least 90% of trials; qualitative stress tests further show that it follows explicit instructions even when they conflict with an already-committed behavior or a conventional scene association.",
+    "abstractZh": "World-action model 通过预测未来状态来引导机器人动作，因此可以同时利用无动作视频和带动作标注的交互数据。但现有研究大多继承预训练视频生成器，对 world-action model 本身如何预训练和规模化讨论不足。作者提出 Genie Envisioner Act 2.0（GE-Act 2.0），其中所有可训练的生成组件和动作组件都在操作数据上从头初始化和预训练。\n\nGE-Act 2.0 由控制导向自编码器（CoAE）、单步视觉规划器（SVP）和逆动力学模型（IDM）组成。CoAE 在激进压缩下保留与动作和指令有关的信息；SVP 通过一次可微前向计算生成完整的未来状态，使视觉规划和逆动力学可以先在互补数据上分别预训练。\n\n随后，三者用知识对齐选择性优化（KASO）联合训练。KASO 只选择被判断为与记录动作在行为上兼容的预测未来状态，从而减少监督错配。作者直接评估预训练 checkpoint，不做按任务微调，在 20 个操作技能组的 100 个任务上使用未见过的场景、背景、光照和物体实例进行测试。\n\n当 co-training 数据从 300 小时扩展到 30,000 小时时，G1-OP 成功率从 17.1% 提升到 44.1%，G2-90D 从 13.4% 提升到 31.1%。尽管 G2-90D 只占 co-training 数据的不到 2%，其成功率仍提高 17.7 个百分点，显示更大规模的跨 embodiment 语料可以迁移到数据稀缺的平台。技能组收益分别覆盖 19/20 和 18/20 个组，技能专属数据覆盖与零样本 OOD 成功率高度相关（Pearson $r=0.80$，Spearman $\\rho=0.85$）。在同一零样本 OOD 协议下，模型对物体、颜色、形状和位置指代的 grounding 在至少 90% 的试验中正确；定性压力测试还显示，即使新指令与已经启动的行为或常见场景联想冲突，模型也能跟随显式指令。",
+    "background": "**动机：** 直接把视觉、语言映射到动作的 VLA 能从大规模示范中学到通用操作，但动作损失本身并不要求模型显式理解“动作会怎样改变物理世界”。World-action model 通过先预测未来视觉状态再生成动作，为无动作视频和没有语言/成功标注的机器人轨迹提供了进入训练闭环的入口。GE-Act 2.0 进一步把问题聚焦到“如何从零预训练并规模化整个 world-action 系统”，而不是只把一个已有视频生成器接到动作头上。\n\n**问题缺口：** 现有 WAM 路线有三个系统性断点：通用视频自编码器压缩率不足且不保证保留控制信息；多步视频生成成本高，使视觉规划器和 IDM 难以在互补数据上独立预训练；生成未来与示范动作即使都合理，也可能代表不同的行为模式，直接配对会产生 validity gap，让动作模型学到平均或冲突的监督。论文因此需要同时设计控制导向表示、单步可微规划接口和能识别动作兼容性的联合训练规则，并用不经任务微调的 OOD 评测证明预训练本身真的在增长能力。",
+    "backgroundMotivation": "直接把视觉、语言映射到动作的 VLA 能从大规模示范中学到通用操作，但动作损失本身并不要求模型显式理解“动作会怎样改变物理世界”。World-action model 通过先预测未来视觉状态再生成动作，为无动作视频和没有语言/成功标注的机器人轨迹提供了进入训练闭环的入口。GE-Act 2.0 进一步把问题聚焦到“如何从零预训练并规模化整个 world-action 系统”，而不是只把一个已有视频生成器接到动作头上。",
+    "backgroundGap": "现有 WAM 路线有三个系统性断点：通用视频自编码器压缩率不足且不保证保留控制信息；多步视频生成成本高，使视觉规划器和 IDM 难以在互补数据上独立预训练；生成未来与示范动作即使都合理，也可能代表不同的行为模式，直接配对会产生 validity gap，让动作模型学到平均或冲突的监督。论文因此需要同时设计控制导向表示、单步可微规划接口和能识别动作兼容性的联合训练规则，并用不经任务微调的 OOD 评测证明预训练本身真的在增长能力。",
+    "method": "**方法概述：** 系统先用 CoAE 把当前多视角观测压成每帧 24 个 token 的控制导向 latent；SVP 在这些 latent 上以指令为条件，只对未来帧做单步 MeanFlow 式去噪，输出稠密近未来和稀疏远未来状态；IDM 将当前 latent、预测未来 latent 和 proprioception 转成稠密执行动作块及稀疏长程动作。训练顺序是 CoAE/SVP 的视频预训练、IDM 的真实轨迹预训练，最后用 KASO 连接两者并保留各自预训练损失。\n\n**核心机制：** CoAE 不把重建清晰度当作唯一目标，而把像素/感知/GAN 重建与 SigLIP 2、V-JEPA 2.1、DINOv3 三个冻结视觉教师的特征对齐相加，使极端压缩后的 token 仍携带语言语义、时空结构和稠密视觉信息。SVP 采用条件化单步流生成：观测坐标始终保持干净，未来坐标从噪声一次性还原，因此生成结果可对 SVP 参数保持梯度。KASO 则在无梯度阶段采样 N 个未来，用 IDM 在高噪声动作流点比较每个未来与记录未来的动作响应，选出 top-k 后重放随机噪声并回传生成动作损失，避免把不同 outcome mode 强行配到同一个动作标签。\n\n**方法拆解：**\n\n- **CoAE 表示学习**：在 $256\\times384$ 输入上做 $64\\times$ 空间下采样，得到 $4\\times6$ 的 512 通道网格，即每帧 24 个 latent token；重建损失之外，用三类视觉教师进行余弦特征对齐。\n- **SVP 单步规划**：固定当前观测帧，只演化被 mask 的未来帧；在推理时用 $(r,t)=(0,1)$ 的一次前向完全去噪多视角未来 latent，降低多步视频采样成本并保留端到端梯度。\n- **IDM 动作恢复**：通过 future latent 的 cross-attention，同时预测控制频率的稠密动作 chunk 和更远时间的稀疏动作；部署时执行稠密 chunk，稀疏序列作为长程意图的辅助监督。\n- **KASO 选择性联合训练**：对同一上下文采样多个候选未来，使用 active IDM 的动作流响应计算兼容能量，只让 top-k 候选接受生成未来的动作损失，同时保留 SVP 与 IDM 的原始预训练损失。\n\n**关键要点：**\n\n- 论文把“视觉未来”和“动作”之间的接口明确化为一个可微的完整未来状态，而不是仅依赖生成器内部特征或并行动作头。\n- KASO 的判据在动作空间而不是像素空间：外观不同但诱导同一动作的未来可以兼容，而视觉逼真却对应另一行为模式的未来会被过滤。\n- 稀疏未来动作不是部署输出，而是让 IDM 在训练时同时看到近程执行和远程目标，缓解单纯短 horizon 控制的局限。\n\n![GE-Act 2.0 系统架构：SVP 生成未来视觉状态，IDM 将其转成动作](https://arxiv.org/html/2609.05588v1/fig_system_v04.png)\n\n*图 1：GE-Act 2.0 的 world-action 接口。*\n\n![CoAE 架构与多教师对齐目标](https://arxiv.org/html/2609.05588v1/fig_uae_architecture_v01.svg)\n\n*图 2：CoAE 的极端压缩和重建/教师对齐训练。*",
+    "methodOverview": "系统先用 CoAE 把当前多视角观测压成每帧 24 个 token 的控制导向 latent；SVP 在这些 latent 上以指令为条件，只对未来帧做单步 MeanFlow 式去噪，输出稠密近未来和稀疏远未来状态；IDM 将当前 latent、预测未来 latent 和 proprioception 转成稠密执行动作块及稀疏长程动作。训练顺序是 CoAE/SVP 的视频预训练、IDM 的真实轨迹预训练，最后用 KASO 连接两者并保留各自预训练损失。",
+    "methodCore": "CoAE 不把重建清晰度当作唯一目标，而把像素/感知/GAN 重建与 SigLIP 2、V-JEPA 2.1、DINOv3 三个冻结视觉教师的特征对齐相加，使极端压缩后的 token 仍携带语言语义、时空结构和稠密视觉信息。SVP 采用条件化单步流生成：观测坐标始终保持干净，未来坐标从噪声一次性还原，因此生成结果可对 SVP 参数保持梯度。KASO 则在无梯度阶段采样 N 个未来，用 IDM 在高噪声动作流点比较每个未来与记录未来的动作响应，选出 top-k 后重放随机噪声并回传生成动作损失，避免把不同 outcome mode 强行配到同一个动作标签。",
+    "methodBreakdown": [
+      "**CoAE 表示学习**：在 $256\\times384$ 输入上做 $64\\times$ 空间下采样，得到 $4\\times6$ 的 512 通道网格，即每帧 24 个 latent token；重建损失之外，用三类视觉教师进行余弦特征对齐。",
+      "**SVP 单步规划**：固定当前观测帧，只演化被 mask 的未来帧；在推理时用 $(r,t)=(0,1)$ 的一次前向完全去噪多视角未来 latent，降低多步视频采样成本并保留端到端梯度。",
+      "**IDM 动作恢复**：通过 future latent 的 cross-attention，同时预测控制频率的稠密动作 chunk 和更远时间的稀疏动作；部署时执行稠密 chunk，稀疏序列作为长程意图的辅助监督。",
+      "**KASO 选择性联合训练**：对同一上下文采样多个候选未来，使用 active IDM 的动作流响应计算兼容能量，只让 top-k 候选接受生成未来的动作损失，同时保留 SVP 与 IDM 的原始预训练损失。"
+    ],
+    "methodTakeaways": [
+      "论文把“视觉未来”和“动作”之间的接口明确化为一个可微的完整未来状态，而不是仅依赖生成器内部特征或并行动作头。",
+      "KASO 的判据在动作空间而不是像素空间：外观不同但诱导同一动作的未来可以兼容，而视觉逼真却对应另一行为模式的未来会被过滤。",
+      "稀疏未来动作不是部署输出，而是让 IDM 在训练时同时看到近程执行和远程目标，缓解单纯短 horizon 控制的局限。"
+    ],
+    "results": "**核心结果：**\n\n- **表示质量**：CoAE 的 action probe MAE 为 0.01673，仅比 token 数多 16 倍的 DINOv3（0.01273）和 V-JEPA 2.1（0.01487）高 13%-31%，但每帧只有 24 个 token；指令匹配错误率为 2.05%，优于 DC-AE 的 2.71% 和三个冻结教师。\n- **KASO 消融**：在同一套 39,000 小时 SVP、32,000 小时 IDM 初始化和 300 小时连接数据上，四物体场景的 pick success 从 E2E+PT 的 22.5% 提升到 KASO 的 37.5%，单物体场景从 12% 提升到 40%；follow score 也从 E2E 的 87.5% 提升到 95%。\n- **数据规模化**：G1-OP 的零样本 OOD suite success 从 300 小时的 17.1% 经 1,200/5,000 小时的 22.6%/27.3% 提升到 30,000 小时的 44.1%；G2-90D 从 13.4% 提升到 31.1%，在 18/20 个技能组有收益。\n- **技能覆盖效应**：除 Close 外的 19 个技能组中，训练小时与 30,000 小时模型的成功率显著相关（Pearson $r=0.80$，Spearman $\\rho=0.85$）；每增加 10 倍技能专属数据，拟合的成功率 logit 增加 1.94。\n- **语言 grounding**：在 295 次真实机器人 Pick/Place rollout 中，总体 follow score 为 83.1%，完整任务成功率为 72.9%；物体、颜色、直接位置和形状的 follow score 至少 90%，而 order 只有 Pick 13.3%/Place 26.7%，暴露出长尾指代表达的明显短板。\n\n**结果表：**\n\n| 实验/指标 | 关键设置 | GE-Act 2.0 结果 | 解释 |\n| --- | --- | ---: | --- |\n| CoAE action MAE | 400 train / 100 held-out shelf samples | 0.01673 | 以 1/16 token 数接近强视觉教师 |\n| CoAE instruction error | 5,000 GenieSim-Instruction episodes | 2.05% | 优于 DC-AE 2.71% |\n| KASO 四物体 pick success | 300h alignment，10 trials/target | 37.5% | 比 E2E+PT 高 15 个百分点 |\n| G1-OP OOD success | 300h → 30,000h | 17.1% → 44.1% | +27.0 个百分点 |\n| G2-90D OOD success | 300h → 30,000h | 13.4% → 31.1% | +17.7 个百分点，数据占比不到 2% |\n| 技能覆盖相关性 | 19 skill groups | $r=0.80$, $\\rho=0.85$ | 覆盖度是零样本能力的重要预测量 |\n\n![KASO 的候选未来筛选与可微重放](https://arxiv.org/html/2609.05588v1/fig_kapo_algorithm_v02.svg)\n\n*图 6：KASO 先用 IDM 评估动作兼容性，再对 top-k 候选重放梯度。*\n\n![两种 embodiment 的技能组规模化曲线](https://arxiv.org/html/2609.05588v1/fig_data_scaling_smallmult_g1g2_v02.svg)\n\n*图 9：G1-OP 和数据稀缺的 G2-90D 随 co-training 数据量增长的技能组成功率。*",
+    "resultHighlights": [
+      "**表示质量**：CoAE 的 action probe MAE 为 0.01673，仅比 token 数多 16 倍的 DINOv3（0.01273）和 V-JEPA 2.1（0.01487）高 13%-31%，但每帧只有 24 个 token；指令匹配错误率为 2.05%，优于 DC-AE 的 2.71% 和三个冻结教师。",
+      "**KASO 消融**：在同一套 39,000 小时 SVP、32,000 小时 IDM 初始化和 300 小时连接数据上，四物体场景的 pick success 从 E2E+PT 的 22.5% 提升到 KASO 的 37.5%，单物体场景从 12% 提升到 40%；follow score 也从 E2E 的 87.5% 提升到 95%。",
+      "**数据规模化**：G1-OP 的零样本 OOD suite success 从 300 小时的 17.1% 经 1,200/5,000 小时的 22.6%/27.3% 提升到 30,000 小时的 44.1%；G2-90D 从 13.4% 提升到 31.1%，在 18/20 个技能组有收益。",
+      "**技能覆盖效应**：除 Close 外的 19 个技能组中，训练小时与 30,000 小时模型的成功率显著相关（Pearson $r=0.80$，Spearman $\\rho=0.85$）；每增加 10 倍技能专属数据，拟合的成功率 logit 增加 1.94。",
+      "**语言 grounding**：在 295 次真实机器人 Pick/Place rollout 中，总体 follow score 为 83.1%，完整任务成功率为 72.9%；物体、颜色、直接位置和形状的 follow score 至少 90%，而 order 只有 Pick 13.3%/Place 26.7%，暴露出长尾指代表达的明显短板。"
+    ],
+    "insights": "**核心 insight：**\n\n- 这篇论文最重要的 scaling law 不是“参数越大越好”，而是“某个技能在训练混合物中被覆盖了多少”。Wipe 有 824.1 小时达到 76.7%，而动作相近但只有 64.6 小时的 Sweep 只有 3.3%，说明长尾技能覆盖比笼统的总小时数更接近能力瓶颈。\n- KASO 解决的是 world model 接入 policy 时常被忽略的条件分布问题：生成器可以保留多个合理未来，但动作标签只对应其中一个行为模式。若不选择，回归器会把模式平均掉；若只在动作上选择，既能保持视觉多模态，又能把动作条件绑定到可执行模式。\n- G2-90D 只占不到 2% 数据却获得 17.7 个百分点提升，说明共享操作语料在跨 embodiment 迁移上有实质价值，但硬件差异仍然会改变绝对上限，例如夹爪几何会影响 Shake/Stir 的表现。\n\n**和已有方法的关系：**\n\n- 相对继承 Wan/NVIDIA 等通用视频生成器的 WAM，GE-Act 2.0 选择在操作数据上从头训练生成和动作组件，把 latent 设计目标从“重建外观”改成“可用于控制”。\n- 相对多步 diffusion/flow video planner，SVP 的单步生成让 IDM 可以用没有指令的视频或没有成功标注的轨迹独立预训练，再通过显式未来状态连接两者。\n- 相对 teacher forcing 或直接 E2E，KASO 关注的不是生成未来与真实未来的像素差，而是生成未来在当前 IDM 下是否支持同一动作模式；这解释了为什么它在控制消融中比仅保留预训练损失更稳健。\n\n**可借鉴点：**\n\n- 做具身预训练时，应把数据混合设计成“技能覆盖矩阵”，同时记录每个原子技能的小时数，而不是只报总轨迹数。\n- 视觉表征的压缩率应由动作可恢复性和指令 grounding 共同约束；仅看重建指标很容易得到控制上无用的 token。\n- 对多模态生成器接动作头时，可以先在无梯度阶段用动作模型做兼容性筛选，再重放相同随机噪声回传梯度，这是保留多样性与避免错配之间的一个通用接口。\n- 评估基础能力时应固定零样本 OOD 协议，明确排除按任务 SFT，否则无法区分预训练获得的迁移能力和下游数据带来的适配能力。\n\n![技能覆盖小时数与零样本 OOD 成功率的关系](https://arxiv.org/html/2609.05588v1/fig_skill_hours_scatter_paper_v02.svg)\n\n*图 11：技能专属训练覆盖与 G1-OP 零样本 OOD 成功率的相关关系。*",
+    "insightCore": [
+      "这篇论文最重要的 scaling law 不是“参数越大越好”，而是“某个技能在训练混合物中被覆盖了多少”。Wipe 有 824.1 小时达到 76.7%，而动作相近但只有 64.6 小时的 Sweep 只有 3.3%，说明长尾技能覆盖比笼统的总小时数更接近能力瓶颈。",
+      "KASO 解决的是 world model 接入 policy 时常被忽略的条件分布问题：生成器可以保留多个合理未来，但动作标签只对应其中一个行为模式。若不选择，回归器会把模式平均掉；若只在动作上选择，既能保持视觉多模态，又能把动作条件绑定到可执行模式。",
+      "G2-90D 只占不到 2% 数据却获得 17.7 个百分点提升，说明共享操作语料在跨 embodiment 迁移上有实质价值，但硬件差异仍然会改变绝对上限，例如夹爪几何会影响 Shake/Stir 的表现。"
+    ],
+    "insightRelations": [
+      "相对继承 Wan/NVIDIA 等通用视频生成器的 WAM，GE-Act 2.0 选择在操作数据上从头训练生成和动作组件，把 latent 设计目标从“重建外观”改成“可用于控制”。",
+      "相对多步 diffusion/flow video planner，SVP 的单步生成让 IDM 可以用没有指令的视频或没有成功标注的轨迹独立预训练，再通过显式未来状态连接两者。",
+      "相对 teacher forcing 或直接 E2E，KASO 关注的不是生成未来与真实未来的像素差，而是生成未来在当前 IDM 下是否支持同一动作模式；这解释了为什么它在控制消融中比仅保留预训练损失更稳健。"
+    ],
+    "insightBorrowable": [
+      "做具身预训练时，应把数据混合设计成“技能覆盖矩阵”，同时记录每个原子技能的小时数，而不是只报总轨迹数。",
+      "视觉表征的压缩率应由动作可恢复性和指令 grounding 共同约束；仅看重建指标很容易得到控制上无用的 token。",
+      "对多模态生成器接动作头时，可以先在无梯度阶段用动作模型做兼容性筛选，再重放相同随机噪声回传梯度，这是保留多样性与避免错配之间的一个通用接口。",
+      "评估基础能力时应固定零样本 OOD 协议，明确排除按任务 SFT，否则无法区分预训练获得的迁移能力和下游数据带来的适配能力。"
+    ],
+    "risks": "**局限：**\n\n- 论文还没有按其潜力规模使用 egocentric video；因此“无动作视频能否进一步提升真实机器人能力”仍是待验证的外推，而不是当前结果。\n- 主评测虽然覆盖 100 个真实任务，但仍集中在预定义桌面操作和两种 embodiment；G2-90D 的绝对成功率只有 31.1%，跨硬件迁移不能理解为无需平台适配。\n- KASO 的兼容性分数依赖当前 active IDM。在 IDM 尚未学好、或真实任务存在未记录的新行为模式时，top-k 可能把有价值但陌生的未来过滤掉；论文主要用受控消融验证，尚未给出大规模探索阶段的选择偏差分析。\n- 语言实验限制在 Pick/Place 和六类指代维度，order 的 follow score 仍很低；行为冲突结果是定性压力测试，不应被解读为完整的在线指令修正能力。\n- 模拟 benchmark 需要按协议进行 SFT，且作者明确承认 simulator-to-real gap，因此模拟结果只能作为横向参考。\n\n**适用场景：**\n\n- 适合构建有大规模异构机器人视频/轨迹、希望先做通用预训练再进行 RL 或少量适配的操作模型。\n- 适合需要利用 action-free video、失败轨迹和无语言 rollout 的训练管线，因为 SVP 与 IDM 可以在不同数据源上先独立学习。\n- 适合研究“生成未来如何约束动作”的 world-action 接口、技能覆盖与跨 embodiment 迁移；不适合直接当作具备长程规划、记忆和安全保证的家庭机器人系统。\n\n**最终判断：**\n\n- GE-Act 2.0 的可信贡献是把 world-action model 的规模化问题拆成三个可测的工程对象：控制导向 latent、单步可微未来、动作兼容性选择，并用真实机器人零样本 OOD 曲线证明数据规模和技能覆盖确实带来持续收益。\n- 它比“视频生成 + 动作头”的拼接方案更接近可扩展预训练 recipe，但当前证据仍主要说明短时操作能力在增长。下一步真正决定路线价值的，是 egocentric video 的规模化、更多 embodiment 的受控迁移，以及把 System-1 控制器接入显式规划、记忆和自我纠错。",
+    "riskLimitations": [
+      "论文还没有按其潜力规模使用 egocentric video；因此“无动作视频能否进一步提升真实机器人能力”仍是待验证的外推，而不是当前结果。",
+      "主评测虽然覆盖 100 个真实任务，但仍集中在预定义桌面操作和两种 embodiment；G2-90D 的绝对成功率只有 31.1%，跨硬件迁移不能理解为无需平台适配。",
+      "KASO 的兼容性分数依赖当前 active IDM。在 IDM 尚未学好、或真实任务存在未记录的新行为模式时，top-k 可能把有价值但陌生的未来过滤掉；论文主要用受控消融验证，尚未给出大规模探索阶段的选择偏差分析。",
+      "语言实验限制在 Pick/Place 和六类指代维度，order 的 follow score 仍很低；行为冲突结果是定性压力测试，不应被解读为完整的在线指令修正能力。",
+      "模拟 benchmark 需要按协议进行 SFT，且作者明确承认 simulator-to-real gap，因此模拟结果只能作为横向参考。"
+    ],
+    "riskScenarios": [
+      "适合构建有大规模异构机器人视频/轨迹、希望先做通用预训练再进行 RL 或少量适配的操作模型。",
+      "适合需要利用 action-free video、失败轨迹和无语言 rollout 的训练管线，因为 SVP 与 IDM 可以在不同数据源上先独立学习。",
+      "适合研究“生成未来如何约束动作”的 world-action 接口、技能覆盖与跨 embodiment 迁移；不适合直接当作具备长程规划、记忆和安全保证的家庭机器人系统。"
+    ],
+    "riskJudgment": [
+      "GE-Act 2.0 的可信贡献是把 world-action model 的规模化问题拆成三个可测的工程对象：控制导向 latent、单步可微未来、动作兼容性选择，并用真实机器人零样本 OOD 曲线证明数据规模和技能覆盖确实带来持续收益。",
+      "它比“视频生成 + 动作头”的拼接方案更接近可扩展预训练 recipe，但当前证据仍主要说明短时操作能力在增长。下一步真正决定路线价值的，是 egocentric video 的规模化、更多 embodiment 的受控迁移，以及把 System-1 控制器接入显式规划、记忆和自我纠错。"
+    ],
+    "resultsTableMarkdown": "| 维度 | 结论 |\n| --- | --- |\n| 表示 | 24 tokens/frame 的 CoAE 保留较强动作恢复和指令 grounding |\n| 生成 | SVP 一次前向生成完整未来，允许视觉规划和 IDM 解耦预训练 |\n| 对齐 | KASO 通过 IDM 动作兼容性选择 top-k 未来，缓解 validity gap |\n| 规模化 | G1-OP 17.1% → 44.1%，G2-90D 13.4% → 31.1% |\n| 数据规律 | 技能覆盖与 OOD 成功率 Pearson $r=0.80$、Spearman $\\rho=0.85$ |\n| 语言短板 | order 指代 follow score 仅 Pick 13.3% / Place 26.7% |",
+    "resultsTable": {
+      "columns": [
+        "维度",
+        "结论"
+      ],
+      "rows": [
+        [
+          "表示",
+          "24 tokens/frame 的 CoAE 保留较强动作恢复和指令 grounding"
+        ],
+        [
+          "生成",
+          "SVP 一次前向生成完整未来，允许视觉规划和 IDM 解耦预训练"
+        ],
+        [
+          "对齐",
+          "KASO 通过 IDM 动作兼容性选择 top-k 未来，缓解 validity gap"
+        ],
+        [
+          "规模化",
+          "G1-OP 17.1% → 44.1%，G2-90D 13.4% → 31.1%"
+        ],
+        [
+          "数据规律",
+          "技能覆盖与 OOD 成功率 Pearson $r=0.80$、Spearman $\\rho=0.85$"
+        ],
+        [
+          "语言短板",
+          "order 指代 follow score 仅 Pick 13.3% / Place 26.7%"
+        ]
+      ]
+    },
+    "figureGallery": [
+      {
+        "zone": "method",
+        "caption": "GE-Act 2.0 系统架构：SVP 生成未来视觉状态，IDM 将其转成动作",
+        "src": "https://arxiv.org/html/2609.05588v1/fig_system_v04.png"
+      },
+      {
+        "zone": "method",
+        "caption": "CoAE 架构与多教师对齐目标",
+        "src": "https://arxiv.org/html/2609.05588v1/fig_uae_architecture_v01.svg"
+      },
+      {
+        "zone": "results",
+        "caption": "KASO 的候选未来筛选与可微重放",
+        "src": "https://arxiv.org/html/2609.05588v1/fig_kapo_algorithm_v02.svg"
+      },
+      {
+        "zone": "results",
+        "caption": "两种 embodiment 的技能组规模化曲线",
+        "src": "https://arxiv.org/html/2609.05588v1/fig_data_scaling_smallmult_g1g2_v02.svg"
+      },
+      {
+        "zone": "insights",
+        "caption": "技能覆盖小时数与零样本 OOD 成功率的关系",
+        "src": "https://arxiv.org/html/2609.05588v1/fig_skill_hours_scatter_paper_v02.svg"
+      }
+    ],
+    "relatedTopicSlugs": [
+      "vision-language-action"
     ]
   },
   {
@@ -3538,6 +4226,11 @@
       ]
     },
     "figureGallery": [
+      {
+        "zone": "intuition",
+        "caption": "主要图",
+        "src": "https://arxiv.org/html/2603.03596v1/x1.png"
+      },
       {
         "zone": "method",
         "caption": "方法图",
@@ -4061,6 +4754,11 @@
     },
     "figureGallery": [
       {
+        "zone": "intuition",
+        "caption": "Fig. 1 总览图",
+        "src": "https://followhub.tenstep.top/papers/pi07-a-steerable-generalist-robotic-foundation-model-with-emergent-capabilities/figure-hero.png?v=20260511a"
+      },
+      {
         "zone": "method",
         "caption": "Fig. 2 架构图",
         "src": "https://followhub.tenstep.top/papers/pi07-a-steerable-generalist-robotic-foundation-model-with-emergent-capabilities/figure-method.png?v=20260511a"
@@ -4320,6 +5018,11 @@
     },
     "figureGallery": [
       {
+        "zone": "intuition",
+        "caption": "方法图",
+        "src": "https://arxiv.org/html/2604.23073v2/x1.png"
+      },
+      {
         "zone": "results",
         "caption": "结果图",
         "src": "https://arxiv.org/html/2604.23073v2/x2.png"
@@ -4455,6 +5158,11 @@
       ]
     },
     "figureGallery": [
+      {
+        "zone": "intuition",
+        "caption": "STEAM overview",
+        "src": "https://arxiv.org/html/2606.29834v1/x1.png"
+      },
       {
         "zone": "method",
         "caption": "STEAM framework",
@@ -4659,6 +5367,11 @@
     },
     "figureGallery": [
       {
+        "zone": "intuition",
+        "caption": "主要图",
+        "src": "https://arxiv.org/html/2606.17055v2/teaser_v6_0609.png"
+      },
+      {
         "zone": "method",
         "caption": "方法图",
         "src": "https://arxiv.org/html/2606.17055v2/model_v2_0524.png"
@@ -4758,6 +5471,11 @@
     },
     "figureGallery": [
       {
+        "zone": "intuition",
+        "caption": "主要图",
+        "src": "https://followhub.tenstep.top/papers/2606.22332-tactile-genesis/figure-1-overview-cropped.png"
+      },
+      {
         "zone": "method",
         "caption": "方法图",
         "src": "https://followhub.tenstep.top/papers/2606.22332-tactile-genesis/figure-1-overview-cropped.png"
@@ -4856,6 +5574,11 @@
     },
     "figureGallery": [
       {
+        "zone": "intuition",
+        "caption": "主要图",
+        "src": "https://arxiv.org/html/2607.27205v1/x2.png"
+      },
+      {
         "zone": "method",
         "caption": "方法图",
         "src": "https://arxiv.org/html/2607.27205v1/x2.png"
@@ -4863,594 +5586,6 @@
     ],
     "relatedTopicSlugs": [
       "vision-language-action"
-    ]
-  },
-  {
-    "slug": "ge-act-2-0-pretraining-and-scaling-a-world-action-model-for-robotic-manipulation",
-    "title": "GE-Act 2.0: Pretraining and Scaling a World-Action Model for Robotic Manipulation",
-    "sourceType": "paper",
-    "sourceUrl": "",
-    "htmlUrl": "https://arxiv.org/html/2609.05588v1",
-    "pdfUrl": "https://arxiv.org/pdf/2609.05588.pdf",
-    "codeUrl": "",
-    "translationUrl": "https://hjfy.top/arxiv/2609.05588",
-    "publishDate": "2026-09-04",
-    "authors": [
-      "Renhang Liu",
-      "Wenzhi Zhao",
-      "Zhuo Yang",
-      "Liliang Chen",
-      "Pengfei Zhou",
-      "Shengcong Chen",
-      "Guanghui Ren",
-      "AgiBot Research Team"
-    ],
-    "affiliation": "AgiBot Research Team",
-    "relatedOrganizations": [
-      "AgiBot Research Team",
-      "Maniformer"
-    ],
-    "relatedCompanies": [
-      "AgiBot"
-    ],
-    "keywords": [
-      "world-action-model",
-      "robot-manipulation"
-    ],
-    "primaryDomainSlug": "physical-embodied-intelligence",
-    "domainSlugs": [
-      "physical-embodied-intelligence"
-    ],
-    "heroImage": "https://arxiv.org/html/2609.05588v1/fig_system_v04.png",
-    "tldr": "GE-Act 2.0 把 world model 的“预测未来画面”和 policy 的“输出动作”拆成可分别预训练、再可微分连接的两段，并用 KASO 解决“生成的未来与示范动作可能不是同一种正确行为”的监督错配。它最有价值的证据不是某个单点 benchmark，而是从 300 小时扩到 30,000 小时后，两个真实机器人上的零样本 OOD 操作成功率仍持续上升；但它目前仍是短视的 System-1 控制器，不等于开放环境中的完整机器人智能。",
-    "intuition": "给机器人一张多视角当前画面、一条语言指令和本体状态，GE-Act 2.0 先在极度压缩但保留控制信息的 latent 空间里“想象”一个完成后的未来状态，再让逆动力学模型回答“从现在到这个未来应该怎么动”。训练时它会从同一上下文采样多个未来，不把所有未来都硬配给示范动作，而是让当前 IDM 先判断哪些未来会诱导出与真实动作一致的控制，再只对这些候选回传梯度。这样既保留生成模型的多模态，又避免动作回归把不同策略平均成一个不可执行的中间动作。",
-    "abstractEn": "World–action models predict future states to guide robot actions, enabling learning from both action-free video and action-labeled interaction. Yet most inherit pretrained video generators, leaving pretraining and scaling of world–action models underexplored. We introduce Genie Envisioner Act 2.0 (GE-Act 2.0), a world–action model in which every trainable generative and action component is initialized from scratch on manipulation data.\n\nGE-Act 2.0 combines a control-oriented autoencoder (CoAE), a single-step visual planner (SVP), and an inverse dynamics model (IDM). CoAE retains action- and instruction-relevant information under aggressive compression, while SVP produces a completed future state in one differentiable pass, allowing visual planning and inverse dynamics to be pretrained separately on complementary data.\n\nThese components are then jointly trained using knowledge-aligned selective optimization (KASO), which reduces mismatched supervision by selecting only predicted future states judged behaviorally compatible with the recorded action. We evaluate pretrained checkpoints directly, without per-task fine-tuning, on 100 tasks across 20 manipulation skill groups, with held-out scenes, backgrounds, lighting conditions, and object instances.\n\nScaling co-training data from 300 to 30,000 hours raises success from 17.1% to 44.1% on G1-OP and from 13.4% to 31.1% on G2-90D. Despite comprising less than 2% of the co-training data, G2-90D improves by 17.7 points, suggesting useful cross-embodiment transfer from the broader corpus. The gains span 19/20 and 18/20 skill groups, respectively, and skill-specific coverage strongly correlates with zero-shot out-of-distribution (OOD) success (Pearson $r=0.80$; Spearman $\\rho=0.85$). Under the same zero-shot OOD protocol, the model grounds object, color, shape, and position references in at least 90% of trials; qualitative stress tests further show that it follows explicit instructions even when they conflict with an already-committed behavior or a conventional scene association.",
-    "abstractZh": "World-action model 通过预测未来状态来引导机器人动作，因此可以同时利用无动作视频和带动作标注的交互数据。但现有研究大多继承预训练视频生成器，对 world-action model 本身如何预训练和规模化讨论不足。作者提出 Genie Envisioner Act 2.0（GE-Act 2.0），其中所有可训练的生成组件和动作组件都在操作数据上从头初始化和预训练。\n\nGE-Act 2.0 由控制导向自编码器（CoAE）、单步视觉规划器（SVP）和逆动力学模型（IDM）组成。CoAE 在激进压缩下保留与动作和指令有关的信息；SVP 通过一次可微前向计算生成完整的未来状态，使视觉规划和逆动力学可以先在互补数据上分别预训练。\n\n随后，三者用知识对齐选择性优化（KASO）联合训练。KASO 只选择被判断为与记录动作在行为上兼容的预测未来状态，从而减少监督错配。作者直接评估预训练 checkpoint，不做按任务微调，在 20 个操作技能组的 100 个任务上使用未见过的场景、背景、光照和物体实例进行测试。\n\n当 co-training 数据从 300 小时扩展到 30,000 小时时，G1-OP 成功率从 17.1% 提升到 44.1%，G2-90D 从 13.4% 提升到 31.1%。尽管 G2-90D 只占 co-training 数据的不到 2%，其成功率仍提高 17.7 个百分点，显示更大规模的跨 embodiment 语料可以迁移到数据稀缺的平台。技能组收益分别覆盖 19/20 和 18/20 个组，技能专属数据覆盖与零样本 OOD 成功率高度相关（Pearson $r=0.80$，Spearman $\\rho=0.85$）。在同一零样本 OOD 协议下，模型对物体、颜色、形状和位置指代的 grounding 在至少 90% 的试验中正确；定性压力测试还显示，即使新指令与已经启动的行为或常见场景联想冲突，模型也能跟随显式指令。",
-    "background": "**动机：** 直接把视觉、语言映射到动作的 VLA 能从大规模示范中学到通用操作，但动作损失本身并不要求模型显式理解“动作会怎样改变物理世界”。World-action model 通过先预测未来视觉状态再生成动作，为无动作视频和没有语言/成功标注的机器人轨迹提供了进入训练闭环的入口。GE-Act 2.0 进一步把问题聚焦到“如何从零预训练并规模化整个 world-action 系统”，而不是只把一个已有视频生成器接到动作头上。\n\n**问题缺口：** 现有 WAM 路线有三个系统性断点：通用视频自编码器压缩率不足且不保证保留控制信息；多步视频生成成本高，使视觉规划器和 IDM 难以在互补数据上独立预训练；生成未来与示范动作即使都合理，也可能代表不同的行为模式，直接配对会产生 validity gap，让动作模型学到平均或冲突的监督。论文因此需要同时设计控制导向表示、单步可微规划接口和能识别动作兼容性的联合训练规则，并用不经任务微调的 OOD 评测证明预训练本身真的在增长能力。",
-    "backgroundMotivation": "直接把视觉、语言映射到动作的 VLA 能从大规模示范中学到通用操作，但动作损失本身并不要求模型显式理解“动作会怎样改变物理世界”。World-action model 通过先预测未来视觉状态再生成动作，为无动作视频和没有语言/成功标注的机器人轨迹提供了进入训练闭环的入口。GE-Act 2.0 进一步把问题聚焦到“如何从零预训练并规模化整个 world-action 系统”，而不是只把一个已有视频生成器接到动作头上。",
-    "backgroundGap": "现有 WAM 路线有三个系统性断点：通用视频自编码器压缩率不足且不保证保留控制信息；多步视频生成成本高，使视觉规划器和 IDM 难以在互补数据上独立预训练；生成未来与示范动作即使都合理，也可能代表不同的行为模式，直接配对会产生 validity gap，让动作模型学到平均或冲突的监督。论文因此需要同时设计控制导向表示、单步可微规划接口和能识别动作兼容性的联合训练规则，并用不经任务微调的 OOD 评测证明预训练本身真的在增长能力。",
-    "method": "**方法概述：** 系统先用 CoAE 把当前多视角观测压成每帧 24 个 token 的控制导向 latent；SVP 在这些 latent 上以指令为条件，只对未来帧做单步 MeanFlow 式去噪，输出稠密近未来和稀疏远未来状态；IDM 将当前 latent、预测未来 latent 和 proprioception 转成稠密执行动作块及稀疏长程动作。训练顺序是 CoAE/SVP 的视频预训练、IDM 的真实轨迹预训练，最后用 KASO 连接两者并保留各自预训练损失。\n\n**核心机制：** CoAE 不把重建清晰度当作唯一目标，而把像素/感知/GAN 重建与 SigLIP 2、V-JEPA 2.1、DINOv3 三个冻结视觉教师的特征对齐相加，使极端压缩后的 token 仍携带语言语义、时空结构和稠密视觉信息。SVP 采用条件化单步流生成：观测坐标始终保持干净，未来坐标从噪声一次性还原，因此生成结果可对 SVP 参数保持梯度。KASO 则在无梯度阶段采样 N 个未来，用 IDM 在高噪声动作流点比较每个未来与记录未来的动作响应，选出 top-k 后重放随机噪声并回传生成动作损失，避免把不同 outcome mode 强行配到同一个动作标签。\n\n**方法拆解：**\n\n- **CoAE 表示学习**：在 $256\\times384$ 输入上做 $64\\times$ 空间下采样，得到 $4\\times6$ 的 512 通道网格，即每帧 24 个 latent token；重建损失之外，用三类视觉教师进行余弦特征对齐。\n- **SVP 单步规划**：固定当前观测帧，只演化被 mask 的未来帧；在推理时用 $(r,t)=(0,1)$ 的一次前向完全去噪多视角未来 latent，降低多步视频采样成本并保留端到端梯度。\n- **IDM 动作恢复**：通过 future latent 的 cross-attention，同时预测控制频率的稠密动作 chunk 和更远时间的稀疏动作；部署时执行稠密 chunk，稀疏序列作为长程意图的辅助监督。\n- **KASO 选择性联合训练**：对同一上下文采样多个候选未来，使用 active IDM 的动作流响应计算兼容能量，只让 top-k 候选接受生成未来的动作损失，同时保留 SVP 与 IDM 的原始预训练损失。\n\n**关键要点：**\n\n- 论文把“视觉未来”和“动作”之间的接口明确化为一个可微的完整未来状态，而不是仅依赖生成器内部特征或并行动作头。\n- KASO 的判据在动作空间而不是像素空间：外观不同但诱导同一动作的未来可以兼容，而视觉逼真却对应另一行为模式的未来会被过滤。\n- 稀疏未来动作不是部署输出，而是让 IDM 在训练时同时看到近程执行和远程目标，缓解单纯短 horizon 控制的局限。\n\n![GE-Act 2.0 系统架构：SVP 生成未来视觉状态，IDM 将其转成动作](https://arxiv.org/html/2609.05588v1/fig_system_v04.png)\n\n*图 1：GE-Act 2.0 的 world-action 接口。*\n\n![CoAE 架构与多教师对齐目标](https://arxiv.org/html/2609.05588v1/fig_uae_architecture_v01.svg)\n\n*图 2：CoAE 的极端压缩和重建/教师对齐训练。*",
-    "methodOverview": "系统先用 CoAE 把当前多视角观测压成每帧 24 个 token 的控制导向 latent；SVP 在这些 latent 上以指令为条件，只对未来帧做单步 MeanFlow 式去噪，输出稠密近未来和稀疏远未来状态；IDM 将当前 latent、预测未来 latent 和 proprioception 转成稠密执行动作块及稀疏长程动作。训练顺序是 CoAE/SVP 的视频预训练、IDM 的真实轨迹预训练，最后用 KASO 连接两者并保留各自预训练损失。",
-    "methodCore": "CoAE 不把重建清晰度当作唯一目标，而把像素/感知/GAN 重建与 SigLIP 2、V-JEPA 2.1、DINOv3 三个冻结视觉教师的特征对齐相加，使极端压缩后的 token 仍携带语言语义、时空结构和稠密视觉信息。SVP 采用条件化单步流生成：观测坐标始终保持干净，未来坐标从噪声一次性还原，因此生成结果可对 SVP 参数保持梯度。KASO 则在无梯度阶段采样 N 个未来，用 IDM 在高噪声动作流点比较每个未来与记录未来的动作响应，选出 top-k 后重放随机噪声并回传生成动作损失，避免把不同 outcome mode 强行配到同一个动作标签。",
-    "methodBreakdown": [
-      "**CoAE 表示学习**：在 $256\\times384$ 输入上做 $64\\times$ 空间下采样，得到 $4\\times6$ 的 512 通道网格，即每帧 24 个 latent token；重建损失之外，用三类视觉教师进行余弦特征对齐。",
-      "**SVP 单步规划**：固定当前观测帧，只演化被 mask 的未来帧；在推理时用 $(r,t)=(0,1)$ 的一次前向完全去噪多视角未来 latent，降低多步视频采样成本并保留端到端梯度。",
-      "**IDM 动作恢复**：通过 future latent 的 cross-attention，同时预测控制频率的稠密动作 chunk 和更远时间的稀疏动作；部署时执行稠密 chunk，稀疏序列作为长程意图的辅助监督。",
-      "**KASO 选择性联合训练**：对同一上下文采样多个候选未来，使用 active IDM 的动作流响应计算兼容能量，只让 top-k 候选接受生成未来的动作损失，同时保留 SVP 与 IDM 的原始预训练损失。"
-    ],
-    "methodTakeaways": [
-      "论文把“视觉未来”和“动作”之间的接口明确化为一个可微的完整未来状态，而不是仅依赖生成器内部特征或并行动作头。",
-      "KASO 的判据在动作空间而不是像素空间：外观不同但诱导同一动作的未来可以兼容，而视觉逼真却对应另一行为模式的未来会被过滤。",
-      "稀疏未来动作不是部署输出，而是让 IDM 在训练时同时看到近程执行和远程目标，缓解单纯短 horizon 控制的局限。"
-    ],
-    "results": "**核心结果：**\n\n- **表示质量**：CoAE 的 action probe MAE 为 0.01673，仅比 token 数多 16 倍的 DINOv3（0.01273）和 V-JEPA 2.1（0.01487）高 13%-31%，但每帧只有 24 个 token；指令匹配错误率为 2.05%，优于 DC-AE 的 2.71% 和三个冻结教师。\n- **KASO 消融**：在同一套 39,000 小时 SVP、32,000 小时 IDM 初始化和 300 小时连接数据上，四物体场景的 pick success 从 E2E+PT 的 22.5% 提升到 KASO 的 37.5%，单物体场景从 12% 提升到 40%；follow score 也从 E2E 的 87.5% 提升到 95%。\n- **数据规模化**：G1-OP 的零样本 OOD suite success 从 300 小时的 17.1% 经 1,200/5,000 小时的 22.6%/27.3% 提升到 30,000 小时的 44.1%；G2-90D 从 13.4% 提升到 31.1%，在 18/20 个技能组有收益。\n- **技能覆盖效应**：除 Close 外的 19 个技能组中，训练小时与 30,000 小时模型的成功率显著相关（Pearson $r=0.80$，Spearman $\\rho=0.85$）；每增加 10 倍技能专属数据，拟合的成功率 logit 增加 1.94。\n- **语言 grounding**：在 295 次真实机器人 Pick/Place rollout 中，总体 follow score 为 83.1%，完整任务成功率为 72.9%；物体、颜色、直接位置和形状的 follow score 至少 90%，而 order 只有 Pick 13.3%/Place 26.7%，暴露出长尾指代表达的明显短板。\n\n**结果表：**\n\n| 实验/指标 | 关键设置 | GE-Act 2.0 结果 | 解释 |\n| --- | --- | ---: | --- |\n| CoAE action MAE | 400 train / 100 held-out shelf samples | 0.01673 | 以 1/16 token 数接近强视觉教师 |\n| CoAE instruction error | 5,000 GenieSim-Instruction episodes | 2.05% | 优于 DC-AE 2.71% |\n| KASO 四物体 pick success | 300h alignment，10 trials/target | 37.5% | 比 E2E+PT 高 15 个百分点 |\n| G1-OP OOD success | 300h → 30,000h | 17.1% → 44.1% | +27.0 个百分点 |\n| G2-90D OOD success | 300h → 30,000h | 13.4% → 31.1% | +17.7 个百分点，数据占比不到 2% |\n| 技能覆盖相关性 | 19 skill groups | $r=0.80$, $\\rho=0.85$ | 覆盖度是零样本能力的重要预测量 |\n\n![KASO 的候选未来筛选与可微重放](https://arxiv.org/html/2609.05588v1/fig_kapo_algorithm_v02.svg)\n\n*图 6：KASO 先用 IDM 评估动作兼容性，再对 top-k 候选重放梯度。*\n\n![两种 embodiment 的技能组规模化曲线](https://arxiv.org/html/2609.05588v1/fig_data_scaling_smallmult_g1g2_v02.svg)\n\n*图 9：G1-OP 和数据稀缺的 G2-90D 随 co-training 数据量增长的技能组成功率。*",
-    "resultHighlights": [
-      "**表示质量**：CoAE 的 action probe MAE 为 0.01673，仅比 token 数多 16 倍的 DINOv3（0.01273）和 V-JEPA 2.1（0.01487）高 13%-31%，但每帧只有 24 个 token；指令匹配错误率为 2.05%，优于 DC-AE 的 2.71% 和三个冻结教师。",
-      "**KASO 消融**：在同一套 39,000 小时 SVP、32,000 小时 IDM 初始化和 300 小时连接数据上，四物体场景的 pick success 从 E2E+PT 的 22.5% 提升到 KASO 的 37.5%，单物体场景从 12% 提升到 40%；follow score 也从 E2E 的 87.5% 提升到 95%。",
-      "**数据规模化**：G1-OP 的零样本 OOD suite success 从 300 小时的 17.1% 经 1,200/5,000 小时的 22.6%/27.3% 提升到 30,000 小时的 44.1%；G2-90D 从 13.4% 提升到 31.1%，在 18/20 个技能组有收益。",
-      "**技能覆盖效应**：除 Close 外的 19 个技能组中，训练小时与 30,000 小时模型的成功率显著相关（Pearson $r=0.80$，Spearman $\\rho=0.85$）；每增加 10 倍技能专属数据，拟合的成功率 logit 增加 1.94。",
-      "**语言 grounding**：在 295 次真实机器人 Pick/Place rollout 中，总体 follow score 为 83.1%，完整任务成功率为 72.9%；物体、颜色、直接位置和形状的 follow score 至少 90%，而 order 只有 Pick 13.3%/Place 26.7%，暴露出长尾指代表达的明显短板。"
-    ],
-    "insights": "**核心 insight：**\n\n- 这篇论文最重要的 scaling law 不是“参数越大越好”，而是“某个技能在训练混合物中被覆盖了多少”。Wipe 有 824.1 小时达到 76.7%，而动作相近但只有 64.6 小时的 Sweep 只有 3.3%，说明长尾技能覆盖比笼统的总小时数更接近能力瓶颈。\n- KASO 解决的是 world model 接入 policy 时常被忽略的条件分布问题：生成器可以保留多个合理未来，但动作标签只对应其中一个行为模式。若不选择，回归器会把模式平均掉；若只在动作上选择，既能保持视觉多模态，又能把动作条件绑定到可执行模式。\n- G2-90D 只占不到 2% 数据却获得 17.7 个百分点提升，说明共享操作语料在跨 embodiment 迁移上有实质价值，但硬件差异仍然会改变绝对上限，例如夹爪几何会影响 Shake/Stir 的表现。\n\n**和已有方法的关系：**\n\n- 相对继承 Wan/NVIDIA 等通用视频生成器的 WAM，GE-Act 2.0 选择在操作数据上从头训练生成和动作组件，把 latent 设计目标从“重建外观”改成“可用于控制”。\n- 相对多步 diffusion/flow video planner，SVP 的单步生成让 IDM 可以用没有指令的视频或没有成功标注的轨迹独立预训练，再通过显式未来状态连接两者。\n- 相对 teacher forcing 或直接 E2E，KASO 关注的不是生成未来与真实未来的像素差，而是生成未来在当前 IDM 下是否支持同一动作模式；这解释了为什么它在控制消融中比仅保留预训练损失更稳健。\n\n**可借鉴点：**\n\n- 做具身预训练时，应把数据混合设计成“技能覆盖矩阵”，同时记录每个原子技能的小时数，而不是只报总轨迹数。\n- 视觉表征的压缩率应由动作可恢复性和指令 grounding 共同约束；仅看重建指标很容易得到控制上无用的 token。\n- 对多模态生成器接动作头时，可以先在无梯度阶段用动作模型做兼容性筛选，再重放相同随机噪声回传梯度，这是保留多样性与避免错配之间的一个通用接口。\n- 评估基础能力时应固定零样本 OOD 协议，明确排除按任务 SFT，否则无法区分预训练获得的迁移能力和下游数据带来的适配能力。\n\n![技能覆盖小时数与零样本 OOD 成功率的关系](https://arxiv.org/html/2609.05588v1/fig_skill_hours_scatter_paper_v02.svg)\n\n*图 11：技能专属训练覆盖与 G1-OP 零样本 OOD 成功率的相关关系。*",
-    "insightCore": [
-      "这篇论文最重要的 scaling law 不是“参数越大越好”，而是“某个技能在训练混合物中被覆盖了多少”。Wipe 有 824.1 小时达到 76.7%，而动作相近但只有 64.6 小时的 Sweep 只有 3.3%，说明长尾技能覆盖比笼统的总小时数更接近能力瓶颈。",
-      "KASO 解决的是 world model 接入 policy 时常被忽略的条件分布问题：生成器可以保留多个合理未来，但动作标签只对应其中一个行为模式。若不选择，回归器会把模式平均掉；若只在动作上选择，既能保持视觉多模态，又能把动作条件绑定到可执行模式。",
-      "G2-90D 只占不到 2% 数据却获得 17.7 个百分点提升，说明共享操作语料在跨 embodiment 迁移上有实质价值，但硬件差异仍然会改变绝对上限，例如夹爪几何会影响 Shake/Stir 的表现。"
-    ],
-    "insightRelations": [
-      "相对继承 Wan/NVIDIA 等通用视频生成器的 WAM，GE-Act 2.0 选择在操作数据上从头训练生成和动作组件，把 latent 设计目标从“重建外观”改成“可用于控制”。",
-      "相对多步 diffusion/flow video planner，SVP 的单步生成让 IDM 可以用没有指令的视频或没有成功标注的轨迹独立预训练，再通过显式未来状态连接两者。",
-      "相对 teacher forcing 或直接 E2E，KASO 关注的不是生成未来与真实未来的像素差，而是生成未来在当前 IDM 下是否支持同一动作模式；这解释了为什么它在控制消融中比仅保留预训练损失更稳健。"
-    ],
-    "insightBorrowable": [
-      "做具身预训练时，应把数据混合设计成“技能覆盖矩阵”，同时记录每个原子技能的小时数，而不是只报总轨迹数。",
-      "视觉表征的压缩率应由动作可恢复性和指令 grounding 共同约束；仅看重建指标很容易得到控制上无用的 token。",
-      "对多模态生成器接动作头时，可以先在无梯度阶段用动作模型做兼容性筛选，再重放相同随机噪声回传梯度，这是保留多样性与避免错配之间的一个通用接口。",
-      "评估基础能力时应固定零样本 OOD 协议，明确排除按任务 SFT，否则无法区分预训练获得的迁移能力和下游数据带来的适配能力。"
-    ],
-    "risks": "**局限：**\n\n- 论文还没有按其潜力规模使用 egocentric video；因此“无动作视频能否进一步提升真实机器人能力”仍是待验证的外推，而不是当前结果。\n- 主评测虽然覆盖 100 个真实任务，但仍集中在预定义桌面操作和两种 embodiment；G2-90D 的绝对成功率只有 31.1%，跨硬件迁移不能理解为无需平台适配。\n- KASO 的兼容性分数依赖当前 active IDM。在 IDM 尚未学好、或真实任务存在未记录的新行为模式时，top-k 可能把有价值但陌生的未来过滤掉；论文主要用受控消融验证，尚未给出大规模探索阶段的选择偏差分析。\n- 语言实验限制在 Pick/Place 和六类指代维度，order 的 follow score 仍很低；行为冲突结果是定性压力测试，不应被解读为完整的在线指令修正能力。\n- 模拟 benchmark 需要按协议进行 SFT，且作者明确承认 simulator-to-real gap，因此模拟结果只能作为横向参考。\n\n**适用场景：**\n\n- 适合构建有大规模异构机器人视频/轨迹、希望先做通用预训练再进行 RL 或少量适配的操作模型。\n- 适合需要利用 action-free video、失败轨迹和无语言 rollout 的训练管线，因为 SVP 与 IDM 可以在不同数据源上先独立学习。\n- 适合研究“生成未来如何约束动作”的 world-action 接口、技能覆盖与跨 embodiment 迁移；不适合直接当作具备长程规划、记忆和安全保证的家庭机器人系统。\n\n**最终判断：**\n\n- GE-Act 2.0 的可信贡献是把 world-action model 的规模化问题拆成三个可测的工程对象：控制导向 latent、单步可微未来、动作兼容性选择，并用真实机器人零样本 OOD 曲线证明数据规模和技能覆盖确实带来持续收益。\n- 它比“视频生成 + 动作头”的拼接方案更接近可扩展预训练 recipe，但当前证据仍主要说明短时操作能力在增长。下一步真正决定路线价值的，是 egocentric video 的规模化、更多 embodiment 的受控迁移，以及把 System-1 控制器接入显式规划、记忆和自我纠错。",
-    "riskLimitations": [
-      "论文还没有按其潜力规模使用 egocentric video；因此“无动作视频能否进一步提升真实机器人能力”仍是待验证的外推，而不是当前结果。",
-      "主评测虽然覆盖 100 个真实任务，但仍集中在预定义桌面操作和两种 embodiment；G2-90D 的绝对成功率只有 31.1%，跨硬件迁移不能理解为无需平台适配。",
-      "KASO 的兼容性分数依赖当前 active IDM。在 IDM 尚未学好、或真实任务存在未记录的新行为模式时，top-k 可能把有价值但陌生的未来过滤掉；论文主要用受控消融验证，尚未给出大规模探索阶段的选择偏差分析。",
-      "语言实验限制在 Pick/Place 和六类指代维度，order 的 follow score 仍很低；行为冲突结果是定性压力测试，不应被解读为完整的在线指令修正能力。",
-      "模拟 benchmark 需要按协议进行 SFT，且作者明确承认 simulator-to-real gap，因此模拟结果只能作为横向参考。"
-    ],
-    "riskScenarios": [
-      "适合构建有大规模异构机器人视频/轨迹、希望先做通用预训练再进行 RL 或少量适配的操作模型。",
-      "适合需要利用 action-free video、失败轨迹和无语言 rollout 的训练管线，因为 SVP 与 IDM 可以在不同数据源上先独立学习。",
-      "适合研究“生成未来如何约束动作”的 world-action 接口、技能覆盖与跨 embodiment 迁移；不适合直接当作具备长程规划、记忆和安全保证的家庭机器人系统。"
-    ],
-    "riskJudgment": [
-      "GE-Act 2.0 的可信贡献是把 world-action model 的规模化问题拆成三个可测的工程对象：控制导向 latent、单步可微未来、动作兼容性选择，并用真实机器人零样本 OOD 曲线证明数据规模和技能覆盖确实带来持续收益。",
-      "它比“视频生成 + 动作头”的拼接方案更接近可扩展预训练 recipe，但当前证据仍主要说明短时操作能力在增长。下一步真正决定路线价值的，是 egocentric video 的规模化、更多 embodiment 的受控迁移，以及把 System-1 控制器接入显式规划、记忆和自我纠错。"
-    ],
-    "resultsTableMarkdown": "| 维度 | 结论 |\n| --- | --- |\n| 表示 | 24 tokens/frame 的 CoAE 保留较强动作恢复和指令 grounding |\n| 生成 | SVP 一次前向生成完整未来，允许视觉规划和 IDM 解耦预训练 |\n| 对齐 | KASO 通过 IDM 动作兼容性选择 top-k 未来，缓解 validity gap |\n| 规模化 | G1-OP 17.1% → 44.1%，G2-90D 13.4% → 31.1% |\n| 数据规律 | 技能覆盖与 OOD 成功率 Pearson $r=0.80$、Spearman $\\rho=0.85$ |\n| 语言短板 | order 指代 follow score 仅 Pick 13.3% / Place 26.7% |",
-    "resultsTable": {
-      "columns": [
-        "维度",
-        "结论"
-      ],
-      "rows": [
-        [
-          "表示",
-          "24 tokens/frame 的 CoAE 保留较强动作恢复和指令 grounding"
-        ],
-        [
-          "生成",
-          "SVP 一次前向生成完整未来，允许视觉规划和 IDM 解耦预训练"
-        ],
-        [
-          "对齐",
-          "KASO 通过 IDM 动作兼容性选择 top-k 未来，缓解 validity gap"
-        ],
-        [
-          "规模化",
-          "G1-OP 17.1% → 44.1%，G2-90D 13.4% → 31.1%"
-        ],
-        [
-          "数据规律",
-          "技能覆盖与 OOD 成功率 Pearson $r=0.80$、Spearman $\\rho=0.85$"
-        ],
-        [
-          "语言短板",
-          "order 指代 follow score 仅 Pick 13.3% / Place 26.7%"
-        ]
-      ]
-    },
-    "figureGallery": [
-      {
-        "zone": "method",
-        "caption": "GE-Act 2.0 系统架构：SVP 生成未来视觉状态，IDM 将其转成动作",
-        "src": "https://arxiv.org/html/2609.05588v1/fig_system_v04.png"
-      },
-      {
-        "zone": "method",
-        "caption": "CoAE 架构与多教师对齐目标",
-        "src": "https://arxiv.org/html/2609.05588v1/fig_uae_architecture_v01.svg"
-      },
-      {
-        "zone": "results",
-        "caption": "KASO 的候选未来筛选与可微重放",
-        "src": "https://arxiv.org/html/2609.05588v1/fig_kapo_algorithm_v02.svg"
-      },
-      {
-        "zone": "results",
-        "caption": "两种 embodiment 的技能组规模化曲线",
-        "src": "https://arxiv.org/html/2609.05588v1/fig_data_scaling_smallmult_g1g2_v02.svg"
-      },
-      {
-        "zone": "insights",
-        "caption": "技能覆盖小时数与零样本 OOD 成功率的关系",
-        "src": "https://arxiv.org/html/2609.05588v1/fig_skill_hours_scatter_paper_v02.svg"
-      }
-    ],
-    "relatedTopicSlugs": [
-      "vision-language-action"
-    ]
-  },
-  {
-    "slug": "2609.07398-openwam-an-open-modular-exploration-towards-systematic-world-action-model-pretraining",
-    "title": "OpenWAM: An Open, Modular Exploration Towards Systematic World-Action Model Pretraining",
-    "sourceType": "paper",
-    "sourceUrl": "https://arxiv.org/abs/2609.07398",
-    "htmlUrl": "",
-    "pdfUrl": "https://arxiv.org/pdf/2609.07398",
-    "codeUrl": "https://github.com/OpenWAM-Official/OpenWAM",
-    "translationUrl": "https://hjfy.top/arxiv/2609.07398",
-    "publishDate": "2026-09-07",
-    "authors": [
-      "Yuran Wang",
-      "Siqiao Huang",
-      "Mingleyang Li",
-      "Chenhao Zhang",
-      "Jiaqi Liang",
-      "Weiyang Jin",
-      "Yue Chen",
-      "Xuemin Chi",
-      "Donghao Zhou",
-      "Qize Yu",
-      "Yu-Kai Wang",
-      "Yuhan Rui",
-      "Shenzhe Yao",
-      "Zhen Yuan",
-      "Zhenhao Shen",
-      "Kefei Zhu",
-      "Zijie Zhu",
-      "Ning Gao",
-      "Xiaowei Chi",
-      "Guanqi He",
-      "Shanghang Zhang",
-      "Hao Dong",
-      "Lin Shao",
-      "Hang Zhao"
-    ],
-    "affiliation": "National University of Singapore",
-    "relatedOrganizations": [
-      "National University of Singapore",
-      "Tsinghua University",
-      "Peking University",
-      "The University of Hong Kong",
-      "Zhejiang University",
-      "The Chinese University of Hong Kong",
-      "Shanghai Jiao Tong University"
-    ],
-    "relatedCompanies": [],
-    "keywords": [
-      "world-action-model"
-    ],
-    "primaryDomainSlug": "physical-embodied-intelligence",
-    "domainSlugs": [
-      "physical-embodied-intelligence"
-    ],
-    "heroImage": "https://followhub.tenstep.top/papers/2609.07398-openwam-an-open-modular-exploration-towards-systematic-world-action-model-pretraining/teaser-page1.jpg",
-    "tldr": "OpenWAM 最值得记住的不是“又一个视频生成模型改机器人策略”，而是它第一次把 WAM 的设计变量拆成可复现实验：骨干、潜空间、动作容量、世界/动作信息流、联合去噪和预训练数据配方分别控制，再把结论累积成一个开放模型。\n\n论文给出的强结论是：WAM 需要足够强的视频生成先验和紧凑、高信息量的视觉潜空间；动作必须有独立容量并在训练时读取世界特征；推理时同步联合去噪优于人为安排“先想未来、再反推动作”；跨域预训练的主要收益是 OOD 泛化，而不是继续抬高接近饱和的 ID 分数。\n\nOpenWAM-α 用约 6369 小时、5.185 亿帧的人类第一视角与异构机器人数据实现这套配方，在多数仿真和三类真机形态上达到强基线水平。但它在 LIBERO-Plus 只有 69.2%，相机扰动 33.8%、噪声扰动 39.8%，清楚暴露了“长时程像素潜空间预测 + 单臂数据覆盖不足”的 OOD 脆弱性。因此，这篇论文既是 WAM 的工程底座，也是比单纯 SOTA 宣传更有价值的失效边界报告。",
-    "intuition": "普通 VLA 看见当前画面和指令，直接生成动作；OpenWAM-α 则让两个生成器并行工作：一个视频 DiT 猜接下来的画面会怎样变化，一个 ActionDiT 猜下一段机器人动作。二者在每一层共享注意力，好比“想象未来”和“决定怎么动”不断交换草稿；训练时它们在各种噪声组合上一起学习，部署时从同一噪声进度同步变清晰，最后只把动作块交给机器人执行。\n\n![OpenWAM 总览](https://followhub.tenstep.top/papers/2609.07398-openwam-an-open-modular-exploration-towards-systematic-world-action-model-pretraining/teaser-page1.jpg)\n\n*OpenWAM 由模块化基础设施、六组受控研究问题和按结论扩展出的 OpenWAM-α 三部分组成。*",
-    "abstractEn": "World-Action Models inherit world knowledge from video-generative priors, and channel it into executable control signals through embodied experience. Existing systems, however, are monolithic: the generative backbone, visual representation, architecture, information flow, inference procedure, and training data are tightly coupled, obscuring which design choices matter and why. We introduce OpenWAM, an open research stack that turns world-action pretraining into a controlled experimental program. OpenWAM-Infra factorizes the WAM design space into composable modules with unified training, inference, deployment, and evaluation. On this substrate, OpenWAM-Study examines three questions through controlled experiments: what to inherit, how world and action learning interact, and how their synergy scales; and distills three principles: upstream knowledge transfers through a sufficiently capable generative backbone and a compact, information-rich latent space; world-action synergy requires dedicated action capacity, explicit world-to-action information flow, and synchronized joint denoising; and embodied pretraining principally improves out-of-domain generalization, with one-stage co-training over egocentric and robot data integrating world coverage and action grounding. Composing these principles, we build OpenWAM-α, an open WAM pretrained on roughly 6,400 hours of egocentric human and robot data and evaluated across simulation and real-world benchmarks. Across the eight simulation benchmarks and the real-robot experiments, which together span embodiments from single-arm and bimanual manipulation to dexterous hands, OpenWAM-α delivers consistently excellent performance, sustaining its top-tier standing from simulation to the physical world. We release the full stack, including infrastructure, evaluation protocols, pretrained models, and data recipes, to facilitate future research.",
-    "abstractZh": "世界—动作模型从视频生成先验中继承世界知识，并通过具身经验将其转化为可执行的控制信号。然而，现有系统通常是单体式的：生成骨干、视觉表示、架构、信息流、推理过程和训练数据紧密耦合，使人难以判断哪些设计选择真正重要以及原因何在。作者提出 OpenWAM，一个把世界—动作预训练变成受控实验计划的开放研究栈。OpenWAM-Infra 将 WAM 设计空间分解为可组合模块，并统一训练、推理、部署和评测。在此基础上，OpenWAM-Study 通过受控实验研究三个问题：应继承什么、世界与动作学习如何交互、二者协同如何扩展，并总结出三项原则：上游知识需要通过能力充分的生成骨干和紧凑且信息丰富的潜空间进行迁移；世界—动作协同需要专用动作容量、显式世界到动作的信息流以及同步联合去噪；具身预训练主要改善分布外泛化，而在人类第一视角和机器人数据上进行单阶段共训，可以整合世界覆盖与动作落地。基于这些原则，作者构建 OpenWAM-α，在约 6400 小时的人类第一视角和机器人数据上预训练，并在仿真与真实世界基准中评测。八个仿真基准和真机实验覆盖单臂、双臂到灵巧手等多种形态，OpenWAM-α 从仿真到物理世界都保持了较强表现。作者开放完整技术栈，包括基础设施、评测协议、预训练模型和数据配方，以推动后续研究。",
-    "background": "**动机：** 视频生成模型已经从海量视频中学到物体、场景和视觉动力学，而带可执行动作标签的机器人轨迹仍然稀缺。WAM 的吸引力在于把这种“世界如何变化”的先验转成“机器人怎样让它变化”的控制能力，使世界预测为动作提供状态与未来结构，动作监督反过来让模型关注与控制有关的变化，从而比只靠机器人示范从零学习更充分地利用非机器人视频。\n\n**问题缺口：** 现有 WAM 往往把视频骨干、视觉编码器、动作头、跨模态连接、训练目标、采样顺序和数据混合捆在一起；一个系统变强时，很难判断收益来自模型规模、潜空间、信息流还是数据。甚至“同时预测视频和动作”也不等于二者真的协同：动作可能读不到世界特征，推理调度可能离开训练分布，单域高分也可能只是记住下游场景。论文因此把问题收敛为三层：继承什么世界先验、怎样建立世界—动作协同、这种协同如何跨域扩展。",
-    "backgroundMotivation": "视频生成模型已经从海量视频中学到物体、场景和视觉动力学，而带可执行动作标签的机器人轨迹仍然稀缺。WAM 的吸引力在于把这种“世界如何变化”的先验转成“机器人怎样让它变化”的控制能力，使世界预测为动作提供状态与未来结构，动作监督反过来让模型关注与控制有关的变化，从而比只靠机器人示范从零学习更充分地利用非机器人视频。",
-    "backgroundGap": "现有 WAM 往往把视频骨干、视觉编码器、动作头、跨模态连接、训练目标、采样顺序和数据混合捆在一起；一个系统变强时，很难判断收益来自模型规模、潜空间、信息流还是数据。甚至“同时预测视频和动作”也不等于二者真的协同：动作可能读不到世界特征，推理调度可能离开训练分布，单域高分也可能只是记住下游场景。论文因此把问题收敛为三层：继承什么世界先验、怎样建立世界—动作协同、这种协同如何跨域扩展。",
-    "method": "**方法概述：** OpenWAM 先用 OpenWAM-Infra 把 WAM 表示成 `C(E, S, M)`：视觉编码器 `E` 决定要预测的潜空间，流骨干集合 `S` 承载世界流、动作流和可选理解流，注意力掩码 `M` 决定各流之间能否读取信息；统一训练器以联合 flow-matching 目标处理所有组合，统一策略服务器负责采样和动作映射。OpenWAM-Study 再按骨干、表示、架构、训练信息流、预训练数据和推理去噪六个问题递进消融，最后将得到的默认项组装成 OpenWAM-α。\n\n**核心机制：** OpenWAM-α 由冻结的 Wan2.2-VAE、预训练 Wan2.2-TI2V-5B 世界 DiT 和独立 1B ActionDiT 构成。视频未来 latent 与连续动作块分别加噪、使用独立时间步，在全部 30 对 Transformer 层中通过共同的 24 头注意力空间双向交换信息；联合 flow-matching 同时预测视频速度场和动作速度场，80 维固定槽位及有效维度 mask 只监督当前具身实际使用的动作坐标。训练独立采样视频/动作噪声以覆盖二维噪声平面，推理沿对角线做 10 步同步 Euler 去噪，使每一步的动作都读取逐渐清晰的未来世界特征，同时避免测试时人为“谁先去噪”造成偏移。\n\n**方法拆解：**\n\n- **模块化基础设施**：支持 4 类视觉编码器、5 类视频生成骨干、6 类架构变体和 4 种可见性掩码；训练、checkpoint 重建、策略服务和八项仿真评测通过统一接口连接，降低跨实现比较的混杂因素。\n- **世界先验选择**：依次比较 1.3B 到 14B 视频骨干，再在随机初始化同架构下比较 Wan2.2-VAE、FLUX.2-VAE、DINOv3 和 V-JEPA 2.1；表示编码器先经 S-VAE 压到 48 维，以区分“语义表示是否有效”和“高维 token 是否难优化”。\n- **动作容量与架构**：比较共享单系统、带动作专家的 MoE、独立世界/动作双系统及带 VLM 的三系统；结果选择复杂度更可控、性能接近最优的双系统 joint self-attention。\n- **训练期信息流**：用 attention mask 分别测试 isolated、video-sees-action、action-sees-video 和 mutual；动作能读取世界特征是约 5 个点性能差异的关键，预训练后双向 mutual 从近似打平变成稳定更优。\n- **推理期联合采样**：训练覆盖独立 `(t_video, t_action)` 噪声组合，部署比较同步、视频领先和动作领先多类轨迹；最终选同步 10 步去噪，而不是先生成视频再用 IDM 反推动作。\n- **多域预训练**：从约 14,348 小时原始池清洗并采样 6369 小时，其中 30.1% 为自建人类第一视角视频，69.9% 为真实/仿真机器人数据；人类视频只监督世界流，机器人轨迹同时提供动作、本体状态和世界监督。\n- **统一动作空间与部署**：80 维动作向量包含左右臂各 34 维（位置、6D 旋转、夹爪、24 维灵巧手）和 12 个保留槽；有效维度 mask 屏蔽未使用坐标，最终通过逆映射返回机器人原生动作空间，RTX 5090 上每个动作块约 170 ms。\n\n**关键要点：**\n\n- WAM 的协同不是“同时输出未来视频和动作”自动产生的；专用动作容量、训练期世界到动作的信息通路和匹配训练分布的联合采样缺一不可。\n- 潜空间的关键属性不是“重建式”或“表征式”标签，而是信息量、token 维度和时间压缩的共同平衡；DINOv3/V-JEPA 经压缩后可以接近原生视频 VAE。\n- 具身预训练的最大增益落在 OOD：ID 从 87.0% 只升到最高 88.5%，而 Clean2Random OOD 从 14.5% 升到 26.62%。\n- 单阶段人类视频 + 机器人数据共训胜在简单且略优，并不意味着无动作人类视频可以取代机器人轨迹；前者扩展视觉/交互覆盖，后者提供可执行动作 grounding。\n\n![OpenWAM-α 架构](https://followhub.tenstep.top/papers/2609.07398-openwam-an-open-modular-exploration-towards-systematic-world-action-model-pretraining/a-the-dual-system-architecture-a-video-generation-dit-and-an-actiondit-jointly-denoise-the-futur.jpg)\n\n*OpenWAM-α：视频 DiT 与 ActionDiT 通过 mutual attention 联合去噪，训练覆盖二维噪声平面，推理沿同步对角线前进。*",
-    "methodOverview": "OpenWAM 先用 OpenWAM-Infra 把 WAM 表示成 `C(E, S, M)`：视觉编码器 `E` 决定要预测的潜空间，流骨干集合 `S` 承载世界流、动作流和可选理解流，注意力掩码 `M` 决定各流之间能否读取信息；统一训练器以联合 flow-matching 目标处理所有组合，统一策略服务器负责采样和动作映射。OpenWAM-Study 再按骨干、表示、架构、训练信息流、预训练数据和推理去噪六个问题递进消融，最后将得到的默认项组装成 OpenWAM-α。",
-    "methodCore": "OpenWAM-α 由冻结的 Wan2.2-VAE、预训练 Wan2.2-TI2V-5B 世界 DiT 和独立 1B ActionDiT 构成。视频未来 latent 与连续动作块分别加噪、使用独立时间步，在全部 30 对 Transformer 层中通过共同的 24 头注意力空间双向交换信息；联合 flow-matching 同时预测视频速度场和动作速度场，80 维固定槽位及有效维度 mask 只监督当前具身实际使用的动作坐标。训练独立采样视频/动作噪声以覆盖二维噪声平面，推理沿对角线做 10 步同步 Euler 去噪，使每一步的动作都读取逐渐清晰的未来世界特征，同时避免测试时人为“谁先去噪”造成偏移。",
-    "methodBreakdown": [
-      "**模块化基础设施**：支持 4 类视觉编码器、5 类视频生成骨干、6 类架构变体和 4 种可见性掩码；训练、checkpoint 重建、策略服务和八项仿真评测通过统一接口连接，降低跨实现比较的混杂因素。",
-      "**世界先验选择**：依次比较 1.3B 到 14B 视频骨干，再在随机初始化同架构下比较 Wan2.2-VAE、FLUX.2-VAE、DINOv3 和 V-JEPA 2.1；表示编码器先经 S-VAE 压到 48 维，以区分“语义表示是否有效”和“高维 token 是否难优化”。",
-      "**动作容量与架构**：比较共享单系统、带动作专家的 MoE、独立世界/动作双系统及带 VLM 的三系统；结果选择复杂度更可控、性能接近最优的双系统 joint self-attention。",
-      "**训练期信息流**：用 attention mask 分别测试 isolated、video-sees-action、action-sees-video 和 mutual；动作能读取世界特征是约 5 个点性能差异的关键，预训练后双向 mutual 从近似打平变成稳定更优。",
-      "**推理期联合采样**：训练覆盖独立 `(t_video, t_action)` 噪声组合，部署比较同步、视频领先和动作领先多类轨迹；最终选同步 10 步去噪，而不是先生成视频再用 IDM 反推动作。",
-      "**多域预训练**：从约 14,348 小时原始池清洗并采样 6369 小时，其中 30.1% 为自建人类第一视角视频，69.9% 为真实/仿真机器人数据；人类视频只监督世界流，机器人轨迹同时提供动作、本体状态和世界监督。",
-      "**统一动作空间与部署**：80 维动作向量包含左右臂各 34 维（位置、6D 旋转、夹爪、24 维灵巧手）和 12 个保留槽；有效维度 mask 屏蔽未使用坐标，最终通过逆映射返回机器人原生动作空间，RTX 5090 上每个动作块约 170 ms。"
-    ],
-    "methodTakeaways": [
-      "WAM 的协同不是“同时输出未来视频和动作”自动产生的；专用动作容量、训练期世界到动作的信息通路和匹配训练分布的联合采样缺一不可。",
-      "潜空间的关键属性不是“重建式”或“表征式”标签，而是信息量、token 维度和时间压缩的共同平衡；DINOv3/V-JEPA 经压缩后可以接近原生视频 VAE。",
-      "具身预训练的最大增益落在 OOD：ID 从 87.0% 只升到最高 88.5%，而 Clean2Random OOD 从 14.5% 升到 26.62%。",
-      "单阶段人类视频 + 机器人数据共训胜在简单且略优，并不意味着无动作人类视频可以取代机器人轨迹；前者扩展视觉/交互覆盖，后者提供可执行动作 grounding。"
-    ],
-    "results": "**核心结果：**\n\n- 视频骨干从 Wan2.1-VACE-1.3B 扩到 Wan2.1-I2V-14B 时，RoboTwin2.0-Full 平均成功率由 90.14% 升至 93.79%；5B Wan2.2-TI2V 达 92.39%，仅落后 1.40 个点，因此被选作性能/成本折中。\n- 表示消融中，DINOv3/V-JEPA 直接输出高维特征时只有 80.91%/76.42%；经 S-VAE 压到 48 维后升至 90.30%/88.46%，接近 Wan2.2-VAE 的 90.30%，说明紧凑性会决定表示先验能否被 DiT 有效利用。\n- 架构消融中，单系统 Vanilla/MoE 为 85.50%/84.63%，双系统 joint self-attention 达 92.36%，三系统达 92.60%；动作独立容量贡献明显，但额外 VLM 理解流只带来很小增益。\n- 信息流消融中，isolated 和 video-sees-action 仅 87.41%/87.63%，action-sees-video 与 mutual 达 92.39%/92.15%；同步去噪为 93.0%，所有异步调度都未超过它。\n- 600 小时预训练消融中，ID 成功率由 87.0% 提升到最高 88.5%，而 OOD 由 14.5% 提升到 robot-only 23.8%、ego→robot 26.5%、ego+robot 共训 26.62%，证明主要收益来自跨分布迁移。\n- OpenWAM-α 在 LIBERO 达 99.3%，RoboTwin2.0-Full 达 93.60%，RoboCasa-GR1 达 60.5%；在 RoboTwin2.0-Clean2Random 达 89.4% Clean / 48.7% Randomized / 69.0% 平均，是当时最强 WAM，但仍低于 Qwen-RobotManip 的 77.1% 平均。\n- 真机单臂六任务平均 82.5%，高于 LingBot-VA 77.5% 和 π0.5 55.0%；RoboDojo 双臂 18 任务平均 Score/SR 为 37.6/24.4，对比 π0.5 的 22.9/12.8；未见 Wuji 灵巧手具身的四项 ID/OOD 设置均优于 π0.5。\n- 关键反例是 LIBERO-Plus：总平均仅 69.2%，相机/噪声扰动只有 33.8%/39.8%。作者将其归因于单臂预训练覆盖不足，以及多帧像素潜空间 rollout 对视角与噪声扰动敏感、误差会逐帧累积。\n\n**结果表：**\n\n| 评测或消融 | OpenWAM 结果 | 对照与含义 |\n| --- | ---: | --- |\n| 骨干规模 | 1.3B：90.14%；5B：92.39%；14B：93.79% | 更强视频生成骨干迁移更好，但收益不是纯参数量因果 |\n| 双系统 joint self-attention | 92.36% | 单系统 Vanilla 85.50%；三系统 92.60% |\n| 世界→动作信息流 | 92.39% | Isolated 87.41%，约 +5 个点 |\n| 600h 共训 OOD | 26.62% | From scratch 14.50%，+12.12 个点 |\n| LIBERO / RoboTwin2.0-Full | 99.3% / 93.60% | 接近饱和或顶级水平 |\n| RoboTwin C2R Clean / Random / Avg | 89.4% / 48.7% / 69.0% | 最强 WAM，但弱于最强 VLA 77.1% Avg |\n| LIBERO-Plus Avg | 69.2% | Qwen-RobotManip 89.0%；相机和噪声是主要失分项 |\n| 真机单臂 Avg | 82.5% | LingBot-VA 77.5%；π0.5 55.0% |\n| 真机双臂 RoboDojo Score / SR | 37.6 / 24.4% | π0.5 为 22.9 / 12.8% |\n\n![OpenWAM-α 仿真结果](https://followhub.tenstep.top/papers/2609.07398-openwam-an-open-modular-exploration-towards-systematic-world-action-model-pretraining/against-a-common-set-of-baselines-per-benchmark-every-bar-is-labelled-with-its-true-score-per-be.jpg)\n\n*OpenWAM-α 与代表性 VLA/WAM 在八个仿真 benchmark 上的汇总对比；强项和失效项并不均匀。*",
-    "resultHighlights": [
-      "视频骨干从 Wan2.1-VACE-1.3B 扩到 Wan2.1-I2V-14B 时，RoboTwin2.0-Full 平均成功率由 90.14% 升至 93.79%；5B Wan2.2-TI2V 达 92.39%，仅落后 1.40 个点，因此被选作性能/成本折中。",
-      "表示消融中，DINOv3/V-JEPA 直接输出高维特征时只有 80.91%/76.42%；经 S-VAE 压到 48 维后升至 90.30%/88.46%，接近 Wan2.2-VAE 的 90.30%，说明紧凑性会决定表示先验能否被 DiT 有效利用。",
-      "架构消融中，单系统 Vanilla/MoE 为 85.50%/84.63%，双系统 joint self-attention 达 92.36%，三系统达 92.60%；动作独立容量贡献明显，但额外 VLM 理解流只带来很小增益。",
-      "信息流消融中，isolated 和 video-sees-action 仅 87.41%/87.63%，action-sees-video 与 mutual 达 92.39%/92.15%；同步去噪为 93.0%，所有异步调度都未超过它。",
-      "600 小时预训练消融中，ID 成功率由 87.0% 提升到最高 88.5%，而 OOD 由 14.5% 提升到 robot-only 23.8%、ego→robot 26.5%、ego+robot 共训 26.62%，证明主要收益来自跨分布迁移。",
-      "OpenWAM-α 在 LIBERO 达 99.3%，RoboTwin2.0-Full 达 93.60%，RoboCasa-GR1 达 60.5%；在 RoboTwin2.0-Clean2Random 达 89.4% Clean / 48.7% Randomized / 69.0% 平均，是当时最强 WAM，但仍低于 Qwen-RobotManip 的 77.1% 平均。",
-      "真机单臂六任务平均 82.5%，高于 LingBot-VA 77.5% 和 π0.5 55.0%；RoboDojo 双臂 18 任务平均 Score/SR 为 37.6/24.4，对比 π0.5 的 22.9/12.8；未见 Wuji 灵巧手具身的四项 ID/OOD 设置均优于 π0.5。",
-      "关键反例是 LIBERO-Plus：总平均仅 69.2%，相机/噪声扰动只有 33.8%/39.8%。作者将其归因于单臂预训练覆盖不足，以及多帧像素潜空间 rollout 对视角与噪声扰动敏感、误差会逐帧累积。"
-    ],
-    "insights": "**核心 insight：**\n\n- 论文最重要的研究贡献是把 WAM 从“架构故事”变成可证伪的工程科学。尤其是从 scratch 时 action-sees-video 与 mutual 几乎打平，而大规模预训练后 mutual 反超，说明最佳信息流会随数据规模改变，不能只在小实验上定型。\n- “世界模型帮助动作”的证据更像表示学习而非显式规划：训练时动作必须看世界，但测试时刻意让视频先去噪并没有收益，同步去噪反而最好。这削弱了“模型先完整想象未来，再反推动作”的直观叙事。\n- OOD 收益与 LIBERO-Plus 失败共同说明，预训练不是抽象的规模奖励，而是覆盖匹配问题。人类第一视角数据扩大场景与交互分布，但无法自动补足特定机械臂、相机和带动作标注的单臂变化。\n- 80 维固定槽位是实用的异构数据接口，不是已经解决动作统一。它通过语义槽和 mask 避免错误监督，但跨具身共享仍依赖人为定义的坐标语义和下游微调。\n\n**和已有方法的关系：**\n\n- 相对 VLA，OpenWAM 继承的是视频生成中的视觉动力学先验，并额外使用未来视频 latent 作为训练目标；论文观察到 WAM 更擅长 ID 拟合，而 VLA 在强视觉 OOD 下更稳，但跨模型比较仍受数据与规模差异影响。\n- 相对 Fast-WAM、DreamZero、Motus 等单一实现，OpenWAM 的重点是把 single/dual/tri-system、joint/cross attention、IDM 和多种视频骨干放进同一基础设施，降低结论被实现差异污染的程度。\n- 相对 [[Geometric Action Model for Robot Policy Learning]]，OpenWAM 预测多帧像素重建 latent，获得强视频生成先验但承受相机/噪声敏感性；GAM 在几何潜空间做未来预测，更轻、更稳，但丢失像素级世界生成能力。\n- 相对 [[Beyond Data Scaling: Representation-Centric Continued Pre-training for Vision-Language-Action Models]]，OpenWAM 强调视频/动作两个生成流如何协同，VLAct 强调 VLM backbone 如何避免表示漂移和 decoder lock-in；两者分别对应 WAM 与 VLA 的预训练设计科学化。\n\n**可借鉴点：**\n\n- 设计世界—动作模型时，应把视觉表示、世界骨干、动作容量、跨模态可见性和去噪路径分别设为可控变量，并让每项结论在前一项确定的条件下继续验证。\n- 评测预训练必须同时报告 ID 与 OOD，尤其将相机、噪声、背景、布局、机器人形态和动作空间拆开；只看平均榜单会掩盖模型究竟学到动力学，还是覆盖了相近数据。\n- 异构机器人数据的统一接口需要固定语义槽、有效维度 mask、可逆原生动作映射和 checkpoint 内归一化统计，防止训练/部署间静默改变坐标含义。\n- 对 representation encoder，不应只比较语义质量；token 维度和时间压缩率会直接改变 DiT 训练难度，压缩适配器本身必须进入公平消融。",
-    "insightCore": [
-      "论文最重要的研究贡献是把 WAM 从“架构故事”变成可证伪的工程科学。尤其是从 scratch 时 action-sees-video 与 mutual 几乎打平，而大规模预训练后 mutual 反超，说明最佳信息流会随数据规模改变，不能只在小实验上定型。",
-      "“世界模型帮助动作”的证据更像表示学习而非显式规划：训练时动作必须看世界，但测试时刻意让视频先去噪并没有收益，同步去噪反而最好。这削弱了“模型先完整想象未来，再反推动作”的直观叙事。",
-      "OOD 收益与 LIBERO-Plus 失败共同说明，预训练不是抽象的规模奖励，而是覆盖匹配问题。人类第一视角数据扩大场景与交互分布，但无法自动补足特定机械臂、相机和带动作标注的单臂变化。",
-      "80 维固定槽位是实用的异构数据接口，不是已经解决动作统一。它通过语义槽和 mask 避免错误监督，但跨具身共享仍依赖人为定义的坐标语义和下游微调。"
-    ],
-    "insightRelations": [
-      "相对 VLA，OpenWAM 继承的是视频生成中的视觉动力学先验，并额外使用未来视频 latent 作为训练目标；论文观察到 WAM 更擅长 ID 拟合，而 VLA 在强视觉 OOD 下更稳，但跨模型比较仍受数据与规模差异影响。",
-      "相对 Fast-WAM、DreamZero、Motus 等单一实现，OpenWAM 的重点是把 single/dual/tri-system、joint/cross attention、IDM 和多种视频骨干放进同一基础设施，降低结论被实现差异污染的程度。",
-      "相对 [[Geometric Action Model for Robot Policy Learning]]，OpenWAM 预测多帧像素重建 latent，获得强视频生成先验但承受相机/噪声敏感性；GAM 在几何潜空间做未来预测，更轻、更稳，但丢失像素级世界生成能力。",
-      "相对 [[Beyond Data Scaling: Representation-Centric Continued Pre-training for Vision-Language-Action Models]]，OpenWAM 强调视频/动作两个生成流如何协同，VLAct 强调 VLM backbone 如何避免表示漂移和 decoder lock-in；两者分别对应 WAM 与 VLA 的预训练设计科学化。"
-    ],
-    "insightBorrowable": [
-      "设计世界—动作模型时，应把视觉表示、世界骨干、动作容量、跨模态可见性和去噪路径分别设为可控变量，并让每项结论在前一项确定的条件下继续验证。",
-      "评测预训练必须同时报告 ID 与 OOD，尤其将相机、噪声、背景、布局、机器人形态和动作空间拆开；只看平均榜单会掩盖模型究竟学到动力学，还是覆盖了相近数据。",
-      "异构机器人数据的统一接口需要固定语义槽、有效维度 mask、可逆原生动作映射和 checkpoint 内归一化统计，防止训练/部署间静默改变坐标含义。",
-      "对 representation encoder，不应只比较语义质量；token 维度和时间压缩率会直接改变 DiT 训练难度，压缩适配器本身必须进入公平消融。"
-    ],
-    "risks": "**局限：**\n\n- 六组实验按前一组的默认选择递进，而不是对所有变量做完整 factorial sweep；因此后续结论依赖早期选型，变量之间可能存在未测交互。\n- 视频骨干比较同时改变参数量、架构、预训练数据和训练目标，论文明确承认不能把 90.14%→93.79% 全部归因为规模。\n- WAM 与 VLA 的“ID/OOD 优势区域”主要来自不同公开模型的横向榜单，预训练数据、参数、微调和算力不统一，不能视为严格范式因果结论。\n- LIBERO-Plus 暴露像素重建 latent 对相机与噪声的脆弱性；未来视频长 horizon 还会累计误差，增加的世界监督可能同时带来更强拟合和更差视觉 OOD。\n- 论文主要研究具身预训练，尚未系统覆盖 post-training、在线适配、强化学习或安全约束；80 维动作空间也未纳入 UMI 风格数据和更一般的移动/触觉/力觉通道。\n- 真机虽然覆盖单臂、双臂和灵巧手，但任务仍是实验室操作且需要下游 SFT；“预训练未见灵巧手”不等于零样本直接控制未见机器人。\n\n**适用场景：**\n\n- 需要系统比较 WAM 视频骨干、视觉表示、融合架构、attention mask、数据配方或采样调度的研究团队。\n- 拥有人类第一视角视频与多机器人轨迹，希望用统一世界/动作目标训练可跨任务微调的机器人 foundation model。\n- 需要开放 checkpoint、统一 benchmark 接口和部署服务器，快速复现 WAM 设计或建立新消融基线的工程环境。\n- 不适合直接作为强相机扰动、强噪声、未知安全约束环境下的即插即用控制器；这些场景仍需要更鲁棒的潜表示、覆盖匹配数据和部署期安全机制。\n\n**最终判断：**\n\n- OpenWAM 是当前 WAM 路线非常值得长期跟踪的“研究底座型”工作。其价值排序应是：受控实验基础设施与开放资产第一，关于信息流和 OOD 的可复用设计原则第二，OpenWAM-α 的排行榜成绩第三。它证明视频生成先验可以在大规模异构预训练后形成强控制基线，也诚实展示像素潜空间的 OOD 天花板；后续最关键的问题不是继续照抄更大视频 DiT，而是寻找更紧凑、对环境变化更鲁棒的表示，并用更丰富、带精确动作标注的具身数据验证 WAM/VLA 的互补设计。",
-    "riskLimitations": [
-      "六组实验按前一组的默认选择递进，而不是对所有变量做完整 factorial sweep；因此后续结论依赖早期选型，变量之间可能存在未测交互。",
-      "视频骨干比较同时改变参数量、架构、预训练数据和训练目标，论文明确承认不能把 90.14%→93.79% 全部归因为规模。",
-      "WAM 与 VLA 的“ID/OOD 优势区域”主要来自不同公开模型的横向榜单，预训练数据、参数、微调和算力不统一，不能视为严格范式因果结论。",
-      "LIBERO-Plus 暴露像素重建 latent 对相机与噪声的脆弱性；未来视频长 horizon 还会累计误差，增加的世界监督可能同时带来更强拟合和更差视觉 OOD。",
-      "论文主要研究具身预训练，尚未系统覆盖 post-training、在线适配、强化学习或安全约束；80 维动作空间也未纳入 UMI 风格数据和更一般的移动/触觉/力觉通道。",
-      "真机虽然覆盖单臂、双臂和灵巧手，但任务仍是实验室操作且需要下游 SFT；“预训练未见灵巧手”不等于零样本直接控制未见机器人。"
-    ],
-    "riskScenarios": [
-      "需要系统比较 WAM 视频骨干、视觉表示、融合架构、attention mask、数据配方或采样调度的研究团队。",
-      "拥有人类第一视角视频与多机器人轨迹，希望用统一世界/动作目标训练可跨任务微调的机器人 foundation model。",
-      "需要开放 checkpoint、统一 benchmark 接口和部署服务器，快速复现 WAM 设计或建立新消融基线的工程环境。",
-      "不适合直接作为强相机扰动、强噪声、未知安全约束环境下的即插即用控制器；这些场景仍需要更鲁棒的潜表示、覆盖匹配数据和部署期安全机制。"
-    ],
-    "riskJudgment": [
-      "OpenWAM 是当前 WAM 路线非常值得长期跟踪的“研究底座型”工作。其价值排序应是：受控实验基础设施与开放资产第一，关于信息流和 OOD 的可复用设计原则第二，OpenWAM-α 的排行榜成绩第三。它证明视频生成先验可以在大规模异构预训练后形成强控制基线，也诚实展示像素潜空间的 OOD 天花板；后续最关键的问题不是继续照抄更大视频 DiT，而是寻找更紧凑、对环境变化更鲁棒的表示，并用更丰富、带精确动作标注的具身数据验证 WAM/VLA 的互补设计。"
-    ],
-    "resultsTableMarkdown": "| 评测或消融 | OpenWAM 结果 | 对照与含义 |\n| --- | ---: | --- |\n| 骨干规模 | 1.3B：90.14%；5B：92.39%；14B：93.79% | 更强视频生成骨干迁移更好，但收益不是纯参数量因果 |\n| 双系统 joint self-attention | 92.36% | 单系统 Vanilla 85.50%；三系统 92.60% |\n| 世界→动作信息流 | 92.39% | Isolated 87.41%，约 +5 个点 |\n| 600h 共训 OOD | 26.62% | From scratch 14.50%，+12.12 个点 |\n| LIBERO / RoboTwin2.0-Full | 99.3% / 93.60% | 接近饱和或顶级水平 |\n| RoboTwin C2R Clean / Random / Avg | 89.4% / 48.7% / 69.0% | 最强 WAM，但弱于最强 VLA 77.1% Avg |\n| LIBERO-Plus Avg | 69.2% | Qwen-RobotManip 89.0%；相机和噪声是主要失分项 |\n| 真机单臂 Avg | 82.5% | LingBot-VA 77.5%；π0.5 55.0% |\n| 真机双臂 RoboDojo Score / SR | 37.6 / 24.4% | π0.5 为 22.9 / 12.8% |",
-    "resultsTable": {
-      "columns": [
-        "评测或消融",
-        "OpenWAM 结果",
-        "对照与含义"
-      ],
-      "rows": [
-        [
-          "骨干规模",
-          "1.3B：90.14%；5B：92.39%；14B：93.79%",
-          "更强视频生成骨干迁移更好，但收益不是纯参数量因果"
-        ],
-        [
-          "双系统 joint self-attention",
-          "92.36%",
-          "单系统 Vanilla 85.50%；三系统 92.60%"
-        ],
-        [
-          "世界→动作信息流",
-          "92.39%",
-          "Isolated 87.41%，约 +5 个点"
-        ],
-        [
-          "600h 共训 OOD",
-          "26.62%",
-          "From scratch 14.50%，+12.12 个点"
-        ],
-        [
-          "LIBERO / RoboTwin2.0-Full",
-          "99.3% / 93.60%",
-          "接近饱和或顶级水平"
-        ],
-        [
-          "RoboTwin C2R Clean / Random / Avg",
-          "89.4% / 48.7% / 69.0%",
-          "最强 WAM，但弱于最强 VLA 77.1% Avg"
-        ],
-        [
-          "LIBERO-Plus Avg",
-          "69.2%",
-          "Qwen-RobotManip 89.0%；相机和噪声是主要失分项"
-        ],
-        [
-          "真机单臂 Avg",
-          "82.5%",
-          "LingBot-VA 77.5%；π0.5 55.0%"
-        ],
-        [
-          "真机双臂 RoboDojo Score / SR",
-          "37.6 / 24.4%",
-          "π0.5 为 22.9 / 12.8%"
-        ]
-      ]
-    },
-    "figureGallery": [
-      {
-        "zone": "intuition",
-        "caption": "OpenWAM 总览",
-        "src": "https://followhub.tenstep.top/papers/2609.07398-openwam-an-open-modular-exploration-towards-systematic-world-action-model-pretraining/teaser-page1.jpg"
-      },
-      {
-        "zone": "method",
-        "caption": "OpenWAM-α 架构",
-        "src": "https://followhub.tenstep.top/papers/2609.07398-openwam-an-open-modular-exploration-towards-systematic-world-action-model-pretraining/a-the-dual-system-architecture-a-video-generation-dit-and-an-actiondit-jointly-denoise-the-futur.jpg"
-      },
-      {
-        "zone": "results",
-        "caption": "OpenWAM-α 仿真结果",
-        "src": "https://followhub.tenstep.top/papers/2609.07398-openwam-an-open-modular-exploration-towards-systematic-world-action-model-pretraining/against-a-common-set-of-baselines-per-benchmark-every-bar-is-labelled-with-its-true-score-per-be.jpg"
-      }
-    ],
-    "relatedTopicSlugs": [
-      "vision-language-action"
-    ]
-  },
-  {
-    "slug": "2609.05832-cr-vla-force",
-    "title": "CR-VLA-Force: Learning Control-aware Compliance VLA Model for Robust Contact-rich Robotic Manipulation",
-    "sourceType": "paper",
-    "sourceUrl": "https://arxiv.org/abs/2609.05832",
-    "htmlUrl": "https://arxiv.org/html/2609.05832v1",
-    "pdfUrl": "https://arxiv.org/pdf/2609.05832",
-    "codeUrl": "",
-    "translationUrl": "https://hjfy.top/arxiv/2609.05832",
-    "publishDate": "2026-09-05",
-    "authors": [
-      "Zhaohong Mai",
-      "Chao Wang",
-      "Chao Zeng",
-      "Sitong Mao",
-      "Heng Zhang",
-      "Shunbo Zhou",
-      "Chenguang Yang"
-    ],
-    "affiliation": "Huawei Technologies Co., Ltd.",
-    "relatedOrganizations": [
-      "Huawei Technologies Co., Ltd.",
-      "South China University of Technology",
-      "Ola Dimensions",
-      "The Hong Kong Polytechnic University"
-    ],
-    "relatedCompanies": [
-      "Huawei",
-      "Ola Dimensions"
-    ],
-    "keywords": [
-      "force-torque sensing",
-      "adaptive compliance control",
-      "vision-language-action"
-    ],
-    "primaryDomainSlug": "physical-embodied-intelligence",
-    "domainSlugs": [
-      "physical-embodied-intelligence"
-    ],
-    "heroImage": "https://arxiv.org/html/2609.05832v1/overall_structure2.png",
-    "tldr": "CR-VLA-Force 的真正贡献不是再给 VLA 增加一个力觉输入，而是把 1 Hz 的慢速 VLA 与 500 Hz 的自适应柔顺控制器组成分层闭环：模型联合预测位姿和前馈力，控制器用实时力误差连续调刚度。六个力觉/接触条件平均成功率达到 89.2%，高于 ForceVLA 的 73.2%；擦板 40 N 跟踪误差降到 5.52%（base）和 8.78%（OOD）。但它的泛化证据仅覆盖单台 UR5e、四类任务与有限位姿偏移，“安全”主要来自工程控制约束而非整个学习系统的形式化保证。",
-    "intuition": "可以把系统理解为“慢脑 + 快反射”：慢脑每秒读取双视角图像、语言、机器人状态和一段力历史，规划未来 40 步的位姿、夹爪与期望力；快反射把离散动作插值成连续命令，并在 500 Hz 下根据实测力与期望力的偏差调节刚度。这样，即使视觉位姿估错几毫米，机器人也不必等下一次 VLA 推理才卸力，而能先由低层柔顺回路避免把误差放大成危险接触。\n\n![CC-VLA 慢速策略与高频柔顺控制器组成的分层系统](https://arxiv.org/html/2609.05832v1/overall_structure2.png)\n\n*图 1：上层 CC-VLA 融合视觉、语言、本体状态与历史力，生成位姿和前馈力动作块；下层 VG-ACC 以 300-500 Hz 跟踪连续化后的参考位姿与期望力。*",
-    "abstractEn": "Integrating visuomotor policies or Vision-Language-Action (VLA) models with force/torque (F/T) perception has demonstrated significant progress in imitation learning for robotic manipulation. However, existing force-aware VLA models frequently exhibit limited capability in precise force tracking and rapid successive adjustments. This deficiency stems from the limitations of action-chunk execution strategies and the substantial latency between perception and real-time control. Such limitations can lead to task failures and safety risks, particularly when the execution of an action chunk exerts excessive interaction forces without timely adjustment. To overcome this challenge, we propose the Control-aware Compliance VLA (CC-VLA) framework for reactive control. The CC-VLA model employs a multimodal mixture-of-experts (MoE) to encode force signal sequences and vision-language fused feature. Furthermore, it utilizes a multi-stage training strategy to ensure robust perception within the visual-semantic space and effective force perception under sparse sampling conditions. Additionally, a VLA-guided adaptive compliance controller is designed to facilitate precise position tracking during contact-free motion and optimal force-position tracking for contact-rich tasks. To facilitate high-precision F/T data acquisition, we also implement an adversaria shared teleoperation strategy for contact-rich demonstrations that bolsters system safety and interactivity. Extensive real-world experiments demonstrate that CC-VLA significantly improves success rates in challenging force-perception tasks and enhances force-control precision, while providing multi-level safety and robustness under the tested partial-OOD pose-shift settings.",
-    "abstractZh": "将视觉运动策略或视觉-语言-动作模型与力/力矩感知结合，已经推动了机器人模仿学习，但现有力感知 VLA 往往难以精确跟踪作用力并快速连续调整。根因在于动作块一次生成、分段执行，以及感知推理与实时控制之间的明显延迟；当一个动作块持续施加过大的交互力而无法及时修正时，会带来任务失败和安全风险。本文提出用于反应式控制的控制感知柔顺 VLA（CC-VLA）：以多模态混合专家编码力序列和视觉-语言融合特征，用多阶段训练保护视觉语义感知并学习稀疏采样下的力觉，再由 VLA 引导的自适应柔顺控制器兼顾自由空间的位置跟踪与接触任务的力位跟踪。作者还设计了面向高精度力/力矩示范采集的共享遥操作方法。真实机器人实验显示，CC-VLA 提升了困难力觉任务的成功率和力控制精度，并在论文测试的部分 OOD 位姿偏移下保持多层安全性与鲁棒性。",
-    "background": "**动机：** 接触密集操作同时要求几何精度、足够作用力和碰撞时的让步能力。纯位置 VLA 通常以低频观测生成较长动作块，接触后的新力信号要等下一轮推理才能改变计划；在插头错位、窗框约束或擦拭法向变化时，几毫米误差就可能被刚性位置控制放大成过载。真正可部署的系统需要把 VLA 的语义与泛化能力同高频、稳定、可约束的柔顺控制连接起来。\n\n**问题缺口：** ForceVLA、TA-VLA 等方法虽然已把力或力矩加入 VLA，却主要仍以位置动作块为执行接口：低频模型难以跟踪精确期望力，也难以在一个动作块内部对连续接触变化作出反应。另一方面，视觉与力在维度、噪声、稀疏性和时间尺度上高度不平衡，过早或直接融合容易让视觉压过力信号，或让力噪声破坏预训练视觉语义。论文要补的是模型融合、动作接口和低层控制三者之间的系统缺口。",
-    "backgroundMotivation": "接触密集操作同时要求几何精度、足够作用力和碰撞时的让步能力。纯位置 VLA 通常以低频观测生成较长动作块，接触后的新力信号要等下一轮推理才能改变计划；在插头错位、窗框约束或擦拭法向变化时，几毫米误差就可能被刚性位置控制放大成过载。真正可部署的系统需要把 VLA 的语义与泛化能力同高频、稳定、可约束的柔顺控制连接起来。",
-    "backgroundGap": "ForceVLA、TA-VLA 等方法虽然已把力或力矩加入 VLA，却主要仍以位置动作块为执行接口：低频模型难以跟踪精确期望力，也难以在一个动作块内部对连续接触变化作出反应。另一方面，视觉与力在维度、噪声、稀疏性和时间尺度上高度不平衡，过早或直接融合容易让视觉压过力信号，或让力噪声破坏预训练视觉语义。论文要补的是模型融合、动作接口和低层控制三者之间的系统缺口。",
-    "method": "**方法概述：** CC-VLA 是一个建立在 pi0 上的慢快分层系统：上层以 PaliGemma、flow-based action expert、历史力序列编码器和稀疏 MoE 联合产生位姿、夹爪和前馈力动作块；下层将动作块异步插值到高频命令，并依据力跟踪误差在线调节笛卡尔刚度。训练先建立视觉、语言、本体和动作对齐，再把力融合专家作为残差分支加入，以减少视觉主导与力噪声对基础空间能力的干扰。\n\n**核心机制：** 上层观测包含双视角 RGB、语言指令、13 维本体状态（TCP 位姿、夹爪宽度与当前六维力）以及历史六维力序列；pi0 的 flow action expert 输出长度 40 的 13 维动作块，其中每步同时含位姿、夹爪和期望力。历史力先分段，经共享 MLP patch encoder 与时间位置编码，再由可学习 force token 通过 cross-attention 汇聚；第二阶段的稀疏 MoE 把它作为对视觉策略的残差修正。下层把离散位姿在位置空间和 SO(3) 上连续插值，以实测力减期望力形成误差；当误差幅值恶化时降低刚度、改善时提高刚度，步长与当前误差成比例，并经过低通、上下界投影、临界阻尼设置和刚度变化率约束，在 500 Hz 形成力位闭环。\n\n**方法拆解：**\n\n- 共享遥操作采集：在非力反馈输入设备与位置控制 UR5e 之间加入补偿虚拟阻抗，使机器人感受到的等效环境刚度低于真实环境，降低接触示教中的保护停机，并记录真实执行位姿和六维力。\n- 第一阶段视觉策略学习：微调 pi0，并用 block-wise attention mask 对齐视觉、语言、本体与动作空间，先建立不依赖噪声力信号的空间感知和一般操作能力。\n- 历史力序列编码：把推理间隔内的力/力矩序列切成连续 patch，共享 MLP 捕捉局部力矩耦合与变化趋势，时间位置编码保留顺序，可学习 force token 汇总接触建立、丢失、峰值和导数信息。\n- 第二阶段 MoE 残差融合：加入四专家稀疏跨模态分支，让不同任务阶段依据高层指令与低层交互反馈动态路由；训练力分支去细化既有视觉动作轨迹，而不是与视觉主干从头竞争。\n- VLA 引导的柔顺执行：将动作块异步插值到控制频率，位姿作为参考轨迹、预测力作为前馈项；自适应律根据连续力误差趋势逐轴调刚度，并以低通、饱和和稳定性条件约束变化。\n\n**关键要点：**\n\n- “反应式”能力主要来自分层接口：VLA 本身仅 1 Hz 推理、力历史仅 10 Hz 采样，真正处理动作块内部突发接触的是 500 Hz 的 VG-ACC，而非更快的神经策略。\n- 力在这里同时是输入和动作目标：历史力帮助识别任务阶段，预测前馈力把示范中的接触意图传给低层控制器，这比只让力条件化位姿动作更接近可执行的力位控制接口。\n- 两阶段训练把力学习定义为对已建立视觉策略的残差修正；按钮基准中成功率提升 12 个百分点、错误按压位姿率从 28% 降至 8%，说明融合顺序会影响空间能力保持。\n- 标题使用 CR-VLA-Force，而论文正文把核心框架称为 CC-VLA；阅读和检索时应把二者视为同一工作，不能误当成两个模型。\n\n![建立在 pi0 上的控制感知 VLA 模型结构](https://arxiv.org/html/2609.05832v1/VLA_model2.png)\n\n*图 2：PaliGemma 处理视觉与语言，历史力序列编码器产生 force token，稀疏跨模态 MoE 作为残差分支细化 flow-based action expert 的位姿与力动作。*\n\n![VLA 引导的自适应柔顺控制器](https://arxiv.org/html/2609.05832v1/force_controller.svg)\n\n*图 5：模型提供期望位姿与前馈力；控制器根据实测力误差调节刚度，经位置伺服与环境交互形成快速闭环。*",
-    "methodOverview": "CC-VLA 是一个建立在 pi0 上的慢快分层系统：上层以 PaliGemma、flow-based action expert、历史力序列编码器和稀疏 MoE 联合产生位姿、夹爪和前馈力动作块；下层将动作块异步插值到高频命令，并依据力跟踪误差在线调节笛卡尔刚度。训练先建立视觉、语言、本体和动作对齐，再把力融合专家作为残差分支加入，以减少视觉主导与力噪声对基础空间能力的干扰。",
-    "methodCore": "上层观测包含双视角 RGB、语言指令、13 维本体状态（TCP 位姿、夹爪宽度与当前六维力）以及历史六维力序列；pi0 的 flow action expert 输出长度 40 的 13 维动作块，其中每步同时含位姿、夹爪和期望力。历史力先分段，经共享 MLP patch encoder 与时间位置编码，再由可学习 force token 通过 cross-attention 汇聚；第二阶段的稀疏 MoE 把它作为对视觉策略的残差修正。下层把离散位姿在位置空间和 SO(3) 上连续插值，以实测力减期望力形成误差；当误差幅值恶化时降低刚度、改善时提高刚度，步长与当前误差成比例，并经过低通、上下界投影、临界阻尼设置和刚度变化率约束，在 500 Hz 形成力位闭环。",
-    "methodBreakdown": [
-      "共享遥操作采集：在非力反馈输入设备与位置控制 UR5e 之间加入补偿虚拟阻抗，使机器人感受到的等效环境刚度低于真实环境，降低接触示教中的保护停机，并记录真实执行位姿和六维力。",
-      "第一阶段视觉策略学习：微调 pi0，并用 block-wise attention mask 对齐视觉、语言、本体与动作空间，先建立不依赖噪声力信号的空间感知和一般操作能力。",
-      "历史力序列编码：把推理间隔内的力/力矩序列切成连续 patch，共享 MLP 捕捉局部力矩耦合与变化趋势，时间位置编码保留顺序，可学习 force token 汇总接触建立、丢失、峰值和导数信息。",
-      "第二阶段 MoE 残差融合：加入四专家稀疏跨模态分支，让不同任务阶段依据高层指令与低层交互反馈动态路由；训练力分支去细化既有视觉动作轨迹，而不是与视觉主干从头竞争。",
-      "VLA 引导的柔顺执行：将动作块异步插值到控制频率，位姿作为参考轨迹、预测力作为前馈项；自适应律根据连续力误差趋势逐轴调刚度，并以低通、饱和和稳定性条件约束变化。"
-    ],
-    "methodTakeaways": [
-      "“反应式”能力主要来自分层接口：VLA 本身仅 1 Hz 推理、力历史仅 10 Hz 采样，真正处理动作块内部突发接触的是 500 Hz 的 VG-ACC，而非更快的神经策略。",
-      "力在这里同时是输入和动作目标：历史力帮助识别任务阶段，预测前馈力把示范中的接触意图传给低层控制器，这比只让力条件化位姿动作更接近可执行的力位控制接口。",
-      "两阶段训练把力学习定义为对已建立视觉策略的残差修正；按钮基准中成功率提升 12 个百分点、错误按压位姿率从 28% 降至 8%，说明融合顺序会影响空间能力保持。",
-      "标题使用 CR-VLA-Force，而论文正文把核心框架称为 CC-VLA；阅读和检索时应把二者视为同一工作，不能误当成两个模型。"
-    ],
-    "results": "**核心结果：**\n\n- 六个成功率条件的平均值为 89.2%，对比 Diffusion Policy 31.3%、pi0 47.3%、pi0.5 44.7%、pi0 直接拼力 60.2% 和 ForceVLA 73.2%。\n- 在 PB-base、PB-OOD、PI-base、PI-Pro、OW-1、OW-2 上，CC-VLA 分别达到 84%、88%、88%、92%、100%、83%；ForceVLA 分别为 68%、64%、68%、72%、92%、75%。\n- 擦板任务的目标法向力为 40 N。CC-VLA 的相对力跟踪误差在 WB-base 为 5.52%、WB-OOD 为 8.78%；ForceVLA 分别为 35.57% 和 52.33%，pi0 与 pi0.5 还会因瞬时力超过 75 N 触发保护停机。\n- 去掉 VG-ACC、使用固定低刚度、固定高刚度和可变刚度时，WB-base 力误差分别为 17.73%、7.92%、13.30% 和 5.52%，说明模型给出的目标力与自适应柔顺控制器都有独立贡献。\n- 历史力编码器在视觉看不到插孔的 PI-Pro 中把成功率从 72% 提升到 92%；两阶段训练在 PB-base 提升 12 个百分点，在 PI-base 达到 76% 并提升 8 个百分点。\n\n**结果表：**\n\n| 条件 | DP | pi0 | pi0.5 | pi0 + force | ForceVLA | CC-VLA |\n| --- | ---: | ---: | ---: | ---: | ---: | ---: |\n| PB-base | 40% | 36% | 44% | 68% | 68% | **84%** |\n| PB-OOD（高度 -6 cm） | 0% | 40% | 24% | 52% | 64% | **88%** |\n| PI-base | 36% | 52% | 44% | 60% | 68% | **88%** |\n| PI-Pro（插孔不可见） | 48% | 40% | 56% | 72% | 72% | **92%** |\n| OW-1 | 40% | 58% | 58% | 67% | 92% | **100%** |\n| OW-2 | 24% | 58% | 42% | 42% | 75% | **83%** |\n| **六条件平均** | **31.3%** | **47.3%** | **44.7%** | **60.2%** | **73.2%** | **89.2%** |\n\n![六个接触条件下各方法的成功率](https://arxiv.org/html/2609.05832v1/exp_show_sucessrate_3task.png)\n\n*图 6：CC-VLA 在按钮按压、插头插入和开窗的六个条件下均为最高；该平均值不包含另行评估力跟踪的擦板任务。*\n\n![擦板任务中各方法的 Z 轴力轨迹](https://arxiv.org/html/2609.05832v1/WB_forceplot.png)\n\n*图 7：虚线为示范的 40 N 目标力。CC-VLA 在 base 与高度偏移 OOD 中都维持最稳定的跟踪；纯位置 pi0 系列因过载保护未画入。*\n\n![柔顺控制器和可变刚度的消融结果](https://arxiv.org/html/2609.05832v1/ablation.png)\n\n*图 8：没有 VG-ACC 时，CC-VLA 预测的位姿和力仍会产生更大波动；可变刚度在正常执行与外部扰动下主动改变轴向刚度。*",
-    "resultHighlights": [
-      "六个成功率条件的平均值为 89.2%，对比 Diffusion Policy 31.3%、pi0 47.3%、pi0.5 44.7%、pi0 直接拼力 60.2% 和 ForceVLA 73.2%。",
-      "在 PB-base、PB-OOD、PI-base、PI-Pro、OW-1、OW-2 上，CC-VLA 分别达到 84%、88%、88%、92%、100%、83%；ForceVLA 分别为 68%、64%、68%、72%、92%、75%。",
-      "擦板任务的目标法向力为 40 N。CC-VLA 的相对力跟踪误差在 WB-base 为 5.52%、WB-OOD 为 8.78%；ForceVLA 分别为 35.57% 和 52.33%，pi0 与 pi0.5 还会因瞬时力超过 75 N 触发保护停机。",
-      "去掉 VG-ACC、使用固定低刚度、固定高刚度和可变刚度时，WB-base 力误差分别为 17.73%、7.92%、13.30% 和 5.52%，说明模型给出的目标力与自适应柔顺控制器都有独立贡献。",
-      "历史力编码器在视觉看不到插孔的 PI-Pro 中把成功率从 72% 提升到 92%；两阶段训练在 PB-base 提升 12 个百分点，在 PI-base 达到 76% 并提升 8 个百分点。"
-    ],
-    "insights": "**核心 insight：**\n\n- 这篇工作把 force-aware VLA 的瓶颈从“能否看见力”改写为“谁在什么频率上消费力”。输入模态、动作语义和控制频率必须一起设计，单独提高 VLA 的力编码能力并不能解决动作块内部的接触延迟。\n- 预测期望力是系统的关键接口：它把学习到的示范意图交给经典控制器，使力不只是判断碰撞的观测，也成为可执行目标。相比只输出位置残差，这一接口更容易分别审计目标是否合理、跟踪是否稳定。\n- 两阶段训练和残差 MoE 的本质是模态权重治理：先保护高维视觉语义，再让低维稀疏力信号只负责接触修正。它与 ForceFlow 用 AdaLN 提升 force 话语权、FD-VLA 用定向注意力隔离控制 token 属于同一设计原则的不同实现。\n- 89.2% 平均成功率不能单独解释成 VLA 模型能力跃升，因为收益来自采集、融合、动作目标和控制器的联合系统。论文的价值恰恰在这种协同设计，而不是某一个网络模块的纯模型增益。\n\n**和已有方法的关系：**\n\n- 相对 ForceVLA，CC-VLA 继承稀疏 MoE 的视觉-语言-力融合思路，但把力历史编码、前馈力动作目标和高频自适应柔顺控制器补成完整闭环，因此增量主要在控制接口与时间尺度，而非 VLA 基座规模。\n- 相对 Reactive Diffusion Policy、FoAR 等快慢策略，CC-VLA 没有让高频神经网络持续重写动作；它让经典控制器在动作块内部反应，模型更新更慢但控制频率更高，工程稳定性与表达能力的权衡不同。\n- 相对 Adaptive Compliance Policy，二者都把柔顺从固定部署参数提升为策略相关变量；ACP 直接预测参考位姿、虚拟目标与刚度，CC-VLA 则预测期望位姿和力，由误差趋势在线产生刚度。\n- 相对 ForceFlow，二者都使用历史 wrench 并联合预测未来力与动作；ForceFlow 的预测力主要是训练期辅助目标、最终只执行位姿，CC-VLA 的预测力直接成为控制器前馈目标，因此控制语义更显式。\n\n**可借鉴点：**\n\n- 为低频生成策略设计双通道输出：一条输出几何参考轨迹，另一条输出由高频控制器消费的物理目标；用明确接口把学习层与稳定控制层解耦。\n- 新传感模态噪声大、信息密度低时，先训练基础感知和动作先验，再把新模态作为残差专家接入，并分别做空间能力保持与新模态有效性的消融。\n- 安全评测至少同时报告成功率、期望力跟踪误差、峰值力/保护停机和扰动响应；只有成功率会掩盖刚性控制完成任务时的危险过载。",
-    "insightCore": [
-      "这篇工作把 force-aware VLA 的瓶颈从“能否看见力”改写为“谁在什么频率上消费力”。输入模态、动作语义和控制频率必须一起设计，单独提高 VLA 的力编码能力并不能解决动作块内部的接触延迟。",
-      "预测期望力是系统的关键接口：它把学习到的示范意图交给经典控制器，使力不只是判断碰撞的观测，也成为可执行目标。相比只输出位置残差，这一接口更容易分别审计目标是否合理、跟踪是否稳定。",
-      "两阶段训练和残差 MoE 的本质是模态权重治理：先保护高维视觉语义，再让低维稀疏力信号只负责接触修正。它与 ForceFlow 用 AdaLN 提升 force 话语权、FD-VLA 用定向注意力隔离控制 token 属于同一设计原则的不同实现。",
-      "89.2% 平均成功率不能单独解释成 VLA 模型能力跃升，因为收益来自采集、融合、动作目标和控制器的联合系统。论文的价值恰恰在这种协同设计，而不是某一个网络模块的纯模型增益。"
-    ],
-    "insightRelations": [
-      "相对 ForceVLA，CC-VLA 继承稀疏 MoE 的视觉-语言-力融合思路，但把力历史编码、前馈力动作目标和高频自适应柔顺控制器补成完整闭环，因此增量主要在控制接口与时间尺度，而非 VLA 基座规模。",
-      "相对 Reactive Diffusion Policy、FoAR 等快慢策略，CC-VLA 没有让高频神经网络持续重写动作；它让经典控制器在动作块内部反应，模型更新更慢但控制频率更高，工程稳定性与表达能力的权衡不同。",
-      "相对 Adaptive Compliance Policy，二者都把柔顺从固定部署参数提升为策略相关变量；ACP 直接预测参考位姿、虚拟目标与刚度，CC-VLA 则预测期望位姿和力，由误差趋势在线产生刚度。",
-      "相对 ForceFlow，二者都使用历史 wrench 并联合预测未来力与动作；ForceFlow 的预测力主要是训练期辅助目标、最终只执行位姿，CC-VLA 的预测力直接成为控制器前馈目标，因此控制语义更显式。"
-    ],
-    "insightBorrowable": [
-      "为低频生成策略设计双通道输出：一条输出几何参考轨迹，另一条输出由高频控制器消费的物理目标；用明确接口把学习层与稳定控制层解耦。",
-      "新传感模态噪声大、信息密度低时，先训练基础感知和动作先验，再把新模态作为残差专家接入，并分别做空间能力保持与新模态有效性的消融。",
-      "安全评测至少同时报告成功率、期望力跟踪误差、峰值力/保护停机和扰动响应；只有成功率会掩盖刚性控制完成任务时的危险过载。"
-    ],
-    "risks": "**局限：**\n\n- 只在单台 UR5e、同一类腕部六轴力传感器、四项实验室任务上验证；每个条件仅 24–25 次试验，没有置信区间、显著性检验或跨机器人迁移。\n- 所谓 OOD 主要是按钮/白板高度下移 6 cm，以及插孔进入腕部相机盲区的近端起始；没有覆盖材料、摩擦、工具、负载、视觉背景或动力学的大范围分布外变化。\n- 整个系统仍依赖示范中的高质量力控制和时间一致性。作者明确承认数据采集质量是关键依赖，错误的期望力分布可能会作为前馈项直接进入控制器。\n- 自适应刚度使用受约束的启发式 Rprop 风格更新而非优化求解；论文给出控制器层稳定性约束，但没有证明包含感知误差、动作生成和异步插值的完整学习闭环具有形式化安全保证。\n- 当前只处理物体级末端柔顺，未涉及手指级夹持力、多个接触点、六维耦合刚度或灵巧手内操作；对高速冲击的响应也不应从 10 Hz 力历史直接外推。\n\n**适用场景：**\n\n- 需要持续法向力或受控插入力的工业操作，例如擦拭、抛光、打磨、插装、旋钮/窗体操作，以及视觉误差会迅速转化成危险内力的刚性环境交互。\n- 已有低频 VLA 或生成式动作策略，但机器人控制栈支持笛卡尔阻抗/导纳、实时力矩传感与高频控制，希望在不把大模型提速到控制频率的情况下增加接触鲁棒性。\n- 不适合直接用于没有可靠力传感、控制接口只接受低频位置命令、涉及高速冲击或多点灵巧接触、或需要可认证安全保证的场景。\n\n**最终判断：**\n\n- 值得重点跟踪。它比“再融合一种模态”的论文更接近部署系统设计，因为明确回答了慢速 VLA 如何把意图交给快速柔顺回路，并用成功率、力误差和保护停机共同验证。\n- 但应把结论限定为单平台、有限接触任务上的系统级证据：多层安全机制不等于端到端形式化安全，部分 OOD 也不等于开放世界泛化。后续关键验证是跨机器人/控制器迁移、错误期望力下的故障边界、摩擦与材料变化，以及手指级多接触扩展。",
-    "riskLimitations": [
-      "只在单台 UR5e、同一类腕部六轴力传感器、四项实验室任务上验证；每个条件仅 24–25 次试验，没有置信区间、显著性检验或跨机器人迁移。",
-      "所谓 OOD 主要是按钮/白板高度下移 6 cm，以及插孔进入腕部相机盲区的近端起始；没有覆盖材料、摩擦、工具、负载、视觉背景或动力学的大范围分布外变化。",
-      "整个系统仍依赖示范中的高质量力控制和时间一致性。作者明确承认数据采集质量是关键依赖，错误的期望力分布可能会作为前馈项直接进入控制器。",
-      "自适应刚度使用受约束的启发式 Rprop 风格更新而非优化求解；论文给出控制器层稳定性约束，但没有证明包含感知误差、动作生成和异步插值的完整学习闭环具有形式化安全保证。",
-      "当前只处理物体级末端柔顺，未涉及手指级夹持力、多个接触点、六维耦合刚度或灵巧手内操作；对高速冲击的响应也不应从 10 Hz 力历史直接外推。"
-    ],
-    "riskScenarios": [
-      "需要持续法向力或受控插入力的工业操作，例如擦拭、抛光、打磨、插装、旋钮/窗体操作，以及视觉误差会迅速转化成危险内力的刚性环境交互。",
-      "已有低频 VLA 或生成式动作策略，但机器人控制栈支持笛卡尔阻抗/导纳、实时力矩传感与高频控制，希望在不把大模型提速到控制频率的情况下增加接触鲁棒性。",
-      "不适合直接用于没有可靠力传感、控制接口只接受低频位置命令、涉及高速冲击或多点灵巧接触、或需要可认证安全保证的场景。"
-    ],
-    "riskJudgment": [
-      "值得重点跟踪。它比“再融合一种模态”的论文更接近部署系统设计，因为明确回答了慢速 VLA 如何把意图交给快速柔顺回路，并用成功率、力误差和保护停机共同验证。",
-      "但应把结论限定为单平台、有限接触任务上的系统级证据：多层安全机制不等于端到端形式化安全，部分 OOD 也不等于开放世界泛化。后续关键验证是跨机器人/控制器迁移、错误期望力下的故障边界、摩擦与材料变化，以及手指级多接触扩展。"
-    ],
-    "resultsTableMarkdown": "| 条件 | DP | pi0 | pi0.5 | pi0 + force | ForceVLA | CC-VLA |\n| --- | ---: | ---: | ---: | ---: | ---: | ---: |\n| PB-base | 40% | 36% | 44% | 68% | 68% | **84%** |\n| PB-OOD（高度 -6 cm） | 0% | 40% | 24% | 52% | 64% | **88%** |\n| PI-base | 36% | 52% | 44% | 60% | 68% | **88%** |\n| PI-Pro（插孔不可见） | 48% | 40% | 56% | 72% | 72% | **92%** |\n| OW-1 | 40% | 58% | 58% | 67% | 92% | **100%** |\n| OW-2 | 24% | 58% | 42% | 42% | 75% | **83%** |\n| **六条件平均** | **31.3%** | **47.3%** | **44.7%** | **60.2%** | **73.2%** | **89.2%** |",
-    "resultsTable": {
-      "columns": [
-        "条件",
-        "DP",
-        "pi0",
-        "pi0.5",
-        "pi0 + force",
-        "ForceVLA",
-        "CC-VLA"
-      ],
-      "rows": [
-        [
-          "PB-base",
-          "40%",
-          "36%",
-          "44%",
-          "68%",
-          "68%",
-          "**84%**"
-        ],
-        [
-          "PB-OOD（高度 -6 cm）",
-          "0%",
-          "40%",
-          "24%",
-          "52%",
-          "64%",
-          "**88%**"
-        ],
-        [
-          "PI-base",
-          "36%",
-          "52%",
-          "44%",
-          "60%",
-          "68%",
-          "**88%**"
-        ],
-        [
-          "PI-Pro（插孔不可见）",
-          "48%",
-          "40%",
-          "56%",
-          "72%",
-          "72%",
-          "**92%**"
-        ],
-        [
-          "OW-1",
-          "40%",
-          "58%",
-          "58%",
-          "67%",
-          "92%",
-          "**100%**"
-        ],
-        [
-          "OW-2",
-          "24%",
-          "58%",
-          "42%",
-          "42%",
-          "75%",
-          "**83%**"
-        ],
-        [
-          "**六条件平均**",
-          "**31.3%**",
-          "**47.3%**",
-          "**44.7%**",
-          "**60.2%**",
-          "**73.2%**",
-          "**89.2%**"
-        ]
-      ]
-    },
-    "figureGallery": [
-      {
-        "zone": "intuition",
-        "caption": "CC-VLA 慢速策略与高频柔顺控制器组成的分层系统",
-        "src": "https://arxiv.org/html/2609.05832v1/overall_structure2.png"
-      },
-      {
-        "zone": "method",
-        "caption": "建立在 pi0 上的控制感知 VLA 模型结构",
-        "src": "https://arxiv.org/html/2609.05832v1/VLA_model2.png"
-      },
-      {
-        "zone": "method",
-        "caption": "VLA 引导的自适应柔顺控制器",
-        "src": "https://arxiv.org/html/2609.05832v1/force_controller.svg"
-      },
-      {
-        "zone": "results",
-        "caption": "六个接触条件下各方法的成功率",
-        "src": "https://arxiv.org/html/2609.05832v1/exp_show_sucessrate_3task.png"
-      },
-      {
-        "zone": "results",
-        "caption": "擦板任务中各方法的 Z 轴力轨迹",
-        "src": "https://arxiv.org/html/2609.05832v1/WB_forceplot.png"
-      },
-      {
-        "zone": "results",
-        "caption": "柔顺控制器和可变刚度的消融结果",
-        "src": "https://arxiv.org/html/2609.05832v1/ablation.png"
-      }
-    ],
-    "relatedTopicSlugs": [
-      "vision-language-action",
-      "contact-rich-manipulation"
     ]
   }
 ]

@@ -124,6 +124,11 @@
   },
   "figureGallery": [
     {
+      "zone": "intuition",
+      "caption": "STEAM overview",
+      "src": "https://arxiv.org/html/2606.29834v1/x1.png"
+    },
+    {
       "zone": "method",
       "caption": "STEAM framework",
       "src": "https://arxiv.org/html/2606.29834v1/x2.png"

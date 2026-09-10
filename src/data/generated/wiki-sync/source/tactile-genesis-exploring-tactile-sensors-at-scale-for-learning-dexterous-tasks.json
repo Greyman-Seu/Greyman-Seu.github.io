@@ -82,6 +82,11 @@
   },
   "figureGallery": [
     {
+      "zone": "intuition",
+      "caption": "主要图",
+      "src": "https://followhub.tenstep.top/papers/2606.22332-tactile-genesis/figure-1-overview-cropped.png"
+    },
+    {
       "zone": "method",
       "caption": "方法图",
       "src": "https://followhub.tenstep.top/papers/2606.22332-tactile-genesis/figure-1-overview-cropped.png"

@@ -143,6 +143,11 @@
   },
   "figureGallery": [
     {
+      "zone": "intuition",
+      "caption": "Qwen-RobotManip 总览：数据规模化、三层对齐、OOD 与真实机器人验证",
+      "src": "https://arxiv.org/html/2606.17846v2/myteaser_V6.png"
+    },
+    {
       "zone": "method",
       "caption": "Qwen-RobotManip 模型结构与三层对齐",
       "src": "https://arxiv.org/html/2606.17846v2/method-0616.png"

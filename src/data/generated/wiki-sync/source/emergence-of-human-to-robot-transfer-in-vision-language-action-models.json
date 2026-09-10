@@ -116,6 +116,11 @@
   },
   "figureGallery": [
     {
+      "zone": "intuition",
+      "caption": "主要图",
+      "src": "https://arxiv.org/html/2512.22414/figures/scalingAllV2.jpg"
+    },
+    {
       "zone": "method",
       "caption": "方法图",
       "src": "https://arxiv.org/html/2512.22414/figures/arch.jpg"

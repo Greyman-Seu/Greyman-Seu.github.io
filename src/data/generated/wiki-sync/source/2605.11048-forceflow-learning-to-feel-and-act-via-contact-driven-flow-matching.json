@@ -182,6 +182,11 @@
   },
   "figureGallery": [
     {
+      "zone": "intuition",
+      "caption": "ForceFlow 总览：V2F 将视觉定位与力驱动接触执行分成两个阶段",
+      "src": "https://arxiv.org/html/2605.11048v2/motivation.png"
+    },
+    {
       "zone": "method",
       "caption": "ForceFlow 架构：力与本体状态走 AdaLN，视觉走 cross-attention",
       "src": "https://arxiv.org/html/2605.11048v2/1.png"

@@ -163,6 +163,16 @@
   },
   "figureGallery": [
     {
+      "zone": "intuition",
+      "caption": "图 1：TactAR 数据采集系统与 RDP 快慢策略总览",
+      "src": "https://arxiv.org/html/2503.02881v3/teaser.png"
+    },
+    {
+      "zone": "background",
+      "caption": "图 5：普通动作块、时间集成、RDP 快慢闭环和人类控制模式对比",
+      "src": "https://arxiv.org/html/2503.02881v3/pipeline_comparison.png"
+    },
+    {
       "zone": "method",
       "caption": "图 6：RDP 训练与推理架构",
       "src": "https://arxiv.org/html/2503.02881v3/network_pipeline.png"

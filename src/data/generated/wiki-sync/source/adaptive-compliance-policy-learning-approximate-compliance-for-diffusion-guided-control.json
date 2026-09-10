@@ -145,6 +145,11 @@
   },
   "figureGallery": [
     {
+      "zone": "intuition",
+      "caption": "主要图",
+      "src": "https://arxiv.org/html/2410.09309v2/complance-teaser-v5.png"
+    },
+    {
       "zone": "method",
       "caption": "方法图",
       "src": "https://arxiv.org/html/2410.09309v2/ACP_method_1.svg"

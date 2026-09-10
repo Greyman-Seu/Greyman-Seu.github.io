@@ -159,6 +159,11 @@
   },
   "figureGallery": [
     {
+      "zone": "intuition",
+      "caption": "Fig. 1 总览图",
+      "src": "https://followhub.tenstep.top/papers/pi07-a-steerable-generalist-robotic-foundation-model-with-emergent-capabilities/figure-hero.png?v=20260511a"
+    },
+    {
       "zone": "method",
       "caption": "Fig. 2 架构图",
       "src": "https://followhub.tenstep.top/papers/pi07-a-steerable-generalist-robotic-foundation-model-with-emergent-capabilities/figure-method.png?v=20260511a"

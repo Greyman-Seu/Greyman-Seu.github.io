@@ -139,6 +139,11 @@
   },
   "figureGallery": [
     {
+      "zone": "intuition",
+      "caption": "架构总览",
+      "src": "https://arxiv.org/html/2606.29948v1/x1.png"
+    },
+    {
       "zone": "method",
       "caption": "方法细节与数据集",
       "src": "https://arxiv.org/html/2606.29948v1/x2.png"

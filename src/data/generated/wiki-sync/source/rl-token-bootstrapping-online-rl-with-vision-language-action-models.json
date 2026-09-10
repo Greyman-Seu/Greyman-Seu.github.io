@@ -119,6 +119,11 @@
   },
   "figureGallery": [
     {
+      "zone": "intuition",
+      "caption": "方法图",
+      "src": "https://arxiv.org/html/2604.23073v2/x1.png"
+    },
+    {
       "zone": "results",
       "caption": "结果图",
       "src": "https://arxiv.org/html/2604.23073v2/x2.png"
