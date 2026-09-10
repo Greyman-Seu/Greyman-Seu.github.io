@@ -1,81 +1,66 @@
 ---
-const predictions = [
+const steps = [
   {
-    intervention: '丢失任务必要信息',
-    primary: '误差地板上升',
-    possible: '任何预算都无法补回被删除的信息'
+    number: '1',
+    title: '明确预期',
+    detail: '写清必须能力、允许涌现的能力与不可接受结果。'
   },
   {
-    intervention: '代理 loss 与效用错位',
-    primary: '地板或方向恶化',
-    possible: '训练指标继续改善，真实效用提前饱和'
+    number: '2',
+    title: '定义空间',
+    detail: '选择元素、关系、组合、不变性、变化规则与输出。'
   },
   {
-    intervention: '去除 nuisance、对齐结构',
-    primary: '样本效率改善',
-    possible: '曲线整体下移，指数可能不变'
+    number: '3',
+    title: '核算监督',
+    detail: '检查局部目标、独立关系、分布覆盖、噪声与归因。'
   },
   {
-    intervention: '增加独立且可靠的监督',
-    primary: '饱和点推迟',
-    possible: '有效区间延长，长尾覆盖改善'
-  },
-  {
-    intervention: '改善信用路径与参数复用',
-    primary: '局部斜率或截距改善',
-    possible: '相同预算产生更多 held-out 增益'
+    number: '4',
+    title: '试探 Scaling',
+    detail: '联合改变数据和模型规模，对照代理 loss 与真实效用。'
   }
 ]
 ---
 
 <figure
   class='not-prose my-8 overflow-hidden rounded-xl border border-border/60 bg-card'
-  aria-labelledby='scaling-predictions-title scaling-predictions-caption'
+  aria-labelledby='practice-path-title practice-path-caption'
 >
   <div class='p-3 sm:p-5'>
-    <p id='scaling-predictions-title' class='m-0 text-base font-semibold text-foreground'>
-      干预什么，曲线应该怎样变化
+    <p id='practice-path-title' class='m-0 text-base font-semibold text-foreground'>
+      从直觉到实践的四步路径
     </p>
     <p class='mb-0 mt-1 text-sm leading-6 text-muted-foreground'>
-      不把所有改善都压缩成一个 Scaling exponent。
+      先决定学习方向，再决定数据和模型预算投向哪里。
     </p>
   </div>
 
-  <div
-    class='hidden grid-cols-[1.1fr_1fr_1.6fr] border-y border-border/60 bg-muted/35 px-5 py-2 text-xs font-semibold text-muted-foreground md:grid'
-  >
-    <span>受控干预</span>
-    <span>首要预测</span>
-    <span>曲线表现</span>
-  </div>
-
-  <ul class='m-0 list-none p-0' role='list'>
+  <ol class='m-0 grid list-none border-y border-border/60 p-0 md:grid-cols-4' role='list'>
     {
-      predictions.map((item, index) => (
+      steps.map((step, index) => (
         <li
           class:list={[
-            'grid gap-2 px-3 py-4 text-sm md:grid-cols-[1.1fr_1fr_1.6fr] md:px-5',
-            index > 0 && 'border-t border-border/60'
+            'grid grid-cols-[auto_1fr] gap-x-3 gap-y-1 px-3 py-4 sm:px-5 md:block',
+            index > 0 && 'border-t border-border/60 md:border-l md:border-t-0'
           ]}
         >
-          <span class='font-semibold text-foreground'>{item.intervention}</span>
-          <span class='leading-6 text-primary'>
-            <span class='font-semibold text-foreground md:hidden'>首要预测：</span>
-            {item.primary}
+          <span class='row-span-2 flex size-8 items-center justify-center rounded bg-primary/15 text-sm font-semibold text-foreground'>
+            {step.number}
           </span>
-          <span class='leading-6 text-muted-foreground'>
-            <span class='font-semibold text-foreground md:hidden'>曲线表现：</span>
-            {item.possible}
+          <span class='font-semibold text-foreground md:mt-2 md:block'>{step.title}</span>
+          <span class='text-sm leading-6 text-muted-foreground md:mt-1 md:block'>
+            {step.detail}
           </span>
         </li>
       ))
     }
-  </ul>
+  </ol>
 
   <figcaption
-    id='scaling-predictions-caption'
-    class='border-t border-border/60 px-3 py-3 text-sm leading-6 text-muted-foreground sm:px-5'
+    id='practice-path-caption'
+    class='px-3 py-3 text-sm leading-6 text-muted-foreground sm:px-5'
   >
-    图 2：同一种表述改进可能影响截距、局部斜率、转折点或地板，不必同时改变全部指标。
+    图 2：每轮真实效用评测都可能要求回到第一步，修正预期、空间或监督设计。
   </figcaption>
 </figure>

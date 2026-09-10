@@ -1,67 +1,47 @@
----
-const layers = [
-  {
-    symbol: 'W',
-    title: '真实任务',
-    formula: '(X, Y, A, P, U)',
-    detail: '固定人的期待、评测分布与最终效用。'
-  },
-  {
-    symbol: 'Φ',
-    title: '问题表述',
-    formula: '(Z, φ, R, q, ℓ)',
-    detail: '改变表示、结构、监督生成和代理损失。'
-  },
-  {
-    symbol: 'S',
-    title: '学习系统',
-    formula: '(Φ, H, O, B)',
-    detail: '控制模型族、优化器和资源预算。'
-  }
-]
----
-
 <figure
   class='not-prose my-8 overflow-hidden rounded-xl border border-border/60 bg-card'
-  aria-labelledby='hypothesis-layers-title hypothesis-layers-caption'
+  aria-labelledby='ceiling-floor-title ceiling-floor-caption'
 >
   <div class='p-3 sm:p-5'>
-    <p id='hypothesis-layers-title' class='m-0 text-base font-semibold text-foreground'>
-      先分层，才能做受控比较
+    <p id='ceiling-floor-title' class='m-0 text-base font-semibold text-foreground'>
+      表达上限 × 监督可见性
     </p>
     <p class='mb-0 mt-1 text-sm leading-6 text-muted-foreground'>
-      问题表述是否更好，必须在真实任务和学习预算可比时判断。
+      一个概念坐标：不是给方法排名，而是定位问题定义卡在哪里。
     </p>
   </div>
 
-  <ol class='m-0 grid list-none border-y border-border/60 p-0 md:grid-cols-3' role='list'>
-    {
-      layers.map((layer, index) => (
-        <li
-          class:list={[
-            'grid grid-cols-[auto_1fr] gap-x-3 gap-y-1 px-3 py-4 sm:px-5',
-            index > 0 && 'border-t border-border/60 md:border-l md:border-t-0'
-          ]}
-        >
-          <span class='row-span-3 flex size-9 items-center justify-center rounded bg-primary/15 text-base font-semibold text-foreground'>
-            {layer.symbol}
-          </span>
-          <span class='font-semibold text-foreground'>{layer.title}</span>
-          <span class='font-mono text-xs text-primary'>{layer.formula}</span>
-          <span class='text-sm leading-6 text-muted-foreground'>{layer.detail}</span>
-        </li>
-      ))
-    }
-  </ol>
-
-  <p class='m-0 px-3 py-3 text-sm leading-6 text-foreground sm:px-5'>
-    <span class='font-semibold'>核心对照：</span>固定 W 与 H/O/B，只改变 Φ，再比较资源—效用前沿。
-  </p>
+  <div class='grid border-y border-border/60 md:grid-cols-2'>
+    <section class='border-b border-border/60 p-4 md:border-r'>
+      <p class='m-0 text-sm font-semibold text-foreground'>高上限，监督较弱</p>
+      <p class='mb-0 mt-1 text-sm leading-6 text-muted-foreground'>
+        “理解世界”等目标可以容纳很多能力，却缺少一次更新应当改什么的清晰接口。
+      </p>
+    </section>
+    <section class='border-b border-border/60 bg-primary/5 p-4'>
+      <p class='m-0 text-sm font-semibold text-primary'>高上限，监督可见</p>
+      <p class='mb-0 mt-1 text-sm leading-6 text-foreground'>
+        自回归语言模型、Diffusion：组合空间开放，同时拥有重复的局部目标。
+      </p>
+    </section>
+    <section class='border-b border-border/60 p-4 md:border-b-0 md:border-r'>
+      <p class='m-0 text-sm font-semibold text-foreground'>低上限，监督较弱</p>
+      <p class='mb-0 mt-1 text-sm leading-6 text-muted-foreground'>
+        既没有足够表达能力，也缺少可靠反馈，扩大数据与模型都难形成稳定收益。
+      </p>
+    </section>
+    <section class='p-4'>
+      <p class='m-0 text-sm font-semibold text-foreground'>低上限，监督可见</p>
+      <p class='mb-0 mt-1 text-sm leading-6 text-muted-foreground'>
+        封闭分类：目标清楚、容易学习，但能力主要在预设类别内部增长。
+      </p>
+    </section>
+  </div>
 
   <figcaption
-    id='hypothesis-layers-caption'
-    class='border-t border-border/60 px-3 py-3 text-sm leading-6 text-muted-foreground sm:px-5'
+    id='ceiling-floor-caption'
+    class='px-3 py-3 text-sm leading-6 text-muted-foreground sm:px-5'
   >
-    图 1：任务、表述和求解系统混在一起时，“为什么更能 Scaling”无法归因。
+    图 1：适合 Scaling 的元设计，要避免“容易学习但很快封顶”和“什么都能表达但无从学习”两个极端。
   </figcaption>
 </figure>
