@@ -183,6 +183,11 @@
   },
   "figureGallery": [
     {
+      "zone": "intuition",
+      "caption": "OpenWAM 总览",
+      "src": "https://followhub.tenstep.top/papers/2609.07398-openwam-an-open-modular-exploration-towards-systematic-world-action-model-pretraining/teaser-page1.jpg"
+    },
+    {
       "zone": "method",
       "caption": "OpenWAM-α 架构",
       "src": "https://followhub.tenstep.top/papers/2609.07398-openwam-an-open-modular-exploration-towards-systematic-world-action-model-pretraining/a-the-dual-system-architecture-a-video-generation-dit-and-an-actiondit-jointly-denoise-the-futur.jpg"
