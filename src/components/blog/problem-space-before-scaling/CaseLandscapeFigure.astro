@@ -1,62 +1,97 @@
+---
+const cases = [
+  {
+    name: '分类',
+    expectation: '封闭类别中辨认对象',
+    space: '类别极点、logit 与决策边界',
+    density: '类别等价关系压缩无关差异'
+  },
+  {
+    name: '人脸 / CLIP',
+    expectation: '验证、检索与跨模态匹配',
+    space: '具有任务语义的 embedding 距离',
+    density: '成对、排序关系与概念覆盖'
+  },
+  {
+    name: '语言模型',
+    expectation: '预测并生成可变长度文本',
+    space: 'token 序列与条件分布',
+    density: '逐位置目标与广泛语料覆盖'
+  },
+  {
+    name: 'Diffusion',
+    expectation: '学习一对多的生成分布',
+    space: '不同噪声层级上的局部修正',
+    density: '逐位置、跨噪声层级的目标'
+  },
+  {
+    name: 'BEV',
+    expectation: '统一理解多相机三维环境',
+    space: '自车或世界坐标中的鸟瞰表示',
+    density: '跨相机、位置与时刻累积观测'
+  },
+  {
+    name: 'AlphaFold2 / NeRF',
+    expectation: '恢复三维结构或一致新视角',
+    space: '关系几何或连续辐射场',
+    density: '局部关系或多视图射线约束'
+  }
+]
+---
+
 <figure
-  class='not-prose my-8 rounded-xl border border-border/60 bg-card p-3 sm:p-5'
+  class='not-prose my-8 overflow-hidden rounded-xl border border-border/60 bg-card'
   aria-labelledby='case-landscape-title case-landscape-caption'
 >
-  <div class='mb-4 flex flex-col gap-1'>
+  <div class='p-3 sm:p-5'>
     <p id='case-landscape-title' class='m-0 text-base font-semibold text-foreground'>
-      成功案例主要打开了哪一个瓶颈
+      同一套分析：期待 → 问题空间 → 有效监督
     </p>
-    <p class='m-0 text-sm leading-6 text-muted-foreground'>
-      分组表示主要着力点，不代表某个案例只影响一个维度。
-    </p>
-  </div>
-
-  <div class='grid gap-3 lg:grid-cols-3'>
-    <section class='rounded-lg border border-border/60 bg-background/70 p-3'>
-      <h3 class='m-0 text-sm font-semibold text-foreground'>① 表示与分解</h3>
-      <p class='mb-3 mt-1 text-xs leading-5 text-muted-foreground'>让任务结构先变得可学习</p>
-      <ul class='m-0 space-y-2 p-0 text-sm text-foreground' role='list'>
-        <li class='list-none rounded-md bg-muted/50 px-2.5 py-2'>分类与 CNN：类别极点</li>
-        <li class='list-none rounded-md bg-muted/50 px-2.5 py-2'>检测、分割与关键点</li>
-        <li class='list-none rounded-md bg-muted/50 px-2.5 py-2'>人脸识别与检索</li>
-        <li class='list-none rounded-md bg-muted/50 px-2.5 py-2'>BEV</li>
-        <li class='list-none rounded-md bg-muted/50 px-2.5 py-2'>AlphaFold2</li>
-      </ul>
-    </section>
-
-    <section class='rounded-lg border border-border/60 bg-background/70 p-3'>
-      <h3 class='m-0 text-sm font-semibold text-foreground'>② 有效监督</h3>
-      <p class='mb-3 mt-1 text-xs leading-5 text-muted-foreground'>
-        让数据在局部、关系与覆盖上形成有效约束
-      </p>
-      <ul class='m-0 space-y-2 p-0 text-sm text-foreground' role='list'>
-        <li class='list-none rounded-md bg-muted/50 px-2.5 py-2'>CLIP：关系密度与概念覆盖</li>
-        <li class='list-none rounded-md bg-muted/50 px-2.5 py-2'>语言模型：逐 token 与语料覆盖</li>
-        <li class='list-none rounded-md bg-muted/50 px-2.5 py-2'>Diffusion：逐位置与分噪声层级</li>
-      </ul>
-    </section>
-
-    <section class='rounded-lg border border-border/60 bg-background/70 p-3'>
-      <h3 class='m-0 text-sm font-semibold text-foreground'>③ 信用分配与反馈</h3>
-      <p class='mb-3 mt-1 text-xs leading-5 text-muted-foreground'>
-        让结果抵达模型，或持续生成新的学习经验
-      </p>
-      <ul class='m-0 space-y-2 p-0 text-sm text-foreground' role='list'>
-        <li class='list-none rounded-md bg-muted/50 px-2.5 py-2'>NeRF：可微渲染</li>
-        <li class='list-none rounded-md bg-muted/50 px-2.5 py-2'>AlphaGo Zero：搜索与自博弈</li>
-      </ul>
-    </section>
-  </div>
-
-  <div class='mt-3 rounded-lg border border-dashed border-border bg-muted/30 p-3'>
-    <p class='m-0 text-sm font-semibold text-foreground'>对照组：问题空间并不能解释全部突破</p>
     <p class='mb-0 mt-1 text-sm leading-6 text-muted-foreground'>
-      AlexNet 主要扩大数据、计算与可优化容量；ResNet 主要改善参数化和梯度传播；Transformer
-      主要改善跨位置交互与并行训练。
+      案例的重点不是模型清单，而是每种表述保留了什么、又让数据怎样产生约束。
     </p>
   </div>
 
-  <figcaption id='case-landscape-caption' class='mt-3 text-sm leading-6 text-muted-foreground'>
-    图 2：同一套分析框架不是为了把所有成功解释成同一件事，而是辨认每项技术究竟解除了一处什么约束。
+  <div
+    class='hidden grid-cols-[0.7fr_1.25fr_1.45fr_1.35fr] border-y border-border/60 bg-muted/35 px-5 py-2 text-xs font-semibold text-muted-foreground md:grid'
+  >
+    <span>案例</span>
+    <span>现实期待</span>
+    <span>问题空间</span>
+    <span>有效监督来源</span>
+  </div>
+
+  <ul class='m-0 list-none p-0' role='list'>
+    {
+      cases.map((item, index) => (
+        <li
+          class:list={[
+            'grid gap-2 px-3 py-4 text-sm md:grid-cols-[0.7fr_1.25fr_1.45fr_1.35fr] md:px-5',
+            index > 0 && 'border-t border-border/60'
+          ]}
+        >
+          <span class='font-semibold text-foreground'>{item.name}</span>
+          <span class='leading-6 text-muted-foreground'>
+            <span class='font-semibold text-foreground md:hidden'>现实期待：</span>
+            {item.expectation}
+          </span>
+          <span class='leading-6 text-foreground'>
+            <span class='font-semibold md:hidden'>问题空间：</span>
+            {item.space}
+          </span>
+          <span class='leading-6 text-muted-foreground'>
+            <span class='font-semibold text-foreground md:hidden'>有效监督：</span>
+            {item.density}
+          </span>
+        </li>
+      ))
+    }
+  </ul>
+
+  <figcaption
+    id='case-landscape-caption'
+    class='border-t border-border/60 px-3 py-3 text-sm leading-6 text-muted-foreground sm:px-5'
+  >
+    图 2：问题空间的价值，在于把真实期待变成数据可以反复约束、模型可以共享规律的形式。
   </figcaption>
 </figure>
