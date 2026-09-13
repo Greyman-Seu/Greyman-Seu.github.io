@@ -6206,5 +6206,103 @@
       "vision-language-action",
       "online-rl-for-vla"
     ]
+  },
+  {
+    "slug": "never-too-late-for-force-accelerating-vla-post-training-with-reactive-force-injection",
+    "title": "Never Too Late for Force: Accelerating VLA Post-Training with Reactive Force Injection",
+    "sourceType": "paper",
+    "sourceUrl": "https://arxiv.org/abs/2607.14236",
+    "htmlUrl": "",
+    "pdfUrl": "",
+    "codeUrl": "",
+    "translationUrl": "https://hjfy.top/arxiv/2607.14236",
+    "publishDate": "2026-07-15",
+    "authors": [],
+    "affiliation": "",
+    "relatedOrganizations": [],
+    "relatedCompanies": [],
+    "keywords": [],
+    "primaryDomainSlug": "physical-embodied-intelligence",
+    "domainSlugs": [
+      "physical-embodied-intelligence"
+    ],
+    "heroImage": "https://arxiv.org/html/2607.14236v1/teaser_page2_cropped.png",
+    "tldr": "LIFT 给预训练 VLA 增加一条低延迟的力觉反应通路：复制原动作专家、编码最近 6D 力历史、用零初始化交叉注意力注入，并通过在线 DAgger 覆盖策略诱导的接触分布。真机结果显示它在书本插入和河内环放置上以更少样本达到更高分数，同时大体保留视觉泛化；但收益依赖任务，仍需要人工纠正与特定硬件。",
+    "intuition": "普通 VLA 一次生成动作块后，视觉上下文更新慢，遇到“已经插到底了吗”“环是不是卡住了”这类接触状态容易继续盲推。LIFT 先缓存慢速视觉语言上下文，再在动作块执行期间持续读取最新力历史，让反应式分支逐动作刷新；力的变化趋势因此成为接触阶段记忆，驱动停止、回撤或释放。\n\n![LIFT 总览](https://arxiv.org/html/2607.14236v1/teaser_page2_cropped.png)",
+    "abstractEn": "Pretrained vision-language-action (VLA) policies provide strong language-conditioned manipulation knowledge, but they remain largely vision-driven and can struggle once manipulation enters contact states where the scene is occluded, depth is ambiguous, or small force errors push execution off the offline demonstration distribution. We present LIFT, Late Reactive Injection of Force for VLA Post-Training, a force-aware post-training framework that adds contact reactivity to a pretrained VLA policy while preserving its general manipulation knowledge. LIFT grafts a reactive action expert beside the original action expert, initializes it from pretrained action weights, and injects recent 6D end-effector force through causal force memory and zero-initialized cross attention, enabling actions to be refreshed during execution. To address the policy-dependent distribution shift of contact feedback, LIFT couples reactive force injection with an online DAgger loop that trains on a mixture of offline task-alignment data and human-corrected online rollouts. Across towel folding, book insertion, and Hanoi ring placement, LIFT learns faster and reaches higher performance than vision-only post-training, while ablations show that reactive force memory and online corrective data are both important for robust contact-rich manipulation.",
+    "abstractZh": "预训练 VLA 具有强大的语言条件操作知识，但主要依赖视觉，在遮挡、深度模糊或微小力误差导致偏离离线分布的接触状态下容易失败。LIFT 在原动作专家旁边增加反应式动作专家，从预训练权重初始化，并通过因果力记忆和零初始化交叉注意力注入末端 6D 力，使动作能在执行中刷新。为处理策略依赖的接触分布偏移，LIFT 将反应式力注入与在线 DAgger 结合，在离线任务对齐数据和人工纠正轨迹的混合数据上训练。毛巾折叠、书本插入和河内环放置实验表明，LIFT 比仅视觉后训练学习更快、最终性能更高。",
+    "background": "**动机：** 视觉语言动作策略已能从大规模数据获得通用操作知识，但真实操作总会经过接触状态。遮挡、深度歧义和微小位姿误差会让相机无法判断是否触碰、插到底或卡住，而末端 6D 力能直接揭示这些物理状态。力数据昂贵且依赖机器人平台，把它加入预训练会显著增加采集和统一标注成本，因此在后训练阶段补入力觉更现实。\n\n**问题缺口：** 后训练加入新力通路有三个难点：高频力必须在动作块内部快速生效，并保留最近接触历史；新增分支不能破坏原 VLA 的通用操作先验；真实策略稍有偏离就会进入离线数据未覆盖的力分布，单靠静态示范无法学习如何纠错。论文围绕这三点设计 LIFT，并用在线 DAgger 收集当前策略诱导的纠正状态。",
+    "backgroundMotivation": "视觉语言动作策略已能从大规模数据获得通用操作知识，但真实操作总会经过接触状态。遮挡、深度歧义和微小位姿误差会让相机无法判断是否触碰、插到底或卡住，而末端 6D 力能直接揭示这些物理状态。力数据昂贵且依赖机器人平台，把它加入预训练会显著增加采集和统一标注成本，因此在后训练阶段补入力觉更现实。",
+    "backgroundGap": "后训练加入新力通路有三个难点：高频力必须在动作块内部快速生效，并保留最近接触历史；新增分支不能破坏原 VLA 的通用操作先验；真实策略稍有偏离就会进入离线数据未覆盖的力分布，单靠静态示范无法学习如何纠错。论文围绕这三点设计 LIFT，并用在线 DAgger 收集当前策略诱导的纠正状态。",
+    "method": "**方法概述：** LIFT 保留预训练 VLA 的视觉语言栈和原动作专家，旁路复制出一个因果反应式专家。视觉语言前缀只在每个动作块开始时计算并缓存 KV；执行过程中，力编码器把延迟对齐的最近 6D 力历史变成 causal force memory，通过交叉注意力注入反应式专家，逐动作更新动作块。训练时同时优化原分支和反应式分支，并以 1:1 比例混合无力的离线数据与带力的在线纠正数据。\n\n**核心机制：** 复制动作专家并采用 shifted causal attention，使第 i 个 reactive token 看到视觉语言前缀、后续 base-action token 和历史 reactive token，从而在初始化时复现原专家的全注意力上下文。力交叉注意力的输出投影全零初始化，所以第 0 步新增残差为零，策略输出与原 VLA 等价；训练后残差才逐渐学会利用力变化。延迟对齐 mask 保证每个动作只读取推理完成前实际可获得的力信息，避免未来信息泄漏。\n\n**方法拆解：**\n- 反应式动作专家：复制原动作专家权重，使用 shifted causal mask，在动作块内部实现因果逐步解码。\n- 因果力记忆：编码最近 6D 末端力/力矩序列，并按系统延迟对齐到可用时间窗。\n- 慢视觉、快力更新：缓存视觉语言前缀 KV，动作块内重复计算力通路，避免每次接触变化都重跑视觉编码。\n- 异构数据训练：双分支 flow-matching 损失；无力样本遮罩力路径梯度；离线与在线批次 1:1 采样。\n- 在线 DAgger：机器人执行当前策略，人类在失败或危险接触状态纠正并回收带力轨迹，周期性同步新检查点。\n\n**关键要点：**\n- 短期力历史能区分“正在插入”和“已经到底”，这是单帧力或单帧视觉无法稳定判断的非马尔可夫状态。\n- 输出等价初始化把新模态接入风险降到最低：训练开始时仍保留原 VLA 行为，力残差只在数据支持下逐渐生效。\n- 在线数据不是附加项；它覆盖当前策略实际访问的接触失败状态，弥补离线力分布缺口。\n\n![LIFT 架构](https://arxiv.org/html/2607.14236v1/arch.png)",
+    "methodOverview": "LIFT 保留预训练 VLA 的视觉语言栈和原动作专家，旁路复制出一个因果反应式专家。视觉语言前缀只在每个动作块开始时计算并缓存 KV；执行过程中，力编码器把延迟对齐的最近 6D 力历史变成 causal force memory，通过交叉注意力注入反应式专家，逐动作更新动作块。训练时同时优化原分支和反应式分支，并以 1:1 比例混合无力的离线数据与带力的在线纠正数据。",
+    "methodCore": "复制动作专家并采用 shifted causal attention，使第 i 个 reactive token 看到视觉语言前缀、后续 base-action token 和历史 reactive token，从而在初始化时复现原专家的全注意力上下文。力交叉注意力的输出投影全零初始化，所以第 0 步新增残差为零，策略输出与原 VLA 等价；训练后残差才逐渐学会利用力变化。延迟对齐 mask 保证每个动作只读取推理完成前实际可获得的力信息，避免未来信息泄漏。",
+    "methodBreakdown": [
+      "反应式动作专家：复制原动作专家权重，使用 shifted causal mask，在动作块内部实现因果逐步解码。",
+      "因果力记忆：编码最近 6D 末端力/力矩序列，并按系统延迟对齐到可用时间窗。",
+      "慢视觉、快力更新：缓存视觉语言前缀 KV，动作块内重复计算力通路，避免每次接触变化都重跑视觉编码。",
+      "异构数据训练：双分支 flow-matching 损失；无力样本遮罩力路径梯度；离线与在线批次 1:1 采样。",
+      "在线 DAgger：机器人执行当前策略，人类在失败或危险接触状态纠正并回收带力轨迹，周期性同步新检查点。"
+    ],
+    "methodTakeaways": [
+      "短期力历史能区分“正在插入”和“已经到底”，这是单帧力或单帧视觉无法稳定判断的非马尔可夫状态。",
+      "输出等价初始化把新模态接入风险降到最低：训练开始时仍保留原 VLA 行为，力残差只在数据支持下逐渐生效。",
+      "在线数据不是附加项；它覆盖当前策略实际访问的接触失败状态，弥补离线力分布缺口。"
+    ],
+    "results": "- 毛巾折叠：视觉在线 DAgger 从 0 提升到 0.725（3.1K 样本），LIFT 在 2.8K 样本达到 0.825；去反应式注入版本峰值 0.95，显示任务间收益并不单调。\n- 书本插入：LIFT 在 4.6K 样本达到 0.6，视觉在线 DAgger 在 5.6K 仅 0.4；力反馈帮助判断书本是否已经触底并决定释放时机。\n- 河内环放置：LIFT 在 1.7K 样本达到并维持 0.6，视觉基线峰值 0.3 且最终降至 0.2；力方向和幅值帮助识别偏心卡住状态。\n- 消融显示单帧力在书本插入峰值约 0.4、河内环放置后期可降到 0；无在线 DAgger 的版本在书本插入降为 0。LIFT 在物体、桌布和光照变化下总体保持原有泛化。\n\n| 任务/设置 | LIFT | 视觉在线 DAgger或消融 |\n| --- | ---: | ---: |\n| 毛巾折叠峰值 | 0.825（2.8K） | 0.725（3.1K） |\n| 书本插入峰值 | 0.6（4.6K） | 0.4（5.6K） |\n| 河内环放置峰值 | 0.6（1.7K） | 0.3（1.4K） |\n| 书本插入：无在线 DAgger | — | 0 |\n\n![在线纠正案例](https://arxiv.org/html/2607.14236v1/qualitative_success_failure_blueprint.png)",
+    "resultHighlights": [],
+    "insights": "**核心 insight：** 论文的关键变化不是“给策略多一个传感器”，而是把动作块从近似开环输出改造成可按接触阶段重写的闭环流。力的时间序列提供了低成本接触记忆，尤其适合视觉无法区分的触底、卡住和释放前状态。\n\n**和已有方法的关系：** 相较视觉 DAgger，LIFT 在动作块内部利用力历史做低延迟纠偏；相较单帧力输入，它显式建模短期非马尔可夫接触过程；相较从头训练力觉策略，它通过复制权重和零初始化保留预训练 VLA 的广泛操作先验。\n\n**可借鉴点：** 对已有 foundation policy 接入新模态，可采用“复制原分支 + 零初始化残差 + 缺失模态遮罩”的渐进式接口；系统层面可把昂贵的视觉语言推理与快速传感器更新拆成 slow-fast 两条时钟；数据层面应让在线纠正专门覆盖策略诱导的失败状态，而不是只扩大离线示范。",
+    "insightCore": [],
+    "insightRelations": [],
+    "insightBorrowable": [],
+    "risks": "**局限：** 仍依赖人工在线 DAgger，纠正吞吐和安全性限制规模；实验只覆盖单臂 Flexiv Rizon 4S 与特定 6D 末端传感器，尚未证明跨机器人、跨传感器和双臂迁移。毛巾折叠中去掉反应式注入反而达到更高峰值，说明力记忆收益受任务动力学、传感器噪声和延迟对齐影响。\n\n**适用场景：** 适合书本插入、peg-in-hole、装配、按压、卡扣和释放时机敏感等接触密集任务，尤其是视觉遮挡或深度不确定的场景。也适合已经拥有大规模视觉动作预训练数据、只愿为少量高价值任务采集带力在线数据的团队。\n\n**最终判断：** 值得作为 VLA 后训练接入物理反馈的工程模板跟进。最可复用的是输出等价初始化、缓存视觉慢上下文与力觉快更新的系统分工，以及在线数据覆盖真实失败分布的闭环；但在更大任务集与更少人工干预下的稳定收益仍需验证。",
+    "riskLimitations": [],
+    "riskScenarios": [],
+    "riskJudgment": [],
+    "resultsTableMarkdown": "| 任务 | LIFT 峰值 | 视觉在线 DAgger峰值 |\n| --- | ---: | ---: |\n| 毛巾折叠 | 0.825 / 2.8K | 0.725 / 3.1K |\n| 书本插入 | 0.6 / 4.6K | 0.4 / 5.6K |\n| 河内环放置 | 0.6 / 1.7K | 0.3 / 1.4K |",
+    "resultsTable": {
+      "columns": [
+        "任务",
+        "LIFT 峰值",
+        "视觉在线 DAgger峰值"
+      ],
+      "rows": [
+        [
+          "毛巾折叠",
+          "0.825 / 2.8K",
+          "0.725 / 3.1K"
+        ],
+        [
+          "书本插入",
+          "0.6 / 4.6K",
+          "0.4 / 5.6K"
+        ],
+        [
+          "河内环放置",
+          "0.6 / 1.7K",
+          "0.3 / 1.4K"
+        ]
+      ]
+    },
+    "figureGallery": [
+      {
+        "zone": "intuition",
+        "caption": "LIFT 总览",
+        "src": "https://arxiv.org/html/2607.14236v1/teaser_page2_cropped.png"
+      },
+      {
+        "zone": "method",
+        "caption": "LIFT 架构",
+        "src": "https://arxiv.org/html/2607.14236v1/arch.png"
+      },
+      {
+        "zone": "results",
+        "caption": "在线纠正案例",
+        "src": "https://arxiv.org/html/2607.14236v1/qualitative_success_failure_blueprint.png"
+      }
+    ],
+    "relatedTopicSlugs": [
+      "vision-language-action-force-touch-robot-policy-review"
+    ]
   }
 ]
