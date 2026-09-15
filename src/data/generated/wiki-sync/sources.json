@@ -6727,5 +6727,124 @@
       "contact-rich-manipulation"
     ],
     "materialType": "blog"
+  },
+  {
+    "slug": "action-sketcher-from-reasoning-to-action-via-visual-sketches-for-long-horizon-robotic-manipulation",
+    "title": "Action-Sketcher: From Reasoning to Action via Visual Sketches for Long-Horizon Robotic Manipulation",
+    "sourceType": "paper",
+    "sourceUrl": "https://arxiv.org/abs/2601.01618",
+    "htmlUrl": "https://arxiv.org/html/2601.01618",
+    "pdfUrl": "https://arxiv.org/pdf/2601.01618",
+    "codeUrl": "https://action-sketcher.github.io",
+    "translationUrl": "https://hjfy.top/arxiv/2601.01618",
+    "publishDate": "2026-01-04",
+    "authors": [
+      "Huajie Tan",
+      "Peterson Co",
+      "Yijie Xu",
+      "Shanghang Zhang"
+    ],
+    "affiliation": "",
+    "relatedOrganizations": [],
+    "relatedCompanies": [],
+    "keywords": [
+      "Visual Sketch",
+      "See-Think-Sketch-Act"
+    ],
+    "primaryDomainSlug": "physical-embodied-intelligence",
+    "domainSlugs": [
+      "physical-embodied-intelligence"
+    ],
+    "heroImage": "https://arxiv.org/html/2601.01618v1/structure_and_pipeline.png",
+    "tldr": "Action-Sketcher 将语言推理显式化为点、框、箭头组成的可编辑视觉草图，并以 See-Think-Sketch-Act 事件循环连接长时域规划与机器人动作。",
+    "intuition": "把机器人每一步要抓哪里、移向哪里、如何旋转，直接画在当前相机画面上；模型先想清楚下一个子任务，再画草图，动作专家依据草图执行，场景变化或人类修改时重新推理。\n\n![主要图](https://arxiv.org/html/2601.01618v1/structure_and_pipeline.png)\n\n*主要图*",
+    "abstractEn": "Long-horizon robotic manipulation is increasingly important for real-world deployment, requiring spatial disambiguation in complex layouts and temporal resilience under dynamic interaction. However, existing end-to-end and hierarchical Vision-Language-Action (VLA) policies often rely on text-only cues while keeping plan intent latent, which undermines referential grounding in cluttered or underspecified scenes, impedes effective task decomposition of long-horizon goals with close-loop interaction, and limits causal explanation by obscuring the rationale behind action choices. To address these issues, we first introduce Visual Sketch, an implausible visual intermediate that renders points, boxes, arrows, and typed relations in the robot&#39;s current views to externalize spatial intent, connect language to scene geometry. Building on Visual Sketch, we present Action-Sketcher, a VLA framework that operates in a cyclic See-Think-Sketch-Act workflow coordinated by adaptive token-gated strategy for reasoning triggers, sketch revision, and action issuance, thereby supporting reactive corrections and human interaction while preserving real-time action prediction. To enable scalable training and evaluation, we curate diverse corpus with interleaved images, text, Visual Sketch supervision, and action sequences, and train Action-Sketcher with a multi-stage curriculum recipe that combines interleaved sequence alignment for modality unification, language-to-sketch consistency for precise linguistic grounding, and imitation learning augmented with sketch-to-action reinforcement for robustness. Extensive experiments on cluttered scenes and multi-object tasks, in simulation and on real-world tasks, show improved long-horizon success, stronger robustness to dynamic scene changes, and enhanced interpretability via editable sketches and step-wise plans. Project website: https://action-sketcher.github.io",
+    "abstractZh": "- 暂无中文译文。",
+    "background": "**动机：** 长时域机器人操作同时面临空间指代歧义和时间计划脆弱性。端到端 VLA 往往把意图压缩在不可见潜变量中，难以确认“哪个物体、哪个接触点、朝哪个方向运动”，小错误会跨多个子任务累积。本文将视觉草图作为语言与控制之间的显式契约，使计划可读、可校正，并适配动态场景。\n\n**问题缺口：** 论文要解决的是：在多物体、关系复杂且目标会变化的场景中，如何把高层指令稳定分解为可执行的空间约束和连续动作，同时保持实时性、可解释性以及人类在执行前纠错的能力。",
+    "backgroundMotivation": "长时域机器人操作同时面临空间指代歧义和时间计划脆弱性。端到端 VLA 往往把意图压缩在不可见潜变量中，难以确认“哪个物体、哪个接触点、朝哪个方向运动”，小错误会跨多个子任务累积。本文将视觉草图作为语言与控制之间的显式契约，使计划可读、可校正，并适配动态场景。",
+    "backgroundGap": "论文要解决的是：在多物体、关系复杂且目标会变化的场景中，如何把高层指令稳定分解为可执行的空间约束和连续动作，同时保持实时性、可解释性以及人类在执行前纠错的能力。",
+    "method": "**方法概述：** Action-Sketcher 将视觉、语言和动作置于同一事件驱动循环：先读取多视角图像与任务历史，推理当前应完成的一个子任务，再在机器人自视角图像上绘制目标框、关键点和运动/旋转箭头，最后由动作专家结合草图、观测和机器人状态生成一段低延迟动作。子任务完成、场景改变或风险升高时由 BOR 触发重新推理；场景稳定时用 BOA 连续执行，从而在长时域任务中保持计划连贯和实时控制。\n\n**核心机制：** Action-Sketcher 在单一 VLA 中实现 See→Think→Sketch→Act。Think 模式结合多视角观测、任务指令、历史子任务和当前状态，输出时间推理与空间推理；Sketch 将推理转为当前自视角图像上的目标框、接触/参考点和平移/旋转箭头；Act 模式把草图、图像、当前子任务和机器人状态输入动作专家，生成低延迟动作块。BOR/BOA 等 token 门控在子任务边界、场景变化或风险上升时触发重新推理，否则连续执行动作块。训练采用基础模态统一、语言到草图一致性、草图到动作强化的三阶段课程，并用草图扰动增强鲁棒性。\n\n**方法拆解：** - 视觉草图表示：在机器人自视角平面定义稀疏元组 S_t=(B_t,P_t,A_t)。边界框锁定可操作物体或区域；关键点标出抓取、接触、对齐和放置位置；箭头编码末端执行器的平移路径及绕 X/Y/Z 轴的旋转意图。\n- 事件驱动双模式循环：Reasoning Mode 先总结“已完成/下一步”，再做空间关系推理并生成文字草图，遇到 EOR 后渲染成图像草图；Action Mode 以 BOA 开始，根据草图和状态经 flow-matching 动作专家生成动作块，完成或检测异常后再决定继续执行还是 BOR 重推理。\n- 三阶段训练与数据：2.6k 个真实长时域 episode 加上 LIBERO、RoboTwin 2.0 的 1.7k 条轨迹，形成 21k 条交错图像-文本-动作样本；阶段一统一视觉、语言、动作模态，阶段二训练语言-草图绑定，阶段三联合训练动作和模式切换，并对框、点、箭头注入小幅误差。\n- 人机协同接口：草图在动作执行前可暂停、审核和轻量修改；系统将草图作为高层意图与低层控制之间的可验证合同，允许针对单个空间错误局部修正而无需重写整段计划。\n\n**关键要点：** - 空间推理是主要瓶颈：66% 的失败发生在 Reasoning Mode，其中视觉草图生成占全部失败的 61%，说明显式接口提升可解释性的同时也暴露了需要重点提升的空间 grounding 环节。\n- Visual Sketch 是性能关键桥梁：去掉空间推理后仿真成功率从 34.5% 降至 13.8%，去掉草图降至 9.8%；去掉最终草图到动作适配训练则在代表任务上完全失败。",
+    "methodOverview": "Action-Sketcher 将视觉、语言和动作置于同一事件驱动循环：先读取多视角图像与任务历史，推理当前应完成的一个子任务，再在机器人自视角图像上绘制目标框、关键点和运动/旋转箭头，最后由动作专家结合草图、观测和机器人状态生成一段低延迟动作。子任务完成、场景改变或风险升高时由 BOR 触发重新推理；场景稳定时用 BOA 连续执行，从而在长时域任务中保持计划连贯和实时控制。",
+    "methodCore": "Action-Sketcher 在单一 VLA 中实现 See→Think→Sketch→Act。Think 模式结合多视角观测、任务指令、历史子任务和当前状态，输出时间推理与空间推理；Sketch 将推理转为当前自视角图像上的目标框、接触/参考点和平移/旋转箭头；Act 模式把草图、图像、当前子任务和机器人状态输入动作专家，生成低延迟动作块。BOR/BOA 等 token 门控在子任务边界、场景变化或风险上升时触发重新推理，否则连续执行动作块。训练采用基础模态统一、语言到草图一致性、草图到动作强化的三阶段课程，并用草图扰动增强鲁棒性。",
+    "methodBreakdown": [
+      "视觉草图表示：在机器人自视角平面定义稀疏元组 S_t=(B_t,P_t,A_t)。边界框锁定可操作物体或区域；关键点标出抓取、接触、对齐和放置位置；箭头编码末端执行器的平移路径及绕 X/Y/Z 轴的旋转意图。",
+      "事件驱动双模式循环：Reasoning Mode 先总结“已完成/下一步”，再做空间关系推理并生成文字草图，遇到 EOR 后渲染成图像草图；Action Mode 以 BOA 开始，根据草图和状态经 flow-matching 动作专家生成动作块，完成或检测异常后再决定继续执行还是 BOR 重推理。",
+      "三阶段训练与数据：2.6k 个真实长时域 episode 加上 LIBERO、RoboTwin 2.0 的 1.7k 条轨迹，形成 21k 条交错图像-文本-动作样本；阶段一统一视觉、语言、动作模态，阶段二训练语言-草图绑定，阶段三联合训练动作和模式切换，并对框、点、箭头注入小幅误差。",
+      "人机协同接口：草图在动作执行前可暂停、审核和轻量修改；系统将草图作为高层意图与低层控制之间的可验证合同，允许针对单个空间错误局部修正而无需重写整段计划。"
+    ],
+    "methodTakeaways": [
+      "空间推理是主要瓶颈：66% 的失败发生在 Reasoning Mode，其中视觉草图生成占全部失败的 61%，说明显式接口提升可解释性的同时也暴露了需要重点提升的空间 grounding 环节。",
+      "Visual Sketch 是性能关键桥梁：去掉空间推理后仿真成功率从 34.5% 降至 13.8%，去掉草图降至 9.8%；去掉最终草图到动作适配训练则在代表任务上完全失败。"
+    ],
+    "results": "**核心结果：** - LIBERO 平均成功率 96.9%，Spatial/Object/Goal/Long 分别为 97.2/99.6/94.8/96.0，Long 类别显著高于多数基线。\n- RoboTwin 2.0 与真实任务均领先：Stack Blocks 34.5%、Place A2B Left 43.0%；真实 Tidy Table、Pour Tea、Pick & Place 子任务完成率为 52.0%、27.6%、67.0%。\n- 人工修改视觉草图后，三项真实任务提升到 75.0%、44.0%、85.5%，绝对提升 23.0、16.4、18.5 个百分点。\n\n**结果表：** | 评测 | Action-Sketcher | 关键对照/变化 |\n|---|---:|---|\n| LIBERO 平均 | 96.9% | OpenVLA-OFT 97.1%，但本文 Long 为 96.0% vs 94.5% |\\n| RoboTwin Stack Blocks | 34.5% | π0.5 7.0%，OpenVLA-OFT 12.4% |\\n| 真实 Tidy Table | 52.0% | 草图人工修正后 75.0% |\\n| 真实 Pour Tea | 27.6% | 草图人工修正后 44.0% |\\n| 真实 Pick & Place | 67.0% | 草图人工修正后 85.5% |",
+    "resultHighlights": [
+      "LIBERO 平均成功率 96.9%，Spatial/Object/Goal/Long 分别为 97.2/99.6/94.8/96.0，Long 类别显著高于多数基线。",
+      "RoboTwin 2.0 与真实任务均领先：Stack Blocks 34.5%、Place A2B Left 43.0%；真实 Tidy Table、Pour Tea、Pick & Place 子任务完成率为 52.0%、27.6%、67.0%。",
+      "人工修改视觉草图后，三项真实任务提升到 75.0%、44.0%、85.5%，绝对提升 23.0、16.4、18.5 个百分点。"
+    ],
+    "insights": "**核心 insight：** - 显式中间表示的价值不只在可解释性，还把错误定位从整段动作收缩到“模式切换、空间草图或动作专家”三个可诊断层。\n- 逐子任务草图比整条轨迹草图更适合动态场景：它减少表示负担，也允许在每次状态更新后重新绑定目标和关系。\n\n**和已有方法的关系：** - 相较静态视觉提示和不可编辑轨迹 latent，本文草图持久、逐子任务生成并支持人类直接修正。\n\n**可借鉴点：** - 在其他具身 Agent 中采用点/框/箭头等最小几何协议，把自然语言计划变成可审核的状态契约。",
+    "insightCore": [
+      "显式中间表示的价值不只在可解释性，还把错误定位从整段动作收缩到“模式切换、空间草图或动作专家”三个可诊断层。",
+      "逐子任务草图比整条轨迹草图更适合动态场景：它减少表示负担，也允许在每次状态更新后重新绑定目标和关系。"
+    ],
+    "insightRelations": [
+      "相较静态视觉提示和不可编辑轨迹 latent，本文草图持久、逐子任务生成并支持人类直接修正。"
+    ],
+    "insightBorrowable": [
+      "在其他具身 Agent 中采用点/框/箭头等最小几何协议，把自然语言计划变成可审核的状态契约。"
+    ],
+    "risks": "**局限：** - 草图生成仍是最大误差源，复杂遮挡、深度和三维姿态仅投影到二维自视角时可能造成 grounding 偏差。\n- 数据规模和任务覆盖相对有限，真实实验集中在三类长时域任务，跨机器人平台和开放世界泛化仍需验证。\n- 依赖人工审核时会引入交互延迟，如何自动估计何时需要人介入尚未完全解决。\n\n**适用场景：** - 适合仓储整理、桌面收纳、服务机器人等目标关系复杂且需要人类监督的长时域操作。\n\n**最终判断：** - 论文报告的 LIBERO 平均值接近 OpenVLA-OFT，但在更具挑战性的 RoboTwin 和真实任务上优势更明显，因此应重点关注长时域与空间复杂度分层结果。",
+    "riskLimitations": [
+      "草图生成仍是最大误差源，复杂遮挡、深度和三维姿态仅投影到二维自视角时可能造成 grounding 偏差。",
+      "数据规模和任务覆盖相对有限，真实实验集中在三类长时域任务，跨机器人平台和开放世界泛化仍需验证。",
+      "依赖人工审核时会引入交互延迟，如何自动估计何时需要人介入尚未完全解决。"
+    ],
+    "riskScenarios": [
+      "适合仓储整理、桌面收纳、服务机器人等目标关系复杂且需要人类监督的长时域操作。"
+    ],
+    "riskJudgment": [
+      "论文报告的 LIBERO 平均值接近 OpenVLA-OFT，但在更具挑战性的 RoboTwin 和真实任务上优势更明显，因此应重点关注长时域与空间复杂度分层结果。"
+    ],
+    "resultsTableMarkdown": "| 评测 | Action-Sketcher | 关键对照/变化 |\n|---|---:|---|\n| LIBERO 平均 | 96.9% | OpenVLA-OFT 97.1%，但本文 Long 为 96.0% vs 94.5% |\\n| RoboTwin Stack Blocks | 34.5% | π0.5 7.0%，OpenVLA-OFT 12.4% |\\n| 真实 Tidy Table | 52.0% | 草图人工修正后 75.0% |\\n| 真实 Pour Tea | 27.6% | 草图人工修正后 44.0% |\\n| 真实 Pick & Place | 67.0% | 草图人工修正后 85.5% |",
+    "resultsTable": {
+      "columns": [
+        "评测",
+        "Action-Sketcher",
+        "关键对照/变化"
+      ],
+      "rows": [
+        [
+          "LIBERO 平均",
+          "96.9%",
+          "OpenVLA-OFT 97.1%，但本文 Long 为 96.0% vs 94.5%",
+          "\\n",
+          "RoboTwin Stack Blocks",
+          "34.5%",
+          "π0.5 7.0%，OpenVLA-OFT 12.4%",
+          "\\n",
+          "真实 Tidy Table",
+          "52.0%",
+          "草图人工修正后 75.0%",
+          "\\n",
+          "真实 Pour Tea",
+          "27.6%",
+          "草图人工修正后 44.0%",
+          "\\n",
+          "真实 Pick & Place",
+          "67.0%",
+          "草图人工修正后 85.5%"
+        ]
+      ]
+    },
+    "figureGallery": [
+      {
+        "zone": "intuition",
+        "caption": "主要图",
+        "src": "https://arxiv.org/html/2601.01618v1/structure_and_pipeline.png"
+      }
+    ],
+    "relatedTopicSlugs": [
+      "vision-language-action"
+    ]
   }
 ]
