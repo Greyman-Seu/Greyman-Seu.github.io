@@ -40,7 +40,9 @@
     "/home/yangkunzhu/workspace/agent_space/FollowHub/submodules/llm-wiki-skill/followhub-wiki/wiki/sources/turbovla-real-time-vision-language-action-model-at-32-hz-on-an-rtx-4090-with-1-gb-vram.md",
     "/home/yangkunzhu/workspace/agent_space/FollowHub/submodules/llm-wiki-skill/followhub-wiki/wiki/sources/2609.04355-vla-precision-asymmetric-co-bootstrapping-for-efficient-real-world-online-rl.md",
     "/home/yangkunzhu/workspace/agent_space/FollowHub/submodules/llm-wiki-skill/followhub-wiki/wiki/sources/never-too-late-for-force-accelerating-vla-post-training-with-reactive-force-injection.md",
-    "/home/yangkunzhu/workspace/agent_space/FollowHub/submodules/llm-wiki-skill/followhub-wiki/wiki/sources/2609.03889-fwbc-vla.md"
+    "/home/yangkunzhu/workspace/agent_space/FollowHub/submodules/llm-wiki-skill/followhub-wiki/wiki/sources/2609.03889-fwbc-vla.md",
+    "/home/yangkunzhu/workspace/agent_space/FollowHub/submodules/llm-wiki-skill/followhub-wiki/wiki/sources/om-1.md",
+    "/home/yangkunzhu/workspace/agent_space/FollowHub/submodules/llm-wiki-skill/followhub-wiki/wiki/sources/wm-craftnet-world-synesthesia-model-for-generalizable-and-robust-dexterous-in-hand-manipulation.md"
   ],
   "topics": [
     "/home/yangkunzhu/workspace/agent_space/FollowHub/submodules/llm-wiki-skill/followhub-wiki/wiki/topics/Human Video Robot Data Generation.md",
@@ -66,7 +68,7 @@
     "/home/yangkunzhu/workspace/agent_space/FollowHub/submodules/llm-wiki-skill/followhub-wiki/wiki/graph-wash-helpers.js"
   ],
   "counts": {
-    "sources": 39,
+    "sources": 41,
     "topics": 7,
     "synthesis": 2
   }

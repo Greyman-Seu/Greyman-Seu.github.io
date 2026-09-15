@@ -89,7 +89,7 @@ const arxivId = getArxivId(current.sourceUrl, current.htmlUrl, current.pdfUrl)
 const translationUrl = current.translationUrl || (arxivId ? `https://hjfy.top/arxiv/${arxivId}` : '')
 
 const rawExternalLinks = [
-  current.sourceUrl ? { label: arxivId ? 'arXiv' : '原文', href: current.sourceUrl, icon: 'link', caption: '论文主页' } : null,
+  current.sourceUrl ? { label: arxivId ? 'arXiv' : '原文', href: current.sourceUrl, icon: 'link', caption: current.sourceType === 'paper' ? '论文主页' : '原始文章' } : null,
   current.htmlUrl ? { label: 'HTML', href: current.htmlUrl, icon: 'earth', caption: '在线正文' } : null,
   current.pdfUrl ? { label: 'PDF', href: current.pdfUrl, icon: 'download', caption: '论文文件' } : null,
   current.codeUrl ? { label: 'Code', href: current.codeUrl, icon: current.codeUrl.includes('github') ? 'github' : 'package', caption: '代码仓库' } : null,
@@ -210,15 +210,17 @@ const heroVisualStyle = heroImageUrl
       <div class='border-b border-border/40 pb-3'>
         <h2 id='abstract' class='m-0 text-2xl font-semibold'>摘要</h2>
       </div>
-      <div class='grid gap-4 lg:grid-cols-2'>
+      <div class:list={['grid gap-4', current.sourceType === 'paper' && 'lg:grid-cols-2']}>
         <details class='rounded-2xl border border-border bg-card p-5' open>
-          <summary class='cursor-pointer text-sm font-semibold text-foreground'>中文摘要</summary>
+          <summary class='cursor-pointer text-sm font-semibold text-foreground'>{current.sourceType === 'paper' ? '中文摘要' : '内容摘要'}</summary>
           <div class='wiki-rich mt-4 text-sm leading-7 text-muted-foreground' set:html={render(current.abstractZh || current.summary).__html} />
         </details>
+        {current.sourceType === 'paper' ? (
         <details class='rounded-2xl border border-border bg-card p-5'>
           <summary class='cursor-pointer text-sm font-semibold text-foreground'>英文摘要</summary>
           <div class='wiki-rich mt-4 text-sm leading-7 text-muted-foreground' set:html={render(current.abstractEn || current.summary).__html} />
         </details>
+        ) : null}
       </div>
     </section>
 
