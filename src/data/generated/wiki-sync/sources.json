@@ -6486,5 +6486,106 @@
     "relatedTopicSlugs": [
       "contact-rich-manipulation"
     ]
+  },
+  {
+    "slug": "wm-craftnet-world-synesthesia-model-for-generalizable-and-robust-dexterous-in-hand-manipulation",
+    "title": "WM-Craftnet: World Synesthesia Model for Generalizable and Robust Dexterous In-Hand Manipulation",
+    "sourceType": "paper",
+    "sourceUrl": "https://arxiv.org/abs/2609.07002",
+    "htmlUrl": "",
+    "pdfUrl": "https://arxiv.org/pdf/2609.07002.pdf",
+    "codeUrl": "https://wmcraftnet.github.io",
+    "translationUrl": "https://hjfy.top/arxiv/2609.07002",
+    "publishDate": "2026-09-15",
+    "authors": [
+      "Jie Yin",
+      "Zeyuan Zhao Xiaojing",
+      "Tan Yang Liu",
+      "Chiyu Wang Xinyang",
+      "Sharpa Robotics"
+    ],
+    "affiliation": "",
+    "relatedOrganizations": [],
+    "relatedCompanies": [],
+    "keywords": [
+      "llm-vlm"
+    ],
+    "primaryDomainSlug": "llm-vlm",
+    "domainSlugs": [
+      "llm-vlm"
+    ],
+    "heroImage": "https://arxiv.org/html/2609.07002v1/pipeline.png",
+    "tldr": "值得记住：论文把世界模型从“想象轨迹优化器”改造成可部署的递归状态编码器，并用干净深度监督解决真实腕部深度噪声；在20个真实物体200次试验中成功175次。",
+    "intuition": "把每一时刻的手部本体感觉、触觉、腕部深度和上一动作送入一个带记忆的“物理状态估计器”。估计器一边预测接下来会看到的几何、接触和奖励，一边把压缩后的记忆交给PPO策略；策略据此调整22个关节的相对目标，让物体沿指定轴持续旋转。\n\n![主要图](https://arxiv.org/html/2609.07002v1/pipeline.png)\n\n*主要图*",
+    "abstractEn": "Generalizable and robust dexterous in-hand manipulation requires a policy to infer object pose, geometry, contact, and potential slip from partial and noisy observations. Although recent tactile and visuotactile RL methods achieve strong in-hand rotation in controlled settings, their robustness often degrades under pose shifts, force disturbances, and object variation. We propose WM-Craftnet, a world-model-conditioned framework that learns compact action-conditioned latent dynamics from proprioception, depth, tactile sensing, and actions, supervised by multimodal reconstruction and reward prediction. Rather than using the world model for latent imagination or policy optimization, WM-Craftnet uses the learned World Synesthesia Model (WSM) as recurrent task context for an asymmetric actor–critic policy. Importantly, WSM is trained to reconstruct clean depth targets from noisy depth inputs, providing a denoised geometric state for real-robot deployment. Ablations over recurrent baselines, auxiliary heads, tactile masking, and WSM modality heads show that predictive world modeling, clean-depth supervision, and tactile contact cues all shape the learned state. A WSM pretrained on nine z-axis objects serves as a reusable prior for 49-object downstream policy learning. This context improves multi-object rotation, with quantitative and qualitative evidence for unseen-object, perturbation-recovery, and sim-to-real transfer.",
+    "abstractZh": "可泛化且鲁棒的灵巧手在手操作要求策略从部分且有噪声的观测中推断物体位姿、几何、接触与潜在滑移。WM-Craftnet提出由世界模型条件化的框架：从本体感觉、深度、触觉和动作学习紧凑的动作条件潜在动力学，并用多模态重建和奖励预测监督。它不使用世界模型进行潜在想象或策略优化，而是把World Synesthesia Model（WSM）作为非对称演员-评论家策略的递归任务上下文。WSM还用噪声深度输入重建干净深度目标，为真实机器人提供去噪几何状态。消融表明预测式世界建模、干净深度监督和触觉接触线索共同塑造状态；在9个z轴物体上预训练的WSM可迁移到49个物体。",
+    "background": "**动机：** **动机：** 灵巧手在手旋转不像固定夹爪操作那样接触稳定，手指接触会间歇变化，物体姿态、质心、几何和外力随时改变。论文希望在仅使用真实可部署传感器的条件下，让单一策略持续判断物体是否偏移、接触是否即将转换以及是否存在滑移风险，从而摆脱针对每个物体手工设计指法。视觉提供全局几何，触觉提供局部接触，本体感觉和动作历史揭示控制后接触如何演化；把这些信息放入有记忆的预测模型，正是应对部分可观测性的关键。\n\n**问题缺口：** **问题缺口：** 现有触觉或视觉强化学习方法常在窄物体集合、固定初始姿态上训练，容易学成物体专属的重复指法；简单拼接多传感器又把时序接触动力学留给策略从噪声中自行摸索。仿真中的干净深度与真实腕部深度之间还存在明显域差，导致深度-触觉策略在现实中退化。论文要验证：一个动作条件递归状态能否同时编码几何、接触和物体运动，并在未见物体、轴向变化、强扰动和真实硬件上保持旋转。",
+    "backgroundMotivation": "**动机：** 灵巧手在手旋转不像固定夹爪操作那样接触稳定，手指接触会间歇变化，物体姿态、质心、几何和外力随时改变。论文希望在仅使用真实可部署传感器的条件下，让单一策略持续判断物体是否偏移、接触是否即将转换以及是否存在滑移风险，从而摆脱针对每个物体手工设计指法。视觉提供全局几何，触觉提供局部接触，本体感觉和动作历史揭示控制后接触如何演化；把这些信息放入有记忆的预测模型，正是应对部分可观测性的关键。",
+    "backgroundGap": "**问题缺口：** 现有触觉或视觉强化学习方法常在窄物体集合、固定初始姿态上训练，容易学成物体专属的重复指法；简单拼接多传感器又把时序接触动力学留给策略从噪声中自行摸索。仿真中的干净深度与真实腕部深度之间还存在明显域差，导致深度-触觉策略在现实中退化。论文要验证：一个动作条件递归状态能否同时编码几何、接触和物体运动，并在未见物体、轴向变化、强扰动和真实硬件上保持旋转。",
+    "method": "**方法概述：** WM-Craftnet 将多模态世界模型作为灵巧手策略的时序上下文，通过噪声深度到干净深度重建、触觉接触线索与动作条件递归状态，提升多物体、未见物体、扰动恢复及仿真到现实的在手旋转控制。\n\n**核心机制：** **方法概述：** Figure 1 的流程是“多模态输入→RSSM递归更新→多头预测训练→确定性隐状态投影→PPO策略控制→新观测回流”。每步将本体感觉、二值触觉、带增强噪声的腕部深度、上一关节目标送入MLP/CNN编码器，得到嵌入后与上一潜变量、动作一起更新随机状态z和确定性记忆h；解码器重建干净深度、本体感觉、触觉并预测奖励及辅助物理量。部署时只取512维h，经MLP压到16维，与当前可部署观测和目标旋转轴拼接，输出22自由度相对关节目标，经过平滑和限位执行。\n\n**方法拆解：** - 1. 多模态编码与噪声注入：本体感觉、触觉用MLP，裁剪后的腕部深度用CNN；输入深度施加时序相关丢失、高斯噪声和小旋转，目标始终是仿真的干净深度裁剪图。\n- 2. Dreamer式RSSM状态：根据(z_t-1,h_t-1,u_t-1,e_t,m_t)递归更新随机状态z_t与确定性状态h_t；h_t承载跨帧接触演化、物体漂移和滑移信息，演员接口停止梯度，避免PPO反向改变世界模型。\n- 3. 多任务预测损失：图像重建、本体感觉重建、触觉重建、奖励预测、动力学/表示KL以及姿态、价值、形状辅助头共同约束潜状态，使其保留与控制相关的几何和接触信息。\n- 4. 世界模型条件策略：策略输入(o_t, 目标轴a, ψ(h_t))，输出相对关节目标增量；评论家训练时可看模拟器特权状态，演员只看真实可部署传感器和WSM特征。\n- 5. 可复用先验：先在9个z轴物体的接触丰富数据上预训练WSM，再初始化49物体下游PPO并继续适配，把跨物体共享的物理规律迁移给新策略。\n\n**关键要点：** - WSM不是用来在潜空间想象未来轨迹，而是作为停止梯度的递归任务上下文；移除h_{t-1}或改成单步编码器-解码器特征，回报分别降至705.4和667.6。\n- 噪声深度输入配合干净深度目标比直接重建噪声深度更有效：回报753.3降到708.0，说明去噪几何表征确实改善控制。\n- 触觉并非唯一信息源但有增益：完整WSM回报753.3，本体感觉-only为684.5，本体感觉+触觉为698.9；即使触觉全置零仍有724.9，显示视觉和递归状态提供了部分冗余。",
+    "methodOverview": "WM-Craftnet 将多模态世界模型作为灵巧手策略的时序上下文，通过噪声深度到干净深度重建、触觉接触线索与动作条件递归状态，提升多物体、未见物体、扰动恢复及仿真到现实的在手旋转控制。",
+    "methodCore": "**方法概述：** Figure 1 的流程是“多模态输入→RSSM递归更新→多头预测训练→确定性隐状态投影→PPO策略控制→新观测回流”。每步将本体感觉、二值触觉、带增强噪声的腕部深度、上一关节目标送入MLP/CNN编码器，得到嵌入后与上一潜变量、动作一起更新随机状态z和确定性记忆h；解码器重建干净深度、本体感觉、触觉并预测奖励及辅助物理量。部署时只取512维h，经MLP压到16维，与当前可部署观测和目标旋转轴拼接，输出22自由度相对关节目标，经过平滑和限位执行。",
+    "methodBreakdown": [
+      "1. 多模态编码与噪声注入：本体感觉、触觉用MLP，裁剪后的腕部深度用CNN；输入深度施加时序相关丢失、高斯噪声和小旋转，目标始终是仿真的干净深度裁剪图。",
+      "2. Dreamer式RSSM状态：根据(z_t-1,h_t-1,u_t-1,e_t,m_t)递归更新随机状态z_t与确定性状态h_t；h_t承载跨帧接触演化、物体漂移和滑移信息，演员接口停止梯度，避免PPO反向改变世界模型。",
+      "3. 多任务预测损失：图像重建、本体感觉重建、触觉重建、奖励预测、动力学/表示KL以及姿态、价值、形状辅助头共同约束潜状态，使其保留与控制相关的几何和接触信息。",
+      "4. 世界模型条件策略：策略输入(o_t, 目标轴a, ψ(h_t))，输出相对关节目标增量；评论家训练时可看模拟器特权状态，演员只看真实可部署传感器和WSM特征。",
+      "5. 可复用先验：先在9个z轴物体的接触丰富数据上预训练WSM，再初始化49物体下游PPO并继续适配，把跨物体共享的物理规律迁移给新策略。"
+    ],
+    "methodTakeaways": [
+      "WSM不是用来在潜空间想象未来轨迹，而是作为停止梯度的递归任务上下文；移除h_{t-1}或改成单步编码器-解码器特征，回报分别降至705.4和667.6。",
+      "噪声深度输入配合干净深度目标比直接重建噪声深度更有效：回报753.3降到708.0，说明去噪几何表征确实改善控制。",
+      "触觉并非唯一信息源但有增益：完整WSM回报753.3，本体感觉-only为684.5，本体感觉+触觉为698.9；即使触觉全置零仍有724.9，显示视觉和递归状态提供了部分冗余。"
+    ],
+    "results": "**核心结果：** - 9物体z轴仿真：完整WSM回报753.3、RotR 1.293；从头训练回报414.3。\n- 真实机器人4物体（含1个未见物体）：WM-Craftnet在鸭子、十字块、角块、双缺口块上分别达到16.179/10、8.01/10、8.48/10、4.32/8.（RR/成功次数）.\n- WSM先验迁移49物体：训练3000轮后平均每回合旋转9.37±0.13 rad，无先验基线3.28 rad；跌落率从6%降至0.3%。\n- 困难轴向：y轴回报272.7、RotR 1.025；x轴回报432.8、RotR 1.114且跌落率0.020。\n- 20个真实物体200次试验成功175次；扰动恢复成功率14.1%，平均恢复2.56秒。\n\n**结果表：** | 场景 | WM-Craftnet关键结果 | 对比/含义 |\\n|---|---:|---|\\n| 9物体 z 轴仿真 | Return 753.3；RotR 1.293 | 明显高于从头训练 Return 414.3 |\\n| 49物体先验迁移 | 9.37 rad/回合 | 无先验 3.28 rad |\\n| y 轴工具类物体 | Return 272.7；RotR 1.025 | 最强基线 RotR 0.545 |\\n| 真实20物体 | 175/200 成功 | 基线 33–53/200 |\\n| 强扰动恢复 | 14.1%；2.56 s | 最强基线 6.2%；3.14 s |",
+    "resultHighlights": [
+      "9物体z轴仿真：完整WSM回报753.3、RotR 1.293；从头训练回报414.3。",
+      "真实机器人4物体（含1个未见物体）：WM-Craftnet在鸭子、十字块、角块、双缺口块上分别达到16.179/10、8.01/10、8.48/10、4.32/8.（RR/成功次数）.",
+      "WSM先验迁移49物体：训练3000轮后平均每回合旋转9.37±0.13 rad，无先验基线3.28 rad；跌落率从6%降至0.3%。",
+      "困难轴向：y轴回报272.7、RotR 1.025；x轴回报432.8、RotR 1.114且跌落率0.020。",
+      "20个真实物体200次试验成功175次；扰动恢复成功率14.1%，平均恢复2.56秒。"
+    ],
+    "insights": "**核心 insight：** - 世界模型在这里更像“可预测状态滤波器”而非规划器：关键价值是把跨模态历史压缩成策略能直接使用的接触阶段信号。\n- 49物体迁移结果说明预训练WSM学习到的是跨物体共享的交互规律，但每个旋转轴仍单独训练WSM，尚未形成统一三维控制模型。\n- 方法流程图的核心闭环是：传感器历史先进入WSM形成记忆，再由策略输出动作改变接触，动作结果在下一时刻重新进入WSM；因此性能提升来自状态估计与控制的闭环耦合。\n\n**和已有方法的关系：** - 相较Dreamer用想象轨迹优化行为，WM-Craftnet把RSSM用于表征条件；相较视觉-触觉直接融合方法，它额外用奖励、姿态、价值和形状辅助头塑造控制相关状态。\n\n**可借鉴点：** - 对真实机器人视觉输入做噪声到干净目标的重建，可作为强化学习策略前的几何去噪模块。\n- 将世界模型和策略梯度解耦，只把停止梯度的确定性递归状态提供给演员，可降低联合训练不稳定。",
+    "insightCore": [
+      "世界模型在这里更像“可预测状态滤波器”而非规划器：关键价值是把跨模态历史压缩成策略能直接使用的接触阶段信号。",
+      "49物体迁移结果说明预训练WSM学习到的是跨物体共享的交互规律，但每个旋转轴仍单独训练WSM，尚未形成统一三维控制模型。",
+      "方法流程图的核心闭环是：传感器历史先进入WSM形成记忆，再由策略输出动作改变接触，动作结果在下一时刻重新进入WSM；因此性能提升来自状态估计与控制的闭环耦合。"
+    ],
+    "insightRelations": [
+      "相较Dreamer用想象轨迹优化行为，WM-Craftnet把RSSM用于表征条件；相较视觉-触觉直接融合方法，它额外用奖励、姿态、价值和形状辅助头塑造控制相关状态。"
+    ],
+    "insightBorrowable": [
+      "对真实机器人视觉输入做噪声到干净目标的重建，可作为强化学习策略前的几何去噪模块。",
+      "将世界模型和策略梯度解耦，只把停止梯度的确定性递归状态提供给演员，可降低联合训练不稳定。"
+    ],
+    "risks": "**局限：** - 任务仍以短时旋转为主，尚未证明长时序多阶段操作或更广泛工具使用。\n- 强扰动恢复绝对成功率只有14.1%；物体超出手工作空间、初始偏移过大或卡滞时仍易失败。\n- 每个轴单独训练策略和WSM，跨轴共享与统一动作空间泛化仍未解决。\n\n**适用场景：** - 多物体在手旋转、姿态重定向和需要持续接触调整的灵巧手操作。\n- 存在腕部深度噪声、物体未见、外力扰动的真实机器人部署。\n- 工具使用原型（附录报告螺丝刀平移与旋转）可作为后续扩展方向。\n\n**最终判断：** - 论文的真实大规模结果很强，但评估仍集中在半旋转成功标准和有限物体集合，不能直接等同于通用灵巧操作。",
+    "riskLimitations": [
+      "任务仍以短时旋转为主，尚未证明长时序多阶段操作或更广泛工具使用。",
+      "强扰动恢复绝对成功率只有14.1%；物体超出手工作空间、初始偏移过大或卡滞时仍易失败。",
+      "每个轴单独训练策略和WSM，跨轴共享与统一动作空间泛化仍未解决。"
+    ],
+    "riskScenarios": [
+      "多物体在手旋转、姿态重定向和需要持续接触调整的灵巧手操作。",
+      "存在腕部深度噪声、物体未见、外力扰动的真实机器人部署。",
+      "工具使用原型（附录报告螺丝刀平移与旋转）可作为后续扩展方向。"
+    ],
+    "riskJudgment": [
+      "论文的真实大规模结果很强，但评估仍集中在半旋转成功标准和有限物体集合，不能直接等同于通用灵巧操作。"
+    ],
+    "resultsTableMarkdown": "| 场景 | WM-Craftnet关键结果 | 对比/含义 |\\n|---|---:|---|\\n| 9物体 z 轴仿真 | Return 753.3；RotR 1.293 | 明显高于从头训练 Return 414.3 |\\n| 49物体先验迁移 | 9.37 rad/回合 | 无先验 3.28 rad |\\n| y 轴工具类物体 | Return 272.7；RotR 1.025 | 最强基线 RotR 0.545 |\\n| 真实20物体 | 175/200 成功 | 基线 33–53/200 |\\n| 强扰动恢复 | 14.1%；2.56 s | 最强基线 6.2%；3.14 s |",
+    "resultsTable": {
+      "columns": [],
+      "rows": []
+    },
+    "figureGallery": [
+      {
+        "zone": "intuition",
+        "caption": "主要图",
+        "src": "https://arxiv.org/html/2609.07002v1/pipeline.png"
+      }
+    ],
+    "relatedTopicSlugs": [
+      "source"
+    ]
   }
 ]
