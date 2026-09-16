@@ -12,7 +12,10 @@
   "affiliation": "",
   "relatedOrganizations": [],
   "relatedCompanies": [],
-  "keywords": [],
+  "keywords": [
+    "vision-language-action",
+    "force-aware post-training"
+  ],
   "primaryDomainSlug": "physical-embodied-intelligence",
   "domainSlugs": [
     "physical-embodied-intelligence"
@@ -94,5 +97,9 @@
   ],
   "relatedTopicSlugs": [
     "vision-language-action-force-touch-robot-policy-review"
+  ],
+  "tags": [
+    "vision-language-action",
+    "force-aware post-training"
   ]
 }
