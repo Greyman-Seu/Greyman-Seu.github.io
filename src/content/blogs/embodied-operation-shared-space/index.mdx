@@ -14,6 +14,8 @@ language: zh
 author: '祝仰坤'
 ---
 
+import OperationSpaceFigure from '@/components/blog/OperationSpaceFigure.astro'
+
 上一篇[《把动作放回世界：具身操作的期待与问题空间》](/blog/embodied-operation-problem-space)提出了空间构建、闪念决策与接触控制三个核心问题。这一篇聚焦第一个：能否找到一种共同操作表示，既保留操作所需的信息，又让“观测到空间”和“空间到动作”两端的数据更容易获得？
 
 先讨论完整构想，再分析“图像与 bbox 状态对齐、合成状态学习动作”这个最小子集。它们仍是待验证的设想，文末的相关工作分别提供不同部分的参考。
@@ -77,11 +79,7 @@ author: '祝仰坤'
 
 ### 1.3 这个空间怎样被模型使用？
 
-> 上层 query：文字／图像／数值／记忆 → 指定目标、对象和过程要求。
->
-> 观测与身体反馈 → 共同操作空间 Z → 操作模型（结合 query 与当前本体）→ 下一步／短片段 action。
->
-> 执行动作 → 新观测与接触反馈 → 更新空间 → 再决策。
+<OperationSpaceFigure figure='flow' title='共同操作空间与执行反馈闭环' />
 
 决策输出可以考虑低频更新的 EEF 位置、姿态与轨迹，便于跨本体复用人类和 UMI 数据中的操作经验；下层则结合高频反馈完成实际交互。
 
@@ -101,6 +99,11 @@ author: '祝仰坤'
 
 不同任务读取同一框架中的不同部分。判断“全集是否够用”，要看它能否保留每类任务中<strong>会改变正确动作的信息</strong>。
 
+<OperationSpaceFigure figure='tasks' title='六类操作任务：切换查看所需信息' />
+
+<details>
+<summary>查看六类任务的完整对照表</summary>
+
 <div class="my-6 max-w-full overflow-x-auto">
 
 | 操作               | query                                      | 读取空间                                                     | 期望变化                                             | 缺少会怎样                                                               |
@@ -113,6 +116,8 @@ author: '祝仰坤'
 | 擦拭／按参考图画画 | 清除指定污渍；或按参考图形成指定图案。     | 目标表面位置、局部外观、已擦除或已画出的区域，以及末端反馈。 | 表面颜色、纹理或图案改变，几何形状可能基本不变。     | 只有几何可能分不清“已经完成”和“还没完成”；因此需要可读取的细致外观。     |
 
 </div>
+
+</details>
 
 绘画只是检验“外观与目标变化能否表达”的一个场景。全集同时面向裸手、手物和工具操作。
 
@@ -186,6 +191,8 @@ author: '祝仰坤'
 > 如果它成功，说明某些任务可以通过共同表示复用合成动作数据；它不能单独证明全集已成立。
 
 ### 2.2 三段流程：对齐 → 学动作 → 部署
+
+<OperationSpaceFigure figure='learning' title='切换查看表示对齐、合成动作学习与真实部署' />
 
 <strong>对齐：让同一场景的图像和状态表达对应起来</strong>
 
@@ -269,6 +276,8 @@ action 可以是末端增量或关节目标等，必须注明坐标系、单位�
 </details>
 
 ### 2.4 可行性：有希望，但要跨过三道具体门槛
+
+<OperationSpaceFigure figure='bbox' title='相同整体 bbox、不同把手位置：动作为什么不同？' />
 
 <div class="my-6 max-w-full overflow-x-auto">
 

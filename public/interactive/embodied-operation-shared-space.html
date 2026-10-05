@@ -649,6 +649,231 @@
         }
       }
     </style>
+    <style>
+      svg {
+        display: block;
+        max-width: 100%;
+        height: auto;
+      }
+      svg text {
+        font-family: inherit;
+      }
+      .lab-header {
+        padding: 16px 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 14px;
+        border-bottom: 1px solid var(--line);
+        flex-wrap: wrap;
+      }
+      .mode-tabs,
+      .view-controls {
+        display: flex;
+        gap: 7px;
+        flex-wrap: wrap;
+      }
+      .mode-button,
+      .view-button {
+        border: 1px solid var(--line);
+        background: transparent;
+        border-radius: 8px;
+        padding: 7px 11px;
+        font-size: 13px;
+        color: var(--muted);
+      }
+      .mode-button[aria-pressed='true'],
+      .view-button[aria-pressed='true'] {
+        background: var(--green);
+        color: white;
+        border-color: var(--green);
+      }
+      .architecture {
+        display: grid;
+        grid-template-columns: minmax(0, 1.35fr) 22px minmax(0, 1fr) 22px minmax(0, 1fr);
+        gap: 8px;
+        padding: 20px;
+        align-items: center;
+      }
+      .branches {
+        display: grid;
+        gap: 12px;
+      }
+      .branch {
+        padding: 16px;
+        border: 1px solid #b8ccdb;
+        border-radius: 10px;
+        background: #eaf0f6;
+      }
+      .branch.state {
+        background: #faf0e3;
+        border-color: #d9c8af;
+      }
+      .branch b {
+        font-size: 14px;
+        display: block;
+      }
+      .branch p {
+        font-size: 13px;
+        color: var(--muted);
+        margin-top: 6px;
+      }
+      .branch small {
+        font-size: 11px;
+        color: var(--muted);
+      }
+      .branch.inactive {
+        opacity: 0.45;
+        border-style: dashed;
+      }
+      .bridge-arrow {
+        text-align: center;
+        color: var(--muted);
+        font-size: 22px;
+      }
+      .zbox {
+        text-align: center;
+        padding: 20px 14px;
+        border: 1px solid #aecab4;
+        border-radius: 12px;
+        background: var(--tint);
+      }
+      .zbox .z {
+        font:
+          600 42px Georgia,
+          serif;
+        color: var(--green);
+        margin-bottom: 9px;
+      }
+      .zbox p {
+        font-size: 13px;
+        color: var(--muted);
+        margin-top: 9px;
+      }
+      .zbox strong {
+        font-size: 14px;
+      }
+      .policy-box {
+        padding: 18px 14px;
+        background: #26483e;
+        color: #f8faf3;
+        border-radius: 12px;
+        text-align: center;
+      }
+      .policy-box p {
+        font-size: 13px;
+        color: #d0e2d7;
+        margin-top: 10px;
+      }
+      .policy-box small {
+        display: block;
+        font-size: 12px;
+        color: #d0e2d7;
+        margin-bottom: 10px;
+      }
+      .policy-box strong {
+        display: block;
+        margin-top: 12px;
+        padding-top: 12px;
+        border-top: 1px solid #668678;
+        font-size: 14px;
+      }
+      .mode-caption {
+        padding: 16px 20px;
+        background: #eff3eb;
+        border-top: 1px solid var(--line);
+        font-size: 14px;
+      }
+      .mode-caption b {
+        display: block;
+        margin-bottom: 5px;
+      }
+      .pair-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 14px;
+        padding: 20px;
+      }
+      .pair-card {
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        background: #f6f7f1;
+        padding: 15px;
+      }
+      .pair-card h3 {
+        font-size: 15px;
+        margin: 0;
+      }
+      .pair-card svg {
+        width: 100%;
+        max-height: 180px;
+      }
+      .pair-card p {
+        font-size: 13px;
+        color: var(--muted);
+        margin-top: 8px;
+      }
+      .bbox-label {
+        font:
+          12px/1.8 ui-monospace,
+          monospace;
+        background: #e8eee3;
+        border-radius: 6px;
+        padding: 9px;
+      }
+      .results {
+        font-size: 14px;
+        padding: 16px 20px;
+        border-top: 1px solid var(--line);
+        background: var(--warm);
+      }
+      .tabbed-note {
+        font-size: 12px;
+        color: var(--muted);
+        padding: 0 20px 16px;
+      }
+      html.figure-embed body {
+        margin: 0;
+        padding: 0;
+        background: transparent;
+      }
+      html.figure-embed body > div {
+        margin: 0;
+      }
+      html.figure-embed {
+        overflow: hidden;
+        scroll-behavior: auto;
+      }
+      @media (max-width: 700px) {
+        .architecture {
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+          padding: 16px;
+        }
+        .branches,
+        .zbox,
+        .policy-box {
+          width: 100%;
+        }
+        .architecture .bridge-arrow {
+          transform: rotate(90deg);
+          line-height: 25px;
+          height: 25px;
+        }
+        .pair-grid {
+          grid-template-columns: 1fr;
+          padding: 15px;
+        }
+        .lab-header {
+          padding: 14px;
+        }
+        .mode-button,
+        .view-button {
+          font-size: 12px;
+        }
+      }
+    </style>
   </head>
   <body>
     <nav>
@@ -805,6 +1030,7 @@
           <div
             aria-label="完整系统：观测构建共同操作空间，操作模型结合任务和身体生成动作，执行反馈用于更新空间"
             class="diagram"
+            id="figure-flow"
             role="group"
           >
             <div class="query">
@@ -872,7 +1098,7 @@
           <p>
             不同任务读取同一框架中的不同部分。判断“全集是否够用”，要看它能否保留每类任务中<strong>会改变正确动作的信息</strong>。
           </p>
-          <div class="lab">
+          <div class="lab" id="figure-tasks">
             <div aria-label="选择操作任务" class="tabs" role="group">
               <button aria-pressed="false" data-task="wave" type="button">摆手</button
               ><button aria-pressed="false" data-task="apple" type="button">拿苹果</button
@@ -1069,6 +1295,53 @@
         </div>
         <div class="subsection" id="subset-learning">
           <h3>2.2 三段流程：对齐 → 学动作 → 部署</h3>
+          <div class="lab" id="figure-learning">
+            <div class="lab-header">
+              <strong>训练与部署的数据流</strong>
+              <div aria-label="查看架构阶段" class="mode-tabs" role="group">
+                <button aria-pressed="true" class="mode-button" data-mode="align" type="button">
+                  ① 表示对齐</button
+                ><button aria-pressed="false" class="mode-button" data-mode="policy" type="button">
+                  ② 合成动作学习</button
+                ><button aria-pressed="false" class="mode-button" data-mode="deploy" type="button">
+                  ③ 真实部署
+                </button>
+              </div>
+            </div>
+            <div class="architecture">
+              <div class="branches">
+                <div class="branch" id="image-branch">
+                  <small>图像编码器 Eᵢ</small><b>图像＋操作 prompt → Zᵢ</b>
+                  <p id="image-branch-copy">
+                    同一场景的图像。可来自仿真渲染，或不含机器人动作标签的真实采集。
+                  </p>
+                </div>
+                <div class="branch state" id="state-branch">
+                  <small>状态编码器 Eₛ</small><b>多目 bbox＋描述＋任务 → Zₛ</b>
+                  <p id="state-branch-copy">保留相机信息和对象对应关系，描述当前状态与任务。</p>
+                </div>
+              </div>
+              <div aria-hidden="true" class="bridge-arrow">→</div>
+              <div class="zbox">
+                <div class="z">Z</div>
+                <strong id="z-title">同一场景与任务的表示</strong>
+                <p id="z-copy">对比学习拉近匹配样本；空间与操作监督约束不能丢失的差异。</p>
+              </div>
+              <div aria-hidden="true" class="bridge-arrow">→</div>
+              <div class="policy-box">
+                <small>当前身体状态＋控制接口</small><b>动作模型 π</b>
+                <p id="policy-copy">对齐最终要服务于操作，而不只是检索到正确描述。</p>
+                <strong>下一步／短时 action</strong>
+              </div>
+            </div>
+            <div aria-live="polite" class="mode-caption">
+              <b id="mode-title">表示对齐：建立图像与状态的共同含义</b
+              ><span id="mode-copy"
+                >正样本来自同一场景与任务；负样本包含相同任务下的不同位置、目标和接触阶段。需要避免只靠
+                prompt 完成匹配。</span
+              >
+            </div>
+          </div>
           <div class="steps">
             <article class="step">
               <span class="step-num">1</span>
@@ -1190,6 +1463,113 @@ prompt：将红色方块放到托盘中央
         </div>
         <div class="subsection" id="subset-feasibility">
           <h3>2.4 可行性：有希望，但要跨过三道具体门槛</h3>
+          <div class="lab" id="figure-bbox">
+            <div class="lab-header">
+              <strong>任务：抓住把手，拉开抽屉</strong>
+              <div aria-label="切换可见信息" class="view-controls" role="group">
+                <button aria-pressed="true" class="view-button" data-view="full" type="button">
+                  看完整画面</button
+                ><button aria-pressed="false" class="view-button" data-view="bbox" type="button">
+                  只看整体 bbox
+                </button>
+              </div>
+            </div>
+            <div class="pair-grid">
+              <article class="pair-card">
+                <h3>场景 A</h3>
+                <svg aria-label="整体框相同，把手位于左侧的抽屉" role="img" viewbox="0 0 360 190">
+                  <rect
+                    fill="#ece3d2"
+                    height="112"
+                    rx="4"
+                    stroke="#b5aa90"
+                    stroke-width="2"
+                    width="272"
+                    x="44"
+                    y="39"
+                  ></rect>
+                  <g class="drawer-detail">
+                    <path d="M57 55h245M57 135h245" stroke="#c8b99b"></path>
+                    <path
+                      d="M85 83v15h68V83"
+                      fill="none"
+                      stroke="#5d7774"
+                      stroke-linecap="round"
+                      stroke-width="9"
+                    ></path>
+                    <path d="M119 174v-53" stroke="#bc683b" stroke-width="2"></path>
+                    <path d="M113 130l6-9 6 9" fill="none" stroke="#bc683b" stroke-width="2"></path>
+                  </g>
+                  <rect
+                    fill="none"
+                    height="126"
+                    rx="5"
+                    stroke="#26715c"
+                    stroke-dasharray="5 5"
+                    stroke-width="2"
+                    width="286"
+                    x="37"
+                    y="32"
+                  ></rect>
+                  <text fill="#26715c" font-size="12" x="39" y="23">抽屉整体 bbox</text>
+                </svg>
+                <div class="bbox-label">
+                  bbox = [37, 32, 323, 158]<br />类别 = 抽屉；任务 = 拉开
+                </div>
+                <p class="drawer-explanation">把手在左侧，需要向左侧接近并抓取。</p>
+              </article>
+              <article class="pair-card">
+                <h3>场景 B</h3>
+                <svg aria-label="整体框相同，把手位于右侧的抽屉" role="img" viewbox="0 0 360 190">
+                  <rect
+                    fill="#ece3d2"
+                    height="112"
+                    rx="4"
+                    stroke="#b5aa90"
+                    stroke-width="2"
+                    width="272"
+                    x="44"
+                    y="39"
+                  ></rect>
+                  <g class="drawer-detail">
+                    <path d="M57 55h245M57 135h245" stroke="#c8b99b"></path>
+                    <path
+                      d="M205 83v15h68V83"
+                      fill="none"
+                      stroke="#5d7774"
+                      stroke-linecap="round"
+                      stroke-width="9"
+                    ></path>
+                    <path d="M239 174v-53" stroke="#bc683b" stroke-width="2"></path>
+                    <path d="M233 130l6-9 6 9" fill="none" stroke="#bc683b" stroke-width="2"></path>
+                  </g>
+                  <rect
+                    fill="none"
+                    height="126"
+                    rx="5"
+                    stroke="#26715c"
+                    stroke-dasharray="5 5"
+                    stroke-width="2"
+                    width="286"
+                    x="37"
+                    y="32"
+                  ></rect>
+                  <text fill="#26715c" font-size="12" x="39" y="23">抽屉整体 bbox</text>
+                </svg>
+                <div class="bbox-label">
+                  bbox = [37, 32, 323, 158]<br />类别 = 抽屉；任务 = 拉开
+                </div>
+                <p class="drawer-explanation">把手在右侧，需要向右侧接近并抓取。</p>
+              </article>
+            </div>
+            <div aria-live="polite" class="results" id="bbox-result">
+              完整画面能区分把手位置。仅靠相同的整体 bbox
+              和描述，动作模型无法稳定选择正确的接近位置。
+            </div>
+            <p class="tabbed-note">
+              概念示意；若其他视角、局部框、详细描述或历史已编码把手差异，则不再是相同状态。
+            </p>
+          </div>
           <div class="table-wrap">
             <table>
               <thead>
@@ -1309,7 +1689,6 @@ prompt：将红色方块放到托盘中央
           </div>
           <details id="evidence">
             <summary>补充依据：合成迁移、视频预训练与本体迁移</summary>
-
             <div class="source">
               <a href="https://arxiv.org/abs/1703.06907" rel="noopener noreferrer" target="_blank"
                 >Domain Randomization（2017）</a
@@ -1747,6 +2126,119 @@ prompt：将红色方块放到托盘中央
       window.addEventListener('afterprint', () =>
         document.querySelectorAll('details').forEach((d, i) => (d.open = priorOpen[i] || false))
       )
+    </script>
+    <script>
+      const modes = {
+        align: {
+          title: '表示对齐：建立图像与状态的共同含义',
+          copy: '正样本来自同一场景与任务；负样本包含相同任务下的不同位置、目标和接触阶段。需要避免只靠 prompt 完成匹配。',
+          ztitle: '同一场景与任务的表示',
+          zcopy: '对比学习拉近匹配样本；空间与操作监督约束不能丢失的差异。',
+          policy: '对齐最终要服务于操作，而不只是检索到正确描述。',
+          image: '同一场景的图像。可来自仿真渲染，或不含机器人动作标签的真实采集。',
+          state: '保留相机信息和对象对应关系，描述当前状态与任务。'
+        },
+        policy: {
+          title: '合成动作学习：状态、任务与身体共同决定动作',
+          copy: '合成轨迹提供状态—动作—结果。可在状态侧学习策略，同时使用配对的合成图像加入动作监督或策略蒸馏，使图像接口也被操作目标约束。',
+          ztitle: '动作模型使用的共同特征',
+          zcopy: '大量状态轨迹训练动作能力；配对图像约束视觉侧能否提供可替换特征。',
+          policy:
+            '根据有效轨迹或强化学习训练。失败数据可用于效果与恢复学习，不能全部当作正确示范。',
+          image: '配对合成图像可参与动作训练，或由状态策略蒸馏图像策略。',
+          state: '大量合成状态＋任务，通过状态编码器进入动作模型。'
+        },
+        deploy: {
+          title: '真实部署：读取图像，调用共同动作能力',
+          copy: '真实图像与任务经图像编码器产生 Zᵢ，再结合当前身体与反馈预测动作。执行后重新观测。此时无需提供仿真内部完整状态。',
+          ztitle: '从真实观测得到 Zᵢ',
+          zcopy: '要求真实图像落入动作模型能理解的表示区域；训练时相似并不自动保证这一点。',
+          policy: '结合实时身体状态与反馈执行，更新观测后闭环决策。',
+          image: '当前真实图像＋任务；必要时加入近期观测与动作历史。',
+          state: '状态侧不作为部署时必需输入。内部真值留在训练与监督中。'
+        }
+      }
+      function selectMode(name) {
+        const m = modes[name]
+        for (const [id, key] of [
+          ['mode-title', 'title'],
+          ['mode-copy', 'copy'],
+          ['z-title', 'ztitle'],
+          ['z-copy', 'zcopy'],
+          ['policy-copy', 'policy'],
+          ['image-branch-copy', 'image'],
+          ['state-branch-copy', 'state']
+        ])
+          document.getElementById(id).textContent = m[key]
+        document.getElementById('state-branch').classList.toggle('inactive', name === 'deploy')
+        document
+          .querySelectorAll('button[data-mode]')
+          .forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.mode === name)))
+      }
+      document
+        .querySelectorAll('button[data-mode]')
+        .forEach((b) => b.addEventListener('click', () => selectMode(b.dataset.mode)))
+      function selectView(name) {
+        const full = name === 'full'
+        document
+          .querySelectorAll('.drawer-detail')
+          .forEach((el) => (el.style.visibility = full ? 'visible' : 'hidden'))
+        const descriptions = document.querySelectorAll('.drawer-explanation')
+        descriptions[0].textContent = full
+          ? '把手在左侧，需要向左侧接近并抓取。'
+          : '仅保留整体框与相同描述，输入与场景 B 一样。'
+        descriptions[1].textContent = full
+          ? '把手在右侧，需要向右侧接近并抓取。'
+          : '仅保留整体框与相同描述，输入与场景 A 一样。'
+        document.getElementById('bbox-result').textContent = full
+          ? '完整画面能区分把手位置。仅靠相同的整体 bbox 和描述，动作模型无法稳定选择正确的接近位置。'
+          : '两侧状态描述相同，但正确动作不同。需要增加把手局部信息；只增加同类 bbox 样本数量，不能恢复丢掉的差异。'
+        document
+          .querySelectorAll('button[data-view]')
+          .forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.view === name)))
+        document
+          .querySelectorAll('.pair-card svg')
+          .forEach((el, i) =>
+            el.setAttribute(
+              'aria-label',
+              full
+                ? `场景 ${i === 0 ? 'A' : 'B'}：整体框相同，把手位于${i === 0 ? '左' : '右'}侧`
+                : `场景 ${i === 0 ? 'A' : 'B'}：相同的抽屉整体 bbox，局部把手信息被隐藏`
+            )
+          )
+      }
+      document
+        .querySelectorAll('button[data-view]')
+        .forEach((b) => b.addEventListener('click', () => selectView(b.dataset.view)))
+    </script>
+    <script>
+      const requestedFigure = new URLSearchParams(location.search).get('figure')
+      if (['flow', 'tasks', 'learning', 'bbox'].includes(requestedFigure)) {
+        const figure = document.getElementById('figure-' + requestedFigure)
+        document.documentElement.classList.add('figure-embed')
+        document.body.replaceChildren(figure)
+        const reportHeight = () => {
+          if (parent !== window)
+            parent.postMessage(
+              {
+                type: 'operation-figure-height',
+                figure: requestedFigure,
+                height: Math.ceil(figure.getBoundingClientRect().height) + 2
+              },
+              location.origin
+            )
+        }
+        new ResizeObserver(reportHeight).observe(figure)
+        window.addEventListener('message', (event) => {
+          if (
+            event.source === parent &&
+            event.origin === location.origin &&
+            event.data?.type === 'operation-figure-measure'
+          )
+            reportHeight()
+        })
+        requestAnimationFrame(reportHeight)
+      }
     </script>
   </body>
 </html>

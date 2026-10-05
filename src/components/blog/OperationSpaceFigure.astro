@@ -1,0 +1,79 @@
+---
+interface Props {
+  figure: 'flow' | 'tasks' | 'learning' | 'bbox'
+  title: string
+}
+
+const { figure, title } = Astro.props
+const src = `/interactive/embodied-operation-shared-space.html?figure=${figure}`
+---
+
+<operation-space-figure class='not-prose' data-figure={figure}>
+  <iframe src={src} title={title} loading='lazy' style='height: 460px;'></iframe>
+  <a href={src} target='_blank' rel='noopener noreferrer'>单独打开图解 ↗</a>
+</operation-space-figure>
+
+<style>
+  operation-space-figure {
+    display: block;
+    max-width: 100%;
+    margin: 1.5rem 0;
+  }
+  iframe {
+    display: block;
+    width: 100%;
+    border: 0;
+    border-radius: 14px;
+  }
+  a {
+    display: block;
+    margin-top: 0.5rem;
+    font-size: 0.75rem;
+    text-align: right;
+    color: inherit;
+    opacity: 0.7;
+  }
+</style>
+
+<script>
+  class OperationSpaceFigure extends HTMLElement {
+    private frame: HTMLIFrameElement | null = null
+
+    private measure = () => {
+      this.frame?.contentWindow?.postMessage(
+        { type: 'operation-figure-measure' },
+        window.location.origin
+      )
+    }
+
+    private resize = (event: MessageEvent) => {
+      if (
+        event.origin !== window.location.origin ||
+        event.source !== this.frame?.contentWindow ||
+        event.data?.type !== 'operation-figure-height' ||
+        event.data.figure !== this.dataset.figure
+      )
+        return
+      const height = event.data.height
+      if (this.frame && Number.isFinite(height) && height > 0 && height < 12000) {
+        this.frame.style.height = `${Math.ceil(height)}px`
+      }
+    }
+
+    connectedCallback() {
+      this.frame = this.querySelector('iframe')
+      window.addEventListener('message', this.resize)
+      this.frame?.addEventListener('load', this.measure)
+      this.measure()
+    }
+
+    disconnectedCallback() {
+      window.removeEventListener('message', this.resize)
+      this.frame?.removeEventListener('load', this.measure)
+    }
+  }
+
+  if (!customElements.get('operation-space-figure')) {
+    customElements.define('operation-space-figure', OperationSpaceFigure)
+  }
+</script>
