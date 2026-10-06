@@ -1,0 +1,81 @@
+---
+interface Props {
+  steps: { title: string; detail: string }[]
+  feedback: string
+  caption: string
+}
+
+const { steps, feedback, caption } = Astro.props
+---
+
+<figure class='operation-loop not-prose'>
+  <ol>
+    {
+      steps.map((step, index) => (
+        <li>
+          <span class='step-number'>{String(index + 1).padStart(2, '0')}</span>
+          <strong>{step.title}</strong>
+          <span>{step.detail}</span>
+        </li>
+      ))
+    }
+  </ol>
+  <p class='feedback'>↺ {feedback}</p>
+  <figcaption>{caption}</figcaption>
+</figure>
+
+<style>
+  .operation-loop {
+    margin: 2rem 0;
+    padding: 1.25rem;
+    border: 1px solid #71809655;
+    border-radius: 1rem;
+    background: #71809608;
+  }
+  ol {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.75rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  li {
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+    min-width: 0;
+    padding: 1rem;
+    border: 1px solid #71809644;
+    border-radius: 0.65rem;
+    font-size: 0.875rem;
+    line-height: 1.65;
+  }
+  .step-number {
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    opacity: 0.65;
+  }
+  strong {
+    font-size: 1rem;
+  }
+  .feedback {
+    margin: 0.9rem 0 0;
+    padding: 0.75rem 1rem;
+    border-radius: 0.65rem;
+    background: #71809615;
+    font-size: 0.875rem;
+    line-height: 1.7;
+  }
+  figcaption {
+    margin-top: 0.8rem;
+    font-size: 0.8rem;
+    line-height: 1.65;
+    opacity: 0.75;
+  }
+  @media (max-width: 600px) {
+    ol {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
