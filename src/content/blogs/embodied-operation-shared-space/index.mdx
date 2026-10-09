@@ -1,7 +1,7 @@
 ---
 title: 从观测到动作：操作空间的完整构想与最小子集
 publishDate: 2026-10-06
-updatedDate: 2026-10-06
+updatedDate: 2026-10-09
 description: 从完整操作空间到 bbox 最小子集，讨论多任务对比学习、合成动作数据与真实迁移，并整理 CLIP、RGB-D、3D 表示和关系动力学的相关工作。
 category: research
 tags:
@@ -20,11 +20,12 @@ import OperationSpaceFigure from '@/components/blog/OperationSpaceFigure.astro'
 
 我考虑这个中间层，首先是出于数据的原因。带有机器人动作标签的数据获取成本较高，而人类操作视频、图像、语义和三维数据的来源更广。如果这些数据能用于学习操作空间，再由仿真提供“空间到动作”的训练数据，就可能减少对真机示范的依赖。
 
-因此，这个空间要同时回答两个问题：保留的信息是否足够支持操作，两端的数据是否真的更容易获得。下面先讨论完整构想，再分析一个以多目 bbox 为状态描述的最小子集。两者都还需要验证，不能预先认定引入抽象层一定优于直接端到端学习。
+这个操作空间需要回答两个核心问题：
 
-[打开完整交互图解](/interactive/embodied-operation-shared-space.html)
+1. **信息是否足够？** 压缩后保留的信息，能否支持不同任务中的操作？
+2. **数据是否更容易获得？** “观测到空间”和“空间到动作”两端的数据，是否更容易获取与标注？
 
-另外两个模块的展开：[闪念决策](/blog/embodied-operation-flash-decision) · [控制交互](/blog/embodied-operation-contact-control)。
+相关文档：[草稿](/interactive/embodied-operation-shared-space.html) · [控制交互](/blog/embodied-operation-contact-control) · [闪念决策](/blog/embodied-operation-flash-decision)。
 
 ## 一、完整构想：通过多任务学习形成操作空间
 
