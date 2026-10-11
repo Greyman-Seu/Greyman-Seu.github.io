@@ -1,0 +1,151 @@
+{
+  "slug": "2602.11075-rise-self-improving-robot-policy-with-compositional-world-model",
+  "title": "RISE: Self-Improving Robot Policy with Compositional World Model",
+  "sourceType": "paper",
+  "sourceUrl": "https://arxiv.org/abs/2602.11075",
+  "htmlUrl": "https://arxiv.org/html/2602.11075v2",
+  "pdfUrl": "https://arxiv.org/pdf/2602.11075",
+  "codeUrl": "https://github.com/OpenDriveLab/RISE",
+  "translationUrl": "https://hjfy.top/arxiv/2602.11075",
+  "publishDate": "2026-02-11",
+  "authors": [
+    "Jiazhi Yang",
+    "Kunyang Lin",
+    "Jinwei Li",
+    "Wencong Zhang",
+    "Tianwei Lin",
+    "Longyan Wu",
+    "Zhizhong Su",
+    "Hao Zhao",
+    "Ya-Qin Zhang",
+    "Li Chen",
+    "Ping Luo",
+    "Xiangyu Yue",
+    "Hongyang Li"
+  ],
+  "affiliation": "The Chinese University of Hong Kong",
+  "relatedOrganizations": [
+    "The Chinese University of Hong Kong",
+    "Kinetix AI",
+    "The University of Hong Kong",
+    "Shanghai Innovation Institute",
+    "Horizon Robotics",
+    "Tsinghua University"
+  ],
+  "relatedCompanies": [
+    "Kinetix AI",
+    "Horizon Robotics"
+  ],
+  "keywords": [
+    "online-rl",
+    "world-model"
+  ],
+  "primaryDomainSlug": "physical-embodied-intelligence",
+  "domainSlugs": [
+    "physical-embodied-intelligence"
+  ],
+  "heroImage": "https://arxiv.org/html/2602.11075v2/teaser_compressed.png",
+  "tldr": "RISE 把真实机器人在线 RL 的瓶颈从物理世界移到想象空间：它不让机器人反复试错，而是用一个动作条件化的多视角视频 dynamics model 合成未来状态，再用进度回归与 TD learning 联合训练的 value model 为动作块计算 advantage，最后用这个 advantage 条件化并更新 π0.5 VLA。三项真机任务上，RISE 分别把动态砖块分拣、背包整理和纸箱关闭成功率提升到 85%、85% 和 95%，显著超过 PPO、DSRL、DAgger 和 RECAP。核心代价也很明确：视觉世界模型预训练和微调需要大量 H100 计算，而且结果仍受世界模型覆盖与物理一致性的上限约束。",
+  "intuition": "可以把 RISE 看成给 VLA 配了一个“训练期想象器”和“裁判”。VLA 先在离线数据上学会听 advantage 指令；训练时，它提出一个动作块，想象器生成后续多视角画面，裁判评估这些画面相对初始状态的任务进展。若想象结果更好，这个动作块会被标成高 advantage；若它导致错箱、拉链过冲或纸箱盖卡住，则得到低分。策略随后学习“在这个状态、这个评价下，应该复现什么动作”。部署时想象器和裁判都不运行，因此没有额外世界模型推理开销。",
+  "abstractEn": "Despite the sustained scaling on model capacity and data acquisition, Vision-Language-Action (VLA) models remain brittle in contact-rich and dynamic manipulation tasks, where minor execution deviations can compound into failures. While reinforcement learning (RL) offers a principled path to robustness, on-policy RL in the physical world is constrained by safety risk, hardware cost, and environment reset. To bridge this gap, we present RISE, a scalable framework of robotic reinforcement learning via imagination. At its core is a Compositional World Model that (i) predicts multi-view future via a controllable dynamics model, and (ii) evaluates imagined outcomes with a progress value model, producing informative advantages for the policy improvement. Such compositional design allows state and value to be tailored by best-suited yet distinct architectures and objectives. These components are integrated into a closed-loop self-improving pipeline that continuously generates imaginary rollouts, estimates advantages, and updates the policy in imaginary space without costly physical interaction. Across three challenging real-world tasks, RISE yields significant improvement over prior art, with more than +35% absolute performance increase in dynamic brick sorting, +45% for backpack packing, and +35% for box closing, respectively.",
+  "abstractZh": "尽管模型容量和数据采集持续扩张，VLA 在接触密集、动态变化的操作任务中仍然脆弱，微小执行偏差可能复合成失败。强化学习为鲁棒性提供了原则性路径，但物理世界 on-policy RL 受到安全风险、硬件成本和环境复位约束。RISE 为此提出通过想象进行机器人强化学习的可扩展框架：核心是 Compositional World Model，它一方面用可控 dynamics model 预测多视角未来，另一方面用 progress value model 评估想象结果并生成有利于策略改进的 advantage。组合式设计让状态预测和价值估计可以分别采用最适合的架构与目标。两者构成闭环自提升管线，持续生成想象 rollout、估计 advantage 并在想象空间中更新策略，而不需要昂贵的物理交互。在三个困难真机任务上，RISE 相对先前方法取得超过 35% 的绝对成功率提升，动态砖块分拣、背包整理和纸箱关闭分别提升 +35%、+45% 和 +35%。",
+  "background": "![RISE 总览：用 Compositional World Model 替代真实机器人在线交互](https://arxiv.org/html/2602.11075v2/teaser_compressed.png)\n\n**动机：** VLA 预训练能带来语义理解、语言指令跟随和跨任务先验，但模仿学习难以覆盖真实操作中的微小偏差。抓取运动中的物体、整理可变形衣物或双手合盖时，一旦末端位姿、释放时机或接触状态稍有偏差，错误会沿时间步复合；而专家示范只展示“好路径”，并没有告诉策略从偏差状态如何恢复。真实世界 on-policy RL 虽然能学习成败后果，却受到安全风险、设备成本、人工复位和串行执行速度的硬限制。\n\n**问题缺口：** 仿真 RL 可以并行采样并提供奖励，但接触密集操作的精细动力学与真机存在差距；高保真生成式世界模型虽然能产生视觉上可信的未来，却常缺乏细粒度动作可控性，而且生成太慢无法承担 RL 数据吞吐。另一个关键缺口是中间动作的密集学习信号：如果只依赖终局成败，模型必须可靠想象完整长任务，这会放大长时程生成误差。RISE 要同时解决状态转移、动作一致性、长时程 value 估计和策略稳定更新四个问题。",
+  "backgroundMotivation": "VLA 预训练能带来语义理解、语言指令跟随和跨任务先验，但模仿学习难以覆盖真实操作中的微小偏差。抓取运动中的物体、整理可变形衣物或双手合盖时，一旦末端位姿、释放时机或接触状态稍有偏差，错误会沿时间步复合；而专家示范只展示“好路径”，并没有告诉策略从偏差状态如何恢复。真实世界 on-policy RL 虽然能学习成败后果，却受到安全风险、设备成本、人工复位和串行执行速度的硬限制。",
+  "backgroundGap": "仿真 RL 可以并行采样并提供奖励，但接触密集操作的精细动力学与真机存在差距；高保真生成式世界模型虽然能产生视觉上可信的未来，却常缺乏细粒度动作可控性，而且生成太慢无法承担 RL 数据吞吐。另一个关键缺口是中间动作的密集学习信号：如果只依赖终局成败，模型必须可靠想象完整长任务，这会放大长时程生成误差。RISE 要同时解决状态转移、动作一致性、长时程 value 估计和策略稳定更新四个问题。",
+  "method": "**方法概述：** RISE 的完整流程是：先在真机离线数据上 warm-up π0.5，使它学会根据离散 advantage bin 生成动作；随后把 Compositional World Model 当成交互环境，从离线初始状态出发，由 EMA rollout policy 提出动作块，dynamics model 合成 25 帧多视角未来，value model 计算 chunk 内进展差值的均值 advantage；最后把 `(状态, 动作块, 评估 advantage)` 与离线数据混合，用 flow-matching 目标训练 behavior policy。世界模型和价值模型在自提升循环中冻结，只在训练阶段使用。\n\n**核心机制：** 关键在于把“未来是什么”和“未来有多好”解耦成两个专用模块。dynamics model 继承 Genie Envisioner / LTX-Video 的快速视频生成能力，并通过动作编码器、上下文帧噪声和 task-centric batching 学会服从机器人动作；value model 则复用 π0.5 的多视角机器人先验，用进度回归提供密集结构、用 TD learning 识别失败，二者联合产生比单一致光滑分数或终端奖励更可靠的 chunk advantage。这个设计避免了让一个生成模型同时承担像素级预测、奖励估计和长时程终局判断。\n\n![Compositional World Model 的训练与推理工作流](https://arxiv.org/html/2602.11075v2/world_model.png)\n\n**方法拆解：**\n\n- **可控 dynamics model**：从 GE-base 初始化，输入 4 帧三视角 192×256 图像和 50 步动作块，预测 25 帧未来。它在 Agibot World 与 Galaxea 上加入轻量 action encoder 预训练，并对 context frame 加更强噪声以抗运动模糊和合成伪影。作者报告 GE-base 合成 25 个多视角观测不到 2 秒，而 Cosmos 超过 10 分钟，约 300 倍速度差是想象 RL 可行的前提。\n- **Task-centric batching**：每个训练 batch 只覆盖少量任务，但包含同一任务、同一场景下不同动作相关样本。这样牺牲 batch 内场景多样性，优先让模型比较同一初始条件下的动作后果，从而提高动作可控性和微调效率。\n- **进度/TD value model**：从 π0.5 参数化，接收三视角观测与语言指令，先以专家时间进度 `t/T` 回归建立单调任务结构，再用成功 +1、失败 −1 的终局信号做 TD learning。进度项平滑稳定，TD 项对拉链过冲、lifting 失败等细微错误更敏感；两项在前 10k 步和后 40k 步按计划组合训练。\n- **chunk advantage**：对预测的每个未来状态 `o_hat_{t+k}` 计算 `V(o_hat_{t+k}) - V(o_t)`，再对 H=50 的动作块取均值，并离散为 10 个 bin。这样学习信号绑定在动作块及其直接可见后果上，不要求生成完整任务终局。\n- **策略 warm-up**：在专家示范、成败 rollout 和人类纠正数据上微调 π0.5。与 RECAP 不同，RISE 只给 rollout 数据用学习到的 advantage 标签，专家和人类纠正直接标为最高 advantage；10 bin 离散化比二值 bin 更适合没有预训练 advantage conditioning 的 π0.5。\n- **想象自提升循环**：rollout policy 被 prompt 为最高 advantage 并提出动作，世界模型合成下一状态；为扩大状态覆盖，生成状态可作为后续 rollout 输入，但每个离线初始状态最多连续交互两次以限制生成误差累积。训练时把离线数据混入在线 batch，防止 catastrophic forgetting。\n\n![RISE 的 rollout 与 training 双阶段自提升循环](https://arxiv.org/html/2602.11075v2/pipeline_v2.png)\n\n**关键要点：**\n\n- RISE 的“on-policy”发生在学到的想象环境中：动作由当前 EMA rollout policy 产生，状态由 dynamics model 扩展，但不需要真实机器人持续复位和监测。\n- 组合式世界模型不是架构层面的共享参数，而是把视觉生成与价值评估分开优化，使视频先验和 VLA 机器人先验各自发挥用途。\n- advantage conditioning 是策略可操控的关键接口：附录中从 advantage bin 10 降到 bin 1 时成功率明显下降，说明策略确实学到了不同质量行为的条件分布。\n- 部署时只有 π0.5 策略运行，dynamics 和 value 模型不增加在线延迟。",
+  "methodOverview": "RISE 的完整流程是：先在真机离线数据上 warm-up π0.5，使它学会根据离散 advantage bin 生成动作；随后把 Compositional World Model 当成交互环境，从离线初始状态出发，由 EMA rollout policy 提出动作块，dynamics model 合成 25 帧多视角未来，value model 计算 chunk 内进展差值的均值 advantage；最后把 `(状态, 动作块, 评估 advantage)` 与离线数据混合，用 flow-matching 目标训练 behavior policy。世界模型和价值模型在自提升循环中冻结，只在训练阶段使用。",
+  "methodCore": "关键在于把“未来是什么”和“未来有多好”解耦成两个专用模块。dynamics model 继承 Genie Envisioner / LTX-Video 的快速视频生成能力，并通过动作编码器、上下文帧噪声和 task-centric batching 学会服从机器人动作；value model 则复用 π0.5 的多视角机器人先验，用进度回归提供密集结构、用 TD learning 识别失败，二者联合产生比单一致光滑分数或终端奖励更可靠的 chunk advantage。这个设计避免了让一个生成模型同时承担像素级预测、奖励估计和长时程终局判断。\n\n![Compositional World Model 的训练与推理工作流](https://arxiv.org/html/2602.11075v2/world_model.png)",
+  "methodBreakdown": [
+    "**可控 dynamics model**：从 GE-base 初始化，输入 4 帧三视角 192×256 图像和 50 步动作块，预测 25 帧未来。它在 Agibot World 与 Galaxea 上加入轻量 action encoder 预训练，并对 context frame 加更强噪声以抗运动模糊和合成伪影。作者报告 GE-base 合成 25 个多视角观测不到 2 秒，而 Cosmos 超过 10 分钟，约 300 倍速度差是想象 RL 可行的前提。",
+    "**Task-centric batching**：每个训练 batch 只覆盖少量任务，但包含同一任务、同一场景下不同动作相关样本。这样牺牲 batch 内场景多样性，优先让模型比较同一初始条件下的动作后果，从而提高动作可控性和微调效率。",
+    "**进度/TD value model**：从 π0.5 参数化，接收三视角观测与语言指令，先以专家时间进度 `t/T` 回归建立单调任务结构，再用成功 +1、失败 −1 的终局信号做 TD learning。进度项平滑稳定，TD 项对拉链过冲、lifting 失败等细微错误更敏感；两项在前 10k 步和后 40k 步按计划组合训练。",
+    "**chunk advantage**：对预测的每个未来状态 `o_hat_{t+k}` 计算 `V(o_hat_{t+k}) - V(o_t)`，再对 H=50 的动作块取均值，并离散为 10 个 bin。这样学习信号绑定在动作块及其直接可见后果上，不要求生成完整任务终局。",
+    "**策略 warm-up**：在专家示范、成败 rollout 和人类纠正数据上微调 π0.5。与 RECAP 不同，RISE 只给 rollout 数据用学习到的 advantage 标签，专家和人类纠正直接标为最高 advantage；10 bin 离散化比二值 bin 更适合没有预训练 advantage conditioning 的 π0.5。",
+    "**想象自提升循环**：rollout policy 被 prompt 为最高 advantage 并提出动作，世界模型合成下一状态；为扩大状态覆盖，生成状态可作为后续 rollout 输入，但每个离线初始状态最多连续交互两次以限制生成误差累积。训练时把离线数据混入在线 batch，防止 catastrophic forgetting。"
+  ],
+  "methodTakeaways": [
+    "RISE 的“on-policy”发生在学到的想象环境中：动作由当前 EMA rollout policy 产生，状态由 dynamics model 扩展，但不需要真实机器人持续复位和监测。",
+    "组合式世界模型不是架构层面的共享参数，而是把视觉生成与价值评估分开优化，使视频先验和 VLA 机器人先验各自发挥用途。",
+    "advantage conditioning 是策略可操控的关键接口：附录中从 advantage bin 10 降到 bin 1 时成功率明显下降，说明策略确实学到了不同质量行为的条件分布。",
+    "部署时只有 π0.5 策略运行，dynamics 和 value 模型不增加在线延迟。"
+  ],
+  "results": "### 主实验\n\n实验使用双 7-DoF AgileX 机器人，三视角相机包含顶部和双侧腕部相机，30 Hz 控制，H=50 动作块，14 维双臂动作。每个方法报告 20 次自主试验平均。除二值成功率外，论文为三个长时程任务定义满分 10 的阶段分：动态分拣按抓取、正确入箱和工作区清理累计；背包与合箱按四个顺序子目标分别给分。\n\n| 方法 | 动态分拣成功率 | 分数 | 背包整理成功率 | 分数 | 纸箱关闭成功率 | 分数 |\n|---|---:|---:|---:|---:|---:|---:|\n| π0.5 | 35.00 | 8.28 | 30.00 | 4.25 | 35.00 | 7.50 |\n| π0.5 + DAgger | 15.00 | 6.10 | 50.00 | 7.00 | 40.00 | 7.50 |\n| π0.5 + PPO | 10.00 | 7.68 | 35.00 | 5.88 | 10.00 | 4.75 |\n| π0.5 + DSRL | 10.00 | 6.65 | 10.00 | 3.50 | 10.00 | 7.63 |\n| RECAP | 50.00 | 9.00 | 40.00 | 6.13 | 60.00 | 8.13 |\n| **RISE** | **85.00** | **9.78** | **85.00** | **9.50** | **95.00** | **9.88** |\n\n结果说明，简单把 PPO 或 DSRL 接到 π0.5 上并不稳定，动态分拣甚至从 35% 掉到 10%。RECAP 证明 advantage conditioning 有价值，但离线数据仍限制其探索。RISE 的最大增量来自在线生成状态和动作的组合：它比最强 baseline 在三个任务上分别高出 35、35 和 35 个百分点，其中背包整理较 π0.5 提升 55 个百分点。\n\n### 消融与生成质量\n\n| 消融 | Pick&Place 成功率 | Sort 准确率 | Complete 成功率 | 结论 |\n|---|---:|---:|---:|---|\n| 无在线动作 / 无在线状态 | 80.00 | 76.56 | 35.00 | 仅离线信号不足 |\n| 在线动作 / 无在线状态 | 96.25 | 84.42 | 40.00 | 新动作略有帮助 |\n| 在线动作 / 在线状态 | 98.75 | 92.41 | 70.00 | 生成状态显著扩大覆盖 |\n| dynamics 去掉预训练 | 97.50 | 60.26 | 15.00 | 视觉与动作先验关键 |\n| dynamics 去掉 task-centric | 93.75 | 89.33 | 40.00 | 同场景动作对比关键 |\n| value 去掉 progress | 95.00 | 86.84 | 50.00 | 密集进度信号关键 |\n| value 去掉 TD | 98.75 | 72.15 | 35.00 | 失败敏感性关键 |\n\n离线/在线混合比例也呈倒 U 形：offline ratio 为 0.1、0.3、0.6、0.9 时，动态分拣完整成功率分别为 5%、25%、50%、30%。0.1 时发生灾难性遗忘，0.9 时过度正则化到离线分布，0.6 是当前设置最佳。生成质量上，RISE 在真机微调实验中达到 PSNR 23.90、LPIPS 0.07、SSIM 0.82、FVD 66.84、EPE 0.54，优于 Cosmos、GE 和去掉 task-centric 的版本；其中 EPE 从 GE 的 1.05 降到 0.54，最直接支持动作一致性改善。",
+  "resultHighlights": [],
+  "insights": "### 相对已有方法的真正差异\n\n- 与 RECAP 相比，RISE 保留了 advantage-conditioned policy optimization 的稳定性，但没有被离线状态分布锁死。它用世界模型产生新的状态和动作后果，把 off-policy 数据复用问题转成想象环境中的 on-policy 采样问题。\n- 与 PPO、DSRL 等真实世界在线 RL 相比，RISE 避免了安全风险、人工复位和低吞吐串行执行；代价是必须先训练一个足够快且动作一致的视频 dynamics model，并接受想象与现实之间的 residual gap。\n- 与 Motus2 的共享 policy / simulator / evaluator 不同，RISE 刻意不共享这三个角色的全部参数。它的主张是：视频生成器、多视角 value estimator 和 flow-matching policy 的最佳归纳偏置不同，组合式解耦比单一统一模型更适合真实操作后训练。\n- 与 OpenWAM 的预训练研究相比，RISE 关注的不是世界—动作表示如何预训练，而是已预训练世界模型如何作为环境服务 RL。它的 task-centric batching 提供了一个实用启示：学习动作可控性时，同场景反事实对比可能比跨场景多样性更重要。\n- 与 RL Token、VLA-Precision 这类轻量在线接口相比，RISE 的改动更重：不是给 VLA 加 RL token 或 LoRA 接口，而是用外部环境生成大规模 on-policy 经验。它适合高价值、反复训练的任务族，而不是低算力快速部署场景。\n\n### 值得吸收的设计判断\n\n- **中间 value 差分比终局奖励更稳**：`V(future) - V(now)` 的 chunk 均值把 credit assignment 限制在生成模型较可靠的动作块范围内，是长任务世界模型 RL 的重要工程选择。\n- **progress + TD 是互补信号**：只用进度会过度平滑，难以发现细微失败；只用 TD 对关键步骤敏感但数值不稳定。联合目标兼顾两者，这是 value model 设计的可迁移结论。\n- **训练期模型可以复杂，部署期必须轻**：世界模型和价值模型只在训练时运行，避免了生成式模型拖慢 30 Hz 控制。这个边界对机器人系统尤其重要。\n- **离线数据不是越少越好**：想象 rollout 提供探索，离线数据提供物理锚点和防止遗忘；RISE 的 0.6 混合比例提醒我们，模型式 RL 的关键之一是显式调节数据分布。",
+  "insightCore": [],
+  "insightRelations": [],
+  "insightBorrowable": [],
+  "risks": "**局限：**\n\n- RISE 的效果受世界模型覆盖和物理一致性约束；论文承认在罕见或欠 represented 场景中仍可能生成物理不合理转移，未来需要 uncertainty-aware imagination 和几何约束。\n- 训练成本仍然很高：dynamics 预训练 16 张 H100、约 7 天、batch 512；任务微调 8 张 H100、约 3 天；value 训练约 1 天。它把物理成本转移成计算成本，而不是消除训练成本。\n- 三个任务虽然覆盖动态、可变形和双手操作，但仍是实验室设置，不能证明开放世界泛化或安全关键场景可靠性。\n- 长时程生成误差没有消失，只是通过最多两次连续想象交互和 chunk 级 advantage 缓解；更复杂的接触和遮挡可能暴露更大的 model bias。\n- value model 依赖人工定义的任务进度、成功/失败标注和语言指令；跨任务、跨相机、跨具身时这些信号是否稳定仍需验证。\n- 主结果没有报告置信区间或统计显著性检验，尽管 20 trials 下的差距很大，但小样本波动仍可能影响较接近的比较。\n\n**适用场景：**\n\n- 已有基础 VLA 和较多离线真机数据，希望在动态、接触密集、长时程任务上离线继续做 on-policy 强化精修。\n- 可承担世界模型预训练与推理算力，并且能容忍训练期大量生成视频，但难以承受真实机器人反复复位和安全风险。\n- 需要利用失败经验训练恢复策略，同时希望部署时保持原 VLA 控制频率和延迟。\n- 适合作为研究高保真机器人世界模型、model-based RL、advantage conditioning 和真实操作自提升的参考系统。\n\n**最终判断：**\n\n- RISE 是一篇工程完成度很高的 world-model-based VLA post-training 工作：它没有停留在“生成视频看起来像”的层面，而是系统解决了速度、动作一致性、密集 advantage、策略条件化和离线/在线混合这些进入 RL 循环的实际问题。\n- 三项真机任务的 35–55 个百分点提升说明，当世界模型足够动作可控时，想象经验确实能改善接触密集操作；消融也支持每个主要模块的必要性。\n- 它还不是通用自主进化的机器人学习系统。当前更准确的定位是：用昂贵但可并行化的想象环境，把特定任务族的 foundation policy 精修到高成功率。若未来能降低世界模型训练成本并加入不确定性、物理约束和安全机制，这条路线的影响力会显著扩大。",
+  "riskLimitations": [
+    "RISE 的效果受世界模型覆盖和物理一致性约束；论文承认在罕见或欠 represented 场景中仍可能生成物理不合理转移，未来需要 uncertainty-aware imagination 和几何约束。",
+    "训练成本仍然很高：dynamics 预训练 16 张 H100、约 7 天、batch 512；任务微调 8 张 H100、约 3 天；value 训练约 1 天。它把物理成本转移成计算成本，而不是消除训练成本。",
+    "三个任务虽然覆盖动态、可变形和双手操作，但仍是实验室设置，不能证明开放世界泛化或安全关键场景可靠性。",
+    "长时程生成误差没有消失，只是通过最多两次连续想象交互和 chunk 级 advantage 缓解；更复杂的接触和遮挡可能暴露更大的 model bias。",
+    "value model 依赖人工定义的任务进度、成功/失败标注和语言指令；跨任务、跨相机、跨具身时这些信号是否稳定仍需验证。",
+    "主结果没有报告置信区间或统计显著性检验，尽管 20 trials 下的差距很大，但小样本波动仍可能影响较接近的比较。"
+  ],
+  "riskScenarios": [
+    "已有基础 VLA 和较多离线真机数据，希望在动态、接触密集、长时程任务上离线继续做 on-policy 强化精修。",
+    "可承担世界模型预训练与推理算力，并且能容忍训练期大量生成视频，但难以承受真实机器人反复复位和安全风险。",
+    "需要利用失败经验训练恢复策略，同时希望部署时保持原 VLA 控制频率和延迟。",
+    "适合作为研究高保真机器人世界模型、model-based RL、advantage conditioning 和真实操作自提升的参考系统。"
+  ],
+  "riskJudgment": [
+    "RISE 是一篇工程完成度很高的 world-model-based VLA post-training 工作：它没有停留在“生成视频看起来像”的层面，而是系统解决了速度、动作一致性、密集 advantage、策略条件化和离线/在线混合这些进入 RL 循环的实际问题。",
+    "三项真机任务的 35–55 个百分点提升说明，当世界模型足够动作可控时，想象经验确实能改善接触密集操作；消融也支持每个主要模块的必要性。",
+    "它还不是通用自主进化的机器人学习系统。当前更准确的定位是：用昂贵但可并行化的想象环境，把特定任务族的 foundation policy 精修到高成功率。若未来能降低世界模型训练成本并加入不确定性、物理约束和安全机制，这条路线的影响力会显著扩大。"
+  ],
+  "resultsTableMarkdown": "| 维度 | 关键结果 |\n|---|---|\n| 动态分拣 | 85% 成功、9.78 分，较 RECAP +35 pp |\n| 背包整理 | 85% 成功、9.50 分，较 DAgger +35 pp |\n| 纸箱关闭 | 95% 成功、9.88 分，较 RECAP +35 pp |\n| 在线信号 | 同时使用在线动作和状态，成功率 35% → 70% |\n| 最佳数据比 | offline ratio 0.6，完整成功率 50% |\n| 生成质量 | EPE 0.54，PSNR 23.90，LPIPS 0.07 |",
+  "resultsTable": {
+    "columns": [
+      "维度",
+      "关键结果"
+    ],
+    "rows": [
+      [
+        "动态分拣",
+        "85% 成功、9.78 分，较 RECAP +35 pp"
+      ],
+      [
+        "背包整理",
+        "85% 成功、9.50 分，较 DAgger +35 pp"
+      ],
+      [
+        "纸箱关闭",
+        "95% 成功、9.88 分，较 RECAP +35 pp"
+      ],
+      [
+        "在线信号",
+        "同时使用在线动作和状态，成功率 35% → 70%"
+      ],
+      [
+        "最佳数据比",
+        "offline ratio 0.6，完整成功率 50%"
+      ],
+      [
+        "生成质量",
+        "EPE 0.54，PSNR 23.90，LPIPS 0.07"
+      ]
+    ]
+  },
+  "figureGallery": [
+    {
+      "zone": "background",
+      "caption": "RISE 总览：用 Compositional World Model 替代真实机器人在线交互",
+      "src": "https://arxiv.org/html/2602.11075v2/teaser_compressed.png"
+    },
+    {
+      "zone": "method",
+      "caption": "Compositional World Model 的训练与推理工作流",
+      "src": "https://arxiv.org/html/2602.11075v2/world_model.png"
+    },
+    {
+      "zone": "method",
+      "caption": "RISE 的 rollout 与 training 双阶段自提升循环",
+      "src": "https://arxiv.org/html/2602.11075v2/pipeline_v2.png"
+    }
+  ],
+  "relatedTopicSlugs": [
+    "online-rl-for-vla"
+  ]
+}
