@@ -1,0 +1,128 @@
+{
+  "slug": "roborsi-stable-efficient-and-reusable-robot-self-evolution-in-complex-real-world-environments",
+  "title": "RoboRSI: Stable, Efficient, and Reusable Robot Self-Evolution in Complex Real-World Environments",
+  "sourceType": "paper",
+  "sourceUrl": "https://arxiv.org/abs/2610.12424",
+  "htmlUrl": "https://arxiv.org/html/2610.12424v1",
+  "pdfUrl": "https://arxiv.org/pdf/2610.12424",
+  "codeUrl": "https://github.com/nssmd/RoboRSI",
+  "translationUrl": "https://hjfy.top/arxiv/2610.12424",
+  "publishDate": "2026-10-08",
+  "authors": [
+    "Zimo Wen",
+    "Yijin Chen",
+    "Yuxuan Cao",
+    "Wendi Chen",
+    "Yanwen Zou",
+    "Wenye Yu",
+    "Fuhang Kuang",
+    "Han Xue",
+    "Jun Lv",
+    "Chuan Wen",
+    "Cewu Lu"
+  ],
+  "affiliation": "Noematrix Lab",
+  "relatedOrganizations": [
+    "Noematrix Lab"
+  ],
+  "relatedCompanies": [
+    "Noematrix"
+  ],
+  "keywords": [
+    "robot self-improvement",
+    "code as policy",
+    "multi-agent systems",
+    "skill learning",
+    "mobile manipulation"
+  ],
+  "primaryDomainSlug": "physical-embodied-ai",
+  "domainSlugs": [
+    "physical-embodied-ai"
+  ],
+  "heroImage": "https://arxiv.org/html/2610.12424v1/2027_ICLR_Teaser1.0.png",
+  "tldr": "RoboRSI 的核心不是一个新的端到端机器人策略，而是一套让执行经验变成可维护能力的系统机制。它把任务组织为任务族、复合技能、原子任务和基础技能，要求每个节点有明确接口、责任和后置条件；失败后由 Reviewer 沿实际调用路径定位最早失败节点，Manager 只允许在这个节点拥有的子树内修改，并通过功能测试与近期执行回放验证后才发布。这个“先定位责任、再局部修改、再门控发布”的流程，显著减少了修补漂移和全局技能库污染。\n\n证据上有两点最值得记住：其一，在 104 轮、24 小时真机移动清理开发中，系统把失败修复转化为技能树中的局部能力和回归测试，最终两个场景 9 次指定放置全部由现场人员确认成功且无人工接管；其二，复合技能消融在 600 个匹配 episode 上将成功率从 21.5% 提升到 29.0%，同时中位 token、模型调用和墙钟时间分别下降 29.4%、27.2% 和 17.0%。但主仿真结果是在线自我改进口径，不能和固定策略 Pass@k 混读；真机曲线也是开发记录而非固定任务重复实验。",
+  "intuition": "可以把 RoboRSI 想成给机器人 coding agent 加上一层“工程变更管理系统”。普通 agent 常在失败出现的末端加重试，RoboRSI 则坚持先问：这个失败最早违反了哪个节点的后置条件？如果是感知或导航早已出错，就不该把补丁写在放置动作上；如果技能接口本身错了，才扩大修改范围到调用者。稳定路线随后从“每次现场推理”固化为参数化代码，只有代码失败时才退回在线规划。\n\n![RoboRSI 的主要指标与整体闭环](https://arxiv.org/html/2610.12424v1/2027_ICLR_Teaser1.0.png)\n\n*图 1：论文 teaser 概括了任务—观测—规划—执行循环、真机过程和复合技能带来的成功率与成本变化。*",
+  "abstractEn": "A generalist robot should not only perform diverse tasks but also improve through experience, turning what it learns during execution into capabilities that later tasks can reuse. Robot agents that act through code can already repair programs from execution feedback, yet it remains a central challenge to organize this experience around the task structure that gives it meaning, so that each repair is attributed to the responsible capability, supported by execution evidence, and validated before it is reused. We introduce RoboRSI, a robot self-improvement system built on Top-Down Skill Refinement (TSR). TSR decomposes tasks into compound, atomic, and base skills with scoped responsibilities and explicit input–output contracts, attributes each execution outcome to the responsible branch, and confines revision to that branch. Building upon this structure, a Manager, Planner, Engineer, and Reviewer coordinate planning, execution, diagnosis, and the validated release of new skills, while people steer the process through objectives and corrections; stable skill sequences are further consolidated into reusable compound skills. On a mobile manipulator, RoboRSI develops multi-object household cleanup over 104 rounds. In simulation, it achieves the highest success rate on LIBERO, LIBERO-PRO, LIBERO-Plus, and RoboTwin, exceeding the strongest baseline by 2.7 to 11.0 percentage points.",
+  "abstractZh": "通才机器人不应只执行多样任务，还应通过经验改进，把执行中学到的内容转化为后续任务可复用的能力。通过代码行动的机器人 agent 已能根据执行反馈修复程序；但核心挑战在于如何把这些经验组织到赋予其意义的任务结构中，使每次修复归因到负责的能力、有执行证据支持，并在复用前通过验证。论文提出 RoboRSI，一个基于 Top-Down Skill Refinement（TSR）的机器人自我改进系统。TSR 将任务分解为具有范围化责任和显式输入—输出契约的复合技能、原子技能与基础技能，把执行结果归因到负责分支，并将修订限制在该分支内。在此结构上，Manager、Planner、Engineer 与 Reviewer 协调规划、执行、诊断和新技能的验证发布；人通过目标与修正引导流程，稳定技能序列进一步固化为可复用复合技能。在移动操作平台上，RoboRSI 经过 104 轮发展多物体家庭清理能力。在仿真中，它在 LIBERO、LIBERO-PRO、LIBERO-Plus 与 RoboTwin 上取得最高成功率，比最强基线高 2.7 到 11.0 个百分点。",
+  "background": "**动机：** 机器人要能通过经验持续积累能力：一次失败的抓取、一次错误的对象定位、一次恢复过程，只有在之后能被定位、修正、验证并复用时才有价值。Foundation-model coding agent 已经能临时生成或修复机器人程序，但反复执行后上下文会被历史轨迹填满，修补会贴近最新场景，人员也不得不回到日志里判断某个修复应该归属到哪个能力。\n\n**问题缺口：** 已有代码策略、执行反馈和技能库方法解决了“能不能生成代码”和“能不能保存技能”，但没有充分回答三个更系统的工程问题：失败应该归因到哪个能力？修改共享技能时如何避免破坏其他调用者？什么样的修补有资格进入长期库？RoboRSI 将这些问题从提示词层面提升为显式任务结构与发布流程。",
+  "backgroundMotivation": "机器人要能通过经验持续积累能力：一次失败的抓取、一次错误的对象定位、一次恢复过程，只有在之后能被定位、修正、验证并复用时才有价值。Foundation-model coding agent 已经能临时生成或修复机器人程序，但反复执行后上下文会被历史轨迹填满，修补会贴近最新场景，人员也不得不回到日志里判断某个修复应该归属到哪个能力。",
+  "backgroundGap": "已有代码策略、执行反馈和技能库方法解决了“能不能生成代码”和“能不能保存技能”，但没有充分回答三个更系统的工程问题：失败应该归因到哪个能力？修改共享技能时如何避免破坏其他调用者？什么样的修补有资格进入长期库？RoboRSI 将这些问题从提示词层面提升为显式任务结构与发布流程。",
+  "method": "**方法概述：** RoboRSI 首先建立人类可引导、agent 可执行的双层抽象：人输入目标、约束、领域知识和安全修正；系统将这些信息落到具有接口、责任和执行历史的任务—技能树中。每轮执行后，独立 Reviewer 根据可见证据和工具轨迹检查后置条件，Manager 决定候选补丁能否发布，稳定分支再固化为复合代码或训练神经策略。\n\n**核心机制：** TSR 把任务族、复合技能、原子任务和基础技能组织为图节点。每个节点声明实现或指导，以及自己的后置条件；执行轨迹产生节点调用序列后，系统取最早违反后置条件的节点为失败源，只允许 Reviewer 的补丁修改该节点拥有的子图。若接口本身需要变化，则先扩大范围到调用者。候选补丁必须通过 review、功能测试和近期受影响任务回放且不回归，才会写入下一轮能力库。\n\n**方法拆解：**\n\n- **任务—技能层级**：任务族保存共享目标与约束；原子任务具有可观察结果和后置条件；基础技能封装感知、运动、抓取、放置等工具；复合技能把已验证的多步序列变成参数化代码单元。\n- **四角色分工**：Manager 负责任务分解、技能版本和发布决策；Planner 只针对单个原子任务写可执行计划；Engineer 调用工具并补齐缺失技能；Reviewer 独立判断成败并提交责任分支补丁。\n- **最早失败归因**：失败不是在观察末端修补，而是沿调用路径检查每个节点的后置条件，追溯到第一个失败的感知、规划、组合或操作节点。\n- **局部验证发布**：补丁修改范围被限制在责任子树，并用该子图可达任务的近期成功与失败记录回放，防止共享技能修复造成其他任务回归。\n- **能力固化**：稳定路线固化为 compound skill，让 agent 只做技能选择、参数传递和监控；成功轨迹也可以训练 ACT 等学习策略并作为技能回到同一层级。\n\n![RoboRSI 的多角色执行、诊断、局部修订与发布闭环](https://arxiv.org/html/2610.12424v1/2027_ICLR_Framework2.0.png)\n\n*图 2：Manager、Planner、Engineer、Reviewer 在任务—技能层级上执行，证据与工具轨迹进入诊断，候选能力更新必须通过验证后进入下一轮。*\n\n**关键要点：**\n\n- RoboRSI 的复用单位不是整条对话记忆，而是带接口、后置条件、执行历史和测试的技能节点。\n- 复合技能把长工具序列从模型逐步推理中移出，失败时仍能退回逐步推理，因此同时改善成功率与成本。",
+  "methodOverview": "RoboRSI 首先建立人类可引导、agent 可执行的双层抽象：人输入目标、约束、领域知识和安全修正；系统将这些信息落到具有接口、责任和执行历史的任务—技能树中。每轮执行后，独立 Reviewer 根据可见证据和工具轨迹检查后置条件，Manager 决定候选补丁能否发布，稳定分支再固化为复合代码或训练神经策略。",
+  "methodCore": "TSR 把任务族、复合技能、原子任务和基础技能组织为图节点。每个节点声明实现或指导，以及自己的后置条件；执行轨迹产生节点调用序列后，系统取最早违反后置条件的节点为失败源，只允许 Reviewer 的补丁修改该节点拥有的子图。若接口本身需要变化，则先扩大范围到调用者。候选补丁必须通过 review、功能测试和近期受影响任务回放且不回归，才会写入下一轮能力库。",
+  "methodBreakdown": [
+    "**任务—技能层级**：任务族保存共享目标与约束；原子任务具有可观察结果和后置条件；基础技能封装感知、运动、抓取、放置等工具；复合技能把已验证的多步序列变成参数化代码单元。",
+    "**四角色分工**：Manager 负责任务分解、技能版本和发布决策；Planner 只针对单个原子任务写可执行计划；Engineer 调用工具并补齐缺失技能；Reviewer 独立判断成败并提交责任分支补丁。",
+    "**最早失败归因**：失败不是在观察末端修补，而是沿调用路径检查每个节点的后置条件，追溯到第一个失败的感知、规划、组合或操作节点。",
+    "**局部验证发布**：补丁修改范围被限制在责任子树，并用该子图可达任务的近期成功与失败记录回放，防止共享技能修复造成其他任务回归。",
+    "**能力固化**：稳定路线固化为 compound skill，让 agent 只做技能选择、参数传递和监控；成功轨迹也可以训练 ACT 等学习策略并作为技能回到同一层级。"
+  ],
+  "methodTakeaways": [
+    "RoboRSI 的复用单位不是整条对话记忆，而是带接口、后置条件、执行历史和测试的技能节点。",
+    "复合技能把长工具序列从模型逐步推理中移出，失败时仍能退回逐步推理，因此同时改善成功率与成本。"
+  ],
+  "results": "**核心结果：**\n\n- **主仿真比较**：RoboRSI 在 LIBERO、LIBERO-PRO、LIBERO-Plus、RoboTwin 的成功率和任务覆盖均为最高；LIBERO-PRO 相比最强基线 OpenETA 高 11.0 个百分点，LIBERO-Plus 冻结库迁移高 5.7 个百分点。\n- **真机开发**：104 轮、24 小时移动清理开发不是平滑曲线，早期 0 放置，后续出现多次完整任务后又回落；这正说明开发记录没有粉饰方差。最终两个场景分别完成 5/5 与 4/4 指定放置，配置未改且无人工接管。\n- **角色分离**：在 RoboTwin 50 个任务上，Planner+Engineer+Reviewer 解决 36 个，单 Engineer 只解决 9 个，独立诊断是最强消融差异之一。\n- **复合技能**：600 个匹配 episode 中，Code on 成功 174 次、Code off 129 次，配对提升 7.5 个百分点；86 对只有 Code on 成功，41 对只有 Code off 成功。\n\n| 基准 | 最强基线 | RoboRSI | 相对提升 | 口径要点 |\n|---|---:|---:|---:|---|\n| LIBERO | OpenETA 76/150（50.7%） | 84/150（56.0%） | +5.3 pp | RoboRSI 在线自我改进，基线固定技能 |\n| LIBERO-PRO | OpenETA 231/600（38.5%） | 297/600（49.5%） | +11.0 pp | 120 任务 × 5 初始状态 |\n| LIBERO-Plus | OpenETA 306/840（36.4%） | 354/840（42.1%） | +5.7 pp | RoboRSI 使用冻结 LIBERO 库 |\n| RoboTwin | OpenETA 32/150（21.3%） | 37/154（24.0%） | +2.7 pp | 在线 154 episodes，覆盖率 52.0% |\n\n![复合技能消融的成功率与成本变化](https://arxiv.org/html/2610.12424v1/ablation_code.svg)\n\n*图 10：复合技能把 600 个匹配 episode 的成功率从 21.5% 提升到 29.0%，并显著降低 token、模型调用和墙钟成本。*",
+  "resultHighlights": [
+    "**主仿真比较**：RoboRSI 在 LIBERO、LIBERO-PRO、LIBERO-Plus、RoboTwin 的成功率和任务覆盖均为最高；LIBERO-PRO 相比最强基线 OpenETA 高 11.0 个百分点，LIBERO-Plus 冻结库迁移高 5.7 个百分点。",
+    "**真机开发**：104 轮、24 小时移动清理开发不是平滑曲线，早期 0 放置，后续出现多次完整任务后又回落；这正说明开发记录没有粉饰方差。最终两个场景分别完成 5/5 与 4/4 指定放置，配置未改且无人工接管。",
+    "**角色分离**：在 RoboTwin 50 个任务上，Planner+Engineer+Reviewer 解决 36 个，单 Engineer 只解决 9 个，独立诊断是最强消融差异之一。",
+    "**复合技能**：600 个匹配 episode 中，Code on 成功 174 次、Code off 129 次，配对提升 7.5 个百分点；86 对只有 Code on 成功，41 对只有 Code off 成功。"
+  ],
+  "insights": "**核心 insight：**\n\n- RoboRSI 把 self-improvement 的核心从“保存更多经验”推进到“保存有所有权和契约的经验”。没有责任边界的技能库会随着任务增加变成全局风险；局部归因和回归门控让能力积累变得可审计。\n- 复合技能的价值不只是省 token：它减少了长工具序列中每次重新决策带来的参数不一致、漏检查和错工具机会，因此同时提升稳定性、复用性和效率。\n\n**和已有方法的关系：**\n\n- 相比 Code as Policies / CaP-X 侧重如何生成机器人程序，RoboRSI 关注生成后的维护：修复属于哪个能力、影响哪些调用者、何时能发布。\n- 相比 Voyager、ASPIRE 等可执行技能库，它显式引入任务树、最早失败节点、接口契约和跨任务回归验证。\n- 相比 VLA / WAM 的端到端控制路线，RoboRSI 是系统层编排和技能管理层；二者并不替代，学习策略还可以作为节点回到技能树。\n\n**可借鉴点：**\n\n- 给任何 agent 生成的长期资产都建立“接口 + 后置条件 + 责任子图 + 回放历史”，而不是只保存 prompt、代码或轨迹。\n- 把高频稳定流程固化为代码，把模型推理留给任务选择、异常诊断和新能力探索。\n- 让执行者和诊断者分离，诊断只使用公开观测与工具轨迹，避免同一 agent 既执行又给自己下结论。",
+  "insightCore": [
+    "RoboRSI 把 self-improvement 的核心从“保存更多经验”推进到“保存有所有权和契约的经验”。没有责任边界的技能库会随着任务增加变成全局风险；局部归因和回归门控让能力积累变得可审计。",
+    "复合技能的价值不只是省 token：它减少了长工具序列中每次重新决策带来的参数不一致、漏检查和错工具机会，因此同时提升稳定性、复用性和效率。"
+  ],
+  "insightRelations": [
+    "相比 Code as Policies / CaP-X 侧重如何生成机器人程序，RoboRSI 关注生成后的维护：修复属于哪个能力、影响哪些调用者、何时能发布。",
+    "相比 Voyager、ASPIRE 等可执行技能库，它显式引入任务树、最早失败节点、接口契约和跨任务回归验证。",
+    "相比 VLA / WAM 的端到端控制路线，RoboRSI 是系统层编排和技能管理层；二者并不替代，学习策略还可以作为节点回到技能树。"
+  ],
+  "insightBorrowable": [
+    "给任何 agent 生成的长期资产都建立“接口 + 后置条件 + 责任子图 + 回放历史”，而不是只保存 prompt、代码或轨迹。",
+    "把高频稳定流程固化为代码，把模型推理留给任务选择、异常诊断和新能力探索。",
+    "让执行者和诊断者分离，诊断只使用公开观测与工具轨迹，避免同一 agent 既执行又给自己下结论。"
+  ],
+  "risks": "**局限：**\n\n- 主表 LIBERO、LIBERO-PRO、RoboTwin 允许 RoboRSI 在评估任务上在线修订，基线没有自我改进；因此它评价的是“自我改进能力”，不是固定策略公平排行榜，LIBERO-Plus 冻结迁移才是更直接的泛化证据。\n- 真机部分是 104 轮开发记录和两场景示范，场景恢复由人工执行、成功由现场人员确认，图 4 的 0–4 放置计数也不是固定四物体任务的重复成功率；因此不能推出生产级稳定成功率。\n- 全部结果依赖 GPT-5.6-SOL 等强 backbone、明确工具接口、可验证后置条件和仿真器判定；没有明确成功谓词或可靠工具反馈的开放环境会更难。\n- 共享技能回归门控依赖近期历史和测试覆盖，不能保证所有未见过任务不受影响；论文也未证明跨机器人平台和跨硬件技能迁移。\n- 104 轮中有 4 个修订触发需要人类知识，如安全速度、误放后必须人工复位、持物丢失时冻结运动等；这提醒我们完全自主自我进化仍有安全与领域知识边界。\n\n**适用场景：**\n\n- 长期运行的家庭或工业机器人系统，尤其是能获得明确工具接口、后置条件和可回放执行日志的移动操作任务。\n- 希望把 coding agent 的探索结果沉淀为受版本管理、带回归测试技能库的研究平台或机器人中间层。\n- 需要同时降低长 horizon 工具调用成本和失败率的多步操作流程。\n\n**最终判断：**\n\n- RoboRSI 是机器人 self-improvement 工程化方向上证据较完整的工作：它同时给出结构抽象、多角色流程、真机开发记录、跨基准结果和关键消融。最可信结论是“责任化技能树 + 独立诊断 + 门控发布”能改善经验复用与执行效率。\n- 当前不应把它解读为通用机器人已经自主进化，或其在所有真实环境都能无监督安全运行。论文真正的推进是让机器人能力更新拥有可归因、可验证、可审计的工程边界。",
+  "riskLimitations": [
+    "主表 LIBERO、LIBERO-PRO、RoboTwin 允许 RoboRSI 在评估任务上在线修订，基线没有自我改进；因此它评价的是“自我改进能力”，不是固定策略公平排行榜，LIBERO-Plus 冻结迁移才是更直接的泛化证据。",
+    "真机部分是 104 轮开发记录和两场景示范，场景恢复由人工执行、成功由现场人员确认，图 4 的 0–4 放置计数也不是固定四物体任务的重复成功率；因此不能推出生产级稳定成功率。",
+    "全部结果依赖 GPT-5.6-SOL 等强 backbone、明确工具接口、可验证后置条件和仿真器判定；没有明确成功谓词或可靠工具反馈的开放环境会更难。",
+    "共享技能回归门控依赖近期历史和测试覆盖，不能保证所有未见过任务不受影响；论文也未证明跨机器人平台和跨硬件技能迁移。",
+    "104 轮中有 4 个修订触发需要人类知识，如安全速度、误放后必须人工复位、持物丢失时冻结运动等；这提醒我们完全自主自我进化仍有安全与领域知识边界。"
+  ],
+  "riskScenarios": [
+    "长期运行的家庭或工业机器人系统，尤其是能获得明确工具接口、后置条件和可回放执行日志的移动操作任务。",
+    "希望把 coding agent 的探索结果沉淀为受版本管理、带回归测试技能库的研究平台或机器人中间层。",
+    "需要同时降低长 horizon 工具调用成本和失败率的多步操作流程。"
+  ],
+  "riskJudgment": [
+    "RoboRSI 是机器人 self-improvement 工程化方向上证据较完整的工作：它同时给出结构抽象、多角色流程、真机开发记录、跨基准结果和关键消融。最可信结论是“责任化技能树 + 独立诊断 + 门控发布”能改善经验复用与执行效率。",
+    "当前不应把它解读为通用机器人已经自主进化，或其在所有真实环境都能无监督安全运行。论文真正的推进是让机器人能力更新拥有可归因、可验证、可审计的工程边界。"
+  ],
+  "resultsTableMarkdown": "",
+  "resultsTable": {
+    "columns": [],
+    "rows": []
+  },
+  "figureGallery": [
+    {
+      "zone": "intuition",
+      "caption": "RoboRSI 的主要指标与整体闭环",
+      "src": "https://arxiv.org/html/2610.12424v1/2027_ICLR_Teaser1.0.png"
+    },
+    {
+      "zone": "method",
+      "caption": "RoboRSI 的多角色执行、诊断、局部修订与发布闭环",
+      "src": "https://arxiv.org/html/2610.12424v1/2027_ICLR_Framework2.0.png"
+    },
+    {
+      "zone": "results",
+      "caption": "复合技能消融的成功率与成本变化",
+      "src": "https://arxiv.org/html/2610.12424v1/ablation_code.svg"
+    }
+  ],
+  "relatedTopicSlugs": [
+    "robot-self-improvement"
+  ]
+}
