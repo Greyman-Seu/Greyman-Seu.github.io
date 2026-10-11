@@ -1,9 +1,9 @@
 {
   "meta": {
-    "build_date": "2026-10-11T04:32:47Z",
+    "build_date": "2026-10-11T07:45:18Z",
     "wiki_title": "研究目的与方向",
-    "total_nodes": 60,
-    "total_edges": 132,
+    "total_nodes": 61,
+    "total_edges": 142,
     "initial_view": [
       "Human-to-Robot Transfer",
       "Long-Horizon Memory for Robot Policies",
@@ -15,26 +15,26 @@
       "2606.17046-geometric-action-model-for-robot-policy-learning",
       "robot-self-improvement",
       "2606.30988-multisensory-continual-learning-adapting-pretrained-visuomotor-policies-to-force",
+      "robot-rsi-data-imagination-program-skill-system",
+      "2609.32862-robofoundry",
       "2509.07962-ta-vla-elucidating-the-design-space-of-torque-aware-vision-language-action-models",
       "2608.25798-tacforcing-streaming-action-generation-with-execution-time-tactile-feedback",
       "2609.05832-cr-vla-force",
-      "2609.32862-robofoundry",
+      "2609.38905-embodirsi",
       "t-rex-tactile-reactive-dexterous-manipulation",
       "Human Video Robot Data Generation",
+      "2602.11075-rise-self-improving-robot-policy-with-compositional-world-model",
       "2606.29948-heterogeneous-tactile-transformer",
-      "2609.38905-embodirsi",
       "2409.11047-tacdiffusion-force-domain-diffusion-policy-for-precise-tactile-manipulation",
       "2609.03889-fwbc-vla",
       "2609.04355-vla-precision-asymmetric-co-bootstrapping-for-efficient-real-world-online-rl",
+      "2609.29166-harnesspai",
       "pi07-a-steerable-generalist-robotic-foundation-model-with-emergent-capabilities",
       "tactile-genesis-exploring-tactile-sensors-at-scale-for-learning-dexterous-tasks",
-      "2602.11075-rise-self-improving-robot-policy-with-compositional-world-model",
       "2609.18242-forcedelta-vla",
-      "2609.29166-harnesspai",
       "om-1",
       "2605.11048-forceflow-learning-to-feel-and-act-via-contact-driven-flow-matching",
-      "2606.09811-aha-wam",
-      "balanced-data-diet-sgs"
+      "2606.09811-aha-wam"
     ],
     "degraded": false,
     "insights_degraded": false
@@ -87,7 +87,7 @@
       "label": "Robot Self-Improvement",
       "type": "topic",
       "community": "Online RL for VLA",
-      "content": "# Robot Self-Improvement\n\n> 机器人策略改进的核心问题从“怎样学一个策略”扩展为“当前策略下一步应该生成什么经验”。\n\n## 主题概述\n\n这条主题收集通过策略自身执行反馈驱动后续改进的工作，覆盖四条互补机制：从失败中间状态生成纠正监督、根据失败分布改变后续采数、把代码技能 / 接口契约 / 失败归因 / 回归验证组织成长期能力库，以及把冻结模型周围的上下文、记忆、技能与绑定整体作为 system policy 演化。它与 online RL 相关，但不要求所有方法都使用 TD 学习或环境 reward。\n\n## 代表工作\n\n- [来源: EmbodiRSI: Recursive Self-Improvement for Data-Efficient Robot Adaptation](../sources/2609.38905-embodirsi.md)\n  把目标桌面重建为长期可复用仿真练习场；agent 监控 policy rollout，从 policy-reached state 生成纠正轨迹，并把最终失败归因到空间弱区以定向补采示范。匹配 400 条轨迹预算时比静态采集高 20.6 个百分点，R2+10 实机成功率达 83.1%。\n\n- [来源: RoboFoundry: System-as-Policy Evolution for Self-Learning Embodied Agents](../sources/2609.32862-robofoundry.md)\n  把冻结基础模型的上下文、文件记忆、技能层次、恢复树和跨本体绑定整体视为 policy；失败归因到六类能力，任务级修复通过 held-out 保留检验后提升为通用规则。GPT-5.5 在 EmbodiedBench 从 56.9% 升至 72.7%。\n\n- [来源: HarnessPAI: An Evolving Harness for Physical AI](../sources/2609.29166-harnesspai.md)\n  先演化外部可执行程序而不是直接更新策略；程序在 rollout 间根据诊断反馈修复，并用成功 gate 在扰动场景生成专家轨迹。π0.5-LIBERO 用这些轨迹微调后，LIBERO-PRO 从 34.9% 升至 73.7%。\n\n- [来源: RoboRSI: Stable, Efficient, and Reusable Robot Self-Evolution in Complex Real-World Environments](../sources/roborsi-stable-efficient-and-reusable-robot-self-evolution-in-complex-real-world-environments.md)\n  用 Top-Down Skill Refinement、四角色分工和回归门控管理代码技能库：失败沿调用路径归因到最早失败节点，补丁限制在责任子树内，稳定流程固化为复合代码或学习策略。\n\n\n- [来源: A Balanced Data Diet: Addressing the Exploration Bottleneck in Mega-Scale RL for Robot Control](../sources/balanced-data-diet-sgs.md)\n  在仿真 RL 内部用每个任务配置的滚动成功率调度后续经验，把最多约 1M 并行环境集中在当前策略可学习的边界配置上。它说明 self-improvement 可以先发生在训练时的任务抽样层，而不要求策略在真实部署后继续更新。\n\n## 当前判断\n\n- 有价值的 self-improvement 不一定是模型改写自身，而是让数据采集策略随执行弱点共同演化。\n- SGS 补充了一个更基础的层次：如果已有可靠成功谓词和覆盖充分的任务池，先优化“下一批 rollout 练什么”就可能显著提高大规模 RL 的有效数据量。\n- HarnessPAI 补上另一条路线：把重复任务的执行经验固化为代码与节点化修复技能，再把已验证程序当作 success-filtered 数据采集器。\n- RoboFoundry 提醒我们，被改进的不一定是策略权重或训练数据，也可以是模型可见上下文、记忆操作、技能组合和执行绑定；但系统级自我编辑更需要成本核算、执行级回归和安全治理。\n- 技能库自我改进必须回答“补丁属于谁、会影响谁、凭什么发布”；接口、后置条件和近期回放是防止共享能力退化的最低工程约束。\n- 训练时的外部恢复和测试时的 policy-only 自主行为必须分开报告，否则容易夸大系统可用性。\n- 该方向仍缺少跨 held-out 场景、长时间多轮更新、组件贡献和总成本的可复现验证。\n\n## 相关页面\n\n- [[balanced-data-diet-sgs|A Balanced Data Diet: Addressing the Exploration Bottleneck in Mega-Scale RL for Robot Control]]\n- [[2609.38905-embodirsi|EmbodiRSI: Recursive Self-Improvement for Data-Efficient Robot Adaptation]]\n- [[2609.32862-robofoundry|RoboFoundry: System-as-Policy Evolution for Self-Learning Embodied Agents]]\n- [[RoboRSI: Stable, Efficient, and Reusable Robot Self-Evolution in Complex Real-World Environments]]\n- [[2609.29166-harnesspai|HarnessPAI: An Evolving Harness for Physical AI]]\n- [[Online RL for VLA]]\n- [[Vision-Language-Action]]"
+      "content": "# Robot Self-Improvement\n\n> 机器人策略改进的核心问题从“怎样学一个策略”扩展为“当前策略下一步应该生成什么经验”。\n\n## 主题概述\n\n这条主题收集通过策略自身执行反馈驱动后续改进的工作，覆盖四条互补机制：从失败中间状态生成纠正监督、根据失败分布改变后续采数、把代码技能 / 接口契约 / 失败归因 / 回归验证组织成长期能力库，以及把冻结模型周围的上下文、记忆、技能与绑定整体作为 system policy 演化。它与 online RL 相关，但不要求所有方法都使用 TD 学习或环境 reward。\n\n## 代表工作\n\n- [来源: EmbodiRSI: Recursive Self-Improvement for Data-Efficient Robot Adaptation](../sources/2609.38905-embodirsi.md)\n  把目标桌面重建为长期可复用仿真练习场；agent 监控 policy rollout，从 policy-reached state 生成纠正轨迹，并把最终失败归因到空间弱区以定向补采示范。匹配 400 条轨迹预算时比静态采集高 20.6 个百分点，R2+10 实机成功率达 83.1%。\n\n- [来源: RISE: Self-Improving Robot Policy with Compositional World Model](../sources/2602.11075-rise-self-improving-robot-policy-with-compositional-world-model.md)\n  用动作可控多视角 dynamics model 和进度/TD value model 组成想象练习场，为 π0.5 的动作块生成 advantage 并更新策略；三项真机任务成功率达 85%、85% 和 95%，部署时不运行世界模型。\n\n- [来源: RoboFoundry: System-as-Policy Evolution for Self-Learning Embodied Agents](../sources/2609.32862-robofoundry.md)\n  把冻结基础模型的上下文、文件记忆、技能层次、恢复树和跨本体绑定整体视为 policy；失败归因到六类能力，任务级修复通过 held-out 保留检验后提升为通用规则。GPT-5.5 在 EmbodiedBench 从 56.9% 升至 72.7%。\n\n- [来源: HarnessPAI: An Evolving Harness for Physical AI](../sources/2609.29166-harnesspai.md)\n  先演化外部可执行程序而不是直接更新策略；程序在 rollout 间根据诊断反馈修复，并用成功 gate 在扰动场景生成专家轨迹。π0.5-LIBERO 用这些轨迹微调后，LIBERO-PRO 从 34.9% 升至 73.7%。\n\n- [来源: RoboRSI: Stable, Efficient, and Reusable Robot Self-Evolution in Complex Real-World Environments](../sources/roborsi-stable-efficient-and-reusable-robot-self-evolution-in-complex-real-world-environments.md)\n  用 Top-Down Skill Refinement、四角色分工和回归门控管理代码技能库：失败沿调用路径归因到最早失败节点，补丁限制在责任子树内，稳定流程固化为复合代码或学习策略。\n\n\n- [来源: A Balanced Data Diet: Addressing the Exploration Bottleneck in Mega-Scale RL for Robot Control](../sources/balanced-data-diet-sgs.md)\n  在仿真 RL 内部用每个任务配置的滚动成功率调度后续经验，把最多约 1M 并行环境集中在当前策略可学习的边界配置上。它说明 self-improvement 可以先发生在训练时的任务抽样层，而不要求策略在真实部署后继续更新。\n\n## 当前判断\n\n- 有价值的 self-improvement 不一定是模型改写自身，而是让数据采集策略随执行弱点共同演化。\n- RISE 提供参数层路线：在想象环境中扩展当前策略可达状态，用 chunk advantage 学习更好行为；其风险从真实机器人安全转为世界模型幻觉与算力成本。\n- SGS 补充了一个更基础的层次：如果已有可靠成功谓词和覆盖充分的任务池，先优化“下一批 rollout 练什么”就可能显著提高大规模 RL 的有效数据量。\n- HarnessPAI 补上另一条路线：把重复任务的执行经验固化为代码与节点化修复技能，再把已验证程序当作 success-filtered 数据采集器。\n- RoboFoundry 提醒我们，被改进的不一定是策略权重或训练数据，也可以是模型可见上下文、记忆操作、技能组合和执行绑定；但系统级自我编辑更需要成本核算、执行级回归和安全治理。\n- 技能库自我改进必须回答“补丁属于谁、会影响谁、凭什么发布”；接口、后置条件和近期回放是防止共享能力退化的最低工程约束。\n- 训练时的外部恢复和测试时的 policy-only 自主行为必须分开报告，否则容易夸大系统可用性。\n- 该方向仍缺少跨 held-out 场景、长时间多轮更新、组件贡献和总成本的可复现验证。\n\n## 相关页面\n\n- [[balanced-data-diet-sgs|A Balanced Data Diet: Addressing the Exploration Bottleneck in Mega-Scale RL for Robot Control]]\n- [[2609.38905-embodirsi|EmbodiRSI: Recursive Self-Improvement for Data-Efficient Robot Adaptation]]\n- [[2602.11075-rise-self-improving-robot-policy-with-compositional-world-model|RISE: Self-Improving Robot Policy with Compositional World Model]]\n- [[2609.32862-robofoundry|RoboFoundry: System-as-Policy Evolution for Self-Learning Embodied Agents]]\n- [[RoboRSI: Stable, Efficient, and Reusable Robot Self-Evolution in Complex Real-World Environments]]\n- [[2609.29166-harnesspai|HarnessPAI: An Evolving Harness for Physical AI]]\n- [[Online RL for VLA]]\n- [[Vision-Language-Action]]\n- [[robot-rsi-data-imagination-program-skill-system|机器人 RSI：数据、想象、程序、技能与系统策略]]"
     },
     {
       "id": "tactile-representation",
@@ -226,7 +226,7 @@
       "id": "2609.29166-harnesspai",
       "label": "HarnessPAI: An Evolving Harness for Physical AI",
       "type": "source",
-      "community": "Vision-Language-Action",
+      "community": "Online RL for VLA",
       "content": "# HarnessPAI: An Evolving Harness for Physical AI\n\n## 太长不看\n\nHarnessPAI 的核心主张是：Physical AI 的瓶颈不只藏在 VLA/WAM 权重里，也在把感知、语言 grounding、几何推理、动作调用和验证组织起来的执行系统中。它把任务写成可执行程序；单次 rollout 内程序固定、逐步检查、没有在线高层 LLM deliberation；跨 rollout 则由代码轨迹、 rollout 视频和成功契约驱动程序演化，并把失败修复沉淀为按任务图节点检索的技能库。包装冻结的 π0.5 后，LIBERO-PRO 从 34.9% 升至 96.5%；包装 WorldDreamer 后，RoboCasa Atomic-Seen 从 65.0% 升至 92.2%。成功轨迹还能作为无人工标签的扰动场景专家数据，把 π0.5-LIBERO 的 LIBERO-PRO 成功率从 34.9% 微调到 73.7%。\n\n## 直观理解\n\n可以把 HarnessPAI 看成给动作模型套上一层“可版本化的作业程序”。程序不是替代抓取、插入、擦拭这些连续控制能力，而是规定先识别哪个对象、如何计算几何目标、什么时候调用 VLA/WAM、每一步用什么条件验收、失败后怎么恢复。执行时它像一条已编译的生产流程一样运行；开发时它像代码仓库一样被诊断、修补、回归测试和原子发布。这样，模型推理被移出部署关键路径，而语义理解和验证被显式写成可读代码。\n\n![HarnessPAI 覆盖七类实验设置、四种本体类别和五种下游接口](https://darwin-agent.github.io/HarnessPAI/assets/images/intro.webp)\n\n*图 1：HarnessPAI 用记忆、开环程序执行和闭环演化连接不同模型与本体；动作模型只是可替换原语之一。*\n\n## 核心信息\n\n- **作者**：Darwin Agent Team；核心作者 Xin Wang、Wenhao Wu、Menghao Zhang、Zhi Wang、Kun Shao、Jian Luan，另有多位共同作者。\n- **作者单位**：Xiaomi、清华、南京大学、上海交大、华东师大、UCL、KCL、帝国理工、中科院自动化所、上海创新研究院、牛津、爱丁堡、南洋理工等。\n- **论文状态**：arXiv:2609.29166v1，2026-09-24。\n- **任务定位**：面向重复执行的物理任务，把瞬时 agent 推理编译成可复用、可验证、可演化的代码包，而不是宣称一次生成即可解决所有新任务。\n- **关键接口**：感知原语（SAM3、Molmo）、控制原语（运动、IK、OSC、API）与模型原语（π0.5、WorldDreamer、DreamZero、PPO、GraspNet）并列，由代码统一编排。\n- **主要结果**：LIBERO 98.1%、LIBERO-PRO 96.5%、RoboCasa Atomic-Seen 92.2%、robosuite 七任务平均 96.3%；π0.5 演化出的 harness 可零样本换到 DreamZero。\n\n## 背景与问题\n\n**动机：** Physical AI 需要同时完成感知、任务理解、推理和动作，但当前大量工作把优化重心放在 observation-to-action 的动作模型上。动作训练目标会挤压视觉语言 backbone 的 grounding 与指令理解能力，使强模型在 LIBERO-PRO 的 Swap/Task 扰动下从 96.9% 分别跌到 39.7% 和 30.1%；纯 code-as-policy 又缺乏接触丰富的低层机动性，OpenETA 在 LIBERO 只有 18.3%。这说明单靠“更强 action model”或“更多手写控制代码”都不是完整答案。\n\n**问题缺口：** 已有 harness 与 memory 系统常在执行时反复调用高层 agent，把观察、检索、记忆和重规划留在在线关键路径上；这既昂贵、慢，也让同一任务的推理无法稳定复用。论文需要一个能保留 VLA/WAM 连续控制能力、又把感知/几何/验证编成显式接口的系统，并在任务重复出现时用执行反馈持续修复系统本身，而不是只在上下文里临时积累经验。\n\n## 论文摘要（英文原文）\n\nPhysical AI aims to build embodied agents that perceive the world, understand and reason about it, and decide how to act. Yet the field has focused primarily on the last component: the action model that maps observations to low-level controls. The prevailing training recipe can erode the perceptual and reasoning capabilities needed for robust behavior, leaving even strong action models vulnerable to scene perturbations and long-horizon tasks. We introduce HarnessPAI, a model- and embodiment-agnostic Harness framework for Physical AI that treats code as the executable and evolvable interface that organizes the underlying action primitive. The framework separates two timescales: within a rollout, it executes open-loop at the program level, with a fixed program guiding and checking execution; across rollouts, it evolves closed-loop, using execution feedback to revise the program and distill failures into reusable skills. Across desktop robot arms, household robots, a robot vacuum, and a legged walking agent, HarnessPAI improves on both pure action models and code-as-policy baselines without retraining the underlying model: a 61.6-point gain over π0.5 on LIBERO-PRO and a 27.2-point gain over WorldDreamer on RoboCasa atomic tasks. Once a program is selected, rollout execution requires no online high-level LLM deliberation. Beyond execution, the converged program is also a cheap and reliable expert-data collector, and fine-tuning π0.5 on collected expert data lifts success rate on LIBERO-PRO by 38.8 points. Our results suggest that the frontier of Physical AI depends not only on stronger action models, but also on executable harnesses that integrate perception, task understanding and reasoning, and action execution into a unified, verifiable, and feedback-driven system.\n\n## 论文摘要（中文翻译）\n\nPhysical AI 旨在构建能感知世界、理解并推理世界、决定如何行动的具身智能体。然而该领域主要聚焦最后一个组成部分：把观测映射到低层控制的动作模型。主流训练配方可能削弱鲁棒行为所需的感知与推理能力，使强动作模型在场景扰动和长时域任务中仍然脆弱。论文提出 HarnessPAI：一个模型与本体无关的 Physical AI Harness 框架，把代码视为组织底层动作原语的可执行、可演化接口。框架区分两个时间尺度：rollout 内在程序层开环执行，由固定程序引导和检查执行；rollout 间闭环演化，用执行反馈修订程序并把失败蒸馏成可复用技能。在桌面机械臂、家用机器人、扫地机器人和腿式行走智能体上，HarnessPAI 不重训底层模型即优于纯动作模型和 code-as-policy 基线：LIBERO-PRO 相比 π0.5 提升 61.6 点，RoboCasa atomic 任务相比 WorldDreamer 提升 27.2 点。程序选定后，rollout 执行无需在线高层 LLM deliberation。除执行外，收敛程序也是廉价可靠的专家数据采集器；用采集数据微调 π0.5 可把 LIBERO-PRO 成功率提升 38.8 点。结果表明，Physical AI 的前沿不仅取决于更强动作模型，也取决于把感知、任务理解与推理、动作执行整合成统一、可验证、反馈驱动系统的可执行 harness。\n\n## 方法\n\n**方法概述：** HarnessPAI 先把一个物理任务编译为代码包：代码负责场景 grounding、几何计算、阶段顺序、动作原语调用、成功检查与恢复；VLA/WAM 只在被委托的语义或接触阶段提供连续动作。开发阶段在多个 seed 和扰动上运行候选代码，由代码 trace、rollout 视频、VLM 诊断和确定性 gate 判断失败；候选修复先经过 pre-flight/probe，再全量回归，全部通过后原子加入代码库。部署阶段复用已验证程序，不再让高层 LLM 每步重想。\n\n**核心机制：** 关键在于把“执行”和“改进”分离到两个时间尺度。rollout 内程序固定但并非盲开环：它仍可读取当前观测、调用感知原语并执行预先写好的检查；跨 rollout 才允许改程序。这样既避免在线 agent 循环的延迟和成本，又让失败成为可定位的代码缺陷而不是不可解释的权重漂移。技能库按 workflow node 聚合“问题→修复”，让新任务复用旧任务在 approach/grasp/transport/place 等阶段的修复经验。\n\n![HarnessPAI 代码框架与三类记忆、原语库](https://darwin-agent.github.io/HarnessPAI/assets/images/framework.webp)\n\n*图 2：Task Memory 保存任务入口，Structured Skill Memory 保存节点化失败修复，Executable Code Memory 保存已验证程序；Primitive Library 提供 SAM3/Molmo 感知、控制 API 与 VLA/WAM/PPO 动作原语。*\n\n**方法拆解：**\n\n- **三层记忆 + 原语库**：Task Memory 匹配已见任务并直接复用代码；Executable Code Memory 存储经验证程序；Structured Skill Memory 以任务图节点为索引存储修复技能。Primitive Library 把感知、控制和模型原语放在同一抽象层，动作模型不是系统中心。\n- **混合 rollout**：grounding 由分割+几何代码完成；approach 用 Cartesian servo 与 Pyroki IK rescue；grasp/place 等语义困难阶段交给 VLA；transport 回到固定代码。代码补 VLA 的 V/L 与验证，VLA 补代码的 A。\n- **可选初始化 + 必经演化环**：有专家视频时 VLM 抽 workflow graph；有 VLA/WAM 时先用能力评估判断哪些节点需要代码接管；感知依赖任务可先演化 SAM/Molmo 代码。所有任务仍必须进入主演化环。\n- **成功契约与独立诊断**：作者、诊断器和 reviewer 都收到同一份 success contract，明确目标条件、终态以及“程序正常退出/到达终态/高 dense reward/自我宣称收敛”不算成功。GPT-5.6-sol 负责写码和综合，Gemini-3.5-Flash 看视频做节点级诊断，另有无需模型的 milestone-prefix gate。\n- **安全发布与技能沉淀**：候选代码在隔离副本上运行；pre-flight 检查接口崩溃，probe 只复测上轮失败 seed，随后全量回归防退化。全部通过才原子 promote；失败被蒸馏为节点上的 problem-repair pair。\n\n![HarnessPAI 的可选初始化与主演化循环](https://darwin-agent.github.io/HarnessPAI/assets/images/close_loop.webp)\n\n*图 3：workflow graph、能力评估和感知初始化是可选步骤；主循环负责生成代码包、执行、诊断、修复、回归和技能沉淀。*\n\n**关键要点：**\n\n- “开环”指程序层不在 rollout 中被高层模型重写，不等于不读观测；程序内部仍可用感知、检查和预定义恢复。\n- 代码的价值是可执行、可检查、可诊断、可版本化；VLA/WAM 的价值是局部语义动作和接触技能，二者互补而非替代。\n- 收敛后的程序还能在无人工示范的扰动场景生成成功轨迹，用 success gate 过滤后作为专家数据微调底座；这是单向 model feedback，不是论文已验证的 harness-model 共同演化。\n\n## 结果\n\n- **标准 LIBERO**：HarnessPAI(π0.5) 达到 98.1%，比 π0.5 的 96.9% 高 1.2 点，比 Harness VLA 的 97.0% 高 1.1 点；Object 100.0%、Spatial 97.2%、Goal 97.2%。但表中许多基线来自原论文且评估协议不完全一致。\n- **扰动鲁棒性**：LIBERO-PRO 上 π0.5 的 Swap/Task 为 39.7%/30.1%，HarnessPAI 为 95.7%/97.4%，总体 96.5%；比 ASPIRE 高 24.8 点，比 Harness VLA CC 高 8.8 点。程序在 seeds 0–14 演化，随后不变运行于 seeds 0–49，因此评估包含开发 seed。\n- **不同动作后端**：RoboCasa Atomic-Seen 上 WorldDreamer 65.0%、HarnessPAI 92.2%；把 π0.5 演化出的 Object harness 零样本替换为 DreamZero，Swap/Task 从 0.6%/9.6% 提升到 73.4%/84.4%，说明外部代码可部分迁移到新权重。\n- **异构本体**：robosuite 七任务平均 96.3%，比 ASPIRE 81.0% 高 15.3 点；B1K radio/soda can 适应后端到端 100%/92%；VacuSim 无模型 API 场景覆盖率达到 63.76%（40×40）和 53.92%（25×25 furnished）；MicroDuck 中代码转向把纯 PPO 的 0.8 m 横向漂移压到近零。\n- **执行成本**：LIBERO-Goal Task 1 上，serial HarnessPAI 每 rollout 49.2s/53.2s，比 Harness VLA 的 1134.9s/978.1s 快 23.1×/18.4×；7 GPU 并行为 7.7s/8.3s。固定程序执行阶段高层 LLM token 与 API 费用为 0，但感知、动作推理、仿真和硬件成本仍存在，程序开发成本未被该对比覆盖。\n- **轨迹回流**：用 HarnessPAI 成功轨迹微调后，π0.5-LIBERO 的 LIBERO-PRO 从 34.9% 到 73.7%，π0.5-Base 从接近 0 到 53.3%；Object/Spatial/Goal 单套数据分别从 21.5/50.0/32.5 到 88.0/82.5/54.5。\n\n![技能库对程序演化的影响](https://darwin-agent.github.io/HarnessPAI/assets/images/evolution.webp)\n\n*图 4：无技能库时三个代表任务呈现延迟突破、震荡或缓慢爬升；带技能库时均在两轮内达到 100% 开发批次成功率。该图是开发批次曲线，不是 held-out 跨任务迁移证据。*\n\n![HarnessPAI 轨迹回流微调结果](https://darwin-agent.github.io/HarnessPAI/assets/images/post-training-mixture.webp)\n\n*图 5：在 base/Swap/Task 九类数据等比混合后，π0.5-LIBERO 与 π0.5-Base 的 held-out LIBERO-PRO 成功率均随训练上升。*\n\n## 洞察\n\n**核心 insight：**\n\n- 这篇论文把“泛化压力”从参数更新转移到系统接口：VLA/WAM 负责已有原子能力，代码重新提供被动作训练削弱的视觉 grounding、语言解释、几何约束和阶段验收。LIBERO-PRO 的收益主要来自修复任务框架，而不是让底座更强。\n- 可复用性来自表示形式。markdown 记忆或在线上下文只能被检索和阅读；可执行代码能直接运行、回归、diff 和原子发布。节点化 skill memory 又把修复经验从单任务文本提升为跨任务的阶段级索引。\n- 成功契约是方法成立的关键：如果让写码模型同时定义成功、执行成功和判断成功，闭环会自我确认。论文把 success contract 注入 writer/diagnoser/reviewer，并用外部 VLM 与 deterministic gate 分离诊断和编辑权。\n- 后训练实验揭示了一个实用的数据来源：当没有扰动场景人工示教时，已验证代码可以在这些场景生成 success-filtered demonstrations。它解决的是“专家数据缺失”，而不是证明所有代码启发式都能安全蒸馏进权重。\n\n**和已有方法的关系：**\n\n- 相比 pure VLA/WAM，HarnessPAI 不要求底座自己完成长时程重规划和扰动 re-grounding，而是在外部恢复 V/L 能力；但底座若完全没有 grasp/press 等原子能力，代码也无法组织出有效动作。\n- 相比 code-as-policy，它没有用 API 取代学习策略，而是把 VLA/WAM 保留为接触丰富阶段的 primitive，因此避免了 OpenETA 那种 18.3% 的低层能力塌陷。\n- 相比每步调用 agent 的 Harness VLA，它把推理固化到代码中，把 LLM 移出部署关键路径；这带来数量级速度和成本差，但把创新压力转移到开发期程序演化。\n- 相比 robot self-improvement 中的想象练习场或失败状态纠正，HarnessPAI 的改进对象先是外部程序；模型权重更新只发生在成功轨迹回流之后，且论文未继续迭代改进后的模型。\n\n**可借鉴点：**\n\n- 为重复任务维护“任务图节点→失败模式→修复代码”的结构化经验库，比堆平铺笔记或长上下文更容易精确检索和回归验证。\n- 给 agent 生成系统设置不可由生成者自行解释的 success contract，并把 writer、diagnoser、gate 分开，是防止代码自我修复循环漂移的基本工程约束。\n- 在 VLA 应用中显式列出哪些阶段由感知/几何代码负责、哪些阶段交给动作模型，可审计地划分能力边界；这个接口也便于日后替换 π0.5、WorldDreamer 或 PPO。\n- 把已验证系统当作数据采集器，在分布变化处自动生成带硬成功信号的轨迹，比人工补采扰动示教更便宜。\n\n## 风险与判断\n\n**局限：**\n\n- 目标场景是可重复、可开发、可验证的任务，不是通用 one-shot 新任务求解器；论文也明确说明性能依赖可用原语、感知质量、成功契约和演化预算。\n- 主表的 LIBERO/RoboCasa 基线混合了原论文结果和自评结果，评估 seed、场景和协议不完全一致；Harness VLA 对比尤其不能视为严格受控消融。\n- LIBERO 与 LIBERO-PRO 的 50-seed 评估包含 15 个开发 seed；robosuite 在 seeds 101–125 演化、1–100 评估是 held-out，但不同 benchmark 的泛化压力不同。\n- 技能库效果主要由三个 LIBERO-PRO Object 代表任务的开发批次曲线支持，缺少更大规模 held-out 任务集、置信区间和显著性检验；这些曲线不能直接证明跨任务迁移。\n- “零 API 成本”只指执行期高层 LLM 调用，不覆盖感知、动作模型推理、仿真、硬件、程序开发和多 GPU 并行；7 GPU 加速也不是单机部署成本。\n- 程序和 success contract 可能把任务特定假设、感知错误或安全边界写进代码；论文没有提供端到端形式化安全证明，也不应把阶段检查等同于现实部署安全。\n- 后训练仅在 LIBERO-PRO 的 seed 40–49 测试，最佳 checkpoint 汇报缺少重复实验；harness 与模型没有双向共同演化。\n\n**适用场景：**\n\n- 同类任务重复执行、允许开发期 rollout 与回归验证的机器人自动化场景，例如固定家庭任务、清洁策略、工业装配流程或可仿真验证的操作。\n- 已有可用 VLA/WAM/PPO/API 原语，但模型在语言 grounding、布局变化、阶段顺序或验收上不稳定，需要显式系统层修复。\n- 需要为扰动/长尾场景自动生成成功轨迹以继续微调动作模型，且环境能提供可靠成功判定。\n\n**最终判断：**\n\n- 值得重点跟踪。HarnessPAI 提供了一个清晰的系统层路线：不要把所有鲁棒性都压进动作模型权重，而是把可验证的任务知识编译成代码、技能和可回流数据。它在多 benchmark、多后端、多本体上的增益和执行成本优势很有说服力。\n- 但应把 96.5%/92.2% 读成“重复任务 + 显式验证 + 开发期演化”的系统级结果，而不是 VLA 泛化问题已被解决。后续关键检验是真实机器人、完全 held-out 任务、程序开发总成本、感知失败下的安全边界，以及 harness-model 双向迭代是否稳定。\n\n## 结果速览表\n\n| 实验 | 基线 | HarnessPAI | 变化/说明 |\n| --- | ---: | ---: | --- |\n| robosuite 七任务平均 | ASPIRE 81.0% | **96.3%** | +15.3 点；五任务 100%，Insert 83% |\n| LIBERO 三套平均 | π0.5 96.9%；Harness VLA 97.0% | **98.1%** | +1.2/+1.1 点；基线协议不完全一致 |\n| LIBERO-PRO Swap/Task 平均 | π0.5 34.9% | **96.5%** | +61.6 点；比 Harness VLA CC +8.8 点 |\n| RoboCasa Atomic-Seen | WorldDreamer 65.0% | **92.2%** | +27.2 点；统一评估 WorldDreamer 与 HarnessPAI |\n| DreamZero 零样本换后端 | Swap 0.6%，Task 9.6% | **73.4% / 84.4%** | π0.5 harness 不重演化直接换 DreamZero |\n| B1K radio / soda can 适应后 | ASPIRE 88% / 88% | **100% / 92%** | 零-shot 为 84% / 72%，8 轮再演化 |\n| VacuSim 覆盖率（40×40 / 25×25） | 4.90% / 11.72% | **63.76% / 53.92%** | furnished 图物理可清洁上限 73.06% |\n| 轨迹回流微调 π0.5-LIBERO | 34.9% | **73.7%** | +38.8 点；π0.5-Base 接近 0 → 53.3% |\n| 每 rollout 时间（Swap / Task） | Harness VLA 1134.9s / 978.1s | **49.2s / 53.2s** | serial 23.1×/18.4×；7 GPU 7.7s/8.3s |\n\n## 相关主题\n\n- [[Vision-Language-Action]]\n- [[robot-self-improvement|Robot Self-Improvement]]"
     },
     {
@@ -401,7 +401,7 @@
       "id": "rl-token-bootstrapping-online-rl-with-vision-language-action-models",
       "label": "RL Token: Bootstrapping Online RL with Vision-Language-Action Models",
       "type": "source",
-      "community": "Online RL for VLA",
+      "community": "Vision-Language-Action",
       "content": "# RL Token: Bootstrapping Online RL with Vision-Language-Action Models\n\n## 太长不看\n\n这篇工作最重要的点，是给 VLA 和在线 RL 之间找到了一个足够轻量的接口。作者没有直接对整套大模型做昂贵 RL，而是让预训练 VLA 暴露一个紧凑的 `RL token`，再在这个表示上训练小型 actor-critic，从而把 VLA 的泛化能力和 real-world online RL 的样本效率拼接起来。\n\n## 直观理解\n\n可以把 RLT 理解成“让 VLA 给 RL 提供一个好用的中间状态表示”。VLA 继续负责广义感知和先验动作建议，而在线 RL 只负责在关键精细阶段做快速校正，所以它特别适合“最后几毫米”这种高精度操作优化。\n\n![方法图](https://arxiv.org/html/2604.23073v2/x1.png)\n\n*方法图*\n\n## 核心信息\n\n- **作者**：Charles Xu 等\n- **机构**：Physical Intelligence\n- **原文链接**：https://arxiv.org/abs/2604.23073\n- **PDF 地址**：https://www.pi.website/download/rlt.pdf\n- **发布日期**：2026-04-24\n- **主题域**：physical-embodied-intelligence\n\n## 背景与问题\n\n**动机：** 预训练 VLA 已经能“开箱即用”完成很多 manipulation 任务，但在真实机器人上，最决定成功率的往往是最后的精细接触阶段，比如插接、拧螺丝、卡扣对齐等。\n\n**问题缺口：** 直接用 RL 精调大模型成本太高，传统高样本效率 RL 又往往基于更小模型、会丢掉 VLA 的泛化先验。作者试图解决的就是：能不能在不重训整套 VLA 的前提下，用几小时甚至几分钟真实机器人实践，就把关键精细阶段补强。\n\n## 论文摘要（英文原文）\n\nVision-language-action (VLA) models can learn to perform diverse manipulation skills \"out of the box,\" but achieving the precision and speed that real-world tasks demand requires further fine-tuning -- for example, via reinforcement learning (RL). We introduce a lightweight method that enables sample-efficient online RL fine-tuning of pretrained VLAs using just a few hours of real-world practice. We (1) adapt the VLA to expose an \"RL token,\" a compact readout representation that preserves task-relevant pretrained knowledge while serving as an efficient interface for online RL, and (2) train a small actor-critic head on this RL token to refine the actions, while anchoring the learned policy to the VLA. Online RL with the RL token (RLT) makes it possible to fine-tune even large VLAs with RL quickly and efficiently. Across four real-robot tasks (screw installation, zip tie fastening, charger insertion, and Ethernet insertion), RLT improves the speed on the hardest part of the task by up to 3x and raises success rates significantly within minutes to a few hours of practice. It can even surpass the speed of human teleoperation on some of the tasks.\n\n## 论文摘要（中文翻译）\n\nVLA 可以开箱执行多样化操作技能，但要达到真实任务要求的精度和速度，通常还需要进一步微调，比如用 RL。作者提出一种轻量方法，可以只用几小时真实机器人实践，就对预训练 VLA 做高样本效率的在线 RL 精调。方法分两步：一是让 VLA 暴露一个 `RL token`，它保留与任务相关的预训练知识，同时作为在线 RL 的高效接口；二是在这个 token 上训练一个小型 actor-critic 头，在保持策略锚定于原始 VLA 的同时对动作进行细化。作者在四个高精度真实机器人任务上表明，RLT 能在几分钟到几小时内显著提升成功率，并把关键阶段速度提升到最高 3 倍，部分任务甚至超过人类遥操作速度。\n\n## 方法\n\n**方法概述：** 这篇论文并不主张把整套大 VLA 直接拿去做重型 online RL，而是主张在预训练 VLA 与轻量 real-world RL 之间插入一个中间接口。作者通过一个 encoder-decoder transformer，从预训练 VLA 的内部特征里提取一个紧凑的 `RL token`，再基于这个 token 训练轻量 actor-critic，从而把 foundation model 的表示能力与在线 RL 的快速适配能力组合起来。\n\n**核心机制：**\n\n- 从 VLA 内部特征中暴露一个 `RL token`\n- 用小型 actor-critic 在 `RL token` 上进行样本高效在线 RL\n- 用 regularizer 把 actor 锚定在原始 VLA 行为附近，避免从零学起\n- 只把 online RL 用在高精度、最难的 critical phase，而不是整段任务\n\n**方法拆解：**\n\n- 先从预训练 VLA 的内部表示中压缩出一个维度更低、任务相关但仍保留预训练知识的 `RL token`\n- 在 `RL token` 上训练 actor 和 critic，使 online RL 只优化一个轻量策略层\n- actor 输入不仅包含 token，也参考 VLA 的原始动作建议，并通过锚定项限制策略偏移过大\n- 训练重点放在真实任务中的关键精细阶段，例如插接、拧入、卡扣等“最后几毫米”问题\n- 基础 VLA 继续执行前面较容易的阶段，而 RL 集中提升最容易失败的部分\n\n**关键要点：**\n\n- 让大模型保留先验，小模型承担快速适配\n- 强调 real-world online fine-tuning，而不是大规模离线再训练\n- 特别适合精细接触和高精度 manipulation 阶段\n- 这是把 generalist policy 继续打磨成 specialist-level precision 的务实路线\n\n## 结果\n\n**核心结果：**\n\n- 在 screw installation、zip tie fastening、charger insertion、Ethernet insertion 四个真实机器人任务上，RLT 都能在几分钟到几小时内带来明显收益\n- 论文摘要给出的最强结果是：关键阶段速度最高提升 `3x`\n- 在困难任务上不仅 throughput 提升，success rate 也明显改善\n- 对某些高精度部分，最终策略甚至能超过 expert teleoperation 的速度\n\n![结果图](https://arxiv.org/html/2604.23073v2/x2.png)\n\n*结果图*\n\n**结果表：**\n\n| 维度 | RLT 结论 |\n| --- | --- |\n| 微调目标 | 关键高精度阶段 |\n| 在线学习成本 | 几分钟到几小时 |\n| 速度提升 | 最多约 3x |\n| 成功率提升 | 困难任务上显著提高 |\n| 对比大模型直接 RL | 更轻、更快、更样本高效 |\n\n## 洞察\n\n**核心 insight：**\n\n- 这篇工作最值得记住的不是 `RL token` 这个名词本身，而是它展示了一种 VLA 与 online RL 的分层协作方式：foundation model 提供广义能力，轻量 RL 负责最后的高精度矫正。\n\n**和已有方法的关系：**\n\n- 相对直接对大模型做 RL 的路线，它更强调接口化和参数效率\n- 相对完全基于小模型的高样本效率 RL，它尽量不放弃 VLA 的预训练泛化能力\n- 相对把 specialist policy 与 generalist policy 割裂开来的做法，它更像在 generalist 上叠一层 task-specific sharpening\n\n**可借鉴点：**\n\n- 对具身智能来说，很多时候不需要重训整套模型，只需要找到一个合适的 adaptation interface\n- “critical phase only” 的 online RL 很适合真实机器人环境，因为它把实验预算集中在最值钱的阶段\n- 如果后面你关注具身智能系统工程，这篇可以看成是“foundation policy + lightweight adaptation head”范式的代表作\n\n## 风险与判断\n\n**局限：**\n\n- 论文验证任务集中在高精度 manipulation，而不是更复杂的长时程或跨场景连续任务\n- 方法高度依赖预训练 VLA 本身已经具备不错的先验；如果底座很弱，`RL token` 未必能救回来\n- 这种轻量 RL 接口是否能稳定推广到更多 embodiment、更多奖励形式，还需要更系统的验证\n\n**适用场景：**\n\n- 真实机器人上的高精度技能打磨\n- 在 generalist policy 基础上快速追求更高成功率和更高速度\n- 实验预算有限、不能承受整套大模型重训的场景\n\n**最终判断：** 这篇是 “VLA 如何接 online RL” 方向里很有代表性的工作，尤其适合放进你后续的 `VLA + RL refinement` 主线。\n\n## 结果速览表\n\n| 维度 | 结论 |\n| --- | --- |\n| 微调方式 | 轻量在线 RL |\n| 核心接口 | RL token |\n| 训练对象 | 小型 actor-critic |\n| 样本效率 | 几分钟到几小时 |\n| 关键收益 | 提升精度、速度和成功率 |\n\n## 相关主题\n\n- vision-language-action\n- online-rl-for-vla\n\n## 相关页面\n\n- [[Vision-Language-Action]]\n- [[Online RL for VLA]]\n- [[当前 VLA 路线图：基座、可控性、在线精修、记忆与人类数据]]\n- [[π0.7: a Steerable Generalist Robotic Foundation Model with Emergent Capabilities]]"
     },
     {
@@ -415,7 +415,7 @@
       "id": "steam-self-supervised-temporal-ensemble-advantage-modeling-for-real-world-robot-learning",
       "label": "STEAM: Self-Supervised Temporal Ensemble Advantage Modeling for Real-World Robot Learning",
       "type": "source",
-      "community": "Online RL for VLA",
+      "community": "Vision-Language-Action",
       "content": "# STEAM: Self-Supervised Temporal Ensemble Advantage Modeling for Real-World Robot Learning\n\n## 太长不看\n\nSTEAM 值得记住的点，是它把真实机器人数据清洗问题改写成“逐帧 advantage 建模”：不用人工奖励、不用 VLM 打分，也不假设整条轨迹好坏一致，而是从专家轨迹内部的时间顺序中学习哪些 frame pair 代表推进、停滞或倒退。它尤其适合 VLA/机器人策略在真实 rollout、人工纠正和混合质量数据上继续提升：先找出真正推进任务的局部片段，再把这些片段作为 CFGRL 的高质量训练信号。\n\n## 直观理解\n\n可以把 STEAM 理解成一个“机器人进展感知器”。它观察同一条专家示范里的两个画面，学习第二个画面相对第一个画面是向前推进了多少；反过来播放专家轨迹，则自然得到“倒退”的负样本。训练好以后，它用多个 temporal-offset predictor 对新 rollout 打分，并取 ensemble 中最保守的最低分，避免把分布外的错误动作误判成高价值动作。\n\n![STEAM overview](https://arxiv.org/html/2606.29834v1/x1.png)\n\n*STEAM overview：从专家演示中自监督学习 frame-level advantage，再用于混合质量数据筛选和策略优化。*\n\n## 核心信息\n\n- **作者**：Zhihao Liu、Qiuyi Gu、Yitao Wang、Dongming Qiao、Yixian Zhang、Shuaihang Chen、Liangzhi Shi、Tianxing Zhou、Zefang Huang、Kang Chen、Zhen Guo、Quanlu Zhang、Jincheng Yu、Xiaodan Liang、Guoliang Fan、Yu Wang、Feng Gao、Xinlei Chen、Chao Yu\n- **机构**：中科院自动化所、清华大学、Striding AI、国科大、中关村学院、鹏城实验室、哈工大、北理工、浙大、北大、Infinigence AI 等\n- **原文链接**：https://arxiv.org/abs/2606.29834\n- **HTML**：https://arxiv.org/html/2606.29834v1\n- **PDF**：https://arxiv.org/pdf/2606.29834\n- **发布日期**：2026-06-29\n- **主题域**：physical-embodied-intelligence\n\n## 背景与问题\n\n真实机器人学习越来越依赖异质数据：专家示范很贵，单靠专家数据覆盖不够；但 rollout、失败轨迹和人工纠正虽然能扩大状态-动作覆盖，却经常在同一条 episode 中混合了有用进展、卡顿、错误、回退和恢复。传统 trajectory-level filtering 太粗：整条丢弃会浪费其中的好片段，整条保留又会把坏动作当训练信号。\n\n论文把核心问题定义为 **frame-level advantage estimation**：给每个时刻一个局部进展质量分数，区分“正在推进任务”的动作和“停滞/退步/失败”的动作。这个问题难在三点：\n\n- 人工奖励、人工标注或跨轨迹校准成本高，不适合扩大真实机器人数据规模；\n- VLM/value model 虽然能给弱监督，但对物理接触和局部运动质量的判断可能不稳定；\n- 许多进展估计默认任务进度单调，而真实 rollout 可能先前进后失败、失败后恢复、或短暂回退再完成。\n\nSTEAM 的关键选择是：不去学习绝对 reward/value，而是利用专家轨迹内部天然存在的时间顺序。只要同一条专家轨迹是成功完成任务的，较后的帧相对较早的帧通常代表某种任务推进；这个相对时间偏移可以直接作为自监督标签。\n\n## 论文摘要（英文原文）\n\nReal-world robot learning increasingly relies on heterogeneous data, but demonstrations and rollouts often mix useful progress with stalls, corrections, and suboptimal behavior. Effective policy learning therefore requires frame-level advantages that distinguish reliable local progress from failures and regressions. We propose Self-supervised Temporal Ensemble Advantage Modeling (STEAM), a label-free method that learns such advantages from expert demonstrations. STEAM trains an ensemble of temporal-offset predictors on frame pairs within expert trajectories, using the normalized temporal offset between two frames as a self-supervised signal. Each predictor maps a frame pair to a distribution over temporal offsets, which is converted into a scalar advantage. STEAM then takes the minimum advantage across the ensemble to score mixed-quality rollout data conservatively. Across real-world bimanual towel folding, chip checkout, cola restocking, and single-arm pick-and-place tasks, STEAM identifies stalls, failures, and recoveries. When combined with CFGRL, STEAM further improves policy success rate by 59%, 54.3%, 23% and 16.2% over baselines, respectively.\n\n## 论文摘要（中文翻译）\n\n真实世界机器人学习越来越依赖异质数据，但示范和 rollout 往往混合了有用进展、停滞、纠正和次优行为。因此，有效的策略学习需要逐帧 advantage 来区分可靠的局部进展与失败或回退。本文提出 Self-supervised Temporal Ensemble Advantage Modeling（STEAM），一种无需标签的方法，从专家示范中学习这样的 advantage。STEAM 在专家轨迹内部的帧对上训练 temporal-offset predictor ensemble，以两帧之间的归一化时间偏移作为自监督信号。每个 predictor 将帧对映射到时间偏移分布，再转换为标量 advantage。随后 STEAM 在 ensemble 中取最小 advantage，以保守方式给混合质量 rollout 数据打分。在真实双臂叠毛巾、薯片结账、可乐补货以及单臂 pick-and-place 任务中，STEAM 能识别停滞、失败和恢复。与 CFGRL 结合后，STEAM 相比基线进一步将策略成功率分别提升 59%、54.3%、23% 和 16.2%。\n\n## 方法\n\n**方法概述：** STEAM 的流程是：从专家示范构造 frame pair → 用归一化时间偏移作为自监督目标训练多个 temporal-offset predictor → 把 predictor 的分布输出转成 frame-level advantage → 对混合质量数据取 ensemble-min 的保守分数 → 用分数生成 optimality label，并接入 CFGRL 训练 VLA/机器人策略。\n\n![STEAM framework](https://arxiv.org/html/2606.29834v1/x2.png)\n\n*STEAM framework：时间偏移自监督、distributional predictor、ensemble-min advantage 与 CFGRL 集成。*\n\n**1. 归一化 temporal offset 作为自监督目标**\n\n对专家轨迹 \\(\\tau_k=(f_{k,1},...,f_{k,L})\\)，任意两帧 \\(f_{k,i}\\)、\\(f_{k,j}\\) 的时间偏移是 \\(j-i\\)。正向帧对提供“向前推进”的监督；把成功轨迹反向配对，则提供“回退/负进展”的伪负样本。由于不同示范长度不同，论文用最大轨迹长度或高分位长度对 offset 做归一化，使快完成的高效轨迹在同一尺度下获得更高进展信号。\n\n**2. Distributional temporal-offset predictor**\n\n直接回归连续 offset 会让输出空间过大，因此 STEAM 将归一化 offset 截断到固定范围并离散成 \\(N\\) 个 bin。Predictor 输入两个视觉帧和语言指令，输出 temporal bin 的类别分布，并用 cross-entropy 训练。论文实验中 predictor 使用 SigLIP-SO400M 视觉编码器和 Gemma-3-270M 语言 backbone，后接任务相关 prediction head。\n\n**3. 从 offset 分布转换为 advantage**\n\n训练后，对某个 frame \\(f_i\\)，STEAM 固定一个 future frame \\(f_{i+H}\\)，让 predictor 预测两者的 temporal-offset distribution。再把分布的期望 bin 与固定 lookahead 对应的 ground-truth bin 做差，得到一个标量 advantage。直观上，如果模型认为这段局部运动比标准 lookahead 更“有效率”，advantage 更高；如果停滞、绕路或回退，advantage 会下降。\n\n**4. Ensemble-min 抑制分布外高估**\n\n单个 predictor 只在专家数据上训练，遇到 rollout 中的新状态或失败状态时可能过度自信，把坏动作误判成高 advantage。STEAM 训练多个独立 predictor，并取它们给出的最小 advantage 作为最终分数。这个 worst-of-M 聚合牺牲了一些召回，但能显著降低 false positive，对后续策略优化更安全。\n\n**5. 接入 CFGRL 进行策略改进**\n\nSTEAM 给专家示范、人工纠正、策略 rollout 等数据中的每个 frame 打分。由于不同数据源的 advantage 分布不同，论文对每类数据分别做 quantile thresholding，把高于阈值的 frame 标为 optimality label。然后将这些 label 作为 CFGRL 的条件信号，引导策略朝高质量局部进展样本生成动作。\n\n## 结果\n\n论文在四个真实机器人任务上评估 STEAM：ARX 双臂叠毛巾（5 阶段）、薯片结账（8 阶段）、可乐补货（4 阶段），以及 Franka 单臂 pick-and-place（2 阶段）。训练数据包含专家示范、autonomous rollout 和人工纠正 episode。\n\n![Robot setup and tasks](https://arxiv.org/html/2606.29834v1/x3.png)\n\n*真实机器人任务设置：双臂长程任务与单臂短程 pick-and-place。*\n\n**1. STEAM 能定位停滞、失败和恢复**\n\n在叠毛巾、薯片结账、可乐补货和 pick-and-place 的可视化中，STEAM advantage 在熟练推进阶段保持较高，在 retry、卡顿、失败或人工 takeover 阶段下降，并在纠正后恢复。这说明它不是只判断整条轨迹成功与否，而是在局部时刻识别“是否真正推进任务”。\n\n**2. 策略性能显著提升**\n\n| 方法 | Towel Folding 成功率 | Chip Checkout 成功率 | Cola Restocking 成功率 | Pick-and-Place 成功率 |\n|---|---:|---:|---:|---:|\n| BC | 33.3 | 39.5 | 52.0 | 63.8 |\n| HG-DAgger | 40.0 | 53.3 | 58.3 | — |\n| RECAP | 55.6 | 53.3 | 52.9 | 53.8 |\n| STEAM | **92.3** | **93.8** | **75.0** | **80.0** |\n| 相对 BC 提升 | +59.0 | +54.3 | +23.0 | +16.2 |\n\n在两个长程任务上最明显：叠毛巾成功率从 BC 的 33.3% 提到 92.3%，薯片结账从 39.5% 提到 93.8%。同时 STEAM 也改善了 throughput，例如叠毛巾达到 58 successful episodes/hour，而 RECAP 因未能过滤慢进展 rollout，throughput 低于 BC。\n\n**3. 混合数据比只用专家数据更有价值**\n\nSTEAM 在 expert-only setting 已能对叠毛巾、薯片结账、可乐补货带来提升，例如叠毛巾从 33.3% 提到 69.2%。但加入人工纠正和 autonomous rollout 后提升更大，说明 STEAM 的作用不是简单重加权专家数据，而是从非专家数据中筛出可用于扩大状态-动作覆盖的高价值片段。\n\n**4. 设计选择重要：bin count 和 ensemble size 都不能太弱**\n\n| 消融 | 成功率 | Score | Throughput |\n|---|---:|---:|---:|\n| bins=2 | 27.3 | 2.8 | 41 |\n| bins=8 | 54.6 | 3.8 | 51 |\n| bins=32（默认） | **92.3** | **4.9** | **58** |\n| ensemble=1 | 72.7 | 3.9 | 53 |\n| ensemble=3（默认） | **92.3** | **4.9** | **58** |\n| ensemble=5 | 90.9 | 4.6 | 55 |\n\n过少 bin 只能提供粗糙的 forward/backward 信号，无法区分不同程度的进展和回退；单 predictor 又容易在 rollout 分布外样本上高估。默认的 32 bins + 3 ensemble 是较好的平衡。\n\n## 洞察\n\n**1. 这篇的贡献不是一个新 VLA backbone，而是一个数据质量接口。** 对 VLA/机器人策略来说，未来很大一部分收益来自“如何使用真实混合数据”。STEAM 提供了一种实用路线：不要求人为标注每个失败原因，也不要求 VLM 理解细粒度物理接触，只利用专家轨迹的时间结构学习局部进展。\n\n**2. 相对时间顺序比绝对 reward 更容易规模化。** 真实任务之间阶段长度、动作速度和操作风格不同，跨轨迹的绝对 progress 很难校准；STEAM 只在同一条专家轨迹内部学习相对 offset，降低了标定难度。这与 video self-supervision 的思想一致，但用途转向机器人策略数据筛选。\n\n**3. ensemble-min 是整篇论文最“安全工程化”的部分。** 如果一个 advantage model 误把失败 rollout 中的异常状态打高分，后续 RL/BC 会放大错误信号。取最小分数不是为了最准确估计 reward，而是为了保守地避免 false positive，这对真实机器人训练比追求高召回更重要。\n\n**4. 它与 RL Token / CFGRL 路线互补。** RL Token 解决的是“如何让大 VLA 可被轻量在线 RL 调整”；STEAM 解决的是“哪些真实数据片段值得拿来调整”。二者共同指向一个趋势：通用 VLA 不一定直接端到端重训，而是通过轻量接口、数据筛选和局部 RL 做真实环境适配。\n\n**5. 对长程任务收益最大。** 叠毛巾和薯片结账的失败常发生在中后段，轨迹中前半段仍包含有用进展；trajectory-level filtering 会浪费这些片段，而 STEAM 的 frame-level 分数能把好片段保留下来。短程、专家轨迹高度一致的 pick-and-place 中，STEAM 的收益相对小一些，也说明它更适合混合质量、长程、多阶段任务。\n\n## 风险与判断\n\n**局限：**\n- STEAM 依赖“专家轨迹时间顺序大体代表任务进展”这一假设；如果专家示范中包含大量无效等待、反复调整或非单调策略，temporal offset 会变成噪声。\n- 论文主要在四个真实 manipulation 任务上验证，虽然任务多样，但还不足以证明它能泛化到所有 VLA、大规模开放世界任务或多机器人平台。\n- Advantage 只来自视觉帧对和语言指令，对力觉、触觉、接触稳定性等隐变量的捕捉有限；接触密集任务中可能需要融合 tactile/force 信号。\n- Ensemble-min 保守策略降低 false positive，但可能漏掉一些真实有用但分布外的新行为；在探索型任务中可能过度保守。\n\n**适用场景：**\n- 长程、多阶段机器人 manipulation，尤其是一条 episode 内既有推进也有失败/恢复的任务。\n- 已有一批专家示范，但还想利用人工纠正、失败 rollout、半成功轨迹来提升策略的真实机器人训练。\n- VLA/CFGRL/weighted BC 类 pipeline 中，需要一个 frame-level data selection 或 optimality labeling 模块。\n- 需要降低人工奖励设计和人工标注成本的真实机器人数据闭环。\n\n**最终判断：**\n- STEAM 是一篇很值得放进 FollowHub wiki 的机器人学习论文。它不是追求更大的 foundation model，而是补上了真实数据闭环里的关键环节：如何从混合质量机器人数据中抽取可靠的局部训练信号。对后续 VLA real-world adaptation、offline-to-online RL、人工纠正数据利用都有参考价值。\n\n## 结果速览表\n\n| 维度 | 结论 |\n|---|---|\n| 核心问题 | 混合质量真实机器人数据中，如何逐帧判断哪些动作真正推进任务 |\n| 核心方法 | 用专家轨迹 frame pair 的归一化时间偏移做自监督，训练 temporal-offset predictor ensemble |\n| 关键机制 | Distributional temporal bin prediction + scalar advantage + ensemble-min conservative aggregation |\n| 策略接口 | 将 STEAM advantage 转成 optimality label，接入 CFGRL 改进策略 |\n| 最强结果 | 叠毛巾 33.3→92.3，薯片结账 39.5→93.8，可乐补货 52.0→75.0，pick-and-place 63.8→80.0 |\n| 最值得借鉴 | 用相对时间顺序做数据质量监督，用 conservative ensemble 降低分布外高估 |\n| 主要风险 | 依赖专家轨迹时间顺序质量；保守聚合可能漏掉有价值的新行为 |\n\n## 相关主题\n\n- [[Vision-Language-Action]]\n- [[Online RL for VLA]]\n- [[Current VLA Landscape: Foundation Control, Memory, and Transfer]]"
     },
     {
@@ -459,6 +459,13 @@
       "type": "synthesis",
       "community": "force-touch-robot-policy-review",
       "content": "# 机器人策略中的力觉与触觉：从信号语义到闭环控制\n\n> 综合 16 篇材料 | 更新日期：2026-09-10\n\n## 当前判断\n\n这批工作共同推翻了一个过于简单的叙事：给视觉策略多加一条 force/tactile 输入，并不会自然得到可靠的接触能力。接触信号是否有价值，取决于三个问题是否被同时回答：它代表什么物理语义、覆盖哪个时间尺度、最终由哪个执行接口把它变成动作。\n\n更准确的系统图景是：力/触觉先解决“感什么、怎样采集和跨硬件表示”，再解决“怎样接入已有策略且不遗忘”；进入执行阶段后，又分成动作块内即时反馈、跨 episode 的事件记忆、候选动作的接触后果预测，以及由策略直接输出期望力或柔顺参数。它们使用相近的传感器，却不是同一个学习问题。\n\n现阶段最稳健的工程路线不是让一个低频大模型包办所有闭环，而是分层：学习策略负责语义理解、任务阶段、动作与物理目标；高频触觉模块、反应式规则或导纳/阻抗控制器负责接触瞬态。FD-VLA 证明真实力可以在训练期充当教师，但它也划清了边界：预测出的力先验不是安全传感器，无法可靠观测视觉与本体状态中不存在的突发接触。新增的 TA-VLA 进一步说明，即使是真实关节力矩，接入预训练 VLA 的位置和 token 结构也决定它会成为有效动作条件还是被语义编码器弱化；TacDiffusion 则展示了另一端点——直接生成可执行前馈 wrench 时，模型精度必须和控制刷新率、滤波器及阻抗反馈共同设计。\n\n## 先区分四种“力”\n\n| 信号角色 | 它回答什么 | 代表材料 | 能做什么 | 不能据此声称什么 |\n| --- | --- | --- | --- | --- |\n| 实测观测 | 机器人现在接触了什么、接触历史怎样变化？ | [[2606.30988-multisensory-continual-learning-adapting-pretrained-visuomotor-policies-to-force|MuSe]]、[[2503.02881-reactive-diffusion-policy-slow-fast-visual-tactile-policy-learning-for-contact-rich-manipulation|RDP]]、[[foar-force-aware-reactive-policy-for-contact-rich-robotic-manipulation|FoAR]]、[[2605.11048-forceflow-learning-to-feel-and-act-via-contact-driven-flow-matching|ForceFlow]]、[[fm-vla-force-based-memory-for-vision-language-action-models-in-contact-rich-manipulation|FM-VLA]]、[[2509.07962-ta-vla-elucidating-the-design-space-of-torque-aware-vision-language-action-models|TA-VLA]] | 发现视觉不可辨的接触、滑移、卡滞与事件进度 | 原始读数越多越好，或静态拼接就足够 |\n| 蒸馏先验 | 仅凭视觉与状态，当前大概处于何种受力语境？ | [[fd-vla-force-distilled-vision-language-action-model-for-contact-rich-manipulation|FD-VLA]] | 降低部署传感器成本，为动作模型提供任务相关接触提示 | 替代突发碰撞检测或得到可校准的六维力估计 |\n| 预测后果 | 候选动作将引发什么接触结果？ | [[2605.11048-forceflow-learning-to-feel-and-act-via-contact-driven-flow-matching|ForceFlow]]、[[facet-0|Facet-0]]、[[2509.07962-ta-vla-elucidating-the-design-space-of-torque-aware-vision-language-action-models|TA-VLA]] | 用辅助预测塑造动作表示，或让 critic 按接触质量选择动作 | 预测 wrench/torque 已被控制器直接执行，或预测一定物理准确 |\n| 控制目标 | 机器人希望施加多大力、在哪个方向让步？ | [[adaptive-compliance-policy-learning-approximate-compliance-for-diffusion-guided-control|ACP]]、[[2410.07554-forcemimic-force-centric-imitation-learning-with-force-motion-capture-system-for-contact-rich-manipulation|ForceMimic]]、[[2609.05832-cr-vla-force|CR-VLA-Force]]、[[2409.11047-tacdiffusion-force-domain-diffusion-policy-for-precise-tactile-manipulation|TacDiffusion]] | 把期望力、虚拟目标、刚度或生成 wrench 交给成熟低层控制器 | 学习策略自身已经具备高频稳定性或形式化安全保证 |\n\n这四类变量可以同时出现在一个系统中，但训练目标、误差含义与安全责任不同。综述和基准若只按“用了力/没用力”分组，会把真正决定效果的接口差异抹掉。\n\n## 从传感到执行的六层路线\n\n| 层 | 核心问题 | 代表材料 | 已有证据 | 主要缺口 |\n| --- | --- | --- | --- | --- |\n| 传感设计 | 感知位置、覆盖、分辨率和物理量怎样选择？ | [[tactile-genesis-exploring-tactile-sensors-at-scale-for-learning-dexterous-tasks|Tactile Genesis]] | 受控仿真表明覆盖面积常比局部高分辨率更重要，per-taxel 力/力矩是有竞争力的默认项 | 大规模真机、耐久、漂移与成本数据 |\n| 数据与表示 | 怎样自然采集力位示范，并跨异构硬件复用表示？ | [[2410.07554-forcemimic-force-centric-imitation-learning-with-force-motion-capture-system-for-contact-rich-manipulation|ForceMimic]]、[[2606.29948-heterogeneous-tactile-transformer|HTT]] | 手持 ForceCapture 降低采集门槛；HTT 用 1.6M 同步帧对齐四类传感器，并测试未见触觉指尖 | 采集到部署的动力学偏移；表示迁移尚未贯通控制层 |\n| 策略适配 | 旧数据没有力标签时怎样吸收新模态且保留旧能力？ | [[2606.30988-multisensory-continual-learning-adapting-pretrained-visuomotor-policies-to-force|MuSe]]、[[fd-vla-force-distilled-vision-language-action-model-for-contact-rich-manipulation|FD-VLA]]、[[2509.07962-ta-vla-elucidating-the-design-space-of-torque-aware-vision-language-action-models|TA-VLA]] | replay、缺失模态 mask 和未来预测能缓解遗忘；训练期真实力可监督部署期潜在力先验；decoder-side 单 token 历史保持预训练接口 | 多模态连续到来时的成本；无传感器方案的不可观测接触；跨机器人力矩标定 |\n| 执行期反馈 | 最新接触怎样在动作执行前改写仍可修订的动作？ | [[2503.02881-reactive-diffusion-policy-slow-fast-visual-tactile-policy-learning-for-contact-rich-manipulation|RDP]]、[[t-rex-tactile-reactive-dexterous-manipulation|T-Rex]]、[[2608.25798-tacforcing-streaming-action-generation-with-execution-time-tactile-feedback|TacForcing]]、[[foar-force-aware-reactive-policy-for-contact-rich-robotic-manipulation|FoAR]] | 快速解码、快慢专家、流式动作块和阶段门控均优于若干静态融合基线 | 缺等算力延迟比较、跨传感器复现和统一安全指标 |\n| 记忆与后果 | 接触历史怎样表示任务进度，未来接触怎样约束动作选择？ | [[fm-vla-force-based-memory-for-vision-language-action-models-in-contact-rich-manipulation|FM-VLA]]、[[facet-0|Facet-0]]、[[2605.11048-forceflow-learning-to-feel-and-act-via-contact-driven-flow-matching|ForceFlow]]、[[2509.07962-ta-vla-elucidating-the-design-space-of-torque-aware-vision-language-action-models|TA-VLA]] | force memory 可记录视觉难辨的事件；未来 wrench/torque 可作为辅助目标或 critic 的评价对象 | 长 episode 的容量、预测校准和 critic 的跨任务泛化 |\n| 力位与柔顺执行 | 学习策略怎样把物理目标交给稳定控制回路？ | [[adaptive-compliance-policy-learning-approximate-compliance-for-diffusion-guided-control|ACP]]、[[2410.07554-forcemimic-force-centric-imitation-learning-with-force-motion-capture-system-for-contact-rich-manipulation|ForceMimic]]、[[2609.05832-cr-vla-force|CR-VLA-Force]]、[[2409.11047-tacdiffusion-force-domain-diffusion-policy-for-precise-tactile-manipulation|TacDiffusion]] | 虚拟目标/刚度、预测 wrench、期望力动作块或力域扩散前馈均可由高频控制器落实 | 控制接口跨机器人迁移、错误目标检测与安全边界 |\n\n## 五条策略路线怎样取舍\n\n### 1. 用最新接触直接修订动作\n\nRDP 把慢速动作生成和快速触觉条件解码分开；T-Rex 让约 5 Hz 的视觉语言专家与约 20 Hz 的触觉专家沿同一 flow 轨迹协作；TacForcing 在单一专家内部保留远期动作中间态，每执行一块就用新触觉修订下一块；FoAR 则先预测接触阶段，再用 100 Hz wrench 门控特征和触发固定小步修正。\n\n共同结论是：反馈必须在动作仍可更改时进入。差异在于修改发生在 decoder、另一个专家、同一生成轨迹还是外部反应式规则中。现有实验协议不同，尚不能判定哪一种结构普遍更优。\n\n### 2. 让力主导局部动作生成\n\nForceFlow 让短窗 wrench 与本体状态通过 AdaLN 调制每个 flow-matching block，视觉只通过 cross-attention 提供空间锚点，并联合预测动作与下一步力。它强调低维物理信号不能被高维视觉淹没，但约 1.15 秒的重规划周期意味着它仍需要执行器侧安全回路处理更快的碰撞。\n\nTA-VLA 把同一问题移到预训练 VLA：关节力矩接在 action decoder 比接在视觉语言 encoder 更有效，整段历史聚合成一个 token 又显著优于逐帧扩张 decoder token。完整方案令 π0 的五项接触任务总成功率从 23% 提升到 86%。这说明“让力主导”不仅取决于融合权重，也取决于物理模态离动作生成有多近、是否破坏预训练接口。\n\n### 3. 由策略给物理目标、控制器负责稳定\n\nACP 输出参考位姿、虚拟目标与刚度幅值，ForceMimic 输出位姿—wrench 后由正交混合力位控制器执行，CR-VLA-Force 则让约 1 Hz 的 VLA 输出位姿与前馈力、由 500 Hz 自适应柔顺控制器持续跟踪。TacDiffusion 走得更直接：DDPM 生成六维前馈 wrench，动态系统滤波升频到 1 kHz，再与阻抗反馈叠加。这条路线把任务条件化交给学习，把稳定性与带宽交给控制器，是目前对持续接触最清晰的责任划分；TacDiffusion 中 DF4 离线损失最低却因只有 51.2 Hz 而退化，更说明模型精度不能脱离闭环频率评价。\n\n### 4. 把真实力降为训练期教师\n\nFD-VLA 用真实力潜变量监督视觉—状态条件化的单个预测 token，推理时移除传感器。它适合成本敏感且接触大多可由常见模态推断的任务，但不适合把这个 token 当作过载保护、卡滞检测或可解释力估计。\n\n### 5. 用力记录过去、评价未来\n\nFM-VLA 把完整 episode 的 wrench 历史压成 8 个事件记忆 token，解决按钮计数和重复擦拭等视觉历史含混的问题。Facet-0 则把候选动作与未来 wrench 联合生成，再由 Action-Wrench Critic 评价接触后果。TA-VLA 也联合预测未来 torque，但只把它作为生成辅助目标，没有部署期 critic。前者回答“已经发生了什么”，后两者回答“这样做可能发生什么”，三者都把 force/torque 从即时输入提升为决策状态。\n\n## 关键证据锚点\n\n| 材料 | 结果锚点 | 应怎样解读 |\n| --- | --- | --- |\n| [[2606.30988-multisensory-continual-learning-adapting-pretrained-visuomotor-policies-to-force|MuSe]] | 去掉 replay 后旧 wiping/peg 任务分别降到 0.5/15、2/15；完整方法为 12.5/15、10/15 | 新模态接入首先是知识连续性问题 |\n| [[2503.02881-reactive-diffusion-policy-slow-fast-visual-tactile-policy-learning-for-contact-rich-manipulation|RDP]] | Force 版在 peeling、wiping、bimanual lifting 的任务得分为 0.95、0.87、0.70 | 高频接触条件解码能产生细粒度位姿修正，但指标只适用于其协议 |\n| [[t-rex-tactile-reactive-dexterous-manipulation|T-Rex]] | 12 项真机任务平均成功率 65%，同协议最强基线 35% | 异步快慢专家具有实质收益，尚未验证跨手型与跨传感器 |\n| [[2608.25798-tacforcing-streaming-action-generation-with-execution-time-tactile-feedback|TacForcing]] | 六项 UniVTAC 平均 65%；真机消融中静态触觉 31%，执行期更新加 EATA 为 69% | 触觉采集时刻与动作生效时刻的对齐比静态拼接更关键 |\n| [[adaptive-compliance-policy-learning-approximate-compliance-for-diffusion-guided-control|ACP]] | 翻转 96%、花瓶擦拭 93.75%，明显高于固定柔顺基线 | 策略化柔顺有效，但依赖慢速、轻物体和非夹持等假设 |\n| [[fm-vla-force-based-memory-for-vision-language-action-models-in-contact-rich-manipulation|FM-VLA]] | 三任务平均 83.3%，视觉记忆基线 53.7%；延迟仅比无记忆策略增加 3.3 ms | wrench 可成为高效事件记忆，但证据来自单平台三任务 |\n| [[fd-vla-force-distilled-vision-language-action-model-for-contact-rich-manipulation|FD-VLA]] | 三任务平均 61.1%，真实力 token 版本 51.1%，无 FDM 为 38.9% | 任务相关潜在力可优于原始读数，不等于视觉替代真实传感器 |\n| [[facet-0|Facet-0]] | 五项亚毫米装配完整系统平均 82%，最强通用基线 15%；本地适配前为 38% | 接触后果评价有价值，但高结果强依赖受约束任务适配 |\n| [[2410.07554-forcemimic-force-centric-imitation-learning-with-force-motion-capture-system-for-contact-rich-manipulation|ForceMimic]] | 单一削皮任务动作正确 100%、连续削皮超过 10 cm 为 85% | 自然力位示范与控制接口可行，泛化结论仍很窄 |\n| [[foar-force-aware-reactive-policy-for-contact-rich-robotic-manipulation|FoAR]] | 三项接触任务得分 0.875/0.850/0.756，扰动下接触 ASR 保持 100% | 阶段门控和简单反应修正有效，阈值与步长需跨任务重标定 |\n| [[2605.11048-forceflow-learning-to-feel-and-act-via-contact-driven-flow-matching|ForceFlow]] | 六任务平均 81.67%、Force Fidelity MAE 8.23 N；ForceVLA 为 45%、23.31 N | 成功与力质量应同时评估，空间 OOD 仍依赖上层定位模块 |\n| [[2609.05832-cr-vla-force|CR-VLA-Force]] | 六条件平均成功率 89.2%；40 N 擦板力误差 5.52%（base）/8.78%（OOD） | 慢 VLA 与 500 Hz 柔顺回路互补，但不构成跨平台安全证明 |\n| [[2409.11047-tacdiffusion-force-domain-diffusion-policy-for-precise-tactile-manipulation|TacDiffusion]] | DF3 在四种未见插入几何上平均 95.7%，专家行为树为 83.3%；动态系统滤波平均 +9.15 个百分点 | 力域生成可行，但系统表现取决于推理频率、滤波与阻抗控制的共同设计 |\n| [[2509.07962-ta-vla-elucidating-the-design-space-of-torque-aware-vision-language-action-models|TA-VLA]] | π0 五项接触任务从 23% 提升到 86%；RDT 的 Button/Charger 从 4/20、1/20 提升到 16/20、15/20 | decoder-side 单 token 历史和未来 torque 目标有效，但 joint torque 不是已标定末端力 |\n\n这些数字只能作为各自实验内部的证据锚点，不能据此做跨论文排行榜。\n\n## 跨材料结论\n\n1. **先定义语义，再设计融合。** ForceFlow 的历史与未来力、Facet-0 的候选后果、CR-VLA-Force 的期望力和 FD-VLA 的蒸馏 token 名字都含 force，但训练目标和部署责任完全不同。\n2. **时间尺度决定结构。** 动作块内修订适合 RDP/T-Rex/TacForcing/FoAR，episode 进度适合 FM-VLA，持续力跟踪则需要 CR-VLA-Force/ACP 一类高频控制接口。\n3. **低频学习策略不能自动成为安全回路。** 即使 ForceFlow 或 VLA 能预测接触结果，执行器仍要在模型下一次重规划前处理冲击、饱和和不稳定。\n4. **数据—控制一致性是硬门槛。** ForceMimic 中直接加入力的基线因示范约 10 N、部署约 20 N 且局部超过 40 N 的分布失配而退化，说明校准和控制映射不能留给网络自行吸收。\n5. **成功率不足以评价力策略。** 至少还要报告峰值力、力跟踪误差、接触保持、损伤、延迟与扰动恢复；ForceFlow 和 CR-VLA-Force 已部分补上这类指标，但尚无统一协议。\n6. **坐标语义限制可迁移性。** TA-VLA 的电流关节力矩、腕部六维 wrench 和局部触觉阵列分别混入不同的构型、动力学与接触位置信息；融合成 token 前仍需回答补偿、归一化和跨硬件对齐。\n7. **预训练接口也是物理建模的一部分。** TA-VLA 中多历史 token 比单 token 聚合更差，说明时间信息增多可能因破坏 decoder 输入分布而失效；新模态设计必须同时消融信息内容和接口结构。\n\n## 工程选择指南\n\n| 需求 | 优先参考 | 采用前应确认 |\n| --- | --- | --- |\n| 已有视觉策略，新加少量带力数据且不能忘旧任务 | MuSe | replay 成本、缺失模态策略、外部控制器能力 |\n| 部署平台不装力传感器 | FD-VLA | 接触是否可由视觉/状态推断；另设独立安全保护 |\n| action chunk 执行期间接触快速变化 | RDP、T-Rex、TacForcing | 实际采样率、端到端延迟、可修订窗口与算力 |\n| 自由空间与接触阶段交替明显 | FoAR | 接触预测可靠性、阈值和固定修正步长的校准 |\n| 需要同时优化任务成功与接触质量 | ForceFlow | 重规划周期、力指标定义、空间定位模块 |\n| 已有预训练 VLA，希望用低成本关节力矩增强接触 | TA-VLA | 动力学补偿、decoder token 布局、跨负载归一化与底层安全保护 |\n| 任务进度由接触次数或覆盖轮次决定 | FM-VLA | 长序列容量、传感器漂移、跨任务记忆迁移 |\n| 精密装配需要按接触后果选择候选动作 | Facet-0 | 本地适配数据、动作安全盒和 critic 失效监控 |\n| 策略必须显式给出期望力或柔顺 | ACP、ForceMimic、CR-VLA-Force、TacDiffusion | 机器人控制接口、策略/控制频率、滤波相位、稳定性约束与错误目标拒绝机制 |\n| 先决定触觉硬件和共享表示 | Tactile Genesis、HTT | 仿真到真机差距、异构传感器信息不对称 |\n\n## 分歧与限制\n\n- **部署期是否必须有传感器。** FD-VLA 说明部分任务可用蒸馏先验降低成本，其他闭环路线则依赖实时触觉或 wrist wrench。二者面向的风险边界不同，不构成谁替代谁。\n- **端到端学习还是显式控制。** RDP、T-Rex、TacForcing 更深入地修改生成过程；ACP、ForceMimic、CR-VLA-Force 把稳定接触交给经典控制器。当前没有统一实验同时比较泛化、延迟与安全。\n- **“高频”口径不统一。** 传感采样、策略推理、动作输出和低层控制频率常被混合描述。100 Hz 传感器不等于 100 Hz 模型闭环，1 Hz VLA 也不等于系统只能 1 Hz 反应。\n- **证据集中在固定平台。** 多数结果来自单一机械臂或手型、少量任务与 10-30 次级别评测；跨机器人、跨材料、传感器故障和开放环境证据很弱。\n- **触觉和腕部力矩不可互换。** 指尖光学/阵列触觉擅长局部滑移与形变，腕部六轴 wrench 擅长整体接触方向和载荷；把二者统一为一个 token 会隐藏可观测性差异。\n- **关节力矩也不等于末端 wrench。** TA-VLA 的电流力矩含重力、惯性、摩擦、构型和热漂移；TacDiffusion 的外部/内部 wrench 更靠近控制坐标，但同样依赖机器人估计器。两者成功率不能据此直接比较传感优劣。\n- **“零样本”范围不同。** TacDiffusion 只在同一插入技能与控制器下更换几何；TA-VLA 的第二机器人结果重新采集 200 条示范并训练，且只做定性展示。二者都不证明开放任务或跨 embodiment 零样本迁移。\n\n## 什么会改变这个判断\n\n- 一个统一系统在训练时未见的机器人和传感器上，同时验证 HTT 式表示迁移、MuSe 式无遗忘适配、TacForcing/RDP 式动作块内更新、FM-VLA 式事件记忆与 CR-VLA-Force 式高频柔顺。\n- 在相同机器人、数据、算力、传感频率和控制器下，直接比较快速 decoder、快慢专家、单专家流式生成、阶段门控与经典高频力控。\n- 建立以任务成功、峰值力、力跟踪、损伤、延迟、恢复、标定漂移和硬件成本为共同维度的公开真机基准，并报告统计置信区间。\n- 对错误期望力、传感器饱和/掉线、未知材料、隐藏卡阻和突发碰撞进行系统压力测试，证明学习模型与低层安全约束能协同失效保护。\n- 在同一机器人上同时记录电机电流、补偿后关节外力矩、腕部六维 wrench 和局部触觉，比较它们对接触状态、未来后果和控制目标的可辨识性，并测试跨负载与热漂移。\n\n## 关联主题\n\n- [[tactile-representation|Tactile Representation]]：传感设计、跨硬件表示和触觉策略接口。\n- [[contact-rich-manipulation|Contact-Rich Manipulation and Adaptive Compliance]]：运动—力联合学习、柔顺与接触安全。\n- [[vision-language-action|Vision-Language-Action]]：新物理模态怎样进入机器人基础策略。\n- [[long-horizon-memory-for-robot-policies|Long-Horizon Memory for Robot Policies]]：力历史怎样成为 episode 级事件记忆。\n\n## 关联材料\n\n- [[tactile-genesis-exploring-tactile-sensors-at-scale-for-learning-dexterous-tasks|Tactile Genesis]]\n- [[2606.29948-heterogeneous-tactile-transformer|Heterogeneous Tactile Transformer]]\n- [[2410.07554-forcemimic-force-centric-imitation-learning-with-force-motion-capture-system-for-contact-rich-manipulation|ForceMimic]]\n- [[2606.30988-multisensory-continual-learning-adapting-pretrained-visuomotor-policies-to-force|MuSe]]\n- [[fd-vla-force-distilled-vision-language-action-model-for-contact-rich-manipulation|FD-VLA]]\n- [[2503.02881-reactive-diffusion-policy-slow-fast-visual-tactile-policy-learning-for-contact-rich-manipulation|Reactive Diffusion Policy]]\n- [[t-rex-tactile-reactive-dexterous-manipulation|T-Rex]]\n- [[2608.25798-tacforcing-streaming-action-generation-with-execution-time-tactile-feedback|TacForcing]]\n- [[foar-force-aware-reactive-policy-for-contact-rich-robotic-manipulation|FoAR]]\n- [[2605.11048-forceflow-learning-to-feel-and-act-via-contact-driven-flow-matching|ForceFlow]]\n- [[fm-vla-force-based-memory-for-vision-language-action-models-in-contact-rich-manipulation|FM-VLA]]\n- [[facet-0|Facet-0]]\n- [[adaptive-compliance-policy-learning-approximate-compliance-for-diffusion-guided-control|Adaptive Compliance Policy]]\n- [[2609.05832-cr-vla-force|CR-VLA-Force]]\n- [[2409.11047-tacdiffusion-force-domain-diffusion-policy-for-precise-tactile-manipulation|TacDiffusion]]\n- [[2509.07962-ta-vla-elucidating-the-design-space-of-torque-aware-vision-language-action-models|TA-VLA]]"
+    },
+    {
+      "id": "robot-rsi-data-imagination-program-skill-system",
+      "label": "机器人 RSI：数据、想象、程序、技能与系统策略",
+      "type": "synthesis",
+      "community": "Online RL for VLA",
+      "content": "# 机器人 RSI：数据、想象、程序、技能与系统策略\n\n> 综合 5 篇材料 | 更新日期：2026-10-11\n\n## 当前判断\n\n这五篇论文共同说明，机器人 RSI 已经从“模型反思一下”变成一个系统工程问题。一个闭环至少要回答五件事：执行反馈从哪里来、失败归因到什么单位、候选更新写到哪里、谁验证它能进入长期库、部署时如何复用且不拖慢控制。EmbodiRSI、RISE、HarnessPAI、RoboRSI 和 RoboFoundry 的差异主要不在名字里的 self-improvement，而在每个环节选择了不同对象。\n\nEmbodiRSI 改的是训练经验：目标桌面被建成可重复练习场，当前策略的失败状态和弱区决定下一批纠正轨迹与专家示范。RISE 改的是策略参数：动作条件世界模型在想象空间扩展状态，value model 给动作块打 advantage，再更新 π0.5。HarnessPAI 改的是可执行程序：把感知、几何、阶段验收和动作原语编排成代码包，跨 rollout 修复并用 success gate 发布。RoboRSI 改的是技能库治理：任务—技能树上的节点有接口、责任和后置条件，补丁只能落在最早失败节点拥有的子树并通过回放验证。RoboFoundry 的范围最大，把冻结模型周围的 context、记忆、技能、恢复树和跨本体绑定都视为 system policy。\n\n因此，更准确的图谱不是“五个 RSI 方法比谁成功率高”，而是五个更新层级：\n\n1. **经验层**：下一批数据从哪里来；\n2. **参数层**：哪些动作在想象或纠正经验下获得更高 advantage；\n3. **程序层**：哪些任务流程、几何检查和验收契约应该固化为代码；\n4. **技能层**：补丁属于哪个节点、会影响哪些调用者、凭什么发布；\n5. **系统层**：模型看到什么上下文、如何存取记忆、如何组合技能、如何绑定本体。\n\n这些层级可以组合。例如 HarnessPAI 可把已验证程序变成 success-filtered 数据再微调模型；RoboRSI 可把成功轨迹训练为神经技能并挂回技能树；RoboFoundry 同时覆盖 context 与 skill 两个表面。但组合不会自动更优：更新作用域越大，越需要独立诊断、回归测试、成本核算和安全边界。\n\n## 五条路线\n\n### 1. EmbodiRSI：目标场景练习场与 policy-dependent data\n\n[来源: EmbodiRSI](../sources/2609.38905-embodirsi.md) 把“当前策略失败在哪里”转化为“下一批数据从哪里来”。它先用目标桌面构造任务专用 Real2Sim 环境，再由 rollout 中的 agent 判断 continue / recover / complete，从 policy-reached state 生成纠正轨迹；跨 episode 后把最终失败归因到源物体或目标锚点的弱区，定向生成专家示范。\n\n两轮更新使 14 个子任务的 scene-balanced 自主仿真成功率从 50.4% 到 70.7% 再到 83.5%；在匹配 400 条轨迹预算下，自适应采集 79.9%，静态采集 59.3%；R2 加每子任务 10 条真实纠正后，实机成功率 83.1%，高于每子任务 200 条真实示范的 75.0%。\n\n这条路线的关键是“经验分配”而不是“agent 部署”。采数时的 agent、规划器和仿真状态只用于生成监督；最终评测仍要求 policy-only。它的主要风险是场景特定、Real2Sim 残差、系统成本不透明和只有两轮递归证据。\n\n### 2. RISE：想象练习场与参数更新\n\n[来源: RISE](../sources/2602.11075-rise-self-improving-robot-policy-with-compositional-world-model.md) 把物理试错转移到想象空间。动作条件多视角 dynamics model 合成未来状态，进度/TD value model 对 50 步动作块计算平均 advantage，π0.5 根据 advantage bin 学习复现更好动作。部署时世界模型和 value model 都不运行，控制频率保持原 VLA 系统的轻量形态。\n\n三项真机任务上，RISE 达到动态分拣 85%、背包整理 85%、纸箱关闭 95%，比最强 baseline 各高 35 个百分点；在线动作加在线状态消融把 Pick&Place 完整成功率从 35% 提到 70%，说明生成状态确实扩大了探索覆盖。\n\n这条路线把物理风险和人工复位成本换成世界模型偏差与算力成本。论文记录的 dynamics 预训练和微调需要大量 H100 时间，且罕见场景仍可能生成物理不合理转移。因此 RISE 更像高价值任务族的重型精修，不是低算力通用自进化。\n\n### 3. HarnessPAI：把可复用推理编译成程序\n\n[来源: HarnessPAI](../sources/2609.29166-harnesspai.md) 的更新对象是外部可执行 harness。单次 rollout 中程序固定，但仍读取观测、调用感知原语并执行预先写好的检查；跨 rollout 才根据代码 trace、rollout 视频、VLM 诊断和确定性 gate 修复程序。Task Memory、Executable Code Memory 和 Structured Skill Memory 分别保存任务入口、已验证程序和节点级修复。\n\n冻结 π0.5 被 harness 包装后，LIBERO-PRO 从 34.9% 升到 96.5%；WorldDreamer 在 RoboCasa Atomic-Seen 上从 65.0% 升到 92.2%。程序执行期高层 LLM API 成本为零，serial rollout 时间比 Harness VLA 快 18–23 倍。已验证程序还能生成成功轨迹，微调后把 π0.5-LIBERO 的 LIBERO-PRO 从 34.9% 提升到 73.7%。\n\n这条路线的优势是可读、可运行、可 diff、可回归；风险是依赖可用原语、可靠感知、明确 success contract 和重复任务开发预算。96.5% 应读作“重复任务 + 显式验证 + 开发期演化”的系统级结果，不是 VLA 泛化问题已被解决。\n\n### 4. RoboRSI：给技能库加工程变更管理\n\n[来源: RoboRSI](../sources/roborsi-stable-efficient-and-reusable-robot-self-evolution-in-complex-real-world-environments.md) 关注技能库长期增长后的治理问题。Top-Down Skill Refinement 将任务族、复合技能、原子任务和基础技能建成节点，每个节点有接口、责任和后置条件；Reviewer 沿调用路径找最早失败节点，Manager 限制补丁只修改责任子树，功能测试和近期回放通过后才发布。\n\nRoboRSI 在 LIBERO-PRO 达到 49.5%，比 OpenETA 的 38.5% 高 11.0 个百分点；LIBERO-Plus 冻结技能库迁移为 42.1%，比 36.4% 高 5.7 个百分点。复合技能消融在 600 个匹配 episode 上把成功率从 21.5% 提到 29.0%，同时中位 token、模型调用和墙钟时间分别下降 29.4%、27.2% 和 17.0%。\n\n这条路线的核心贡献不是保存更多经验，而是保存有所有权和契约的经验。它的边界也很清楚：主仿真表是在线自我改进口径，真机部分是 104 轮开发记录而非固定重复实验；没有明确后置条件或可靠工具反馈的开放环境会显著削弱该机制。\n\n### 5. RoboFoundry：把支撑系统整体作为 policy\n\n[来源: RoboFoundry](../sources/2609.32862-robofoundry.md) 把冻结模型周围的 context、持久文件记忆、技能层次、恢复树、语义/执行绑定和 trace 全部纳入 policy。失败被归因到 perceive / reason / plan / save / retrieve / utilize 六类能力；任务级修复先在当前任务验证，再通过 capability-conditioned held-out trace 检验后提升为通用系统规则。\n\nGPT-5.5 在 EmbodiedBench 从 56.9% 升至 72.7%，Qwen3.7-Plus 达到 70.3%，GPT-6 Astra 达到 78.0%；RoboMemArena 总体 TSR/CSR 为 53.5%/72.8%；LIBERO-PRO 无 privileged pose 平均成功率 91.9%；真实机器人上展示套娃、毛巾迁移、Unitree G1 语义导航和化学长程任务。\n\nRoboFoundry 的贡献是把优化对象从单段代码扩展到系统，但也因此引入更复杂的自我编辑风险。`Δcap ≥ 0` 的 verifier 打分弱于真实执行回归，系统调用、候选评估和安全治理成本也未完整披露。\n\n## 跨材料比较\n\n| 材料 | 经验来源 | 归因方式 | 更新对象 | 验证机制 | 最强证据 | 主要边界 |\n| --- | --- | --- | --- | --- | --- | --- |\n| EmbodiRSI | 目标场景 Real2Sim rollout | 中间失败状态 + 源/目标弱区 | 纠正轨迹、示范分布、策略参数 | 自主仿真评测，最终 policy-only 实测 | 83.1% vs 75.0%；自适应比静态高 20.6 pp | 场景特定，两轮，成本与重建误差不透明 |\n| RISE | 想象世界模型 rollout | 未来状态 value 差分 / chunk advantage | π0.5 参数 | 想象消融 + 20 次真机评测 | 85% / 85% / 95% | 世界模型偏差、H100 成本、三项实验室任务 |\n| HarnessPAI | 代码 trace、rollout 视频、扰动 seed | workflow 节点 + success contract | 可执行程序、节点技能、回流数据 | pre-flight、probe、全量回归、deterministic gate | LIBERO-PRO 96.5%；轨迹回流后 73.7% | 重复任务、评估含开发 seed、程序开发成本 |\n| RoboRSI | 任务—技能树执行轨迹 | 最早失败后置条件节点 | 责任子树补丁、复合技能、神经技能 | 功能测试 + 近期受影响任务回放 | LIBERO-PRO 49.5%；复合技能同时提升成功率和效率 | 在线自我改进口径，真机为开发记录 |\n| RoboFoundry | context / skill / binding 执行 trace | 六类能力缺口 | 任务系统与通用系统文件规则 | 任务内 rollout + held-out capability transfer | GPT-5.5 56.9%→72.7%；RoboMemArena 53.5%/72.8% | 自评 verifier、成本、长期规则冲突未验证 |\n\n## 共同原则\n\n- **更新单位必须可寻址。** 弱区、动作块、workflow 节点、责任子树和能力类别都比“整次失败”更接近可修复原因。没有清晰单位，反思只会变成重复提示。\n- **生成者不应独自判定成功。** HarnessPAI 的 success contract 和独立诊断、RoboRSI 的 Reviewer、EmbodiRSI 的 policy-only 测试，都在把“提出更新”和“验证更新”分开。RoboFoundry 的 held-out verifier 是进步，但仍应升级为真实执行回归。\n- **局部修复优先于全局提升。** RoboRSI 的责任子树和 RoboFoundry 的任务级/通用级作用域说明，一个修复先证明局部有效，再证明不影响其他任务，才有资格进入长期库。\n- **部署形态和训练形态必须分开报告。** RISE 的世界模型只在训练期运行，EmbodiRSI 的采数 agent 不进入部署，HarnessPAI 部署期固定程序但可读观测。把这些机制误说成部署期自主 agent，会夸大安全能力。\n- **固化能降低成本，也可能引入刚性。** 复合技能、程序包和通用规则能减少 token、模型调用和重规划，但一旦环境假设失效，需要明确的检测、回退和回滚机制。\n- **RSI 的成本不只是机器人 rollout。** 模型调用、世界模型训练、仿真重建、候选评估、回归测试、人工复位和安全审查都必须计入，否则会比较出虚假的数据效率。\n\n## 组合建议\n\n- **目标场景固定、真实示范昂贵、允许重建和仿真 rollout**：优先参考 EmbodiRSI，把失败状态纠正和弱区定向采数作为数据层。\n- **高价值接触密集任务、可承担算力、希望避免真实试错**：参考 RISE，用动作可控世界模型和 chunk advantage 做参数精修，但必须评估生成偏差。\n- **同类任务重复执行、原语可用、成功条件可验证**：参考 HarnessPAI，把 grounding、几何和阶段验收编译成程序，并把高层 LLM 移出部署关键路径。\n- **长期运行、多任务共享技能、担心一次修复破坏其他调用者**：参考 RoboRSI，引入接口、后置条件、最早失败归因、责任子树和回归发布。\n- **一个底座要跨任务、跨记忆形式和跨本体复用能力**：参考 RoboFoundry 的 context / skill / binding 分解，但为通用规则增加执行级回归和版本治理。\n\n## 分歧与限制\n\n- **更新权重还是更新外部资产。** EmbodiRSI 和 RISE最终改变策略参数；HarnessPAI、RoboRSI 和 RoboFoundry 更倾向代码、技能、上下文和接口。前者可能获得更平滑的行为修正，后者更容易审计、回滚和跨模型迁移。\n- **练习场来源不同。** EmbodiRSI 的 Real2Sim 保目标场景但受重建误差约束；RISE 的想象环境可扩展状态但受生成模型偏差约束；RoboRSI / HarnessPAI / RoboFoundry 依赖 benchmark 或重复任务中的真实反馈。三者不能直接比较成功率。\n- **held-out 强度差异很大。** EmbodiRSI 测试 reset 不随训练偏移；HarnessPAI 的部分 benchmark 包含开发 seed；RoboRSI 主表允许在线修订而基线固定；RoboFoundry 的通用化验证是 trace replay 而非完整真实回归。\n- **长期递归证据不足。** EmbodiRSI 只有两次更新，RISE 是训练管线，HarnessPAI 和 RoboRSI 的开发曲线存在波动，RoboFoundry 未展示规则库长期冲突。都不能证明无限自我提升。\n- **安全责任不同。** 世界模型把风险从物理世界转移到模型偏差；代码和技能库把风险转移到接口契约、回归覆盖和误归因；系统策略演化还要处理文件修改、上下文污染和跨本体安全边界。\n\n## 什么会改变判断\n\n- 在同一机器人、同一任务族和等量总成本下，直接比较数据 RSI、想象 RSI、程序 RSI、技能库 RSI 与系统策略 RSI，并报告固定策略与在线演化两种口径。\n- 将 RSI 循环运行到数十轮以上，观察成功率、规则冲突、库大小、推理成本、回滚次数和灾难遗忘曲线。\n- 用独立 verifier、真实执行回归和安全性压力测试替代生成者自评，并报告误归因率。\n- 验证从单场景、单本体、单 backbone 提升到 held-out 场景、跨机器人、跨感知条件和跨模型时的衰减。\n- 把 RoboFoundry 式系统演化、RoboRSI 式技能治理和 HarnessPAI 式程序回归合并为一个可版本化平台，并显式区分训练期、开发期与部署期权限。\n\n## 关联主题\n\n- [[robot-self-improvement|Robot Self-Improvement]]\n- [[Online RL for VLA]]\n- [[Vision-Language-Action]]\n- [[Long-Horizon Memory for Robot Policies]]\n\n## 关联材料\n\n- [[2609.38905-embodirsi|EmbodiRSI]]\n- [[2602.11075-rise-self-improving-robot-policy-with-compositional-world-model|RISE]]\n- [[2609.29166-harnesspai|HarnessPAI]]\n- [[RoboRSI: Stable, Efficient, and Reusable Robot Self-Evolution in Complex Real-World Environments]]\n- [[2609.32862-robofoundry|RoboFoundry]]"
     }
   ],
   "edges": [
@@ -480,10 +487,10 @@
       "from": "Human Video Robot Data Generation",
       "to": "Vision-Language-Action",
       "type": "EXTRACTED",
-      "weight": 0.431,
+      "weight": 0.43,
       "source_signal_available": false,
       "signals": {
-        "co_citation": 0.063,
+        "co_citation": 0.061,
         "source_overlap": null,
         "type_affinity": 0.8
       }
@@ -506,10 +513,10 @@
       "from": "Human-to-Robot Transfer",
       "to": "Vision-Language-Action",
       "type": "EXTRACTED",
-      "weight": 0.463,
+      "weight": 0.461,
       "source_signal_available": false,
       "signals": {
-        "co_citation": 0.125,
+        "co_citation": 0.121,
         "source_overlap": null,
         "type_affinity": 0.8
       }
@@ -545,10 +552,10 @@
       "from": "Long-Horizon Memory for Robot Policies",
       "to": "Vision-Language-Action",
       "type": "EXTRACTED",
-      "weight": 0.463,
+      "weight": 0.476,
       "source_signal_available": false,
       "signals": {
-        "co_citation": 0.125,
+        "co_citation": 0.152,
         "source_overlap": null,
         "type_affinity": 0.8
       }
@@ -558,10 +565,10 @@
       "from": "Online RL for VLA",
       "to": "2602.11075-rise-self-improving-robot-policy-with-compositional-world-model",
       "type": "EXTRACTED",
-      "weight": 0.25,
+      "weight": 0.35,
       "source_signal_available": false,
       "signals": {
-        "co_citation": 0,
+        "co_citation": 0.2,
         "source_overlap": null,
         "type_affinity": 0.5
       }
@@ -571,10 +578,10 @@
       "from": "Online RL for VLA",
       "to": "2609.04355-vla-precision-asymmetric-co-bootstrapping-for-efficient-real-world-online-rl",
       "type": "EXTRACTED",
-      "weight": 0.306,
+      "weight": 0.3,
       "source_signal_available": false,
       "signals": {
-        "co_citation": 0.111,
+        "co_citation": 0.1,
         "source_overlap": null,
         "type_affinity": 0.5
       }
@@ -584,10 +591,10 @@
       "from": "Online RL for VLA",
       "to": "Vision-Language-Action",
       "type": "EXTRACTED",
-      "weight": 0.525,
+      "weight": 0.536,
       "source_signal_available": false,
       "signals": {
-        "co_citation": 0.25,
+        "co_citation": 0.273,
         "source_overlap": null,
         "type_affinity": 0.8
       }
@@ -597,10 +604,10 @@
       "from": "Vision-Language-Action",
       "to": "2609.04355-vla-precision-asymmetric-co-bootstrapping-for-efficient-real-world-online-rl",
       "type": "EXTRACTED",
-      "weight": 0.266,
+      "weight": 0.265,
       "source_signal_available": false,
       "signals": {
-        "co_citation": 0.031,
+        "co_citation": 0.03,
         "source_overlap": null,
         "type_affinity": 0.5
       }
@@ -623,10 +630,10 @@
       "from": "Vision-Language-Action",
       "to": "t-rex-tactile-reactive-dexterous-manipulation",
       "type": "EXTRACTED",
-      "weight": 0.266,
+      "weight": 0.265,
       "source_signal_available": false,
       "signals": {
-        "co_citation": 0.031,
+        "co_citation": 0.03,
         "source_overlap": null,
         "type_affinity": 0.5
       }
@@ -636,10 +643,10 @@
       "from": "Vision-Language-Action",
       "to": "2608.25798-tacforcing-streaming-action-generation-with-execution-time-tactile-feedback",
       "type": "EXTRACTED",
-      "weight": 0.266,
+      "weight": 0.265,
       "source_signal_available": false,
       "signals": {
-        "co_citation": 0.031,
+        "co_citation": 0.03,
         "source_overlap": null,
         "type_affinity": 0.5
       }
@@ -649,10 +656,10 @@
       "from": "Vision-Language-Action",
       "to": "force-touch-robot-policy-review",
       "type": "EXTRACTED",
-      "weight": 0.313,
+      "weight": 0.311,
       "source_signal_available": false,
       "signals": {
-        "co_citation": 0.125,
+        "co_citation": 0.121,
         "source_overlap": null,
         "type_affinity": 0.5
       }
@@ -688,10 +695,10 @@
       "from": "Vision-Language-Action",
       "to": "Online RL for VLA",
       "type": "EXTRACTED",
-      "weight": 0.525,
+      "weight": 0.536,
       "source_signal_available": false,
       "signals": {
-        "co_citation": 0.25,
+        "co_citation": 0.273,
         "source_overlap": null,
         "type_affinity": 0.8
       }
@@ -701,10 +708,10 @@
       "from": "Vision-Language-Action",
       "to": "Long-Horizon Memory for Robot Policies",
       "type": "EXTRACTED",
-      "weight": 0.463,
+      "weight": 0.476,
       "source_signal_available": false,
       "signals": {
-        "co_citation": 0.125,
+        "co_citation": 0.152,
         "source_overlap": null,
         "type_affinity": 0.8
       }
@@ -714,10 +721,10 @@
       "from": "Vision-Language-Action",
       "to": "Human-to-Robot Transfer",
       "type": "EXTRACTED",
-      "weight": 0.463,
+      "weight": 0.461,
       "source_signal_available": false,
       "signals": {
-        "co_citation": 0.125,
+        "co_citation": 0.121,
         "source_overlap": null,
         "type_affinity": 0.8
       }
@@ -857,10 +864,10 @@
       "from": "robot-self-improvement",
       "to": "2609.38905-embodirsi",
       "type": "EXTRACTED",
-      "weight": 0.417,
+      "weight": 0.5,
       "source_signal_available": false,
       "signals": {
-        "co_citation": 0.333,
+        "co_citation": 0.5,
         "source_overlap": null,
         "type_affinity": 0.5
       }
@@ -868,59 +875,7 @@
     {
       "id": "e32",
       "from": "robot-self-improvement",
-      "to": "2609.32862-robofoundry",
-      "type": "EXTRACTED",
-      "weight": 0.25,
-      "source_signal_available": false,
-      "signals": {
-        "co_citation": 0,
-        "source_overlap": null,
-        "type_affinity": 0.5
-      }
-    },
-    {
-      "id": "e33",
-      "from": "robot-self-improvement",
-      "to": "2609.29166-harnesspai",
-      "type": "EXTRACTED",
-      "weight": 0.25,
-      "source_signal_available": false,
-      "signals": {
-        "co_citation": 0,
-        "source_overlap": null,
-        "type_affinity": 0.5
-      }
-    },
-    {
-      "id": "e34",
-      "from": "robot-self-improvement",
-      "to": "Online RL for VLA",
-      "type": "EXTRACTED",
-      "weight": 0.511,
-      "source_signal_available": false,
-      "signals": {
-        "co_citation": 0.222,
-        "source_overlap": null,
-        "type_affinity": 0.8
-      }
-    },
-    {
-      "id": "e35",
-      "from": "robot-self-improvement",
-      "to": "Vision-Language-Action",
-      "type": "EXTRACTED",
-      "weight": 0.447,
-      "source_signal_available": false,
-      "signals": {
-        "co_citation": 0.094,
-        "source_overlap": null,
-        "type_affinity": 0.8
-      }
-    },
-    {
-      "id": "e36",
-      "from": "tactile-representation",
-      "to": "tactile-genesis-exploring-tactile-sensors-at-scale-for-learning-dexterous-tasks",
+      "to": "2602.11075-rise-self-improving-robot-policy-with-compositional-world-model",
       "type": "EXTRACTED",
       "weight": 0.375,
       "source_signal_available": false,
@@ -931,14 +886,66 @@
       }
     },
     {
-      "id": "e37",
-      "from": "tactile-representation",
-      "to": "2606.29948-heterogeneous-tactile-transformer",
+      "id": "e33",
+      "from": "robot-self-improvement",
+      "to": "2609.32862-robofoundry",
       "type": "EXTRACTED",
-      "weight": 0.5,
+      "weight": 0.375,
       "source_signal_available": false,
       "signals": {
-        "co_citation": 0.5,
+        "co_citation": 0.25,
+        "source_overlap": null,
+        "type_affinity": 0.5
+      }
+    },
+    {
+      "id": "e34",
+      "from": "robot-self-improvement",
+      "to": "2609.29166-harnesspai",
+      "type": "EXTRACTED",
+      "weight": 0.375,
+      "source_signal_available": false,
+      "signals": {
+        "co_citation": 0.25,
+        "source_overlap": null,
+        "type_affinity": 0.5
+      }
+    },
+    {
+      "id": "e35",
+      "from": "robot-self-improvement",
+      "to": "Online RL for VLA",
+      "type": "EXTRACTED",
+      "weight": 0.55,
+      "source_signal_available": false,
+      "signals": {
+        "co_citation": 0.3,
+        "source_overlap": null,
+        "type_affinity": 0.8
+      }
+    },
+    {
+      "id": "e36",
+      "from": "robot-self-improvement",
+      "to": "Vision-Language-Action",
+      "type": "EXTRACTED",
+      "weight": 0.461,
+      "source_signal_available": false,
+      "signals": {
+        "co_citation": 0.121,
+        "source_overlap": null,
+        "type_affinity": 0.8
+      }
+    },
+    {
+      "id": "e37",
+      "from": "robot-self-improvement",
+      "to": "robot-rsi-data-imagination-program-skill-system",
+      "type": "EXTRACTED",
+      "weight": 0.25,
+      "source_signal_available": false,
+      "signals": {
+        "co_citation": 0,
         "source_overlap": null,
         "type_affinity": 0.5
       }
@@ -946,7 +953,7 @@
     {
       "id": "e38",
       "from": "tactile-representation",
-      "to": "2606.30988-multisensory-continual-learning-adapting-pretrained-visuomotor-policies-to-force",
+      "to": "tactile-genesis-exploring-tactile-sensors-at-scale-for-learning-dexterous-tasks",
       "type": "EXTRACTED",
       "weight": 0.375,
       "source_signal_available": false,
@@ -959,7 +966,7 @@
     {
       "id": "e39",
       "from": "tactile-representation",
-      "to": "t-rex-tactile-reactive-dexterous-manipulation",
+      "to": "2606.29948-heterogeneous-tactile-transformer",
       "type": "EXTRACTED",
       "weight": 0.5,
       "source_signal_available": false,
@@ -972,6 +979,32 @@
     {
       "id": "e40",
       "from": "tactile-representation",
+      "to": "2606.30988-multisensory-continual-learning-adapting-pretrained-visuomotor-policies-to-force",
+      "type": "EXTRACTED",
+      "weight": 0.375,
+      "source_signal_available": false,
+      "signals": {
+        "co_citation": 0.25,
+        "source_overlap": null,
+        "type_affinity": 0.5
+      }
+    },
+    {
+      "id": "e41",
+      "from": "tactile-representation",
+      "to": "t-rex-tactile-reactive-dexterous-manipulation",
+      "type": "EXTRACTED",
+      "weight": 0.5,
+      "source_signal_available": false,
+      "signals": {
+        "co_citation": 0.5,
+        "source_overlap": null,
+        "type_affinity": 0.5
+      }
+    },
+    {
+      "id": "e42",
+      "from": "tactile-representation",
       "to": "2608.25798-tacforcing-streaming-action-generation-with-execution-time-tactile-feedback",
       "type": "EXTRACTED",
       "weight": 0.5,
@@ -983,7 +1016,7 @@
       }
     },
     {
-      "id": "e41",
+      "id": "e43",
       "from": "tactile-representation",
       "to": "force-touch-robot-policy-review",
       "type": "EXTRACTED",
@@ -996,7 +1029,7 @@
       }
     },
     {
-      "id": "e42",
+      "id": "e44",
       "from": "2409.11047-tacdiffusion-force-domain-diffusion-policy-for-precise-tactile-manipulation",
       "to": "contact-rich-manipulation",
       "type": "EXTRACTED",
@@ -1009,7 +1042,7 @@
       }
     },
     {
-      "id": "e43",
+      "id": "e45",
       "from": "2409.11047-tacdiffusion-force-domain-diffusion-policy-for-precise-tactile-manipulation",
       "to": "force-touch-robot-policy-review",
       "type": "EXTRACTED",
@@ -1022,7 +1055,7 @@
       }
     },
     {
-      "id": "e44",
+      "id": "e46",
       "from": "2509.07962-ta-vla-elucidating-the-design-space-of-torque-aware-vision-language-action-models",
       "to": "contact-rich-manipulation",
       "type": "EXTRACTED",
@@ -1035,7 +1068,7 @@
       }
     },
     {
-      "id": "e45",
+      "id": "e47",
       "from": "2509.07962-ta-vla-elucidating-the-design-space-of-torque-aware-vision-language-action-models",
       "to": "force-touch-robot-policy-review",
       "type": "EXTRACTED",
@@ -1048,33 +1081,33 @@
       }
     },
     {
-      "id": "e46",
+      "id": "e48",
       "from": "2602.11075-rise-self-improving-robot-policy-with-compositional-world-model",
       "to": "Online RL for VLA",
       "type": "EXTRACTED",
-      "weight": 0.25,
+      "weight": 0.35,
       "source_signal_available": false,
       "signals": {
-        "co_citation": 0,
+        "co_citation": 0.2,
         "source_overlap": null,
         "type_affinity": 0.5
       }
     },
     {
-      "id": "e47",
+      "id": "e49",
       "from": "2602.11075-rise-self-improving-robot-policy-with-compositional-world-model",
       "to": "Vision-Language-Action",
       "type": "EXTRACTED",
-      "weight": 0.266,
+      "weight": 0.295,
       "source_signal_available": false,
       "signals": {
-        "co_citation": 0.031,
+        "co_citation": 0.091,
         "source_overlap": null,
         "type_affinity": 0.5
       }
     },
     {
-      "id": "e48",
+      "id": "e50",
       "from": "2605.11048-forceflow-learning-to-feel-and-act-via-contact-driven-flow-matching",
       "to": "contact-rich-manipulation",
       "type": "EXTRACTED",
@@ -1087,7 +1120,7 @@
       }
     },
     {
-      "id": "e49",
+      "id": "e51",
       "from": "2606.09811-aha-wam",
       "to": "Vision-Language-Action",
       "type": "EXTRACTED",
@@ -1100,7 +1133,7 @@
       }
     },
     {
-      "id": "e50",
+      "id": "e52",
       "from": "2606.17846-qwen-robotmanip-alignment-unlocks-scale-for-robotic-manipulation-foundation-models",
       "to": "Vision-Language-Action",
       "type": "EXTRACTED",
@@ -1113,7 +1146,7 @@
       }
     },
     {
-      "id": "e51",
+      "id": "e53",
       "from": "2606.29948-heterogeneous-tactile-transformer",
       "to": "tactile-representation",
       "type": "EXTRACTED",
@@ -1126,7 +1159,7 @@
       }
     },
     {
-      "id": "e52",
+      "id": "e54",
       "from": "2606.29948-heterogeneous-tactile-transformer",
       "to": "force-touch-robot-policy-review",
       "type": "EXTRACTED",
@@ -1139,7 +1172,7 @@
       }
     },
     {
-      "id": "e53",
+      "id": "e55",
       "from": "2606.30988-multisensory-continual-learning-adapting-pretrained-visuomotor-policies-to-force",
       "to": "Vision-Language-Action",
       "type": "EXTRACTED",
@@ -1152,7 +1185,7 @@
       }
     },
     {
-      "id": "e54",
+      "id": "e56",
       "from": "2606.30988-multisensory-continual-learning-adapting-pretrained-visuomotor-policies-to-force",
       "to": "tactile-representation",
       "type": "EXTRACTED",
@@ -1165,7 +1198,7 @@
       }
     },
     {
-      "id": "e55",
+      "id": "e57",
       "from": "2606.30988-multisensory-continual-learning-adapting-pretrained-visuomotor-policies-to-force",
       "to": "force-touch-robot-policy-review",
       "type": "EXTRACTED",
@@ -1178,7 +1211,7 @@
       }
     },
     {
-      "id": "e56",
+      "id": "e58",
       "from": "2606.30988-multisensory-continual-learning-adapting-pretrained-visuomotor-policies-to-force",
       "to": "2606.29948-heterogeneous-tactile-transformer",
       "type": "EXTRACTED",
@@ -1191,7 +1224,7 @@
       }
     },
     {
-      "id": "e57",
+      "id": "e59",
       "from": "2606.30988-multisensory-continual-learning-adapting-pretrained-visuomotor-policies-to-force",
       "to": "t-rex-tactile-reactive-dexterous-manipulation",
       "type": "EXTRACTED",
@@ -1204,7 +1237,7 @@
       }
     },
     {
-      "id": "e58",
+      "id": "e60",
       "from": "2606.30988-multisensory-continual-learning-adapting-pretrained-visuomotor-policies-to-force",
       "to": "2608.25798-tacforcing-streaming-action-generation-with-execution-time-tactile-feedback",
       "type": "EXTRACTED",
@@ -1217,7 +1250,7 @@
       }
     },
     {
-      "id": "e59",
+      "id": "e61",
       "from": "2608.19613-what-matters-for-latent-actions-in-robot-learning",
       "to": "Vision-Language-Action",
       "type": "EXTRACTED",
@@ -1230,20 +1263,20 @@
       }
     },
     {
-      "id": "e60",
+      "id": "e62",
       "from": "2608.25798-tacforcing-streaming-action-generation-with-execution-time-tactile-feedback",
       "to": "Vision-Language-Action",
       "type": "EXTRACTED",
-      "weight": 0.266,
+      "weight": 0.265,
       "source_signal_available": false,
       "signals": {
-        "co_citation": 0.031,
+        "co_citation": 0.03,
         "source_overlap": null,
         "type_affinity": 0.5
       }
     },
     {
-      "id": "e61",
+      "id": "e63",
       "from": "2608.25798-tacforcing-streaming-action-generation-with-execution-time-tactile-feedback",
       "to": "force-touch-robot-policy-review",
       "type": "EXTRACTED",
@@ -1256,7 +1289,7 @@
       }
     },
     {
-      "id": "e62",
+      "id": "e64",
       "from": "2609.03889-fwbc-vla",
       "to": "contact-rich-manipulation",
       "type": "EXTRACTED",
@@ -1269,7 +1302,7 @@
       }
     },
     {
-      "id": "e63",
+      "id": "e65",
       "from": "2609.03889-fwbc-vla",
       "to": "2509.07962-ta-vla-elucidating-the-design-space-of-torque-aware-vision-language-action-models",
       "type": "EXTRACTED",
@@ -1282,7 +1315,7 @@
       }
     },
     {
-      "id": "e64",
+      "id": "e66",
       "from": "2609.03889-fwbc-vla",
       "to": "2609.05832-cr-vla-force",
       "type": "EXTRACTED",
@@ -1295,60 +1328,34 @@
       }
     },
     {
-      "id": "e65",
-      "from": "2609.04355-vla-precision-asymmetric-co-bootstrapping-for-efficient-real-world-online-rl",
-      "to": "Vision-Language-Action",
-      "type": "EXTRACTED",
-      "weight": 0.266,
-      "source_signal_available": false,
-      "signals": {
-        "co_citation": 0.031,
-        "source_overlap": null,
-        "type_affinity": 0.5
-      }
-    },
-    {
-      "id": "e66",
-      "from": "2609.04355-vla-precision-asymmetric-co-bootstrapping-for-efficient-real-world-online-rl",
-      "to": "Online RL for VLA",
-      "type": "EXTRACTED",
-      "weight": 0.306,
-      "source_signal_available": false,
-      "signals": {
-        "co_citation": 0.111,
-        "source_overlap": null,
-        "type_affinity": 0.5
-      }
-    },
-    {
       "id": "e67",
-      "from": "2609.05832-cr-vla-force",
+      "from": "2609.04355-vla-precision-asymmetric-co-bootstrapping-for-efficient-real-world-online-rl",
       "to": "Vision-Language-Action",
       "type": "EXTRACTED",
-      "weight": 0.25,
+      "weight": 0.265,
       "source_signal_available": false,
       "signals": {
-        "co_citation": 0,
+        "co_citation": 0.03,
         "source_overlap": null,
         "type_affinity": 0.5
       }
     },
     {
       "id": "e68",
-      "from": "2609.05832-cr-vla-force",
-      "to": "contact-rich-manipulation",
+      "from": "2609.04355-vla-precision-asymmetric-co-bootstrapping-for-efficient-real-world-online-rl",
+      "to": "Online RL for VLA",
       "type": "EXTRACTED",
-      "weight": 0.393,
+      "weight": 0.3,
       "source_signal_available": false,
       "signals": {
-        "co_citation": 0.286,
+        "co_citation": 0.1,
         "source_overlap": null,
         "type_affinity": 0.5
       }
     },
     {
       "id": "e69",
-      "from": "2609.07398-openwam-an-open-modular-exploration-towards-systematic-world-action-model-pretraining",
+      "from": "2609.05832-cr-vla-force",
       "to": "Vision-Language-Action",
       "type": "EXTRACTED",
       "weight": 0.25,
@@ -1361,6 +1368,32 @@
     },
     {
       "id": "e70",
+      "from": "2609.05832-cr-vla-force",
+      "to": "contact-rich-manipulation",
+      "type": "EXTRACTED",
+      "weight": 0.393,
+      "source_signal_available": false,
+      "signals": {
+        "co_citation": 0.286,
+        "source_overlap": null,
+        "type_affinity": 0.5
+      }
+    },
+    {
+      "id": "e71",
+      "from": "2609.07398-openwam-an-open-modular-exploration-towards-systematic-world-action-model-pretraining",
+      "to": "Vision-Language-Action",
+      "type": "EXTRACTED",
+      "weight": 0.25,
+      "source_signal_available": false,
+      "signals": {
+        "co_citation": 0,
+        "source_overlap": null,
+        "type_affinity": 0.5
+      }
+    },
+    {
+      "id": "e72",
       "from": "2609.18242-forcedelta-vla",
       "to": "contact-rich-manipulation",
       "type": "EXTRACTED",
@@ -1373,7 +1406,7 @@
       }
     },
     {
-      "id": "e71",
+      "id": "e73",
       "from": "2609.18242-forcedelta-vla",
       "to": "force-touch-robot-policy-review",
       "type": "EXTRACTED",
@@ -1386,53 +1419,27 @@
       }
     },
     {
-      "id": "e72",
+      "id": "e74",
       "from": "2609.29166-harnesspai",
       "to": "Vision-Language-Action",
       "type": "EXTRACTED",
-      "weight": 0.266,
+      "weight": 0.28,
       "source_signal_available": false,
       "signals": {
-        "co_citation": 0.031,
-        "source_overlap": null,
-        "type_affinity": 0.5
-      }
-    },
-    {
-      "id": "e73",
-      "from": "2609.29166-harnesspai",
-      "to": "robot-self-improvement",
-      "type": "EXTRACTED",
-      "weight": 0.25,
-      "source_signal_available": false,
-      "signals": {
-        "co_citation": 0,
-        "source_overlap": null,
-        "type_affinity": 0.5
-      }
-    },
-    {
-      "id": "e74",
-      "from": "2609.32862-robofoundry",
-      "to": "robot-self-improvement",
-      "type": "EXTRACTED",
-      "weight": 0.25,
-      "source_signal_available": false,
-      "signals": {
-        "co_citation": 0,
+        "co_citation": 0.061,
         "source_overlap": null,
         "type_affinity": 0.5
       }
     },
     {
       "id": "e75",
-      "from": "2609.32862-robofoundry",
-      "to": "Long-Horizon Memory for Robot Policies",
+      "from": "2609.29166-harnesspai",
+      "to": "robot-self-improvement",
       "type": "EXTRACTED",
-      "weight": 0.25,
+      "weight": 0.375,
       "source_signal_available": false,
       "signals": {
-        "co_citation": 0,
+        "co_citation": 0.25,
         "source_overlap": null,
         "type_affinity": 0.5
       }
@@ -1440,12 +1447,12 @@
     {
       "id": "e76",
       "from": "2609.32862-robofoundry",
-      "to": "Vision-Language-Action",
+      "to": "robot-self-improvement",
       "type": "EXTRACTED",
-      "weight": 0.266,
+      "weight": 0.375,
       "source_signal_available": false,
       "signals": {
-        "co_citation": 0.031,
+        "co_citation": 0.25,
         "source_overlap": null,
         "type_affinity": 0.5
       }
@@ -1453,12 +1460,12 @@
     {
       "id": "e77",
       "from": "2609.32862-robofoundry",
-      "to": "Online RL for VLA",
+      "to": "Long-Horizon Memory for Robot Policies",
       "type": "EXTRACTED",
-      "weight": 0.306,
+      "weight": 0.321,
       "source_signal_available": false,
       "signals": {
-        "co_citation": 0.111,
+        "co_citation": 0.143,
         "source_overlap": null,
         "type_affinity": 0.5
       }
@@ -1466,57 +1473,83 @@
     {
       "id": "e78",
       "from": "2609.32862-robofoundry",
-      "to": "2609.38905-embodirsi",
+      "to": "Vision-Language-Action",
       "type": "EXTRACTED",
-      "weight": 0.4,
+      "weight": 0.28,
       "source_signal_available": false,
       "signals": {
-        "co_citation": 0.5,
+        "co_citation": 0.061,
         "source_overlap": null,
-        "type_affinity": 0.3
+        "type_affinity": 0.5
       }
     },
     {
       "id": "e79",
-      "from": "2609.38905-embodirsi",
-      "to": "robot-self-improvement",
+      "from": "2609.32862-robofoundry",
+      "to": "Online RL for VLA",
       "type": "EXTRACTED",
-      "weight": 0.417,
+      "weight": 0.35,
       "source_signal_available": false,
       "signals": {
-        "co_citation": 0.333,
+        "co_citation": 0.2,
         "source_overlap": null,
         "type_affinity": 0.5
       }
     },
     {
       "id": "e80",
-      "from": "2609.38905-embodirsi",
-      "to": "Online RL for VLA",
+      "from": "2609.32862-robofoundry",
+      "to": "2609.38905-embodirsi",
       "type": "EXTRACTED",
-      "weight": 0.361,
+      "weight": 0.483,
       "source_signal_available": false,
       "signals": {
-        "co_citation": 0.222,
+        "co_citation": 0.667,
         "source_overlap": null,
-        "type_affinity": 0.5
+        "type_affinity": 0.3
       }
     },
     {
       "id": "e81",
       "from": "2609.38905-embodirsi",
-      "to": "Vision-Language-Action",
+      "to": "robot-self-improvement",
       "type": "EXTRACTED",
-      "weight": 0.281,
+      "weight": 0.5,
       "source_signal_available": false,
       "signals": {
-        "co_citation": 0.063,
+        "co_citation": 0.5,
         "source_overlap": null,
         "type_affinity": 0.5
       }
     },
     {
       "id": "e82",
+      "from": "2609.38905-embodirsi",
+      "to": "Online RL for VLA",
+      "type": "EXTRACTED",
+      "weight": 0.4,
+      "source_signal_available": false,
+      "signals": {
+        "co_citation": 0.3,
+        "source_overlap": null,
+        "type_affinity": 0.5
+      }
+    },
+    {
+      "id": "e83",
+      "from": "2609.38905-embodirsi",
+      "to": "Vision-Language-Action",
+      "type": "EXTRACTED",
+      "weight": 0.295,
+      "source_signal_available": false,
+      "signals": {
+        "co_citation": 0.091,
+        "source_overlap": null,
+        "type_affinity": 0.5
+      }
+    },
+    {
+      "id": "e84",
       "from": "attena-rectifying-action-inequality-in-robotic-foundation-models",
       "to": "Vision-Language-Action",
       "type": "EXTRACTED",
@@ -1529,7 +1562,7 @@
       }
     },
     {
-      "id": "e83",
+      "id": "e85",
       "from": "deximit-learning-bimanual-dexterous-manipulation-from-monocular-human-videos",
       "to": "Human Video Robot Data Generation",
       "type": "EXTRACTED",
@@ -1542,34 +1575,8 @@
       }
     },
     {
-      "id": "e84",
-      "from": "deximit-learning-bimanual-dexterous-manipulation-from-monocular-human-videos",
-      "to": "Human-to-Robot Transfer",
-      "type": "EXTRACTED",
-      "weight": 0.25,
-      "source_signal_available": false,
-      "signals": {
-        "co_citation": 0,
-        "source_overlap": null,
-        "type_affinity": 0.5
-      }
-    },
-    {
-      "id": "e85",
-      "from": "dexjoco-a-benchmark-and-toolkit-for-task-oriented-dexterous-manipulation-on-mujoco",
-      "to": "Vision-Language-Action",
-      "type": "EXTRACTED",
-      "weight": 0.25,
-      "source_signal_available": false,
-      "signals": {
-        "co_citation": 0,
-        "source_overlap": null,
-        "type_affinity": 0.5
-      }
-    },
-    {
       "id": "e86",
-      "from": "dexjoco-a-benchmark-and-toolkit-for-task-oriented-dexterous-manipulation-on-mujoco",
+      "from": "deximit-learning-bimanual-dexterous-manipulation-from-monocular-human-videos",
       "to": "Human-to-Robot Transfer",
       "type": "EXTRACTED",
       "weight": 0.25,
@@ -1582,7 +1589,7 @@
     },
     {
       "id": "e87",
-      "from": "dm05-open-world-embodied-foundation-model",
+      "from": "dexjoco-a-benchmark-and-toolkit-for-task-oriented-dexterous-manipulation-on-mujoco",
       "to": "Vision-Language-Action",
       "type": "EXTRACTED",
       "weight": 0.25,
@@ -1595,20 +1602,7 @@
     },
     {
       "id": "e88",
-      "from": "emergence-of-human-to-robot-transfer-in-vision-language-action-models",
-      "to": "Vision-Language-Action",
-      "type": "EXTRACTED",
-      "weight": 0.25,
-      "source_signal_available": false,
-      "signals": {
-        "co_citation": 0,
-        "source_overlap": null,
-        "type_affinity": 0.5
-      }
-    },
-    {
-      "id": "e89",
-      "from": "emergence-of-human-to-robot-transfer-in-vision-language-action-models",
+      "from": "dexjoco-a-benchmark-and-toolkit-for-task-oriented-dexterous-manipulation-on-mujoco",
       "to": "Human-to-Robot Transfer",
       "type": "EXTRACTED",
       "weight": 0.25,
@@ -1620,8 +1614,21 @@
       }
     },
     {
+      "id": "e89",
+      "from": "dm05-open-world-embodied-foundation-model",
+      "to": "Vision-Language-Action",
+      "type": "EXTRACTED",
+      "weight": 0.25,
+      "source_signal_available": false,
+      "signals": {
+        "co_citation": 0,
+        "source_overlap": null,
+        "type_affinity": 0.5
+      }
+    },
+    {
       "id": "e90",
-      "from": "facet-0",
+      "from": "emergence-of-human-to-robot-transfer-in-vision-language-action-models",
       "to": "Vision-Language-Action",
       "type": "EXTRACTED",
       "weight": 0.25,
@@ -1634,6 +1641,32 @@
     },
     {
       "id": "e91",
+      "from": "emergence-of-human-to-robot-transfer-in-vision-language-action-models",
+      "to": "Human-to-Robot Transfer",
+      "type": "EXTRACTED",
+      "weight": 0.25,
+      "source_signal_available": false,
+      "signals": {
+        "co_citation": 0,
+        "source_overlap": null,
+        "type_affinity": 0.5
+      }
+    },
+    {
+      "id": "e92",
+      "from": "facet-0",
+      "to": "Vision-Language-Action",
+      "type": "EXTRACTED",
+      "weight": 0.25,
+      "source_signal_available": false,
+      "signals": {
+        "co_citation": 0,
+        "source_overlap": null,
+        "type_affinity": 0.5
+      }
+    },
+    {
+      "id": "e93",
       "from": "fd-vla-force-distilled-vision-language-action-model-for-contact-rich-manipulation",
       "to": "Vision-Language-Action",
       "type": "EXTRACTED",
@@ -1646,7 +1679,7 @@
       }
     },
     {
-      "id": "e92",
+      "id": "e94",
       "from": "fm-vla-force-based-memory-for-vision-language-action-models-in-contact-rich-manipulation",
       "to": "Long-Horizon Memory for Robot Policies",
       "type": "EXTRACTED",
@@ -1659,7 +1692,7 @@
       }
     },
     {
-      "id": "e93",
+      "id": "e95",
       "from": "ge-act-2-0-pretraining-and-scaling-a-world-action-model-for-robotic-manipulation",
       "to": "Vision-Language-Action",
       "type": "EXTRACTED",
@@ -1672,34 +1705,8 @@
       }
     },
     {
-      "id": "e94",
-      "from": "mem-multi-scale-embodied-memory-for-vision-language-action-models",
-      "to": "Vision-Language-Action",
-      "type": "EXTRACTED",
-      "weight": 0.25,
-      "source_signal_available": false,
-      "signals": {
-        "co_citation": 0,
-        "source_overlap": null,
-        "type_affinity": 0.5
-      }
-    },
-    {
-      "id": "e95",
-      "from": "mem-multi-scale-embodied-memory-for-vision-language-action-models",
-      "to": "Long-Horizon Memory for Robot Policies",
-      "type": "EXTRACTED",
-      "weight": 0.25,
-      "source_signal_available": false,
-      "signals": {
-        "co_citation": 0,
-        "source_overlap": null,
-        "type_affinity": 0.5
-      }
-    },
-    {
       "id": "e96",
-      "from": "motus2-a-self-evolving-general-world-model-for-dexterous-manipulation",
+      "from": "mem-multi-scale-embodied-memory-for-vision-language-action-models",
       "to": "Vision-Language-Action",
       "type": "EXTRACTED",
       "weight": 0.25,
@@ -1712,7 +1719,7 @@
     },
     {
       "id": "e97",
-      "from": "motus2-a-self-evolving-general-world-model-for-dexterous-manipulation",
+      "from": "mem-multi-scale-embodied-memory-for-vision-language-action-models",
       "to": "Long-Horizon Memory for Robot Policies",
       "type": "EXTRACTED",
       "weight": 0.25,
@@ -1725,6 +1732,32 @@
     },
     {
       "id": "e98",
+      "from": "motus2-a-self-evolving-general-world-model-for-dexterous-manipulation",
+      "to": "Vision-Language-Action",
+      "type": "EXTRACTED",
+      "weight": 0.25,
+      "source_signal_available": false,
+      "signals": {
+        "co_citation": 0,
+        "source_overlap": null,
+        "type_affinity": 0.5
+      }
+    },
+    {
+      "id": "e99",
+      "from": "motus2-a-self-evolving-general-world-model-for-dexterous-manipulation",
+      "to": "Long-Horizon Memory for Robot Policies",
+      "type": "EXTRACTED",
+      "weight": 0.25,
+      "source_signal_available": false,
+      "signals": {
+        "co_citation": 0,
+        "source_overlap": null,
+        "type_affinity": 0.5
+      }
+    },
+    {
+      "id": "e100",
       "from": "never-too-late-for-force-accelerating-vla-post-training-with-reactive-force-injection",
       "to": "force-touch-robot-policy-review",
       "type": "EXTRACTED",
@@ -1737,7 +1770,7 @@
       }
     },
     {
-      "id": "e99",
+      "id": "e101",
       "from": "om-1",
       "to": "Human-to-Robot Transfer",
       "type": "EXTRACTED",
@@ -1750,7 +1783,7 @@
       }
     },
     {
-      "id": "e100",
+      "id": "e102",
       "from": "openvla-an-open-source-vision-language-action-model",
       "to": "Vision-Language-Action",
       "type": "EXTRACTED",
@@ -1763,35 +1796,9 @@
       }
     },
     {
-      "id": "e101",
-      "from": "pi07-a-steerable-generalist-robotic-foundation-model-with-emergent-capabilities",
-      "to": "Vision-Language-Action",
-      "type": "EXTRACTED",
-      "weight": 0.25,
-      "source_signal_available": false,
-      "signals": {
-        "co_citation": 0,
-        "source_overlap": null,
-        "type_affinity": 0.5
-      }
-    },
-    {
-      "id": "e102",
-      "from": "pi07-a-steerable-generalist-robotic-foundation-model-with-emergent-capabilities",
-      "to": "Online RL for VLA",
-      "type": "EXTRACTED",
-      "weight": 0.25,
-      "source_signal_available": false,
-      "signals": {
-        "co_citation": 0,
-        "source_overlap": null,
-        "type_affinity": 0.5
-      }
-    },
-    {
       "id": "e103",
       "from": "pi07-a-steerable-generalist-robotic-foundation-model-with-emergent-capabilities",
-      "to": "Long-Horizon Memory for Robot Policies",
+      "to": "Vision-Language-Action",
       "type": "EXTRACTED",
       "weight": 0.25,
       "source_signal_available": false,
@@ -1804,32 +1811,6 @@
     {
       "id": "e104",
       "from": "pi07-a-steerable-generalist-robotic-foundation-model-with-emergent-capabilities",
-      "to": "Human-to-Robot Transfer",
-      "type": "EXTRACTED",
-      "weight": 0.25,
-      "source_signal_available": false,
-      "signals": {
-        "co_citation": 0,
-        "source_overlap": null,
-        "type_affinity": 0.5
-      }
-    },
-    {
-      "id": "e105",
-      "from": "rl-token-bootstrapping-online-rl-with-vision-language-action-models",
-      "to": "Vision-Language-Action",
-      "type": "EXTRACTED",
-      "weight": 0.25,
-      "source_signal_available": false,
-      "signals": {
-        "co_citation": 0,
-        "source_overlap": null,
-        "type_affinity": 0.5
-      }
-    },
-    {
-      "id": "e106",
-      "from": "rl-token-bootstrapping-online-rl-with-vision-language-action-models",
       "to": "Online RL for VLA",
       "type": "EXTRACTED",
       "weight": 0.25,
@@ -1841,8 +1822,34 @@
       }
     },
     {
+      "id": "e105",
+      "from": "pi07-a-steerable-generalist-robotic-foundation-model-with-emergent-capabilities",
+      "to": "Long-Horizon Memory for Robot Policies",
+      "type": "EXTRACTED",
+      "weight": 0.25,
+      "source_signal_available": false,
+      "signals": {
+        "co_citation": 0,
+        "source_overlap": null,
+        "type_affinity": 0.5
+      }
+    },
+    {
+      "id": "e106",
+      "from": "pi07-a-steerable-generalist-robotic-foundation-model-with-emergent-capabilities",
+      "to": "Human-to-Robot Transfer",
+      "type": "EXTRACTED",
+      "weight": 0.25,
+      "source_signal_available": false,
+      "signals": {
+        "co_citation": 0,
+        "source_overlap": null,
+        "type_affinity": 0.5
+      }
+    },
+    {
       "id": "e107",
-      "from": "steam-self-supervised-temporal-ensemble-advantage-modeling-for-real-world-robot-learning",
+      "from": "rl-token-bootstrapping-online-rl-with-vision-language-action-models",
       "to": "Vision-Language-Action",
       "type": "EXTRACTED",
       "weight": 0.25,
@@ -1855,7 +1862,7 @@
     },
     {
       "id": "e108",
-      "from": "steam-self-supervised-temporal-ensemble-advantage-modeling-for-real-world-robot-learning",
+      "from": "rl-token-bootstrapping-online-rl-with-vision-language-action-models",
       "to": "Online RL for VLA",
       "type": "EXTRACTED",
       "weight": 0.25,
@@ -1868,19 +1875,45 @@
     },
     {
       "id": "e109",
-      "from": "t-rex-tactile-reactive-dexterous-manipulation",
+      "from": "steam-self-supervised-temporal-ensemble-advantage-modeling-for-real-world-robot-learning",
       "to": "Vision-Language-Action",
       "type": "EXTRACTED",
-      "weight": 0.266,
+      "weight": 0.25,
       "source_signal_available": false,
       "signals": {
-        "co_citation": 0.031,
+        "co_citation": 0,
         "source_overlap": null,
         "type_affinity": 0.5
       }
     },
     {
       "id": "e110",
+      "from": "steam-self-supervised-temporal-ensemble-advantage-modeling-for-real-world-robot-learning",
+      "to": "Online RL for VLA",
+      "type": "EXTRACTED",
+      "weight": 0.25,
+      "source_signal_available": false,
+      "signals": {
+        "co_citation": 0,
+        "source_overlap": null,
+        "type_affinity": 0.5
+      }
+    },
+    {
+      "id": "e111",
+      "from": "t-rex-tactile-reactive-dexterous-manipulation",
+      "to": "Vision-Language-Action",
+      "type": "EXTRACTED",
+      "weight": 0.265,
+      "source_signal_available": false,
+      "signals": {
+        "co_citation": 0.03,
+        "source_overlap": null,
+        "type_affinity": 0.5
+      }
+    },
+    {
+      "id": "e112",
       "from": "t-rex-tactile-reactive-dexterous-manipulation",
       "to": "force-touch-robot-policy-review",
       "type": "EXTRACTED",
@@ -1893,7 +1926,7 @@
       }
     },
     {
-      "id": "e111",
+      "id": "e113",
       "from": "tactile-genesis-exploring-tactile-sensors-at-scale-for-learning-dexterous-tasks",
       "to": "tactile-representation",
       "type": "EXTRACTED",
@@ -1906,7 +1939,7 @@
       }
     },
     {
-      "id": "e112",
+      "id": "e114",
       "from": "tactile-genesis-exploring-tactile-sensors-at-scale-for-learning-dexterous-tasks",
       "to": "force-touch-robot-policy-review",
       "type": "EXTRACTED",
@@ -1919,7 +1952,7 @@
       }
     },
     {
-      "id": "e113",
+      "id": "e115",
       "from": "current-vla-landscape-foundation-control-memory-and-transfer",
       "to": "Vision-Language-Action",
       "type": "EXTRACTED",
@@ -1932,7 +1965,7 @@
       }
     },
     {
-      "id": "e114",
+      "id": "e116",
       "from": "current-vla-landscape-foundation-control-memory-and-transfer",
       "to": "Human Video Robot Data Generation",
       "type": "EXTRACTED",
@@ -1945,7 +1978,7 @@
       }
     },
     {
-      "id": "e115",
+      "id": "e117",
       "from": "force-touch-robot-policy-review",
       "to": "2606.30988-multisensory-continual-learning-adapting-pretrained-visuomotor-policies-to-force",
       "type": "EXTRACTED",
@@ -1958,7 +1991,7 @@
       }
     },
     {
-      "id": "e116",
+      "id": "e118",
       "from": "force-touch-robot-policy-review",
       "to": "2503.02881-reactive-diffusion-policy-slow-fast-visual-tactile-policy-learning-for-contact-rich-manipulation",
       "type": "EXTRACTED",
@@ -1971,7 +2004,7 @@
       }
     },
     {
-      "id": "e117",
+      "id": "e119",
       "from": "force-touch-robot-policy-review",
       "to": "foar-force-aware-reactive-policy-for-contact-rich-robotic-manipulation",
       "type": "EXTRACTED",
@@ -1984,7 +2017,7 @@
       }
     },
     {
-      "id": "e118",
+      "id": "e120",
       "from": "force-touch-robot-policy-review",
       "to": "2605.11048-forceflow-learning-to-feel-and-act-via-contact-driven-flow-matching",
       "type": "EXTRACTED",
@@ -1997,7 +2030,7 @@
       }
     },
     {
-      "id": "e119",
+      "id": "e121",
       "from": "force-touch-robot-policy-review",
       "to": "fm-vla-force-based-memory-for-vision-language-action-models-in-contact-rich-manipulation",
       "type": "EXTRACTED",
@@ -2010,7 +2043,7 @@
       }
     },
     {
-      "id": "e120",
+      "id": "e122",
       "from": "force-touch-robot-policy-review",
       "to": "2509.07962-ta-vla-elucidating-the-design-space-of-torque-aware-vision-language-action-models",
       "type": "EXTRACTED",
@@ -2023,7 +2056,7 @@
       }
     },
     {
-      "id": "e121",
+      "id": "e123",
       "from": "force-touch-robot-policy-review",
       "to": "fd-vla-force-distilled-vision-language-action-model-for-contact-rich-manipulation",
       "type": "EXTRACTED",
@@ -2036,7 +2069,7 @@
       }
     },
     {
-      "id": "e122",
+      "id": "e124",
       "from": "force-touch-robot-policy-review",
       "to": "facet-0",
       "type": "EXTRACTED",
@@ -2049,7 +2082,7 @@
       }
     },
     {
-      "id": "e123",
+      "id": "e125",
       "from": "force-touch-robot-policy-review",
       "to": "adaptive-compliance-policy-learning-approximate-compliance-for-diffusion-guided-control",
       "type": "EXTRACTED",
@@ -2062,7 +2095,7 @@
       }
     },
     {
-      "id": "e124",
+      "id": "e126",
       "from": "force-touch-robot-policy-review",
       "to": "2410.07554-forcemimic-force-centric-imitation-learning-with-force-motion-capture-system-for-contact-rich-manipulation",
       "type": "EXTRACTED",
@@ -2075,7 +2108,7 @@
       }
     },
     {
-      "id": "e125",
+      "id": "e127",
       "from": "force-touch-robot-policy-review",
       "to": "2609.05832-cr-vla-force",
       "type": "EXTRACTED",
@@ -2088,7 +2121,7 @@
       }
     },
     {
-      "id": "e126",
+      "id": "e128",
       "from": "force-touch-robot-policy-review",
       "to": "2409.11047-tacdiffusion-force-domain-diffusion-policy-for-precise-tactile-manipulation",
       "type": "EXTRACTED",
@@ -2101,7 +2134,7 @@
       }
     },
     {
-      "id": "e127",
+      "id": "e129",
       "from": "force-touch-robot-policy-review",
       "to": "tactile-genesis-exploring-tactile-sensors-at-scale-for-learning-dexterous-tasks",
       "type": "EXTRACTED",
@@ -2114,7 +2147,7 @@
       }
     },
     {
-      "id": "e128",
+      "id": "e130",
       "from": "force-touch-robot-policy-review",
       "to": "2606.29948-heterogeneous-tactile-transformer",
       "type": "EXTRACTED",
@@ -2127,7 +2160,7 @@
       }
     },
     {
-      "id": "e129",
+      "id": "e131",
       "from": "force-touch-robot-policy-review",
       "to": "t-rex-tactile-reactive-dexterous-manipulation",
       "type": "EXTRACTED",
@@ -2140,7 +2173,7 @@
       }
     },
     {
-      "id": "e130",
+      "id": "e132",
       "from": "force-touch-robot-policy-review",
       "to": "2608.25798-tacforcing-streaming-action-generation-with-execution-time-tactile-feedback",
       "type": "EXTRACTED",
@@ -2153,7 +2186,7 @@
       }
     },
     {
-      "id": "e131",
+      "id": "e133",
       "from": "force-touch-robot-policy-review",
       "to": "tactile-representation",
       "type": "EXTRACTED",
@@ -2166,7 +2199,7 @@
       }
     },
     {
-      "id": "e132",
+      "id": "e134",
       "from": "force-touch-robot-policy-review",
       "to": "contact-rich-manipulation",
       "type": "EXTRACTED",
@@ -2174,6 +2207,110 @@
       "source_signal_available": false,
       "signals": {
         "co_citation": 0.231,
+        "source_overlap": null,
+        "type_affinity": 0.5
+      }
+    },
+    {
+      "id": "e135",
+      "from": "robot-rsi-data-imagination-program-skill-system",
+      "to": "robot-self-improvement",
+      "type": "EXTRACTED",
+      "weight": 0.25,
+      "source_signal_available": false,
+      "signals": {
+        "co_citation": 0,
+        "source_overlap": null,
+        "type_affinity": 0.5
+      }
+    },
+    {
+      "id": "e136",
+      "from": "robot-rsi-data-imagination-program-skill-system",
+      "to": "Online RL for VLA",
+      "type": "EXTRACTED",
+      "weight": 0.3,
+      "source_signal_available": false,
+      "signals": {
+        "co_citation": 0.1,
+        "source_overlap": null,
+        "type_affinity": 0.5
+      }
+    },
+    {
+      "id": "e137",
+      "from": "robot-rsi-data-imagination-program-skill-system",
+      "to": "Vision-Language-Action",
+      "type": "EXTRACTED",
+      "weight": 0.265,
+      "source_signal_available": false,
+      "signals": {
+        "co_citation": 0.03,
+        "source_overlap": null,
+        "type_affinity": 0.5
+      }
+    },
+    {
+      "id": "e138",
+      "from": "robot-rsi-data-imagination-program-skill-system",
+      "to": "Long-Horizon Memory for Robot Policies",
+      "type": "EXTRACTED",
+      "weight": 0.25,
+      "source_signal_available": false,
+      "signals": {
+        "co_citation": 0,
+        "source_overlap": null,
+        "type_affinity": 0.5
+      }
+    },
+    {
+      "id": "e139",
+      "from": "robot-rsi-data-imagination-program-skill-system",
+      "to": "2609.38905-embodirsi",
+      "type": "EXTRACTED",
+      "weight": 0.417,
+      "source_signal_available": false,
+      "signals": {
+        "co_citation": 0.333,
+        "source_overlap": null,
+        "type_affinity": 0.5
+      }
+    },
+    {
+      "id": "e140",
+      "from": "robot-rsi-data-imagination-program-skill-system",
+      "to": "2602.11075-rise-self-improving-robot-policy-with-compositional-world-model",
+      "type": "EXTRACTED",
+      "weight": 0.417,
+      "source_signal_available": false,
+      "signals": {
+        "co_citation": 0.333,
+        "source_overlap": null,
+        "type_affinity": 0.5
+      }
+    },
+    {
+      "id": "e141",
+      "from": "robot-rsi-data-imagination-program-skill-system",
+      "to": "2609.29166-harnesspai",
+      "type": "EXTRACTED",
+      "weight": 0.5,
+      "source_signal_available": false,
+      "signals": {
+        "co_citation": 0.5,
+        "source_overlap": null,
+        "type_affinity": 0.5
+      }
+    },
+    {
+      "id": "e142",
+      "from": "robot-rsi-data-imagination-program-skill-system",
+      "to": "2609.32862-robofoundry",
+      "type": "EXTRACTED",
+      "weight": 0.5,
+      "source_signal_available": false,
+      "signals": {
+        "co_citation": 0.5,
         "source_overlap": null,
         "type_affinity": 0.5
       }
@@ -2419,6 +2556,16 @@
         "community_count": 3
       },
       {
+        "id": "robot-rsi-data-imagination-program-skill-system",
+        "label": "机器人 RSI：数据、想象、程序、技能与系统策略",
+        "community": "Online RL for VLA",
+        "connected_communities": [
+          "Long-Horizon Memory for Robot Policies",
+          "Vision-Language-Action"
+        ],
+        "community_count": 2
+      },
+      {
         "id": "robot-self-improvement",
         "label": "Robot Self-Improvement",
         "community": "Online RL for VLA",
@@ -2456,8 +2603,8 @@
     "sparse_communities": [],
     "meta": {
       "degraded": false,
-      "node_count": 60,
-      "edge_count": 132,
+      "node_count": 61,
+      "edge_count": 142,
       "max_insight_nodes": 250,
       "max_insight_edges": 1000
     }
@@ -2479,11 +2626,12 @@
           "2606.17846-qwen-robotmanip-alignment-unlocks-scale-for-robotic-manipulation-foundation-models",
           "2608.19613-what-matters-for-latent-actions-in-robot-learning",
           "2609.07398-openwam-an-open-modular-exploration-towards-systematic-world-action-model-pretraining",
-          "2609.29166-harnesspai",
           "attena-rectifying-action-inequality-in-robotic-foundation-models",
           "dm05-open-world-embodied-foundation-model",
           "ge-act-2-0-pretraining-and-scaling-a-world-action-model-for-robotic-manipulation",
-          "openvla-an-open-source-vision-language-action-model"
+          "openvla-an-open-source-vision-language-action-model",
+          "rl-token-bootstrapping-online-rl-with-vision-language-action-models",
+          "steam-self-supervised-temporal-ensemble-advantage-modeling-for-real-world-robot-learning"
         ],
         "degraded": false
       },
@@ -2496,12 +2644,13 @@
           "2606.17846-qwen-robotmanip-alignment-unlocks-scale-for-robotic-manipulation-foundation-models",
           "2608.19613-what-matters-for-latent-actions-in-robot-learning",
           "2609.07398-openwam-an-open-modular-exploration-towards-systematic-world-action-model-pretraining",
-          "2609.29166-harnesspai",
           "Vision-Language-Action",
           "attena-rectifying-action-inequality-in-robotic-foundation-models",
           "dm05-open-world-embodied-foundation-model",
           "ge-act-2-0-pretraining-and-scaling-a-world-action-model-for-robotic-manipulation",
-          "openvla-an-open-source-vision-language-action-model"
+          "openvla-an-open-source-vision-language-action-model",
+          "rl-token-bootstrapping-online-rl-with-vision-language-action-models",
+          "steam-self-supervised-temporal-ensemble-advantage-modeling-for-real-world-robot-learning"
         ],
         "is_weak": false,
         "degraded": false
@@ -2513,27 +2662,28 @@
           "force-touch-robot-policy-review",
           "contact-rich-manipulation",
           "Online RL for VLA",
+          "robot-self-improvement",
           "Human-to-Robot Transfer",
           "tactile-representation",
           "2606.30988-multisensory-continual-learning-adapting-pretrained-visuomotor-policies-to-force",
-          "robot-self-improvement",
           "Long-Horizon Memory for Robot Policies",
+          "robot-rsi-data-imagination-program-skill-system",
+          "2609.32862-robofoundry",
           "2509.07962-ta-vla-elucidating-the-design-space-of-torque-aware-vision-language-action-models",
           "2608.25798-tacforcing-streaming-action-generation-with-execution-time-tactile-feedback",
           "2609.05832-cr-vla-force",
-          "2609.32862-robofoundry",
-          "t-rex-tactile-reactive-dexterous-manipulation",
-          "2606.29948-heterogeneous-tactile-transformer",
           "2609.38905-embodirsi",
+          "t-rex-tactile-reactive-dexterous-manipulation",
+          "2602.11075-rise-self-improving-robot-policy-with-compositional-world-model",
+          "2606.29948-heterogeneous-tactile-transformer",
           "Human Video Robot Data Generation",
           "2409.11047-tacdiffusion-force-domain-diffusion-policy-for-precise-tactile-manipulation",
           "2609.03889-fwbc-vla",
           "2609.04355-vla-precision-asymmetric-co-bootstrapping-for-efficient-real-world-online-rl",
+          "2609.29166-harnesspai",
           "pi07-a-steerable-generalist-robotic-foundation-model-with-emergent-capabilities",
           "tactile-genesis-exploring-tactile-sensors-at-scale-for-learning-dexterous-tasks",
-          "2602.11075-rise-self-improving-robot-policy-with-compositional-world-model",
           "2609.18242-forcedelta-vla",
-          "2609.29166-harnesspai",
           "om-1",
           "2605.11048-forceflow-learning-to-feel-and-act-via-contact-driven-flow-matching",
           "2606.09811-aha-wam",
@@ -2577,9 +2727,9 @@
       {
         "id": "Vision-Language-Action",
         "label": "Vision-Language-Action",
-        "node_count": 10,
-        "source_count": 9,
-        "internal_edge_weight": 2.516,
+        "node_count": 11,
+        "source_count": 10,
+        "internal_edge_weight": 2.75,
         "is_primary": true,
         "is_weak": false,
         "recommended_start_node_id": "Vision-Language-Action"
@@ -2598,8 +2748,8 @@
         "id": "Online RL for VLA",
         "label": "Online RL for VLA",
         "node_count": 8,
-        "source_count": 6,
-        "internal_edge_weight": 4.524,
+        "source_count": 5,
+        "internal_edge_weight": 8.592,
         "is_primary": false,
         "is_weak": false,
         "recommended_start_node_id": "Online RL for VLA"

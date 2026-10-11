@@ -65,7 +65,8 @@
   ],
   "synthesis": [
     "/home/yangkunzhu/workspace/agent_space/FollowHub/submodules/llm-wiki-skill/followhub-wiki/wiki/synthesis/current-vla-landscape-foundation-control-memory-and-transfer.md",
-    "/home/yangkunzhu/workspace/agent_space/FollowHub/submodules/llm-wiki-skill/followhub-wiki/wiki/synthesis/force-touch-robot-policy-review.md"
+    "/home/yangkunzhu/workspace/agent_space/FollowHub/submodules/llm-wiki-skill/followhub-wiki/wiki/synthesis/force-touch-robot-policy-review.md",
+    "/home/yangkunzhu/workspace/agent_space/FollowHub/submodules/llm-wiki-skill/followhub-wiki/wiki/synthesis/robot-rsi-data-imagination-program-skill-system.md"
   ],
   "graph_assets": [
     "/home/yangkunzhu/workspace/agent_space/FollowHub/submodules/llm-wiki-skill/followhub-wiki/wiki/knowledge-graph.html",

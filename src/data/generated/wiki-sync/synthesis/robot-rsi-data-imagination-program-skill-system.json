@@ -1,0 +1,75 @@
+{
+  "slug": "robot-rsi-data-imagination-program-skill-system",
+  "title": "机器人 RSI：数据、想象、程序、技能与系统策略",
+  "summary": "综合 EmbodiRSI、RISE、HarnessPAI、RoboRSI、RoboFoundry 五篇材料，把机器人递归自我改进拆成经验生成、失败归因、候选更新、验证发布和部署复用五个环节，并比较数据、想象环境、可执行程序、技能库和系统策略五类更新对象。",
+  "body": "# 机器人 RSI：数据、想象、程序、技能与系统策略\n\n> 综合 5 篇材料 | 更新日期：2026-10-11\n\n## 当前判断\n\n这五篇论文共同说明，机器人 RSI 已经从“模型反思一下”变成一个系统工程问题。一个闭环至少要回答五件事：执行反馈从哪里来、失败归因到什么单位、候选更新写到哪里、谁验证它能进入长期库、部署时如何复用且不拖慢控制。EmbodiRSI、RISE、HarnessPAI、RoboRSI 和 RoboFoundry 的差异主要不在名字里的 self-improvement，而在每个环节选择了不同对象。\n\nEmbodiRSI 改的是训练经验：目标桌面被建成可重复练习场，当前策略的失败状态和弱区决定下一批纠正轨迹与专家示范。RISE 改的是策略参数：动作条件世界模型在想象空间扩展状态，value model 给动作块打 advantage，再更新 π0.5。HarnessPAI 改的是可执行程序：把感知、几何、阶段验收和动作原语编排成代码包，跨 rollout 修复并用 success gate 发布。RoboRSI 改的是技能库治理：任务—技能树上的节点有接口、责任和后置条件，补丁只能落在最早失败节点拥有的子树并通过回放验证。RoboFoundry 的范围最大，把冻结模型周围的 context、记忆、技能、恢复树和跨本体绑定都视为 system policy。\n\n因此，更准确的图谱不是“五个 RSI 方法比谁成功率高”，而是五个更新层级：\n\n1. **经验层**：下一批数据从哪里来；\n2. **参数层**：哪些动作在想象或纠正经验下获得更高 advantage；\n3. **程序层**：哪些任务流程、几何检查和验收契约应该固化为代码；\n4. **技能层**：补丁属于哪个节点、会影响哪些调用者、凭什么发布；\n5. **系统层**：模型看到什么上下文、如何存取记忆、如何组合技能、如何绑定本体。\n\n这些层级可以组合。例如 HarnessPAI 可把已验证程序变成 success-filtered 数据再微调模型；RoboRSI 可把成功轨迹训练为神经技能并挂回技能树；RoboFoundry 同时覆盖 context 与 skill 两个表面。但组合不会自动更优：更新作用域越大，越需要独立诊断、回归测试、成本核算和安全边界。\n\n## 五条路线\n\n### 1. EmbodiRSI：目标场景练习场与 policy-dependent data\n\n[来源: EmbodiRSI](../sources/2609.38905-embodirsi.md) 把“当前策略失败在哪里”转化为“下一批数据从哪里来”。它先用目标桌面构造任务专用 Real2Sim 环境，再由 rollout 中的 agent 判断 continue / recover / complete，从 policy-reached state 生成纠正轨迹；跨 episode 后把最终失败归因到源物体或目标锚点的弱区，定向生成专家示范。\n\n两轮更新使 14 个子任务的 scene-balanced 自主仿真成功率从 50.4% 到 70.7% 再到 83.5%；在匹配 400 条轨迹预算下，自适应采集 79.9%，静态采集 59.3%；R2 加每子任务 10 条真实纠正后，实机成功率 83.1%，高于每子任务 200 条真实示范的 75.0%。\n\n这条路线的关键是“经验分配”而不是“agent 部署”。采数时的 agent、规划器和仿真状态只用于生成监督；最终评测仍要求 policy-only。它的主要风险是场景特定、Real2Sim 残差、系统成本不透明和只有两轮递归证据。\n\n### 2. RISE：想象练习场与参数更新\n\n[来源: RISE](../sources/2602.11075-rise-self-improving-robot-policy-with-compositional-world-model.md) 把物理试错转移到想象空间。动作条件多视角 dynamics model 合成未来状态，进度/TD value model 对 50 步动作块计算平均 advantage，π0.5 根据 advantage bin 学习复现更好动作。部署时世界模型和 value model 都不运行，控制频率保持原 VLA 系统的轻量形态。\n\n三项真机任务上，RISE 达到动态分拣 85%、背包整理 85%、纸箱关闭 95%，比最强 baseline 各高 35 个百分点；在线动作加在线状态消融把 Pick&Place 完整成功率从 35% 提到 70%，说明生成状态确实扩大了探索覆盖。\n\n这条路线把物理风险和人工复位成本换成世界模型偏差与算力成本。论文记录的 dynamics 预训练和微调需要大量 H100 时间，且罕见场景仍可能生成物理不合理转移。因此 RISE 更像高价值任务族的重型精修，不是低算力通用自进化。\n\n### 3. HarnessPAI：把可复用推理编译成程序\n\n[来源: HarnessPAI](../sources/2609.29166-harnesspai.md) 的更新对象是外部可执行 harness。单次 rollout 中程序固定，但仍读取观测、调用感知原语并执行预先写好的检查；跨 rollout 才根据代码 trace、rollout 视频、VLM 诊断和确定性 gate 修复程序。Task Memory、Executable Code Memory 和 Structured Skill Memory 分别保存任务入口、已验证程序和节点级修复。\n\n冻结 π0.5 被 harness 包装后，LIBERO-PRO 从 34.9% 升到 96.5%；WorldDreamer 在 RoboCasa Atomic-Seen 上从 65.0% 升到 92.2%。程序执行期高层 LLM API 成本为零，serial rollout 时间比 Harness VLA 快 18–23 倍。已验证程序还能生成成功轨迹，微调后把 π0.5-LIBERO 的 LIBERO-PRO 从 34.9% 提升到 73.7%。\n\n这条路线的优势是可读、可运行、可 diff、可回归；风险是依赖可用原语、可靠感知、明确 success contract 和重复任务开发预算。96.5% 应读作“重复任务 + 显式验证 + 开发期演化”的系统级结果，不是 VLA 泛化问题已被解决。\n\n### 4. RoboRSI：给技能库加工程变更管理\n\n[来源: RoboRSI](../sources/roborsi-stable-efficient-and-reusable-robot-self-evolution-in-complex-real-world-environments.md) 关注技能库长期增长后的治理问题。Top-Down Skill Refinement 将任务族、复合技能、原子任务和基础技能建成节点，每个节点有接口、责任和后置条件；Reviewer 沿调用路径找最早失败节点，Manager 限制补丁只修改责任子树，功能测试和近期回放通过后才发布。\n\nRoboRSI 在 LIBERO-PRO 达到 49.5%，比 OpenETA 的 38.5% 高 11.0 个百分点；LIBERO-Plus 冻结技能库迁移为 42.1%，比 36.4% 高 5.7 个百分点。复合技能消融在 600 个匹配 episode 上把成功率从 21.5% 提到 29.0%，同时中位 token、模型调用和墙钟时间分别下降 29.4%、27.2% 和 17.0%。\n\n这条路线的核心贡献不是保存更多经验，而是保存有所有权和契约的经验。它的边界也很清楚：主仿真表是在线自我改进口径，真机部分是 104 轮开发记录而非固定重复实验；没有明确后置条件或可靠工具反馈的开放环境会显著削弱该机制。\n\n### 5. RoboFoundry：把支撑系统整体作为 policy\n\n[来源: RoboFoundry](../sources/2609.32862-robofoundry.md) 把冻结模型周围的 context、持久文件记忆、技能层次、恢复树、语义/执行绑定和 trace 全部纳入 policy。失败被归因到 perceive / reason / plan / save / retrieve / utilize 六类能力；任务级修复先在当前任务验证，再通过 capability-conditioned held-out trace 检验后提升为通用系统规则。\n\nGPT-5.5 在 EmbodiedBench 从 56.9% 升至 72.7%，Qwen3.7-Plus 达到 70.3%，GPT-6 Astra 达到 78.0%；RoboMemArena 总体 TSR/CSR 为 53.5%/72.8%；LIBERO-PRO 无 privileged pose 平均成功率 91.9%；真实机器人上展示套娃、毛巾迁移、Unitree G1 语义导航和化学长程任务。\n\nRoboFoundry 的贡献是把优化对象从单段代码扩展到系统，但也因此引入更复杂的自我编辑风险。`Δcap ≥ 0` 的 verifier 打分弱于真实执行回归，系统调用、候选评估和安全治理成本也未完整披露。\n\n## 跨材料比较\n\n| 材料 | 经验来源 | 归因方式 | 更新对象 | 验证机制 | 最强证据 | 主要边界 |\n| --- | --- | --- | --- | --- | --- | --- |\n| EmbodiRSI | 目标场景 Real2Sim rollout | 中间失败状态 + 源/目标弱区 | 纠正轨迹、示范分布、策略参数 | 自主仿真评测，最终 policy-only 实测 | 83.1% vs 75.0%；自适应比静态高 20.6 pp | 场景特定，两轮，成本与重建误差不透明 |\n| RISE | 想象世界模型 rollout | 未来状态 value 差分 / chunk advantage | π0.5 参数 | 想象消融 + 20 次真机评测 | 85% / 85% / 95% | 世界模型偏差、H100 成本、三项实验室任务 |\n| HarnessPAI | 代码 trace、rollout 视频、扰动 seed | workflow 节点 + success contract | 可执行程序、节点技能、回流数据 | pre-flight、probe、全量回归、deterministic gate | LIBERO-PRO 96.5%；轨迹回流后 73.7% | 重复任务、评估含开发 seed、程序开发成本 |\n| RoboRSI | 任务—技能树执行轨迹 | 最早失败后置条件节点 | 责任子树补丁、复合技能、神经技能 | 功能测试 + 近期受影响任务回放 | LIBERO-PRO 49.5%；复合技能同时提升成功率和效率 | 在线自我改进口径，真机为开发记录 |\n| RoboFoundry | context / skill / binding 执行 trace | 六类能力缺口 | 任务系统与通用系统文件规则 | 任务内 rollout + held-out capability transfer | GPT-5.5 56.9%→72.7%；RoboMemArena 53.5%/72.8% | 自评 verifier、成本、长期规则冲突未验证 |\n\n## 共同原则\n\n- **更新单位必须可寻址。** 弱区、动作块、workflow 节点、责任子树和能力类别都比“整次失败”更接近可修复原因。没有清晰单位，反思只会变成重复提示。\n- **生成者不应独自判定成功。** HarnessPAI 的 success contract 和独立诊断、RoboRSI 的 Reviewer、EmbodiRSI 的 policy-only 测试，都在把“提出更新”和“验证更新”分开。RoboFoundry 的 held-out verifier 是进步，但仍应升级为真实执行回归。\n- **局部修复优先于全局提升。** RoboRSI 的责任子树和 RoboFoundry 的任务级/通用级作用域说明，一个修复先证明局部有效，再证明不影响其他任务，才有资格进入长期库。\n- **部署形态和训练形态必须分开报告。** RISE 的世界模型只在训练期运行，EmbodiRSI 的采数 agent 不进入部署，HarnessPAI 部署期固定程序但可读观测。把这些机制误说成部署期自主 agent，会夸大安全能力。\n- **固化能降低成本，也可能引入刚性。** 复合技能、程序包和通用规则能减少 token、模型调用和重规划，但一旦环境假设失效，需要明确的检测、回退和回滚机制。\n- **RSI 的成本不只是机器人 rollout。** 模型调用、世界模型训练、仿真重建、候选评估、回归测试、人工复位和安全审查都必须计入，否则会比较出虚假的数据效率。\n\n## 组合建议\n\n- **目标场景固定、真实示范昂贵、允许重建和仿真 rollout**：优先参考 EmbodiRSI，把失败状态纠正和弱区定向采数作为数据层。\n- **高价值接触密集任务、可承担算力、希望避免真实试错**：参考 RISE，用动作可控世界模型和 chunk advantage 做参数精修，但必须评估生成偏差。\n- **同类任务重复执行、原语可用、成功条件可验证**：参考 HarnessPAI，把 grounding、几何和阶段验收编译成程序，并把高层 LLM 移出部署关键路径。\n- **长期运行、多任务共享技能、担心一次修复破坏其他调用者**：参考 RoboRSI，引入接口、后置条件、最早失败归因、责任子树和回归发布。\n- **一个底座要跨任务、跨记忆形式和跨本体复用能力**：参考 RoboFoundry 的 context / skill / binding 分解，但为通用规则增加执行级回归和版本治理。\n\n## 分歧与限制\n\n- **更新权重还是更新外部资产。** EmbodiRSI 和 RISE最终改变策略参数；HarnessPAI、RoboRSI 和 RoboFoundry 更倾向代码、技能、上下文和接口。前者可能获得更平滑的行为修正，后者更容易审计、回滚和跨模型迁移。\n- **练习场来源不同。** EmbodiRSI 的 Real2Sim 保目标场景但受重建误差约束；RISE 的想象环境可扩展状态但受生成模型偏差约束；RoboRSI / HarnessPAI / RoboFoundry 依赖 benchmark 或重复任务中的真实反馈。三者不能直接比较成功率。\n- **held-out 强度差异很大。** EmbodiRSI 测试 reset 不随训练偏移；HarnessPAI 的部分 benchmark 包含开发 seed；RoboRSI 主表允许在线修订而基线固定；RoboFoundry 的通用化验证是 trace replay 而非完整真实回归。\n- **长期递归证据不足。** EmbodiRSI 只有两次更新，RISE 是训练管线，HarnessPAI 和 RoboRSI 的开发曲线存在波动，RoboFoundry 未展示规则库长期冲突。都不能证明无限自我提升。\n- **安全责任不同。** 世界模型把风险从物理世界转移到模型偏差；代码和技能库把风险转移到接口契约、回归覆盖和误归因；系统策略演化还要处理文件修改、上下文污染和跨本体安全边界。\n\n## 什么会改变判断\n\n- 在同一机器人、同一任务族和等量总成本下，直接比较数据 RSI、想象 RSI、程序 RSI、技能库 RSI 与系统策略 RSI，并报告固定策略与在线演化两种口径。\n- 将 RSI 循环运行到数十轮以上，观察成功率、规则冲突、库大小、推理成本、回滚次数和灾难遗忘曲线。\n- 用独立 verifier、真实执行回归和安全性压力测试替代生成者自评，并报告误归因率。\n- 验证从单场景、单本体、单 backbone 提升到 held-out 场景、跨机器人、跨感知条件和跨模型时的衰减。\n- 把 RoboFoundry 式系统演化、RoboRSI 式技能治理和 HarnessPAI 式程序回归合并为一个可版本化平台，并显式区分训练期、开发期与部署期权限。\n\n## 关联主题\n\n- [[robot-self-improvement|Robot Self-Improvement]]\n- [[Online RL for VLA]]\n- [[Vision-Language-Action]]\n- [[Long-Horizon Memory for Robot Policies]]\n\n## 关联材料\n\n- [[2609.38905-embodirsi|EmbodiRSI]]\n- [[2602.11075-rise-self-improving-robot-policy-with-compositional-world-model|RISE]]\n- [[2609.29166-harnesspai|HarnessPAI]]\n- [[RoboRSI: Stable, Efficient, and Reusable Robot Self-Evolution in Complex Real-World Environments]]\n- [[2609.32862-robofoundry|RoboFoundry]]",
+  "tags": [
+    "robot-self-improvement"
+  ],
+  "created": "2026-10-11",
+  "updated": "2026-10-11",
+  "sourceTitles": [],
+  "relatedPages": [
+    "robot-self-improvement",
+    "Online RL for VLA",
+    "Vision-Language-Action",
+    "Long-Horizon Memory for Robot Policies",
+    "2609.38905-embodirsi",
+    "2602.11075-rise-self-improving-robot-policy-with-compositional-world-model",
+    "2609.29166-harnesspai",
+    "RoboRSI: Stable, Efficient, and Reusable Robot Self-Evolution in Complex Real-World Environments",
+    "2609.32862-robofoundry"
+  ],
+  "sourceSlugs": [
+    "2609.38905-embodirsi",
+    "2602.11075-rise-self-improving-robot-policy-with-compositional-world-model",
+    "2609.29166-harnesspai",
+    "roborsi-stable-efficient-and-reusable-robot-self-evolution-in-complex-real-world-environments",
+    "2609.32862-robofoundry"
+  ],
+  "topicSlugs": [
+    "robot-self-improvement",
+    "online-rl-for-vla",
+    "vision-language-action"
+  ],
+  "judgment": "机器人 RSI 的可信定义不是机器人自主改写自身，而是让执行反馈经归因和验证后改变某个会影响后续行为的作用域：训练数据、策略参数、外部程序、技能库或模型支撑系统。五篇工作共同说明，RSI 的关键不在“会反思”，而在更新单位是否可检索、责任是否可界定、验证是否独立于生成者、部署时是否保持延迟和安全边界。当前最强证据支持目标场景或重复任务内的受控自提升；长期稳定性、跨场景泛化、成本核算和安全治理仍未解决。",
+  "claims": [
+    "RSI 的第一设计决策是更新对象：EmbodiRSI 改数据分布，RISE 改策略参数，HarnessPAI 改程序包，RoboRSI 改技能树，RoboFoundry 改 context / skill / binding 支撑系统。",
+    "经验来源决定风险：目标场景 Real2Sim 主要带来重建误差，想象世界模型主要带来生成偏差，真实执行主要带来安全",
+    "复位和成本约束。",
+    "失败归因是 RSI 的瓶颈：空间弱区",
+    "chunk advantage",
+    "workflow 节点",
+    "最早失败后置条件和六类能力各自提供不同粒度的诊断接口。",
+    "没有验证门的自我修改不可信：policy-only 评测",
+    "确定性 success gate",
+    "责任子树回放",
+    "held-out 保留检验分别对应不同层级的回归约束。",
+    "部署时更新应尽量离开在线关键路径：固化程序",
+    "复合技能",
+    "文件规则和参数化技能能降低延迟",
+    "训练期世界模型与 rollout 期 agent 不应默认部署。",
+    "“递归”在当前论文中大多只有两轮或开发期多轮记录，尚不足以证明长期稳定",
+    "无冲突",
+    "无灾难遗忘的自我进化。",
+    "五篇工作的 benchmark",
+    "协议和成本不同，成功率不能横向排名",
+    "应比较机制和边界，而不是宣称某一方法绝对最强。"
+  ],
+  "openQuestions": [
+    "同一目标场景下，数据 RSI",
+    "程序 RSI",
+    "技能库 RSI 和系统策略 RSI 的边际收益能否被等预算拆分？",
+    "能否用独立 verifier 或真实执行回归替代生成系统自评，避免误归因被递归放大？",
+    "多次 RSI 后，技能",
+    "程序",
+    "上下文规则和策略权重如何版本化",
+    "选择",
+    "合并与回滚？",
+    "想象环境",
+    "Real2Sim 和真实执行的经验应如何在统一安全预算下混合？",
+    "跨机器人",
+    "跨任务",
+    "跨感知条件和安全关键场景中，哪些更新应保持局部，哪些才有资格提升为通用能力？"
+  ]
+}
