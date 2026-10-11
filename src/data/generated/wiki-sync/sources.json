@@ -8290,5 +8290,159 @@
     "relatedTopicSlugs": [
       "source"
     ]
+  },
+  {
+    "slug": "2608.19182-adept-accelerating-dexterity-via-pre-training-and-post-training-using-reinforcement-learning",
+    "title": "ADEPT: Accelerating Dexterity via Pre-Training and Post-Training using Reinforcement Learning",
+    "sourceType": "paper",
+    "sourceUrl": "https://arxiv.org/abs/2608.19182",
+    "htmlUrl": "https://arxiv.org/html/2608.19182v1",
+    "pdfUrl": "https://arxiv.org/pdf/2608.19182",
+    "codeUrl": "",
+    "translationUrl": "https://hjfy.top/arxiv/2608.19182",
+    "publishDate": "2026-08-19",
+    "authors": [
+      "Jayjun Lee",
+      "Jessica Yin",
+      "Asif Rana",
+      "Nicholas Blauch",
+      "Sam Mady",
+      "Mohak Bhardwaj",
+      "Nima Fazeli",
+      "Nathan Ratliff",
+      "Karl Van Wyk",
+      "Ankur Handa"
+    ],
+    "affiliation": "NVIDIA",
+    "relatedOrganizations": [
+      "NVIDIA",
+      "University of Michigan"
+    ],
+    "relatedCompanies": [
+      "NVIDIA"
+    ],
+    "keywords": [
+      "dexterous manipulation",
+      "reinforcement learning pretraining",
+      "sim-to-real transfer",
+      "geometric fabrics",
+      "tactile sensing"
+    ],
+    "primaryDomainSlug": "physical-embodied-intelligence",
+    "domainSlugs": [
+      "physical-embodied-intelligence"
+    ],
+    "heroImage": "https://arxiv.org/html/2608.19182v1/adept_overview_aug_12.png",
+    "tldr": "ADEPT 把高自由度灵巧操作学习拆成“通用预训练 + 稳定后训练 + 感知蒸馏”三层：先用 8B 环境步在 16 类几何 primitive 上训练 reposing 教师，学到 reach、grasp、lift、in-hand reorient、transport 等可复用技能；再把教师迁移到 FMB peg insertion 与 dish-rack placement，用 actor 蒸馏、critic warm-up 和低学习率 PPO 避免灾难性遗忘；最后蒸馏成只看 RGB 或 RGB+五指触觉的学生策略，零样本部署到 23 DoF Kuka-Allegro 和 29 DoF Flexiv-Sharpa。关键实验结论是：直接 PPO 微调会迅速把预训练能力打到 0%，而 ADEPT 后训练在 3B 步内得到稳定教师；真机长程任务中，视觉学生取得 3/10–6/10 成功率，加入指尖触觉后同一 Flexiv-Sharpa 方形/圆头插入任务提升到 8/10。这个结果同时说明，预训练不必覆盖全部下游技能，但必须把策略放到一个 downstream RL 能继续发现解的初始区域。",
+    "intuition": "可以把 ADEPT 理解成给高自由度机器人先上“通用搬运与转物体课”，再上“具体装配课”。如果每个任务都从零学，机器人会反复重新发现怎么伸手、抓取、举起、旋转和搬运；这些基础动作在高维动作和接触动力学下本身就很难学。ADEPT 用 reposing 任务强迫策略学会这些基础技能，但它并不假设预训练教师已经会插入或摆盘子：后训练阶段允许 RL 学习新接触行为，只是用蒸馏和保守更新避免一开始就把旧技能忘掉。\n\n论文最重要的工程判断是把“策略学习”和“安全执行”分开。策略输出全关节空间的相对目标，Geometric Fabric 在中间层保证关节限位、碰撞 avoidance 和平滑二阶动态，同时让仿真和真机使用同一个控制接口。这样 RL 可以探索完整 23/29 DoF 灵巧性，而不直接把未处理的加速度命令发给硬件。",
+    "abstractEn": "We introduce Accelerating Dexterity via Pre-Training (ADEPT), a large-scale reinforcement learning (RL) framework for learning sim-to-real transferable dexterity across high degree-of-freedom (DoF) robot embodiments that can solve long-horizon tasks directly from raw visuo-tactile perception. ADEPT pretrains a dexterous policy on a generic object reposing task, then post-trains downstream policies with this pretrained behavior as a prior. ADEPT enables learning new behaviors that are otherwise difficult to discover from scratch on multi-fingered robots and avoids learning the same set of skills over again for every new downstream task. The pretrained policy zero-shots the reposing phase of downstream tasks, but naïve RL fine-tuning rapidly degrades this capability during transfer. We address this with a stable post-training recipe combining behavior-cloning distillation, critic warm-up, and conservative on-policy updates. To safely exploit the full kinematic dexterity, we introduce a joint-space Geometric Fabric that mediates between the RL policy and the robot. We distill post-trained teachers into perceptive students that zero-shot sim-to-real transfer on two embodiments: a 23 DoF Kuka-Allegro with two RGB cameras, and a 29 DoF Flexiv-Sharpa with two RGB cameras and five vision-based tactile sensors, and can solve long-horizon tasks from challenging initial states with dexterity at human-level speed.",
+    "abstractZh": "作者提出 ADEPT，一个用于高自由度机器人 embodiment 的大规模强化学习框架，目标是让策略直接从原始视觉-触觉感知解决长程灵巧任务，并能仿真到真实迁移。ADEPT 先在通用 object reposing 任务上预训练灵巧策略，再把该行为作为先验后训练下游策略。这样，多指机器人无需在每个新任务中重新发现相同技能，也能学到从零很难出现的新行为。预训练教师可以零样本完成下游任务的 reposing 阶段，但朴素 RL fine-tuning 会很快破坏这项能力；因此论文提出行为克隆蒸馏、critic warm-up 与保守 on-policy update 的稳定后训练配方。为了安全利用完整运动学灵巧性，作者在策略与机器人之间加入 joint-space Geometric Fabric。最终，后训练教师被蒸馏成感知学生，分别在 23 DoF Kuka-Allegro 双 RGB 相机平台和 29 DoF Flexiv-Sharpa 双 RGB + 五视觉触觉传感器平台上零-shot 迁移，并能以接近人类速度从困难初始状态完成长程任务。",
+    "background": "**动机：** 高自由度臂手系统的状态、动作与接触都很多维，即使有大规模并行 GPU 仿真，从零训练单个任务的 PPO 也要反复重新发现 reaching、grasping、lifting 和 in-hand reorientation 这些底层技能；这种重复不仅浪费算力，也让每个新接触密集任务都变成一次高方差的从零探索。\n\n**问题缺口：** 已有灵巧操作工作要么依赖 demonstrations、pose estimator、低维 hand 子空间或外部 fixture，要么把预训练策略直接拿去 PPO fine-tune。论文要补的缺口是：如何让一个没有任务特定示范、没有真机 pose tracker 的通用 RL 先验，在观察空间和奖励都变化的后训练中不被灾难性遗忘，同时保留全关节灵巧性并最终从原始视觉/触觉零样本迁移到真机长程 pick-reorient-insert。",
+    "backgroundMotivation": "高自由度臂手系统的状态、动作与接触都很多维，即使有大规模并行 GPU 仿真，从零训练单个任务的 PPO 也要反复重新发现 reaching、grasping、lifting 和 in-hand reorientation 这些底层技能；这种重复不仅浪费算力，也让每个新接触密集任务都变成一次高方差的从零探索。",
+    "backgroundGap": "已有灵巧操作工作要么依赖 demonstrations、pose estimator、低维 hand 子空间或外部 fixture，要么把预训练策略直接拿去 PPO fine-tune。论文要补的缺口是：如何让一个没有任务特定示范、没有真机 pose tracker 的通用 RL 先验，在观察空间和奖励都变化的后训练中不被灾难性遗忘，同时保留全关节灵巧性并最终从原始视觉/触觉零样本迁移到真机长程 pick-reorient-insert。",
+    "method": "![ADEPT overview](https://arxiv.org/html/2608.19182v1/adept_overview_aug_12.png)\n\n*ADEPT 的预训练、稳定后训练、感知蒸馏与零样本部署流程。*\n\n**方法概述：** ADEPT 是四段流水线：第一，在每个 embodiment 上用 PPO + ADR + PBT，在随机尺度、物理属性与目标姿态的 16 类 primitive reposing 任务上训练状态教师；第二，把预训练 actor 蒸馏到带下游观察空间的新 actor；第三，冻结 actor 训练新 critic，再用低 actor 学习率和小 clip 的 PPO 做 contact-rich 任务后训练；第四，把状态教师经两阶段 DAgger 蒸馏成 RGB 或 RGB+TacMap 学生，并用同一 Geometric Fabric 接口零样本上真机。\n\n**核心机制：** 其有效性来自把“行为先验、价值校准、更新幅度、安全控制和感知接口”拆开处理：reposing 预训练提供自然抓取和 reorientation 初始分布；BC 蒸馏解决新旧观察空间不匹配；critic warm-up 先让新任务价值估计可靠，再更新 actor；低学习率与小 clip 限制策略离开先验流形的速度；Cspace Geometric Fabric 提供关节限位、碰撞 avoidance 与平滑二阶控制；两阶段学生课程先学物体关键点感知，再学接触密集动作，避免视觉编码和策略学习互相干扰。\n\n**方法拆解：**\n\n- **通用 reposing 预训练**：每个 episode 从 cylinder、cuboid、sphere、cone 等 16 类 primitive 中采样一个，随机化尺度、物理属性、初始位置和目标姿态；策略必须完成 reach、grasp、lift、in-hand reorient、transport、repose。ADR 逐步扩大目标与环境范围，PBT 搜索 PPO 超参，重力从 0 anneal 到 `-9.81 m/s²`。Kuka-Allegro 预训练为 8B 环境步。\n- **BC actor distillation**：下游任务比 reposing 多 receptacle pose 和 object-receptacle contact force 等观察。ADEPT 不直接修改旧 actor 输入层，而是用旧教师监督新下游 actor 40k iteration，把可迁移行为写入新的观察接口；BC 对准 ADR 20 的 goal pose，因为该处教师仍能可靠完成 reposing。\n- **critic warm-up + conservative PPO**：先冻结新 actor，在下游奖励下采集 rollout 训练新 critic 约 20 个 PPO iteration；再联合训练 actor-critic。后训练 actor LR 从预训练的 `1e-3` 降为 `1e-5` 并线性衰减，PPO clip 从 0.2 收紧到 0.05，critic LR 固定 `5e-5`。之后 goal pose 直接收敛到 ADR 50 的最终插入目标，其余随机化从 ADR 20 继续推进。\n- **两阶段感知蒸馏**：第一阶段用 reposing 教师构造感知密集的 surrogate，让 stereo RGB 学生先学 peg 检测、8-keypoint pose 辅助预测、跟踪与 reorientation；第二阶段从该 checkpoint 开始，用下游教师继续 DAgger 蒸馏插入动作。视觉输入包含两个相机，随机化物理、wrench、光照、背景、相机内外参和传感器噪声。\n- **TacMap 触觉表示**：Flexiv-Sharpa 每个指尖的视觉触觉传感器被仿真成 geometry-consistent penetration-depth map，与真实校准输出共享表示；再阈值化成 binary contact map，两通道经共享 per-finger CNN 编码，并用 SaTA 式 FiLM 按指尖正向运动学位置空间锚定，最后与 RGB 和 proprioception latent 融合。\n- **Cspace Geometric Fabric**：策略输出 `[-1,1]^{n_q}` 的 per-joint relative delta，映射为 Cspace target 和 policy forcing term；fabric 的惯性、阻尼、碰撞/限位排斥项在策略与机器人之间生成平滑二阶控制。该 fabric 同时运行在仿真和真机，保留完整 23/29 DoF 探索能力并降低控制接口差异。\n\n**关键要点：**\n\n- 预训练教师对未见物体有较强 reposing 泛化：Kuka-Allegro 在 FMB peg 上 76%、VisDex 152 物体上 77%，均不低于 16 个训练 primitive 的 73%；Flexiv-Sharpa 分别为 58% 和 61%，低于训练分布的 64% 但没有失效。\n- 预训练先验能零-shot 完成 FMB 的 reposing 段：Kuka-Allegro 在 ADR 20 有 71.9% 成功，Flexiv-Sharpa 为 74.9%；但到真正接触插入的 ADR 50 分别降为 0% 和 0.7%，说明必须学习新的接触段。\n- 直接 PPO fine-tune 失败不是预训练不足，而是 reward、观察空间、critic 和更新幅度不匹配：教师原本能零-shot reposing，但少量更新后成功率降到 0%。\n- 真实瓶颈更多在感知而非动作执行：视觉学生在遮挡下估计不对称 peg 姿态错误，或不知道抓取是否成功；指尖触觉把 Flexiv-Sharpa 的 grasp/lift 都稳定到 10/10，最终插入从视觉的 3/10 提升到 8/10。",
+    "methodOverview": "ADEPT 是四段流水线：第一，在每个 embodiment 上用 PPO + ADR + PBT，在随机尺度、物理属性与目标姿态的 16 类 primitive reposing 任务上训练状态教师；第二，把预训练 actor 蒸馏到带下游观察空间的新 actor；第三，冻结 actor 训练新 critic，再用低 actor 学习率和小 clip 的 PPO 做 contact-rich 任务后训练；第四，把状态教师经两阶段 DAgger 蒸馏成 RGB 或 RGB+TacMap 学生，并用同一 Geometric Fabric 接口零样本上真机。",
+    "methodCore": "其有效性来自把“行为先验、价值校准、更新幅度、安全控制和感知接口”拆开处理：reposing 预训练提供自然抓取和 reorientation 初始分布；BC 蒸馏解决新旧观察空间不匹配；critic warm-up 先让新任务价值估计可靠，再更新 actor；低学习率与小 clip 限制策略离开先验流形的速度；Cspace Geometric Fabric 提供关节限位、碰撞 avoidance 与平滑二阶控制；两阶段学生课程先学物体关键点感知，再学接触密集动作，避免视觉编码和策略学习互相干扰。",
+    "methodBreakdown": [
+      "**通用 reposing 预训练**：每个 episode 从 cylinder、cuboid、sphere、cone 等 16 类 primitive 中采样一个，随机化尺度、物理属性、初始位置和目标姿态；策略必须完成 reach、grasp、lift、in-hand reorient、transport、repose。ADR 逐步扩大目标与环境范围，PBT 搜索 PPO 超参，重力从 0 anneal 到 `-9.81 m/s²`。Kuka-Allegro 预训练为 8B 环境步。",
+      "**BC actor distillation**：下游任务比 reposing 多 receptacle pose 和 object-receptacle contact force 等观察。ADEPT 不直接修改旧 actor 输入层，而是用旧教师监督新下游 actor 40k iteration，把可迁移行为写入新的观察接口；BC 对准 ADR 20 的 goal pose，因为该处教师仍能可靠完成 reposing。",
+      "**critic warm-up + conservative PPO**：先冻结新 actor，在下游奖励下采集 rollout 训练新 critic 约 20 个 PPO iteration；再联合训练 actor-critic。后训练 actor LR 从预训练的 `1e-3` 降为 `1e-5` 并线性衰减，PPO clip 从 0.2 收紧到 0.05，critic LR 固定 `5e-5`。之后 goal pose 直接收敛到 ADR 50 的最终插入目标，其余随机化从 ADR 20 继续推进。",
+      "**两阶段感知蒸馏**：第一阶段用 reposing 教师构造感知密集的 surrogate，让 stereo RGB 学生先学 peg 检测、8-keypoint pose 辅助预测、跟踪与 reorientation；第二阶段从该 checkpoint 开始，用下游教师继续 DAgger 蒸馏插入动作。视觉输入包含两个相机，随机化物理、wrench、光照、背景、相机内外参和传感器噪声。",
+      "**TacMap 触觉表示**：Flexiv-Sharpa 每个指尖的视觉触觉传感器被仿真成 geometry-consistent penetration-depth map，与真实校准输出共享表示；再阈值化成 binary contact map，两通道经共享 per-finger CNN 编码，并用 SaTA 式 FiLM 按指尖正向运动学位置空间锚定，最后与 RGB 和 proprioception latent 融合。",
+      "**Cspace Geometric Fabric**：策略输出 `[-1,1]^{n_q}` 的 per-joint relative delta，映射为 Cspace target 和 policy forcing term；fabric 的惯性、阻尼、碰撞/限位排斥项在策略与机器人之间生成平滑二阶控制。该 fabric 同时运行在仿真和真机，保留完整 23/29 DoF 探索能力并降低控制接口差异。"
+    ],
+    "methodTakeaways": [
+      "预训练教师对未见物体有较强 reposing 泛化：Kuka-Allegro 在 FMB peg 上 76%、VisDex 152 物体上 77%，均不低于 16 个训练 primitive 的 73%；Flexiv-Sharpa 分别为 58% 和 61%，低于训练分布的 64% 但没有失效。",
+      "预训练先验能零-shot 完成 FMB 的 reposing 段：Kuka-Allegro 在 ADR 20 有 71.9% 成功，Flexiv-Sharpa 为 74.9%；但到真正接触插入的 ADR 50 分别降为 0% 和 0.7%，说明必须学习新的接触段。",
+      "直接 PPO fine-tune 失败不是预训练不足，而是 reward、观察空间、critic 和更新幅度不匹配：教师原本能零-shot reposing，但少量更新后成功率降到 0%。",
+      "真实瓶颈更多在感知而非动作执行：视觉学生在遮挡下估计不对称 peg 姿态错误，或不知道抓取是否成功；指尖触觉把 Flexiv-Sharpa 的 grasp/lift 都稳定到 10/10，最终插入从视觉的 3/10 提升到 8/10。"
+    ],
+    "results": "![Real-world setup](https://arxiv.org/html/2608.19182v1/real_world_setup_aug14.png)\n\n*两个高自由度平台、任务物体、初始状态与光照变化。*\n\n### 预训练泛化与零-shot 下游能力\n\n| 平台 | 16 个训练 primitive | 2 个 FMB peg | 152 个 VisDex 物体 |\n| --- | ---: | ---: | ---: |\n| Kuka-Allegro | 73.0% ± 0.003 | 76.0% ± 0.003 | 77.0% ± 0.011 |\n| Flexiv-Sharpa | 64.0% ± 0.007 | 58.0% ± 0.011 | 61.0% ± 0.015 |\n\n在 FMB reposing 的 ADR curriculum 上，Kuka-Allegro 教师从 ADR 0 的 98.6% 降到 ADR 35 的 52.5%、ADR 50 的 0%；Flexiv-Sharpa 从 94.5% 降到 ADR 35 的 59.2%、ADR 50 的 0.7%。因此后训练从 ADR 20 开始：先蒸馏可完成的 reposing 目标，再直接学习最终插入目标。\n\n### 后训练消融\n\n| 变体 | ADR 50 达成 | 训练成功率 | 到 ADR 50 时间 |\n| --- | ---: | ---: | ---: |\n| ADEPT full | 5/5 seeds | 46.0% ± 1.1 | 19.9 h ± 1.0 |\n| 无 BC | 4/5 | 38.5% ± 1.2 | 35.2 h ± 4.9 |\n| 无 critic warm-up | 4/5 | 28.4% ± 3.7 | 20.2 h ± 1.5 |\n| 标准 PPO / 高 LR | 0/5 | 0% | collapse at ADR 20 |\n| loose clip（LR 仍低） | 5/5 | 46.8% ± 2.0 | 17.6 h ± 1.8 |\n\n最重要的结论是低 actor LR 必要：所有 `1e-3` 变体都在 ADR 20 collapse；KL penalty 也救不了。给定低 LR 后，critic warm-up 带来约 +17.6 个百分点成功率，BC 几乎把适配时间减半。tightened clip 的贡献很小，loose clip 甚至略优，因此作者认为未来可用 0.2 作为默认。\n\n### 真机长程结果\n\n| 模态 | 平台 | 任务 | Reach | Grasp | Lift | Reorient | Align | Insert |\n| --- | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: |\n| Vision | Kuka-Allegro | FMB Star | 10/10 | 9/10 | 8/10 | 8/10 | 7/10 | 5/10 |\n| Vision | Kuka-Allegro | FMB Square/Round | 10/10 | 8/10 | 6/10 | 4/10 | 3/10 | 3/10 |\n| Vision | Flexiv-Sharpa | FMB Square/Round | 10/10 | 7/10 | 5/10 | 3/10 | 3/10 | 3/10 |\n| Visuo-tactile | Flexiv-Sharpa | FMB Square/Round | 10/10 | 10/10 | 10/10 | 9/10 | 8/10 | 8/10 |\n| Vision | Kuka-Allegro | Dish rack | 10/10 | 10/10 | 8/10 | 7/10 | 6/10 | 6/10 |\n\n仿真教师方面，Kuka-Allegro 两个 FMB peg 平均 85.0%，Flexiv-Sharpa square/round 为 89.2%。Kuka-Allegro 视觉学生在仿真中分别为 square/round 46.7%、star 65.2%，显示教师到学生的感知蒸馏仍有明显损失。真机失败主要来自不对称 peg 的遮挡姿态估计、圆头与圆指尖的小接触面，以及视觉学生无法确认抓取是否成功。\n\n论文还报告完整连续行为每次 5–10 s；FMB 原平行夹爪 human demo 需要外部 fixture、多阶段 regrasp，每次 20–70 s，因此 ADEPT 声称 2×–14× 执行时间加速。这个比较说明多指手连续动作的优势，但不同硬件与流程之间不是严格受控排行榜。",
+    "resultHighlights": [],
+    "insights": "![Grasp quality analysis](https://arxiv.org/html/2608.19182v1/grasp_quality_analysis_aug18.png)\n\n*从零训练、预训练教师与 ADEPT 后训练的抓取模式对比。*\n\n- **预训练的价值不是完整技能库，而是好的初始分布。** FMB 中，预训练自然抓取被后训练选择和细化；dish-rack 中，预训练不会抓 plate，却提供了有效 reach 和有意义的接触尝试，使下游 RL 能发现 flip-and-regrasp。若任务与先验几乎没有重叠，仍需扩大预训练覆盖。\n- **RL 迁移的核心失败在优化动力学。** 作者没有把 fine-tune 失败归因于“数据不够”，而是拆出 actor 输入不匹配、新 reward 下 critic 失准和 policy drift；对应修复分别比简单加 KL penalty 更直接。\n- **全关节空间与安全不冲突。** Geometric Fabric 不是压缩 hand 动作到 PCA 子空间，而是让策略在全 Cspace 中输出相对目标，由 fabric 处理限位、碰撞和平滑性。代价是学习问题更高维。\n- **触觉在长程任务中的作用是状态确认。** 视觉学生并非完全不能抓，而是在抓后不知道接触是否稳定，导致 reopen、掉落和 regrasp 循环；TacMap 直接给出每个指尖的空间接触证据，显著减少级联失败。\n- **感知蒸馏需要课程。** 单阶段 baseline 完全失败；先让 encoder 学 peg 检测与 keypoint pose，再学策略，比同时学两者稳定。这个结论对其他 contact-rich 视觉策略也有参考价值。",
+    "insightCore": [],
+    "insightRelations": [],
+    "insightBorrowable": [],
+    "risks": "**局限：**\n\n- 真机每个 setting 只测 10 次，结果适合作为方向性证据，不能支持精确成功率排名或统计稳健结论。\n- 视觉策略在不对称 peg 遮挡下仍会错估 yaw/tilt；Allegro 圆指尖与圆头 peg 的小接触面也造成抓取不稳定。\n- 每个任务与 embodiment 仍需独立后训练教师，3B 环境步的边际成本低于 11B 总成本，但对普通实验室仍很高。\n- 预训练分布只有 16 类简单 primitive 与 reposing；论文自己承认需要扩展到 in-hand manipulation、tool use、clutter、bimanual 等更广泛交互。\n- 触觉增益是在一个平台和一个 FMB peg 上验证；跨传感器、跨手型与更多接触任务仍未证明。\n- 5–10 s 与 20–70 s 的速度对比来自不同操作流程和夹持系统，不是严格同硬件受控实验。\n\n**适用场景：**\n\n- 高自由度臂手系统需要在仿真中预训练可复用 reach/grasp/lift/reorient/transport 先验。\n- 下游任务与 reposing 有明显共享子技能，例如 pick-reorient-insert、搬运摆放和需要手内重定向的装配。\n- 部署平台能提供稳定的双相机标定，或能接入几何一致的指尖触觉表示。\n- 需要在策略学习与安全低层控制之间显式分层，而不是让 RL 直接输出执行器命令。\n\n**最终判断：**\n\n- 这是一篇系统贡献强于单点算法创新的论文：reposing 预训练、稳定 RL 后训练、全 Cspace fabric、两阶段感知蒸馏和 TacMap 触觉接口共同支撑了无示范、无 pose estimator 的真机长程灵巧操作。\n- 最值得迁移的经验是先诊断迁移失败机制，再分别处理 actor observation mismatch、critic calibration 和 policy drift；简单 KL regularization 不足以替代这些结构化步骤。\n- 触觉结果是本篇对 force/touch policy 研究最有价值的证据之一：同一策略与任务中，指尖接触反馈把长程成功率从 3/10 提到 8/10，且失败模式明确指向 grasp confidence 而非动作生成。\n- 不应把它理解成通用机器人 foundation policy：当前结果仍按 embodiment 和任务后训练，预训练覆盖有限；更准确的定位是可摊销的灵巧操作先验与稳定 specialization 方法。",
+    "riskLimitations": [
+      "真机每个 setting 只测 10 次，结果适合作为方向性证据，不能支持精确成功率排名或统计稳健结论。",
+      "视觉策略在不对称 peg 遮挡下仍会错估 yaw/tilt；Allegro 圆指尖与圆头 peg 的小接触面也造成抓取不稳定。",
+      "每个任务与 embodiment 仍需独立后训练教师，3B 环境步的边际成本低于 11B 总成本，但对普通实验室仍很高。",
+      "预训练分布只有 16 类简单 primitive 与 reposing；论文自己承认需要扩展到 in-hand manipulation、tool use、clutter、bimanual 等更广泛交互。",
+      "触觉增益是在一个平台和一个 FMB peg 上验证；跨传感器、跨手型与更多接触任务仍未证明。",
+      "5–10 s 与 20–70 s 的速度对比来自不同操作流程和夹持系统，不是严格同硬件受控实验。"
+    ],
+    "riskScenarios": [
+      "高自由度臂手系统需要在仿真中预训练可复用 reach/grasp/lift/reorient/transport 先验。",
+      "下游任务与 reposing 有明显共享子技能，例如 pick-reorient-insert、搬运摆放和需要手内重定向的装配。",
+      "部署平台能提供稳定的双相机标定，或能接入几何一致的指尖触觉表示。",
+      "需要在策略学习与安全低层控制之间显式分层，而不是让 RL 直接输出执行器命令。"
+    ],
+    "riskJudgment": [
+      "这是一篇系统贡献强于单点算法创新的论文：reposing 预训练、稳定 RL 后训练、全 Cspace fabric、两阶段感知蒸馏和 TacMap 触觉接口共同支撑了无示范、无 pose estimator 的真机长程灵巧操作。",
+      "最值得迁移的经验是先诊断迁移失败机制，再分别处理 actor observation mismatch、critic calibration 和 policy drift；简单 KL regularization 不足以替代这些结构化步骤。",
+      "触觉结果是本篇对 force/touch policy 研究最有价值的证据之一：同一策略与任务中，指尖接触反馈把长程成功率从 3/10 提到 8/10，且失败模式明确指向 grasp confidence 而非动作生成。",
+      "不应把它理解成通用机器人 foundation policy：当前结果仍按 embodiment 和任务后训练，预训练覆盖有限；更准确的定位是可摊销的灵巧操作先验与稳定 specialization 方法。"
+    ],
+    "resultsTableMarkdown": "| 问题 | 结果 | 解释与边界 |\n| --- | --- | --- |\n| 预训练能否泛化到未见物体？ | Kuka 在 FMB/VisDex 上 76%/77%，高于训练 primitive 73% | 只评价 reposing，不等价于任意任务泛化 |\n| 能否零-shot 到下游？ | ADR 20 reposing 约 72%–75%，ADR 50 插入几乎为 0 | 说明先验覆盖搬运/重定向，不覆盖接触插入 |\n| 直接 PPO fine-tune 为何失败？ | 少量更新后成功率到 0 | 新 reward、新观察、critic 失准和过大 policy drift 共同导致 |\n| ADEPT 后训练是否稳定？ | 3B 步、5/5 seed 到 ADR 50；从零训练多数 seed 卡在低 ADR | 8B 预训练成本可跨任务摊销 |\n| 触觉是否重要？ | 同一 Flexiv-Sharpa square/round：vision 3/10，visuo-tactile 8/10 | 主要解决 grasp confidence/contact ambiguity，不是万能感知 |\n| 是否能学新行为？ | plate flip-and-regrasp 6/10；预训练没有可用 plate grasp | 证明后训练可发现先验外技能，但分布差异过大仍需扩展预训练 |",
+    "resultsTable": {
+      "columns": [
+        "问题",
+        "结果",
+        "解释与边界"
+      ],
+      "rows": [
+        [
+          "预训练能否泛化到未见物体？",
+          "Kuka 在 FMB/VisDex 上 76%/77%，高于训练 primitive 73%",
+          "只评价 reposing，不等价于任意任务泛化"
+        ],
+        [
+          "能否零-shot 到下游？",
+          "ADR 20 reposing 约 72%–75%，ADR 50 插入几乎为 0",
+          "说明先验覆盖搬运/重定向，不覆盖接触插入"
+        ],
+        [
+          "直接 PPO fine-tune 为何失败？",
+          "少量更新后成功率到 0",
+          "新 reward、新观察、critic 失准和过大 policy drift 共同导致"
+        ],
+        [
+          "ADEPT 后训练是否稳定？",
+          "3B 步、5/5 seed 到 ADR 50；从零训练多数 seed 卡在低 ADR",
+          "8B 预训练成本可跨任务摊销"
+        ],
+        [
+          "触觉是否重要？",
+          "同一 Flexiv-Sharpa square/round：vision 3/10，visuo-tactile 8/10",
+          "主要解决 grasp confidence/contact ambiguity，不是万能感知"
+        ],
+        [
+          "是否能学新行为？",
+          "plate flip-and-regrasp 6/10；预训练没有可用 plate grasp",
+          "证明后训练可发现先验外技能，但分布差异过大仍需扩展预训练"
+        ]
+      ]
+    },
+    "figureGallery": [
+      {
+        "zone": "method",
+        "caption": "ADEPT overview",
+        "src": "https://arxiv.org/html/2608.19182v1/adept_overview_aug_12.png"
+      },
+      {
+        "zone": "results",
+        "caption": "Real-world setup",
+        "src": "https://arxiv.org/html/2608.19182v1/real_world_setup_aug14.png"
+      },
+      {
+        "zone": "insights",
+        "caption": "Grasp quality analysis",
+        "src": "https://arxiv.org/html/2608.19182v1/grasp_quality_analysis_aug18.png"
+      }
+    ],
+    "relatedTopicSlugs": [
+      "contact-rich-manipulation"
+    ]
   }
 ]
