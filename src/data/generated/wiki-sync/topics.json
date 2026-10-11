@@ -317,8 +317,7 @@
       "robot-rsi-data-imagination-program-skill-system"
     ],
     "openQuestions": [
-      "多轮自我改进何时饱和",
-      "震荡或产生数据冗余？",
+      "多轮自我改进何时饱和或震荡以及产生数据冗余？",
       "episode 内纠正与跨 episode 定向采数的贡献能否被干净拆分？",
       "失败归因错误会在多大程度上放大训练偏差？",
       "Real2Sim 练习场的重建误差和系统成本是否抵消真实数据节省？"
