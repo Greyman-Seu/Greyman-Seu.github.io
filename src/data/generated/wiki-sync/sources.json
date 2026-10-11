@@ -3479,7 +3479,179 @@
       }
     ],
     "relatedTopicSlugs": [
-      "vision-language-action"
+      "vision-language-action",
+      "robot-self-improvement"
+    ]
+  },
+  {
+    "slug": "2609.32862-robofoundry",
+    "title": "RoboFoundry: System-as-Policy Evolution for Self-Learning Embodied Agents",
+    "sourceType": "paper",
+    "sourceUrl": "https://arxiv.org/abs/2609.32862",
+    "htmlUrl": "https://arxiv.org/html/2609.32862v1",
+    "pdfUrl": "https://arxiv.org/pdf/2609.32862",
+    "codeUrl": "",
+    "translationUrl": "https://hjfy.top/arxiv/2609.32862",
+    "publishDate": "2026-09-26",
+    "authors": [
+      "Jingsong Liang",
+      "Shuhao Liao",
+      "Shizhe Zhang",
+      "Diyuan Hou",
+      "Yuxin Cai",
+      "Xinjian Deng",
+      "Chengyang He",
+      "Wenhui Huang",
+      "Runjia Tan",
+      "Zhidong Wang",
+      "Lan Yu",
+      "Xuesong Tian",
+      "Guillaume Sartoretti",
+      "Jie Luo",
+      "Yao Mu",
+      "Wenjun Wu",
+      "Wanhua Li",
+      "Chen Lv"
+    ],
+    "affiliation": "Nanyang Technological University",
+    "relatedOrganizations": [
+      "Nanyang Technological University",
+      "Beihang University",
+      "National University of Singapore",
+      "Cloud Butterfly Technology",
+      "Shanghai Jiao Tong University"
+    ],
+    "relatedCompanies": [],
+    "keywords": [
+      "robot-foundation-model",
+      "long-horizon-memory"
+    ],
+    "primaryDomainSlug": "physical-embodied-intelligence",
+    "domainSlugs": [
+      "physical-embodied-intelligence"
+    ],
+    "heroImage": "https://arxiv.org/html/2609.32862v1/robo_teaser.png",
+    "tldr": "RoboFoundry 的关键转向是把 “embodied policy” 从基础模型本体扩大为围绕模型运行的完整系统：进入模型的活动上下文、跨 episode 文件记忆、原子技能与复合技能、恢复树、语义/执行绑定，以及记录这些组件如何被调用的 trace，都成为可以诊断和修改的对象。基础模型权重保持冻结；所谓 self-evolving 是系统文件、规则、接口和技能库在被执行反馈验证后持久更新。\n\n它的外循环是 Act–Reflect–Repair–Promote：先执行并记录 trace，再把失败归因到 perceive / reason / plan / save / retrieve / utilize 六类能力，随后生成任务级修订；如果同类能力的其他任务 held-out trace 没有退化，才把任务经验抽象成通用系统规则。这个设计把组件级优化提升到系统级优化，同时用显式 scope 和验证避免无约束自我改写。实验覆盖 1,128 个 EmbodiedBench 任务、RoboMemArena、LIBERO-PRO 和真实机器人；GPT-5.5 平均成功率从 56.9% 提升到 72.7%，Qwen3.7-Plus 达到 70.3%，真实机器人上也能跨任务和跨本体继续演化。",
+    "intuition": "可以把基础模型看成一个很强的主厨，但厨房决定了他能看见什么食材、remembered 的订单、有哪些刀工具、失败后能从哪一步重做。传统方法往往只换更会做菜的主厨、加一个记忆本或修一把刀；RoboFoundry 则把整个厨房纳入管理：每次做菜后检查失败来自看错、想错、计划错、没记录、找错记录，还是用错了工具，然后修改对应的操作手册、储物方式和工具接口。修改先贴在当前菜单上试验，确认不会影响其他菜单后才写进总店手册。\n\n![RoboFoundry 的系统级演化闭环与主要基准结果：不同本体共享 Act–Reflect–Repair–Promote 外循环，将任务级修订提升为通用系统规则。](https://arxiv.org/html/2609.32862v1/robo_teaser.png)\n\n这个比喻也提醒边界：RoboFoundry 不是训练一个更强大的机器人 foundation model，而是在给定模型、执行后端和初始技能接口之上演化支撑系统。若厨房基础设施本身缺失、诊断错误或验证 trace 有偏，系统级修复同样会被放大。",
+    "abstractEn": "A foundation model should not act in isolation as an embodied agent. Yet, existing methods often optimize individual components of the agent stack, such as memory, context, skills, or action interfaces, rather than treating the supporting system itself as a unified policy. Moreover, interaction alone does not yield self-improvement unless execution experience is converted into persistent, validated system changes. We therefore propose RoboFoundry, the first embodied agentic framework that formulates this process as Self-Evolving System-as-Policy. RoboFoundry diagnoses capability gaps in decision-making and memory management, converts execution traces into validated task-specific system updates, and promotes recurring improvements to the general system. Evolution operates over two complementary surfaces: a context system that manages active internal context and persistent file-system memory, and a hierarchical skill system that organizes atomic skills, reusable compositions, and failure-conditioned recovery. A shared semantic interface separates embodiment-invariant decisions from embodiment-specific execution, allowing evolved system capabilities to transfer across heterogeneous robots. On EmbodiedBench, RoboFoundry achieves state-of-the-art performance, notably improving GPT-5.5 by 27.8 %. It also brings Qwen3.7-Plus to near parity with GPT-5.5 (70.3 % vs. 72.7 %), showing consistent gains from system-as-policy evolution across foundation models. For long-horizon memory, RoboFoundry outperforms all baselines on RoboMemArena by at least 39.0 %, even against methods assisted by external foundation models. On LIBERO-PRO, it further outperforms Cap-Agent0 by 243.8–679.7 % across all perturbation types. In real-world deployments, RoboFoundry demonstrates zero-shot transfer and online evolution across robots and tasks, highlighting its potential for fully autonomous embodied agents.",
+    "abstractZh": "基础模型不应孤立地充当 embodied agent。然而现有方法常优化 agent stack 的单个组件，例如记忆、上下文、技能或动作接口，而不是把支撑系统本身视为统一 policy。交互本身也不会带来自我改进，除非执行经验被转换成持久且经过验证的系统变更。为此，论文提出 RoboFoundry，首个把该过程表述为 Self-Evolving System-as-Policy 的 embodied agentic framework。RoboFoundry 诊断决策和记忆管理中的能力缺口，将执行轨迹转换成经过验证的任务级系统更新，并把反复出现的改进提升到通用系统。\n\n演化发生在两个互补表面上：context system 负责活动内部上下文和持久文件系统记忆；hierarchical skill system 组织原子技能、可复用组合和失败条件化恢复。共享语义接口将本体无关决策与本体相关执行分离，使演化出的系统能力可迁移到异构机器人。在 EmbodiedBench 上，RoboFoundry 达到 SOTA，尤其将 GPT-5.5 提升 27.8%；它还让 Qwen3.7-Plus 达到 70.3%，接近 GPT-5.5 的 72.7%。在长程记忆基准 RoboMemArena 上，即使面对外部基础模型辅助的方法，RoboFoundry 仍至少高出 39.0%。在 LIBERO-PRO 中，它对所有扰动类型的最高相对提升超过 Cap-Agent0 243.8%–679.7%。真实部署展示了跨机器人任务的零样本迁移和在线演化。",
+    "background": "**动机：** 具身智能正在从单任务策略转向用 LLM/MLLM 作为决策核心，但同一个模型在不同上下文、反馈、动作接口和记忆结构下会表现完全不同；真正决定行为的不是模型孤立输出，而是模型加上支撑它的完整系统。\n\n**问题缺口：** 已有 self-improving agent 通常预先选择一个模块优化：记忆系统改善信息存取、skill agent 累积行为、代码 agent 修复程序、交互 harness 改进反馈。这些改进无法自动识别其他系统瓶颈，也不知道一个修复应该在当前任务、相似任务还是通用系统中生效。RoboFoundry 要补的是“整个系统作为 policy 时的失败归因、受控修订、持久化和跨任务提升机制”。",
+    "backgroundMotivation": "具身智能正在从单任务策略转向用 LLM/MLLM 作为决策核心，但同一个模型在不同上下文、反馈、动作接口和记忆结构下会表现完全不同；真正决定行为的不是模型孤立输出，而是模型加上支撑它的完整系统。",
+    "backgroundGap": "已有 self-improving agent 通常预先选择一个模块优化：记忆系统改善信息存取、skill agent 累积行为、代码 agent 修复程序、交互 harness 改进反馈。这些改进无法自动识别其他系统瓶颈，也不知道一个修复应该在当前任务、相似任务还是通用系统中生效。RoboFoundry 要补的是“整个系统作为 policy 时的失败归因、受控修订、持久化和跨任务提升机制”。",
+    "method": "![RoboFoundry 的三层结构：内层通过 context、skill 与绑定执行任务；通用系统提供可复用规则；外层用 trace 诊断并验证修订。](https://arxiv.org/html/2609.32862v1/robo_model.png)\n\n**方法概述：** RoboFoundry 将冻结基础模型 M 的支撑系统 H(M) 分解为任务系统 Ht 和通用系统 Hg。内层执行任务并记录 observations、actions、context operations、工具调用、系统调用和反馈；外层基于 trace 提出 Ht 的文件级修改，再决定是否抽象成 Hg 的通用规则。整个流程不更新 M 的参数，而是通过 `cat` / `grep` 检查系统、通过 add / modify / delete 修改系统，使有效的执行经验持久影响后续行为。\n\n**核心机制：** 系统能成立的关键在于三条约束相互配合：第一，trace 同时覆盖决策和记忆管理，使失败能归因到具体能力而不是只看最终成败；第二，context 与 skill 是两个可编辑但互补的干预面，context 决定模型看到和记住什么，skill 决定语义决策如何变成动作；第三，语义绑定 BINDs 与执行绑定 BINDe 分离，让任务逻辑保持本体无关，而机器人相关控制、VLA 后端和运动 API 在执行层替换，从而支持跨本体复用。\n\n**方法拆解：**\n\n- **语义/执行双绑定**：`BINDs` 表达“要完成什么”的任务语义，`BINDe` 将其连接到 CuRobo、冻结 VLA、机器人 API 或生成代码等本体相关执行后端；失败因此可区分为任务推理错误还是执行实现错误。\n- **Context surface**：由活动上下文和持久文件记忆组成，操作空间是 `SAVE`、`RETRIEVE`、`UTILIZE`。系统不每步机械写记忆，而是按任务事件选择值得保存的证据：遮挡任务偏物体和空间关系，计数任务偏相关动作发生次数，转移任务偏已完成阶段。\n- **Skill surface**：原子技能（grasp、move-to 等）最初为手工验证单元；复合技能保留任务语义，如 move-to + grasp + place；执行中维护以关键状态为节点、成功与失败转移为边的 recovery tree，失败后回到可恢复状态重规划，而不是重复同一失败动作。\n- **六类能力归因**：外层将失败或低效映射到 perceive / reason / plan / save / retrieve / utilize。前三类对应决策，后三类对应记忆管理，从而决定修订落在 context 还是 skill 表面。\n- **任务级 repair**：从 trace 生成候选 `ΔHt`，再在同任务新 rollout 中验证。只有修复失败且执行反馈良好的候选被提交到 Ht，同时连同 pre-repair history、编辑和反馈写入 trace 库 T。\n- **通用化 promotion**：对成功任务修复，外层选取其他任务但相同能力的 held-out traces，抽象出候选 `ΔHg`，让 `Hg ⊕ ΔHg` 对这些 pre-repair trace 提出任务级修复，并由系统 policy 打分。若 capability-conditioned transfer `Δcap ≥ 0`，候选才提升为通用规则。\n- **持久文件系统**：执行 overlay 保存 prompts、示例、planner、技能与反馈；`.robofoundry/` 保存 evolution ledger、bootstrap、父候选、评估摘要和失败 trace。运行期生成与持久规则分离，避免“反思建议”只停留在一次回复中。\n\n**关键要点：**\n\n- RoboFoundry 从 code-as-policy 继续推进到 system-as-policy：优化对象不是单段生成代码，而是上下文、记忆、技能、恢复结构、接口和验证流程共同构成的执行系统。\n- 任务级与通用级作用域是核心安全阀；一个经验先修复当前任务，再证明不损害同类 held-out 任务，才允许进入通用系统。\n- 跨本体迁移依赖抽象层级正确：语义层演化出的“如何组织状态、何时恢复、如何复合技能”可通过替换执行绑定迁移；如果能力本身依赖不可迁移的感知或控制，则不能自动复用。",
+    "methodOverview": "RoboFoundry 将冻结基础模型 M 的支撑系统 H(M) 分解为任务系统 Ht 和通用系统 Hg。内层执行任务并记录 observations、actions、context operations、工具调用、系统调用和反馈；外层基于 trace 提出 Ht 的文件级修改，再决定是否抽象成 Hg 的通用规则。整个流程不更新 M 的参数，而是通过 `cat` / `grep` 检查系统、通过 add / modify / delete 修改系统，使有效的执行经验持久影响后续行为。",
+    "methodCore": "系统能成立的关键在于三条约束相互配合：第一，trace 同时覆盖决策和记忆管理，使失败能归因到具体能力而不是只看最终成败；第二，context 与 skill 是两个可编辑但互补的干预面，context 决定模型看到和记住什么，skill 决定语义决策如何变成动作；第三，语义绑定 BINDs 与执行绑定 BINDe 分离，让任务逻辑保持本体无关，而机器人相关控制、VLA 后端和运动 API 在执行层替换，从而支持跨本体复用。",
+    "methodBreakdown": [
+      "**语义/执行双绑定**：`BINDs` 表达“要完成什么”的任务语义，`BINDe` 将其连接到 CuRobo、冻结 VLA、机器人 API 或生成代码等本体相关执行后端；失败因此可区分为任务推理错误还是执行实现错误。",
+      "**Context surface**：由活动上下文和持久文件记忆组成，操作空间是 `SAVE`、`RETRIEVE`、`UTILIZE`。系统不每步机械写记忆，而是按任务事件选择值得保存的证据：遮挡任务偏物体和空间关系，计数任务偏相关动作发生次数，转移任务偏已完成阶段。",
+      "**Skill surface**：原子技能（grasp、move-to 等）最初为手工验证单元；复合技能保留任务语义，如 move-to + grasp + place；执行中维护以关键状态为节点、成功与失败转移为边的 recovery tree，失败后回到可恢复状态重规划，而不是重复同一失败动作。",
+      "**六类能力归因**：外层将失败或低效映射到 perceive / reason / plan / save / retrieve / utilize。前三类对应决策，后三类对应记忆管理，从而决定修订落在 context 还是 skill 表面。",
+      "**任务级 repair**：从 trace 生成候选 `ΔHt`，再在同任务新 rollout 中验证。只有修复失败且执行反馈良好的候选被提交到 Ht，同时连同 pre-repair history、编辑和反馈写入 trace 库 T。",
+      "**通用化 promotion**：对成功任务修复，外层选取其他任务但相同能力的 held-out traces，抽象出候选 `ΔHg`，让 `Hg ⊕ ΔHg` 对这些 pre-repair trace 提出任务级修复，并由系统 policy 打分。若 capability-conditioned transfer `Δcap ≥ 0`，候选才提升为通用规则。",
+      "**持久文件系统**：执行 overlay 保存 prompts、示例、planner、技能与反馈；`.robofoundry/` 保存 evolution ledger、bootstrap、父候选、评估摘要和失败 trace。运行期生成与持久规则分离，避免“反思建议”只停留在一次回复中。"
+    ],
+    "methodTakeaways": [
+      "RoboFoundry 从 code-as-policy 继续推进到 system-as-policy：优化对象不是单段生成代码，而是上下文、记忆、技能、恢复结构、接口和验证流程共同构成的执行系统。",
+      "任务级与通用级作用域是核心安全阀；一个经验先修复当前任务，再证明不损害同类 held-out 任务，才允许进入通用系统。",
+      "跨本体迁移依赖抽象层级正确：语义层演化出的“如何组织状态、何时恢复、如何复合技能”可通过替换执行绑定迁移；如果能力本身依赖不可迁移的感知或控制，则不能自动复用。"
+    ],
+    "results": "![EmbodiedBench、RoboMemArena、LIBERO-PRO 与真实机器人结果汇总，显示同一系统演化机制在多模型和多种任务中的一致增益。](https://arxiv.org/html/2609.32862v1/robo_evaluation.png)\n\n- **EmbodiedBench**：1,128 个任务覆盖 EB-ALFRED、EB-Habitat、EB-Navigation 和 EB-Manipulation。GPT-5.5 从 56.9% 提升到 72.7%（+15.8 pp，相对 27.8%）；Qwen3.7-Plus 从 60.0% 到 70.3%；GPT-6 Astra 从 71.9% 到 78.0%；Qwen3.8-27B 和 GLM5.3-Flash 也分别提升到 66.5% 和 69.3%。Qwen3.7-Plus 的 Lite 版为 63.2%，完整版再高 11.2%，说明通用系统演化有独立贡献。\n- **演化效率**：EB-Habitat spatial 子集的 held-in 成功率从 21.4% 提升到 50.0% 的三个 committed edits 后，最终候选达到 78.0% 并通过 held-out 检验；两个候选被丢弃且不改变系统。使用 1/4 held-in 数据时，EB-ALFRED 与 EB-Habitat 分别达到 78.0% 和 66.0%，3/4 数据时 EB-Habitat 达到 74.0%。\n- **长程记忆**：在 RoboMemArena 26 个任务上，RoboFoundry（Qwen3.7-Plus）总体 TSR/CSR 为 53.5%/72.8%，PrediMem 为 38.5%/55.2%，且 Transfer / Occlusion / Counting / Sequence 四类均为最佳；Transfer TSR 70.5%，比 PrediMem 高 213.3%。将它分别叠加到 standalone π0.5 和 PrediMem 上，四类 TSR/CSR 全部提升。\n- **扰动鲁棒性**：LIBERO-PRO 的 Object / Goal / Spatial 六个 position/task 设置中，无 privileged pose 的 RoboFoundry 平均成功率 91.9%，高于 Harness VLA (CC) 的 87.8%；给 privileged simulator object pose 后提升到 98%–100% 的 task success，说明感知仍是瓶颈但系统能利用更准状态。\n- **真实机器人**：COBOT MAGIC 套娃任务通过插入对齐检查和进度追踪，从 π0.5 的 30% 提升到 70%；仅在蓝色毛巾上演化的折叠技能零样本迁移到绿色和粉色毛巾，成功率超过 80%，而 π0.5 低于 20%；Unitree G1 通过语义接口把“找饮用水”映射到 RGB 中识别的饮水机并导航。化学长程任务中，漏斗就绪、秤去皮等状态被持久记录，最终倾倒步骤会检索早前的 funnel-ready 状态。\n\n![不同 held-in 数据量下的 EmbodiedBench 演化曲线：少量任务已能触发大部分可用系统修订。](https://arxiv.org/html/2609.32862v1/robo_scale.png)\n\n![真实机器人上的技能迁移、语义导航和长程化学操作案例。](https://arxiv.org/html/2609.32862v1/robo_real_1.png)",
+    "resultHighlights": [],
+    "insights": "- **系统是能力的一部分。** 论文最有价值的经验不是“多加几条 prompt”，而是把信息选择、状态保存、证据检索、技能组合、恢复、执行接口和 trace 验证都纳入同一可优化 policy；这解释了不同能力级别 backbone 都能获益。\n- **开源模型差距可以被系统部分补偿。** Qwen3.7-Plus + RoboFoundry 达到 70.3%，接近 GPT-5.5 + RoboFoundry 的 72.7%；这提示在真实部署中，系统工程质量与模型能力共同决定上限。\n- **记忆不是保存越多越好，而是保存、检索、利用三者闭环。** RoboMemArena 案例显示，转移任务要把已完成阶段变成 active subgoal，遮挡任务要区分当前帧证据和历史 keyframe 提醒，计数任务要记录动作次数而不是泛化摘要。\n- **泛化作用域需要证据。** `Δcap ≥ 0` 的 held-out trace 检验比直接把局部修复写成全局规则更谨慎，但它仍低于真实执行回归；生产系统应补充执行级测试、最小样本量和版本回滚。\n- **跨本体复用有条件。** 语义/执行绑定让“把物体放到目标处”的决策与 TCP offset、运动规划等本体细节分离；若感知、安全边界或接触动力学无法被共享接口表达，能力仍不能迁移。",
+    "insightCore": [],
+    "insightRelations": [],
+    "insightBorrowable": [],
+    "risks": "**局限：**\n\n- **推广阈值偏弱**：通用规则只要求 held-out capability-conditioned transfer 不低于已成功修复；`Δcap ≥ 0` 不等于显著改善，也没有统计置信区间，可能接受弱泛化或噪声修改。\n- **验证依赖同一系统自评**：trace 诊断、候选抽象和 verifier 打分均由模型/系统参与，误归因可能形成看似一致但事实错误的规则；缺少独立 oracle 或人工安全审查。\n- **成本不透明**：论文报告 interaction budget，但没有完整披露模型调用、文件编辑、候选评估、失败 rollout、API 和工程维护成本；系统级演化可能比单纯换 backbone 更贵。\n- **初始基础设施依赖强**：需要可用原子技能、执行 API、机器人状态/观测、恢复接口和 benchmark overlay；这些工程件本身的质量会显著影响结论。\n- **真实实验规模有限**：实机每任务 10 次且包含用于在线演化的 trial；套娃 70% vs 30% 和毛巾 >80% vs <20% 是方向性证据，不足以支持稳健统计显著结论。\n- **长时间安全性未证明**：文件系统持续修改、删除和通用规则累积可能带来规则冲突、回归、越积越长的上下文或危险行为；论文未展示长期演化曲线、回滚治理和人类审批机制。\n- **感知瓶颈明显**：RoboFoundry† 使用 privileged simulator pose 后全部提升，说明非 privileged 版本的部分失败来自感知而非任务系统；真实开放环境可能更严重。\n- **可复现性待验证**：项目页提供结果与论文，但正文未见完整公开代码、系统初始版本、候选 diff、trace 数据和统一评估脚本；仅凭描述难以独立复现所有演化行为。\n\n**适用场景：**\n\n- 已有稳定基础模型、VLA 或控制 API，以及较完整原子技能库，希望在不改权重的情况下持续改进长程任务、记忆管理和失败恢复。\n- 任务失败可以通过执行 trace、环境反馈和状态记录定位，且允许在仿真或安全真实环境中反复 rollout 验证候选修订。\n- 需要把同一任务语义接到不同机器人或执行后端，并希望演化发生在本体无关语义层而非每次重写控制代码。\n- 有版本管理、最小回归测试、回滚和人工安全门的生产原型环境；不能把它当成无需治理的完全自主机器人。\n\n**最终判断：**\n\n- **值得跟进，核心贡献是把 self-improvement 的对象从组件升级为系统 policy。** 多 backbone、多基准和实机证据一致支持：上下文、技能、绑定和恢复的共同演化能显著提升 frozen model 的有效具身能力。\n- **证据等级是研究原型而非安全自治系统。** 结果显示强通用性，但缺少成本、长期稳定性、独立验证和完整复现资产；不能外推为无限自我改进或无需人工监督的部署。\n- **最有价值的后续检验**：执行级 held-out 回归而非 verifier 打分；不同初始技能库和执行后端的敏感性；多轮通用规则累积后的冲突率；真实环境感知误差下的安全边界；以及完整计算与 API 成本核算。",
+    "riskLimitations": [
+      "**推广阈值偏弱**：通用规则只要求 held-out capability-conditioned transfer 不低于已成功修复；`Δcap ≥ 0` 不等于显著改善，也没有统计置信区间，可能接受弱泛化或噪声修改。",
+      "**验证依赖同一系统自评**：trace 诊断、候选抽象和 verifier 打分均由模型/系统参与，误归因可能形成看似一致但事实错误的规则；缺少独立 oracle 或人工安全审查。",
+      "**成本不透明**：论文报告 interaction budget，但没有完整披露模型调用、文件编辑、候选评估、失败 rollout、API 和工程维护成本；系统级演化可能比单纯换 backbone 更贵。",
+      "**初始基础设施依赖强**：需要可用原子技能、执行 API、机器人状态/观测、恢复接口和 benchmark overlay；这些工程件本身的质量会显著影响结论。",
+      "**真实实验规模有限**：实机每任务 10 次且包含用于在线演化的 trial；套娃 70% vs 30% 和毛巾 >80% vs <20% 是方向性证据，不足以支持稳健统计显著结论。",
+      "**长时间安全性未证明**：文件系统持续修改、删除和通用规则累积可能带来规则冲突、回归、越积越长的上下文或危险行为；论文未展示长期演化曲线、回滚治理和人类审批机制。",
+      "**感知瓶颈明显**：RoboFoundry† 使用 privileged simulator pose 后全部提升，说明非 privileged 版本的部分失败来自感知而非任务系统；真实开放环境可能更严重。",
+      "**可复现性待验证**：项目页提供结果与论文，但正文未见完整公开代码、系统初始版本、候选 diff、trace 数据和统一评估脚本；仅凭描述难以独立复现所有演化行为。"
+    ],
+    "riskScenarios": [
+      "已有稳定基础模型、VLA 或控制 API，以及较完整原子技能库，希望在不改权重的情况下持续改进长程任务、记忆管理和失败恢复。",
+      "任务失败可以通过执行 trace、环境反馈和状态记录定位，且允许在仿真或安全真实环境中反复 rollout 验证候选修订。",
+      "需要把同一任务语义接到不同机器人或执行后端，并希望演化发生在本体无关语义层而非每次重写控制代码。",
+      "有版本管理、最小回归测试、回滚和人工安全门的生产原型环境；不能把它当成无需治理的完全自主机器人。"
+    ],
+    "riskJudgment": [
+      "**值得跟进，核心贡献是把 self-improvement 的对象从组件升级为系统 policy。** 多 backbone、多基准和实机证据一致支持：上下文、技能、绑定和恢复的共同演化能显著提升 frozen model 的有效具身能力。",
+      "**证据等级是研究原型而非安全自治系统。** 结果显示强通用性，但缺少成本、长期稳定性、独立验证和完整复现资产；不能外推为无限自我改进或无需人工监督的部署。",
+      "**最有价值的后续检验**：执行级 held-out 回归而非 verifier 打分；不同初始技能库和执行后端的敏感性；多轮通用规则累积后的冲突率；真实环境感知误差下的安全边界；以及完整计算与 API 成本核算。"
+    ],
+    "resultsTableMarkdown": "| 问题 | 最直接证据 | 边界 |\n| --- | --- | --- |\n| 系统演化是否跨 backbone 有效？ | EmbodiedBench 平均：GPT-5.5 56.9→72.7%，GPT-6 71.9→78.0%，Qwen3.7 60.0→70.3% | 五个模型、统一基准，不等于所有模型和任务 |\n| 通用提升是否优于仅任务修复？ | Qwen3.7：Lite 63.2%，完整版 70.3%，相对高 11.2% | Lite 消融主要隔离 general evolution，仍有共享 harness |\n| 是否改善长程记忆？ | RoboMemArena TSR/CSR 53.5%/72.8%，PrediMem 38.5%/55.2% | 26 任务官方协议，状态重置，保留 task-agnostic context 修订 |\n| 是否抗布局和目标扰动？ | LIBERO-PRO 无 privileged pose 平均成功率 91.9%，高于 Harness VLA(CC) 87.8% | 六个设置、每任务每扰动 50 trial；privileged pose 更高 |\n| 能否真实迁移与在线演化？ | 套娃 70% vs 30%；蓝毛巾技能迁移到绿/粉毛巾 >80%；Unitree G1 语义导航 | 每任务 10 trial，包含在线演化 trial，非独立大规模测试 |\n| 是否解决感知瓶颈？ | privileged pose 下 task success 98%–100%，均有提升 | 说明原系统受感知限制，不能证明开放世界感知可靠 |",
+    "resultsTable": {
+      "columns": [
+        "问题",
+        "最直接证据",
+        "边界"
+      ],
+      "rows": [
+        [
+          "系统演化是否跨 backbone 有效？",
+          "EmbodiedBench 平均：GPT-5.5 56.9→72.7%，GPT-6 71.9→78.0%，Qwen3.7 60.0→70.3%",
+          "五个模型、统一基准，不等于所有模型和任务"
+        ],
+        [
+          "通用提升是否优于仅任务修复？",
+          "Qwen3.7：Lite 63.2%，完整版 70.3%，相对高 11.2%",
+          "Lite 消融主要隔离 general evolution，仍有共享 harness"
+        ],
+        [
+          "是否改善长程记忆？",
+          "RoboMemArena TSR/CSR 53.5%/72.8%，PrediMem 38.5%/55.2%",
+          "26 任务官方协议，状态重置，保留 task-agnostic context 修订"
+        ],
+        [
+          "是否抗布局和目标扰动？",
+          "LIBERO-PRO 无 privileged pose 平均成功率 91.9%，高于 Harness VLA(CC) 87.8%",
+          "六个设置、每任务每扰动 50 trial；privileged pose 更高"
+        ],
+        [
+          "能否真实迁移与在线演化？",
+          "套娃 70% vs 30%；蓝毛巾技能迁移到绿/粉毛巾 >80%；Unitree G1 语义导航",
+          "每任务 10 trial，包含在线演化 trial，非独立大规模测试"
+        ],
+        [
+          "是否解决感知瓶颈？",
+          "privileged pose 下 task success 98%–100%，均有提升",
+          "说明原系统受感知限制，不能证明开放世界感知可靠"
+        ]
+      ]
+    },
+    "figureGallery": [
+      {
+        "zone": "intuition",
+        "caption": "RoboFoundry 的系统级演化闭环与主要基准结果：不同本体共享 Act–Reflect–Repair–Promote 外循环，将任务级修订提升为通用系统规则。",
+        "src": "https://arxiv.org/html/2609.32862v1/robo_teaser.png"
+      },
+      {
+        "zone": "method",
+        "caption": "RoboFoundry 的三层结构：内层通过 context、skill 与绑定执行任务；通用系统提供可复用规则；外层用 trace 诊断并验证修订。",
+        "src": "https://arxiv.org/html/2609.32862v1/robo_model.png"
+      },
+      {
+        "zone": "results",
+        "caption": "EmbodiedBench、RoboMemArena、LIBERO-PRO 与真实机器人结果汇总，显示同一系统演化机制在多模型和多种任务中的一致增益。",
+        "src": "https://arxiv.org/html/2609.32862v1/robo_evaluation.png"
+      },
+      {
+        "zone": "results",
+        "caption": "不同 held-in 数据量下的 EmbodiedBench 演化曲线：少量任务已能触发大部分可用系统修订。",
+        "src": "https://arxiv.org/html/2609.32862v1/robo_scale.png"
+      },
+      {
+        "zone": "results",
+        "caption": "真实机器人上的技能迁移、语义导航和长程化学操作案例。",
+        "src": "https://arxiv.org/html/2609.32862v1/robo_real_1.png"
+      }
+    ],
+    "relatedTopicSlugs": [
+      "robot-self-improvement"
     ]
   },
   {
@@ -7945,177 +8117,6 @@
     ],
     "relatedTopicSlugs": [
       "source"
-    ]
-  },
-  {
-    "slug": "2609.32862-robofoundry",
-    "title": "RoboFoundry: System-as-Policy Evolution for Self-Learning Embodied Agents",
-    "sourceType": "paper",
-    "sourceUrl": "https://arxiv.org/abs/2609.32862",
-    "htmlUrl": "https://arxiv.org/html/2609.32862v1",
-    "pdfUrl": "https://arxiv.org/pdf/2609.32862",
-    "codeUrl": "",
-    "translationUrl": "https://hjfy.top/arxiv/2609.32862",
-    "publishDate": "2026-09-26",
-    "authors": [
-      "Jingsong Liang",
-      "Shuhao Liao",
-      "Shizhe Zhang",
-      "Diyuan Hou",
-      "Yuxin Cai",
-      "Xinjian Deng",
-      "Chengyang He",
-      "Wenhui Huang",
-      "Runjia Tan",
-      "Zhidong Wang",
-      "Lan Yu",
-      "Xuesong Tian",
-      "Guillaume Sartoretti",
-      "Jie Luo",
-      "Yao Mu",
-      "Wenjun Wu",
-      "Wanhua Li",
-      "Chen Lv"
-    ],
-    "affiliation": "Nanyang Technological University",
-    "relatedOrganizations": [
-      "Nanyang Technological University",
-      "Beihang University",
-      "National University of Singapore",
-      "Cloud Butterfly Technology",
-      "Shanghai Jiao Tong University"
-    ],
-    "relatedCompanies": [],
-    "keywords": [
-      "robot-foundation-model",
-      "long-horizon-memory"
-    ],
-    "primaryDomainSlug": "physical-embodied-intelligence",
-    "domainSlugs": [
-      "physical-embodied-intelligence"
-    ],
-    "heroImage": "https://arxiv.org/html/2609.32862v1/robo_teaser.png",
-    "tldr": "RoboFoundry 的关键转向是把 “embodied policy” 从基础模型本体扩大为围绕模型运行的完整系统：进入模型的活动上下文、跨 episode 文件记忆、原子技能与复合技能、恢复树、语义/执行绑定，以及记录这些组件如何被调用的 trace，都成为可以诊断和修改的对象。基础模型权重保持冻结；所谓 self-evolving 是系统文件、规则、接口和技能库在被执行反馈验证后持久更新。\n\n它的外循环是 Act–Reflect–Repair–Promote：先执行并记录 trace，再把失败归因到 perceive / reason / plan / save / retrieve / utilize 六类能力，随后生成任务级修订；如果同类能力的其他任务 held-out trace 没有退化，才把任务经验抽象成通用系统规则。这个设计把组件级优化提升到系统级优化，同时用显式 scope 和验证避免无约束自我改写。实验覆盖 1,128 个 EmbodiedBench 任务、RoboMemArena、LIBERO-PRO 和真实机器人；GPT-5.5 平均成功率从 56.9% 提升到 72.7%，Qwen3.7-Plus 达到 70.3%，真实机器人上也能跨任务和跨本体继续演化。",
-    "intuition": "可以把基础模型看成一个很强的主厨，但厨房决定了他能看见什么食材、remembered 的订单、有哪些刀工具、失败后能从哪一步重做。传统方法往往只换更会做菜的主厨、加一个记忆本或修一把刀；RoboFoundry 则把整个厨房纳入管理：每次做菜后检查失败来自看错、想错、计划错、没记录、找错记录，还是用错了工具，然后修改对应的操作手册、储物方式和工具接口。修改先贴在当前菜单上试验，确认不会影响其他菜单后才写进总店手册。\n\n![RoboFoundry 的系统级演化闭环与主要基准结果：不同本体共享 Act–Reflect–Repair–Promote 外循环，将任务级修订提升为通用系统规则。](https://arxiv.org/html/2609.32862v1/robo_teaser.png)\n\n这个比喻也提醒边界：RoboFoundry 不是训练一个更强大的机器人 foundation model，而是在给定模型、执行后端和初始技能接口之上演化支撑系统。若厨房基础设施本身缺失、诊断错误或验证 trace 有偏，系统级修复同样会被放大。",
-    "abstractEn": "A foundation model should not act in isolation as an embodied agent. Yet, existing methods often optimize individual components of the agent stack, such as memory, context, skills, or action interfaces, rather than treating the supporting system itself as a unified policy. Moreover, interaction alone does not yield self-improvement unless execution experience is converted into persistent, validated system changes. We therefore propose RoboFoundry, the first embodied agentic framework that formulates this process as Self-Evolving System-as-Policy. RoboFoundry diagnoses capability gaps in decision-making and memory management, converts execution traces into validated task-specific system updates, and promotes recurring improvements to the general system. Evolution operates over two complementary surfaces: a context system that manages active internal context and persistent file-system memory, and a hierarchical skill system that organizes atomic skills, reusable compositions, and failure-conditioned recovery. A shared semantic interface separates embodiment-invariant decisions from embodiment-specific execution, allowing evolved system capabilities to transfer across heterogeneous robots. On EmbodiedBench, RoboFoundry achieves state-of-the-art performance, notably improving GPT-5.5 by 27.8 %. It also brings Qwen3.7-Plus to near parity with GPT-5.5 (70.3 % vs. 72.7 %), showing consistent gains from system-as-policy evolution across foundation models. For long-horizon memory, RoboFoundry outperforms all baselines on RoboMemArena by at least 39.0 %, even against methods assisted by external foundation models. On LIBERO-PRO, it further outperforms Cap-Agent0 by 243.8–679.7 % across all perturbation types. In real-world deployments, RoboFoundry demonstrates zero-shot transfer and online evolution across robots and tasks, highlighting its potential for fully autonomous embodied agents.",
-    "abstractZh": "基础模型不应孤立地充当 embodied agent。然而现有方法常优化 agent stack 的单个组件，例如记忆、上下文、技能或动作接口，而不是把支撑系统本身视为统一 policy。交互本身也不会带来自我改进，除非执行经验被转换成持久且经过验证的系统变更。为此，论文提出 RoboFoundry，首个把该过程表述为 Self-Evolving System-as-Policy 的 embodied agentic framework。RoboFoundry 诊断决策和记忆管理中的能力缺口，将执行轨迹转换成经过验证的任务级系统更新，并把反复出现的改进提升到通用系统。\n\n演化发生在两个互补表面上：context system 负责活动内部上下文和持久文件系统记忆；hierarchical skill system 组织原子技能、可复用组合和失败条件化恢复。共享语义接口将本体无关决策与本体相关执行分离，使演化出的系统能力可迁移到异构机器人。在 EmbodiedBench 上，RoboFoundry 达到 SOTA，尤其将 GPT-5.5 提升 27.8%；它还让 Qwen3.7-Plus 达到 70.3%，接近 GPT-5.5 的 72.7%。在长程记忆基准 RoboMemArena 上，即使面对外部基础模型辅助的方法，RoboFoundry 仍至少高出 39.0%。在 LIBERO-PRO 中，它对所有扰动类型的最高相对提升超过 Cap-Agent0 243.8%–679.7%。真实部署展示了跨机器人任务的零样本迁移和在线演化。",
-    "background": "**动机：** 具身智能正在从单任务策略转向用 LLM/MLLM 作为决策核心，但同一个模型在不同上下文、反馈、动作接口和记忆结构下会表现完全不同；真正决定行为的不是模型孤立输出，而是模型加上支撑它的完整系统。\n\n**问题缺口：** 已有 self-improving agent 通常预先选择一个模块优化：记忆系统改善信息存取、skill agent 累积行为、代码 agent 修复程序、交互 harness 改进反馈。这些改进无法自动识别其他系统瓶颈，也不知道一个修复应该在当前任务、相似任务还是通用系统中生效。RoboFoundry 要补的是“整个系统作为 policy 时的失败归因、受控修订、持久化和跨任务提升机制”。",
-    "backgroundMotivation": "具身智能正在从单任务策略转向用 LLM/MLLM 作为决策核心，但同一个模型在不同上下文、反馈、动作接口和记忆结构下会表现完全不同；真正决定行为的不是模型孤立输出，而是模型加上支撑它的完整系统。",
-    "backgroundGap": "已有 self-improving agent 通常预先选择一个模块优化：记忆系统改善信息存取、skill agent 累积行为、代码 agent 修复程序、交互 harness 改进反馈。这些改进无法自动识别其他系统瓶颈，也不知道一个修复应该在当前任务、相似任务还是通用系统中生效。RoboFoundry 要补的是“整个系统作为 policy 时的失败归因、受控修订、持久化和跨任务提升机制”。",
-    "method": "![RoboFoundry 的三层结构：内层通过 context、skill 与绑定执行任务；通用系统提供可复用规则；外层用 trace 诊断并验证修订。](https://arxiv.org/html/2609.32862v1/robo_model.png)\n\n**方法概述：** RoboFoundry 将冻结基础模型 M 的支撑系统 H(M) 分解为任务系统 Ht 和通用系统 Hg。内层执行任务并记录 observations、actions、context operations、工具调用、系统调用和反馈；外层基于 trace 提出 Ht 的文件级修改，再决定是否抽象成 Hg 的通用规则。整个流程不更新 M 的参数，而是通过 `cat` / `grep` 检查系统、通过 add / modify / delete 修改系统，使有效的执行经验持久影响后续行为。\n\n**核心机制：** 系统能成立的关键在于三条约束相互配合：第一，trace 同时覆盖决策和记忆管理，使失败能归因到具体能力而不是只看最终成败；第二，context 与 skill 是两个可编辑但互补的干预面，context 决定模型看到和记住什么，skill 决定语义决策如何变成动作；第三，语义绑定 BINDs 与执行绑定 BINDe 分离，让任务逻辑保持本体无关，而机器人相关控制、VLA 后端和运动 API 在执行层替换，从而支持跨本体复用。\n\n**方法拆解：**\n\n- **语义/执行双绑定**：`BINDs` 表达“要完成什么”的任务语义，`BINDe` 将其连接到 CuRobo、冻结 VLA、机器人 API 或生成代码等本体相关执行后端；失败因此可区分为任务推理错误还是执行实现错误。\n- **Context surface**：由活动上下文和持久文件记忆组成，操作空间是 `SAVE`、`RETRIEVE`、`UTILIZE`。系统不每步机械写记忆，而是按任务事件选择值得保存的证据：遮挡任务偏物体和空间关系，计数任务偏相关动作发生次数，转移任务偏已完成阶段。\n- **Skill surface**：原子技能（grasp、move-to 等）最初为手工验证单元；复合技能保留任务语义，如 move-to + grasp + place；执行中维护以关键状态为节点、成功与失败转移为边的 recovery tree，失败后回到可恢复状态重规划，而不是重复同一失败动作。\n- **六类能力归因**：外层将失败或低效映射到 perceive / reason / plan / save / retrieve / utilize。前三类对应决策，后三类对应记忆管理，从而决定修订落在 context 还是 skill 表面。\n- **任务级 repair**：从 trace 生成候选 `ΔHt`，再在同任务新 rollout 中验证。只有修复失败且执行反馈良好的候选被提交到 Ht，同时连同 pre-repair history、编辑和反馈写入 trace 库 T。\n- **通用化 promotion**：对成功任务修复，外层选取其他任务但相同能力的 held-out traces，抽象出候选 `ΔHg`，让 `Hg ⊕ ΔHg` 对这些 pre-repair trace 提出任务级修复，并由系统 policy 打分。若 capability-conditioned transfer `Δcap ≥ 0`，候选才提升为通用规则。\n- **持久文件系统**：执行 overlay 保存 prompts、示例、planner、技能与反馈；`.robofoundry/` 保存 evolution ledger、bootstrap、父候选、评估摘要和失败 trace。运行期生成与持久规则分离，避免“反思建议”只停留在一次回复中。\n\n**关键要点：**\n\n- RoboFoundry 从 code-as-policy 继续推进到 system-as-policy：优化对象不是单段生成代码，而是上下文、记忆、技能、恢复结构、接口和验证流程共同构成的执行系统。\n- 任务级与通用级作用域是核心安全阀；一个经验先修复当前任务，再证明不损害同类 held-out 任务，才允许进入通用系统。\n- 跨本体迁移依赖抽象层级正确：语义层演化出的“如何组织状态、何时恢复、如何复合技能”可通过替换执行绑定迁移；如果能力本身依赖不可迁移的感知或控制，则不能自动复用。",
-    "methodOverview": "RoboFoundry 将冻结基础模型 M 的支撑系统 H(M) 分解为任务系统 Ht 和通用系统 Hg。内层执行任务并记录 observations、actions、context operations、工具调用、系统调用和反馈；外层基于 trace 提出 Ht 的文件级修改，再决定是否抽象成 Hg 的通用规则。整个流程不更新 M 的参数，而是通过 `cat` / `grep` 检查系统、通过 add / modify / delete 修改系统，使有效的执行经验持久影响后续行为。",
-    "methodCore": "系统能成立的关键在于三条约束相互配合：第一，trace 同时覆盖决策和记忆管理，使失败能归因到具体能力而不是只看最终成败；第二，context 与 skill 是两个可编辑但互补的干预面，context 决定模型看到和记住什么，skill 决定语义决策如何变成动作；第三，语义绑定 BINDs 与执行绑定 BINDe 分离，让任务逻辑保持本体无关，而机器人相关控制、VLA 后端和运动 API 在执行层替换，从而支持跨本体复用。",
-    "methodBreakdown": [
-      "**语义/执行双绑定**：`BINDs` 表达“要完成什么”的任务语义，`BINDe` 将其连接到 CuRobo、冻结 VLA、机器人 API 或生成代码等本体相关执行后端；失败因此可区分为任务推理错误还是执行实现错误。",
-      "**Context surface**：由活动上下文和持久文件记忆组成，操作空间是 `SAVE`、`RETRIEVE`、`UTILIZE`。系统不每步机械写记忆，而是按任务事件选择值得保存的证据：遮挡任务偏物体和空间关系，计数任务偏相关动作发生次数，转移任务偏已完成阶段。",
-      "**Skill surface**：原子技能（grasp、move-to 等）最初为手工验证单元；复合技能保留任务语义，如 move-to + grasp + place；执行中维护以关键状态为节点、成功与失败转移为边的 recovery tree，失败后回到可恢复状态重规划，而不是重复同一失败动作。",
-      "**六类能力归因**：外层将失败或低效映射到 perceive / reason / plan / save / retrieve / utilize。前三类对应决策，后三类对应记忆管理，从而决定修订落在 context 还是 skill 表面。",
-      "**任务级 repair**：从 trace 生成候选 `ΔHt`，再在同任务新 rollout 中验证。只有修复失败且执行反馈良好的候选被提交到 Ht，同时连同 pre-repair history、编辑和反馈写入 trace 库 T。",
-      "**通用化 promotion**：对成功任务修复，外层选取其他任务但相同能力的 held-out traces，抽象出候选 `ΔHg`，让 `Hg ⊕ ΔHg` 对这些 pre-repair trace 提出任务级修复，并由系统 policy 打分。若 capability-conditioned transfer `Δcap ≥ 0`，候选才提升为通用规则。",
-      "**持久文件系统**：执行 overlay 保存 prompts、示例、planner、技能与反馈；`.robofoundry/` 保存 evolution ledger、bootstrap、父候选、评估摘要和失败 trace。运行期生成与持久规则分离，避免“反思建议”只停留在一次回复中。"
-    ],
-    "methodTakeaways": [
-      "RoboFoundry 从 code-as-policy 继续推进到 system-as-policy：优化对象不是单段生成代码，而是上下文、记忆、技能、恢复结构、接口和验证流程共同构成的执行系统。",
-      "任务级与通用级作用域是核心安全阀；一个经验先修复当前任务，再证明不损害同类 held-out 任务，才允许进入通用系统。",
-      "跨本体迁移依赖抽象层级正确：语义层演化出的“如何组织状态、何时恢复、如何复合技能”可通过替换执行绑定迁移；如果能力本身依赖不可迁移的感知或控制，则不能自动复用。"
-    ],
-    "results": "![EmbodiedBench、RoboMemArena、LIBERO-PRO 与真实机器人结果汇总，显示同一系统演化机制在多模型和多种任务中的一致增益。](https://arxiv.org/html/2609.32862v1/robo_evaluation.png)\n\n- **EmbodiedBench**：1,128 个任务覆盖 EB-ALFRED、EB-Habitat、EB-Navigation 和 EB-Manipulation。GPT-5.5 从 56.9% 提升到 72.7%（+15.8 pp，相对 27.8%）；Qwen3.7-Plus 从 60.0% 到 70.3%；GPT-6 Astra 从 71.9% 到 78.0%；Qwen3.8-27B 和 GLM5.3-Flash 也分别提升到 66.5% 和 69.3%。Qwen3.7-Plus 的 Lite 版为 63.2%，完整版再高 11.2%，说明通用系统演化有独立贡献。\n- **演化效率**：EB-Habitat spatial 子集的 held-in 成功率从 21.4% 提升到 50.0% 的三个 committed edits 后，最终候选达到 78.0% 并通过 held-out 检验；两个候选被丢弃且不改变系统。使用 1/4 held-in 数据时，EB-ALFRED 与 EB-Habitat 分别达到 78.0% 和 66.0%，3/4 数据时 EB-Habitat 达到 74.0%。\n- **长程记忆**：在 RoboMemArena 26 个任务上，RoboFoundry（Qwen3.7-Plus）总体 TSR/CSR 为 53.5%/72.8%，PrediMem 为 38.5%/55.2%，且 Transfer / Occlusion / Counting / Sequence 四类均为最佳；Transfer TSR 70.5%，比 PrediMem 高 213.3%。将它分别叠加到 standalone π0.5 和 PrediMem 上，四类 TSR/CSR 全部提升。\n- **扰动鲁棒性**：LIBERO-PRO 的 Object / Goal / Spatial 六个 position/task 设置中，无 privileged pose 的 RoboFoundry 平均成功率 91.9%，高于 Harness VLA (CC) 的 87.8%；给 privileged simulator object pose 后提升到 98%–100% 的 task success，说明感知仍是瓶颈但系统能利用更准状态。\n- **真实机器人**：COBOT MAGIC 套娃任务通过插入对齐检查和进度追踪，从 π0.5 的 30% 提升到 70%；仅在蓝色毛巾上演化的折叠技能零样本迁移到绿色和粉色毛巾，成功率超过 80%，而 π0.5 低于 20%；Unitree G1 通过语义接口把“找饮用水”映射到 RGB 中识别的饮水机并导航。化学长程任务中，漏斗就绪、秤去皮等状态被持久记录，最终倾倒步骤会检索早前的 funnel-ready 状态。\n\n![不同 held-in 数据量下的 EmbodiedBench 演化曲线：少量任务已能触发大部分可用系统修订。](https://arxiv.org/html/2609.32862v1/robo_scale.png)\n\n![真实机器人上的技能迁移、语义导航和长程化学操作案例。](https://arxiv.org/html/2609.32862v1/robo_real_1.png)",
-    "resultHighlights": [],
-    "insights": "- **系统是能力的一部分。** 论文最有价值的经验不是“多加几条 prompt”，而是把信息选择、状态保存、证据检索、技能组合、恢复、执行接口和 trace 验证都纳入同一可优化 policy；这解释了不同能力级别 backbone 都能获益。\n- **开源模型差距可以被系统部分补偿。** Qwen3.7-Plus + RoboFoundry 达到 70.3%，接近 GPT-5.5 + RoboFoundry 的 72.7%；这提示在真实部署中，系统工程质量与模型能力共同决定上限。\n- **记忆不是保存越多越好，而是保存、检索、利用三者闭环。** RoboMemArena 案例显示，转移任务要把已完成阶段变成 active subgoal，遮挡任务要区分当前帧证据和历史 keyframe 提醒，计数任务要记录动作次数而不是泛化摘要。\n- **泛化作用域需要证据。** `Δcap ≥ 0` 的 held-out trace 检验比直接把局部修复写成全局规则更谨慎，但它仍低于真实执行回归；生产系统应补充执行级测试、最小样本量和版本回滚。\n- **跨本体复用有条件。** 语义/执行绑定让“把物体放到目标处”的决策与 TCP offset、运动规划等本体细节分离；若感知、安全边界或接触动力学无法被共享接口表达，能力仍不能迁移。",
-    "insightCore": [],
-    "insightRelations": [],
-    "insightBorrowable": [],
-    "risks": "**局限：**\n\n- **推广阈值偏弱**：通用规则只要求 held-out capability-conditioned transfer 不低于已成功修复；`Δcap ≥ 0` 不等于显著改善，也没有统计置信区间，可能接受弱泛化或噪声修改。\n- **验证依赖同一系统自评**：trace 诊断、候选抽象和 verifier 打分均由模型/系统参与，误归因可能形成看似一致但事实错误的规则；缺少独立 oracle 或人工安全审查。\n- **成本不透明**：论文报告 interaction budget，但没有完整披露模型调用、文件编辑、候选评估、失败 rollout、API 和工程维护成本；系统级演化可能比单纯换 backbone 更贵。\n- **初始基础设施依赖强**：需要可用原子技能、执行 API、机器人状态/观测、恢复接口和 benchmark overlay；这些工程件本身的质量会显著影响结论。\n- **真实实验规模有限**：实机每任务 10 次且包含用于在线演化的 trial；套娃 70% vs 30% 和毛巾 >80% vs <20% 是方向性证据，不足以支持稳健统计显著结论。\n- **长时间安全性未证明**：文件系统持续修改、删除和通用规则累积可能带来规则冲突、回归、越积越长的上下文或危险行为；论文未展示长期演化曲线、回滚治理和人类审批机制。\n- **感知瓶颈明显**：RoboFoundry† 使用 privileged simulator pose 后全部提升，说明非 privileged 版本的部分失败来自感知而非任务系统；真实开放环境可能更严重。\n- **可复现性待验证**：项目页提供结果与论文，但正文未见完整公开代码、系统初始版本、候选 diff、trace 数据和统一评估脚本；仅凭描述难以独立复现所有演化行为。\n\n**适用场景：**\n\n- 已有稳定基础模型、VLA 或控制 API，以及较完整原子技能库，希望在不改权重的情况下持续改进长程任务、记忆管理和失败恢复。\n- 任务失败可以通过执行 trace、环境反馈和状态记录定位，且允许在仿真或安全真实环境中反复 rollout 验证候选修订。\n- 需要把同一任务语义接到不同机器人或执行后端，并希望演化发生在本体无关语义层而非每次重写控制代码。\n- 有版本管理、最小回归测试、回滚和人工安全门的生产原型环境；不能把它当成无需治理的完全自主机器人。\n\n**最终判断：**\n\n- **值得跟进，核心贡献是把 self-improvement 的对象从组件升级为系统 policy。** 多 backbone、多基准和实机证据一致支持：上下文、技能、绑定和恢复的共同演化能显著提升 frozen model 的有效具身能力。\n- **证据等级是研究原型而非安全自治系统。** 结果显示强通用性，但缺少成本、长期稳定性、独立验证和完整复现资产；不能外推为无限自我改进或无需人工监督的部署。\n- **最有价值的后续检验**：执行级 held-out 回归而非 verifier 打分；不同初始技能库和执行后端的敏感性；多轮通用规则累积后的冲突率；真实环境感知误差下的安全边界；以及完整计算与 API 成本核算。",
-    "riskLimitations": [
-      "**推广阈值偏弱**：通用规则只要求 held-out capability-conditioned transfer 不低于已成功修复；`Δcap ≥ 0` 不等于显著改善，也没有统计置信区间，可能接受弱泛化或噪声修改。",
-      "**验证依赖同一系统自评**：trace 诊断、候选抽象和 verifier 打分均由模型/系统参与，误归因可能形成看似一致但事实错误的规则；缺少独立 oracle 或人工安全审查。",
-      "**成本不透明**：论文报告 interaction budget，但没有完整披露模型调用、文件编辑、候选评估、失败 rollout、API 和工程维护成本；系统级演化可能比单纯换 backbone 更贵。",
-      "**初始基础设施依赖强**：需要可用原子技能、执行 API、机器人状态/观测、恢复接口和 benchmark overlay；这些工程件本身的质量会显著影响结论。",
-      "**真实实验规模有限**：实机每任务 10 次且包含用于在线演化的 trial；套娃 70% vs 30% 和毛巾 >80% vs <20% 是方向性证据，不足以支持稳健统计显著结论。",
-      "**长时间安全性未证明**：文件系统持续修改、删除和通用规则累积可能带来规则冲突、回归、越积越长的上下文或危险行为；论文未展示长期演化曲线、回滚治理和人类审批机制。",
-      "**感知瓶颈明显**：RoboFoundry† 使用 privileged simulator pose 后全部提升，说明非 privileged 版本的部分失败来自感知而非任务系统；真实开放环境可能更严重。",
-      "**可复现性待验证**：项目页提供结果与论文，但正文未见完整公开代码、系统初始版本、候选 diff、trace 数据和统一评估脚本；仅凭描述难以独立复现所有演化行为。"
-    ],
-    "riskScenarios": [
-      "已有稳定基础模型、VLA 或控制 API，以及较完整原子技能库，希望在不改权重的情况下持续改进长程任务、记忆管理和失败恢复。",
-      "任务失败可以通过执行 trace、环境反馈和状态记录定位，且允许在仿真或安全真实环境中反复 rollout 验证候选修订。",
-      "需要把同一任务语义接到不同机器人或执行后端，并希望演化发生在本体无关语义层而非每次重写控制代码。",
-      "有版本管理、最小回归测试、回滚和人工安全门的生产原型环境；不能把它当成无需治理的完全自主机器人。"
-    ],
-    "riskJudgment": [
-      "**值得跟进，核心贡献是把 self-improvement 的对象从组件升级为系统 policy。** 多 backbone、多基准和实机证据一致支持：上下文、技能、绑定和恢复的共同演化能显著提升 frozen model 的有效具身能力。",
-      "**证据等级是研究原型而非安全自治系统。** 结果显示强通用性，但缺少成本、长期稳定性、独立验证和完整复现资产；不能外推为无限自我改进或无需人工监督的部署。",
-      "**最有价值的后续检验**：执行级 held-out 回归而非 verifier 打分；不同初始技能库和执行后端的敏感性；多轮通用规则累积后的冲突率；真实环境感知误差下的安全边界；以及完整计算与 API 成本核算。"
-    ],
-    "resultsTableMarkdown": "| 问题 | 最直接证据 | 边界 |\n| --- | --- | --- |\n| 系统演化是否跨 backbone 有效？ | EmbodiedBench 平均：GPT-5.5 56.9→72.7%，GPT-6 71.9→78.0%，Qwen3.7 60.0→70.3% | 五个模型、统一基准，不等于所有模型和任务 |\n| 通用提升是否优于仅任务修复？ | Qwen3.7：Lite 63.2%，完整版 70.3%，相对高 11.2% | Lite 消融主要隔离 general evolution，仍有共享 harness |\n| 是否改善长程记忆？ | RoboMemArena TSR/CSR 53.5%/72.8%，PrediMem 38.5%/55.2% | 26 任务官方协议，状态重置，保留 task-agnostic context 修订 |\n| 是否抗布局和目标扰动？ | LIBERO-PRO 无 privileged pose 平均成功率 91.9%，高于 Harness VLA(CC) 87.8% | 六个设置、每任务每扰动 50 trial；privileged pose 更高 |\n| 能否真实迁移与在线演化？ | 套娃 70% vs 30%；蓝毛巾技能迁移到绿/粉毛巾 >80%；Unitree G1 语义导航 | 每任务 10 trial，包含在线演化 trial，非独立大规模测试 |\n| 是否解决感知瓶颈？ | privileged pose 下 task success 98%–100%，均有提升 | 说明原系统受感知限制，不能证明开放世界感知可靠 |",
-    "resultsTable": {
-      "columns": [
-        "问题",
-        "最直接证据",
-        "边界"
-      ],
-      "rows": [
-        [
-          "系统演化是否跨 backbone 有效？",
-          "EmbodiedBench 平均：GPT-5.5 56.9→72.7%，GPT-6 71.9→78.0%，Qwen3.7 60.0→70.3%",
-          "五个模型、统一基准，不等于所有模型和任务"
-        ],
-        [
-          "通用提升是否优于仅任务修复？",
-          "Qwen3.7：Lite 63.2%，完整版 70.3%，相对高 11.2%",
-          "Lite 消融主要隔离 general evolution，仍有共享 harness"
-        ],
-        [
-          "是否改善长程记忆？",
-          "RoboMemArena TSR/CSR 53.5%/72.8%，PrediMem 38.5%/55.2%",
-          "26 任务官方协议，状态重置，保留 task-agnostic context 修订"
-        ],
-        [
-          "是否抗布局和目标扰动？",
-          "LIBERO-PRO 无 privileged pose 平均成功率 91.9%，高于 Harness VLA(CC) 87.8%",
-          "六个设置、每任务每扰动 50 trial；privileged pose 更高"
-        ],
-        [
-          "能否真实迁移与在线演化？",
-          "套娃 70% vs 30%；蓝毛巾技能迁移到绿/粉毛巾 >80%；Unitree G1 语义导航",
-          "每任务 10 trial，包含在线演化 trial，非独立大规模测试"
-        ],
-        [
-          "是否解决感知瓶颈？",
-          "privileged pose 下 task success 98%–100%，均有提升",
-          "说明原系统受感知限制，不能证明开放世界感知可靠"
-        ]
-      ]
-    },
-    "figureGallery": [
-      {
-        "zone": "intuition",
-        "caption": "RoboFoundry 的系统级演化闭环与主要基准结果：不同本体共享 Act–Reflect–Repair–Promote 外循环，将任务级修订提升为通用系统规则。",
-        "src": "https://arxiv.org/html/2609.32862v1/robo_teaser.png"
-      },
-      {
-        "zone": "method",
-        "caption": "RoboFoundry 的三层结构：内层通过 context、skill 与绑定执行任务；通用系统提供可复用规则；外层用 trace 诊断并验证修订。",
-        "src": "https://arxiv.org/html/2609.32862v1/robo_model.png"
-      },
-      {
-        "zone": "results",
-        "caption": "EmbodiedBench、RoboMemArena、LIBERO-PRO 与真实机器人结果汇总，显示同一系统演化机制在多模型和多种任务中的一致增益。",
-        "src": "https://arxiv.org/html/2609.32862v1/robo_evaluation.png"
-      },
-      {
-        "zone": "results",
-        "caption": "不同 held-in 数据量下的 EmbodiedBench 演化曲线：少量任务已能触发大部分可用系统修订。",
-        "src": "https://arxiv.org/html/2609.32862v1/robo_scale.png"
-      },
-      {
-        "zone": "results",
-        "caption": "真实机器人上的技能迁移、语义导航和长程化学操作案例。",
-        "src": "https://arxiv.org/html/2609.32862v1/robo_real_1.png"
-      }
-    ],
-    "relatedTopicSlugs": [
-      "robot-self-improvement"
     ]
   }
 ]
