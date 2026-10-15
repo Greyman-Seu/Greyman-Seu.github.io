@@ -1,0 +1,163 @@
+{
+  "slug": "world-action-learning-via-interaction-centric-spectral-latent-guidance",
+  "title": "World Action Learning via Interaction-Centric Spectral Latent Guidance",
+  "sourceType": "paper",
+  "sourceUrl": "https://arxiv.org/abs/2610.03607",
+  "htmlUrl": "https://arxiv.org/html/2610.03607v1",
+  "pdfUrl": "https://arxiv.org/pdf/2610.03607v1",
+  "codeUrl": "https://mikuz12.github.io/wing/",
+  "translationUrl": "https://hjfy.top/arxiv/2610.03607",
+  "publishDate": "2026-10-02",
+  "authors": [
+    "Zhiming Liu",
+    "Yikun Miao",
+    "Ying Chen",
+    "Hongrui Yin",
+    "Fangqi Zhu",
+    "Xiaoyi Pang",
+    "Quanxin Shou",
+    "Zhengyang Yan",
+    "Haodong Wang",
+    "Song Guo"
+  ],
+  "affiliation": "The Hong Kong University of Science and Technology",
+  "relatedOrganizations": [
+    "The Hong Kong University of Science and Technology"
+  ],
+  "relatedCompanies": [],
+  "keywords": [
+    "latent action model",
+    "human-to-robot transfer",
+    "spectral guidance"
+  ],
+  "primaryDomainSlug": "physical-embodied-intelligence",
+  "domainSlugs": [
+    "physical-embodied-intelligence"
+  ],
+  "heroImage": "https://arxiv.org/html/2610.03607v1/method_overview.png",
+  "tldr": "WING 把第一人称人类视频中的可迁移操作知识蒸馏成两类结构：先剔除观察者相机运动、保留手-物交互 latent action，再只取跨本体更一致的 DCT 低频成分作为动作生成 guidance。它在 LIBERO、RoboTwin 2.0、RoboCasa-GR1 和真机双臂任务上都取得强结果；消融显示去观察者偏差与低频谱引导分别有效，且组合最优。",
+  "intuition": "可以把 WING 理解成一个“先洗数据、再抽时间骨架、最后只做引导”的接口：它不把人类视频帧间变化直接当作机器人动作，而是先用点轨迹和相机补偿把画面变化拆成观察者运动与局部交互，再从交互 latent 的时间序列中保留慢变化结构，用这些结构提示而非替代机器人动作生成器。\n\n![主要图](https://arxiv.org/html/2610.03607v1/method_overview.png)\n\n*主要图*",
+  "abstractEn": "Learning general-purpose robot policies requires large-scale real-world interaction data, yet collecting robot demonstrations remains expensive and difficult to scale. Egocentric videos offer abundant human interaction experience with task-relevant semantics for robotic manipulation, but direct transfer is challenging for two reasons: latent actions inferred from frame reconstruction can be dominated by nuisance variation such as ego-camera motion, and human and robot behaviors often exhibit different temporal dynamics. We propose WING (World Action Learning via INteraction-Centric Spectral Latent Guidance), a framework for transferring interaction knowledge from egocentric videos to robot policies. WING first separates observer-induced motion from hand-object interaction and distills the interaction-centric component into latent actions. It then exploits the observation that cross-embodiment task semantics are concentrated in slowly varying temporal structures, identifying shared low-frequency components between egocentric latent actions and robot behaviors in the spectral domain and using them to guide action generation. WING achieves average success rates of 99.20% on LIBERO, 93.80% on RoboTwin 2.0, and 57.7% on RoboCasa-GR1, and also performs strongly across four real-world manipulation tasks under diverse generalization settings. These results show that interaction-centric spectral guidance provides an effective and scalable way to transfer physical interaction knowledge from human egocentric video to robot control.",
+  "abstractZh": "学习通用机器人策略需要大规模真实交互数据，但采集机器人示范昂贵且难以扩展。第一人称视频提供了丰富的任务相关人类交互经验，但直接迁移有两个困难：由帧重建推断出的 latent action 可能被自我相机运动等干扰变化主导；人类和机器人行为即使语义相同，也常有不同的时间动态。WING 先把观察者引起的运动与手-物交互分离，并将以交互为中心的成分蒸馏为 latent action；随后利用跨本体任务语义集中于慢变时间结构这一观察，在人机行为的谱域中寻找共享低频成分，用它引导动作生成。WING 在 LIBERO、RoboTwin 2.0 和 RoboCasa-GR1 上平均成功率分别为 99.20%、93.80% 和 57.7%，并在四个真实操作任务的多种泛化设定中表现强，说明显式交互中心的谱引导能有效扩展人类第一人称视频到机器人控制的迁移。",
+  "background": "**动机：** 通用机器人策略最稀缺的是多样化物理交互数据，遥操作示范成本高且难以覆盖真实环境的物体、任务和场景分布。第一人称人类视频天然包含大量手-物交互，视角也与机器人相机较接近，因此是比手工标注手部姿态更可扩展的动作知识来源。\n\n**问题缺口：** 现有 latent action 方法通常以重建相邻帧为目标，会把“画面怎么变”误当作“交互在做什么”：人头部和身体运动造成的大范围相机变化可能压过局部手-物交互；同时人类与机器人执行同一语义动作的速度、控制粒度和细粒度时间模式不同，直接对齐完整 latent 轨迹会把本体差异也迁进去。WING 需要同时解决干扰剥离和跨本体时间结构选择两个问题。",
+  "backgroundMotivation": "通用机器人策略最稀缺的是多样化物理交互数据，遥操作示范成本高且难以覆盖真实环境的物体、任务和场景分布。第一人称人类视频天然包含大量手-物交互，视角也与机器人相机较接近，因此是比手工标注手部姿态更可扩展的动作知识来源。",
+  "backgroundGap": "现有 latent action 方法通常以重建相邻帧为目标，会把“画面怎么变”误当作“交互在做什么”：人头部和身体运动造成的大范围相机变化可能压过局部手-物交互；同时人类与机器人执行同一语义动作的速度、控制粒度和细粒度时间模式不同，直接对齐完整 latent 轨迹会把本体差异也迁进去。WING 需要同时解决干扰剥离和跨本体时间结构选择两个问题。",
+  "method": "**方法概述：** WING 的完整流程是：训练一个使用点轨迹特权监督的运动路由教师，把第一人称帧间变化拆成全局相机运动与局部交互残差；将交互 latent 蒸馏到仅看 RGB 的学生编码器；把 1.6 秒内的 8 个 32 维交互 latent 做 DCT，仅保留最低 4 个频率系数；在自我视频预训练和机器人示范后训练中，让当前观测预测这些系数，并通过门控 cross-attention 作为动作模型的辅助条件。机器人仍由自身动作监督生成可执行控制，人类视频只提供高层交互引导。\n\n**核心机制：** 核心机制建立在两个互补假设上：第一，观察者运动近似为图像全局仿射变化，交互运动是补偿相机后仍然显著的局部点位移，因此可用背景点轨迹拟合相机 warp，再把剩余位移作为交互监督；第二，人与机器人共享的是慢变任务/交互结构而非高频轨迹细节，因此 DCT 低频系数比完整时间序列更可靠。WING-LAM 通过教师-学生蒸馏和相机扰动一致性学习去偏差 latent；谱模块只在训练时用未来帧构造目标，部署时由当前上下文预测 guidance token，并通过带可学习门控的注意力注入动作生成层。\n\n**方法拆解：** - 运动监督构建：AllTracker 给出可靠点对应，EgoHOS 提供手部种子；排除手部后用 RANSAC 拟合背景仿射 warp，将逆 warp 后的点位移作为交互残差。\n- 运动路由教师：背景与交互点分别池化为 camera latent 和 interaction latent，教师预测全局 warp 与局部残差，并把输入中的特权运动线索从部署路径中隔离。\n- 交互蒸馏：把教师 interaction latent 蒸馏到只看 RGB 帧对的学生；原始帧对和施加全局相机 warp 的帧对共享同一交互目标，并施加跨视角 latent 一致性，降低相机敏感性。\n- 谱引导：以 0.2 秒间隔取 9 个观测端点、8 个 32维 latent，做正交 DCT 后保留最低 4 个系数；当前语言、图像和本体状态经轻量 Transformer 预测 4×32 guidance。\n- 动作条件化与训练：将每个频率系数投影为带频率嵌入的 guidance token，用门控 residual attention 注入动作模型；视频生成、动作生成和 guidance 预测损失共同训练，WING-LAM 编码器冻结。\n\n**关键要点：** - 人类视频知识的入口应是交互残差，而不是全部帧间视觉变化；显式分离观察者运动可以避免 latent action 被相机动态污染。\n- 跨本体共享结构集中在低频时间成分；保留 K=4 的 DCT 系数优于过窄的 K=2 和完整 K=8 谱。\n- 人类视频-derived latent 更适合作为辅助条件而不是直接动作目标，机器人示范仍负责 embodiment-specific 可执行控制。\n\n![方法图](https://arxiv.org/html/2610.03607v1/method_overview.png)\n\n*方法图*",
+  "methodOverview": "WING 的完整流程是：训练一个使用点轨迹特权监督的运动路由教师，把第一人称帧间变化拆成全局相机运动与局部交互残差；将交互 latent 蒸馏到仅看 RGB 的学生编码器；把 1.6 秒内的 8 个 32 维交互 latent 做 DCT，仅保留最低 4 个频率系数；在自我视频预训练和机器人示范后训练中，让当前观测预测这些系数，并通过门控 cross-attention 作为动作模型的辅助条件。机器人仍由自身动作监督生成可执行控制，人类视频只提供高层交互引导。",
+  "methodCore": "核心机制建立在两个互补假设上：第一，观察者运动近似为图像全局仿射变化，交互运动是补偿相机后仍然显著的局部点位移，因此可用背景点轨迹拟合相机 warp，再把剩余位移作为交互监督；第二，人与机器人共享的是慢变任务/交互结构而非高频轨迹细节，因此 DCT 低频系数比完整时间序列更可靠。WING-LAM 通过教师-学生蒸馏和相机扰动一致性学习去偏差 latent；谱模块只在训练时用未来帧构造目标，部署时由当前上下文预测 guidance token，并通过带可学习门控的注意力注入动作生成层。",
+  "methodBreakdown": [
+    "运动监督构建：AllTracker 给出可靠点对应，EgoHOS 提供手部种子；排除手部后用 RANSAC 拟合背景仿射 warp，将逆 warp 后的点位移作为交互残差。",
+    "运动路由教师：背景与交互点分别池化为 camera latent 和 interaction latent，教师预测全局 warp 与局部残差，并把输入中的特权运动线索从部署路径中隔离。",
+    "交互蒸馏：把教师 interaction latent 蒸馏到只看 RGB 帧对的学生；原始帧对和施加全局相机 warp 的帧对共享同一交互目标，并施加跨视角 latent 一致性，降低相机敏感性。",
+    "谱引导：以 0.2 秒间隔取 9 个观测端点、8 个 32维 latent，做正交 DCT 后保留最低 4 个系数；当前语言、图像和本体状态经轻量 Transformer 预测 4×32 guidance。",
+    "动作条件化与训练：将每个频率系数投影为带频率嵌入的 guidance token，用门控 residual attention 注入动作模型；视频生成、动作生成和 guidance 预测损失共同训练，WING-LAM 编码器冻结。"
+  ],
+  "methodTakeaways": [
+    "人类视频知识的入口应是交互残差，而不是全部帧间视觉变化；显式分离观察者运动可以避免 latent action 被相机动态污染。",
+    "跨本体共享结构集中在低频时间成分；保留 K=4 的 DCT 系数优于过窄的 K=2 和完整 K=8 谱。",
+    "人类视频-derived latent 更适合作为辅助条件而不是直接动作目标，机器人示范仍负责 embodiment-specific 可执行控制。"
+  ],
+  "results": "**核心结果：** - 表示质量：WING-LAM 在 LARYBench 动作分类上达 55.47%，高于 CD-LAM 53.44%、DreamDojo 53.43%、LAPA 20.89%；同时 camera-motion readout 和扰动敏感性更低。\n- 跨本体对应：在 100 对匹配/100 对不匹配人机轨迹中，低频谱匹配对相似度 0.58、不匹配对 0.07，间隔 0.51；完整轨迹为 0.44/0.18，高频为 0.20/0.15，支持低频选择。\n- 仿真结果：LIBERO 平均 99.20%（高于 LaWAM 98.60%）；RoboTwin 2.0 平均 93.80%（clean 94.56、randomized 93.04，高于 LaWAM 91.22%）；RoboCasa-GR1 57.7%，高于 LDA-1B 55.4%。\n- 真机结果：Agilex Cobot Magic 双臂平台四个任务上，WING 标准设定平均成功率 75.0%，为报告方法最高；泛化设定与 π0.5 接近且平均进度略高。\n- 消融：无 ego 预训练时，WING-LAM+DCT 在真机标准/泛化为 72.5%/45.0%，均高于仅 WING-LAM 67.5%/40.3%、仅 DCT 71.3%/43.0%、两者皆无 65.0%/36.0%。\n\n**结果表：** | Benchmark | Setting | WING | Strongest baseline | Gain |\n| --- | --- | ---: | ---: | ---: |\n| LIBERO | 4-suite avg. SR | 99.20% | LaWAM 98.60% | +0.60 pp |\n| RoboTwin 2.0 | clean + randomized avg. SR | 93.80% | LaWAM 91.22% | +2.58 pp |\n| RoboCasa–GR1 | 24-task avg. SR | 57.7% | LDA-1B 55.4% | +2.3 pp |\n| Real world | 4-task standard avg. SR | 75.0% | π0.5 (reported strong baseline) | highest reported |\n| Real world | 4-task generalization avg. progress | slightly above π0.5 | comparable success | — |\n\n![结果图](https://arxiv.org/html/2610.03607v1/realresults.png)\n\n*结果图*",
+  "resultHighlights": [
+    "表示质量：WING-LAM 在 LARYBench 动作分类上达 55.47%，高于 CD-LAM 53.44%、DreamDojo 53.43%、LAPA 20.89%；同时 camera-motion readout 和扰动敏感性更低。",
+    "跨本体对应：在 100 对匹配/100 对不匹配人机轨迹中，低频谱匹配对相似度 0.58、不匹配对 0.07，间隔 0.51；完整轨迹为 0.44/0.18，高频为 0.20/0.15，支持低频选择。",
+    "仿真结果：LIBERO 平均 99.20%（高于 LaWAM 98.60%）；RoboTwin 2.0 平均 93.80%（clean 94.56、randomized 93.04，高于 LaWAM 91.22%）；RoboCasa-GR1 57.7%，高于 LDA-1B 55.4%。",
+    "真机结果：Agilex Cobot Magic 双臂平台四个任务上，WING 标准设定平均成功率 75.0%，为报告方法最高；泛化设定与 π0.5 接近且平均进度略高。",
+    "消融：无 ego 预训练时，WING-LAM+DCT 在真机标准/泛化为 72.5%/45.0%，均高于仅 WING-LAM 67.5%/40.3%、仅 DCT 71.3%/43.0%、两者皆无 65.0%/36.0%。"
+  ],
+  "insights": "**核心 insight：** - 这篇的关键贡献不是“用了人类视频”，而是规定了人类视频进入策略的接口：先去 observer bias，再选慢时间结构，最后作为条件而非动作标签。\n- 低频过滤与跨本体对齐是同一问题的两面：高频细节往往绑定执行速度、 morphology 和控制粒度，过滤它们可减少伪共享。\n- WING-LAM 的表示探针表明，降低相机敏感性没有牺牲动作语义，说明“少编码一种变化”与“保留任务变化”可以分离。\n\n**和已有方法的关系：** - 与 LAPA/UniVLA 等 latent action 预训练相比，WING 显式剔除相机运动，并把 latent 从预测目标降为动作生成 guidance。\n- 与 Fast-WAM/LingBot-VA 等 WAM 相比，WING 不要求完整未来轨迹跨本体一致，而只强调可共享低频交互结构。\n- 与 DexImit 等把人类视频编译成机器人数据不同，WING 不重建成可执行示范，而是学跨本体语义 prior。\n\n**可借鉴点：** - 在有昂贵外部监督训练教师、部署端只有 RGB 的场景，可复用 privileged teacher + input-view consistency + student distillation。\n- 处理多本体时间序列时，可先用匹配/不匹配集检验不同频带的语义间隔，再决定保留多少谱系数。",
+  "insightCore": [
+    "这篇的关键贡献不是“用了人类视频”，而是规定了人类视频进入策略的接口：先去 observer bias，再选慢时间结构，最后作为条件而非动作标签。",
+    "低频过滤与跨本体对齐是同一问题的两面：高频细节往往绑定执行速度、 morphology 和控制粒度，过滤它们可减少伪共享。",
+    "WING-LAM 的表示探针表明，降低相机敏感性没有牺牲动作语义，说明“少编码一种变化”与“保留任务变化”可以分离。"
+  ],
+  "insightRelations": [
+    "与 LAPA/UniVLA 等 latent action 预训练相比，WING 显式剔除相机运动，并把 latent 从预测目标降为动作生成 guidance。",
+    "与 Fast-WAM/LingBot-VA 等 WAM 相比，WING 不要求完整未来轨迹跨本体一致，而只强调可共享低频交互结构。",
+    "与 DexImit 等把人类视频编译成机器人数据不同，WING 不重建成可执行示范，而是学跨本体语义 prior。"
+  ],
+  "insightBorrowable": [
+    "在有昂贵外部监督训练教师、部署端只有 RGB 的场景，可复用 privileged teacher + input-view consistency + student distillation。",
+    "处理多本体时间序列时，可先用匹配/不匹配集检验不同频带的语义间隔，再决定保留多少谱系数。"
+  ],
+  "risks": "**局限：** - 教师依赖 AllTracker、EgoHOS、RANSAC 仿射相机模型和点轨迹质量；强视差、深度变化或明显 3D 相机运动时，单一图像空间 warp 可能错误分解相机与交互。\n- 谱引导增加了 WING-LAM 离线构造、DCT 目标生成、guidance predictor 和门控注意力模块，训练与系统复杂度高于直接视频/动作预训练。\n- 结果覆盖 LIBERO、RoboTwin、RoboCasa 和四个桌面双臂任务，仍不足以证明开放环境、非桌面任务、高速接触或安全关键场景中的可扩展性。\n\n**适用场景：** - 适合从大规模无动作标签第一人称操作视频中给机器人动作模型补充交互先验，尤其是相机可能移动但主要关注手-物操作语义的数据。\n- 适合人机时间动态差异大、但任务语义可共享的跨本体操作预训练，以及机器人示范有限时需要提高数据效率的 setting。\n\n**最终判断：** - WING 的证据链较完整：表示探针、人机谱相似性、三套仿真、真机标准和单因素泛化、组件与带宽消融相互支撑；但其运动分解和低频假设有明确适用范围，不能视为通用物理先验。我会把它视为 human-to-robot transfer 中一个强而具体的“交互中心 + 时间谱选择”基线，而不是已解决开放世界泛化。",
+  "riskLimitations": [
+    "教师依赖 AllTracker、EgoHOS、RANSAC 仿射相机模型和点轨迹质量；强视差、深度变化或明显 3D 相机运动时，单一图像空间 warp 可能错误分解相机与交互。",
+    "谱引导增加了 WING-LAM 离线构造、DCT 目标生成、guidance predictor 和门控注意力模块，训练与系统复杂度高于直接视频/动作预训练。",
+    "结果覆盖 LIBERO、RoboTwin、RoboCasa 和四个桌面双臂任务，仍不足以证明开放环境、非桌面任务、高速接触或安全关键场景中的可扩展性。"
+  ],
+  "riskScenarios": [
+    "适合从大规模无动作标签第一人称操作视频中给机器人动作模型补充交互先验，尤其是相机可能移动但主要关注手-物操作语义的数据。",
+    "适合人机时间动态差异大、但任务语义可共享的跨本体操作预训练，以及机器人示范有限时需要提高数据效率的 setting。"
+  ],
+  "riskJudgment": [
+    "WING 的证据链较完整：表示探针、人机谱相似性、三套仿真、真机标准和单因素泛化、组件与带宽消融相互支撑；但其运动分解和低频假设有明确适用范围，不能视为通用物理先验。我会把它视为 human-to-robot transfer 中一个强而具体的“交互中心 + 时间谱选择”基线，而不是已解决开放世界泛化。"
+  ],
+  "resultsTableMarkdown": "| Benchmark | Setting | WING | Strongest baseline | Gain |\n| --- | --- | ---: | ---: | ---: |\n| LIBERO | 4-suite avg. SR | 99.20% | LaWAM 98.60% | +0.60 pp |\n| RoboTwin 2.0 | clean + randomized avg. SR | 93.80% | LaWAM 91.22% | +2.58 pp |\n| RoboCasa–GR1 | 24-task avg. SR | 57.7% | LDA-1B 55.4% | +2.3 pp |\n| Real world | 4-task standard avg. SR | 75.0% | π0.5 (reported strong baseline) | highest reported |\n| Real world | 4-task generalization avg. progress | slightly above π0.5 | comparable success | — |",
+  "resultsTable": {
+    "columns": [
+      "Benchmark",
+      "Setting",
+      "WING",
+      "Strongest baseline",
+      "Gain"
+    ],
+    "rows": [
+      [
+        "LIBERO",
+        "4-suite avg. SR",
+        "99.20%",
+        "LaWAM 98.60%",
+        "+0.60 pp"
+      ],
+      [
+        "RoboTwin 2.0",
+        "clean + randomized avg. SR",
+        "93.80%",
+        "LaWAM 91.22%",
+        "+2.58 pp"
+      ],
+      [
+        "RoboCasa–GR1",
+        "24-task avg. SR",
+        "57.7%",
+        "LDA-1B 55.4%",
+        "+2.3 pp"
+      ],
+      [
+        "Real world",
+        "4-task standard avg. SR",
+        "75.0%",
+        "π0.5 (reported strong baseline)",
+        "highest reported"
+      ],
+      [
+        "Real world",
+        "4-task generalization avg. progress",
+        "slightly above π0.5",
+        "comparable success",
+        "—"
+      ]
+    ]
+  },
+  "figureGallery": [
+    {
+      "zone": "intuition",
+      "caption": "主要图",
+      "src": "https://arxiv.org/html/2610.03607v1/method_overview.png"
+    },
+    {
+      "zone": "method",
+      "caption": "方法图",
+      "src": "https://arxiv.org/html/2610.03607v1/method_overview.png"
+    },
+    {
+      "zone": "results",
+      "caption": "结果图",
+      "src": "https://arxiv.org/html/2610.03607v1/realresults.png"
+    }
+  ],
+  "relatedTopicSlugs": [
+    "human-to-robot-transfer"
+  ]
+}
