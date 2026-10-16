@@ -1,0 +1,180 @@
+{
+  "slug": "delta-flow-matching-for-robot-foundation-models",
+  "title": "Delta Flow Matching for Robot Foundation Models",
+  "sourceType": "paper",
+  "sourceUrl": "https://arxiv.org/abs/2610.15794",
+  "htmlUrl": "https://arxiv.org/html/2610.15794v1",
+  "pdfUrl": "https://arxiv.org/pdf/2610.15794",
+  "codeUrl": "",
+  "translationUrl": "https://hjfy.top/arxiv/2610.15794",
+  "publishDate": "2026-10-11",
+  "authors": [
+    "Kuangji Zuo",
+    "Tuo An",
+    "Xinying Guo",
+    "Gen Li",
+    "Mengfei Zhao",
+    "Jiaqi Bai",
+    "Bofan Lyu",
+    "Zhuoyuan Yu",
+    "Jinghan Yang",
+    "Jiayi Li",
+    "Jindou Jia",
+    "Jianfei Yang"
+  ],
+  "affiliation": "MARS Lab, Nanyang Technological University",
+  "relatedOrganizations": [
+    "Nanyang Technological University"
+  ],
+  "relatedCompanies": [],
+  "keywords": [
+    "flow matching",
+    "vision-language-action",
+    "world-action-model"
+  ],
+  "primaryDomainSlug": "physical-embodied-intelligence",
+  "domainSlugs": [
+    "physical-embodied-intelligence"
+  ],
+  "heroImage": "https://arxiv.org/html/2610.15794v1/teaser_final.png",
+  "tldr": "这篇论文的核心改动不是换掉 VLA 或 WAM 骨干，而是换掉 flow matching 的起点：不再从纯 Gaussian 噪声生成未来动作和未来视觉潜变量，而是把最近执行过的动作、当前或近期视觉潜变量加上有控制的噪声作为源分布。于是模型学习的 transport 从“任意噪声到未来”缩短为“过去到未来的残差变化”。作者把这个策略接入 `π0.5`、ImageWAM 和 Fast-WAM：ImageWAM 一个 epoch 达到 91.30% LIBERO 成功率，比原模型提前约 6 倍跨过 90%；Fast-WAM 提前 4 倍达到 95% 以上；`π0.5` LoRA 一个 epoch 的 92.20% 已超过 Gaussian 十步基线五个 epoch 的 91.30%。单步推理在三个模型上分别带来 1.54×、2.49× 和 4.45× 加速，同时把单步 Gaussian 采样的动作 jerk 降低 4.5×。 strongest evidence is LIBERO-Plus：ImageWAM 从 82.49% 提到 88.55%，`π0.5` 从 80.70% 提到 84.53%。",
+  "intuition": "可以把 flow policy 想成从起点向终点的位移场。传统做法把机器人放在完全随机的噪声点，再要求模型学习一条通往未来动作或未来画面的长路；但机器人控制有强时间连续性，上一段动作和刚刚看到的画面本来就离未来不远。Delta-flow 直接利用这个近邻关系，把源点设在近期历史附近，再保留少量噪声以维持多模态和随机性。模型只需学出“接下来会怎么变”，一步 Euler 更新就能跳到未来。对 WAM，动作历史和视觉历史同时变成源；对 VLA，只有动作分支需要改动，因此可以几乎无损地接到已有 action expert 上。\n\n![Delta-flow 与 Gaussian-source flow matching 的对比](https://arxiv.org/html/2610.15794v1/teaser_final.png)\n\n*图 1：左边是 Gaussian source 反复迭代重建未来；右边从对应历史加噪声出发，只学习残差 Δ。这个改动同时作用于 WAM 的视觉和动作分支。*",
+  "abstractEn": "Flow matching has emerged as a common generative recipe for current robot foundation models. Vision-language-action models (VLAs) generate action chunks, while world-action models (WAMs) additionally generate future visual states. Yet both start generation from a fixed Gaussian prior, despite the strong temporal continuity between past and future states and actions. This process is costly to train and requires iterative sampling at deployment, especially for WAMs with an additional visual branch. Exploiting this temporal continuity, we introduce Δ-flow, which constructs the source from recent history with mild noise rather than from a fixed Gaussian prior. This moves the source closer to the target, reducing the transport to a small residual Δ that can be learned efficiently and enables single-step inference. We integrate Δ-flow into the VLA policy π0.5 and the WAM policy including ImageWAM and Fast-WAM. On LIBERO, ImageWAM reaches 90% success in one epoch rather than six, and Fast-WAM reaches 95% in two epochs rather than eight. With LoRA fine-tuning, π0.5 exceeds its baseline’s five-epoch performance after one epoch. Single-step inference gives 1.54×, 2.49×, and 4.45× speedups on π0.5, ImageWAM, and Fast-WAM, respectively. It also preserves action smoothness, achieving a 4.5× reduction in action jerk compared with one-step Gaussian sampling. Δ-flow reaches state-of-the-art generalization performance on LIBERO-Plus. Remarkably, action-history sources can also be applied to pretrained WAM policies without retraining. Replacing the Gaussian action source at inference largely preserves task success with a single sampling step and can slightly improve it. We further study how action representation and the use of visual information in action learning affect history-to-future prediction in Δ-flow. Together, these results show that Δ-flow is simple yet effective, substantially improving the efficiency and generalization of current robot foundation models.",
+  "abstractZh": "Flow matching 已成为当前机器人基础模型的常见生成式配方。VLA 生成动作块，WAM 进一步生成未来视觉状态；但两者都从固定 Gaussian prior 出发，忽略了过去和未来状态、动作之间的强时间连续性。这使得训练成本高，部署时也需要迭代采样，WAM 的额外视觉分支会进一步放大开销。利用这种连续性，论文提出 Δ-flow：用带轻度噪声的近期历史构造源，而不是固定 Gaussian prior。源更接近目标，transport 缩短为可高效学习的小残差 Δ，并支持单步推理。作者把 Δ-flow 接入 VLA `π0.5`、ImageWAM 和 Fast-WAM。在 LIBERO 上，ImageWAM 一个 epoch 而非六个达到 90% 成功率；Fast-WAM 两个 epoch 而非八个达到 95%；`π0.5` LoRA 一个 epoch 已超过 Gaussian 基线五个 epoch 的表现。单步推理分别给三个模型带来 1.54×、2.49× 和 4.45× 加速，并把相对单步 Gaussian 的动作 jerk 降低 4.5×。Δ-flow 在 LIBERO-Plus 上取得 state-of-the-art 泛化；更有趣的是，动作历史源还能免训练用于已训练 WAM，只替换推理时的 Gaussian action source，就能在单步条件下基本保持甚至略升成功率。论文还研究了动作表示和视觉信息在动作学习中的作用，说明该设计能显著提升当前机器人基础模型的效率与泛化。",
+  "background": "**动机：** Flow matching 已成为连续机器人动作生成的常用配方，`π0`、`π0.5` 和新一代 WAM 都用 velocity field 从随机源转移到未来动作或未来视觉表征。训练时每个目标都要与无关 Gaussian 噪声配对，学到的是陡峭且长距离的 transport；推理时又要多次调用 action expert，WAM 还要为视觉和动作两个分支同时反复求值，直接抬高控制延迟和训练收敛门槛。\n\n**问题缺口：** 已有加速工作大多只针对动作采样器，或用额外 predictor warm-start 动作生成，较少统一回答三个问题：动作历史和视觉历史能否作为同一套 source formulation；WAM 中两条 flow 如何耦合且不互相污染；单步生成能否既保持任务成功，又避免 chunk 边界动作抖动。作者先前 A2A flow 主要面向动作和任务级 policy，尚不能直接说明机器人 foundation model、视觉潜变量和已有大规模骨干能否复用同一设计。\n\n![Delta-flow 在 VLA 和 WAM 中的位置](https://arxiv.org/html/2610.15794v1/method.png)\n\n*图 2：VLA 只替换动作源；WAM 同时替换视觉潜变量源和动作源，并在视觉特征进入动作分支时使用 stop-gradient。*",
+  "backgroundMotivation": "Flow matching 已成为连续机器人动作生成的常用配方，`π0`、`π0.5` 和新一代 WAM 都用 velocity field 从随机源转移到未来动作或未来视觉表征。训练时每个目标都要与无关 Gaussian 噪声配对，学到的是陡峭且长距离的 transport；推理时又要多次调用 action expert，WAM 还要为视觉和动作两个分支同时反复求值，直接抬高控制延迟和训练收敛门槛。",
+  "backgroundGap": "已有加速工作大多只针对动作采样器，或用额外 predictor warm-start 动作生成，较少统一回答三个问题：动作历史和视觉历史能否作为同一套 source formulation；WAM 中两条 flow 如何耦合且不互相污染；单步生成能否既保持任务成功，又避免 chunk 边界动作抖动。作者先前 A2A flow 主要面向动作和任务级 policy，尚不能直接说明机器人 foundation model、视觉潜变量和已有大规模骨干能否复用同一设计。\n\n![Delta-flow 在 VLA 和 WAM 中的位置](https://arxiv.org/html/2610.15794v1/method.png)\n\n*图 2：VLA 只替换动作源；WAM 同时替换视觉潜变量源和动作源，并在视觉特征进入动作分支时使用 stop-gradient。*",
+  "method": "**方法概述：** 对每个模态 `m ∈ {action, visual}`，先取同维度的历史表示 `h_m`：动作侧是最近 `H` 个已执行动作，视觉侧把当前/近期观测编码并重排成未来潜变量布局。将历史与按维度掩码控制的 Gaussian 噪声混合成 `s_m`，在目标 `y_m` 和 `s_m` 之间插值，训练 velocity field 预测 `s_m − y_m`；同时从 `s_m` 做一次 Euler 更新，用 L1 endpoint consistency 直接监督单步结果。VLA 只套用动作目标；WAM 把动作和视觉目标放在同一 interaction window 中联合训练。\n\n**核心机制：** 历史源把源点和目标点挪到同一条轨迹附近，速度场只需拟合小而平滑的残差，而不是从一个与未来无关的随机点跨整个分布。噪声项避免把每个历史确定性映射到单一未来，保留目标分布的多模态；mask 则保护 gripper 与 padded 维度。endpoint consistency 与源设计共同对齐训练与单步推理，使减少 NFE 不是事后压缩采样步数，而是让模型直接学会一次从历史跳到未来。\n\n**方法拆解：**\n\n- **构造历史源**：`s_m = α_m h_m + σ_m b_m ⊙ ε_m`。三个实际 backbone 统一动作侧 `α_a=1`、`σ_a=0.5`，并把 gripper 和 padding 排除在噪声外；ImageWAM/Fast-WAM 视觉源使用 50% image/video-latent prior，即 `(h_v+ε_v)/√2`。\n- **保留路径监督**：在 `y_m^τ=(1−τ)y_m+τs_m` 上采样 flow time，训练 `f_m` 回归路径速度 `s_m−y_m`。这一项继续约束整个速度场，避免只学终点。\n- **加入端点监督**：从 `s_m` 一步得到 `ŷ_m=s_m−f_m(s_m,1,c_m)`，用 L1 惩罚 `ŷ_m−y_m`。动作侧端点在归一化动作空间计算，视觉侧在 WAM latent 空间计算。\n- **VLA 插入方式**：保留 `π0.5` 的 PaliGemma 骨干和 Gemma action expert，只把 Gaussian action source 换成最近 10 个已执行动作加噪声，目标为未来 10-action chunk；训练损失为 action flow matching + `0.5 × action endpoint consistency`，推理一次 Euler 并执行前 5 个命令后重规划。\n- **WAM 双模态耦合**：ImageWAM 用当前图像潜变量预测 16 步后的图像潜变量，动作历史/目标长度为 16；Fast-WAM sparse 配置用 `{t−32,…,t}` 观测预测 stride 8 的 4 个未来帧，动作窗口 32。视觉分支向动作分支提供中间 KV 特征，但在连接处 stop-gradient，避免 action loss 反向破坏视觉学习。\n- **单步完整推理**：WAM 在视觉源处评估一次视觉网络，把得到的中间特征作为动作条件；视觉 endpoint 和动作 endpoint 各做一次 Euler。部署不需要解码未来 RGB。\n\n**关键要点：**\n\n- 历史源不是干净历史本身，而是加噪历史；作者明确指出 deterministic source 会牺牲目标多模态和鲁棒性。\n- 方法学贡献是把动作历史源扩展到视觉潜变量，并在 WAM 中用 stop-gradient 隔离 action loss 与 visual branch，使两条 flow 共享交互窗口但不共享破坏性梯度。\n- 与 A2A flow 相比，本方法直接工作在 action space，不需要额外 latent encoder/decoder，因此更容易 drop-in 到 foundation model checkpoint。",
+  "methodOverview": "对每个模态 `m ∈ {action, visual}`，先取同维度的历史表示 `h_m`：动作侧是最近 `H` 个已执行动作，视觉侧把当前/近期观测编码并重排成未来潜变量布局。将历史与按维度掩码控制的 Gaussian 噪声混合成 `s_m`，在目标 `y_m` 和 `s_m` 之间插值，训练 velocity field 预测 `s_m − y_m`；同时从 `s_m` 做一次 Euler 更新，用 L1 endpoint consistency 直接监督单步结果。VLA 只套用动作目标；WAM 把动作和视觉目标放在同一 interaction window 中联合训练。",
+  "methodCore": "历史源把源点和目标点挪到同一条轨迹附近，速度场只需拟合小而平滑的残差，而不是从一个与未来无关的随机点跨整个分布。噪声项避免把每个历史确定性映射到单一未来，保留目标分布的多模态；mask 则保护 gripper 与 padded 维度。endpoint consistency 与源设计共同对齐训练与单步推理，使减少 NFE 不是事后压缩采样步数，而是让模型直接学会一次从历史跳到未来。",
+  "methodBreakdown": [
+    "**构造历史源**：`s_m = α_m h_m + σ_m b_m ⊙ ε_m`。三个实际 backbone 统一动作侧 `α_a=1`、`σ_a=0.5`，并把 gripper 和 padding 排除在噪声外；ImageWAM/Fast-WAM 视觉源使用 50% image/video-latent prior，即 `(h_v+ε_v)/√2`。",
+    "**保留路径监督**：在 `y_m^τ=(1−τ)y_m+τs_m` 上采样 flow time，训练 `f_m` 回归路径速度 `s_m−y_m`。这一项继续约束整个速度场，避免只学终点。",
+    "**加入端点监督**：从 `s_m` 一步得到 `ŷ_m=s_m−f_m(s_m,1,c_m)`，用 L1 惩罚 `ŷ_m−y_m`。动作侧端点在归一化动作空间计算，视觉侧在 WAM latent 空间计算。",
+    "**VLA 插入方式**：保留 `π0.5` 的 PaliGemma 骨干和 Gemma action expert，只把 Gaussian action source 换成最近 10 个已执行动作加噪声，目标为未来 10-action chunk；训练损失为 action flow matching + `0.5 × action endpoint consistency`，推理一次 Euler 并执行前 5 个命令后重规划。",
+    "**WAM 双模态耦合**：ImageWAM 用当前图像潜变量预测 16 步后的图像潜变量，动作历史/目标长度为 16；Fast-WAM sparse 配置用 `{t−32,…,t}` 观测预测 stride 8 的 4 个未来帧，动作窗口 32。视觉分支向动作分支提供中间 KV 特征，但在连接处 stop-gradient，避免 action loss 反向破坏视觉学习。",
+    "**单步完整推理**：WAM 在视觉源处评估一次视觉网络，把得到的中间特征作为动作条件；视觉 endpoint 和动作 endpoint 各做一次 Euler。部署不需要解码未来 RGB。"
+  ],
+  "methodTakeaways": [
+    "历史源不是干净历史本身，而是加噪历史；作者明确指出 deterministic source 会牺牲目标多模态和鲁棒性。",
+    "方法学贡献是把动作历史源扩展到视觉潜变量，并在 WAM 中用 stop-gradient 隔离 action loss 与 visual branch，使两条 flow 共享交互窗口但不共享破坏性梯度。",
+    "与 A2A flow 相比，本方法直接工作在 action space，不需要额外 latent encoder/decoder，因此更容易 drop-in 到 foundation model checkpoint。"
+  ],
+  "results": "![训练效率对比](https://arxiv.org/html/2610.15794v1/training_efficiency_overall.png)\n\n*图 3：ImageWAM、Fast-WAM 与 `π0.5` 的训练进度。历史源让高成功率在早期出现，且 action-only 与 action+visual 消融显示两个分支都有贡献。*\n\n### 训练收敛\n\n| 模型 | Delta-flow | Gaussian 对照 | 读法 |\n| --- | ---: | ---: | --- |\n| ImageWAM，LIBERO | 第 1 epoch 91.30% | 第 1 epoch 24.60%，第 6 个评估 epoch 才超过 90% | 约 6× epoch 缩短，首 epoch 提升 66.70 pp |\n| Fast-WAM，LIBERO | 第 1 epoch 72.60%；第 2 epoch 95.65% | 第 1 epoch 42.55%；第 8 epoch 后才超过 95.65% | 约 4× epoch 缩短 |\n| `π0.5` full fine-tune | 第 2 epoch 后不低于 95%，峰值 99.30% | 论文以对应 Gaussian source 为参照 | 历史源保持高成功率 |\n| `π0.5` LoRA | 1/2/5 epoch：92.20%/95.50%/98.00% | 十步 Gaussian 5 epoch：91.30% | 1 epoch 已超过基线 5 epoch |\n\n作者的解释是几何性的：Gaussian source 让相邻 source 可能映射到完全不同目标，velocity field 需要更陡的 Lipschitz 常数；历史 source 与目标来自同一轨迹，需要拟合的位移更小、更平滑。\n\n### LIBERO 与 LIBERO-Plus\n\n| 模型 | LIBERO baseline | LIBERO Delta | LIBERO-Plus baseline | LIBERO-Plus Delta | 变化 |\n| --- | ---: | ---: | ---: | ---: | ---: |\n| `π0.5` | 97.10% | 99.00% | 80.70% | 84.53% | +3.83 pp |\n| ImageWAM | 98.00% | 97.80% | 82.49% | 88.55% | +6.06 pp |\n| Fast-WAM-Joint sparse | 97.45% | 98.00% | 77.51% | 80.58% | +3.07 pp |\n\nImageWAM 的 LIBERO-Plus 提升最大，且在无额外 embodied-data pretraining 的 WAM 组里达到 88.55%。分扰动看，最大收益来自 robot initialization（52.90% → 73.94%）和 object layout（81.31% → 88.39%）；camera viewpoint 基本不变，sensor noise 提升较小。`π0.5` 在七类扰动上从 66.04–97.37% 提升到 73.36–97.30%，整体更稳。\n\n### 推理延迟与动作连续性\n\n| 模型 | 十步 Gaussian | 一步 Gaussian | 一步 Delta-flow | 十步 → Delta 加速 |\n| --- | ---: | ---: | ---: | ---: |\n| `π0.5` | 82.91 ms | 55.34 ms | 53.99 ms | 1.54× |\n| ImageWAM | 296.31 ms | 106.46 ms | 118.87 ms | 2.49× |\n| Fast-WAM sparse-joint | 857.54 ms | 133.71 ms | 192.62 ms | 4.45× |\n\n注意，ImageWAM 和 Fast-WAM 的一步 Gaussian 版本虽然更快，但它们没有像完整 Delta-flow 那样保留未来视觉表征推理；论文强调的是在相同完整生成语义下，与十步 Gaussian 相比的加速。延迟测量覆盖 A100 上完整本地 policy-call：文本编码、图像预处理、视觉源构造、模型预测和动作后处理，不包含模型加载、编译、warmup、仿真渲染与通信。\n\n在 ImageWAM 的 matched LIBERO-Long 轨迹中，把 Gaussian 采样从十步降到一步，会让 action change、action jerk 和 boundary jump 分别升到十步的 2.19×、4.60× 和 1.77×；完整 Delta-flow 则把边界 action change 与 jerk 相对一步 Gaussian 分别降低 48% 和 67%，平均 jerk 从 0.19399 降到 0.04335。\n\n### 免训练 source 替换\n\n| 冻结策略 | source / steps | LIBERO | LIBERO-Plus |\n| --- | --- | ---: | ---: |\n| ImageWAM | Gaussian / 10 | 98.00% | 82.49% |\n| ImageWAM | Gaussian / 1 | 97.50% | 81.65% |\n| ImageWAM | Past action / 1 | 98.10% | 82.82% |\n| Fast-WAM | Gaussian / 10 | 96.60% | 67.24% |\n| Fast-WAM | Gaussian / 1 | 95.55% | 68.28% |\n| Fast-WAM | Past action / 1 | 96.15% | 67.58% |\n\n这个实验很有工程价值：不需要重新训练，只把冻结 Gaussian-trained WAM 的动作初值换成历史动作加噪声，ImageWAM 一步成功率从 97.50% 升到 98.10%，Fast-WAM 从 95.55% 升到 96.15%；LIBERO-Plus 上 ImageWAM 略升、Fast-WAM 略降。它说明至少部分 Gaussian-trained policy 的速度场可以被历史起点复用，但不是所有 backbone 都保证无损。\n\n### 消融与设计研究\n\n| 问题 | 关键结果 | 结论 |\n| --- | --- | --- |\n| Action-only 还是 action+visual？ | ImageWAM LIBERO-Plus：82.49% → action-only 85.82% → full 88.55% | 动作源已有收益，视觉源再加 2.73 pp |\n| Visual endpoint consistency 有用吗？ | 80% latent prior：87.37% → 去掉后 84.96% | 对分布偏移下单步视觉预测尤其重要 |\n| 未来视觉预测需要多密？ | Fast-WAM dense：72.90%；sparse：78.09% LIBERO-Plus | 稀疏覆盖 32-step horizon 更好且更省 |\n| action gradient 是否进入 world model？ | Stop-gradient 有更高未来图像 PSNR 与 LIBERO-Plus 成功 | 保护视觉分支的预测学习 |\n| action flow matching 是否必要？ | 最终 EC-only 97.40%/87.30%，FM+EC 97.70%/87.37%；第 1 epoch 78.10% vs 89.90% | FM 主要加速早期学习，EC 支撑最终单步 |\n| 动作表示怎么选？ | 7D local delta：98.40%/85.82%；7D absolute：94.40%/61.07%；10D absolute+rotation-6D：98.00%/71.67% | local delta 总体最好；absolute 中 rotation-6D 明显优于 axis-angle |",
+  "resultHighlights": [],
+  "insights": "**与现有路线的关系：**\n\n- 与通用 ODE solver 加速不同，Delta-flow 改变训练分布的几何位置，因此 endpoint consistency 与单步推理天然对齐；它不是只把已有 Gaussian flow 的十步采样硬裁成一步。\n- 与 warm-start 不同，这里不需要额外 predictor 产生初值；源就是已经发生过的动作或已经观测到的视觉潜变量，额外成本主要在 source construction。\n- 与只做 action history 的 A2A 相比，本文的贡献是把“从过去到未来”统一到视觉和动作两种模态，并验证了 foundation-model 级别的 VLA/WAM 迁移。\n- 对 WAM，论文的 stop-gradient 结论很关键：未来视觉表征可以帮助动作生成，但 action loss 的梯度穿过 visual branch 反而可能损害视觉预测质量。\n\n**可借鉴点：**\n\n- 生成式 policy 报告 latency 时，应说明是否包含文本编码、图像预处理、source construction 和 action postprocessing；本文的“完整本地 policy-call”口径比只测 transformer forward 更有参考价值。\n- 减少采样步数时必须同时测 chunk boundary jerk，而不是只看平均成功率；单步 Gaussian 明显更快，但动作连续性可能恶化。\n- 历史源中的噪声 mask 应与动作语义对齐。gripper 这类离散/语义敏感维度不适合和 pose 维度一起加同样的连续噪声。\n- 对 world-action 架构，“未来视觉信息是否有用”和“action gradient 是否应该改写世界模型”是两个独立问题，应分别消融。",
+  "insightCore": [],
+  "insightRelations": [],
+  "insightBorrowable": [
+    "生成式 policy 报告 latency 时，应说明是否包含文本编码、图像预处理、source construction 和 action postprocessing；本文的“完整本地 policy-call”口径比只测 transformer forward 更有参考价值。",
+    "减少采样步数时必须同时测 chunk boundary jerk，而不是只看平均成功率；单步 Gaussian 明显更快，但动作连续性可能恶化。",
+    "历史源中的噪声 mask 应与动作语义对齐。gripper 这类离散/语义敏感维度不适合和 pose 维度一起加同样的连续噪声。",
+    "对 world-action 架构，“未来视觉信息是否有用”和“action gradient 是否应该改写世界模型”是两个独立问题，应分别消融。"
+  ],
+  "risks": "**局限：**\n\n- 主实验集中在 LIBERO 与 LIBERO-Plus 仿真基准；论文明确说物理真机和更多 VLA backbone 验证仍是 future work，因此不能把结果直接外推为真实机器人部署成功率。\n- `π0.5` action-only 结果说明历史动作有效，但没有展示视觉历史源在更多 VLA 架构中的收益；WAM 双模态证据主要来自 ImageWAM/Fast-WAM。\n- 所有模型统一动作噪声 `σ_a=0.5` 是很强的工程便利性证据，但历史可靠性会随接触、扰动和速度变化；论文尚未做 per-sample/per-timestep 自适应噪声。\n- ImageWAM 与 Fast-WAM 的 LIBERO-Plus 比较包含不同 pretraining 与结构背景。虽然有 matched Gaussian source 对照，但跨文献表格的评测协议继承自原文，不能把每一行都视为完全同分布随机实验。\n- 一步 Gaussian ImageWAM/Fast-WAM 延迟低于一步完整 Delta-flow，因为它们不保留同样的未来视觉推理语义；若部署时未来视觉表征并非必要，简单移除该分支可能仍是更廉价选择。\n- 免训练 source 替换在 Fast-WAM LIBERO-Plus 上从 68.28% 降到 67.58%，说明“无需重训即可换源”不是普遍保证。\n- 论文报告 A100 latency，但没有真实控制器的通信抖动、传感器异步和安全约束；实际机器人闭环频率取决于完整软硬件栈。\n\n**适用场景：**\n\n- 适合已经有执行历史、动作 chunk 与视觉潜变量布局的 flow-based VLA/WAM，尤其希望降低采样 NFE 和训练 epoch 的场景。\n- 适合 distribution shift 下仍需要动作连续性的仿真到准部署评估，例如服务操作、桌面操作和需要频繁 chunk replanning 的任务。\n- 适合作为已有 checkpoint 的低成本改造：VLA 只替换 action source；冻结 WAM 也可先尝试 inference-time past-action source。\n- 不适合历史信号不可靠、动作空间高度离散、执行器回放噪声大，或必须依赖远期规划的场景；这些情况下“过去接近未来”的假设会显著削弱。\n\n**最终判断：**\n\n- 这是一篇问题定义清楚、改动小、证据链完整的效率论文：它没有堆新模块，而是系统检验了 flow source 这个被默认为 Gaussian 的设计选择，并在三个 foundation-model backbone 上同时测训练、泛化、延迟和动作连续性。\n- 最值得采纳的是三件套：历史加噪源、一步 endpoint consistency、WAM visual-to-action stop-gradient。它们对已有 flow policy 具有直接工程参考价值。\n- 需要保守解读的是“单步实时”与“泛化提升”：前者目前主要来自 A100 仿真 policy-call，后者主要来自 LIBERO-Plus；真实机器人、更多 backbone 和自适应噪声仍是决定上限的关键。",
+  "riskLimitations": [
+    "主实验集中在 LIBERO 与 LIBERO-Plus 仿真基准；论文明确说物理真机和更多 VLA backbone 验证仍是 future work，因此不能把结果直接外推为真实机器人部署成功率。",
+    "`π0.5` action-only 结果说明历史动作有效，但没有展示视觉历史源在更多 VLA 架构中的收益；WAM 双模态证据主要来自 ImageWAM/Fast-WAM。",
+    "所有模型统一动作噪声 `σ_a=0.5` 是很强的工程便利性证据，但历史可靠性会随接触、扰动和速度变化；论文尚未做 per-sample/per-timestep 自适应噪声。",
+    "ImageWAM 与 Fast-WAM 的 LIBERO-Plus 比较包含不同 pretraining 与结构背景。虽然有 matched Gaussian source 对照，但跨文献表格的评测协议继承自原文，不能把每一行都视为完全同分布随机实验。",
+    "一步 Gaussian ImageWAM/Fast-WAM 延迟低于一步完整 Delta-flow，因为它们不保留同样的未来视觉推理语义；若部署时未来视觉表征并非必要，简单移除该分支可能仍是更廉价选择。",
+    "免训练 source 替换在 Fast-WAM LIBERO-Plus 上从 68.28% 降到 67.58%，说明“无需重训即可换源”不是普遍保证。",
+    "论文报告 A100 latency，但没有真实控制器的通信抖动、传感器异步和安全约束；实际机器人闭环频率取决于完整软硬件栈。"
+  ],
+  "riskScenarios": [
+    "适合已经有执行历史、动作 chunk 与视觉潜变量布局的 flow-based VLA/WAM，尤其希望降低采样 NFE 和训练 epoch 的场景。",
+    "适合 distribution shift 下仍需要动作连续性的仿真到准部署评估，例如服务操作、桌面操作和需要频繁 chunk replanning 的任务。",
+    "适合作为已有 checkpoint 的低成本改造：VLA 只替换 action source；冻结 WAM 也可先尝试 inference-time past-action source。",
+    "不适合历史信号不可靠、动作空间高度离散、执行器回放噪声大，或必须依赖远期规划的场景；这些情况下“过去接近未来”的假设会显著削弱。"
+  ],
+  "riskJudgment": [
+    "这是一篇问题定义清楚、改动小、证据链完整的效率论文：它没有堆新模块，而是系统检验了 flow source 这个被默认为 Gaussian 的设计选择，并在三个 foundation-model backbone 上同时测训练、泛化、延迟和动作连续性。",
+    "最值得采纳的是三件套：历史加噪源、一步 endpoint consistency、WAM visual-to-action stop-gradient。它们对已有 flow policy 具有直接工程参考价值。",
+    "需要保守解读的是“单步实时”与“泛化提升”：前者目前主要来自 A100 仿真 policy-call，后者主要来自 LIBERO-Plus；真实机器人、更多 backbone 和自适应噪声仍是决定上限的关键。"
+  ],
+  "resultsTableMarkdown": "| 问题 | Delta-flow | 对照 | 读法 |\n| --- | ---: | ---: | --- |\n| ImageWAM 首个 >90% epoch | 1 | 6 | 约 6× 训练加速 |\n| Fast-WAM 达到 95.65% epoch | 2 | 8 | 约 4× 训练加速 |\n| `π0.5` LoRA 1 epoch | 92.20% | Gaussian 5 epoch 91.30% | 1 epoch 已超过 5 epoch |\n| ImageWAM LIBERO-Plus | 88.55% | 82.49% | +6.06 pp |\n| `π0.5` LIBERO-Plus | 84.53% | 80.70% | +3.83 pp |\n| Fast-WAM-Joint LIBERO-Plus | 80.58% | 77.51% | +3.07 pp |\n| 完整 policy-call 加速 | 1.54× / 2.49× / 4.45× | 十步 Gaussian | 分别对应 `π0.5` / ImageWAM / Fast-WAM |\n| ImageWAM 平均动作 jerk | 0.04335 | 一步 Gaussian 0.19399 | 降低 4.5× |\n| 冻结 ImageWAM 一步 LIBERO | 98.10% | Gaussian 一步 97.50% | 免训练 source 替换有效 |",
+  "resultsTable": {
+    "columns": [
+      "问题",
+      "Delta-flow",
+      "对照",
+      "读法"
+    ],
+    "rows": [
+      [
+        "ImageWAM 首个 >90% epoch",
+        "1",
+        "6",
+        "约 6× 训练加速"
+      ],
+      [
+        "Fast-WAM 达到 95.65% epoch",
+        "2",
+        "8",
+        "约 4× 训练加速"
+      ],
+      [
+        "`π0.5` LoRA 1 epoch",
+        "92.20%",
+        "Gaussian 5 epoch 91.30%",
+        "1 epoch 已超过 5 epoch"
+      ],
+      [
+        "ImageWAM LIBERO-Plus",
+        "88.55%",
+        "82.49%",
+        "+6.06 pp"
+      ],
+      [
+        "`π0.5` LIBERO-Plus",
+        "84.53%",
+        "80.70%",
+        "+3.83 pp"
+      ],
+      [
+        "Fast-WAM-Joint LIBERO-Plus",
+        "80.58%",
+        "77.51%",
+        "+3.07 pp"
+      ],
+      [
+        "完整 policy-call 加速",
+        "1.54× / 2.49× / 4.45×",
+        "十步 Gaussian",
+        "分别对应 `π0.5` / ImageWAM / Fast-WAM"
+      ],
+      [
+        "ImageWAM 平均动作 jerk",
+        "0.04335",
+        "一步 Gaussian 0.19399",
+        "降低 4.5×"
+      ],
+      [
+        "冻结 ImageWAM 一步 LIBERO",
+        "98.10%",
+        "Gaussian 一步 97.50%",
+        "免训练 source 替换有效"
+      ]
+    ]
+  },
+  "figureGallery": [
+    {
+      "zone": "intuition",
+      "caption": "Delta-flow 与 Gaussian-source flow matching 的对比",
+      "src": "https://arxiv.org/html/2610.15794v1/teaser_final.png"
+    },
+    {
+      "zone": "background",
+      "caption": "Delta-flow 在 VLA 和 WAM 中的位置",
+      "src": "https://arxiv.org/html/2610.15794v1/method.png"
+    },
+    {
+      "zone": "results",
+      "caption": "训练效率对比",
+      "src": "https://arxiv.org/html/2610.15794v1/training_efficiency_overall.png"
+    }
+  ],
+  "relatedTopicSlugs": [
+    "vision-language-action"
+  ]
+}
