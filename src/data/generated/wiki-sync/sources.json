@@ -9612,5 +9612,211 @@
     "relatedTopicSlugs": [
       "vision-language-action"
     ]
+  },
+  {
+    "slug": "2610.10528-long-wam-scaling-the-context-of-world-action-models",
+    "title": "Long-WAM: Scaling the Context of World-Action Models",
+    "sourceType": "paper",
+    "sourceUrl": "https://arxiv.org/abs/2610.10528",
+    "htmlUrl": "https://arxiv.org/html/2610.10528v1",
+    "pdfUrl": "https://arxiv.org/pdf/2610.10528",
+    "codeUrl": "",
+    "translationUrl": "https://hjfy.top/arxiv/2610.10528",
+    "publishDate": "2026-10-07",
+    "authors": [
+      "Wei Huang",
+      "Bohan Zhang",
+      "Chenzhi Liu",
+      "Isabella Liu",
+      "Shuai Yang",
+      "Weian Mao",
+      "Luozhou Wang",
+      "Yicheng Xiao",
+      "Weifeng Lin",
+      "Qixin Hu",
+      "Bryan Chu",
+      "Sifei Liu",
+      "Linxi Jim Fan",
+      "Xiaojuan Qi",
+      "Song Han",
+      "Yukang Chen"
+    ],
+    "affiliation": "NVIDIA, MIT, HKU, and UCSD",
+    "relatedOrganizations": [
+      "NVIDIA",
+      "MIT",
+      "HKU",
+      "UCSD"
+    ],
+    "relatedCompanies": [
+      "NVIDIA"
+    ],
+    "keywords": [
+      "world-action model",
+      "autoregressive video pretraining",
+      "robot context scaling",
+      "real-time robot control"
+    ],
+    "primaryDomainSlug": "physical-embodied-intelligence",
+    "domainSlugs": [
+      "physical-embodied-intelligence"
+    ],
+    "heroImage": "https://arxiv.org/html/2610.10528v1/1_2.png",
+    "tldr": "这篇论文的核心不是简单把 WAM 的观察窗口拉长，而是证明“能访问历史”和“会用历史”不是一回事。Long-WAM 先用约 10,000 个窗口等价小时的无动作机器人/自我中心视频做自回归预测预训练，让视觉骨干学会从过去帧预测未来交互；再在动作适配时保留同样的因果顺序，让动作专家以观察历史和部分去噪的未来潜变量为条件。结果是，GR-1 上 0 到 19.2 秒历史把成功率从 63.3% 提到 78.7%，而双向预训练初始化没有净收益。与此同时，流式 VAE、异步动作块执行、NVFP4 量化、KV 复用和设备特定调优让 RTX 5090 上包含未来视频预测的完整动作块推理降到 107.4 ms。真机动态杯堆叠达到 19/20，而 `π0.5` 和 Fast-WAM 都是 0/20。",
+    "intuition": "可以把 Long-WAM 看成一个“先想象再执行”的记忆控制器。低层控制不需要记住小时级目标，但必须知道物体正在怎么动、交互已经推进到哪里；这些信息主要藏在最近视觉历史里。Long-WAM 的做法是让视频模型在预训练阶段反复回答“给定过去画面，未来会怎样”，而不是只用双向注意力学一个视觉表征。适配动作后，模型先在潜空间推出一段模糊的未来，再把这段未来的视觉 KV 缓存交给动作专家，所以动作不是只看当前图像，而是读到一个由历史支撑的短期物理预测。系统层面的关键则是别让这段“想象”拖慢机器人：观察编码在执行期间流式完成，动作块推理与执行重叠，未来预测不解码成像素，算子和缓存也按设备重排。\n\n![Long-WAM overview](https://arxiv.org/html/2610.10528v1/1_2.png)\n\n*图 1：Long-WAM 的四段主线：自回归机器人视频预训练、因果到因果的 world-action 适配、上下文扩展和实时部署。*",
+    "abstractEn": "> Real-time robot control demands enough visual history to infer motion and task progress, but processing that history can delay action. We present Long-WAM, a model–system framework for scaling the context of causal world-action models under real-time control constraints. Our central finding is that access to history is not the same as using it: longer histories pay off far more when the video foundation is pretrained autoregressively (AR). We first learn causal prediction from robot and egocentric videos without action labels, then preserve this history-to-future structure during world-action adaptation. On RoboCasa GR-1, increasing context from 0.0 to 19.2 seconds raises success from 63.3% to 78.7%, whereas a bidirectionally pretrained initialization shows no net gain; robot-domain AR pretraining further raises peak success on GR-1 and LIBERO-Long. Long-WAM also achieves the best results among compared methods on LIBERO-Long, RoboTwin 2.0, and DOMINO. Streaming observation encoding, asynchronous execution, and hardware-specific acceleration enable deployment on RTX 5090, DGX Spark, and Jetson AGX Thor without dropping future prediction; on RTX 5090, each action chunk, including future-video latent prediction, takes 107.4 ms. Real-time deployment on Unitree G1 and YAM supports dynamic and long-horizon manipulation, including 95% success on dynamic cup stacking, where Pi0.5 and Fast-WAM succeed in none of 20 trials. As a memory-informed executor, Long-WAM also complements higher-level planning in composite tasks.",
+    "abstractZh": "> 实时机器人控制需要足够长的视觉历史来推断运动和任务进度，但处理这些历史可能延迟动作。我们提出 Long-WAM，一个在实时控制约束下扩展因果 world-action model 上下文的模型–系统框架。核心发现是：能访问历史不等于会使用历史；当视频基础模型以自回归方式预训练时，更长历史带来的收益显著更大。我们首先从无动作标签的机器人与自我中心视频学习因果预测，再在 world-action 适配中保留这种历史到未来的结构。在 RoboCasa GR-1 上，上下文从 0.0 秒增加到 19.2 秒使成功率从 63.3% 升至 78.7%，而双向预训练初始化没有净收益；机器人域 AR 预训练进一步提高 GR-1 和 LIBERO-Long 的峰值。Long-WAM 在 LIBERO-Long、RoboTwin 2.0 和 DOMINO 的对比方法中也取得最佳结果。流式观察编码、异步执行和硬件特定加速使其能部署在 RTX 5090、DGX Spark 与 Jetson AGX Thor 上而不放弃未来预测；在 RTX 5090 上，包含未来视频潜变量预测的每个动作块耗时 107.4 ms。Unitree G1 与 YAM 的实时部署支持动态和长时程操作，包括动态杯堆叠 95% 成功率，而 Pi0.5 与 Fast-WAM 在 20 次试验中均未成功。作为记忆驱动的执行器，Long-WAM 也能在复合任务中补充更高层规划。",
+    "background": "**动机：** 快速机器人控制经常需要从连续画面推断物体速度、接触进度和任务阶段，单张图像只能给出静态位置，无法区分静止杯子和即将到达的杯子。WAM 天然可以把视频预测用于闭环控制，因此最近物理历史应成为动作生成的重要资源；但更长历史也会带来 prefill、attention、KV 和 VAE 编码成本，可能让动作迟到。\n\n**问题缺口：** 已有 WAM 可以给策略挂上 causal cache 或检索记忆，但这只说明输入中有历史，并不说明视频骨干学过如何从历史预测未来。DreamZero 和 LingBot-VA 等路线主要从双向视频生成器适配到因果控制，历史到未来的时序因子化是在动作阶段才引入的；同时许多加速方法会去掉未来预测或依赖动作混合、prefix guidance 来维持异步切换。论文缺口的准确表述是：如何在保留想象条件与执行连续性的前提下，验证并部署真正会利用长物理历史的 causal WAM。",
+    "backgroundMotivation": "快速机器人控制经常需要从连续画面推断物体速度、接触进度和任务阶段，单张图像只能给出静态位置，无法区分静止杯子和即将到达的杯子。WAM 天然可以把视频预测用于闭环控制，因此最近物理历史应成为动作生成的重要资源；但更长历史也会带来 prefill、attention、KV 和 VAE 编码成本，可能让动作迟到。",
+    "backgroundGap": "已有 WAM 可以给策略挂上 causal cache 或检索记忆，但这只说明输入中有历史，并不说明视频骨干学过如何从历史预测未来。DreamZero 和 LingBot-VA 等路线主要从双向视频生成器适配到因果控制，历史到未来的时序因子化是在动作阶段才引入的；同时许多加速方法会去掉未来预测或依赖动作混合、prefix guidance 来维持异步切换。论文缺口的准确表述是：如何在保留想象条件与执行连续性的前提下，验证并部署真正会利用长物理历史的 causal WAM。",
+    "method": "**方法概述：** Long-WAM 采用“动作无关 AR 视频预训练 -> causal-to-causal 动作适配 -> 上下文与执行系统联合扩展”的三段流程。视频分支在干净历史条件下学习未来潜变量的 flow matching 速度场；动作分支则以观察历史、语言、本体状态和被加噪的未来真实潜变量为条件学习动作块去噪。推理时先从噪声滚出到 `σ* = 0.9` 的部分去噪未来，不生成像素，再把未来与历史的视觉 KV 缓存交给动作专家连续去噪。\n\n**核心机制：** 关键在于训练顺序与注意力接口保持一致。视频查询只读自身和更早视觉块，不读动作 token；动作查询读观察历史、部分去噪未来和整个噪声动作块。由于 AR 预训练已经学习“过去决定未来”的因果因子化，适配阶段没有把这个能力重新发明一遍，额外历史才能通过预测表示影响控制。动作训练中视觉缓存被 detach，只更新 action expert 与本体适配器，避免动作监督破坏视频先验。\n\n**方法拆解：**\n\n- **LongLive2.0-Robot 预训练**：从 LongLive-2.0 的 16 秒 AR checkpoint 继续训练，使用 2.29M 样本、约 10,004.5 个窗口等价小时；数据来自 RoVid-X、AgiBot World、EgoDex、EgoVerse 和 VITRA。因为这一阶段只有视频和语言，没有动作标签，来源不需要共享动作空间或本体维度。\n- **教师强制与误差回收**：最长 30 秒序列经 sequence-parallel 分片训练。每个噪声块在 ground-truth 前缀条件下并行监督，conditioning image 保持干净且不进损失；缓存扰动来自 buffered model errors，速度目标仍指向原始干净潜变量，让模型学习纠正 rollout 式误差。形式上，`x_i^σ = (1-σ)z_i + σε_i`，视频分支优化 `v_θ(x_i^σ, σ | h_<i, c)` 与 `ε_i - z_i` 的差。\n- **两段 world-action 训练**：第一段在干净观察前缀上训练未来视频 flow matching；第二段把 ground-truth 未来 forward-noise 到 `σ* = 0.9`，构建 detached 视觉缓存，训练动作专家预测 `ε_a - a`。掩码排除 padding 的未来潜变量与动作步，损失按有效元素归一。\n- **上下文扫描协议**：固定各基准的动作 horizon 和视觉预测范围，只改变真实观察 causal prefix 的时长；每个窗口单独训练并在训练长度评估。0 秒保留当前观察，缺失早期历史重复初始帧，因此比较的是近端控制决策能从多少过去证据中获益。\n- **流式异步执行**：第 `k` 次决策预测 `H` 步动作块，只执行前 `R` 步，推理触发步长为 `S`，重叠 `O=R-S`。旧块已流逝前缀被丢弃，新块对齐 suffix 执行；迟到则等待。流式 VAE 在机器人执行时逐组编码已到达观察，触发后只补剩余帧，减少 full-window 编码造成的累积等待。\n- **硬件加速栈**：视频专家线性层和 prefill 用 W4A4 NVFP4，动作计算与 KV 保存为 BF16；组合 CUDA Graph、`torch.compile`、denoising-invariant KV/RoPE 复用、Q/K/V 共享输入量化、视频/动作在线 softmax 合并，再针对 RTX 5090、DGX Spark 和 Thor 调整 Quant/GEMM tile、warps、pipeline、attention 与 VAE backend。\n\n![Asynchronous execution and streaming VAE](https://arxiv.org/html/2610.10528v1/async.png)\n\n*图 3：流式 VAE 在观察块到达时提前编码，满足 `T_ready <= OΔt` 的交接截止；full-window 编码则会累积等待。*\n\n![Edge deployment optimizations](https://arxiv.org/html/2610.10528v1/edge.png)\n\n*图 4：共享优化与设备特定调优共同覆盖 NVFP4、CUDA Graph、KV 复用、共享输入量化和不同硬件的算子配置。*\n\n**关键要点：**\n\n- **AR 预训练改变历史的价值**：在 GR-1 上，LongLive2.0-Robot 相对双向初始化的优势从无历史的 3.3 点扩大到 19.2 秒历史的 17.1 点；两个 AR 初始化分别获得 12.4 和 11.0 点长上下文增益，而双向初始化从 61.7% 到 61.6% 基本没有净收益。\n- **未来不需要生成像素**：IDM 把未来视觉停在 `σ* = 0.9` 的潜空间，并复用其 KV；这是控制条件，不是昂贵视频生成展示。\n- **上下文是执行资源**：2.4 到 19.2 秒的 8 倍历史使 RTX 5090 chunk 延迟从 107.4 ms 增至 341.0 ms，因此记忆长度、预测质量和响应时间必须联合设计。",
+    "methodOverview": "Long-WAM 采用“动作无关 AR 视频预训练 -> causal-to-causal 动作适配 -> 上下文与执行系统联合扩展”的三段流程。视频分支在干净历史条件下学习未来潜变量的 flow matching 速度场；动作分支则以观察历史、语言、本体状态和被加噪的未来真实潜变量为条件学习动作块去噪。推理时先从噪声滚出到 `σ* = 0.9` 的部分去噪未来，不生成像素，再把未来与历史的视觉 KV 缓存交给动作专家连续去噪。",
+    "methodCore": "关键在于训练顺序与注意力接口保持一致。视频查询只读自身和更早视觉块，不读动作 token；动作查询读观察历史、部分去噪未来和整个噪声动作块。由于 AR 预训练已经学习“过去决定未来”的因果因子化，适配阶段没有把这个能力重新发明一遍，额外历史才能通过预测表示影响控制。动作训练中视觉缓存被 detach，只更新 action expert 与本体适配器，避免动作监督破坏视频先验。",
+    "methodBreakdown": [
+      "**LongLive2.0-Robot 预训练**：从 LongLive-2.0 的 16 秒 AR checkpoint 继续训练，使用 2.29M 样本、约 10,004.5 个窗口等价小时；数据来自 RoVid-X、AgiBot World、EgoDex、EgoVerse 和 VITRA。因为这一阶段只有视频和语言，没有动作标签，来源不需要共享动作空间或本体维度。",
+      "**教师强制与误差回收**：最长 30 秒序列经 sequence-parallel 分片训练。每个噪声块在 ground-truth 前缀条件下并行监督，conditioning image 保持干净且不进损失；缓存扰动来自 buffered model errors，速度目标仍指向原始干净潜变量，让模型学习纠正 rollout 式误差。形式上，`x_i^σ = (1-σ)z_i + σε_i`，视频分支优化 `v_θ(x_i^σ, σ | h_<i, c)` 与 `ε_i - z_i` 的差。",
+      "**两段 world-action 训练**：第一段在干净观察前缀上训练未来视频 flow matching；第二段把 ground-truth 未来 forward-noise 到 `σ* = 0.9`，构建 detached 视觉缓存，训练动作专家预测 `ε_a - a`。掩码排除 padding 的未来潜变量与动作步，损失按有效元素归一。",
+      "**上下文扫描协议**：固定各基准的动作 horizon 和视觉预测范围，只改变真实观察 causal prefix 的时长；每个窗口单独训练并在训练长度评估。0 秒保留当前观察，缺失早期历史重复初始帧，因此比较的是近端控制决策能从多少过去证据中获益。",
+      "**流式异步执行**：第 `k` 次决策预测 `H` 步动作块，只执行前 `R` 步，推理触发步长为 `S`，重叠 `O=R-S`。旧块已流逝前缀被丢弃，新块对齐 suffix 执行；迟到则等待。流式 VAE 在机器人执行时逐组编码已到达观察，触发后只补剩余帧，减少 full-window 编码造成的累积等待。",
+      "**硬件加速栈**：视频专家线性层和 prefill 用 W4A4 NVFP4，动作计算与 KV 保存为 BF16；组合 CUDA Graph、`torch.compile`、denoising-invariant KV/RoPE 复用、Q/K/V 共享输入量化、视频/动作在线 softmax 合并，再针对 RTX 5090、DGX Spark 和 Thor 调整 Quant/GEMM tile、warps、pipeline、attention 与 VAE backend。"
+    ],
+    "methodTakeaways": [
+      "**AR 预训练改变历史的价值**：在 GR-1 上，LongLive2.0-Robot 相对双向初始化的优势从无历史的 3.3 点扩大到 19.2 秒历史的 17.1 点；两个 AR 初始化分别获得 12.4 和 11.0 点长上下文增益，而双向初始化从 61.7% 到 61.6% 基本没有净收益。",
+      "**未来不需要生成像素**：IDM 把未来视觉停在 `σ* = 0.9` 的潜空间，并复用其 KV；这是控制条件，不是昂贵视频生成展示。",
+      "**上下文是执行资源**：2.4 到 19.2 秒的 8 倍历史使 RTX 5090 chunk 延迟从 107.4 ms 增至 341.0 ms，因此记忆长度、预测质量和响应时间必须联合设计。"
+    ],
+    "results": "### 主要仿真基准\n\nLIBERO 上，Long-WAM IDM 达到 99.5% 平均成功率和 99.5% LIBERO-Long 成功率，比 LingBot-VA 和 Fast-WAM 分别高 1.0 和 4.3 点。三个 Long-WAM 变体也说明未来预测并非装饰：无未来视频 `w/o V` 为 97.3%，联合去噪 CoD 为 97.8%，IDM 为 99.5%；在 LIBERO-Long 上三者分别为 94.5%、95.8%、99.5%。\n\nRoboTwin 2.0 中，IDM 平均 94.4%，Clean 94.7%，Randomized 94.2%，比 ABot-M0.5 高 0.3 点、比 LingBot-VA 2.0 高 0.8 点。经过动态数据微调后，DOMINO 上 Long-WAM 达到 34.9% SR 和 45.1 MS，比 Fast-WAM 高 15.0 SR 点，比 PUMA 高 10.1 MS 点。\n\n### 上下文扩展\n\nRoboCasa GR-1 是长上下文主实验。LongLive2.0-Robot 从 2.4 秒的 66.3% 升到 19.2 秒的 78.7%；LongLive-2.0 从 65.7% 升到 76.7%。38.4 秒分别降到 75.2% 和 74.2%。作者认为这不是内在记忆上限，而是该窗口已达平均训练轨迹 12.1 秒的三倍，且 80.4% 采样历史帧是 padding。GR-1 最强基线 Cosmos Policy 为 67.1%，Long-WAM 19.2 秒高出 11.6 点。\n\n### 真机动态与长时程\n\nUnitree G1 传送带抓取中，速度从 3.0 到 7.5 cm/s 时，Fast-WAM 从 75% 降到 0%，`π0.5` 从 15% 降到 0%，Long-WAM 分别保持 100%、100%、95%、90%。3 cm/s 动态杯堆叠要求先拿蓝杯再拦截并放入移动绿杯，Long-WAM 成功 19/20，两个基线均 0/20。YAM 上，砖块颜色分类、饺子入锅和碗堆叠分别为 80%、80%、85%，平均 81.7%，任务平均超过 40 秒。\n\n![Dynamic manipulation on Unitree G1](https://arxiv.org/html/2610.10528v1/experiment_2.png)\n\n*图 7：Long-WAM 在不同传送带速度下保持 90–100% 抓取成功率，并在动态杯堆叠中达到 95%；Fast-WAM 在高速度下失败。*\n\n### 层级组合任务\n\n在 RoboCasa365 上，单独 GPT-6 Astra 总体 25.2%，单独 Long-WAM 31.4%，组合后 54.4%。组合增益来自未见组合：6.1% 到 35.0%。把 Long-WAM 每 15 步重询可把 Atomic-Seen 推到 84.4%，但 Composite-Unseen 只有 5.0%，说明高层语义分解仍需要 planner，而不能只靠缩短执行间隔。\n\n### 延迟与连续性\n\nRTX 5090 上 BF16 eager V4/A4 为 356.0 ms，优化后 107.4 ms，成功率从 94.4% 到 93.5%；V2/A2 进一步降到 81.8 ms，成功率 92.5%。优化管线比 Fast-WAM 的 244.1 ms 快 2.3 倍，同时仍保留未来视频预测。DGX Spark 和 Thor 分别优化到 328.2 ms 与 378.7 ms，加速 4.1 倍和 3.2 倍。\n\n异步执行下，IDM 从 94.4% 到 94.2%，仅降 0.2 点；Fast-WAM 从 91.8% 到 76.4%，LingBot-VA 从 92.2% 到 46.7%。Long-WAM overlap RMSE 0.0246、jerk 0.0436，约为 Fast-WAM 的三分之一。缩短 overlap 到 8 步时成功率达 95.0%，RMSE 从 0.0246 降到 0.0063，但 4 步 overlap 降到 94.3%，说明平滑和反馈频率之间存在权衡。",
+    "resultHighlights": [],
+    "insights": "- **“记忆接口”不等于“预测能力”**：双向视频模型在适配时也可以读历史，但 AR 模型在预训练中已经学习了历史到未来的映射。Long-WAM 的关键证据是 AR 优势随上下文长度扩大，而不是只在高分点上有平均差异。\n- **未来预测应该被评估为控制中间表示**：IDM 优于 CoD 的地方主要在 LIBERO-Long 和动态任务，说明先估计交互演化能帮助多步动作协调；显式生成清晰视频并非必要条件。\n- **低层记忆和高层规划是互补而非替代**：Long-WAM 擅长物理执行与近期交互状态，GPT-6 Astra 负责目标分解和组合推理。两者组合的 54.4% 明显高于任何单侧，也高于 `π0.5` 加 planner 的 30.5%。\n- **系统优化改变了算法可行性**：如果没有流式 VAE、异步重叠、KV 复用和量化，19.2 秒历史加未来预测很可能不能支撑实时动作；论文把延迟曲线和成功率一起报告，避免了只看上下文长度的片面结论。\n- **窗口长度应任务自适应**：LIBERO-Long 在 2.4 秒已经接近饱和，GR-1 到 19.2 秒仍有收益，38.4 秒受数据密度限制。未来更合理的方向是单一策略动态分配上下文，而不是固定一个全局窗口。",
+    "insightCore": [],
+    "insightRelations": [],
+    "insightBorrowable": [],
+    "risks": "**局限：**\n\n- 每个上下文长度都是单独训练和评估的模型，还不是同一策略在推理时自适应选择窗口；这提供了干净的长度分析，但距离实用的可变上下文系统仍有距离。\n- 38.4 秒下降与 80.4% padding 强相关，说明当前数据不能回答更长、更密集真实历史是否继续提升；10,000 小时也是窗口等价估计，不等同于唯一原始素材量。\n- 真机上下文长度研究仍不充分，G1/YAM 结果主要展示 2.4 秒左右策略的动态与长时程执行，尚未系统验证仿真中的长窗口趋势如何迁移到物理机器人。\n- 预训练动作无关提升了跨数据可用性，但论文明确指出迁移到 unseen embodiment 需要单独评估；不同机器人动作空间、频率与传感器配置仍可能限制适配效果。\n- 不少基线来自论文或 leaderboard 的报告口径，硬件与部署配置不完全一致；延迟也排除了文本编码、controller 与 IPC 开销，端到端机器人系统实际可用余量会小于表格数字。\n- NVFP4、CUDA Graph、设备调优和 KV 复用大幅依赖 NVIDIA 栈；跨硬件可复现性、数值稳定性和安全边界没有系统讨论。\n\n**适用场景：**\n\n- 物体持续运动、遮挡后重现或需要从近期视觉历史推断速度/方向的动态抓取与拦截。\n- 多阶段近端操作，任务进度不完全由当前图像和语言指令决定，需要短期交互记忆。\n- 需要保留 WAM 未来预测但不能接受秒级延迟的边端部署，尤其是 NVIDIA 消费级 GPU、desktop AI 计算机和机器人机载计算机。\n- 低层执行器配合高层 planner 的组合任务：planner 负责语义分解，Long-WAM 负责物理技能与近期状态。\n\n**最终判断：**\n\n- Long-WAM 是一篇把模型结构、上下文 scaling 和实时执行系统放在一起讨论的强证据论文。它最有价值的贡献不是单个 benchmark 分数，而是明确区分“历史可访问”和“历史可使用”，并用 AR vs 双向初始化、上下文扫描、延迟曲线和真机动态任务共同支撑这个判断。\n- 对后续 WAM/VLA 设计，值得采纳的是：先训练或选择真正具有因果预测能力的视觉表示；把未来作为潜空间控制条件而非必生成像素；把上下文长度视为与延迟、动作交接和数据密度耦合的执行资源。\n- 对生产部署应保持谨慎：当前结果集中在 NVIDIA 硬件和特定仿真/真机任务，真实长窗口研究、跨本体泛化、量化误差的安全分析和非 NVIDIA 平台成本仍需补充。",
+    "riskLimitations": [
+      "每个上下文长度都是单独训练和评估的模型，还不是同一策略在推理时自适应选择窗口；这提供了干净的长度分析，但距离实用的可变上下文系统仍有距离。",
+      "38.4 秒下降与 80.4% padding 强相关，说明当前数据不能回答更长、更密集真实历史是否继续提升；10,000 小时也是窗口等价估计，不等同于唯一原始素材量。",
+      "真机上下文长度研究仍不充分，G1/YAM 结果主要展示 2.4 秒左右策略的动态与长时程执行，尚未系统验证仿真中的长窗口趋势如何迁移到物理机器人。",
+      "预训练动作无关提升了跨数据可用性，但论文明确指出迁移到 unseen embodiment 需要单独评估；不同机器人动作空间、频率与传感器配置仍可能限制适配效果。",
+      "不少基线来自论文或 leaderboard 的报告口径，硬件与部署配置不完全一致；延迟也排除了文本编码、controller 与 IPC 开销，端到端机器人系统实际可用余量会小于表格数字。",
+      "NVFP4、CUDA Graph、设备调优和 KV 复用大幅依赖 NVIDIA 栈；跨硬件可复现性、数值稳定性和安全边界没有系统讨论。"
+    ],
+    "riskScenarios": [
+      "物体持续运动、遮挡后重现或需要从近期视觉历史推断速度/方向的动态抓取与拦截。",
+      "多阶段近端操作，任务进度不完全由当前图像和语言指令决定，需要短期交互记忆。",
+      "需要保留 WAM 未来预测但不能接受秒级延迟的边端部署，尤其是 NVIDIA 消费级 GPU、desktop AI 计算机和机器人机载计算机。",
+      "低层执行器配合高层 planner 的组合任务：planner 负责语义分解，Long-WAM 负责物理技能与近期状态。"
+    ],
+    "riskJudgment": [
+      "Long-WAM 是一篇把模型结构、上下文 scaling 和实时执行系统放在一起讨论的强证据论文。它最有价值的贡献不是单个 benchmark 分数，而是明确区分“历史可访问”和“历史可使用”，并用 AR vs 双向初始化、上下文扫描、延迟曲线和真机动态任务共同支撑这个判断。",
+      "对后续 WAM/VLA 设计，值得采纳的是：先训练或选择真正具有因果预测能力的视觉表示；把未来作为潜空间控制条件而非必生成像素；把上下文长度视为与延迟、动作交接和数据密度耦合的执行资源。",
+      "对生产部署应保持谨慎：当前结果集中在 NVIDIA 硬件和特定仿真/真机任务，真实长窗口研究、跨本体泛化、量化误差的安全分析和非 NVIDIA 平台成本仍需补充。"
+    ],
+    "resultsTableMarkdown": "| 实验 | 关键对比 | Long-WAM | 基线/对照 | 结论 |\n| --- | --- | ---: | ---: | --- |\n| RoboCasa GR-1 | 0 vs 19.2 s 历史 | 78.7% | 0 s 63.3%；Cosmos 67.1% | 长物理历史带来 +15.4 点 |\n| RoboCasa GR-1 | AR vs 双向初始化 | 78.7% | 双向 61.6% | AR 优势在长历史下扩大到 17.1 点 |\n| LIBERO / LIBERO-Long | IDM | 99.5% / 99.5% | Fast-WAM 97.6% / 95.2% | 未来潜变量预测最利于长任务 |\n| RoboTwin 2.0 | Clean + Randomized 平均 | 94.4% | ABot-M0.5 94.1% | 小幅领先 |\n| DOMINO | 动态数据微调 | 34.9% SR / 45.1 MS | Fast-WAM 19.9% / 33.3 | 动态拦截优势明显 |\n| Unitree G1 传送带 | 7.5 cm/s 抓取 | 90% | `π0.5`、Fast-WAM 0% | 近期视觉历史支撑动态控制 |\n| Unitree G1 动态堆杯 | 20 trials | 95% | `π0.5`、Fast-WAM 0% | 最强真机对比 |\n| RTX 5090 延迟 | 优化 V4/A4 | 107.4 ms，93.5% SR | BF16 356.0 ms，94.4%；Fast-WAM 244.1 ms | 保留预测且更快 |\n| 异步执行 | RoboTwin 2.0 | 94.2% | Fast-WAM 76.4%；LingBot-VA 46.7% | 预测条件改善动作交接 |\n| RoboCasa365 | Long-WAM + GPT-6 Astra | 54.4% overall | planner 25.2%；policy 31.4% | 强执行放大规划 |",
+    "resultsTable": {
+      "columns": [
+        "实验",
+        "关键对比",
+        "Long-WAM",
+        "基线/对照",
+        "结论"
+      ],
+      "rows": [
+        [
+          "RoboCasa GR-1",
+          "0 vs 19.2 s 历史",
+          "78.7%",
+          "0 s 63.3%；Cosmos 67.1%",
+          "长物理历史带来 +15.4 点"
+        ],
+        [
+          "RoboCasa GR-1",
+          "AR vs 双向初始化",
+          "78.7%",
+          "双向 61.6%",
+          "AR 优势在长历史下扩大到 17.1 点"
+        ],
+        [
+          "LIBERO / LIBERO-Long",
+          "IDM",
+          "99.5% / 99.5%",
+          "Fast-WAM 97.6% / 95.2%",
+          "未来潜变量预测最利于长任务"
+        ],
+        [
+          "RoboTwin 2.0",
+          "Clean + Randomized 平均",
+          "94.4%",
+          "ABot-M0.5 94.1%",
+          "小幅领先"
+        ],
+        [
+          "DOMINO",
+          "动态数据微调",
+          "34.9% SR / 45.1 MS",
+          "Fast-WAM 19.9% / 33.3",
+          "动态拦截优势明显"
+        ],
+        [
+          "Unitree G1 传送带",
+          "7.5 cm/s 抓取",
+          "90%",
+          "`π0.5`、Fast-WAM 0%",
+          "近期视觉历史支撑动态控制"
+        ],
+        [
+          "Unitree G1 动态堆杯",
+          "20 trials",
+          "95%",
+          "`π0.5`、Fast-WAM 0%",
+          "最强真机对比"
+        ],
+        [
+          "RTX 5090 延迟",
+          "优化 V4/A4",
+          "107.4 ms，93.5% SR",
+          "BF16 356.0 ms，94.4%；Fast-WAM 244.1 ms",
+          "保留预测且更快"
+        ],
+        [
+          "异步执行",
+          "RoboTwin 2.0",
+          "94.2%",
+          "Fast-WAM 76.4%；LingBot-VA 46.7%",
+          "预测条件改善动作交接"
+        ],
+        [
+          "RoboCasa365",
+          "Long-WAM + GPT-6 Astra",
+          "54.4% overall",
+          "planner 25.2%；policy 31.4%",
+          "强执行放大规划"
+        ]
+      ]
+    },
+    "figureGallery": [
+      {
+        "zone": "intuition",
+        "caption": "Long-WAM overview",
+        "src": "https://arxiv.org/html/2610.10528v1/1_2.png"
+      },
+      {
+        "zone": "method",
+        "caption": "Asynchronous execution and streaming VAE",
+        "src": "https://arxiv.org/html/2610.10528v1/async.png"
+      },
+      {
+        "zone": "method",
+        "caption": "Edge deployment optimizations",
+        "src": "https://arxiv.org/html/2610.10528v1/edge.png"
+      },
+      {
+        "zone": "results",
+        "caption": "Dynamic manipulation on Unitree G1",
+        "src": "https://arxiv.org/html/2610.10528v1/experiment_2.png"
+      }
+    ],
+    "relatedTopicSlugs": [
+      "long-horizon-memory-for-robot-policies"
+    ]
   }
 ]
