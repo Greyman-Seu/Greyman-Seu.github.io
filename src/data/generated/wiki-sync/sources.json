@@ -10109,5 +10109,399 @@
       "tactile-representation",
       "contact-rich-manipulation"
     ]
+  },
+  {
+    "slug": "2610.22368-value-as-memory-online-value-guided-post-training-for-general-robot-policies",
+    "title": "Value as Memory: Online Value-Guided Post-training for General Robot Policies",
+    "sourceType": "paper",
+    "sourceUrl": "https://arxiv.org/abs/2610.22368",
+    "htmlUrl": "https://arxiv.org/html/2610.22368v1",
+    "pdfUrl": "https://arxiv.org/pdf/2610.22368",
+    "codeUrl": "https://github.com/Virlus/vam",
+    "translationUrl": "https://hjfy.top/arxiv/2610.22368",
+    "publishDate": "2026-10-15",
+    "authors": [
+      "Wenye Yu",
+      "Yijin Chen",
+      "Kaiyi Xiong",
+      "Wenbo Han",
+      "Wendi Chen",
+      "Yang Jin",
+      "Han Xue",
+      "Jun Lv",
+      "Cewu Lu",
+      "Chuan Wen"
+    ],
+    "affiliation": "Shanghai Jiao Tong University",
+    "relatedOrganizations": [
+      "Shanghai Jiao Tong University",
+      "Shanghai Innovation Institute",
+      "Noematrix Ltd."
+    ],
+    "relatedCompanies": [
+      "Noematrix Ltd."
+    ],
+    "keywords": [
+      "online-rl"
+    ],
+    "primaryDomainSlug": "physical-embodied-intelligence",
+    "domainSlugs": [
+      "physical-embodied-intelligence"
+    ],
+    "heroImage": "https://arxiv.org/html/2610.22368v1/teaser-compressed.png",
+    "tldr": "VaM 把近期价值预测从训练标签变成策略可读取的任务进度记忆，同时用离线演示、历史人工干预和当前在线 rollout 持续更新价值与动作专家。三项真机长时程任务中，价值缓存相对消融在最终三个检查点上平均提高 29.4 个百分点；在线 RL 在匹配预算下经 LfE 后平均超过离线 RL 32.8 个百分点，并把每梯度步实验墙钟时间降低 57.8%。这是“critic 参与推理”与“提高部署—训练闭环频率”的双重贡献，但证据仍限于单机器人、三项实验室任务和可靠价值估计，不应外推成通用无人值守自我进化。",
+    "intuition": "可以把 VaM 理解为给机器人增加一条“进度后视镜”：摄像头里两个画面可能几乎一样，但一个发生在刚失去接触之后，另一个发生在重新抓牢之后，所需动作完全不同。价值专家先把近期画面转成任务进度分数，动作专家不仅看图像和本体状态，还读取前几个时刻的分数是在上升、停滞还是下降，因此能区分“继续原动作”和“重新尝试”。训练侧则像一条持续运转的流水线：机器人采集新经验时，价值专家学习当前进度，动作专家吸收示范、人工纠正和当前 rollout，再把新 checkpoint 发布回机器人。\n\n![VaM 总览](https://arxiv.org/html/2610.22368v1/teaser-compressed.png)\n\n*图 1：VaM 总览。在线真实世界 RL 提高部署—训练反馈频率，价值缓存用近期进度预测缓解相似观察下的动作歧义。*",
+    "abstractEn": "Real-world post-training of generalist robot policies faces two challenges: partial observability makes action selection ambiguous, while offline post-training methods delay feedback from deployment experience. We present Value as Memory (VaM), a framework that addresses these challenges through value caching and online real-world reinforcement learning (RL). Value caching conditions actions on recent value predictions as task-progress memory, while online updates enable timely policy improvement by combining offline demonstrations, off-policy interventions, and on-policy rollouts for sample-efficient adaptation. As a result, VaM transitions from offline RL warmup to online autonomous learning with sparse rewards. Across long-horizon tasks involving deformable objects and contact-rich manipulation, VaM yields a mean absolute success-rate gain of 29.4% with value caching, while achieving a 32.8% gain with online autonomous learning over matched offline training. The evaluated online schedule performs 8× as many policy iterations under the same gradient-step budget, with more than 2× lower recorded time per gradient step with concurrent data collection and training.",
+    "abstractZh": "通用机器人策略的真实世界后训练面临两个挑战：部分可观测性使动作选择产生歧义，而离线后训练方法会延迟来自部署经验的反馈。我们提出 Value as Memory（VaM），通过价值缓存和在线真实世界强化学习（RL）应对这些挑战。价值缓存把近期价值预测作为任务进度记忆来条件化动作选择；在线更新则结合离线演示、离策略人工干预和当前策略 rollout，实现样本高效适配和及时的策略改进。由此，VaM 能从离线 RL 预热过渡到使用稀疏奖励的在线自主学习。在涉及可变形物体和接触富集操作的长时程任务中，价值缓存带来 29.4% 的平均绝对成功率增益，在线自主学习相较训练预算匹配的离线训练带来 32.8% 的增益。所评估的在线调度在相同梯度步预算下完成 8 倍策略迭代；在数据采集与训练并行时，记录的每梯度步耗时降低超过 2 倍。",
+    "background": "**动机：** 通才 VLA 经离线示范预训练后，仍要在具体真机任务上继续吸收部署经验，才能稳定完成纸盒组装、衣物折叠和磁块拼接这类长时程操作。真实交互昂贵，纯 on-policy 更新难以复用历史经验，迭代式离线 RL 又把采集和训练串行分开，使新失败状态不能及时进入下一轮策略；同时，有限视觉历史中的相似画面可能对应不同接触状态与任务进度，直接限制策略恢复能力。\n\n**问题缺口：** 已有价值函数通常只用于优势标注、数据筛选或优化权重，部署策略本身看不到任务进度，因此难以解决 soft aliasing：观察表示很接近，高优势动作分布却不同。另一方面，固定或周期性刷新的 critic 会落后于当前部署分布，单纯增加在线 rollout 又不能同时解决历史数据复用、人工纠正吸收、价值—策略共同适配和真机迭代墙钟成本，论文需要把这些问题放进同一个可持续运行系统。",
+    "backgroundMotivation": "通才 VLA 经离线示范预训练后，仍要在具体真机任务上继续吸收部署经验，才能稳定完成纸盒组装、衣物折叠和磁块拼接这类长时程操作。真实交互昂贵，纯 on-policy 更新难以复用历史经验，迭代式离线 RL 又把采集和训练串行分开，使新失败状态不能及时进入下一轮策略；同时，有限视觉历史中的相似画面可能对应不同接触状态与任务进度，直接限制策略恢复能力。",
+    "backgroundGap": "已有价值函数通常只用于优势标注、数据筛选或优化权重，部署策略本身看不到任务进度，因此难以解决 soft aliasing：观察表示很接近，高优势动作分布却不同。另一方面，固定或周期性刷新的 critic 会落后于当前部署分布，单纯增加在线 rollout 又不能同时解决历史数据复用、人工纠正吸收、价值—策略共同适配和真机迭代墙钟成本，论文需要把这些问题放进同一个可持续运行系统。",
+    "method": "**方法概述：** VaM 以四阶段离线到在线流程训练价值与动作专家：先用演示做行为克隆和进度初始化，再通过人工接管数据完成离线 RL warmup，随后进入 Online DAgger 与仅依赖稀疏终端奖励的 Learn from Experience。价值学习混合离线及历史 replay 与当前 rollout，动作学习按 1:1:1 混合演示、历史干预和当前优势标注 rollout；部署时把近期价值预测缓存为进度记忆，在线阶段同步更新并发布两个专家。\n\n**核心机制：** 价值专家在 [0,1] 的 256 个原子上预测类别分布，先以演示中的归一化进度 t/T 做高斯标签初始化，再用稀疏终端奖励的分布式 TD 学习目标跟踪真实任务进度；其期望既转化为优势标签，也把前 Hπ 个已计算价值组成缓存，经 GRU 编码后提供给动作专家。动作专家沿用 π0.5 的 flow matching，以当前 rollout 优势的 70% 分位数构造二元条件，推理时请求高优势动作并做 classifier-free guidance，从而让同一价值信号同时服务训练监督与部署记忆。\n\n**方法拆解：**\n\n- 离线初始化：动作专家继承 π0.5 的 PaliGemma-2B 视觉语言骨干和独立 300M 动作 transformer，以行为克隆启动；价值专家复用 π0.5 的 300M action-generation transformer，借助 readout token 和线性头输出 256 原子价值分布，并以演示进度初始化。\n- 离线 RL warmup：先部署初始策略并允许人工接管；把每次接管前的轨迹前缀标成零奖励失败终止，同时保留完整 rollout 的结果奖励与跨接管 bootstrap，再对时间下采样数据做价值 TD 预热，最后用预热价值标注 rollout 并训练优势条件动作专家。\n- Online DAgger：每轮以当前 checkpoint 采集带人工干预的 rollout。价值批次按 1:1 混合“演示+历史 rollout”与当前下采样轨迹；动作批次按 1:1:1 混合演示、历史人工控制片段和当前优势标注 rollout，两个专家同步更新后把当前轨迹并入历史 buffer。\n- Learn from Experience（LfE）：停止收集新的人工纠正，只用自主 rollout 的稀疏终端成败奖励继续训练；历史干预 buffer 固定，但仍复用既往 rollout、演示和当前数据，因此策略能在没有持续 DAgger 监督时测试价值记忆与在线闭环是否真正有效。\n- 部署与缓存：每轮冻结上一轮价值快照，价值预测和动作生成异步运行；动作专家读取截至 t-1 的价值缓存而非等待当前值，并将它与图像历史、本体状态共同编码。默认动作历史与缓存长度 Hπ=4、价值图像历史为 2、观察步距 30，动作 chunk 为 100 步，兼顾进度信息与实时控制。\n\n**关键要点：**\n\n- 价值缓存不是“多接一个 scalar”这么简单：它把 critic 从训练期评估器变成推理期状态输入。固定最终动作专家、仅替换成 demo 或 warmup 价值快照都会降低三任务成功率，说明收益依赖与当前策略分布匹配的价值质量。\n- 理论结果只证明局部 soft-aliasing 下界可以被放松：在局部 L-Lipschitz 假设下，缓存增大两个状态的输入表示距离，使同时拟合不同高优势动作分布不再违反该约束；它不保证具体网络优化成功，也不等于解决一般 POMDP。\n- 在线系统的关键收益是提高反馈频率。相同梯度步预算下纸盒任务完成 16 次在线迭代而离线仅 2 次，所谓 8× 是部署—训练迭代数，不是 8× 样本效率；57.8% 是实验墙钟时间下降，也不是单次 GPU 梯度计算加速。\n\n![VaM 训练流水线与价值缓存架构](https://arxiv.org/html/2610.22368v1/method_pipeline.png)\n\n*图 2：四阶段训练流水线与价值缓存架构。价值专家把已计算的分布式价值期望写入缓存，动作专家将其与视觉、本体历史和优势条件共同编码。*",
+    "methodOverview": "VaM 以四阶段离线到在线流程训练价值与动作专家：先用演示做行为克隆和进度初始化，再通过人工接管数据完成离线 RL warmup，随后进入 Online DAgger 与仅依赖稀疏终端奖励的 Learn from Experience。价值学习混合离线及历史 replay 与当前 rollout，动作学习按 1:1:1 混合演示、历史干预和当前优势标注 rollout；部署时把近期价值预测缓存为进度记忆，在线阶段同步更新并发布两个专家。",
+    "methodCore": "价值专家在 [0,1] 的 256 个原子上预测类别分布，先以演示中的归一化进度 t/T 做高斯标签初始化，再用稀疏终端奖励的分布式 TD 学习目标跟踪真实任务进度；其期望既转化为优势标签，也把前 Hπ 个已计算价值组成缓存，经 GRU 编码后提供给动作专家。动作专家沿用 π0.5 的 flow matching，以当前 rollout 优势的 70% 分位数构造二元条件，推理时请求高优势动作并做 classifier-free guidance，从而让同一价值信号同时服务训练监督与部署记忆。",
+    "methodBreakdown": [
+      "离线初始化：动作专家继承 π0.5 的 PaliGemma-2B 视觉语言骨干和独立 300M 动作 transformer，以行为克隆启动；价值专家复用 π0.5 的 300M action-generation transformer，借助 readout token 和线性头输出 256 原子价值分布，并以演示进度初始化。",
+      "离线 RL warmup：先部署初始策略并允许人工接管；把每次接管前的轨迹前缀标成零奖励失败终止，同时保留完整 rollout 的结果奖励与跨接管 bootstrap，再对时间下采样数据做价值 TD 预热，最后用预热价值标注 rollout 并训练优势条件动作专家。",
+      "Online DAgger：每轮以当前 checkpoint 采集带人工干预的 rollout。价值批次按 1:1 混合“演示+历史 rollout”与当前下采样轨迹；动作批次按 1:1:1 混合演示、历史人工控制片段和当前优势标注 rollout，两个专家同步更新后把当前轨迹并入历史 buffer。",
+      "Learn from Experience（LfE）：停止收集新的人工纠正，只用自主 rollout 的稀疏终端成败奖励继续训练；历史干预 buffer 固定，但仍复用既往 rollout、演示和当前数据，因此策略能在没有持续 DAgger 监督时测试价值记忆与在线闭环是否真正有效。",
+      "部署与缓存：每轮冻结上一轮价值快照，价值预测和动作生成异步运行；动作专家读取截至 t-1 的价值缓存而非等待当前值，并将它与图像历史、本体状态共同编码。默认动作历史与缓存长度 Hπ=4、价值图像历史为 2、观察步距 30，动作 chunk 为 100 步，兼顾进度信息与实时控制。"
+    ],
+    "methodTakeaways": [
+      "价值缓存不是“多接一个 scalar”这么简单：它把 critic 从训练期评估器变成推理期状态输入。固定最终动作专家、仅替换成 demo 或 warmup 价值快照都会降低三任务成功率，说明收益依赖与当前策略分布匹配的价值质量。",
+      "理论结果只证明局部 soft-aliasing 下界可以被放松：在局部 L-Lipschitz 假设下，缓存增大两个状态的输入表示距离，使同时拟合不同高优势动作分布不再违反该约束；它不保证具体网络优化成功，也不等于解决一般 POMDP。",
+      "在线系统的关键收益是提高反馈频率。相同梯度步预算下纸盒任务完成 16 次在线迭代而离线仅 2 次，所谓 8× 是部署—训练迭代数，不是 8× 样本效率；57.8% 是实验墙钟时间下降，也不是单次 GPU 梯度计算加速。"
+    ],
+    "results": "**核心结果：**\n\n- 最终三个在线 RL 检查点上，VaM 在纸盒组装、衣物折叠、磁块巴士组装的成功率分别为 96.7%、88.9%、76.7%；无价值缓存为 81.7%、48.9%、43.3%，三任务平均绝对提升 29.4 个百分点。无 warmup 为 81.7%、60.6%、50.0%，RECAP 为 71.7%、64.4%、43.3%。\n- 对全部可用 LfE 检查点取平均，VaM 相对无缓存的差距为纸盒 16.25、衣物 40.00、磁块 37.50 个百分点，平均 31.3 个百分点；说明主要结论并非只由最终三个检查点的选择造成。\n- 盲评 LfE 恢复事件时，VaM 在三任务分别成功恢复 24/44、38/44、5/15 次，对应 54.5%、86.4%、33.3%；无缓存为 35/70、30/51、2/27，对应 50.0%、58.8%、7.4%。这些分数是事件级比例，不是 episode 成功率。\n- 固定最终 LfE 动作专家并替换价值快照后，demo 初始化价值在三任务仅达 80.0%、71.1%、40.0%，warmup 价值为 85.0%、68.9%、50.0%，均低于原始 LfE 价值；固定视觉输入的衣物案例也显示，不同缓存会改变重新抓取与夹爪开合预测。\n- 从同一 warmup VaM 出发、匹配梯度步和采集预算时，在线 RL 经 LfE 后在三任务平均超过离线 RL 32.8 个百分点。采集、价值训练和动作训练并行，使每梯度步实验时间平均下降 57.8%，总实验时间在三任务分别从 6.514、7.069、7.213 小时降至 2.516、3.129、3.061 小时。\n\n**结果表：**\n\n| 维度 | VaM | 关键对照 | 判断 |\n| --- | ---: | ---: | --- |\n| 最终三检查点成功率：纸盒 / 衣物 / 磁块 | **96.7% / 88.9% / 76.7%** | 无价值缓存：81.7% / 48.9% / 43.3% | 三任务平均绝对提升 29.4 个百分点 |\n| 全部 LfE 检查点平均成功率 | **96.25% / 88.89% / 75.00%** | 无价值缓存：80.00% / 48.89% / 37.50% | 平均差距 31.3 个百分点，结论不只看最终检查点 |\n| LfE 恢复率：纸盒 / 衣物 / 磁块 | **54.5% / 86.4% / 33.3%** | 无价值缓存：50.0% / 58.8% / 7.4% | 盲评事件级结果，衣物与磁块差距更明显 |\n| 在线 RL vs. 匹配离线 RL | **LfE 后平均 +32.8 个百分点** | 相同梯度步与采集预算 | 支持更频繁的部署—训练闭环，而非单独证明算法样本复杂度 |\n| 每梯度步实验墙钟时间 | **平均降低 57.8%** | 纸盒 4.885→1.887 s；衣物 5.090→2.253 s；磁块 5.891→2.571 s | 来自采集、价值训练、动作训练并行，不等于纯算子加速 |\n| 替换最终策略的价值专家 | **原始 LfE 价值最佳** | demo 价值：80.0% / 71.1% / 40.0%；warmup 价值：85.0% / 68.9% / 50.0% | 缓存机制本身不够，价值必须跟随当前部署分布 |\n\n![价值缓存消融成功率](https://arxiv.org/html/2610.22368v1/success-rate.svg)\n\n*图 4：三项真机任务的在线 RL 成功率曲线。VaM 相对无价值缓存消融在最终三个检查点上平均提高 29.4 个百分点。*",
+    "resultHighlights": [
+      "最终三个在线 RL 检查点上，VaM 在纸盒组装、衣物折叠、磁块巴士组装的成功率分别为 96.7%、88.9%、76.7%；无价值缓存为 81.7%、48.9%、43.3%，三任务平均绝对提升 29.4 个百分点。无 warmup 为 81.7%、60.6%、50.0%，RECAP 为 71.7%、64.4%、43.3%。",
+      "对全部可用 LfE 检查点取平均，VaM 相对无缓存的差距为纸盒 16.25、衣物 40.00、磁块 37.50 个百分点，平均 31.3 个百分点；说明主要结论并非只由最终三个检查点的选择造成。",
+      "盲评 LfE 恢复事件时，VaM 在三任务分别成功恢复 24/44、38/44、5/15 次，对应 54.5%、86.4%、33.3%；无缓存为 35/70、30/51、2/27，对应 50.0%、58.8%、7.4%。这些分数是事件级比例，不是 episode 成功率。",
+      "固定最终 LfE 动作专家并替换价值快照后，demo 初始化价值在三任务仅达 80.0%、71.1%、40.0%，warmup 价值为 85.0%、68.9%、50.0%，均低于原始 LfE 价值；固定视觉输入的衣物案例也显示，不同缓存会改变重新抓取与夹爪开合预测。",
+      "从同一 warmup VaM 出发、匹配梯度步和采集预算时，在线 RL 经 LfE 后在三任务平均超过离线 RL 32.8 个百分点。采集、价值训练和动作训练并行，使每梯度步实验时间平均下降 57.8%，总实验时间在三任务分别从 6.514、7.069、7.213 小时降至 2.516、3.129、3.061 小时。"
+    ],
+    "insights": "**核心 insight：**\n\n- 价值缓存是一种低维、任务特定的进度记忆：它不试图保存全部历史，而是把历史压缩成“正在推进、停滞还是倒退”。这与增加视觉帧数互补，也给长时程记忆提供了一条更便宜但高度依赖 critic 质量的路线。\n- VaM 让价值形成训练—推理双闭环：训练时它标注动作优势，推理时它直接改变策略输入。因此价值误差不再只影响数据权重，而可能成为误导动作的记忆；价值替换消融既是收益证据，也揭示了新的故障通道。\n- 在线 RL 的系统调度本身就是方法的一部分。相同数据和梯度预算下，更频繁地把新失败状态反馈到 checkpoint，可以改变后续采集分布；这比只比较 learner 更新次数更接近真实机器人后训练的实际收益。\n\n**和已有方法的关系：**\n\n- 相对 RECAP，VaM 保留演示、人工干预、rollout、分布式价值和 CFGRL 优势条件这条主线，但把价值预测额外接入部署策略，并以持续在线的共同更新减少 critic 与当前策略分布脱节；RECAP 对照则从演示策略启动，并增加 Online DAgger 轮次补偿 warmup 数据。\n- 相对 MEM 的视觉—语言多尺度记忆，VaM 使用其 temporal-spatial attention 编码图像历史，却把新增记忆载体换成价值标量序列：MEM 重点保留场景与语义，VaM 重点表示任务进度与恢复状态，两者可视为不同信息层而非互相替代。\n- 失败前缀构造延续 GR-RL 的思路，但边界来自真实人工接管：前缀提供失败监督，完整 rollout 保留后续恢复结果；分布式价值能够表达同一观察下多种 TD 目标的混合，避免只学 uninterrupted success 的单一进度曲线。\n\n**可借鉴点：**\n\n- 在真机部署中冻结上一轮价值快照、异步计算价值并只读取已完成的缓存，是控制部署延迟的实用设计；无需为了得到当前时刻价值而阻塞动作 chunk。\n- 价值和动作应使用不同数据视图：价值需要失败前缀、完整恢复轨迹和时间下采样，动作需要演示、历史人工纠正与当前高优势数据；简单把所有轨迹塞进同一 buffer 会丢失这些监督语义。\n- 评估恢复型长时程策略时，应同时报告原始恢复事件数、盲评口径、多个检查点聚合和墙钟调度成本；只报告单次成功率无法区分“更少卡住”和“卡住后更会恢复”。\n\n![价值缓存对失去接触后动作预测的影响](https://arxiv.org/html/2610.22368v1/04_actor7_right_gripper_and_endpoints.png)\n\n*图 10：衣物失去接触后的固定观察对照。只有原始 LfE 价值缓存促使模型显著张开右夹爪并调整位姿，为重新抓取做准备。*",
+    "insightCore": [
+      "价值缓存是一种低维、任务特定的进度记忆：它不试图保存全部历史，而是把历史压缩成“正在推进、停滞还是倒退”。这与增加视觉帧数互补，也给长时程记忆提供了一条更便宜但高度依赖 critic 质量的路线。",
+      "VaM 让价值形成训练—推理双闭环：训练时它标注动作优势，推理时它直接改变策略输入。因此价值误差不再只影响数据权重，而可能成为误导动作的记忆；价值替换消融既是收益证据，也揭示了新的故障通道。",
+      "在线 RL 的系统调度本身就是方法的一部分。相同数据和梯度预算下，更频繁地把新失败状态反馈到 checkpoint，可以改变后续采集分布；这比只比较 learner 更新次数更接近真实机器人后训练的实际收益。"
+    ],
+    "insightRelations": [
+      "相对 RECAP，VaM 保留演示、人工干预、rollout、分布式价值和 CFGRL 优势条件这条主线，但把价值预测额外接入部署策略，并以持续在线的共同更新减少 critic 与当前策略分布脱节；RECAP 对照则从演示策略启动，并增加 Online DAgger 轮次补偿 warmup 数据。",
+      "相对 MEM 的视觉—语言多尺度记忆，VaM 使用其 temporal-spatial attention 编码图像历史，却把新增记忆载体换成价值标量序列：MEM 重点保留场景与语义，VaM 重点表示任务进度与恢复状态，两者可视为不同信息层而非互相替代。",
+      "失败前缀构造延续 GR-RL 的思路，但边界来自真实人工接管：前缀提供失败监督，完整 rollout 保留后续恢复结果；分布式价值能够表达同一观察下多种 TD 目标的混合，避免只学 uninterrupted success 的单一进度曲线。"
+    ],
+    "insightBorrowable": [
+      "在真机部署中冻结上一轮价值快照、异步计算价值并只读取已完成的缓存，是控制部署延迟的实用设计；无需为了得到当前时刻价值而阻塞动作 chunk。",
+      "价值和动作应使用不同数据视图：价值需要失败前缀、完整恢复轨迹和时间下采样，动作需要演示、历史人工纠正与当前高优势数据；简单把所有轨迹塞进同一 buffer 会丢失这些监督语义。",
+      "评估恢复型长时程策略时，应同时报告原始恢复事件数、盲评口径、多个检查点聚合和墙钟调度成本；只报告单次成功率无法区分“更少卡住”和“卡住后更会恢复”。"
+    ],
+    "risks": "**局限：**\n\n- 缓存内容来自价值专家自身预测，错误进度会被直接送入动作策略；论文也明确把离线 RL warmup 视为稳定在线训练的必要条件，因此它并没有免除 critic 校准，反而提高了对在线价值质量的依赖。\n- 实验仅覆盖单机器人平台上的三项实验室桌面任务，并按任务配置演示量、warmup 数据、更新轮次和部分超参数；没有验证一个共享策略的多任务持续学习、跨任务迁移、开放环境泛化或多机器人 fleet 共享经验。\n- 完整流程仍需要离线专家演示、warmup 与 Online DAgger 阶段的人工接管、可靠终端成败标签，以及多轮真机采集。LfE 不再新增人工纠正，并不等于从零开始或完全无人监督。\n- 磁块任务的 VaM 恢复评估只有 15 个需恢复事件，衣物无缓存最终检查点标准差达 30.1 个百分点；论文未给出统计显著性检验，部分恢复率与均值差距应视为有限样本证据。\n- soft-aliasing 定理是两状态、局部 Lipschitz 下的误差下界分析，只说明加入缓存后精确匹配不再被同一约束排除；它不证明价值估计正确、策略一定学到恢复行为，也不给出全局 POMDP 最优性保证。\n\n**适用场景：**\n\n- 已有 π0.5 类 flow-based VLA、任务专家示范和真机后训练条件，希望提高长时程操作成功率与卡住后的恢复能力，并能提供阶段性人工接管和终端成败标注的研究团队。\n- 衣物折叠、纸盒组装、接触富集装配等视觉相似状态较多、任务进度可由价值函数近似、需要反复部署—更新闭环的操作场景。\n- 不适合直接外推到缺乏可靠奖励与价值校准的高风险无人值守生产、多机器人车队协同，或只有边缘计算且无法承受多轮在线训练的部署。\n\n**最终判断：**\n\n- 这篇工作最值得记住的是把 critic 变成策略可消费的进度记忆，而不仅是又一个优势加权变体；缓存消融、价值快照替换、固定视觉输入下的动作差异和恢复事件盲评形成了较完整的证据链。\n- 在线部分的价值同样偏工程系统：混合 replay 让新经验与历史干预共同更新，并行采集和训练提高反馈频率。解读结果时必须区分 8× 迭代数、57.8% 墙钟下降与真正的样本复杂度改进。\n- 建议持续跟踪其开源实现和多机器人扩展，但当前结论应限定为“单机器人、任务级、有人类前期监督的真机后训练有效”，尚不足以证明通用机器人在开放环境中可长期自主进化。",
+    "riskLimitations": [
+      "缓存内容来自价值专家自身预测，错误进度会被直接送入动作策略；论文也明确把离线 RL warmup 视为稳定在线训练的必要条件，因此它并没有免除 critic 校准，反而提高了对在线价值质量的依赖。",
+      "实验仅覆盖单机器人平台上的三项实验室桌面任务，并按任务配置演示量、warmup 数据、更新轮次和部分超参数；没有验证一个共享策略的多任务持续学习、跨任务迁移、开放环境泛化或多机器人 fleet 共享经验。",
+      "完整流程仍需要离线专家演示、warmup 与 Online DAgger 阶段的人工接管、可靠终端成败标签，以及多轮真机采集。LfE 不再新增人工纠正，并不等于从零开始或完全无人监督。",
+      "磁块任务的 VaM 恢复评估只有 15 个需恢复事件，衣物无缓存最终检查点标准差达 30.1 个百分点；论文未给出统计显著性检验，部分恢复率与均值差距应视为有限样本证据。",
+      "soft-aliasing 定理是两状态、局部 Lipschitz 下的误差下界分析，只说明加入缓存后精确匹配不再被同一约束排除；它不证明价值估计正确、策略一定学到恢复行为，也不给出全局 POMDP 最优性保证。"
+    ],
+    "riskScenarios": [
+      "已有 π0.5 类 flow-based VLA、任务专家示范和真机后训练条件，希望提高长时程操作成功率与卡住后的恢复能力，并能提供阶段性人工接管和终端成败标注的研究团队。",
+      "衣物折叠、纸盒组装、接触富集装配等视觉相似状态较多、任务进度可由价值函数近似、需要反复部署—更新闭环的操作场景。",
+      "不适合直接外推到缺乏可靠奖励与价值校准的高风险无人值守生产、多机器人车队协同，或只有边缘计算且无法承受多轮在线训练的部署。"
+    ],
+    "riskJudgment": [
+      "这篇工作最值得记住的是把 critic 变成策略可消费的进度记忆，而不仅是又一个优势加权变体；缓存消融、价值快照替换、固定视觉输入下的动作差异和恢复事件盲评形成了较完整的证据链。",
+      "在线部分的价值同样偏工程系统：混合 replay 让新经验与历史干预共同更新，并行采集和训练提高反馈频率。解读结果时必须区分 8× 迭代数、57.8% 墙钟下降与真正的样本复杂度改进。",
+      "建议持续跟踪其开源实现和多机器人扩展，但当前结论应限定为“单机器人、任务级、有人类前期监督的真机后训练有效”，尚不足以证明通用机器人在开放环境中可长期自主进化。"
+    ],
+    "resultsTableMarkdown": "| 维度 | VaM | 关键对照 | 判断 |\n| --- | ---: | ---: | --- |\n| 最终三检查点成功率：纸盒 / 衣物 / 磁块 | **96.7% / 88.9% / 76.7%** | 无价值缓存：81.7% / 48.9% / 43.3% | 三任务平均绝对提升 29.4 个百分点 |\n| 全部 LfE 检查点平均成功率 | **96.25% / 88.89% / 75.00%** | 无价值缓存：80.00% / 48.89% / 37.50% | 平均差距 31.3 个百分点，结论不只看最终检查点 |\n| LfE 恢复率：纸盒 / 衣物 / 磁块 | **54.5% / 86.4% / 33.3%** | 无价值缓存：50.0% / 58.8% / 7.4% | 盲评事件级结果，衣物与磁块差距更明显 |\n| 在线 RL vs. 匹配离线 RL | **LfE 后平均 +32.8 个百分点** | 相同梯度步与采集预算 | 支持更频繁的部署—训练闭环，而非单独证明算法样本复杂度 |\n| 每梯度步实验墙钟时间 | **平均降低 57.8%** | 纸盒 4.885→1.887 s；衣物 5.090→2.253 s；磁块 5.891→2.571 s | 来自采集、价值训练、动作训练并行，不等于纯算子加速 |\n| 替换最终策略的价值专家 | **原始 LfE 价值最佳** | demo 价值：80.0% / 71.1% / 40.0%；warmup 价值：85.0% / 68.9% / 50.0% | 缓存机制本身不够，价值必须跟随当前部署分布 |",
+    "resultsTable": {
+      "columns": [
+        "维度",
+        "VaM",
+        "关键对照",
+        "判断"
+      ],
+      "rows": [
+        [
+          "最终三检查点成功率：纸盒 / 衣物 / 磁块",
+          "**96.7% / 88.9% / 76.7%**",
+          "无价值缓存：81.7% / 48.9% / 43.3%",
+          "三任务平均绝对提升 29.4 个百分点"
+        ],
+        [
+          "全部 LfE 检查点平均成功率",
+          "**96.25% / 88.89% / 75.00%**",
+          "无价值缓存：80.00% / 48.89% / 37.50%",
+          "平均差距 31.3 个百分点，结论不只看最终检查点"
+        ],
+        [
+          "LfE 恢复率：纸盒 / 衣物 / 磁块",
+          "**54.5% / 86.4% / 33.3%**",
+          "无价值缓存：50.0% / 58.8% / 7.4%",
+          "盲评事件级结果，衣物与磁块差距更明显"
+        ],
+        [
+          "在线 RL vs. 匹配离线 RL",
+          "**LfE 后平均 +32.8 个百分点**",
+          "相同梯度步与采集预算",
+          "支持更频繁的部署—训练闭环，而非单独证明算法样本复杂度"
+        ],
+        [
+          "每梯度步实验墙钟时间",
+          "**平均降低 57.8%**",
+          "纸盒 4.885→1.887 s；衣物 5.090→2.253 s；磁块 5.891→2.571 s",
+          "来自采集、价值训练、动作训练并行，不等于纯算子加速"
+        ],
+        [
+          "替换最终策略的价值专家",
+          "**原始 LfE 价值最佳**",
+          "demo 价值：80.0% / 71.1% / 40.0%；warmup 价值：85.0% / 68.9% / 50.0%",
+          "缓存机制本身不够，价值必须跟随当前部署分布"
+        ]
+      ]
+    },
+    "figureGallery": [
+      {
+        "zone": "intuition",
+        "caption": "VaM 总览",
+        "src": "https://arxiv.org/html/2610.22368v1/teaser-compressed.png"
+      },
+      {
+        "zone": "method",
+        "caption": "VaM 训练流水线与价值缓存架构",
+        "src": "https://arxiv.org/html/2610.22368v1/method_pipeline.png"
+      },
+      {
+        "zone": "results",
+        "caption": "价值缓存消融成功率",
+        "src": "https://arxiv.org/html/2610.22368v1/success-rate.svg"
+      },
+      {
+        "zone": "insights",
+        "caption": "价值缓存对失去接触后动作预测的影响",
+        "src": "https://arxiv.org/html/2610.22368v1/04_actor7_right_gripper_and_endpoints.png"
+      }
+    ],
+    "relatedTopicSlugs": [
+      "online-rl-for-vla",
+      "long-horizon-memory-for-robot-policies"
+    ]
+  },
+  {
+    "slug": "2610.23438-no-eyes-no-problem-blind-baoding-ball-manipulation",
+    "title": "No Eyes, No Problem: What Does Touch Contribute to Blind Baoding Ball Manipulation?",
+    "sourceType": "paper",
+    "sourceUrl": "https://arxiv.org/abs/2610.23438",
+    "htmlUrl": "https://arxiv.org/html/2610.23438v1",
+    "pdfUrl": "https://arxiv.org/pdf/2610.23438",
+    "codeUrl": "",
+    "translationUrl": "https://hjfy.top/arxiv/2610.23438",
+    "publishDate": "2026-10-16",
+    "authors": [
+      "Ayush Deshmukh",
+      "Nalin Agarwal",
+      "Elle Miller",
+      "Sethu Vijayakumar"
+    ],
+    "affiliation": "University of Edinburgh",
+    "relatedOrganizations": [
+      "University of Edinburgh"
+    ],
+    "relatedCompanies": [],
+    "keywords": [
+      "blind in-hand manipulation",
+      "Baoding ball rotation",
+      "binary tactile sensing",
+      "sim-to-real transfer",
+      "domain randomization"
+    ],
+    "primaryDomainSlug": "physical-embodied-intelligence",
+    "domainSlugs": [
+      "physical-embodied-intelligence"
+    ],
+    "heroImage": "https://arxiv.org/html/2610.23438v1/fig1_cover.png",
+    "tldr": "这篇论文回答一个很具体的问题：在完全不用视觉和物体状态估计的前提下，灵巧手仅靠本体感觉和二值触觉能做多久的双手内保定球旋转？答案是：在 Shadow Dexterous Hand Lite 上，策略零样本从仿真迁移到真机，单次连续试验完成 225 个 180° 旋转（112.5 整圈），约 0.36 rot/s，是迄今保定球操作最强的硬件结果。能迁移的关键不是更大的模型，而是三件事：把 Isaac Lab 默认资产里错误的 PIP/DIP 固定比例耦合改成硬件真实的顺序耦合；提出两种 episode 级随机化——SlewDR（动作斜率限制随机化，让策略学会硬件跟得上的平滑动作）和 STAT（随机把若干触觉通道整 episode 卡死在 0 或 1，迫使策略不过度依赖单一通道）；再加上基于空手基线的迟滞双阈值触觉标定。消融显示触觉的主要贡献不是产生动作节律（本体感觉策略自己就有节律步态），而是把名义步态修正成完成的旋转并在球位偏离时恢复：同一 checkpoint 关掉触觉后，整圈数从 34.75 掉到 5.0。",
+    "intuition": "可以把这个系统理解成\"闭着眼睛盘核桃\"：策略手里有两颗光滑的保定球，既不能看也没有动捕，只能靠关节编码器知道手指在哪、靠 16 个开关式的接触信号知道哪里碰到了球。难点在于手既是执行器又是传感器——每次纠偏动作本身都会改变接触状态，接触不断形成、断开、重建。论文的做法是先在仿真里把手\"造对\"：真实 Shadow 手的 PIP 和 DIP 关节是顺序耦合的（屈曲时 PIP 先动到约 100° 后 DIP 才动），而 Isaac Lab 默认资产让两者按固定比例同步动，这个不对齐就足以毁掉迁移。然后让策略在训练时习惯\"硬件跟不上\"和\"触觉不可全信\"：前者用随机的动作斜率限制逼策略输出平滑指令，后者像 dropout 一样随机弄坏部分触觉通道。部署时策略原样跑在 60 Hz 的真机上，只做触觉标定和固定的动作限速。值得记住的分工结论是：本体感觉已经足以驱动一个有节律的旋转步态（即使手里没球动作也几乎不变），触觉的作用是在球偏离理想构型时把步态\"掰回来\"，让交换真正完成。\n\n![Blind Baoding ball rotation sim-to-real](https://arxiv.org/html/2610.23438v1/fig1_cover.png)\n\n*图 1：零样本迁移的盲手内操作。上为仿真、下为真实 Shadow Dexterous Hand Lite 的 1.2 秒 180° 保定球旋转序列；策略只接收关节编码器和 16 路二值接触信号，无视觉、无深度、无动捕、无物体状态估计，单次连续试验完成 225 个 180° 旋转不掉球。*",
+    "abstractEn": "> Humans manipulate objects within their hands through touch alone with remarkable ease, but for robots, achieving sustained real-world manipulation without vision remains an open challenge. Although reinforcement learning (RL) can generate sophisticated blind manipulation policies in simulation, transferring them to a real dexterous hand remains hindered by continuously changing contacts, motion-induced tactile information drift, and the gap between simulated and physical dynamics. We study this problem through Baoding ball rotation on the Shadow Dexterous Hand Lite, using only proprioception and binary tactile feedback as observations. We achieve successful zero-shot transfer through a combination of a sensor-aligned, coupling-aware embodiment in simulation, tactile calibration, and two novel episodic domain randomisations: slew-rate action limits and STuck-AT Taxels. On the physical hand, the policy achieves sustained blind Baoding rotation, completing 225 consecutive 180° rotations (112.5 full rotations) at ∼0.36 rot/s in a single continuous trial without any vision or object-state information. Furthermore, we evaluate the contribution of tactile sensing relative to proprioception alone and identify the hand regions where tactile information is most important. This is the strongest reported hardware result for Baoding ball manipulation in both rotation count and speed, irrespective of the sensing modality used. By effectively bridging the sim-to-real gap, our framework sets a new benchmark for sustained tactile-driven dexterous manipulation on physical hardware.",
+    "abstractZh": "> 人类仅凭触觉就能轻松地在手内操控物体，但对机器人而言，在无视觉条件下实现持续的真实世界操控仍是一个开放挑战。尽管强化学习（RL）能在仿真中生成复杂的盲操作策略，将其迁移到真实灵巧手却受制于持续变化的接触、运动引起的触觉信息漂移以及仿真与物理动力学之间的差距。我们通过在 Shadow Dexterous Hand Lite 上进行保定球旋转来研究这一问题，仅使用本体感觉和二值触觉反馈作为观测。通过传感器对齐、耦合感知的仿真实体、触觉标定，以及两种新的 episode 级域随机化——斜率动作限制和 STuck-AT Taxels——我们实现了成功的零样本迁移。在物理手上，策略实现了持续的盲保定球旋转，在单次连续试验中完成 225 个连续 180° 旋转（112.5 整圈），速度约 0.36 rot/s，全程没有任何视觉或物体状态信息。此外，我们评估了触觉传感相对仅本体感觉的贡献，并识别出触觉信息最重要的手部区域。无论使用何种传感模态，这都是保定球操作在旋转数量和速度上已报告的最强硬件结果。通过有效弥合 sim-to-real 差距，我们的框架为物理硬件上持续的触觉驱动灵巧操作设立了新基准。",
+    "background": "**动机：** 人类可以不看手就把物体在掌中重新定向，完全依赖接触反馈；但机器人的持续真实世界无视觉手内操作仍是开放难题。RL 在仿真中能生成复杂的盲操作策略，迁移到真实灵巧手却被持续变化的接触、运动引起的触觉信号漂移以及仿真与物理动力学差距阻碍。保定球（双球）旋转把问题推向更难的一侧：需要同时协调球—手和球—球接触，远难于单物体操作。\n\n**问题缺口：** 已有的真实保定球硬件结果几乎都依赖外部物体信息：Nagabandi 等用立体视觉加模型预测控制，Yuan 等融合深度点云与二值 FSR；盲操作的硬件证据非常有限——TacGNN 用 653 taxel 阵列只演示了一次定性半圈，RoTO 与 RoTO 2.0 使用二值触觉但停留在仿真。并且没有硬件工作展示过持续数分钟的快速旋转。缺口的准确表述是：能否让只接收本体感觉和二值接触的盲策略零样本迁移到真实灵巧手，并维持长时间、可量化的双球旋转，同时弄清触觉相对本体感觉到底贡献了什么。",
+    "backgroundMotivation": "人类可以不看手就把物体在掌中重新定向，完全依赖接触反馈；但机器人的持续真实世界无视觉手内操作仍是开放难题。RL 在仿真中能生成复杂的盲操作策略，迁移到真实灵巧手却被持续变化的接触、运动引起的触觉信号漂移以及仿真与物理动力学差距阻碍。保定球（双球）旋转把问题推向更难的一侧：需要同时协调球—手和球—球接触，远难于单物体操作。",
+    "backgroundGap": "已有的真实保定球硬件结果几乎都依赖外部物体信息：Nagabandi 等用立体视觉加模型预测控制，Yuan 等融合深度点云与二值 FSR；盲操作的硬件证据非常有限——TacGNN 用 653 taxel 阵列只演示了一次定性半圈，RoTO 与 RoTO 2.0 使用二值触觉但停留在仿真。并且没有硬件工作展示过持续数分钟的快速旋转。缺口的准确表述是：能否让只接收本体感觉和二值接触的盲策略零样本迁移到真实灵巧手，并维持长时间、可量化的双球旋转，同时弄清触觉相对本体感觉到底贡献了什么。",
+    "method": "**方法概述：** 整体流程是\"仿真训练 → 零样本部署\"两段式。先在 Isaac Lab 中用 PPO 训练一个盲策略：观测为 4 帧堆叠的 272 维向量（每帧 52 维本体感觉——13 个驱动器的关节位置、速度、位置误差和上一动作——加 16 维二值触觉），输出 13 维关节位置指令，奖励沿用 RoTO 的稠密防掉球项加稀疏交换完成项。训练时叠加四层处理：硬件对齐的顺序肌腱耦合与传感器位点建模、物理参数随机化（球质量 45–100 g、按手部区域分档的摩擦）、本文提出的 SlewDR 与 STAT 两种 episode 级随机化。部署时策略不经任何修改跑在 60 Hz 真机上，只做空手基线的迟滞双阈值触觉标定，并施加一个固定的动作斜率限制。\n\n**核心机制：** 这套方法成立的原因是它分别打击了 sim-to-real 差距的三个具体来源，而不是笼统地\"加随机化\"。第一，embodiment 对齐消除了系统性误差：默认资产让 DIP 角度固定为 PIP 的倍数，而真实硬件是顺序耦合（屈曲先 PIP 到约 100° 再 DIP，伸展顺序相反），论文在每个环境步显式实现该耦合，并在仿真中按真实 FSR 位置添加小碰撞体。第二，SlewDR 针对动力学差距：即使增益已调软，策略指令的关节运动仍快过硬件能执行的速度（肌腱摩擦与电机反射惯量所致），于是对相邻步指令位置变化施加随机缩放 s∼U(0.3,1.0) 的限速，逼策略学会硬件可跟踪的平滑动作。第三，STAT 针对传感可靠性差距：每个 episode 随机选 k∼U{0,...,6} 个 FSR 通道整段卡死在 0 或 1，类似 dropout，让任何单一通道都不可信，从而把执行负担从连续触觉反馈转移到学到的步态本身。\n\n**方法拆解：**\n\n- **仿真实体对齐**：修正 PIP/DIP 顺序耦合（100° 耦合阈值，屈曲与伸展顺序相反）；按仿真接触频率统计选定 FSR 位点（MCP 区域频率最高，其次 PIP 与掌面），并在仿真中加入对应碰撞体。\n- **物理参数随机化**：每 episode 重采样球质量（45–100 g）与分区域摩擦系数——远端指节因 BioTac 硅胶皮肤取较高摩擦，掌面取较低值。\n- **Slew-rate Domain Randomisation（SlewDR）**：发布的关节目标 q_t^SR-des = q_t + clip(q_t^des − q_t, −s·q̇_max·Δt, s·q̇_max·Δt)，s 每个 episode 从 U(0.3,1.0) 重采样；硬件上应用同一限速但 s 固定（本体感觉策略 s=0.65，其余 s=0.53）。\n- **Stuck-AT Taxels（STAT）**：每 episode 重置时均匀随机选 k∈{0,...,6} 个 FSR 通道，各自整段固定为随机值 v_i∈{0,1}，其余通道报告真实仿真接触状态。\n- **触觉标定**：空手 FSR 基线的稳健统计量导出双阈值（τ_hi = P99.5(x)+5，τ_lo 按分布宽度分段取 med(x)+2 或 τ_hi−3），按 Schmitt 触发规则做迟滞二值化，对抗姿态和走线引起的阈值漂移。\n\n**关键要点：**\n\n- 零样本迁移的三个支柱缺一不可：C1（仅物理随机化）与 C2（加 SlewDR）在真机上都无法持续（≤0.5 整圈），只有叠加 STAT 的 C3 达到 34.75 整圈——embodiment 对齐、动作带宽限制、触觉通道 dropout 分别消除系统性、动力学与传感可靠性三类差距。\n- 触觉的价值定位是修正而非驱动：无球时仅本体感觉策略的关节轨迹几乎不变，说明节律步态由本体感觉先验承载；关掉触觉后转速只从 0.36 掉到 0.256，但整圈数从 34.75 崩到 5.0——触觉决定交换是否完成、能否从坏构型中恢复。\n- 仿真与硬件的触觉激活空间分布并不逐点吻合（仿真集中在中/无名指中节与指根，硬件偏向近端），迁移依然成功：稀疏二值触觉不需要逐传感器精确对齐，降低了这类系统的硬件门槛。\n\n![Method overview](https://arxiv.org/html/2610.23438v1/IEEEtranBST/method_icra8.drawio.png)\n\n*图 4：方法总览。左上为仿真策略训练（动作经修正耦合机构后进入物理步，状态以本体感觉和二值触觉返回）；左下为 60 Hz 硬件零样本部署（触觉标定 + 动作限速）；右侧为每个 episode 重置时施加的随机化，包括本文提出的 STAT 与 SlewDR 以及常规球质量/摩擦随机化。*\n\n![FSR setup on Shadow Dexterous Hand Lite](https://arxiv.org/html/2610.23438v1/fig_hw_and_sim_kinematics.png)\n\n*图 2：(a) 真实手上的 FSR 布局标注；(b) 同一手的仿真模型，红色为对应的 FSR 位点——仿真传感器位点与硬件逐一对应。*\n\n![Tendon coupling correction](https://arxiv.org/html/2610.23438v1/IEEEtranBST/coupling_final.drawio.png)\n\n*图 3：同样的 45° PIP 屈曲指令下两种耦合机制的差异。(a) 本文使用的硬件对齐顺序耦合（装 BioTac 指尖）：PIP 先动，DIP 在 PIP 到约 100° 后才动；(b) Isaac Lab 默认资产的固定比例耦合：两关节同步运动，与硬件不符，不能直接用作迁移模型。*",
+    "methodOverview": "整体流程是\"仿真训练 → 零样本部署\"两段式。先在 Isaac Lab 中用 PPO 训练一个盲策略：观测为 4 帧堆叠的 272 维向量（每帧 52 维本体感觉——13 个驱动器的关节位置、速度、位置误差和上一动作——加 16 维二值触觉），输出 13 维关节位置指令，奖励沿用 RoTO 的稠密防掉球项加稀疏交换完成项。训练时叠加四层处理：硬件对齐的顺序肌腱耦合与传感器位点建模、物理参数随机化（球质量 45–100 g、按手部区域分档的摩擦）、本文提出的 SlewDR 与 STAT 两种 episode 级随机化。部署时策略不经任何修改跑在 60 Hz 真机上，只做空手基线的迟滞双阈值触觉标定，并施加一个固定的动作斜率限制。",
+    "methodCore": "这套方法成立的原因是它分别打击了 sim-to-real 差距的三个具体来源，而不是笼统地\"加随机化\"。第一，embodiment 对齐消除了系统性误差：默认资产让 DIP 角度固定为 PIP 的倍数，而真实硬件是顺序耦合（屈曲先 PIP 到约 100° 再 DIP，伸展顺序相反），论文在每个环境步显式实现该耦合，并在仿真中按真实 FSR 位置添加小碰撞体。第二，SlewDR 针对动力学差距：即使增益已调软，策略指令的关节运动仍快过硬件能执行的速度（肌腱摩擦与电机反射惯量所致），于是对相邻步指令位置变化施加随机缩放 s∼U(0.3,1.0) 的限速，逼策略学会硬件可跟踪的平滑动作。第三，STAT 针对传感可靠性差距：每个 episode 随机选 k∼U{0,...,6} 个 FSR 通道整段卡死在 0 或 1，类似 dropout，让任何单一通道都不可信，从而把执行负担从连续触觉反馈转移到学到的步态本身。",
+    "methodBreakdown": [
+      "**仿真实体对齐**：修正 PIP/DIP 顺序耦合（100° 耦合阈值，屈曲与伸展顺序相反）；按仿真接触频率统计选定 FSR 位点（MCP 区域频率最高，其次 PIP 与掌面），并在仿真中加入对应碰撞体。",
+      "**物理参数随机化**：每 episode 重采样球质量（45–100 g）与分区域摩擦系数——远端指节因 BioTac 硅胶皮肤取较高摩擦，掌面取较低值。",
+      "**Slew-rate Domain Randomisation（SlewDR）**：发布的关节目标 q_t^SR-des = q_t + clip(q_t^des − q_t, −s·q̇_max·Δt, s·q̇_max·Δt)，s 每个 episode 从 U(0.3,1.0) 重采样；硬件上应用同一限速但 s 固定（本体感觉策略 s=0.65，其余 s=0.53）。",
+      "**Stuck-AT Taxels（STAT）**：每 episode 重置时均匀随机选 k∈{0,...,6} 个 FSR 通道，各自整段固定为随机值 v_i∈{0,1}，其余通道报告真实仿真接触状态。",
+      "**触觉标定**：空手 FSR 基线的稳健统计量导出双阈值（τ_hi = P99.5(x)+5，τ_lo 按分布宽度分段取 med(x)+2 或 τ_hi−3），按 Schmitt 触发规则做迟滞二值化，对抗姿态和走线引起的阈值漂移。"
+    ],
+    "methodTakeaways": [
+      "零样本迁移的三个支柱缺一不可：C1（仅物理随机化）与 C2（加 SlewDR）在真机上都无法持续（≤0.5 整圈），只有叠加 STAT 的 C3 达到 34.75 整圈——embodiment 对齐、动作带宽限制、触觉通道 dropout 分别消除系统性、动力学与传感可靠性三类差距。",
+      "触觉的价值定位是修正而非驱动：无球时仅本体感觉策略的关节轨迹几乎不变，说明节律步态由本体感觉先验承载；关掉触觉后转速只从 0.36 掉到 0.256，但整圈数从 34.75 崩到 5.0——触觉决定交换是否完成、能否从坏构型中恢复。",
+      "仿真与硬件的触觉激活空间分布并不逐点吻合（仿真集中在中/无名指中节与指根，硬件偏向近端），迁移依然成功：稀疏二值触觉不需要逐传感器精确对齐，降低了这类系统的硬件门槛。"
+    ],
+    "results": "真机评测覆盖 6 种配置（开环回放、仅本体感觉、C1 仅物理随机化、C2 加 SlewDR、C3 加 STAT 即本文完整配置、C3-TacOff 部署时置零触觉），每配置 10 次独立试验，仿真侧每配置 768 episode / 3 个种子。\n\n- **C3 全面领先**：34.75±26.06 整圈（范围 2–74）、time-to-drop 94.8±68.0 s、转速 0.36±0.061 rot/s、交换效率 η=0.90±0.16（理论上限为每个步态周期一次交换）；所有试验至少 2 整圈，9/10 超过 10 s 窗口。\n- **触觉消融**：同一 checkpoint 关掉触觉（C3-TacOff）整圈数 34.75→5.0、time-to-drop 94.8→19.0 s，转速仅 0.36→0.256——触觉对\"持续\"的贡献远大于对\"速度\"的贡献；单独训练的仅本体感觉策略 4.4 圈，开环回放仅 1.7 圈。\n- **随机化阶梯**：C1（0.35 圈）与 C2（0.5 圈）在真机上都无法持续，C1→C2 几乎无增益；只有叠加 STAT 的 C3 跳到 34.75 圈。C1 仿真里跑得最快（接近 1 rot/s）但真机全部失败——仿真表现最好反而迁移最差。\n- **sim-to-real 一致性**：C3 与 C3-TacOff 的仿真/硬件转速最接近；C2 在仿真中去掉触觉 drop rate 升至近 60%，而 STAT 训练的策略仅从 2.2% 升到 32.2%，说明 STAT 确实降低了对连续触觉的依赖。\n- **长时演示**：C3 同一 checkpoint 的一次额外部署在 310 s 内完成 112.5 整圈（225 个 180° 交换），未计入正式统计。\n- **对比先验硬件结果**：Yuan 等约 3 圈 / 0.30 rot/s（且有视觉），Nagabandi 等与 Yang 等约半圈量级；本文在旋转数与速度上均为最强，且是唯一快速、持续数分钟的盲操作硬件结果。\n\n![Training curves](https://arxiv.org/html/2610.23438v1/IEEEtranBST/training_curves_c1_c2_c3_2.png)\n\n*图 6：C1/C2/C3 在 250 M 环境步、3 个种子下的评估回报。回报 100 约等于\"保住球但不旋转\"；C1 约 80 M 步即越过且最终回报约为 C2/C3 的两倍——SlewDR 让 RL 问题明显变难，但这是迁移的必要代价。*\n\n![Commanded vs achieved joint positions](https://arxiv.org/html/2610.23438v1/IEEEtranBST/assets/fig_smoothness_c1_c2_window_latest.png)\n\n*图 7：真机上指令位置（上排）与实际测得位置（下排），左列 C1、右列 C2。C1 的指令又大又快、硬件跟不上；C2 经 SlewDR 训练后指令平滑，硬件可跟踪。*\n\n![Joint trajectories across feedback conditions](https://arxiv.org/html/2610.23438v1/IEEEtranBST/assets/fig_ablation_clean_latest.png)\n\n*图 5：无名指 MCP 屈曲关节与拇指 IP 关节在四个旋转周期内的轨迹。上排：仅本体感觉策略在手中有球/无球时轨迹几乎不变；下排：C3-TacOff 与 C3 的对比——步态由本体感觉节律主导，触觉不改变步态形态而决定交换是否完成。*",
+    "resultHighlights": [],
+    "insights": "- **触觉的角色是\"修正与恢复\"，不是\"产生运动\"**：无球时仅本体感觉策略的关节轨迹几乎不变，仿真中把位置误差和速度输入置零也类似——策略主要在执行一个学到的重复周期。触觉的价值有两层：一是把名义步态引导成实际完成的旋转（C3 的 η=0.90 接近每周期一次交换的上限，而 C3-TacOff 周期数相近但交换效率大降）；二是在球偏离理想构型时调整动作、恢复构型以延续操作。这解释了为什么去掉触觉后转速只掉一点、圈数却崩掉。\n- **STAT 把执行负担从触觉移回步态本身**：C2 虽平滑但仍重度依赖连续触觉（仿真去触觉 drop rate 近 60%）；STAT 训练的策略去触觉后退化小得多（2.2%→32.2%）。换言之，STAT 不是让策略\"更好地用触觉\"，而是让它\"不那么依赖任何单一路触觉\"，这与触觉信号本身稀疏的事实一致。\n- **稀疏二值触觉足够，且不需要逐传感器精确对齐**：图 8 显示仿真中触觉激活集中在中指/无名指的中节与指根，硬件上主导激活向近端偏移——仿真与硬件的触觉空间分布并不逐点吻合，但迁移依然成功。成功的迁移不需要传感位点的精确逐点对应，策略从稀疏通道获益即可；这也是二值化加迟滞标定比追求稠密标定更实际的原因。\n- **\"仿真最强≠迁移最强\"的明确案例**：C1 在仿真里 gait 接近 1 rot/s、回报最高，真机却完全无法持续；SlewDR 以显著更低的仿真性能换取了硬件可跟踪性。对接触丰富任务，训练期主动压低动作带宽是比事后调增益更可靠的迁移手段。\n- **方法学借鉴价值超出保定球本身**：顺序耦合修正、SlewDR、STAT 和迟滞标定都是低保真传感器 + RL 零样本迁移的通用组件，对任何\"接触信号稀疏且不可靠\"的灵巧操作平台都有参考意义。\n\n![Tactile activation heatmap sim vs hardware](https://arxiv.org/html/2610.23438v1/fig_fsr_activation_heatmap.png)\n\n*图 8：C3 策略的二值触觉激活热力图，左仿真右硬件。仿真激活集中于中指、无名指的中节与指根区域；硬件主导激活向近端移动，无名指与中指近端传感器占主要份额——空间分布并不逐点一致，但稀疏激活已足以支撑迁移。*",
+    "insightCore": [],
+    "insightRelations": [],
+    "insightBorrowable": [],
+    "risks": "**局限：**\n\n- 结果方差很大：C3 整圈数范围 2–74、time-to-drop 8–201 s，均值 34.75 被少数超长试验拉高，中位数表现远没有那么夸张；112.5 整圈的长时演示是单次试验且未计入统计。\n- 只在一种球（1.58 in、55 g 光滑保定球）、一种手（Shadow Lite）、一种初始构型（对角放置）上验证；作者明确把不同尺寸/质量、非球形体留作未来工作。\n- 触觉标定的双阈值参数（+5/+2/−3）是针对该传感器布局凭经验选取的；运动相关标定试过但未稳定改善而被放弃，标定流程的可迁移性未经验证。\n- 二值触觉丢弃了接触力大小与方向信息，对需要精细力控的任务这套路可能不够；SlewDR 的固定 s 也是按策略手工选定的。\n\n**适用场景：**\n\n- 使用低带宽、低保真触觉（FSR/开关式接触传感器）做 RL 零样本迁移的灵巧操作任务；尤其适合接触信号稀疏、传感可靠性差的平台。\n- 希望避免视觉/动捕/物体状态估计管线的盲操作场景，如手内重定向、遮挡严重的操作。\n- 作为\"如何对齐仿真 embodiment（耦合、传感位点）\"和\"如何设计 episode 级传感随机化\"的参考实现。\n\n**最终判断：**\n\n- 这是一篇方法朴实但结论扎实的系统论文：没有新模型、新算法，靠的是把 embodiment 对齐、动作带宽限制和触觉 dropout 三件\"工程正确\"的事做透，拿到远超前人的硬件结果。它最有价值的贡献其实是分析层面——用 C3-TacOff、无球轨迹等干净消融把\"触觉在盲操作里到底干什么\"讲清楚了（修正与恢复，而非驱动），并把 STAT/SlewDR 这对可复用的随机化组件留给了社区。对做触觉 sim-to-real 的人，这是必读的配方级参考；对期待通用触觉操作的人，它仍是单平台、单任务的定点突破。",
+    "riskLimitations": [
+      "结果方差很大：C3 整圈数范围 2–74、time-to-drop 8–201 s，均值 34.75 被少数超长试验拉高，中位数表现远没有那么夸张；112.5 整圈的长时演示是单次试验且未计入统计。",
+      "只在一种球（1.58 in、55 g 光滑保定球）、一种手（Shadow Lite）、一种初始构型（对角放置）上验证；作者明确把不同尺寸/质量、非球形体留作未来工作。",
+      "触觉标定的双阈值参数（+5/+2/−3）是针对该传感器布局凭经验选取的；运动相关标定试过但未稳定改善而被放弃，标定流程的可迁移性未经验证。",
+      "二值触觉丢弃了接触力大小与方向信息，对需要精细力控的任务这套路可能不够；SlewDR 的固定 s 也是按策略手工选定的。"
+    ],
+    "riskScenarios": [
+      "使用低带宽、低保真触觉（FSR/开关式接触传感器）做 RL 零样本迁移的灵巧操作任务；尤其适合接触信号稀疏、传感可靠性差的平台。",
+      "希望避免视觉/动捕/物体状态估计管线的盲操作场景，如手内重定向、遮挡严重的操作。",
+      "作为\"如何对齐仿真 embodiment（耦合、传感位点）\"和\"如何设计 episode 级传感随机化\"的参考实现。"
+    ],
+    "riskJudgment": [
+      "这是一篇方法朴实但结论扎实的系统论文：没有新模型、新算法，靠的是把 embodiment 对齐、动作带宽限制和触觉 dropout 三件\"工程正确\"的事做透，拿到远超前人的硬件结果。它最有价值的贡献其实是分析层面——用 C3-TacOff、无球轨迹等干净消融把\"触觉在盲操作里到底干什么\"讲清楚了（修正与恢复，而非驱动），并把 STAT/SlewDR 这对可复用的随机化组件留给了社区。对做触觉 sim-to-real 的人，这是必读的配方级参考；对期待通用触觉操作的人，它仍是单平台、单任务的定点突破。"
+    ],
+    "resultsTableMarkdown": "| 配置 | 训练随机化 | 反馈 | 整圈数 (mean±std) | Time-to-drop (s) | 转速 HW (rot/s) | η |\n| --- | --- | --- | --- | --- | --- | --- |\n| 开环回放 | – | 无 | 1.7±1.99 | 6.1±4.7 | 0.168±0.179 | – |\n| 仅本体感觉 | 物理交互 | 仅本体 | 4.4±2.44 | 21.4±12.2 | 0.226±0.098 | 0.31±0.13 |\n| C3-TacOff | C3 checkpoint | 部署时去触觉 | 5.0±4.1 | 19.0±11.2 | 0.256±0.112 | 0.58±0.26 |\n| C1 | 物理交互 | 本体+触觉 | 0.35±0.63 | 5.9±4.3 | 0.054±0.079 | – |\n| C2 | 物理+SlewDR | 本体+触觉 | 0.5±0.53 | 4.1±1.5 | 0.101±0.094 | – |\n| **C3（本文）** | 物理+SlewDR+STAT | 本体+触觉 | **34.75±26.06** | **94.8±68.0** | **0.36±0.061** | **0.9±0.16** |\n| 长时演示（C3） | 同上 | 本体+触觉 | 112.5（单次 310 s） | – | – | – |\n| Yuan 等 [9] | – | 深度点云+FSR | ~3.00 | – | ~0.30 | – |\n| Nagabandi 等 [8] | – | 立体视觉+MPC | ~0.50 | – | – | – |",
+    "resultsTable": {
+      "columns": [
+        "配置",
+        "训练随机化",
+        "反馈",
+        "整圈数 (mean±std)",
+        "Time-to-drop (s)",
+        "转速 HW (rot/s)",
+        "η"
+      ],
+      "rows": [
+        [
+          "开环回放",
+          "–",
+          "无",
+          "1.7±1.99",
+          "6.1±4.7",
+          "0.168±0.179",
+          "–"
+        ],
+        [
+          "仅本体感觉",
+          "物理交互",
+          "仅本体",
+          "4.4±2.44",
+          "21.4±12.2",
+          "0.226±0.098",
+          "0.31±0.13"
+        ],
+        [
+          "C3-TacOff",
+          "C3 checkpoint",
+          "部署时去触觉",
+          "5.0±4.1",
+          "19.0±11.2",
+          "0.256±0.112",
+          "0.58±0.26"
+        ],
+        [
+          "C1",
+          "物理交互",
+          "本体+触觉",
+          "0.35±0.63",
+          "5.9±4.3",
+          "0.054±0.079",
+          "–"
+        ],
+        [
+          "C2",
+          "物理+SlewDR",
+          "本体+触觉",
+          "0.5±0.53",
+          "4.1±1.5",
+          "0.101±0.094",
+          "–"
+        ],
+        [
+          "**C3（本文）**",
+          "物理+SlewDR+STAT",
+          "本体+触觉",
+          "**34.75±26.06**",
+          "**94.8±68.0**",
+          "**0.36±0.061**",
+          "**0.9±0.16**"
+        ],
+        [
+          "长时演示（C3）",
+          "同上",
+          "本体+触觉",
+          "112.5（单次 310 s）",
+          "–",
+          "–",
+          "–"
+        ],
+        [
+          "Yuan 等 [9]",
+          "–",
+          "深度点云+FSR",
+          "~3.00",
+          "–",
+          "~0.30",
+          "–"
+        ],
+        [
+          "Nagabandi 等 [8]",
+          "–",
+          "立体视觉+MPC",
+          "~0.50",
+          "–",
+          "–",
+          "–"
+        ]
+      ]
+    },
+    "figureGallery": [
+      {
+        "zone": "intuition",
+        "caption": "Blind Baoding ball rotation sim-to-real",
+        "src": "https://arxiv.org/html/2610.23438v1/fig1_cover.png"
+      },
+      {
+        "zone": "method",
+        "caption": "Method overview",
+        "src": "https://arxiv.org/html/2610.23438v1/IEEEtranBST/method_icra8.drawio.png"
+      },
+      {
+        "zone": "method",
+        "caption": "FSR setup on Shadow Dexterous Hand Lite",
+        "src": "https://arxiv.org/html/2610.23438v1/fig_hw_and_sim_kinematics.png"
+      },
+      {
+        "zone": "method",
+        "caption": "Tendon coupling correction",
+        "src": "https://arxiv.org/html/2610.23438v1/IEEEtranBST/coupling_final.drawio.png"
+      },
+      {
+        "zone": "results",
+        "caption": "Training curves",
+        "src": "https://arxiv.org/html/2610.23438v1/IEEEtranBST/training_curves_c1_c2_c3_2.png"
+      },
+      {
+        "zone": "results",
+        "caption": "Commanded vs achieved joint positions",
+        "src": "https://arxiv.org/html/2610.23438v1/IEEEtranBST/assets/fig_smoothness_c1_c2_window_latest.png"
+      },
+      {
+        "zone": "results",
+        "caption": "Joint trajectories across feedback conditions",
+        "src": "https://arxiv.org/html/2610.23438v1/IEEEtranBST/assets/fig_ablation_clean_latest.png"
+      },
+      {
+        "zone": "insights",
+        "caption": "Tactile activation heatmap sim vs hardware",
+        "src": "https://arxiv.org/html/2610.23438v1/fig_fsr_activation_heatmap.png"
+      }
+    ],
+    "relatedTopicSlugs": [
+      "tactile-representation"
+    ]
   }
 ]
