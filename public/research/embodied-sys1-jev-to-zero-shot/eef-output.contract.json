@@ -1,0 +1,115 @@
+{
+  "revision": "eef-output-0.2",
+  "status": "full_contract_design_only; eef-smoke-1 subset implemented",
+  "no_generated_text": true,
+  "model_outputs": {
+    "eef_ref": "index into request end-effector definitions",
+    "frame_ref": "index into request frames, transforms and conventions",
+    "time_s": "H strictly increasing times relative to request reference time",
+    "position_m": "[E,H,3] absolute EEF targets in the declared frame",
+    "orientation": "[E,H,…] valid rotations; representation and ordering fixed by schema",
+    "valid_mask": "typed field and timestep validity; invalid fields are not zero-valued targets"
+  },
+  "request_contract": [
+    "eef geometry / tool point definition",
+    "robot/task/TCP frame definitions and timestamps; camera extrinsics optional",
+    "orientation representation and units",
+    "explicit orientation constraints for position-only tasks",
+    "horizon length / padding and time convention"
+  ],
+  "sys0_contract": [
+    "accept / reject requested frame and capability",
+    "track and locally refine EEF targets at control rate",
+    "return actual EEF states and outcome with matching plan version"
+  ],
+  "required_data": [
+    "goal-conditioned validated EEF future trajectories",
+    "orientation and time labels or explicit constraints",
+    "aligned multimodal history and actual executed EEF states",
+    "train/test held-out group definitions"
+  ],
+  "required_evaluation": [
+    "metric 3D position and rotation error with multiple-valid-solution handling",
+    "timing and physical constraint checks",
+    "instruction and history interventions",
+    "closed-loop task progress and success"
+  ],
+  "legacy_exclusion": "Existing 2D analytic benchmark, v3 path2d config and projection demo are diagnostic archives, not this contract.",
+  "current_design": "/blog/embodied-sys1-jev-to-zero-shot",
+  "runtime_sensors": {
+    "rgb": "multi-view",
+    "depth": false,
+    "proprioception": true,
+    "camera_calibration": "optional G1/G2; not required by G0"
+  },
+  "full_output_additions": {
+    "status": [
+      "execute",
+      "observe",
+      "complete",
+      "escalate"
+    ],
+    "phase": [
+      "approach",
+      "align",
+      "close",
+      "lift",
+      "verify"
+    ],
+    "gripper": "width_m or separately typed event",
+    "modes": "select one entire path, never per-coordinate average",
+    "H": 8,
+    "initial_time_grid_s": [
+      0.1,
+      0.2,
+      0.3,
+      0.4,
+      0.5,
+      0.6,
+      0.7,
+      0.8
+    ]
+  },
+  "frame_note": "Body/TCP output frame remains defined even when camera intrinsics/extrinsics are not supplied to Sys1.",
+  "prototype_subset": {
+    "schema": "eef-smoke-1",
+    "input": "synthetic oracle memory tokens",
+    "orientation": "top_down_tool_yaw",
+    "status": [
+      "execute",
+      "need_observation"
+    ],
+    "not_implemented": [
+      "RGB VLM",
+      "phase lifecycle",
+      "Flexiv",
+      "IK",
+      "collision"
+    ],
+    "execution_authorized": false
+  },
+  "research_plan": "/research/embodied-sys1-jev-to-zero-shot/research-plan.json",
+  "minimal_research_schema": {
+    "K_initial": 1,
+    "H": 8,
+    "E": 1,
+    "frame": "robot_base",
+    "tool": "explicit TCP",
+    "position": "absolute xyz metres, normalized using training/predefined domain only",
+    "orientation": "Rz(yaw) @ R_down; yaw cos/sin",
+    "time_s": [
+      0.1,
+      0.2,
+      0.3,
+      0.4,
+      0.5,
+      0.6,
+      0.7,
+      0.8
+    ],
+    "time_origin": "plan_start",
+    "gripper": "physical width or explicit open/close event",
+    "schema": "eef_topdown_v1; proposed, not the synthetic prototype schema",
+    "status": "design only; distinct from implemented eef-smoke-1"
+  }
+}

@@ -1,0 +1,191 @@
+{
+  "schema": "sys1-research-plan-1",
+  "date": "2026-10-25",
+  "report": "/blog/embodied-sys1-jev-to-zero-shot",
+  "purpose": "Question-conditioned non-language Sys1 between Sys2 and Sys0; zero-shot real grasping is a research target, not an achieved result.",
+  "hardware": {
+    "robot": "Flexiv; model pending",
+    "gripper": "parallel-jaw assumed for pilot; exact device pending",
+    "views": "2–3 RealSense RGB views",
+    "body_state": true
+  },
+  "runtime_depth_channel": false,
+  "minimal_unit": {
+    "outputs": [
+      "Choice/Bool including lifecycle and phase",
+      "continuous top-down EEF trajectory plus gripper"
+    ],
+    "data_streams": {
+      "T": "Goal-conditioned RGB/body/history to EEF, gripper and essential execution phase/lifecycle labels; common to all action baselines.",
+      "B": "Additional paired operation judgments: referent, constraints, evidence, progress and recovery; never supply ground-truth answers as trajectory inputs.",
+      "G": "General text/image conditional classification, dynamic candidates and evidence judgments from other scenes."
+    },
+    "scope": "Single arm, tabletop opaque rigid objects, top-down grasp with yaw, goal revisions and one recovery.",
+    "completion": "Frozen zero-shot evaluation on target Flexiv hardware; synthetic or simulation success alone does not complete this unit."
+  },
+  "model": {
+    "status": "proposed",
+    "backbone_candidate": "Qwen3.5-9B; exact checkpoint to pin",
+    "cost_comparison": "4B",
+    "decoder": {
+      "layers": 2,
+      "dimension": 256,
+      "attention_heads": 8
+    },
+    "context_tokens_initial": [
+      4096,
+      8192
+    ],
+    "history_transitions": [
+      2,
+      4
+    ],
+    "query_conditioning": "Questions/schema/candidate semantics encoded by backbone; task, EEF and time slot queries decode shared memory.",
+    "training_order": [
+      "frozen backbone, train decoder/readouts",
+      "optional rank-16 LoRA if evidence warrants"
+    ],
+    "generated_text": false
+  },
+  "trajectory": {
+    "K_initial": 1,
+    "H": 8,
+    "E": 1,
+    "frame": "robot_base",
+    "tool": "explicit TCP",
+    "position": "absolute xyz metres, normalized using training/predefined domain only",
+    "orientation": "Rz(yaw) @ R_down; yaw cos/sin",
+    "time_s": [
+      0.1,
+      0.2,
+      0.3,
+      0.4,
+      0.5,
+      0.6,
+      0.7,
+      0.8
+    ],
+    "time_origin": "plan_start",
+    "gripper": "physical width or explicit open/close event",
+    "schema": "eef_topdown_v1; proposed, not the synthetic prototype schema"
+  },
+  "training_proposal": {
+    "T_B_G_sampling": [
+      0.6,
+      0.25,
+      0.15
+    ],
+    "head_lr": 0.0001,
+    "lora_lr": 0.00001,
+    "effective_batch": 32,
+    "clip": 1,
+    "pilot_steps": 50,
+    "optional_anchor": "Same-support frozen native option distribution or trained stage-1 reference, never random head. Start lambda_K=0.",
+    "compute": "1–2 GPU pilot, then at most 16 A100 80GB for this plan; no training launched."
+  },
+  "data_proposal": {
+    "asset_families_train_dev_test": [
+      40,
+      10,
+      20
+    ],
+    "episodes_initial": [
+      1000,
+      3000
+    ],
+    "decision_points_per_episode": [
+      10,
+      30
+    ],
+    "split_unit": "source episode and asset family; hold out camera rigs and semantic combinations separately",
+    "teacher_privileged_state": "labels only; never a G0/G1 student input",
+    "conditions": {
+      "S-sim": "simulation embodied data plus general data",
+      "S-mix": "S-sim plus curated public real robot data; no target Flexiv task data"
+    },
+    "B_questions_per_decision": [
+      2,
+      4
+    ],
+    "G_pilot_train_dev_test": [
+      2000,
+      500,
+      500
+    ],
+    "G_split_unit": "Source image/document, before paraphrase and candidate generation"
+  },
+  "geometry_conditions": {
+    "G0": "RGB/body/history, no explicit camera intrinsics/extrinsics or calibration-derived grids",
+    "G1": "G0 plus static camera calibration",
+    "G2": "G1 plus RGB-inferred geometry; future extension"
+  },
+  "simulation_proposal": {
+    "groups": [
+      "O",
+      "N",
+      "T",
+      "T+G",
+      "T+B+G"
+    ],
+    "first_groups": [
+      "O",
+      "T",
+      "T+G",
+      "T+B+G"
+    ],
+    "rollouts_per_model_approx": 400,
+    "training_seeds_main": 3,
+    "fairness": "Equal robot episode exposure and control labels; report extra compute and add fixed-token comparison.",
+    "metrics": [
+      "closed-loop success",
+      "paired semantic correctness",
+      "constraint satisfaction",
+      "recovery",
+      "general classification retention",
+      "latency",
+      "abstention and coverage"
+    ]
+  },
+  "real_proposal": {
+    "conditions_per_system": 180,
+    "objects": 30,
+    "layouts": 3,
+    "instruction_conditions": 2,
+    "retries_max": 1,
+    "lift_height_m": 0.05,
+    "hold_s": 2,
+    "core_groups": [
+      "T+B+G",
+      "T",
+      "GPT-6 Astra exact snapshot to pin"
+    ],
+    "pilot_if_limited": 60,
+    "claim": "Zero-shot instance/scene transfer, not an unlearned grasp skill.",
+    "forbidden_tuning": "No target test task/objects demonstrations, prompt tuning, threshold or checkpoint selection.",
+    "allowed_setup": "TCP/body interface and empty workspace tests; static calibration in G1.",
+    "matched_conditions": [
+      "RGB",
+      "body",
+      "geometry",
+      "history",
+      "action interface",
+      "Sys0",
+      "observation/action budget"
+    ],
+    "astra_tracks": [
+      "Direct versus Agentic separately",
+      "capability budget versus wall-clock budget separately"
+    ],
+    "noninferiority_margin_proposed_pp": 5,
+    "sample_size": "Power analysis from pilot required; 180 may be insufficient; clustered paired CI."
+  },
+  "status": {
+    "report": "written",
+    "numeric_head": "existing synthetic-only smoke; not a RGB policy",
+    "rgb_model": "not_implemented",
+    "corpus": "not_built",
+    "simulation_experiments": "not_run",
+    "real_zero_shot": "not_run",
+    "astra_comparison": "not_run"
+  }
+}

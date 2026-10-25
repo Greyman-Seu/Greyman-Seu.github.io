@@ -1,0 +1,779 @@
+[
+  {
+    "id": "intro",
+    "title": "TypeSafe — Introduction",
+    "url": "https://docs.typesafe.ai/introduction",
+    "note": "核查：2026-10-24。typed questions 与同状态独立并行问答；不是内部架构公开。",
+    "label": "官方接口"
+  },
+  {
+    "id": "launch",
+    "title": "Introducing System One Models & Jev",
+    "url": "https://typesafe.ai/blog/introducing-system-one-models-and-jev?render=full",
+    "note": "2026-09-15 发布。速度、成本与 RLCD 等陈述按厂商归属；不当作机器人评测。",
+    "label": "厂商报告"
+  },
+  {
+    "id": "models",
+    "title": "TypeSafe — Models",
+    "url": "https://docs.typesafe.ai/models",
+    "note": "2026-10-24 当前文档；模型别名会变，实验应固定版本。模型表只列Text，图像能力以专门的实验文档为准。",
+    "label": "官方接口"
+  },
+  {
+    "id": "confidence",
+    "title": "TypeSafe — Confidence",
+    "url": "https://docs.typesafe.ai/confidence",
+    "note": "confidence 是分布形状统计；校准是总体性质，不能保证单次答案或机器人执行成功。",
+    "label": "官方定义"
+  },
+  {
+    "id": "box",
+    "title": "TypeSafe — Box",
+    "url": "https://docs.typesafe.ai/primitives/box",
+    "note": "归一化四边坐标；1.14及实验图像header。没有公开内部坐标估计实现。",
+    "label": "实验接口"
+  },
+  {
+    "id": "images",
+    "title": "TypeSafe — Images",
+    "url": "https://docs.typesafe.ai/images",
+    "note": "1.13/1.14接受实验图像；需 TypeSafe-Danger-Zone-Images。",
+    "label": "实验接口"
+  },
+  {
+    "id": "v114",
+    "title": "Jev: For the builders AND dreamers",
+    "url": "https://typesafe.ai/blog/jev-1-14",
+    "note": "2026-10-14。图像、Box与长上下文实验能力，不是JevNext论文。",
+    "label": "官方版本公告"
+  },
+  {
+    "id": "primer",
+    "title": "TypeSafe — AI primer",
+    "url": "https://docs.typesafe.ai/introduction/machine-learning-primer",
+    "note": "RLCD的目标性介绍；不是可复现的完整优化算法、数据或网络结构。",
+    "label": "厂商训练说明"
+  },
+  {
+    "id": "nextpaper",
+    "title": "NumericJev: Jev-like LLM Numerical Decoding with Multiway Decision Trees",
+    "url": "https://arxiv.org/abs/2609.28587",
+    "note": "2026-09-23。JevNext关联论文；小规模数值实验，不是通用机器人轨迹实证。",
+    "label": "作者研究"
+  },
+  {
+    "id": "nextrepo",
+    "title": "Bring-AI/JevNext — pinned README",
+    "url": "https://github.com/Bring-AI/JevNext/blob/a83d87e9ce5d3d83dc6148c765a4d76196711aad/README.md",
+    "note": "固定提交a83d87e。原名NumericJev；精选开发控制演示的视频省略API等待。",
+    "label": "独立项目"
+  },
+  {
+    "id": "nextapi",
+    "title": "JevNext — numerical JSON API implementation",
+    "url": "https://github.com/Bring-AI/JevNext/blob/a83d87e9ce5d3d83dc6148c765a4d76196711aad/src/jev_numeric/api.py",
+    "note": "evaluate逐字段解码；客户端封装不等于底层原生number类型。",
+    "label": "源码核对"
+  },
+  {
+    "id": "nextdocs",
+    "title": "JevNext — JSON and Python numerical API",
+    "url": "https://github.com/Bring-AI/JevNext/blob/a83d87e9ce5d3d83dc6148c765a4d76196711aad/docs/json-api.md",
+    "note": "本文示例按固定版本核对；没有调用真实付费API。",
+    "label": "源码接口"
+  },
+  {
+    "id": "nextlicense",
+    "title": "JevNext — current LICENSE",
+    "url": "https://github.com/Bring-AI/JevNext/blob/a83d87e9ce5d3d83dc6148c765a4d76196711aad/LICENSE",
+    "note": "当前PolyForm Noncommercial 1.0.0，不能标成无条件商用开源。旧版授权独立看待。",
+    "label": "许可核查"
+  },
+  {
+    "id": "dimabsa",
+    "title": "Jev × DimABSA — pinned project report",
+    "url": "https://github.com/ZhangYiqun018/jev-dimabsa/blob/2e9589779c3259676fe4a2160feb5cb92f6acd7f/README.md",
+    "note": "Score用于情绪V/A浮点评分。最佳配置含9-shot和训练集ridge校准；不是纯zero-shot。",
+    "label": "作者应用"
+  },
+  {
+    "id": "kev",
+    "title": "Kev — pinned architecture and usage",
+    "url": "https://github.com/jaredpalmer/kev/blob/2074cc44256200bb37540103fa4572901faa10f3/README.md",
+    "note": "独立Qwen+pointer模型；代码Apache-2.0。API容量和已验证有效上下文不同。",
+    "label": "开放实现"
+  },
+  {
+    "id": "anyjev",
+    "title": "AnyJev — pinned implementation and usage",
+    "url": "https://github.com/nokia-applied-research/AnyJev/tree/35311c58955716cb8955ce1368a665988bc63735",
+    "note": "training-free Decider与自蒸馏Tacit是两条路径；L0可能多次prefill。",
+    "label": "开放实现"
+  },
+  {
+    "id": "anypaper",
+    "title": "AnyJev Technical Report",
+    "url": "https://arxiv.org/abs/2610.00831",
+    "note": "2026-09-30。标签先验、位置偏差及旋转读出；不是原版Jev架构解释。",
+    "label": "作者研究"
+  },
+  {
+    "id": "laya",
+    "title": "Laya — pinned README and honest limits",
+    "url": "https://github.com/NandhaKishorM/laya/blob/0a05a45052e23ae0b887a490fe8d6d9c8cff2ab5/README.md",
+    "note": "作者披露zero-shot与任务微调的差距；不以typed接口推断通用能力。",
+    "label": "开放实现"
+  },
+  {
+    "id": "robojev",
+    "title": "robo-jev — pinned project",
+    "url": "https://github.com/STEERIX-home/robo-jev/tree/0cb5fd2fc648f0fd3848335b5e7577d3782e8f5f",
+    "note": "Qwen3.5-2B文本物理判断模型。0.76为作者定义skill指标，不是机器人成功率。",
+    "label": "开放机器人研究"
+  },
+  {
+    "id": "eval",
+    "title": "Evaluating and Benchmarking the System One Model Jev",
+    "url": "https://arxiv.org/abs/2609.37647",
+    "note": "37数据集、346009请求。作者评测Jev1.13；污染无法完全排除，不能外推连续控制。",
+    "label": "独立评测"
+  },
+  {
+    "id": "coherence",
+    "title": "Beyond Calibration: Do a Typed-Decision Model’s Probabilities Obey the Probability Axioms?",
+    "url": "https://arxiv.org/abs/2609.33209",
+    "note": "逻辑相关问题的概率一致性审计；校准与coherence需要分别评测。",
+    "label": "独立评测"
+  },
+  {
+    "id": "llm2jev",
+    "title": "LLM-as-Jev: LLMs Are Already Jev-Style Decision Models—When and How to Fine-Tune Them",
+    "url": "https://arxiv.org/abs/2610.02076v3",
+    "note": "冻结读出与KL-anchor微调；其决策结果不证明zero-shot机器人轨迹。",
+    "label": "作者研究"
+  },
+  {
+    "id": "ki",
+    "title": "Physical Intelligence — Knowledge Insulation",
+    "url": "https://www.pi.website/research/knowledge_insulation",
+    "note": "连续action expert梯度隔离与混合训练；其方法不是完全冻结VLM。",
+    "label": "作者研究"
+  },
+  {
+    "id": "hamster",
+    "title": "HAMSTER: Hierarchical Action Models for Open-World Robot Manipulation",
+    "url": "https://arxiv.org/abs/2502.05485",
+    "note": "粗2D路径指导下层策略；上层有路径训练，不是原始VLM自动获得轨迹能力。",
+    "label": "机器人论文"
+  },
+  {
+    "id": "3dhamster",
+    "title": "3D HAMSTER — paper",
+    "url": "https://arxiv.org/abs/2606.31329",
+    "note": "深度增强的度量3D路径与下层点云策略。",
+    "label": "机器人论文"
+  },
+  {
+    "id": "memory",
+    "title": "MemoryVLA: Perceptual-Cognitive Memory in VLA Models",
+    "url": "https://arxiv.org/abs/2508.19236",
+    "note": "长历史记忆的参考，不能以支持输入长度替代历史任务评测。",
+    "label": "记忆研究"
+  },
+  {
+    "id": "oxe",
+    "title": "Google DeepMind — Open X-Embodiment",
+    "url": "https://github.com/google-deepmind/open_x_embodiment",
+    "note": "跨机器人数据集合。每个子集需单独核对动作、状态、标定与许可。",
+    "label": "数据来源"
+  },
+  {
+    "id": "droid",
+    "title": "DROID dataset",
+    "url": "https://droid-dataset.github.io/",
+    "note": "真实机器人操作数据来源之一；不是完整通用决策数据。",
+    "label": "数据来源"
+  },
+  {
+    "id": "drone",
+    "title": "RomanSlack/jev-drone",
+    "url": "https://github.com/RomanSlack/jev-drone",
+    "note": "MuJoCo中约2.5Hz战术判断、下层普通控制器；不是Jev直接输出通用连续轨迹。",
+    "label": "作者演示"
+  },
+  {
+    "id": "libero",
+    "title": "Dimweaker/jev-libero",
+    "url": "https://github.com/Dimweaker/jev-libero",
+    "note": "依赖仿真预演及候选动作；每任务示例记录不是总体成功率。",
+    "label": "作者演示"
+  },
+  {
+    "id": "nav",
+    "title": "Dimensional Research — Can Jev Nav?",
+    "url": "https://research.dimensional.org/system-one-navigation/",
+    "note": "327任务。模型与harness不同，45.9%到达率不能看成独立模型排名。",
+    "label": "作者评测"
+  },
+  {
+    "id": "oft",
+    "title": "OpenVLA-OFT — Optimizing Speed and Success",
+    "url": "https://openvla-oft.github.io/",
+    "note": "并行连续输出的工程依据，其微调成绩不是zero-shot轨迹证据。",
+    "label": "机器人论文"
+  },
+  {
+    "id": "robopoint",
+    "title": "RoboPoint: A VLM for Spatial Affordance Prediction",
+    "url": "https://arxiv.org/abs/2406.10721",
+    "note": "可参考空间grounding数据方法；点定位不等同于接触运动规划。",
+    "label": "空间研究"
+  },
+  {
+    "id": "usecases",
+    "title": "TypeSafe — Example use cases",
+    "url": "https://docs.typesafe.ai/concepts/use-case-map",
+    "note": "官方提出的应用机会，不等于各行业已经验证的生产效果。",
+    "label": "官方应用方向"
+  },
+  {
+    "id": "browseragent",
+    "title": "browser-use/jev-ultrafast — pinned implementation",
+    "url": "https://github.com/browser-use/jev-ultrafast/tree/1231850a0bf1a0c0341fe408ef1668dbbfdfac46",
+    "note": "Jev选操作/元素，文本由小LLM补写。软件agent，不是实体机器人。",
+    "label": "浏览器工程"
+  },
+  {
+    "id": "fleet",
+    "title": "Jev for Physical AI — fleet triage",
+    "url": "https://github.com/robokrunch/jev-physical-ai",
+    "note": "300条模板采样事件；91.3%是与模板标签一致率，不是机器人真实故障生产准确率。",
+    "label": "作者测量"
+  },
+  {
+    "id": "onejev",
+    "title": "OmniJev/OneJev — pinned repository",
+    "url": "https://github.com/OmniJev/OneJev/tree/0741c3ac12cffb0400f3b7a1edaedff750b6a1d4",
+    "note": "Qwen基础，多模态typed决策；公开训练与数据子集；不生成连续轨迹。",
+    "label": "开放多模态模型"
+  },
+  {
+    "id": "omniworkbench",
+    "title": "shapsider/OmniJev — pinned workbench",
+    "url": "https://github.com/shapsider/OmniJev/tree/6cf572a2f440fe14bd43a29a7046eabfff36820e",
+    "note": "与OmniJev/OneJev不是同一仓库；技能回放含privileged state及程序IK。",
+    "label": "独立机器人工作台"
+  },
+  {
+    "id": "localpiper",
+    "title": "Jev Robot — local decider PiPER simulation",
+    "url": "https://github.com/Hu-xiao-max/jev_robot/tree/ad8ef1ee7cfca883694b5650ce2de4219a19415b",
+    "note": "Mapika/decider-2b选10个固定技能；不是TypeSafe Jev权重，也不是真机结果。",
+    "label": "开放仿真实验"
+  },
+  {
+    "id": "robouse",
+    "title": "Robo Use — Jev harness documentation",
+    "url": "https://robouse.ai/docs/run-agents/",
+    "note": "Jev harness限nav suite，仿真等待决策；不能把接入支持视为完整任务成绩。",
+    "label": "评测框架文档"
+  },
+  {
+    "id": "robotbench",
+    "title": "robojev physical-judgment bench",
+    "url": "https://robo-jev.dev/",
+    "note": "开放模型接同harness的方向；网页明确没有已发布统一分数，不能引用成权威排名。",
+    "label": "作者评测平台"
+  },
+  {
+    "id": "paperdirectory",
+    "title": "Awesome Jev papers — discovery index",
+    "url": "https://github.com/xiaohuiyan/awesome-jev-papers",
+    "note": "只作查找线索，不以目录收录代替论文核验或独立评测。",
+    "label": "发现入口"
+  },
+  {
+    "id": "robotdirectory",
+    "title": "Jev robotics projects — discovery index",
+    "url": "https://github.com/yibie/awesome-jev/blob/main/categories/robotics-physical.md",
+    "note": "多项目线索；每项技术结论仍追溯原仓库，fork不重复算作新证据。",
+    "label": "发现入口"
+  },
+  {
+    "id": "cnindex",
+    "title": "中文Jev资源发现入口",
+    "url": "https://keta1930.github.io/what-the-jev/zh/resources/",
+    "note": "用于跨语言找线索，不将社区对模型内部、速度或泛化的说法标为官方事实。",
+    "label": "中文发现入口"
+  },
+  {
+    "id": "roboicl",
+    "title": "RoboICL: Embodied In-Context Learning with GPT-6 Astra",
+    "url": "https://arxiv.org/abs/2609.34261",
+    "note": "含可选Jev-gated action reuse开发实验；主论文更广的任务/实机结果不能全部归给Jev门控。",
+    "label": "作者机器人论文"
+  },
+  {
+    "id": "jevstar",
+    "title": "JEV-Star: Fast, Low-Cost StarCraft II Control with Language-Model Planning",
+    "url": "https://arxiv.org/abs/2609.27331",
+    "note": "GPT持续规划+Jev动作选择；不是真实机器人。harness同步改进，缺完全隔离的规划消融。",
+    "label": "游戏协同研究"
+  },
+  {
+    "id": "agilex",
+    "title": "AgileX — PiPER GPT/Jev demonstration overview",
+    "url": "https://global.agilex.ai/blogs/robotics/how-to-control-robotic-arm-with-gpt-6-astra-and-jev-llm-model",
+    "note": "Run1 GPT视觉决策，Runs2–8 Jev+本地感知/STL；8次单独演示而非统计对照。",
+    "label": "厂商实机复述"
+  },
+  {
+    "id": "roboicl_paper",
+    "title": "RoboICL — Jev-gated action reuse, §4.5 and Appendix C",
+    "url": "https://arxiv.org/html/2609.34261v1",
+    "note": "两项仿真开发任务有实际门控对比；不代表实机Jev成绩。",
+    "label": "论文报告"
+  },
+  {
+    "id": "roboicl_code",
+    "title": "Mosi-AI/RoboICL — pinned release",
+    "url": "https://github.com/Mosi-AI/RoboICL/tree/17b379a6deea33f71bd31e05bd60d1daf627acfb",
+    "note": "公开标准GPT runner；本次未找到Jev gate与固定服务配置。",
+    "label": "源码核查"
+  },
+  {
+    "id": "quackd_code",
+    "title": "quackd — pinned status and real robot evidence",
+    "url": "https://github.com/rokbenko/quackd/tree/ab95246432d093ceb83d65faa4bf12de50e24978",
+    "note": "GPT真机已运行；decision模型支路仅stub/offline。",
+    "label": "作者记录"
+  },
+  {
+    "id": "quackd_jev",
+    "title": "quackd — Jev client status",
+    "url": "https://github.com/rokbenko/quackd/blob/ab95246432d093ceb83d65faa4bf12de50e24978/docs/guides/decision-llms/jev.md",
+    "note": "作者明确未运行真实Jev API和硬件；模型pin1.13。",
+    "label": "源码接口"
+  },
+  {
+    "id": "piper_code",
+    "title": "RobotKitAI/piper-astra-jev — eight single real runs",
+    "url": "https://github.com/RobotKitAI/piper-astra-jev/tree/10d671e01d467475084033e7af9f6595886ab7b3",
+    "note": "GPT与Jev在不同运行中替代，不能称双模型共同控制。",
+    "label": "作者实机演示"
+  },
+  {
+    "id": "moss_code",
+    "title": "MOSS × Jev — pinned recorded physics replay",
+    "url": "https://github.com/metrox-eth/moss-jev/tree/31fc2f4346fa3608efa1e8d06a37bb5231a69b0e",
+    "note": "3个Jev实API仿真任务，页面仅回放；无GPT。",
+    "label": "作者仿真记录"
+  },
+  {
+    "id": "jevstar_code",
+    "title": "JEV-Star — pinned five-configuration release",
+    "url": "https://github.com/sc2musa/Jev_Star/tree/07c6965003f0ac0079af10017b37f17694423fd2",
+    "note": "5组共50macro尝试49replays；不是机器人实机。",
+    "label": "游戏源码与记录"
+  },
+  {
+    "id": "openroboto_compare",
+    "title": "OpenRoboto — Jev vs GPT controller comparison",
+    "url": "https://github.com/openroboto-ai/jev-robot-control/tree/7a4ed8b72c3c17d7aa790678ed9660df67c10dd3",
+    "note": "独立控制器对比，不是GPT+Jev hybrid。",
+    "label": "单次仿真对比"
+  },
+  {
+    "id": "ext_clm",
+    "title": "CLM — frozen-encoder contrastive decision model",
+    "url": "https://github.com/Contrastive-LM/CLM/tree/d5f9ef0fd9bde185df0ceaad4f4ecc6cfe8c34f6",
+    "note": "作者训练/重放消融；候选排序而非连续轨迹；未运行模型。",
+    "label": "开放实现"
+  },
+  {
+    "id": "ext_clm_weights",
+    "title": "CLM-v0.1-8B — model card",
+    "url": "https://huggingface.co/Contrastive-LM/CLM-v0.1-8B/tree/e939398d4556fcd9400c76fa8c5a513202f42b0a",
+    "note": "Apache-2.0；冻结Qwen3-8B与两套projection；默认上下文2048。",
+    "label": "模型卡"
+  },
+  {
+    "id": "ext_clef",
+    "title": "Cloudflare Clef — model card",
+    "url": "https://huggingface.co/Cloudflare/clef/tree/a30162b99d68a481d8bd75d38df069a0cf83df40",
+    "note": "Apache-2.0；joint schema head；按作者专用inference使用，非普通generate。",
+    "label": "开放多模态实现"
+  },
+  {
+    "id": "ext_pplx",
+    "title": "Perplexity pplx-decider-v1.1-27b",
+    "url": "https://huggingface.co/perplexity-ai/pplx-decider-v1.1-27b/tree/14c9d90137962d300f3de95633f7b6535e80c5ce",
+    "note": "非因果全注意设置与独立readout；8K总输入；下载访问未测试。",
+    "label": "模型卡"
+  },
+  {
+    "id": "ext_strands",
+    "title": "Strands Decider — code and research",
+    "url": "https://github.com/strands-labs/strands-decider/tree/b81d443c07438dc5ed51d0e85f9db184ad65d809",
+    "note": "Apache-2.0；pointer、LoRA、KL、校准与seed soup；部分数据builder未公开于main。",
+    "label": "开放实现"
+  },
+  {
+    "id": "ext_strands_card",
+    "title": "Strands Decider 2B v1 — model card",
+    "url": "https://huggingface.co/amazon/strands-decider-2B-qwen3.5-v1-2610/tree/974685f92d5930b2d37e9cb5eacec7a8f882d9fa",
+    "note": "作者披露问题敏感性不足和缺失图像过置信，不能只看榜单。",
+    "label": "模型卡"
+  },
+  {
+    "id": "ext_mapika",
+    "title": "Mapika decider-4b v3 — model card",
+    "url": "https://huggingface.co/Mapika/decider-4b/tree/585473dec4fa93f0325c2bf02dda7273b61f44c1",
+    "note": "模型声明Apache-2.0；默认Noul温度牺牲校准换特定评分规则；训练来源另有条款。",
+    "label": "开放实现"
+  },
+  {
+    "id": "ext_openrlcd",
+    "title": "OpenJev-RLCD: A Working RLCD Implementation",
+    "url": "https://arxiv.org/abs/2609.38850",
+    "note": "采样推理后proper scoring，calibrate→reinforce；不声称复现TypeSafe内部算法。",
+    "label": "独立训练研究"
+  },
+  {
+    "id": "ext_openrlcd_code",
+    "title": "OpenJev-RLCD — pinned code/results",
+    "url": "https://github.com/ZimmyGao/openjev-rlcd/tree/22db40ad3333f5cf0bc5139097da70e0f8c05018",
+    "note": "MIT；三seed小模型推理任务；本次未重算结果或重训。",
+    "label": "源码与作者结果"
+  },
+  {
+    "id": "ext_chinese",
+    "title": "Chinese-Jev: Bringing System One Model to Chinese-Language Tasks",
+    "url": "https://arxiv.org/abs/2609.36965",
+    "note": "10M general→独立领域微调；作者指标不能直接比较本地GPU与hosted API架构速度。",
+    "label": "中文研究"
+  },
+  {
+    "id": "ext_chinese_code",
+    "title": "Chinese-Jev — current resources and training pipeline",
+    "url": "https://github.com/gulucaptain/Chinese-Jev",
+    "note": "2026-10-24已发布code、Medical权重和数据；公开直接Laya微调例不复现论文两阶段分数。",
+    "label": "开放中文pipeline"
+  },
+  {
+    "id": "ext_typedbench",
+    "title": "TypedBench: Calibration, Framing Sensitivity, and Cost",
+    "url": "https://arxiv.org/abs/2610.11392v2",
+    "note": "程序policy标签；措辞、先验漂移、概率质量与实际决策成本分开评测。",
+    "label": "独立评测"
+  },
+  {
+    "id": "ext_advbench",
+    "title": "JevAdvBench — typed robustness evaluation",
+    "url": "https://arxiv.org/abs/2609.31142",
+    "note": "812问/66场景；许多标签模型产生，主指标相对clean decision和rerun。",
+    "label": "独立评测"
+  },
+  {
+    "id": "ext_hidden",
+    "title": "Hidden Risks of Jev: Security, Privacy, and Dual Use",
+    "url": "https://arxiv.org/abs/2610.04985",
+    "note": "区分官方API与独立NanoJev实验；typed输出并不自动保证安全和隐私。",
+    "label": "独立研究"
+  },
+  {
+    "id": "ext_index",
+    "title": "Decision Index — benchmark methodology",
+    "url": "https://github.com/apolinario/decision-index/tree/25c6ec7b6b5f44a216c63c3a700de3a9c6d6699d",
+    "note": "0.4 Full=60%同技能私测+40%新域私测；public kit不能自行算私测Full。",
+    "label": "基准框架"
+  },
+  {
+    "id": "ext_jevbench",
+    "title": "JevBench by Benchmark Heaven — methodology",
+    "url": "https://github.com/fstandhartinger/jevbench/tree/609a664e81f46e03731600bd7bd9f1b7a61257c5",
+    "note": "版本与计分口径变化；四轴总分不是纯推理指标；与同名coherence项目不同。",
+    "label": "基准框架"
+  },
+  {
+    "id": "ext_interview",
+    "title": "Latent Space — Diogo Almeida original interview",
+    "url": "https://www.latent.space/p/jev",
+    "note": "数据形状、synthetic与一般失效模式是厂商解释；不是完整训练配方。",
+    "label": "创始人访谈"
+  },
+  {
+    "id": "ext_benchphilosophy",
+    "title": "TypeSafe — Lies, Damned Lies, and Benchmarks",
+    "url": "https://typesafe.ai/blog/antibenchmaxxing",
+    "note": "主张避免对公开榜单反复选模型；不能当成广泛泛化的因果证据。",
+    "label": "厂商评测哲学"
+  },
+  {
+    "id": "embodied_results",
+    "title": "EmbodiedJev — v1 complete outcomes and retry accounting",
+    "url": "https://github.com/FBddcz/embodied-jev/blob/f08de2e4e20d6cd69fea9c57ac1062c3ef510f1e/docs/results/libero-vision/RESULTS.md",
+    "note": "实际返回GPT-6 Astra与Jev1.13；四局纯GPT2/2、混合1/2；含失败/重测。",
+    "label": "固定源码与实验记录"
+  },
+  {
+    "id": "embodied_protocol",
+    "title": "EmbodiedJev — v1/v2 LIBERO protocol and paused v2",
+    "url": "https://github.com/FBddcz/embodied-jev/blob/f08de2e4e20d6cd69fea9c57ac1062c3ef510f1e/docs/LIBERO_VISION.md",
+    "note": "视觉/数值执行分工、配对范围、API等待时模拟器暂停；v2未完成。",
+    "label": "固定源码与实验记录"
+  },
+  {
+    "id": "embodied_v1_code",
+    "title": "EmbodiedJev — vision waypoints and discrete local motor choices",
+    "url": "https://github.com/FBddcz/embodied-jev/blob/f08de2e4e20d6cd69fea9c57ac1062c3ef510f1e/src/embodied_jev/libero_policy.py",
+    "note": "Jev7通道离散选择；本地按误差计算幅度，非轨迹回归。",
+    "label": "固定源码与实验记录"
+  },
+  {
+    "id": "embodied_v2_code",
+    "title": "EmbodiedJev — candidate selector and shared numeric servo",
+    "url": "https://github.com/FBddcz/embodied-jev/blob/f08de2e4e20d6cd69fea9c57ac1062c3ef510f1e/src/embodied_jev/libero_supervisor.py",
+    "note": "GPT前后帧候选；Jev选候选与档位；servo轴方向本地计算。",
+    "label": "固定源码与实验记录"
+  },
+  {
+    "id": "reflex_repo",
+    "title": "Jev Reflex Autonomy Lab — pinned author README",
+    "url": "https://github.com/khordoo/jev-reflex-autonomy-lab/blob/2bc8a03d966d80e891f5191fc05a3af5a3f378a5/README.md",
+    "note": "浏览器无人机仿真；作者单次Jev成本记录无System2/具体GPT证明。",
+    "label": "固定源码/作者记录"
+  },
+  {
+    "id": "reflex_arch",
+    "title": "Reflex Lab — asynchronous one-use System2 advice",
+    "url": "https://github.com/khordoo/jev-reflex-autonomy-lab/blob/2bc8a03d966d80e891f5191fc05a3af5a3f378a5/ARCHITECTURE.md",
+    "note": "无相机；结构化几何；物理继续，建议仅下一次Jev消费。",
+    "label": "固定源码/作者记录"
+  },
+  {
+    "id": "reflex_planner_code",
+    "title": "Reflex Lab — actual default planner model and strict schema",
+    "url": "https://github.com/khordoo/jev-reflex-autonomy-lab/blob/2bc8a03d966d80e891f5191fc05a3af5a3f378a5/lib/reflex/openrouter-server.ts",
+    "note": "默认z-ai/glm-5.3，fallback meta/muse-spark-1.3-contributor；非GPT专属演示。",
+    "label": "固定源码/作者记录"
+  },
+  {
+    "id": "mainline_onejev_config",
+    "title": "OneJev 4B training configuration",
+    "url": "https://github.com/OmniJev/OneJev/blob/0741c3ac12cffb0400f3b7a1edaedff750b6a1d4/train/configs/onejev_4b_full.yaml",
+    "note": "原配置从原始Qwen3.5-4B出发，full_finetune=true、16384上下文；本文受约束LoRA方案为新增设计。",
+    "label": "训练配置源码"
+  },
+  {
+    "id": "mainline_onejev_sft",
+    "title": "OneJev answer-slot supervised training implementation",
+    "url": "https://github.com/OmniJev/OneJev/blob/0741c3ac12cffb0400f3b7a1edaedff750b6a1d4/train/sft.py",
+    "note": "答案槽CE+Brier与LoRA/full fine-tuning选项；原实现不提供联合连续机器人轨迹头。",
+    "label": "训练实现源码"
+  },
+  {
+    "id": "mainline_diffusion_policy",
+    "title": "Diffusion Policy — official implementation",
+    "url": "https://github.com/real-stanford/diffusion_policy",
+    "note": "作为Sys0工程起点；需要新增meta/path/history条件，未运行或验证本文改造。",
+    "label": "原始机器人策略实现"
+  },
+  {
+    "id": "v3_tenstep",
+    "title": "TenStep — 闪念决策：长上下文中的快速具身判断",
+    "url": "https://tenstep.top/blog/embodied-operation-flash-decision/",
+    "note": "2026-10-06发布，10-09更新；作为设计期待而非效果证据；正文已获取并保存本地。",
+    "label": "研究动机"
+  },
+  {
+    "id": "v3_discrete_paper",
+    "title": "When Do Discrete Actions Make Good Continuous Controllers?",
+    "url": "https://arxiv.org/html/2610.20429v1",
+    "note": "四类head比较；含机器人训练数据，不证明长上下文Jev或严格目标任务zero-shot。",
+    "label": "动作表示研究"
+  },
+  {
+    "id": "v3_discrete_project",
+    "title": "Discrete action comparison — authors project page",
+    "url": "https://iscoyizj.github.io/discrete-action-website/",
+    "note": "强调factorization error；当前页面写Code soon，未声称已运行作者代码。",
+    "label": "作者项目"
+  },
+  {
+    "id": "v3_qwen9_config",
+    "title": "Qwen3.5-9B — pinned architecture configuration",
+    "url": "https://huggingface.co/Qwen/Qwen3.5-9B/blob/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json",
+    "note": "4096 hidden，混合注意力与262144位置容量；容量不是本文有效记忆成绩。",
+    "label": "官方配置"
+  },
+  {
+    "id": "v3_qwen9_processor",
+    "title": "Qwen3.5-9B — pinned image processor configuration",
+    "url": "https://huggingface.co/Qwen/Qwen3.5-9B/blob/c202236235762e1c871ad0ccb60c8ee5ba337b9a/preprocessor_config.json",
+    "note": "patch16/merge2；实际图像token由processor网格计量。",
+    "label": "官方预处理"
+  },
+  {
+    "id": "v3_rotation6d",
+    "title": "On the Continuity of Rotation Representations in Neural Networks",
+    "url": "https://arxiv.org/abs/1812.07035",
+    "note": "可参考6D旋转表达；本文姿态mask、重建退化和控制契约需另验证。",
+    "label": "旋转表示研究"
+  },
+  {
+    "id": "v3_libero",
+    "title": "LIBERO — pinned official repository",
+    "url": "https://github.com/Lifelong-Robot-Learning/LIBERO/tree/8f1084e3132a39270c3a13ebe37270a43ece2a01",
+    "note": "默认预训练/终身学习划分不自动等价于本研究严格zero-shot协议；未运行仿真。",
+    "label": "官方仿真框架"
+  },
+  {
+    "id": "v3_visual_servo",
+    "title": "Seth Hutchinson — Visual Servo Control tutorial and resources",
+    "url": "https://faculty.cc.gatech.edu/~seth/res.php?u=vs",
+    "note": "2006教程说明图像特征、interaction matrix与控制；多框序列的Jev推断方案是本文设计。",
+    "label": "作者视觉伺服资料"
+  },
+  {
+    "id": "v5_libero_wrapper",
+    "title": "LIBERO pinned environment wrapper",
+    "url": "https://github.com/Lifelong-Robot-Learning/LIBERO/blob/8f1084e3132a39270c3a13ebe37270a43ece2a01/libero/libero/envs/env_wrapper.py",
+    "note": "2026-10-25核查：reset/step、状态、相机和分割接口；源码存在不等于本地采集器已运行。",
+    "label": "固定源码"
+  },
+  {
+    "id": "v5_libero_tasks",
+    "title": "LIBERO pinned task generation utilities",
+    "url": "https://github.com/Lifelong-Robot-Learning/LIBERO/blob/8f1084e3132a39270c3a13ebe37270a43ece2a01/libero/libero/utils/task_generation_utils.py",
+    "note": "2026-10-25核查：场景/目标注册与BDDL生成入口；此次调研未执行LIBERO任务生成。",
+    "label": "固定源码"
+  },
+  {
+    "id": "v5_robosuite_sensors",
+    "title": "robosuite sensors and observables",
+    "url": "https://robosuite.ai/docs/modules/sensors.html",
+    "note": "当前文档为1.5，说明观测语义；采集器仍按LIBERO固定的robosuite1.4.0源码路径核对，不假设版本API完全相同。",
+    "label": "官方文档"
+  },
+  {
+    "id": "s1_saycan",
+    "title": "SayCan — grounding language in robotic affordances",
+    "url": "https://say-can.github.io/",
+    "note": "2026-10-25扩展核查。技能可执行性与任务相关性联合选择的依据；非本文System 1直接轨迹模型。",
+    "label": "作者原始研究"
+  },
+  {
+    "id": "s1_monologue",
+    "title": "Inner Monologue — environment feedback for planning",
+    "url": "https://innermonologue.github.io/",
+    "note": "2026-10-25扩展核查。闭环反馈、进展与主动信息查询的研究依据；不是统一System 1训练配方。",
+    "label": "作者原始研究"
+  },
+  {
+    "id": "s1_voxposer",
+    "title": "VoxPoser — composable 3D value maps",
+    "url": "https://voxposer.github.io/",
+    "note": "2026-10-25扩展核查。语言 / 视觉条件转为空间目标与约束，经规划器求轨迹；不能把规划器能力当成直接学习头。",
+    "label": "作者原始研究"
+  },
+  {
+    "id": "s1_rekep",
+    "title": "ReKep — relational keypoint constraints",
+    "url": "https://rekep-robot.github.io/",
+    "note": "2026-10-25扩展核查。阶段、时空关系与闭环重规划的依据；约束优化系统，不是本文已训练的网络。",
+    "label": "作者原始研究"
+  },
+  {
+    "id": "s1_knowno",
+    "title": "KnowNo — robots that ask for help",
+    "url": "https://robot-help.github.io/",
+    "note": "2026-10-25扩展核查。求助与不确定性校准的依据；统计保证依赖校准与方法假设，不转移为本文保证。",
+    "label": "作者原始研究"
+  },
+  {
+    "id": "s1_sayplan",
+    "title": "SayPlan — hierarchical 3D scene graphs for planning",
+    "url": "https://sayplan.github.io/",
+    "note": "2026-10-25扩展核查。语义搜索、经典规划与反馈修正的依据；用于划分S2与局部执行职责。",
+    "label": "作者原始研究"
+  },
+  {
+    "id": "v9_openai_astra",
+    "title": "OpenAI — GPT-6 Astra release",
+    "url": "https://openai.com/index/gpt-6-astra/",
+    "note": "2026-10-25 此次调研核查。官方发布页，未披露本文所需的机器人抓取标定／训练配方；不把第三方机器人演示归为 OpenAI 实现。",
+    "label": "此次调研一手来源"
+  },
+  {
+    "id": "v9_astranomy",
+    "title": "NVIDIA — Astranomy: native robot policy study",
+    "url": "https://research.nvidia.com/labs/srl/projects/astranomy/index.html",
+    "note": "2026-10-25 此次调研核查。第三方原始仿真研究。重点核查 §3.1.2 相机／夹爪几何消融与 Agentic/Direct 接口；不同 harness 不作单变量比较。",
+    "label": "此次调研一手来源"
+  },
+  {
+    "id": "v9_rgb_calibration",
+    "title": "GPT-6 Astra × RoboDojo — RGB and calibration protocol",
+    "url": "https://cookiegg.github.io/llm-as-policies/",
+    "note": "2026-10-25 此次调研核查。第三方 pilot 明确使用静态标定、RGB 与本体，不使用深度；不能泛指所有 Astra 系统。",
+    "label": "此次调研一手来源"
+  },
+  {
+    "id": "v9_robocurve",
+    "title": "Robocurve — GPT-6 Astra on robotic manipulation",
+    "url": "https://openai.robocurve.org/gpt-6-astra/",
+    "note": "2026-10-25 此次调研核查。作者真机两任务报告；域名属于 robocurve.org，非 OpenAI 官方工程说明。",
+    "label": "此次调研一手来源"
+  },
+  {
+    "id": "v9_qwen",
+    "title": "Qwen3.5-9B official model card",
+    "url": "https://huggingface.co/Qwen/Qwen3.5-9B",
+    "note": "2026-10-25 此次调研核查。核查图文基座与可用实现；未下载权重或验证本项目 head 接入。",
+    "label": "此次调研一手来源"
+  },
+  {
+    "id": "v9_flexiv",
+    "title": "Flexiv official RDK repository",
+    "url": "https://github.com/FlexivRobotics/flexiv_rdk",
+    "note": "2026-10-25 此次调研核查。官方实时／非实时控制接口。目标设备型号、RDK 版本与夹爪参数未核对，此次调研不连接机器人。",
+    "label": "此次调研一手来源"
+  },
+  {
+    "id": "v9_umi",
+    "title": "Universal Manipulation Interface",
+    "url": "https://umi-gripper.github.io/",
+    "note": "2026-10-25 此次调研核查。参考相对轨迹和延迟匹配；其特定相机／硬件结果不是本项目迁移证据。",
+    "label": "此次调研一手来源"
+  },
+  {
+    "id": "v9_vggt",
+    "title": "VGGT official implementation",
+    "url": "https://github.com/facebookresearch/vggt",
+    "note": "2026-10-25 此次调研核查。RGB 多视图几何作为可选前端；需要尺度和坐标校验，未在目标相机上复现。",
+    "label": "此次调研一手来源"
+  },
+  {
+    "id": "v9_robomimic",
+    "title": "robomimic datasets overview",
+    "url": "https://robomimic.github.io/docs/datasets/overview.html",
+    "note": "2026-10-25 此次调研核查。数据与转换入口；此次调研没有清洗或下载轨迹。",
+    "label": "此次调研一手来源"
+  },
+  {
+    "id": "v9_graspnet",
+    "title": "GraspNet official project",
+    "url": "https://graspnet.net/",
+    "note": "2026-10-25 此次调研核查。抓取位姿／RGB-D 数据，不是完整时间轨迹；运行时深度依赖不能混入本项目 RGB-only。",
+    "label": "此次调研一手来源"
+  },
+  {
+    "id": "v9_rt2",
+    "title": "RT-2 official research project",
+    "url": "https://robotics-transformer2.github.io/",
+    "note": "2026-10-25 此次调研核查。多模态与动作共同训练的研究参照；其动作文本接口与本项目非语言 head 不同。",
+    "label": "此次调研一手来源"
+  }
+]
