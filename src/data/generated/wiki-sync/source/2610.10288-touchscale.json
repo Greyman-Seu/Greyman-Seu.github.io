@@ -1,0 +1,173 @@
+{
+  "slug": "2610.10288-touchscale",
+  "title": "TouchScale: 500 Hours of Human Vision and Touch for Visual-Tactile Learning",
+  "sourceType": "paper",
+  "sourceUrl": "https://arxiv.org/abs/2610.10288",
+  "htmlUrl": "",
+  "pdfUrl": "",
+  "codeUrl": "",
+  "translationUrl": "https://hjfy.top/arxiv/2610.10288",
+  "publishDate": "2026-10-07",
+  "authors": [],
+  "affiliation": "Texas A&M University",
+  "relatedOrganizations": [
+    "[\"Texas A&M University\", \"CMU\", \"Stanford University\", \"Overfit Lab\"]"
+  ],
+  "relatedCompanies": [
+    "[\"Google DeepMind\", \"Microsoft\", \"NVIDIA\", \"Meta\", \"Sony\"]"
+  ],
+  "keywords": [],
+  "primaryDomainSlug": "physical-embodied-intelligence",
+  "domainSlugs": [
+    "physical-embodied-intelligence"
+  ],
+  "heroImage": "https://arxiv.org/html/2610.10288v2/TouchScale_Teaser_Compressed.png",
+  "tldr": "值得关注的是统一采集管线下的人类触觉数据规模，以及无动作标签数据对真实机器人策略的可测收益。500 小时数据中训练后，四项真机任务平均成功率从 22.5% 增至 57.5%。证据支持这一数据路线继续扩展，但尚不足以证明通用接触动力学或跨机器人本体泛化。",
+  "intuition": "只看手拿鸡蛋的视频，很难分辨手指到底按在哪里、用了多大压力。TouchScale 给人戴上双手压力手套，同时记录头部和腕部视频，让模型把可见交互与实际接触变化联系起来。转给机器人时先训练触觉预测通路，再用机器人示教适配动作，因此不需要把人的手指运动转换成机器人关节指令。\n\n![TouchScale 数据与评测总览](https://arxiv.org/html/2610.10288v2/TouchScale_Teaser_Compressed.png)\n图 1：统一系统采集 500 小时、约 8.7 万段交互，以触觉预测、动作识别和机器人操作评测数据价值。",
+  "abstractEn": "Large-scale egocentric human interaction data is becoming an important source of physical supervision for embodied learning, yet video alone leaves the contact and pressure that characterize physical interaction unrecorded. Recent visual–tactile datasets provide this missing supervision, but their synchronized tactile data remain far smaller in volume than human video. Moreover, the largest resources often merge recordings from different sensors or annotation procedures, which makes the effect of data scale difficult to isolate. In short, datasets that capture hundreds of hours of human vision and touch through one consistent sensing pipeline remain scarce. We therefore introduce TouchScale, a 500-hour dataset of contact-rich human interaction recorded with a single unified wearable setup. Its approximately 2K predefined task descriptions span everyday activities and structured manipulation, and each recording temporally aligns egocentric RGB-D video with wrist RGB video and dense full-hand bimanual tactile measurements. With TouchScale, we ask what scaling human visual–tactile data unlocks for perception and robot learning. Compared with prior tactile data, training on the full TouchScale raises zero-shot contact IoU on data from an unseen tactile sensor from 0.134 to 0.383. Pretraining a visual encoder on TouchScale also yields the highest action recognition accuracy on three benchmarks among the compared visual–tactile datasets. Used for visual–tactile mid-training of a robot policy, TouchScale improves the average real-world success rate across four contact-rich manipulation tasks from 22.5% to 57.5%. With the sensor and collection protocol held fixed, both zero-shot tactile prediction and robot success show an overall upward trend as more TouchScale data is used. These results suggest that human visual–tactile data collected at scale with consistent sensing benefits both perception and robot manipulation. We will publicly release TouchScale, including all synchronized visual–tactile recordings and reconstructed object models, to support future research on scalable visual–tactile learning.",
+  "abstractZh": "大规模第一视角人类交互数据正成为具身学习的重要物理监督来源，但视频无法记录物理交互的接触与压力。近期视觉触觉数据集补充了这些信号，但同步触觉规模远小于人类视频；较大资源常混合不同传感器或标注流程，难以单独研究规模的影响。一致传感流程下记录数百小时视觉与触觉的数据仍然稀缺。因此作者提出 TouchScale：以统一可穿戴设备记录的 500 小时接触密集人类交互数据集。约 2K 预定义任务描述覆盖日常活动和结构化操作，每段记录将第一视角 RGB-D、腕部 RGB 和稠密双手全手触觉按时间对齐。作者研究扩大人类视觉触觉数据能为感知和机器人学习带来什么。相较既有数据，完整 TouchScale 将未见传感器上的零样本接触 IoU 从 0.134 提至 0.383。预训练视觉编码器在三个动作识别基准上均优于所比较的数据集。作为机器人策略视觉触觉中训练数据，TouchScale 将四项真机接触密集任务平均成功率从 22.5% 提升至 57.5%。固定传感器和采集协议后，随着数据增加，零样本触觉预测与机器人成功率总体上升。这说明一致传感下规模化采集的人类视觉触觉数据有益于感知和机器人操作。作者计划公开所有同步记录和重建物体模型，支持可扩展视觉触觉学习研究。",
+  "background": "**动机：** 人类第一视角视频已达数百至数千小时，但接触位置和压力通常不可观测；软硬判断、抓小物体和沿表面擦拭都需要判断接触是否成立。同步触觉能为视觉提供物理交互监督，也为没有机器人动作标签的人类录像提供策略迁移接口，避免仅从可见运动推断接触状态。\n\n**问题缺口：** 既有视觉触觉数据多数不到 30 小时，较大资源又常混合传感器或采集流程，使数据量收益与硬件和标注差异纠缠。本文以同一代设备和同步流程扩展到 500 小时，分别检验跨传感器预测、动作识别和真机策略，并在同源数据内部改变训练量，观察规模趋势。",
+  "backgroundMotivation": "人类第一视角视频已达数百至数千小时，但接触位置和压力通常不可观测；软硬判断、抓小物体和沿表面擦拭都需要判断接触是否成立。同步触觉能为视觉提供物理交互监督，也为没有机器人动作标签的人类录像提供策略迁移接口，避免仅从可见运动推断接触状态。",
+  "backgroundGap": "既有视觉触觉数据多数不到 30 小时，较大资源又常混合传感器或采集流程，使数据量收益与硬件和标注差异纠缠。本文以同一代设备和同步流程扩展到 500 小时，分别检验跨传感器预测、动作识别和真机策略，并在同源数据内部改变训练量，观察规模趋势。",
+  "method": "**方法概述：** 输入包括头部 RGB-D、双腕 RGB、双手法向压力和任务文本；先统一采集并检查视觉触觉一致性，再分别开展视觉到触觉预测、触觉监督视觉表示学习和机器人策略中训练。策略路线用当前触觉及视觉语言上下文预测未来触觉变化，再在相同机器人示教上后训练并输出动作。人类数据阶段不使用动作标签，也不进行手部运动重定向。\n\n**核心机制：** 三条实验分别使用 TouchAnything、Hiera-B 和 N0-VTLA，不能写成一个共同模型。策略路线冻结已有视觉语言动作骨干，仅更新触觉投影、预测器和辅助重建头：当前触觉与视觉语言上下文生成五个潜在触觉 token，目标来自未来 50 帧与当前触觉的差值编码。对比学习让预测与对应未来变化在潜空间接近，重建项保留可恢复的触觉变化信息。机器人后训练使动作专家利用这些 token 输出动作 chunk，因此可迁移的是接触相关表示，而非人手到机器人手的动作映射。跨传感器的解剖区域池化则只用于预测评测，不能当作策略中训练的共同空间。\n\n**方法拆解：**\n\n- **统一采集和时间对齐。** 头部 Orbbec Gemini 345Lg 记录 1280×720 RGB 与 640×480 深度，均 30 Hz；两台腕部 D405 记录 1280×720、30 Hz RGB。每只 Tachin 手套 880 个 taxel，覆盖手指与手掌，测法向压力；硬件支持 WiFi 50 Hz 或 USB 100 Hz，不代表所有记录使用同一触觉帧率。构造中训练样本时将三路 RGB 和两路触觉最近邻对齐到 30 Hz，原始时间戳不变。\n- **独立视觉参照的分级清洗。** 首次 Gemini 3.7 Flash 只看 2 fps 腕部视频，找抓握、释放、可确认接触手指和空手时段，不读取触觉。再与阈值 0.03 的归一化触觉响应比对：确认交互时全手静默，或多指整段失效可拒绝；单指不确定情形送人工复核。空手时持续至少 0.3 秒的响应作为噪声候选，取前五个用附带触觉可视化的 6 fps 短片复查，噪声本身不直接决定 Reject/Review/Pass。\n- **预测与跨硬件评测。** 相同 TouchAnything 架构在 EgoTouch 或 TouchScale 训练，TouchScale 由手裁剪和 WiLoR 得到姿态。训练保留原生布局，评测才将各传感器池化到 12 个手部解剖区域，不进行网格插值。压力按序列最大值归一化；taxel 压力大于 0.1 且区域活跃比例大于 0.2 才判为区域接触，以减弱传感密度差异。CoP 与压力强度误差另测接触空间和强度。\n- **视觉表示学习独立控制。** 各数据集从同一 Hiera-B 预训练权重出发，用相同触觉预测目标、优化日程和预算训练视觉编码器。随后在 MECCANO、SSv2、Ego-Exo4D 上冻结编码器做线性探测，或端到端微调做动作识别。这样可比较触觉监督学到的视觉表示，但数据集间内容和任务覆盖也不同，不能把差异全部归因于小时数。\n- **未来触觉中训练目标。** N0-VTLA 的 tactile_kv 预测器产生五个 token，未来目标由 t+50 与 t 的触觉变化经编码器得到，多个可用触觉视角目标平均并停止梯度。预测与目标均值池化、L2 归一化后做全局 batch 对称 InfoNCE，温度 0.07；两层重建头预测 8×8 变化图，L_mid = L_NCE + 0.5 L1。AdamW、batch 64、梯度裁剪 1.0、预热 500 步，学习率 1e-4 衰减至 20K 步的 1e-5；更新约 123.8M 参数，冻结其余 3.71B。30 Hz 下 50 帧约 1.67 秒。\n- **机器人适配与执行。** 平台为 xArm6、BrainCo Revo 2 手、触觉手套、外部 RGB-D 和腕相机。两组从同一官方权重开始，每任务相同 50 条遥操作示教，区别仅是有无 TouchScale 中训练。执行时读取视觉、语言、机器人状态和当前触觉，生成未来触觉潜在 token 后条件化动作专家；辅助重建头并不是新增机器人动作输出，也不意味着部署时可以移除触觉传感器。\n\n**关键要点：**\n\n- 固定采集系统后改变数据量，有助于观察规模趋势；论文展示有限范围内总体向上，尚未拟合并验证普适 scaling law。\n- 人类数据无需动作标签；迁移接口是未来接触监督。12 区域映射仅为评测，不应误写成训练时统一所有传感器。\n- 法向压力和归一化接触图不等同于三维接触力、切向力或完整物理状态。\n\n![统一采集系统](https://arxiv.org/html/2610.10288v2/TouchScale_DataCollection_Compressed.png)\n图 2：头部、双腕和双手触觉互补，近景可减少接触遮挡，但不能消除全部歧义。\n\n![数据质量检查](https://arxiv.org/html/2610.10288v2/ego_tactile_qc_pipeline.png)\n图 10：盲视觉检查提供独立参照，再对照触觉；不确定的单指接触交由人工复核。",
+  "methodOverview": "输入包括头部 RGB-D、双腕 RGB、双手法向压力和任务文本；先统一采集并检查视觉触觉一致性，再分别开展视觉到触觉预测、触觉监督视觉表示学习和机器人策略中训练。策略路线用当前触觉及视觉语言上下文预测未来触觉变化，再在相同机器人示教上后训练并输出动作。人类数据阶段不使用动作标签，也不进行手部运动重定向。",
+  "methodCore": "三条实验分别使用 TouchAnything、Hiera-B 和 N0-VTLA，不能写成一个共同模型。策略路线冻结已有视觉语言动作骨干，仅更新触觉投影、预测器和辅助重建头：当前触觉与视觉语言上下文生成五个潜在触觉 token，目标来自未来 50 帧与当前触觉的差值编码。对比学习让预测与对应未来变化在潜空间接近，重建项保留可恢复的触觉变化信息。机器人后训练使动作专家利用这些 token 输出动作 chunk，因此可迁移的是接触相关表示，而非人手到机器人手的动作映射。跨传感器的解剖区域池化则只用于预测评测，不能当作策略中训练的共同空间。",
+  "methodBreakdown": [
+    "**统一采集和时间对齐。** 头部 Orbbec Gemini 345Lg 记录 1280×720 RGB 与 640×480 深度，均 30 Hz；两台腕部 D405 记录 1280×720、30 Hz RGB。每只 Tachin 手套 880 个 taxel，覆盖手指与手掌，测法向压力；硬件支持 WiFi 50 Hz 或 USB 100 Hz，不代表所有记录使用同一触觉帧率。构造中训练样本时将三路 RGB 和两路触觉最近邻对齐到 30 Hz，原始时间戳不变。",
+    "**独立视觉参照的分级清洗。** 首次 Gemini 3.7 Flash 只看 2 fps 腕部视频，找抓握、释放、可确认接触手指和空手时段，不读取触觉。再与阈值 0.03 的归一化触觉响应比对：确认交互时全手静默，或多指整段失效可拒绝；单指不确定情形送人工复核。空手时持续至少 0.3 秒的响应作为噪声候选，取前五个用附带触觉可视化的 6 fps 短片复查，噪声本身不直接决定 Reject/Review/Pass。",
+    "**预测与跨硬件评测。** 相同 TouchAnything 架构在 EgoTouch 或 TouchScale 训练，TouchScale 由手裁剪和 WiLoR 得到姿态。训练保留原生布局，评测才将各传感器池化到 12 个手部解剖区域，不进行网格插值。压力按序列最大值归一化；taxel 压力大于 0.1 且区域活跃比例大于 0.2 才判为区域接触，以减弱传感密度差异。CoP 与压力强度误差另测接触空间和强度。",
+    "**视觉表示学习独立控制。** 各数据集从同一 Hiera-B 预训练权重出发，用相同触觉预测目标、优化日程和预算训练视觉编码器。随后在 MECCANO、SSv2、Ego-Exo4D 上冻结编码器做线性探测，或端到端微调做动作识别。这样可比较触觉监督学到的视觉表示，但数据集间内容和任务覆盖也不同，不能把差异全部归因于小时数。",
+    "**未来触觉中训练目标。** N0-VTLA 的 tactile_kv 预测器产生五个 token，未来目标由 t+50 与 t 的触觉变化经编码器得到，多个可用触觉视角目标平均并停止梯度。预测与目标均值池化、L2 归一化后做全局 batch 对称 InfoNCE，温度 0.07；两层重建头预测 8×8 变化图，L_mid = L_NCE + 0.5 L1。AdamW、batch 64、梯度裁剪 1.0、预热 500 步，学习率 1e-4 衰减至 20K 步的 1e-5；更新约 123.8M 参数，冻结其余 3.71B。30 Hz 下 50 帧约 1.67 秒。",
+    "**机器人适配与执行。** 平台为 xArm6、BrainCo Revo 2 手、触觉手套、外部 RGB-D 和腕相机。两组从同一官方权重开始，每任务相同 50 条遥操作示教，区别仅是有无 TouchScale 中训练。执行时读取视觉、语言、机器人状态和当前触觉，生成未来触觉潜在 token 后条件化动作专家；辅助重建头并不是新增机器人动作输出，也不意味着部署时可以移除触觉传感器。"
+  ],
+  "methodTakeaways": [
+    "固定采集系统后改变数据量，有助于观察规模趋势；论文展示有限范围内总体向上，尚未拟合并验证普适 scaling law。",
+    "人类数据无需动作标签；迁移接口是未来接触监督。12 区域映射仅为评测，不应误写成训练时统一所有传感器。",
+    "法向压力和归一化接触图不等同于三维接触力、切向力或完整物理状态。"
+  ],
+  "results": "- **等时长与全量区别。** 约 16h TouchScale 对比 16.2h EgoTouch，零样本 EgoTactile cIoU 0.181 对 0.134、vIoU 0.243 对 0.185；CoP 误差 0.416 对 0.444，压力强度误差 0.148 对 0.184。完整 TouchScale cIoU 0.383，0.134→0.383 包含规模差异。同数据源未见分割上，TouchScale vIoU 0.299 略低于 EgoTouch 0.302，并非每项都占优。\n- **规模趋势并非处处单调。** 10%→100% 数据使零样本 cIoU 0.311→0.383、vIoU 0.252→0.276、CoP 误差 0.332→0.317、压力误差 0.108→0.105。机器人 0/20/40/60/80/100% 数据成功率依次 22.5/30.0/32.5/50.0/50.0/57.5%；60%→80% 没有上升。\n- **动作识别增益需看最强对照。** TouchScale 线性探测平均 24.45%、微调 49.62%，最强对照 OpenTouch 22.97%/48.28%，增幅为 1.48/1.34 个百分点；三个基准均为表中最优，但相对最强数据集并不是几十个百分点的提升。\n- **真机平均绝对提升 35 个百分点。** 每任务每组 20 次测试，合计从 18/80 增至 46/80。Bottle-Cap Removal 的文字协议是拿起瓶盖放入容器，不能仅凭任务名说验证了旋开瓶盖。\n- **未来触觉准确率是检索指标。** 对潜变量池化归一化后按余弦相似度检索对应未来变化，Train Top-10 从无中训练 0.18% 提至全量 3.31%，20% 数据已达 2.87%。Train 候选为 5,469 个样本，随机 Top-10 约 0.183%；这不等于压力图像素准确率。Val 3,070、合池 8,539 样本；合池 Top-10 在 80% 时 2.69%，全量反为 2.49%。后训练触觉误差与动作误差 Pearson r=0.119、p=0.020，只是弱相关，不能证明改善触觉预测造成了控制增益。\n\n![机器人平台与任务](https://arxiv.org/html/2610.10288v2/real_world_setup.png)\n图 5：单一机器人平台、四项接触任务；两组相同示教量，控制是否进行人类数据中训练。\n\n![中训练后成功执行](https://arxiv.org/html/2610.10288v2/real_world_success.png)\n图 11：软硬分类、瓶盖拿取、试管转移和白板擦拭的成功案例，定性例子不能替代成功率。",
+  "resultHighlights": [],
+  "insights": "- **核心 insight：** 没有动作标签的人类交互也能通过未来触觉监督改善策略输入通路。可迁移的是接触预测表示，这为触觉示教采集提供了动作重定向之外的选择。\n- **和已有方法的关系：** [[2606.29948-heterogeneous-tactile-transformer]] 关注异构触觉 backbone；本文补充统一系统的大规模人类监督。[[tacross-an-efficient-and-low-cost-scalable-human-touch-system-across-heterogeneous-tactile-sensors-for-dexterous-robot-learning|TACROSS]] 强调跨传感语义对齐；本文的解剖池化仅用于评测，两种机制不能混同。\n- **可借鉴点：** 视觉独立检查与触觉响应交叉验证，并把模糊案例交给人工，避免将不响应一律判为坏数据。实验分别回答等时长数据质量、同源规模效应、同示教量控制收益三个问题，归因更清楚。\n- **分析建议：** 下一步应比较仅重建、仅对比目标、额外视觉中训练及等算力触觉中训练，并在动作专家侧移除未来 token 做消融。当前证据主要说明数据有用，未来触觉作为控制收益中介的因果角色尚未确认；这些建议不是论文已经完成的实验。",
+  "insightCore": [
+    "**和已有方法的关系：** [[2606.29948-heterogeneous-tactile-transformer]] 关注异构触觉 backbone；本文补充统一系统的大规模人类监督。[[tacross-an-efficient-and-low-cost-scalable-human-touch-system-across-heterogeneous-tactile-sensors-for-dexterous-robot-learning|TACROSS]] 强调跨传感语义对齐；本文的解剖池化仅用于评测，两种机制不能混同。",
+    "**可借鉴点：** 视觉独立检查与触觉响应交叉验证，并把模糊案例交给人工，避免将不响应一律判为坏数据。实验分别回答等时长数据质量、同源规模效应、同示教量控制收益三个问题，归因更清楚。",
+    "**分析建议：** 下一步应比较仅重建、仅对比目标、额外视觉中训练及等算力触觉中训练，并在动作专家侧移除未来 token 做消融。当前证据主要说明数据有用，未来触觉作为控制收益中介的因果角色尚未确认；这些建议不是论文已经完成的实验。"
+  ],
+  "insightRelations": [
+    "**可借鉴点：** 视觉独立检查与触觉响应交叉验证，并把模糊案例交给人工，避免将不响应一律判为坏数据。实验分别回答等时长数据质量、同源规模效应、同示教量控制收益三个问题，归因更清楚。",
+    "**分析建议：** 下一步应比较仅重建、仅对比目标、额外视觉中训练及等算力触觉中训练，并在动作专家侧移除未来 token 做消融。当前证据主要说明数据有用，未来触觉作为控制收益中介的因果角色尚未确认；这些建议不是论文已经完成的实验。"
+  ],
+  "insightBorrowable": [
+    "**分析建议：** 下一步应比较仅重建、仅对比目标、额外视觉中训练及等算力触觉中训练，并在动作专家侧移除未来 token 做消融。当前证据主要说明数据有用，未来触觉作为控制收益中介的因果角色尚未确认；这些建议不是论文已经完成的实验。"
+  ],
+  "risks": "**局限：**\n\n- 真机仅一个平台和四任务，每任务 20 次；未由这些实验建立跨本体结论或多种子置信区间。整体 +35 个百分点明确，但任务外稳定性需更多测试。\n- 每序列最大压力归一化及 12 区域池化弱化绝对力标定和细粒度接触差异，不能直接推断精确力控。手套只测法向压力，缺少切向力与滑移状态的完整监督。\n- 统一硬件减少混杂，仍有参与者、任务频率、场景偏差；规模、内容多样性、接触覆盖与额外训练预算的作用没有全部分离。清洗也受视觉遮挡和模型判读误差影响。\n- 三维物体由多视角 RGB 经 Meshy API 重建，未证明可作为精确接触仿真真值。完整数据和代码的实际可获取性在复现前仍需核查。\n- 触觉检索随规模增幅有限、与动作误差仅弱相关，检索分数不能替代控制评测或作为完整物理世界模型的证据。\n\n**适用场景：**\n\n- 计划采集人类视觉触觉数据、已有 VTLA 触觉通路且机器人示教有限的团队，可参考无动作中训练和质量控制。\n- 跨传感器评测可参考区域池化，但应同时保留绝对压力及细粒度定位指标。软硬判断、精确转移和持续擦拭值得跟进，高速滑移控制需补充传感与延迟评测。\n\n**最终判断：**\n\n- 值得纳入触觉表示和人类数据迁移路线，最强证据是统一规模采集、跨传感器预测与同示教量真机收益。将它视为可扩展数据和训练配方更稳妥；通用触觉世界模型、广泛跨本体迁移仍待验证。",
+  "riskLimitations": [
+    "真机仅一个平台和四任务，每任务 20 次；未由这些实验建立跨本体结论或多种子置信区间。整体 +35 个百分点明确，但任务外稳定性需更多测试。",
+    "每序列最大压力归一化及 12 区域池化弱化绝对力标定和细粒度接触差异，不能直接推断精确力控。手套只测法向压力，缺少切向力与滑移状态的完整监督。",
+    "统一硬件减少混杂，仍有参与者、任务频率、场景偏差；规模、内容多样性、接触覆盖与额外训练预算的作用没有全部分离。清洗也受视觉遮挡和模型判读误差影响。",
+    "三维物体由多视角 RGB 经 Meshy API 重建，未证明可作为精确接触仿真真值。完整数据和代码的实际可获取性在复现前仍需核查。",
+    "触觉检索随规模增幅有限、与动作误差仅弱相关，检索分数不能替代控制评测或作为完整物理世界模型的证据。"
+  ],
+  "riskScenarios": [
+    "计划采集人类视觉触觉数据、已有 VTLA 触觉通路且机器人示教有限的团队，可参考无动作中训练和质量控制。",
+    "跨传感器评测可参考区域池化，但应同时保留绝对压力及细粒度定位指标。软硬判断、精确转移和持续擦拭值得跟进，高速滑移控制需补充传感与延迟评测。"
+  ],
+  "riskJudgment": [
+    "值得纳入触觉表示和人类数据迁移路线，最强证据是统一规模采集、跨传感器预测与同示教量真机收益。将它视为可扩展数据和训练配方更稳妥；通用触觉世界模型、广泛跨本体迁移仍待验证。"
+  ],
+  "resultsTableMarkdown": "| 评测与条件 | 基线 | TouchScale | 解读 |\n| --- | --- | --- | --- |\n| 零样本 cIoU，约 16h 对比 | 0.134 | 0.181 | 等时长相对 +35.1% |\n| 零样本 cIoU，既有数据对全量 | 0.134 | 0.383 | 含规模差异 |\n| 动作识别平均 Linear/FT | OpenTouch 22.97/48.28% | 24.45/49.62% | +1.48/+1.34 个百分点 |\n| 软硬分类，20 次/组 | 10% | 60% | +50 个百分点 |\n| 瓶盖拿取入容器，20 次/组 | 40% | 70% | 不等于旋开瓶盖 |\n| 试管转移，20 次/组 | 30% | 60% | 相同示教量 |\n| 白板擦拭，20 次/组 | 10% | 40% | 仍有较高失败率 |\n| 真机平均成功率 | 22.5% | 57.5% | 18/80→46/80 |\n| 未来触觉 Train Top-10 | 0.18% | 3.31% | 潜变量检索指标 |",
+  "resultsTable": {
+    "columns": [
+      "评测与条件",
+      "基线",
+      "TouchScale",
+      "解读"
+    ],
+    "rows": [
+      [
+        "零样本 cIoU，约 16h 对比",
+        "0.134",
+        "0.181",
+        "等时长相对 +35.1%"
+      ],
+      [
+        "零样本 cIoU，既有数据对全量",
+        "0.134",
+        "0.383",
+        "含规模差异"
+      ],
+      [
+        "动作识别平均 Linear/FT",
+        "OpenTouch 22.97/48.28%",
+        "24.45/49.62%",
+        "+1.48/+1.34 个百分点"
+      ],
+      [
+        "软硬分类，20 次/组",
+        "10%",
+        "60%",
+        "+50 个百分点"
+      ],
+      [
+        "瓶盖拿取入容器，20 次/组",
+        "40%",
+        "70%",
+        "不等于旋开瓶盖"
+      ],
+      [
+        "试管转移，20 次/组",
+        "30%",
+        "60%",
+        "相同示教量"
+      ],
+      [
+        "白板擦拭，20 次/组",
+        "10%",
+        "40%",
+        "仍有较高失败率"
+      ],
+      [
+        "真机平均成功率",
+        "22.5%",
+        "57.5%",
+        "18/80→46/80"
+      ],
+      [
+        "未来触觉 Train Top-10",
+        "0.18%",
+        "3.31%",
+        "潜变量检索指标"
+      ]
+    ]
+  },
+  "figureGallery": [
+    {
+      "zone": "intuition",
+      "caption": "TouchScale 数据与评测总览",
+      "src": "https://arxiv.org/html/2610.10288v2/TouchScale_Teaser_Compressed.png"
+    },
+    {
+      "zone": "method",
+      "caption": "统一采集系统",
+      "src": "https://arxiv.org/html/2610.10288v2/TouchScale_DataCollection_Compressed.png"
+    },
+    {
+      "zone": "method",
+      "caption": "数据质量检查",
+      "src": "https://arxiv.org/html/2610.10288v2/ego_tactile_qc_pipeline.png"
+    },
+    {
+      "zone": "results",
+      "caption": "机器人平台与任务",
+      "src": "https://arxiv.org/html/2610.10288v2/real_world_setup.png"
+    },
+    {
+      "zone": "results",
+      "caption": "中训练后成功执行",
+      "src": "https://arxiv.org/html/2610.10288v2/real_world_success.png"
+    }
+  ],
+  "relatedTopicSlugs": [
+    "tactile-representation"
+  ]
+}
