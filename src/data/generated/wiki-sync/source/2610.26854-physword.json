@@ -1,0 +1,180 @@
+{
+  "slug": "2610.26854-physword",
+  "title": "Physical Words: A Vocabulary for Structuring Latent Reasoning in Robot Manipulation",
+  "sourceType": "paper",
+  "sourceUrl": "https://arxiv.org/abs/2610.26854",
+  "htmlUrl": "https://arxiv.org/html/2610.26854v3",
+  "pdfUrl": "https://arxiv.org/pdf/2610.26854v3",
+  "codeUrl": "https://nvidia-isaac.github.io/video_to_data/physicalword/",
+  "translationUrl": "https://hjfy.top/arxiv/2610.26854",
+  "publishDate": "2026-10-19",
+  "authors": [
+    "Jiaming Liu",
+    "Xinghao Zhu",
+    "Yiming Zhang",
+    "Shanghang Zhang",
+    "Yinxi Wang",
+    "Yichu Yang",
+    "Zhuoyang Liu",
+    "Dantong Niu",
+    "Soha Pouya",
+    "Juekun Li",
+    "Yan Chang"
+  ],
+  "affiliation": "NVIDIA",
+  "relatedOrganizations": [
+    "NVIDIA",
+    "Peking University",
+    "UC Berkeley"
+  ],
+  "relatedCompanies": [
+    "NVIDIA"
+  ],
+  "keywords": [
+    "vision-language-action"
+  ],
+  "primaryDomainSlug": "physical-embodied-intelligence",
+  "domainSlugs": [
+    "physical-embodied-intelligence"
+  ],
+  "heroImage": "https://arxiv.org/html/2610.26854v3/teaser_new.png",
+  "tldr": "值得记住的是用离散动作语义组织连续未来动力学的接口。PhysWord 在 UniVTAC 达到 90.3%，LIBERO-Long 达到 99.6%，四项真机任务平均 71.7%；长任务消融为语义锚点的价值提供了比可视化聚类更直接的证据。它尚未证明开放词汇技能组合或任意无触觉部署。",
+  "intuition": "机器人先预测未来几个时刻正在“接近、拿起、放下”哪一步，同时让这些词的内部状态携带届时看到的物体变化与手指接触信息，再据此生成动作。相同的“拿起”保留共同语义，但不同物体、不同手指的物理细节保存在连续隐状态中；每次获得新观测后重新预测，因此不是先写完长计划再盲目执行。\n\n![图 1：Physical Words 概览、基准表现与两种机器人平台](https://arxiv.org/html/2610.26854v3/teaser_new.png)\n\n*图 1：动作词锚定连续视觉/触觉动力学；展示时间预测、仿真结果和真机平台。*",
+  "abstractEn": "Multimodal reasoning provides robotic foundation models with predictive context needed for reliable action generation. However, language-based reasoning captures task semantics but struggles to express fine-grained physical dynamics, while latent reasoning models future state evolution but offers limited structure for organizing these dynamics into reusable reasoning primitives. To bridge this gap, we introduce PhysWord, a reasoning-before-acting foundation model built on Physical Words, which use atomic action verbs as shared semantic anchors for continuous representations of physical dynamics. Specifically, PhysWord predicts upcoming atomic action words and directly aligns their contextual hidden states with latent targets derived from the corresponding future observations. Building on these primitives, we construct a temporally structured PhysWord space with visual and optional tactile variants of each action word. Autoregressively predicting Physical Words across future timesteps captures transitions between execution stages, providing structured multimodal context for action generation. PhysWord achieves state-of-the-art success rates of 90.3\\% on visuotactile UniVTAC and 99.6\\% on vision-based LIBERO-Long, and outperforms competing methods on real-world tasks using bimanual grippers and dexterous hands. Further evaluations demonstrate that our structured latent reasoning framework generalizes to unseen scenarios and enables long-horizon manipulation. Project page: https://nvidia-isaac.github.io/video_to_data/physicalword/",
+  "abstractZh": "多模态推理为机器人基础模型提供可靠动作生成所需的预测上下文。语言推理能捕捉任务语义，却难以表达细粒度物理动力学；隐式推理能描述未来状态演化，却缺少把动力学组织成可重用推理基元的结构。作者提出先推理后行动的 PhysWord，以原子动作动词作为连续物理动力学表示的共同语义锚点。模型预测即将发生的原子动作词，并将其上下文隐状态直接对齐对应未来观测的隐表示。在此基础上，模型构建包含视觉及可选触觉动作词变体的时间结构空间，自回归预测多个未来时刻，捕捉执行阶段之间的转换，为动作生成提供多模态预测上下文。PhysWord 在视触觉 UniVTAC 和纯视觉 LIBERO-Long 上分别达到 90.3% 与 99.6%，并在双夹爪与灵巧手真机任务中优于对照方法；进一步评测展示了未见场景泛化和长时程操作能力。",
+  "background": "**动机：** 接触操作不仅需要知道任务顺序，还需要预判物体如何移动、何时形成稳定抓握以及接触如何变化。语言规划能表达“旋转、拿起”等步骤，却不能细致描述摩擦、遮挡和接触状态；机器人世界模型具备预测未来观测的能力，因此可以为动作提供更贴近物理执行的上下文。\n\n**问题缺口：** 直接预测未来连续隐状态可能同时编码背景、外观等偶然因素，缺少跨场景复用动作阶段的共同结构；仅预测词又丢失执行细节。论文要解决的是如何把可共享的原子动作语义与场景相关的视觉、触觉动力学绑定，并在一个动作块内部表示阶段转换，而不是只预测单一终点。",
+  "backgroundMotivation": "接触操作不仅需要知道任务顺序，还需要预判物体如何移动、何时形成稳定抓握以及接触如何变化。语言规划能表达“旋转、拿起”等步骤，却不能细致描述摩擦、遮挡和接触状态；机器人世界模型具备预测未来观测的能力，因此可以为动作提供更贴近物理执行的上下文。",
+  "backgroundGap": "直接预测未来连续隐状态可能同时编码背景、外观等偶然因素，缺少跨场景复用动作阶段的共同结构；仅预测词又丢失执行细节。论文要解决的是如何把可共享的原子动作语义与场景相关的视觉、触觉动力学绑定，并在一个动作块内部表示阶段转换，而不是只预测单一终点。",
+  "method": "**方法概述：** PhysWord 接收语言、多视角 RGB 历史和可选触觉，以 Cosmos 时间感知分支和 Qwen3-VL 推理动作分支共享注意力，先在多个未来时刻生成分模态、分末端的动作词隐状态，再用这些状态条件化流匹配动作去噪。训练同时学习视频预测、动作词分类、未来感官隐状态对齐和动作生成，部署时只使用当前及历史观测。\n\n**核心机制：** Physical Word 同时含动作词标签 w 和预测该词的上下文隐状态 z。词分类交叉熵使 z 保留共同动作语义，余弦距离 1-cos(z,g) 则直接把同一个 z 拉向未来感官目标 g；这里没有先通过可学习 MLP 再对齐的解耦出口。视觉和触觉各有独立可训练的词表条目，例如 pick_v 与 pick_t，由同一预训练动作词嵌入初始化。标签提供共享锚点，但两个隐状态分别表达未来视觉与接触细节。时间块因果生成把这些局部预测串起来，最终动作 token 可读取前面的多模态预测上下文。\n\n**方法拆解：** - 双骨干与输入：Cosmos-Predict2.5-2B 读取 t-4 到 t 的五张 256×256 头部图像，学习未来 H 帧；Qwen3-VL-2B 读取其他视角和指令，保留自适应图像分辨率。两支保留独立 QKV、FFN 与位置编码，投影后的 Q/K/V 沿 token 维拼接做共享注意力；两个视觉编码器冻结，其余组件可训练。推理时 Cosmos 只做一次去噪并缓存预测特征的 KV。\n- 触觉与未来目标：FTP-1 初始化的 T3 将每个视触觉传感器编码为 512 维。夹爪把两个指尖及两个时刻拼成每末端 2048 维，灵巧手把五指 2560 维特征池化到 2048 维；双手提供两个输入 token。未来头视图由冻结的 Qwen 视觉编码器提取并池化为视觉目标，未来触觉按末端用 T3 聚合为触觉目标。触觉目标 stop-gradient，T3 仍通过当前触觉输入路径更新，避免目标路径共同漂移。\n- 语义与时间结构：16 个原子动作由 GPT 为轨迹分段标注，双手分别标注，视觉与触觉使用同一动作的不同词条。H=16、默认 s=4，预测四个未来时间点；每个末端的视觉/触觉构成一个块。训练用整块 input-target shift：后续块输入上一时刻词嵌入，输出监督对应下一时刻词与感官目标。块内全注意力、同末端跨块因果注意力，屏蔽跨末端 Physical Word 注意力；这不等于整个策略禁止双手协调。\n- 联合训练：先在正文所称约 7000 小时、附录明细 7400+ 小时的语料预训练两轮，再用任务示教微调。数据包括人手 2000+、DROID 350、OpenNeoData 5000+ 和 Sharpa 100+ 小时；人手动作重定向到 22 自由度手。总损失为视频流匹配＋词交叉熵＋未来隐状态余弦损失＋动作流匹配。微调 100 epochs、全局 batch 48，AdamW 零权重衰减，基础学习率 1e-4、Cosmos 2e-6、T3 5e-5，5% warmup 后余弦衰减。\n- 动作生成与闭环：推理先自回归生成未来 Physical Words，再对后续噪声动作 token 做五步流匹配去噪，共享 MLP 输出适配本体的动作维度；双夹爪为 14 维，双灵巧手为 56 维。真机预测 16 步、执行前 8 步，以实时分块异步推理下一块；仿真按 FTP-1 协议每次只执行第一步。未来真值只用于训练，不作为部署输入。\n- 预测触觉反馈：同一检查点可把过去预测、在当前时刻到期的触觉 latent 回填为触觉输入；重叠预测做时间集成。最初尚无预测覆盖的时刻，使用对应任务训练示教开头的触觉观测初始化。测试触觉记录仅用于离线误差评估；这种部署依然依赖触觉训练和任务先验，不能解读为完全不需要触觉数据。\n\n**关键要点：** - 关键不是把完整物理状态压成一个词，而是对同一个词预测隐状态施加语义与连续未来目标的双重约束。\n- 多未来时间点及分模态词条让动作生成同时读取阶段变化与接触变化，收益需要与额外视频骨干、触觉输入和预训练分别归因。\n\n![图 2：MoT 双分支、语义与未来感官双重监督、时间块注意力掩码](https://arxiv.org/html/2610.26854v3/method_V3.png)\n\n*图 2：MoT 双分支、动作词隐状态双重监督，以及按末端与未来时间块组织的注意力掩码。*",
+  "methodOverview": "PhysWord 接收语言、多视角 RGB 历史和可选触觉，以 Cosmos 时间感知分支和 Qwen3-VL 推理动作分支共享注意力，先在多个未来时刻生成分模态、分末端的动作词隐状态，再用这些状态条件化流匹配动作去噪。训练同时学习视频预测、动作词分类、未来感官隐状态对齐和动作生成，部署时只使用当前及历史观测。",
+  "methodCore": "Physical Word 同时含动作词标签 w 和预测该词的上下文隐状态 z。词分类交叉熵使 z 保留共同动作语义，余弦距离 1-cos(z,g) 则直接把同一个 z 拉向未来感官目标 g；这里没有先通过可学习 MLP 再对齐的解耦出口。视觉和触觉各有独立可训练的词表条目，例如 pick_v 与 pick_t，由同一预训练动作词嵌入初始化。标签提供共享锚点，但两个隐状态分别表达未来视觉与接触细节。时间块因果生成把这些局部预测串起来，最终动作 token 可读取前面的多模态预测上下文。",
+  "methodBreakdown": [
+    "双骨干与输入：Cosmos-Predict2.5-2B 读取 t-4 到 t 的五张 256×256 头部图像，学习未来 H 帧；Qwen3-VL-2B 读取其他视角和指令，保留自适应图像分辨率。两支保留独立 QKV、FFN 与位置编码，投影后的 Q/K/V 沿 token 维拼接做共享注意力；两个视觉编码器冻结，其余组件可训练。推理时 Cosmos 只做一次去噪并缓存预测特征的 KV。",
+    "触觉与未来目标：FTP-1 初始化的 T3 将每个视触觉传感器编码为 512 维。夹爪把两个指尖及两个时刻拼成每末端 2048 维，灵巧手把五指 2560 维特征池化到 2048 维；双手提供两个输入 token。未来头视图由冻结的 Qwen 视觉编码器提取并池化为视觉目标，未来触觉按末端用 T3 聚合为触觉目标。触觉目标 stop-gradient，T3 仍通过当前触觉输入路径更新，避免目标路径共同漂移。",
+    "语义与时间结构：16 个原子动作由 GPT 为轨迹分段标注，双手分别标注，视觉与触觉使用同一动作的不同词条。H=16、默认 s=4，预测四个未来时间点；每个末端的视觉/触觉构成一个块。训练用整块 input-target shift：后续块输入上一时刻词嵌入，输出监督对应下一时刻词与感官目标。块内全注意力、同末端跨块因果注意力，屏蔽跨末端 Physical Word 注意力；这不等于整个策略禁止双手协调。",
+    "联合训练：先在正文所称约 7000 小时、附录明细 7400+ 小时的语料预训练两轮，再用任务示教微调。数据包括人手 2000+、DROID 350、OpenNeoData 5000+ 和 Sharpa 100+ 小时；人手动作重定向到 22 自由度手。总损失为视频流匹配＋词交叉熵＋未来隐状态余弦损失＋动作流匹配。微调 100 epochs、全局 batch 48，AdamW 零权重衰减，基础学习率 1e-4、Cosmos 2e-6、T3 5e-5，5% warmup 后余弦衰减。",
+    "动作生成与闭环：推理先自回归生成未来 Physical Words，再对后续噪声动作 token 做五步流匹配去噪，共享 MLP 输出适配本体的动作维度；双夹爪为 14 维，双灵巧手为 56 维。真机预测 16 步、执行前 8 步，以实时分块异步推理下一块；仿真按 FTP-1 协议每次只执行第一步。未来真值只用于训练，不作为部署输入。",
+    "预测触觉反馈：同一检查点可把过去预测、在当前时刻到期的触觉 latent 回填为触觉输入；重叠预测做时间集成。最初尚无预测覆盖的时刻，使用对应任务训练示教开头的触觉观测初始化。测试触觉记录仅用于离线误差评估；这种部署依然依赖触觉训练和任务先验，不能解读为完全不需要触觉数据。"
+  ],
+  "methodTakeaways": [
+    "关键不是把完整物理状态压成一个词，而是对同一个词预测隐状态施加语义与连续未来目标的双重约束。",
+    "多未来时间点及分模态词条让动作生成同时读取阶段变化与接触变化，收益需要与额外视频骨干、触觉输入和预训练分别归因。"
+  ],
+  "results": "**核心结果：** - 仿真协议：UniVTAC 八任务每任务独立策略，LIBERO-Long 十任务联合策略，均每任务 50 条示教；PhysWord 每任务 3 次运行、每次 100 rollouts。90.3% 与 99.6% 的“±1.5/±0.3”是各任务跨运行标准差的平均，不是整体均值置信区间。UniVTAC Insert HDMI 仍只有 34%，平均高分并不代表精密插入已解决。\n- 受控结构消融：Put Bottle/Lift Can 上，只有视觉 latent 为 77/83，只有词为 77/67，词＋视觉为 87/89；完整视觉后触觉为 93/95。对齐前插 MLP 后词＋视觉降到 82/78；随机初始化完整模型词嵌入降到 89/90。头视图目标 93/95，腕视图 85/83，双视图 84/89，说明更多目标并非自动更好。\n- 额外骨干与触觉：去掉 Cosmos 的 Lite 仍有 UniVTAC 86.4%，低于完整 90.3%，说明不能把全部增益归于语义词。移除当前触觉、未来触觉预测或二者，Put Bottle/Lift Can 分别为 88/87、87/89、82/81，完整模型为 93/95，当前感知与预测提供互补信息。\n- 真机每任务 100 条示教，每方法 3×30 次试验，匹配初始配置。四任务平均 PhysWord 71.7%、FTP-1 55.0%、π0.5 45.8%；未见背景/物体/位置只在拾纸和拧螺丝测试，六个设置平均 63.3%。表中 -17% 是相对这两个任务域内均值 76.65% 的相对下降，不是四任务均值减少 17 个百分点。\n- 扩展任务没有对应完整训练序列：连续三次拾纸为 70.0%，纯 latent 无词监督为 36.7%，两基线均 0%；装两个物体并在人工重新开盖后再关盖封箱为 66.7%，无词为 50.0%，FTP-1 为 30.0%。这支持有限任务阶段重用，尚不是任意技能组合证明。\n- 预测反馈触觉：UniVTAC 89.0% 对实测 90.3%；真机拾纸 90.0% 对 93.3%，羽毛球入筒 56.7% 对 60.0%。离线预测触觉 cosine 0.9873、MSE 0.0630；高相似度应与任务成功一起看，不能单独证明复杂接触外推可靠。\n- 计算成本：H100、BF16、batch=1 下原始 205.4 ms（4.9 Hz），CUDA Graph、保留掩码的 FlashAttention、Triton 融合和并行编码后 94.6 ms（10.6 Hz），P95 95.1 ms。该值为策略请求频率，不能等同于低层伺服控制频率。\n\n**结果表：** | 评测 | PhysWord | 对照 | 证据边界 |\n| --- | --- | --- | --- |\n| UniVTAC 均值 | 90.3% | N0-VTLA 83.1% | +7.2 个百分点；HDMI 仅 34% |\n| LIBERO-Long | 99.6% | UniWAM 98.4% | +1.2 个百分点，已接近饱和 |\n| 真机四任务均值 | 71.7% | FTP-1 55.0% | 同任务示教，预训练与模型不同 |\n| 未见配置六设置均值 | 63.3% | FTP-1 35.0% | 仅拾纸与螺丝任务 |\n| 连续三次拾纸 | 70.0% | 无词监督 36.7% | 语义锚点对阶段重启的证据 |\n| 扩展打包 | 66.7% | 无词监督 50.0% | 测试含人工重新开盖 |\n| UniVTAC 无 Cosmos | 86.4% | 完整模型 90.3% | 分离时间感知骨干贡献 |\n\n![图 3：未来预测间隔为 2、4、8、16 步时的任务成功率，默认选 4 步](https://arxiv.org/html/2610.26854v3/abaltion_V2.png)\n\n*图 3：词监督、感官隐状态监督和模态顺序消融；右侧比较未来预测间隔的性能与成本。*\n\n![图 4：真机执行过程与操作相关区域的注意力可视化](https://arxiv.org/html/2610.26854v3/vis_V6.png)\n\n*图 4：四项真机任务执行过程，以及不同监督下对操作对象和接触区域的注意力。*",
+  "resultHighlights": [
+    "仿真协议：UniVTAC 八任务每任务独立策略，LIBERO-Long 十任务联合策略，均每任务 50 条示教；PhysWord 每任务 3 次运行、每次 100 rollouts。90.3% 与 99.6% 的“±1.5/±0.3”是各任务跨运行标准差的平均，不是整体均值置信区间。UniVTAC Insert HDMI 仍只有 34%，平均高分并不代表精密插入已解决。",
+    "受控结构消融：Put Bottle/Lift Can 上，只有视觉 latent 为 77/83，只有词为 77/67，词＋视觉为 87/89；完整视觉后触觉为 93/95。对齐前插 MLP 后词＋视觉降到 82/78；随机初始化完整模型词嵌入降到 89/90。头视图目标 93/95，腕视图 85/83，双视图 84/89，说明更多目标并非自动更好。",
+    "额外骨干与触觉：去掉 Cosmos 的 Lite 仍有 UniVTAC 86.4%，低于完整 90.3%，说明不能把全部增益归于语义词。移除当前触觉、未来触觉预测或二者，Put Bottle/Lift Can 分别为 88/87、87/89、82/81，完整模型为 93/95，当前感知与预测提供互补信息。",
+    "真机每任务 100 条示教，每方法 3×30 次试验，匹配初始配置。四任务平均 PhysWord 71.7%、FTP-1 55.0%、π0.5 45.8%；未见背景/物体/位置只在拾纸和拧螺丝测试，六个设置平均 63.3%。表中 -17% 是相对这两个任务域内均值 76.65% 的相对下降，不是四任务均值减少 17 个百分点。",
+    "扩展任务没有对应完整训练序列：连续三次拾纸为 70.0%，纯 latent 无词监督为 36.7%，两基线均 0%；装两个物体并在人工重新开盖后再关盖封箱为 66.7%，无词为 50.0%，FTP-1 为 30.0%。这支持有限任务阶段重用，尚不是任意技能组合证明。",
+    "预测反馈触觉：UniVTAC 89.0% 对实测 90.3%；真机拾纸 90.0% 对 93.3%，羽毛球入筒 56.7% 对 60.0%。离线预测触觉 cosine 0.9873、MSE 0.0630；高相似度应与任务成功一起看，不能单独证明复杂接触外推可靠。",
+    "计算成本：H100、BF16、batch=1 下原始 205.4 ms（4.9 Hz），CUDA Graph、保留掩码的 FlashAttention、Triton 融合和并行编码后 94.6 ms（10.6 Hz），P95 95.1 ms。该值为策略请求频率，不能等同于低层伺服控制频率。"
+  ],
+  "insights": "**核心 insight：** - 核心 insight：语义标签约束的是“用于预测词的同一连续隐状态”，既保留动作共性，又借未来感官监督避免语言过粗。更紧凑的类内表示是辅助证据，真正有控制意义的证据是扩展拾纸阶段重启的受控成功率差异。\n- 类内视觉余弦距离下降约 41%、触觉下降约 50%，但触觉距离原本就在 1e-4 量级。聚类和注意力图只支持表示组织性，不足以单独排除表示收缩或证明真实物理因果模型。\n\n**和已有方法的关系：** - 相对 LaST0 类 latent reasoning，增加动作标签约束与分模态词接口；相对语言规划，保留词隐状态中的连续感官信息；相对视频 WAM，仍使用 Cosmos 预测先验，但把可供动作读取的未来状态组织成稀疏语义时间块。\n\n**可借鉴点：** - 复现时优先做四格对照：仅词、仅未来 latent、二者直接共享状态、经 MLP 后对齐；再独立比较有无视频骨干和当前触觉。用需要从完成阶段重新启动的扩展任务检验重用，避免只靠饱和仿真分数判断。\n\n![图 6：视觉与触觉隐状态的动作类别 t-SNE 对照](https://arxiv.org/html/2610.26854v3/ap_tsne_V2.png)\n\n*图 6：同样本下 Physical Words 与仅 latent 监督的 t-SNE；聚类支持语义组织性，不能单独证明物理因果推理。*",
+  "insightCore": [
+    "核心 insight：语义标签约束的是“用于预测词的同一连续隐状态”，既保留动作共性，又借未来感官监督避免语言过粗。更紧凑的类内表示是辅助证据，真正有控制意义的证据是扩展拾纸阶段重启的受控成功率差异。",
+    "类内视觉余弦距离下降约 41%、触觉下降约 50%，但触觉距离原本就在 1e-4 量级。聚类和注意力图只支持表示组织性，不足以单独排除表示收缩或证明真实物理因果模型。"
+  ],
+  "insightRelations": [
+    "相对 LaST0 类 latent reasoning，增加动作标签约束与分模态词接口；相对语言规划，保留词隐状态中的连续感官信息；相对视频 WAM，仍使用 Cosmos 预测先验，但把可供动作读取的未来状态组织成稀疏语义时间块。"
+  ],
+  "insightBorrowable": [
+    "复现时优先做四格对照：仅词、仅未来 latent、二者直接共享状态、经 MLP 后对齐；再独立比较有无视频骨干和当前触觉。用需要从完成阶段重新启动的扩展任务检验重用，避免只靠饱和仿真分数判断。"
+  ],
+  "risks": "**局限：** - 作者明确指出 16 动作词表未覆盖爬楼等全身控制；增加词表的初始化机制不等于已经验证新词技能零样本学习。\n- GPT 标注抽样 500 例人工核验准确率 95%，可能混淆偶然敲击与有意点击；预测词 90.5% 准确率则以 GPT 标注为参照，不能当作独立人工真值。\n- 基线部分引用官方结果，部分复现，预训练来源、模型、分辨率并非完全匹配。真机仅四任务两本体，未见配置各因素分别变化；没有证明多因素组合扰动和开放环境鲁棒性。\n- 纸张滑落、拇指先接触导致过早抬手仍会失败；预测触觉反馈可能漏掉意外接触，已有数据不足以把它用作高风险接触的传感器替代方案。\n\n**适用场景：** - 适合已有多模态示教、需要接触状态预测与阶段重启的桌面双手 VLA；也适合研究人手与机器人数据共享中间语义接口。部署应评估传感器缺失、接触异常和计算预算，保留低层接触控制闭环。\n\n**最终判断：** - 值得跟进，优先复现长任务去词监督与去 Cosmos 对照。证据支持语义锚点对特定任务状态转换和接触预测有益；通用物理推理、任意组合泛化、跨本体零样本迁移和无传感器安全性仍未建立。",
+  "riskLimitations": [
+    "作者明确指出 16 动作词表未覆盖爬楼等全身控制；增加词表的初始化机制不等于已经验证新词技能零样本学习。",
+    "GPT 标注抽样 500 例人工核验准确率 95%，可能混淆偶然敲击与有意点击；预测词 90.5% 准确率则以 GPT 标注为参照，不能当作独立人工真值。",
+    "基线部分引用官方结果，部分复现，预训练来源、模型、分辨率并非完全匹配。真机仅四任务两本体，未见配置各因素分别变化；没有证明多因素组合扰动和开放环境鲁棒性。",
+    "纸张滑落、拇指先接触导致过早抬手仍会失败；预测触觉反馈可能漏掉意外接触，已有数据不足以把它用作高风险接触的传感器替代方案。"
+  ],
+  "riskScenarios": [
+    "适合已有多模态示教、需要接触状态预测与阶段重启的桌面双手 VLA；也适合研究人手与机器人数据共享中间语义接口。部署应评估传感器缺失、接触异常和计算预算，保留低层接触控制闭环。"
+  ],
+  "riskJudgment": [
+    "值得跟进，优先复现长任务去词监督与去 Cosmos 对照。证据支持语义锚点对特定任务状态转换和接触预测有益；通用物理推理、任意组合泛化、跨本体零样本迁移和无传感器安全性仍未建立。"
+  ],
+  "resultsTableMarkdown": "| 评测 | PhysWord | 对照 | 证据边界 |\n| --- | --- | --- | --- |\n| UniVTAC 均值 | 90.3% | N0-VTLA 83.1% | +7.2 个百分点；HDMI 仅 34% |\n| LIBERO-Long | 99.6% | UniWAM 98.4% | +1.2 个百分点，已接近饱和 |\n| 真机四任务均值 | 71.7% | FTP-1 55.0% | 同任务示教，预训练与模型不同 |\n| 未见配置六设置均值 | 63.3% | FTP-1 35.0% | 仅拾纸与螺丝任务 |\n| 连续三次拾纸 | 70.0% | 无词监督 36.7% | 语义锚点对阶段重启的证据 |\n| 扩展打包 | 66.7% | 无词监督 50.0% | 测试含人工重新开盖 |\n| UniVTAC 无 Cosmos | 86.4% | 完整模型 90.3% | 分离时间感知骨干贡献 |",
+  "resultsTable": {
+    "columns": [
+      "评测",
+      "PhysWord",
+      "对照",
+      "证据边界"
+    ],
+    "rows": [
+      [
+        "UniVTAC 均值",
+        "90.3%",
+        "N0-VTLA 83.1%",
+        "+7.2 个百分点；HDMI 仅 34%"
+      ],
+      [
+        "LIBERO-Long",
+        "99.6%",
+        "UniWAM 98.4%",
+        "+1.2 个百分点，已接近饱和"
+      ],
+      [
+        "真机四任务均值",
+        "71.7%",
+        "FTP-1 55.0%",
+        "同任务示教，预训练与模型不同"
+      ],
+      [
+        "未见配置六设置均值",
+        "63.3%",
+        "FTP-1 35.0%",
+        "仅拾纸与螺丝任务"
+      ],
+      [
+        "连续三次拾纸",
+        "70.0%",
+        "无词监督 36.7%",
+        "语义锚点对阶段重启的证据"
+      ],
+      [
+        "扩展打包",
+        "66.7%",
+        "无词监督 50.0%",
+        "测试含人工重新开盖"
+      ],
+      [
+        "UniVTAC 无 Cosmos",
+        "86.4%",
+        "完整模型 90.3%",
+        "分离时间感知骨干贡献"
+      ]
+    ]
+  },
+  "figureGallery": [
+    {
+      "zone": "intuition",
+      "caption": "图 1：Physical Words 概览、基准表现与两种机器人平台",
+      "src": "https://arxiv.org/html/2610.26854v3/teaser_new.png"
+    },
+    {
+      "zone": "method",
+      "caption": "图 2：MoT 双分支、语义与未来感官双重监督、时间块注意力掩码",
+      "src": "https://arxiv.org/html/2610.26854v3/method_V3.png"
+    },
+    {
+      "zone": "results",
+      "caption": "图 3：未来预测间隔为 2、4、8、16 步时的任务成功率，默认选 4 步",
+      "src": "https://arxiv.org/html/2610.26854v3/abaltion_V2.png"
+    },
+    {
+      "zone": "results",
+      "caption": "图 4：真机执行过程与操作相关区域的注意力可视化",
+      "src": "https://arxiv.org/html/2610.26854v3/vis_V6.png"
+    },
+    {
+      "zone": "insights",
+      "caption": "图 6：视觉与触觉隐状态的动作类别 t-SNE 对照",
+      "src": "https://arxiv.org/html/2610.26854v3/ap_tsne_V2.png"
+    }
+  ],
+  "relatedTopicSlugs": [
+    "vision-language-action"
+  ]
+}
