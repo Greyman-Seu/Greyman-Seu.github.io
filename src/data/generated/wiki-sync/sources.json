@@ -11667,13 +11667,24 @@
     "codeUrl": "",
     "translationUrl": "https://hjfy.top/arxiv/2609.31323",
     "publishDate": "2026-09-25",
-    "authors": [],
-    "affiliation": "MIT",
+    "authors": [
+      "Alexander Alexiev",
+      "Tzu-Yuan Lin",
+      "Sang Min Kim",
+      "Ho Jae Lee",
+      "Yonghyeon Lee",
+      "Sangbae Kim"
+    ],
+    "affiliation": "MIT / Seoul National University / Yonsei University",
     "relatedOrganizations": [
-      "[MIT, Seoul National University, Yonsei University]"
+      "MIT",
+      "Seoul National University",
+      "Yonsei University"
     ],
     "relatedCompanies": [],
-    "keywords": [],
+    "keywords": [
+      "contact-rich-manipulation"
+    ],
     "primaryDomainSlug": "physical-embodied-intelligence",
     "domainSlugs": [
       "physical-embodied-intelligence"
