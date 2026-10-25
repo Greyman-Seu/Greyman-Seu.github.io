@@ -1,16 +1,16 @@
 {
   "data_version": "followhub-wiki-r2/v1",
-  "generated_at": "2026-10-25T02:52:58Z",
+  "generated_at": "2026-10-25T14:35:43Z",
   "wiki_root": "/home/yangkunzhu/workspace/agent_space/FollowHub/submodules/llm-wiki-skill/followhub-wiki",
   "page_root": "",
   "base_path": "wiki",
   "latest_updated": "2026-10-25",
   "counts": {
-    "sources": 73,
+    "sources": 76,
     "topics": 9,
     "synthesis": 3,
-    "graph_nodes": 85,
-    "graph_edges": 206
+    "graph_nodes": 88,
+    "graph_edges": 210
   },
   "files": {
     "sources": "sources.json",
@@ -21,6 +21,10 @@
   },
   "collections": {
     "source": [
+      {
+        "slug": "1905.11979-causal-confusion-in-imitation-learning",
+        "path": "source/1905.11979-causal-confusion-in-imitation-learning.json"
+      },
       {
         "slug": "2409.11047-tacdiffusion-force-domain-diffusion-policy-for-precise-tactile-manipulation",
         "path": "source/2409.11047-tacdiffusion-force-domain-diffusion-policy-for-precise-tactile-manipulation.json"
@@ -162,6 +166,10 @@
         "path": "source/2610.23849-blind-precise-assembly.json"
       },
       {
+        "slug": "2610.26854-physword",
+        "path": "source/2610.26854-physword.json"
+      },
+      {
         "slug": "2610.28594-learning-the-4d-world-through-point-trajectory-forecasting",
         "path": "source/2610.28594-learning-the-4d-world-through-point-trajectory-forecasting.json"
       },
@@ -172,6 +180,10 @@
       {
         "slug": "2610.30136-agentic-world-action-models",
         "path": "source/2610.30136-agentic-world-action-models.json"
+      },
+      {
+        "slug": "2610.31608-humanoid-mobility-via-attention-based-contacts",
+        "path": "source/2610.31608-humanoid-mobility-via-attention-based-contacts.json"
       },
       {
         "slug": "action-sketcher-from-reasoning-to-action-via-visual-sketches-for-long-horizon-robotic-manipulation",
