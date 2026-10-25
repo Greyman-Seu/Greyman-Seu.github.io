@@ -1,0 +1,151 @@
+{
+  "slug": "2609.19104-rmuscle",
+  "title": "rMuscle: Robotic Muscle Memory for Efficient Vision-Language-Action Model Inference",
+  "sourceType": "paper",
+  "sourceUrl": "https://arxiv.org/abs/2609.19104",
+  "htmlUrl": "https://arxiv.org/html/2609.19104v3",
+  "pdfUrl": "https://arxiv.org/pdf/2609.19104v3",
+  "codeUrl": "",
+  "translationUrl": "https://hjfy.top/arxiv/2609.19104",
+  "publishDate": "2026-09-16",
+  "authors": [
+    "Kaijun Zhou",
+    "Zhiyang Li",
+    "Le Chen",
+    "Jinyu Gu"
+  ],
+  "affiliation": "Institute of Parallel and Distributed Systems, Shanghai Jiao Tong University",
+  "relatedOrganizations": [
+    "Shanghai Jiao Tong University"
+  ],
+  "relatedCompanies": [],
+  "keywords": [
+    "vision-language-action"
+  ],
+  "primaryDomainSlug": "physical-embodied-intelligence",
+  "domainSlugs": [
+    "physical-embodied-intelligence"
+  ],
+  "heroImage": "https://arxiv.org/html/2609.19104v3/design_overview.png",
+  "tldr": "值得记住的不是“机器人记住动作”，而是重复工位任务能提供可复用的内部计算模式。rMuscle 在强推理引擎之上进一步降低延迟，RoboTwin 平均成功率及两项真机成功率持平；收益依赖参考覆盖、硬件瓶颈和重建时间，不能直接外推到开放世界。",
+  "intuition": "像装配工第二次处理相似零件时知道哪些细节需要重新看、哪些动作细节需要重新算，系统先从旧任务轨迹中找相似阶段。视觉侧只重新计算变化大的 token；动作侧重新计算重要神经元，并用本次调用的完整计算锚点补齐其他贡献。它不会把旧动作直接发给机器人，仍由当前观察驱动闭环策略。",
+  "abstractEn": "Factory work is a promising early scenario for embodied AI: assigning repetitive manual jobs to robots has clear economic payoff, and a structured station keeps the jobs tractable for current policies. Vision-Language-Action (VLA) models now dominate as the policy paradigm for these robots. The inference latency of VLA models directly affects robot responsiveness and motion smoothness. However, existing VLA inference frameworks do not fully exploit the characteristics of embodied workloads or account for the distinct bottlenecks across different stages of VLA inference. In this paper, we first characterize embodied workloads and identify substantial task similarity across repeated robot executions. We further find that such similarity extends beyond observations and action trajectories to internal model states. Drawing on these observations, we present rMuscle, a real-time VLA inference framework inspired by human muscle memory. It exploits cross-execution similarity through a dual-phase muscle-memory cache. The Context Cache reuses visual-token outputs to reduce computation, while the Action Cache reuses neuron activation patterns to reduce weight accesses. We keep both the cache memory footprint and access overhead low through online cache recomputation, sliding-window cache retrieval, and mask sharing across consecutive denoising steps. rMuscle achieves 1.29–1.42× speedup on RTX 4090 and Jetson Thor across LIBERO, RoboTwin, and physical manipulation tasks, while maintaining the original success rates on real-world robots.",
+  "abstractZh": "工厂重复性劳动是具身智能早期落地的重要场景，结构化工位有利于当前策略执行任务，而 VLA 推理延迟直接影响机器人响应和运动连续性。现有框架没有充分利用具身工作负载特征，也没有分别处理不同推理阶段的瓶颈。作者发现，重复执行任务时，相似性不仅存在于观察与动作轨迹中，也存在于模型内部状态中。据此提出受肌肉记忆启发的实时推理框架 rMuscle：上下文缓存复用视觉 token 输出以减少计算，动作缓存复用神经元激活模式以减少权重访问，并通过在线缓存重建、滑动窗口检索和连续去噪步共享掩码控制内存与访问开销。摘要报告在 RTX 4090 和 Jetson Thor、LIBERO、RoboTwin 与真实操作任务上达到 1.29–1.42 倍加速，并保持真实机器人原始成功率。注意此区间概括核心配置，正文另给出不同模型和基线下的结果。",
+  "background": "**动机：** 扩散或流匹配 VLA 在每轮观察后先做多模态上下文编码，再多步去噪输出动作块。固定工位会反复执行少数任务，而每个 episode 需要约 4–40 次策略调用；降低每次推理间隙有助于重新观察、响应扰动和衔接动作。论文分析表明，视觉前缀 FFN 主要受计算约束，短序列动作 FFN 则主要受权重访存约束，两部分都必须优化。\n\n**问题缺口：** 内核融合和 CUDA Graph 等引擎优化没有决定哪些计算可以省掉；只复用上一帧又可能错过跨 episode 的更好参考。整步跳过去噪也不可靠，因为 VLA 去噪步数少，GR00T 仅四步，每步更新都重要。核心缺口是在跨任务执行的相似性中寻找细粒度可复用状态，同时让检索、权重收集和缓存存储成本小于省下的计算。",
+  "backgroundMotivation": "扩散或流匹配 VLA 在每轮观察后先做多模态上下文编码，再多步去噪输出动作块。固定工位会反复执行少数任务，而每个 episode 需要约 4–40 次策略调用；降低每次推理间隙有助于重新观察、响应扰动和衔接动作。论文分析表明，视觉前缀 FFN 主要受计算约束，短序列动作 FFN 则主要受权重访存约束，两部分都必须优化。",
+  "backgroundGap": "内核融合和 CUDA Graph 等引擎优化没有决定哪些计算可以省掉；只复用上一帧又可能错过跨 episode 的更好参考。整步跳过去噪也不可靠，因为 VLA 去噪步数少，GR00T 仅四步，每步更新都重要。核心缺口是在跨任务执行的相似性中寻找细粒度可复用状态，同时让检索、权重收集和缓存存储成本小于省下的计算。",
+  "method": "**方法概述：** 输入包括图像、语言指令、当前关节状态及其历史，输出仍是原策略预测的连续动作块。离线按任务收集参考 episode、分析视觉 token 与神经元贡献并生成分组掩码；在线先用指令筛任务包，再以中间视觉特征与关节历史选参考，分别执行视觉 FFN 选择性重算和动作 FFN 锚点增量更新。机器人执行动作时异步重建未来可能访问的参考状态，滑动窗口限制 GPU 常驻集合。\n\n**核心机制：** 上下文阶段按当前与参考 FFN 输入的归一化 RMS 差排序，只重算比例 rho_p 的视觉 token，其余复用参考输出；语言和机器人状态行始终重算，attention 保持稠密。动作阶段从参考执行获得重要神经元掩码，但未选神经元的数值来自当前调用的稠密锚点：输出等于锚点输出，加上所选神经元当前激活与锚点激活之差经 down projection 的结果。因此所有神经元仍有贡献，减少的是中间步骤的权重加载，而非删除整步或直接复用历史动作。它不引入策略训练损失，新增工作是离线 profiling、参考采集和运行时近似执行。\n\n**方法拆解：** - 离线构建参考库：按物体类别和工作空间位置采样，每区域收集 2–8 条执行，聚类观察后补充覆盖不足的区域，最终每任务约 200–800 次推理、8–32 个 episode。逐层逐步将激活绝对值对动作求和后乘 down 权重的 L2 范数，作为神经元贡献分数；组内合并候选并按累计贡献保留 top-K，而不是训练新的预测器。\n- 视觉 FFN 复用：对第 l 层位置 p，计算 d=RMS(x-x_ref)/max(RMS(x),1e-6)，取差异最大的 ceil(rho_p P) 个视觉行。所选行执行完整 gate/up/activation/down，再散射到以参考输出初始化的缓冲区；未选视觉行复用历史值。attention 继续处理完整序列，因而这不是从序列中删除视觉 token。\n- 动作锚点与稀疏更新：默认 pi0.5 十步去噪分两组，步 0 和步 5 分别稠密执行并保存本次调用的锚点输出及选中激活。其后每步只计算参考掩码 M 指定的神经元，使用 y_t=y_anchor+(h_t[M]-h_anchor[M])W_down[M] 更新。减去锚点选中贡献可避免重复计数，非选中贡献保留锚点近似；组内共享权重缓冲以摊销 gathering。\n- 视觉与运动联合检索：先由指令限制兼容任务包，三视角 pi0.5 用 ViT 第 15/27 层的 [768,1152] 特征做余弦匹配，保留 T 个候选，再用长度 L 的对齐关节角历史 RMS 距离重排。双臂取两臂距离的较大者，区分图像相似但运动方向不同的阶段。视觉相似度低于 0.8 时整段 episode 回退稠密执行，下个 episode 再尝试。\n- 执行间隙重建与预取：默认 T=L=4，保留四条候选轨迹当前及未来四位置，共 20 个展开条目。长期库保存紧凑输入和离线掩码，仅在动作执行期间重跑参考 VLM 以展开 FFN 状态，不重跑动作去噪。每条展开约 107 MB、重建约 25 ms，紧凑输入传输约 1.7 MB；15 个动作按 30 Hz 执行约有 500 ms，可重建约 20 条。预算同时受候选数、剩余显存与可用时间限制，采用平均重建时间，并非硬实时期限保证。\n- 并行调度与冷启动：首次调用没有上一轮执行窗口，提前加载参考 episode 的初始状态，并按视觉相似性选择候选轨迹。后续在侧 CUDA stream 检索和收集选中权重，与剩余视觉编码及 VLM prefill 重叠，以 event 约束依赖。只检索已在 GPU 准备好的条目，防止大块状态传输进入关键路径；重复命中同一参考超过任务最大调用次数会判为停滞并记失败。\n\n**关键要点：** - 计算受限阶段按视觉行省 FLOPs，访存受限阶段按神经元省权重读取；不能用同一种稀疏粒度覆盖所有阶段。\n- 跨执行参考只预测需要更新的位置，动作数值仍通过本次调用锚点校正；其质量来自参考覆盖与回退机制，而不只是稀疏率。\n\n![方法图](https://arxiv.org/html/2609.19104v3/design_overview.png)\n\n*图 8：双阶段缓存。视觉 FFN 选择性重算；动作 FFN 使用当前调用锚点与参考掩码进行增量更新。*\n\n![方法图](https://arxiv.org/html/2609.19104v3/sliding-window.png)\n\n*图 12：滑动 GPU 工作集。按指令选择任务包，并在执行间隙重建候选轨迹后续位置。*",
+  "methodOverview": "输入包括图像、语言指令、当前关节状态及其历史，输出仍是原策略预测的连续动作块。离线按任务收集参考 episode、分析视觉 token 与神经元贡献并生成分组掩码；在线先用指令筛任务包，再以中间视觉特征与关节历史选参考，分别执行视觉 FFN 选择性重算和动作 FFN 锚点增量更新。机器人执行动作时异步重建未来可能访问的参考状态，滑动窗口限制 GPU 常驻集合。",
+  "methodCore": "上下文阶段按当前与参考 FFN 输入的归一化 RMS 差排序，只重算比例 rho_p 的视觉 token，其余复用参考输出；语言和机器人状态行始终重算，attention 保持稠密。动作阶段从参考执行获得重要神经元掩码，但未选神经元的数值来自当前调用的稠密锚点：输出等于锚点输出，加上所选神经元当前激活与锚点激活之差经 down projection 的结果。因此所有神经元仍有贡献，减少的是中间步骤的权重加载，而非删除整步或直接复用历史动作。它不引入策略训练损失，新增工作是离线 profiling、参考采集和运行时近似执行。",
+  "methodBreakdown": [
+    "离线构建参考库：按物体类别和工作空间位置采样，每区域收集 2–8 条执行，聚类观察后补充覆盖不足的区域，最终每任务约 200–800 次推理、8–32 个 episode。逐层逐步将激活绝对值对动作求和后乘 down 权重的 L2 范数，作为神经元贡献分数；组内合并候选并按累计贡献保留 top-K，而不是训练新的预测器。",
+    "视觉 FFN 复用：对第 l 层位置 p，计算 d=RMS(x-x_ref)/max(RMS(x),1e-6)，取差异最大的 ceil(rho_p P) 个视觉行。所选行执行完整 gate/up/activation/down，再散射到以参考输出初始化的缓冲区；未选视觉行复用历史值。attention 继续处理完整序列，因而这不是从序列中删除视觉 token。",
+    "动作锚点与稀疏更新：默认 pi0.5 十步去噪分两组，步 0 和步 5 分别稠密执行并保存本次调用的锚点输出及选中激活。其后每步只计算参考掩码 M 指定的神经元，使用 y_t=y_anchor+(h_t[M]-h_anchor[M])W_down[M] 更新。减去锚点选中贡献可避免重复计数，非选中贡献保留锚点近似；组内共享权重缓冲以摊销 gathering。",
+    "视觉与运动联合检索：先由指令限制兼容任务包，三视角 pi0.5 用 ViT 第 15/27 层的 [768,1152] 特征做余弦匹配，保留 T 个候选，再用长度 L 的对齐关节角历史 RMS 距离重排。双臂取两臂距离的较大者，区分图像相似但运动方向不同的阶段。视觉相似度低于 0.8 时整段 episode 回退稠密执行，下个 episode 再尝试。",
+    "执行间隙重建与预取：默认 T=L=4，保留四条候选轨迹当前及未来四位置，共 20 个展开条目。长期库保存紧凑输入和离线掩码，仅在动作执行期间重跑参考 VLM 以展开 FFN 状态，不重跑动作去噪。每条展开约 107 MB、重建约 25 ms，紧凑输入传输约 1.7 MB；15 个动作按 30 Hz 执行约有 500 ms，可重建约 20 条。预算同时受候选数、剩余显存与可用时间限制，采用平均重建时间，并非硬实时期限保证。",
+    "并行调度与冷启动：首次调用没有上一轮执行窗口，提前加载参考 episode 的初始状态，并按视觉相似性选择候选轨迹。后续在侧 CUDA stream 检索和收集选中权重，与剩余视觉编码及 VLM prefill 重叠，以 event 约束依赖。只检索已在 GPU 准备好的条目，防止大块状态传输进入关键路径；重复命中同一参考超过任务最大调用次数会判为停滞并记失败。"
+  ],
+  "methodTakeaways": [
+    "计算受限阶段按视觉行省 FLOPs，访存受限阶段按神经元省权重读取；不能用同一种稀疏粒度覆盖所有阶段。",
+    "跨执行参考只预测需要更新的位置，动作数值仍通过本次调用锚点校正；其质量来自参考覆盖与回退机制，而不只是稀疏率。"
+  ],
+  "results": "**核心结果：** - 评测共 92 项任务：LIBERO 四套件 40 项、RoboTwin clean 50 项、真机两项。仿真每任务 100 个 seeded rollouts；真机每种方法各 50 次。比较方法共享 checkpoint 和初始化，不量化；延迟从输入就绪到动作块返回，包含在线检索与权重收集，预热 20 次，不等于完整机械任务时长。\n- pi0.5 在 RTX 4090 上从 FlashRT 46.0 ms 降到 35.5 ms（1.29 倍），Thor 上 106.2→74.1 ms（1.43 倍左右，正文汇总为 1.42 倍）。图 15 另报告 GR00T 1.20/1.23 倍、X-VLA 1.50/1.43 倍；X-VLA 的基线是 torch.compile，不能把它写成相对 FlashRT 的 1.50 倍。\n- RoboTwin 平均成功率为 35.2%，与原策略持平，DP-Cache 为 33.9%，NIRVANA 为 26.9%。但 Handover Block 14→12%、Place Empty Cup 39→36%：平均持平掩盖了单任务退化；作者后续提高阈值或补充两条相关参考可消除这两处失败。\n- 默认 rho_p=0.4、rho_n=0.5；Fast 的 0.2/0.25 配置仅 23.0% 成功，Default 为 35.2%，多花 4.9 ms。只用上一轮参考、移除参考库时成功率降到 25.9%，延迟相近，说明“跨 episode 找到合适参考”是质量关键。\n- 4090 上只开 Context Cache 为 36.8 ms，只开 Action Cache 为 44.6 ms，联合为 35.5 ms；Thor 对应 86.8、93.3、74.1 ms。4090 GPU 显存从 8.4 GB 增到 9.4–11.4 GB，主机缓存占 32 GB 的 3.7–14.9%；Thor 统一内存占比从 6.6% 增到 8.3–12.6%，不能把内存开销描述为零。\n\n**结果表：** | 场景 / 指标 | 原始稠密策略 | DP-Cache | NIRVANA | rMuscle |\n| --- | ---: | ---: | ---: | ---: |\n| RoboTwin 50 任务平均成功率 | 35.2% | 33.9% | 26.9% | 35.2% |\n| ALOHA 双瓶装箱成功率 | 76% | 74% | 70% | 76% |\n| 输送带家具装箱成功率 | 84% | 80% | 66% | 84% |\n| ALOHA 成功 episode 平均策略调用 | 38.7 | 39.5 | 40.0 | 39.1 |\n| 输送带成功 episode 平均策略调用 | 10.1 | 10.5 | 10.7 | 10.2 |\n\n真机任务各 50 次试验；调用次数只统计成功 episode。相同点估计并不构成统计等价证明。\n\n![结果图](https://arxiv.org/html/2609.19104v3/franka-1x2.png)\n\n*图 14a：输送带家具装箱真机布置及执行过程；这是实验场景图，性能数值见上表与正文。*",
+  "resultHighlights": [
+    "评测共 92 项任务：LIBERO 四套件 40 项、RoboTwin clean 50 项、真机两项。仿真每任务 100 个 seeded rollouts；真机每种方法各 50 次。比较方法共享 checkpoint 和初始化，不量化；延迟从输入就绪到动作块返回，包含在线检索与权重收集，预热 20 次，不等于完整机械任务时长。",
+    "pi0.5 在 RTX 4090 上从 FlashRT 46.0 ms 降到 35.5 ms（1.29 倍），Thor 上 106.2→74.1 ms（1.43 倍左右，正文汇总为 1.42 倍）。图 15 另报告 GR00T 1.20/1.23 倍、X-VLA 1.50/1.43 倍；X-VLA 的基线是 torch.compile，不能把它写成相对 FlashRT 的 1.50 倍。",
+    "RoboTwin 平均成功率为 35.2%，与原策略持平，DP-Cache 为 33.9%，NIRVANA 为 26.9%。但 Handover Block 14→12%、Place Empty Cup 39→36%：平均持平掩盖了单任务退化；作者后续提高阈值或补充两条相关参考可消除这两处失败。",
+    "默认 rho_p=0.4、rho_n=0.5；Fast 的 0.2/0.25 配置仅 23.0% 成功，Default 为 35.2%，多花 4.9 ms。只用上一轮参考、移除参考库时成功率降到 25.9%，延迟相近，说明“跨 episode 找到合适参考”是质量关键。",
+    "4090 上只开 Context Cache 为 36.8 ms，只开 Action Cache 为 44.6 ms，联合为 35.5 ms；Thor 对应 86.8、93.3、74.1 ms。4090 GPU 显存从 8.4 GB 增到 9.4–11.4 GB，主机缓存占 32 GB 的 3.7–14.9%；Thor 统一内存占比从 6.6% 增到 8.3–12.6%，不能把内存开销描述为零。"
+  ],
+  "insights": "**核心 insight：** - 核心洞见：跨 episode 的相同动作阶段可能比同一 episode 的上一帧更适合作参考。相似性应在任务进度和运动历史中判断，而不只比较画面；移除参考库导致 9.3 个百分点退化是直接证据。\n- 读者判断：重建调度把物理执行时间转换为 GPU 预计算机会，是机器人场景特有的系统优势；更异步、更短动作块虽改善响应，却压缩缓存准备窗口，二者应联合优化。\n- 证据边界：重要神经元贡献的 top-50% 覆盖约 84.4%，同任务重要集合重叠约 86%，它们只是复用可行性的经验信号，并非闭环轨迹误差或安全性的上界。\n\n**和已有方法的关系：** - 相对 FlashRT，rMuscle增加算法层的近似复用，可叠加内核优化；相对 VLA-Cache 的上一帧 KV 复用，它面向跨执行参考与 FFN 瓶颈；相对 DP-Cache/NIRVANA 的去噪整步复用，它保留各步并更新重要神经元。\n\n**可借鉴点：** - 在重复作业部署中，先分别测 prefill 与 action head 的计算/带宽瓶颈，再确定缓存对象；用当前调用锚点维护残余贡献，并把回退率、任务级失败率和重建赶工率一起作为监控指标。",
+  "insightCore": [
+    "核心洞见：跨 episode 的相同动作阶段可能比同一 episode 的上一帧更适合作参考。相似性应在任务进度和运动历史中判断，而不只比较画面；移除参考库导致 9.3 个百分点退化是直接证据。",
+    "读者判断：重建调度把物理执行时间转换为 GPU 预计算机会，是机器人场景特有的系统优势；更异步、更短动作块虽改善响应，却压缩缓存准备窗口，二者应联合优化。",
+    "证据边界：重要神经元贡献的 top-50% 覆盖约 84.4%，同任务重要集合重叠约 86%，它们只是复用可行性的经验信号，并非闭环轨迹误差或安全性的上界。"
+  ],
+  "insightRelations": [
+    "相对 FlashRT，rMuscle增加算法层的近似复用，可叠加内核优化；相对 VLA-Cache 的上一帧 KV 复用，它面向跨执行参考与 FFN 瓶颈；相对 DP-Cache/NIRVANA 的去噪整步复用，它保留各步并更新重要神经元。"
+  ],
+  "insightBorrowable": [
+    "在重复作业部署中，先分别测 prefill 与 action head 的计算/带宽瓶颈，再确定缓存对象；用当前调用锚点维护残余贡献，并把回退率、任务级失败率和重建赶工率一起作为监控指标。"
+  ],
+  "risks": "**局限：** - 参考库依赖固定工位、兼容任务和场景覆盖，离线每任务采集 200–800 次调用并有 profiling 成本；在线自动接纳成功 episode 仅列为未来工作，不是已验证的持续学习能力。\n- 平均成功率持平不代表逐任务无损；0.8 视觉阈值附近仍有失败。真机仅两类任务、每方法各 50 次，没有提供足以证明统计等价或安全保障的证据。\n- 重建窗口依赖动作块和执行调度，预算用平均时间；异步推理或更高反馈频率会压缩窗口。论文未给严格最坏情况延迟、能耗节省或系统级吞吐提升的同等充分证据。\n\n**适用场景：** - 优先适用于任务重复、观察分布受控、存在执行间隙的装箱、分拣和装配工位，且能够为具体策略与硬件建立参考覆盖。对陌生任务、频繁相机变化、短动作块和高频动态干预，应先测回退率、逐任务质量和重建是否赶得上，再判断是否启用。\n\n**最终判断：** - 这是值得跟进的 VLA 部署系统工作：证明跨执行内部状态复用可在不重新训练策略的情况下改善速度—质量折中。它不是通用动作记忆或开放世界泛化方案；工程采用的前提是覆盖充分的参考库、可接受显存预算与保守回退，不能只照搬默认稀疏率。",
+  "riskLimitations": [
+    "参考库依赖固定工位、兼容任务和场景覆盖，离线每任务采集 200–800 次调用并有 profiling 成本；在线自动接纳成功 episode 仅列为未来工作，不是已验证的持续学习能力。",
+    "平均成功率持平不代表逐任务无损；0.8 视觉阈值附近仍有失败。真机仅两类任务、每方法各 50 次，没有提供足以证明统计等价或安全保障的证据。",
+    "重建窗口依赖动作块和执行调度，预算用平均时间；异步推理或更高反馈频率会压缩窗口。论文未给严格最坏情况延迟、能耗节省或系统级吞吐提升的同等充分证据。"
+  ],
+  "riskScenarios": [
+    "优先适用于任务重复、观察分布受控、存在执行间隙的装箱、分拣和装配工位，且能够为具体策略与硬件建立参考覆盖。对陌生任务、频繁相机变化、短动作块和高频动态干预，应先测回退率、逐任务质量和重建是否赶得上，再判断是否启用。"
+  ],
+  "riskJudgment": [
+    "这是值得跟进的 VLA 部署系统工作：证明跨执行内部状态复用可在不重新训练策略的情况下改善速度—质量折中。它不是通用动作记忆或开放世界泛化方案；工程采用的前提是覆盖充分的参考库、可接受显存预算与保守回退，不能只照搬默认稀疏率。"
+  ],
+  "resultsTableMarkdown": "| 场景 / 指标 | 原始稠密策略 | DP-Cache | NIRVANA | rMuscle |\n| --- | ---: | ---: | ---: | ---: |\n| RoboTwin 50 任务平均成功率 | 35.2% | 33.9% | 26.9% | 35.2% |\n| ALOHA 双瓶装箱成功率 | 76% | 74% | 70% | 76% |\n| 输送带家具装箱成功率 | 84% | 80% | 66% | 84% |\n| ALOHA 成功 episode 平均策略调用 | 38.7 | 39.5 | 40.0 | 39.1 |\n| 输送带成功 episode 平均策略调用 | 10.1 | 10.5 | 10.7 | 10.2 |\n\n真机任务各 50 次试验；调用次数只统计成功 episode。相同点估计并不构成统计等价证明。",
+  "resultsTable": {
+    "columns": [
+      "场景 / 指标",
+      "原始稠密策略",
+      "DP-Cache",
+      "NIRVANA",
+      "rMuscle"
+    ],
+    "rows": [
+      [
+        "RoboTwin 50 任务平均成功率",
+        "35.2%",
+        "33.9%",
+        "26.9%",
+        "35.2%"
+      ],
+      [
+        "ALOHA 双瓶装箱成功率",
+        "76%",
+        "74%",
+        "70%",
+        "76%"
+      ],
+      [
+        "输送带家具装箱成功率",
+        "84%",
+        "80%",
+        "66%",
+        "84%"
+      ],
+      [
+        "ALOHA 成功 episode 平均策略调用",
+        "38.7",
+        "39.5",
+        "40.0",
+        "39.1"
+      ],
+      [
+        "输送带成功 episode 平均策略调用",
+        "10.1",
+        "10.5",
+        "10.7",
+        "10.2"
+      ]
+    ]
+  },
+  "figureGallery": [
+    {
+      "zone": "method",
+      "caption": "方法图",
+      "src": "https://arxiv.org/html/2609.19104v3/design_overview.png"
+    },
+    {
+      "zone": "method",
+      "caption": "方法图",
+      "src": "https://arxiv.org/html/2609.19104v3/sliding-window.png"
+    },
+    {
+      "zone": "results",
+      "caption": "结果图",
+      "src": "https://arxiv.org/html/2609.19104v3/franka-1x2.png"
+    }
+  ],
+  "relatedTopicSlugs": [
+    "vision-language-action"
+  ]
+}
