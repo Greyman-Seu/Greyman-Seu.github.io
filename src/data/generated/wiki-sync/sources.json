@@ -11494,5 +11494,167 @@
     "relatedTopicSlugs": [
       "3d-native-embodied-model"
     ]
+  },
+  {
+    "slug": "2610.20429-when-do-discrete-actions-make-good-continuous-controllers",
+    "title": "When Do Discrete Actions Make Good Continuous Controllers?",
+    "sourceType": "paper",
+    "sourceUrl": "https://arxiv.org/abs/2610.20429v1",
+    "htmlUrl": "https://arxiv.org/html/2610.20429v1",
+    "pdfUrl": "https://arxiv.org/pdf/2610.20429v1",
+    "codeUrl": "",
+    "translationUrl": "https://hjfy.top/arxiv/2610.20429",
+    "publishDate": "2026-10-14",
+    "authors": [
+      "Zeji Yi",
+      "Soham Dasgupta",
+      "Xinyang Zhang",
+      "Koushil Sreenath",
+      "Guannan Qu",
+      "Xi Chen",
+      "Max Simchowitz",
+      "Guanya Shi"
+    ],
+    "affiliation": "Carnegie Mellon University",
+    "relatedOrganizations": [
+      "Carnegie Mellon University",
+      "Amazon FAR"
+    ],
+    "relatedCompanies": [
+      "Amazon"
+    ],
+    "keywords": [
+      "vision-language-action"
+    ],
+    "primaryDomainSlug": "physical-embodied-intelligence",
+    "domainSlugs": [
+      "physical-embodied-intelligence"
+    ],
+    "heroImage": "https://arxiv.org/html/2610.20429v1/teaser.png",
+    "tldr": "这篇工作的价值在于重新定位动作表示的瓶颈：在所测机器人任务中，简单离散动作并不天然输在精度，反而能保留连续回归容易平滑掉的细节；真正需要解决的是跨时间、跨坐标的行为一致性。RoboCasa 上单步离散回归加入 CFG 后成功率由 27.1% 提升至 49.2%，接近离散流 53.9% 和连续流 52.7%。这是设计 VLA 动作头时值得保留的证据，但不是“离散动作在所有精密控制问题上都更优”的定理。",
+    "intuition": "假设机器人可以从杯子左边或右边绕行，两条完整路线都正确。逐个预测动作 token 时，前几步可能选左路，后几步突然选右路，甚至同一步的横、纵坐标分别来自两种路线；每个局部选择看起来合理，组合起来却无法执行。连续均方误差回归则可能输出两条路线的平均值，直接向障碍物移动。离散流让整段动作经过多轮相互参照后再输出，CFG 让模型更偏向当前观测支持的一种选择，分别从联合协调和降低歧义入手。\n\n![四类动作头与仿真、真机实验总览](https://arxiv.org/html/2610.20429v1/teaser.png)\n图 1：比较离散流 DF、连续流 CF、离散回归 DR、连续回归 CR。总览图中的 RoboMimic 柱取各动作头家族的最佳配置，不能理解成同采样步数的速度公平比较。",
+    "abstractEn": "Though modern AI models like LLMs predict discrete tokens, today’s robotic foundation models represent actions as continuous vectors. In this paper, we challenge this common consensus by asking if continuous action parametrizations are superior to their discrete counterparts. We conduct an extensive comparison of single-step regression and multi-step flow variants of both continuous and discrete policies in both from-scratch single-task and multi-task VLA training, in both simulation and on real hardware. In all regimes, we find that discrete action prediction, even the most naive, uniform-bin quantization, can match or even outperform continuous-action policies in task success rate. Moreover, we find that the challenge to discrete action policies is not action precision, but rather factorization error introduced by product-distribution predictions across time and action dimensions. We show that, when paired with the correct interventions—iterative computation through discrete flows, or distribution sharpening through classifier-free guidance—discrete flow policies can turn this weakness into a strength, enabling more responsive action changes during a predicted action chunk. Lastly, we show that attempts to explicitly inject geometric information into discrete policies, e.g. through corruption processes that emulate continuous flow matching, do not yield consistent improvements. Taken together, our findings question existing assumptions that robotic action prediction requires distinct design decisions compared to other AI domains, and motivates the possibility of discrete action prediction as a compelling alternative to today’s continuous action parametrizations. Link for the webpage https://iscoyizj.github.io/discrete-action-website/",
+    "abstractZh": "虽然 LLM 等现代 AI 模型预测离散 token，今天的机器人基础模型却以连续向量表示动作。本文质疑这一普遍共识，研究连续动作参数化是否优于离散形式。作者广泛比较连续和离散策略的单步回归与多步流变体，覆盖从零训练的单任务策略、多任务 VLA、仿真及真实硬件。在这些设置中，即使最简单的均匀分箱离散动作预测，也能在任务成功率上匹敌甚至超过连续动作策略。离散动作策略面临的挑战并非动作精度，而是跨时间和动作维度以乘积分布预测所引入的因子分解误差。通过离散流的迭代计算，或通过无分类器引导进行分布锐化，离散流策略可以把这种弱点转化为优势，在预测动作块内实现响应更敏捷的动作变化。最后，通过类似连续流匹配的损坏过程等方式显式注入几何信息，未带来一致改善。这些发现质疑了机器人动作预测必须采用不同于其他 AI 领域的设计这一假设，支持将离散动作预测视为当前连续动作参数化的有力替代方案。",
+    "background": "**动机：** 机器人在连续世界中执行动作，主流 VLA 因而常用连续 flow 或 diffusion 动作头，认为这能避免量化损失并提供高精度控制。但语言、视觉等大模型接口大量采用离散 token；如果动作也能在相同范式下可靠预测，就可能简化跨模态建模。要作出这种选择，必须测量实际闭环控制能力，而不能只凭连续输出没有分箱误差便判断它一定更好。\n\n**问题缺口：** 既有比较常同时更换骨干、分词器、数据和解码方式，难以区分离散表示、分类损失、单步并行预测与多步迭代各自的作用。即使某种离散流表现好，也可能被笼统归因为更强多模态拟合，而忽略独立 token 预测破坏动作联合分布的问题。本文用四类动作头与 CFG、NFE、动作空间、骨干等消融，把精度、响应性、一致性和闭环成功率分开观察。",
+    "backgroundMotivation": "机器人在连续世界中执行动作，主流 VLA 因而常用连续 flow 或 diffusion 动作头，认为这能避免量化损失并提供高精度控制。但语言、视觉等大模型接口大量采用离散 token；如果动作也能在相同范式下可靠预测，就可能简化跨模态建模。要作出这种选择，必须测量实际闭环控制能力，而不能只凭连续输出没有分箱误差便判断它一定更好。",
+    "backgroundGap": "既有比较常同时更换骨干、分词器、数据和解码方式，难以区分离散表示、分类损失、单步并行预测与多步迭代各自的作用。即使某种离散流表现好，也可能被笼统归因为更强多模态拟合，而忽略独立 token 预测破坏动作联合分布的问题。本文用四类动作头与 CFG、NFE、动作空间、骨干等消融，把精度、响应性、一致性和闭环成功率分开观察。",
+    "method": "**方法概述：** 输入观测 o 包括相机图像、语言和本体状态，策略输出未来 H 步、每步 M 维的动作块。作者在共享视觉语言骨干与近似同规模动作 Transformer 上，交叉比较连续或离散表示、单次或迭代生成四种组合，再独立扫描 CFG 和生成步数。训练统一采用示范行为克隆，部署时解码动作、还原归一化并执行动作块，再重新观测规划；通过闭环成功率、末端误差、时间变化与模式一致性诊断各因素。\n\n**核心机制：** 单步离散回归把动作块展平为 L=H×M 个位置，以 p(z|o)=∏j p(zj|o) 表示分布。即使各位置的边缘概率正确，边缘分布的乘积也不一定还原示范动作的联合分布，因此逐位置 argmax 可能拼出相互矛盾的行为。离散流每轮仍逐位置预测，但条件包含当前整段 token 和流时间；前一轮的选择会影响下一轮所有位置，从而在最终样本中建立跨位置关联。CFG 则以条件概率与无条件概率的比值重新加权各 bin，降低当前观测下的行为歧义。这两个机制可以改善一致性，却不等于都显式学习了完整联合分布，也不能保证逐样本正确。\n\n**方法拆解：**\n\n- 动作编码与量化：主实验使用相对末端动作，整段目标都相对于预测时刻的末端位姿，而非每一步执行时的位姿。VLA 采用 H=24、M=7，包含三维平移、轴角旋转和夹爪；归一化与裁剪后每维通常划为 B=512 个均匀 bin，解码取 bin 中心，再逆归一化。量化误差确实存在；有限范围内单坐标分箱误差上界是半个 bin，不能把分类输出说成无损。\n- 观测骨干与动作专家：VLA 用 π0 视觉语言权重初始化 PaliGemma-3B，并全量微调；输入最多三张 224×224 图像与 48 个文本 token。两层 resampler 用 64 个查询融合视觉语言最终状态和一个本体状态 token，得到 64 个条件 token；独立动作 Transformer 用 8 层、宽 1536、12 个头，通过动作自注意力和条件交叉注意力输出动作。四个动作头及 resampler 约 367M–371M 参数，骨干另有 2.92B。\n- 连续回归与连续流：CR 一次前向输出整段动作，用平方误差监督，理想总体最优解是条件均值，多种可行行为可能被平均。CF 在高斯噪声与示范动作的插值上学习速度场，预测目标与插值导数对应，推理用 Euler 积分逐步产生动作。连续流迭代可缓解过度平滑，但积分步数、引导强度和数值稳定性相互影响。\n- 离散回归及其实际训练目标：DR 一次输出 L×B logits，逐位置分类并 argmax 解码，预测时无需按 token 顺序自回归。不能把全部 DR 实验描述成纯 hard-label CE：RoboCasa/VLA 使用距离核平滑交叉熵，附录给出温度 0.0025；Push-T 则是 hard-label CE。分类损失、输出参数化与 argmax 的共同变化是解释性能时的混杂因素。\n- 离散流的训练和采样：把示范动作编码为 clean token z，采样 t，并以 α(t) 保留目标 token、以 1−α(t) 从源分布取样，得到损坏动作 zt。模型用观测、zt 和 t 预测 clean-token 分布，以交叉熵训练；VLA 主配置源分布均匀、α(t)=t³。推理从随机 token 出发，每轮采样候选，按 η=(α下一步−α当前)/(1−α当前) 替换，最后一步替换概率为 1；均匀源允许已更新位置继续改变。\n- CFG、训练数据和部署预算：训练以 0.1 概率丢弃条件，学习有条件与空条件预测；离散引导相当于 logits_CFG=(1+λ)logits_cond−λ logits_null，DR 引导后 argmax，DF 每轮引导后采样。CF 则组合条件/空条件速度，CR 不引导。VLA 混合六份 RoboCasa、LIBERO-plus、DROID，按帧数平方根加权并限制 MimicGen 权重；训练 150k 步，batch 512，8 张 B200，AdamW 峰值学习率 7.5e−5。推理编码骨干一次，CFG 每次动作头评估需两次前向，因此 NFE 不能直接当作完整延迟。\n\n**关键要点：**\n\n- 对离散头，“同时并行预测”不代表最终输出必须相互独立；DF 通过依赖当前动作块的多轮计算协调 token。DR 的低成本来自一次并行输出，但一致性问题也最明显。\n- CFG 对 DR 的收益主要体现在减少歧义和提升闭环成功率，而非显著降低末端重建误差；它会缩小覆盖范围，不能被理解为无代价地恢复所有正确模式。\n- 基础均匀分箱 DF 已很强。更复杂 tokenizer 应证明能改善动作的联合可预测性与闭环控制，而非只证明压缩率或离线重建更好。\n\n![跨时间与跨坐标的因子分解错误](https://arxiv.org/html/2610.20429v1/pusht_factorization.png)\n图 5：同一动作块可在两个模式之间切换，同一步也可能把不同模式的坐标拼在一起。图示强调联合一致性问题，并非分箱太粗。",
+    "methodOverview": "输入观测 o 包括相机图像、语言和本体状态，策略输出未来 H 步、每步 M 维的动作块。作者在共享视觉语言骨干与近似同规模动作 Transformer 上，交叉比较连续或离散表示、单次或迭代生成四种组合，再独立扫描 CFG 和生成步数。训练统一采用示范行为克隆，部署时解码动作、还原归一化并执行动作块，再重新观测规划；通过闭环成功率、末端误差、时间变化与模式一致性诊断各因素。",
+    "methodCore": "单步离散回归把动作块展平为 L=H×M 个位置，以 p(z|o)=∏j p(zj|o) 表示分布。即使各位置的边缘概率正确，边缘分布的乘积也不一定还原示范动作的联合分布，因此逐位置 argmax 可能拼出相互矛盾的行为。离散流每轮仍逐位置预测，但条件包含当前整段 token 和流时间；前一轮的选择会影响下一轮所有位置，从而在最终样本中建立跨位置关联。CFG 则以条件概率与无条件概率的比值重新加权各 bin，降低当前观测下的行为歧义。这两个机制可以改善一致性，却不等于都显式学习了完整联合分布，也不能保证逐样本正确。",
+    "methodBreakdown": [
+      "动作编码与量化：主实验使用相对末端动作，整段目标都相对于预测时刻的末端位姿，而非每一步执行时的位姿。VLA 采用 H=24、M=7，包含三维平移、轴角旋转和夹爪；归一化与裁剪后每维通常划为 B=512 个均匀 bin，解码取 bin 中心，再逆归一化。量化误差确实存在；有限范围内单坐标分箱误差上界是半个 bin，不能把分类输出说成无损。",
+      "观测骨干与动作专家：VLA 用 π0 视觉语言权重初始化 PaliGemma-3B，并全量微调；输入最多三张 224×224 图像与 48 个文本 token。两层 resampler 用 64 个查询融合视觉语言最终状态和一个本体状态 token，得到 64 个条件 token；独立动作 Transformer 用 8 层、宽 1536、12 个头，通过动作自注意力和条件交叉注意力输出动作。四个动作头及 resampler 约 367M–371M 参数，骨干另有 2.92B。",
+      "连续回归与连续流：CR 一次前向输出整段动作，用平方误差监督，理想总体最优解是条件均值，多种可行行为可能被平均。CF 在高斯噪声与示范动作的插值上学习速度场，预测目标与插值导数对应，推理用 Euler 积分逐步产生动作。连续流迭代可缓解过度平滑，但积分步数、引导强度和数值稳定性相互影响。",
+      "离散回归及其实际训练目标：DR 一次输出 L×B logits，逐位置分类并 argmax 解码，预测时无需按 token 顺序自回归。不能把全部 DR 实验描述成纯 hard-label CE：RoboCasa/VLA 使用距离核平滑交叉熵，附录给出温度 0.0025；Push-T 则是 hard-label CE。分类损失、输出参数化与 argmax 的共同变化是解释性能时的混杂因素。",
+      "离散流的训练和采样：把示范动作编码为 clean token z，采样 t，并以 α(t) 保留目标 token、以 1−α(t) 从源分布取样，得到损坏动作 zt。模型用观测、zt 和 t 预测 clean-token 分布，以交叉熵训练；VLA 主配置源分布均匀、α(t)=t³。推理从随机 token 出发，每轮采样候选，按 η=(α下一步−α当前)/(1−α当前) 替换，最后一步替换概率为 1；均匀源允许已更新位置继续改变。",
+      "CFG、训练数据和部署预算：训练以 0.1 概率丢弃条件，学习有条件与空条件预测；离散引导相当于 logits_CFG=(1+λ)logits_cond−λ logits_null，DR 引导后 argmax，DF 每轮引导后采样。CF 则组合条件/空条件速度，CR 不引导。VLA 混合六份 RoboCasa、LIBERO-plus、DROID，按帧数平方根加权并限制 MimicGen 权重；训练 150k 步，batch 512，8 张 B200，AdamW 峰值学习率 7.5e−5。推理编码骨干一次，CFG 每次动作头评估需两次前向，因此 NFE 不能直接当作完整延迟。"
+    ],
+    "methodTakeaways": [
+      "对离散头，“同时并行预测”不代表最终输出必须相互独立；DF 通过依赖当前动作块的多轮计算协调 token。DR 的低成本来自一次并行输出，但一致性问题也最明显。",
+      "CFG 对 DR 的收益主要体现在减少歧义和提升闭环成功率，而非显著降低末端重建误差；它会缩小覆盖范围，不能被理解为无代价地恢复所有正确模式。",
+      "基础均匀分箱 DF 已很强。更复杂 tokenizer 应证明能改善动作的联合可预测性与闭环控制，而非只证明压缩率或离线重建更好。"
+    ],
+    "results": "主结果不是一组完全等价预算下的普遍排序。VLA 按各动作头最后五个检查点（110k–150k）选最佳，以五个评估种子报告均值及标准差；各配置解码参数可不同。RoboCasa 每种子共 500 个 episode，覆盖 atomic-seen、composite-seen、composite-unseen；DROID 仅用于离线诊断，没有 DROID 闭环成功率。\n\n1. 主配置 RoboCasa 相对末端控制中，DF 53.9±1.2%，CF 52.7±3.4%，DR 49.2±1.4%，CR 38.8±3.3%。DF 与 CF 的差值很小，不宜写成已证明显著胜出。DR 无引导为 27.1%，加 CFG 2 后达 49.2%，是更有解释力的消融。\n2. 一致性诊断显示，DR 每块平均不一致模式计数 3.01；DF 在 NFE 2、5、10、20 时依次为 4.94、1.50、0.57、0.22。NFE 10 相比 DR 约减少 5.28 倍，但仅两步的 DF 反而更差，说明“用了流”不自动解决因子分解误差。\n3. 离散头更接近专家的时间变化和状态响应幅度。连续头通常低估 jerk，DR 更接近专家，DF 与 CF 差距较小；DF 在动作块早期和细小位移段有较好末端误差。这里 jerk 是平移动作命令的三阶有限差分，没有物理时间归一化，不能当成实机加加速度或安全指标。\n4. 显式 metric-path DF 最佳 52.8%，未超过 mixture-path 均匀分箱 DF 的 53.9%；nFSQ、FAST、RVQ 的最佳完整 DF 配置分别为 52.4%、46.2%、38.2%。分位数分箱 DR 为 49.8%，与引导后的均匀分箱 DR 49.2% 接近。比较必须明确 baseline 有无 CFG，不能用 27.1% 的无引导 DR 夸大 tokenizer 的必要性。\n5. 附录给出反例与稳定性边界：平滑细节合成任务中 CR 的 MSE 约比 DR 小 250 倍；陡峭方波细节任务中 DR 的 MSE 比 CR 小 3.2 倍、MAE 小 4.5 倍。目标形状和幅度同时改变，因此支持的是结构依赖性，不是完美隔离的平滑性因果实验。\n\n![观测变化引起的动作响应](https://arxiv.org/html/2610.20429v1/state_responsiveness.png)\n图 3：对相隔四步的专家观测，比较预测均值动作块的变化幅度与专家变化幅度之比；1 表示幅度匹配专家。这是离线响应性诊断，不是实机扰动恢复率。",
+    "resultHighlights": [],
+    "insights": "- 核心 insight：动作质量至少有“是否够精确”“是否响应观测”“整段是否属于同一种行为”三个维度。较低离线 L2 不自动带来较高闭环成功率；较高 jerk 也可能来自错误模式切换。诊断应同时看一致性、响应性与控制结果。\n- 和已有方法的关系：OpenVLA 一类离散动作接口与连续 flow VLA 的区别，不应仅归结为语言模型兼容性；从零训练实验也观察到离散头的竞争力。另一方面，主 VLA 仍是独立动作专家和视觉语言骨干，本文没有证明把语言、图像和动作放进同一个共享 token 生成器就能改善迁移或推理。\n- 可借鉴点：预算紧时先做均匀分箱 DR+CFG，与小步数 DF、CF 在同等动作头调用量和实测延迟下比较。把 action chunk 缩放、参考坐标、量化范围和 condition dropout 固定，再测离散输出；这些前提对真实收益的解释比单独更换 tokenizer 更关键。\n- Tokenizer 的未来目标可以从“重建原动作”转向“把耦合选择放进同一 token，让联合预测更容易”。这是一条由实验启发的研究方向，本文尚未训练出这种 tokenizer，更未证明它一定优于均匀分箱。\n- 几何并未凭空消失：附录发现输出 bin 嵌入具有邻近结构，DF 输入嵌入也有较强邻接性；DR 输入的邻接性接近零。证据支持模型可学局部序关系，不能扩展为整个动作空间已有完善几何或几何先验一概无用。",
+    "insightCore": [],
+    "insightRelations": [],
+    "insightBorrowable": [],
+    "risks": "**局限：**\n\n- 对照不是在所有层面完全一致：VLA 动作头参数接近，但离散头多了 logits、分箱与特定损失；从零 RoboMimic 的网络结构、dropout、batch size 和生成步数也不同。主要结果使用每头最佳检查点，评估五种子仍不能替代多次独立训练。\n- 小幅成功率差异可能处在标准差范围内。π0 骨干冻结时 CF 13.4% 高于 DF 11.2%，DR 与 CR 同为 10.2%，直接构成“离散总是更好”的反例。真机覆盖扔瓶、开笔帽、翻正杯子三任务，不能外推到高带宽力控、微米装配和其他硬件。\n- 相对末端动作、512 bin、24 步执行后重规划是重要条件。裁剪会丢弃范围外动作，分箱会引入有限精度；jerk 不是物理安全证据，强响应也可能增加噪声敏感性，须单独评估接触力、稳定性和异常动作。\n- CFG 和多轮迭代均有推理开销；未给出足以确定所有硬件延迟收益的统一吞吐对照。v1 的代码与检查点承诺是未来释放，复现成本和具体实现仍需后续核对。\n\n**适用场景：**\n\n- 面向视觉语言条件的动作块行为克隆，尤其是需要细微但快速的动作切换、又受推理预算约束的机械臂操作。DR+CFG 可作为低成本基线，DF 可作为协调动作块的候选，应连同重规划频率一起实测。\n- 对 VLA 动作头或 tokenizer 做系统研究时，可借用“边缘预测准确但联合组合错误”的诊断框架；对接触丰富、平滑轨迹或更高精度控制，则必须重新验证连续头和量化范围，不能直接套用主结果。\n\n**最终判断：**\n\n- 值得纳入 VLA 动作表示设计的必读对照：最扎实的启发是先排查一致性与监督目标，再把控制失败归因于离散量化。工程上优先复现均匀分箱 DR+CFG/DF，对齐实测计算预算；研究上关注低步数时的因子分解误差，而非预设复杂 tokenizer 必然有益。\n- 本文支持“离散动作是有竞争力的控制建模选择”，没有证明连续控制应被全面替代，也没有完成统一多模态动作模型的收益验证。",
+    "riskLimitations": [
+      "对照不是在所有层面完全一致：VLA 动作头参数接近，但离散头多了 logits、分箱与特定损失；从零 RoboMimic 的网络结构、dropout、batch size 和生成步数也不同。主要结果使用每头最佳检查点，评估五种子仍不能替代多次独立训练。",
+      "小幅成功率差异可能处在标准差范围内。π0 骨干冻结时 CF 13.4% 高于 DF 11.2%，DR 与 CR 同为 10.2%，直接构成“离散总是更好”的反例。真机覆盖扔瓶、开笔帽、翻正杯子三任务，不能外推到高带宽力控、微米装配和其他硬件。",
+      "相对末端动作、512 bin、24 步执行后重规划是重要条件。裁剪会丢弃范围外动作，分箱会引入有限精度；jerk 不是物理安全证据，强响应也可能增加噪声敏感性，须单独评估接触力、稳定性和异常动作。",
+      "CFG 和多轮迭代均有推理开销；未给出足以确定所有硬件延迟收益的统一吞吐对照。v1 的代码与检查点承诺是未来释放，复现成本和具体实现仍需后续核对。"
+    ],
+    "riskScenarios": [
+      "面向视觉语言条件的动作块行为克隆，尤其是需要细微但快速的动作切换、又受推理预算约束的机械臂操作。DR+CFG 可作为低成本基线，DF 可作为协调动作块的候选，应连同重规划频率一起实测。",
+      "对 VLA 动作头或 tokenizer 做系统研究时，可借用“边缘预测准确但联合组合错误”的诊断框架；对接触丰富、平滑轨迹或更高精度控制，则必须重新验证连续头和量化范围，不能直接套用主结果。"
+    ],
+    "riskJudgment": [
+      "值得纳入 VLA 动作表示设计的必读对照：最扎实的启发是先排查一致性与监督目标，再把控制失败归因于离散量化。工程上优先复现均匀分箱 DR+CFG/DF，对齐实测计算预算；研究上关注低步数时的因子分解误差，而非预设复杂 tokenizer 必然有益。",
+      "本文支持“离散动作是有竞争力的控制建模选择”，没有证明连续控制应被全面替代，也没有完成统一多模态动作模型的收益验证。"
+    ],
+    "resultsTableMarkdown": "| 对照/指标 | CR | CF | DR | DF |\n| --- | --- | --- | --- | --- |\n| RoboCasa 相对末端，主配置成功率 | 38.8±3.3% | 52.7±3.4% | 49.2±1.4% | 53.9±1.2% |\n| RoboCasa 相对关节，成功率 | 38.1±2.6% | 51.9±2.8% | 49.8±1.9% | 54.3±1.5% |\n| RoboCasa 绝对末端，成功率 | 17.4±3.1% | 39.0±2.1% | 46.8±1.9% | 47.0±1.3% |\n| π0.5 初始化全量微调，成功率 | 42.4±1.2% | 58.2±2.4% | 55.8±3.1% | 60.2±1.9% |\n| π0 骨干冻结，成功率 | 10.2±0.6% | 13.4±0.6% | 10.2±1.0% | 11.2±0.8% |\n| LIBERO-plus 留出集 EEF 误差 | 9.88 mm | 7.23 mm | 2.53 mm | 2.90 mm |\n| DROID 留出集 EEF 误差 | 21.60 mm | 26.60 mm | 25.09 mm | 19.67 mm |\n\n来源：成功率为附录表 6–8，各动作头可采用各自最佳 CFG/NFE；误差为表 11，在约 100k 步单次训练的离线诊断，CF 100 步、DF 10 步，不能与最佳闭环模型直接逐行归因。± 是评估种子的标准差，不是独立训练种子的置信区间。\n\n额外预算对照：时间自回归 AR 对 24 步动作块需 24 次顺序预测，无引导/CFG 2 时 RoboCasa 为 42.8%/48.3%，未超过引导 DR 或 DF；它只消除时间上的显式独立，坐标仍并行。固定检查点 NFE 扫描中，CFG 2 的 CF 在 NFE 2 时仅 0.3±0.3%，无引导 CF 同预算仍有 45.6±1.3%；这说明强引导与粗积分组合可失败，不能归咎于所有连续流。附录 CFG 扫描的 DR 在 λ=2 时为 48.9±3.6%，与主结果 49.2±1.4% 属于不同报告设置，本文保留各自出处。",
+    "resultsTable": {
+      "columns": [
+        "对照/指标",
+        "CR",
+        "CF",
+        "DR",
+        "DF"
+      ],
+      "rows": [
+        [
+          "RoboCasa 相对末端，主配置成功率",
+          "38.8±3.3%",
+          "52.7±3.4%",
+          "49.2±1.4%",
+          "53.9±1.2%"
+        ],
+        [
+          "RoboCasa 相对关节，成功率",
+          "38.1±2.6%",
+          "51.9±2.8%",
+          "49.8±1.9%",
+          "54.3±1.5%"
+        ],
+        [
+          "RoboCasa 绝对末端，成功率",
+          "17.4±3.1%",
+          "39.0±2.1%",
+          "46.8±1.9%",
+          "47.0±1.3%"
+        ],
+        [
+          "π0.5 初始化全量微调，成功率",
+          "42.4±1.2%",
+          "58.2±2.4%",
+          "55.8±3.1%",
+          "60.2±1.9%"
+        ],
+        [
+          "π0 骨干冻结，成功率",
+          "10.2±0.6%",
+          "13.4±0.6%",
+          "10.2±1.0%",
+          "11.2±0.8%"
+        ],
+        [
+          "LIBERO-plus 留出集 EEF 误差",
+          "9.88 mm",
+          "7.23 mm",
+          "2.53 mm",
+          "2.90 mm"
+        ],
+        [
+          "DROID 留出集 EEF 误差",
+          "21.60 mm",
+          "26.60 mm",
+          "25.09 mm",
+          "19.67 mm"
+        ]
+      ]
+    },
+    "figureGallery": [
+      {
+        "zone": "intuition",
+        "caption": "四类动作头与仿真、真机实验总览",
+        "src": "https://arxiv.org/html/2610.20429v1/teaser.png"
+      },
+      {
+        "zone": "method",
+        "caption": "跨时间与跨坐标的因子分解错误",
+        "src": "https://arxiv.org/html/2610.20429v1/pusht_factorization.png"
+      },
+      {
+        "zone": "results",
+        "caption": "观测变化引起的动作响应",
+        "src": "https://arxiv.org/html/2610.20429v1/state_responsiveness.png"
+      }
+    ],
+    "relatedTopicSlugs": [
+      "vision-language-action"
+    ]
   }
 ]
