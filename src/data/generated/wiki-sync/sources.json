@@ -11331,5 +11331,168 @@
     "relatedTopicSlugs": [
       "contact-rich-manipulation"
     ]
+  },
+  {
+    "slug": "2610.28594-learning-the-4d-world-through-point-trajectory-forecasting",
+    "title": "Learning the 4D World through Point Trajectory Forecasting",
+    "sourceType": "paper",
+    "sourceUrl": "https://arxiv.org/abs/2610.28594",
+    "htmlUrl": "https://arxiv.org/html/2610.28594",
+    "pdfUrl": "https://arxiv.org/pdf/2610.28594",
+    "codeUrl": "https://rootyjeon.github.io/video-point-model/",
+    "translationUrl": "https://hjfy.top/arxiv/2610.28594",
+    "publishDate": "2026-10-20",
+    "authors": [
+      "Byungwoo Jeon",
+      "Sunghwan Hong",
+      "Dohyeon Kim",
+      "Jonghoon Lee",
+      "Jungwoo Park",
+      "Inhee Lee",
+      "Doosan Baek",
+      "Jinil Kim",
+      "Taehyun Lim",
+      "Hanbyul Joo",
+      "Marc Pollefeys",
+      "Saining Xie",
+      "Jinwoo Shin"
+    ],
+    "affiliation": "KAIST",
+    "relatedOrganizations": [
+      "KAIST",
+      "ETH Zürich",
+      "Seoul National University",
+      "New York University",
+      "Physics Sim Lab",
+      "RLWRLD"
+    ],
+    "relatedCompanies": [],
+    "keywords": [
+      "robot-foundation-model"
+    ],
+    "primaryDomainSlug": "physical-embodied-intelligence",
+    "domainSlugs": [
+      "physical-embodied-intelligence"
+    ],
+    "heroImage": "https://arxiv.org/html/2610.28594v1/figure1_overview.svg",
+    "tldr": "值得保留的是一条受控证据：预测同一物理点的未来三维位置，能同时改善多视角视频的一致性与动作模型的操作表现。贡献包括联合监督机制、数据集与评测，但尚不能据此认定模型掌握完整物理规律或具备可靠的零样本轨迹控制。",
+    "intuition": "让几个相机一起想象机器人搬杯子，单独生成视频可能得到几段各自合理、彼此矛盾的未来。VPM 相当于给杯子和机械臂贴上跨相机不变的编号，要求模型不仅画出未来，还说清每个编号将移动到哪里；这些编号的运动再反过来约束生成视频。动作扩展则让控制命令使用同一个受三维运动监督的内部表示。\n\n![主要图](https://arxiv.org/html/2610.28594v1/figure1_overview.svg)\n\n*图 2：多视角历史与语言进入视频生成骨干，轨迹头读取中间特征，联合预测未来外观与持续点运动；动作模态是可选扩展。*",
+    "abstractEn": "Reliable multi-view forecasting requires videos from different cameras to describe the same evolving 3D scene. To this end, we introduce Video-Point Model (VPM), a world model that conditions on multi-view video histories and a language instruction to jointly forecast future videos from arbitrary viewpoints and the 3D trajectories of persistent scene points. We extend a pretrained world model with camera-conditioned multi-view processing that integrates complementary observations across cameras, and add a trajectory head that predicts how physical points move through time. Each trajectory tracks a single point across all views, and supervising these trajectories alongside video generation therefore anchors appearance changes in every camera to a shared description of 3D motion. To support training and evaluation, we build VPM-Data, a simulation corpus pairing synchronized multi-view videos with persistent point trajectories, and VP-WorldBench, a forecasting benchmark spanning simulated and real environments. We further extend VPM to robot control by adding robot actions as a token modality in the generator. Action tokens share the point-supervised backbone and are denoised jointly with future videos, thereby grounding the policy in the same 3D-aware representation. On VP-WorldBench and existing 4D generation benchmarks, point supervision improves both video fidelity and 3D motion accuracy over a video-only counterpart, and in simulated and real-robot experiments, it also raises the manipulation success of the action-enabled model.",
+    "abstractZh": "可靠的多视角预测要求不同相机的视频描述同一个演化中的三维场景。本文提出视频—点模型 VPM，以多视角视频历史和语言指令为条件，联合预测任意视点的未来视频，以及具有持续身份的场景点的三维轨迹。作者为预训练世界模型加入相机条件化的多视角处理，整合各视角互补观测，并加入预测物理点运动的轨迹头。同一条轨迹在全部视角中对应同一物理点，因此联合监督轨迹与视频，可把各相机的外观变化锚定到共同的三维运动描述。为支持训练与评估，作者构建配对同步视频与持续点轨迹的仿真语料 VPM-Data，以及覆盖仿真和真实环境的 VP-WorldBench。进一步把机器人动作作为生成器的 token 模态，动作与未来视频联合去噪，并共享经过点监督的骨干。在该基准及现有四维生成评测中，相比纯视频版本，点监督改善视频保真度和三维运动准确率；在仿真与真机实验中，也提高加入动作模态后的操作表现。",
+    "background": "**动机：** 多视角世界模型需要预测同一事件在不同相机下的未来，而不是分别生成几段看起来流畅的视频。遮挡会使单个视角失去目标，机器人控制又要求机械臂与物体的位置关系保持一致，因此画质之外还需要跨相机、跨时间保持物理身份的运动监督。\n\n**问题缺口：** 逐帧深度或点图提供空间结构，却未必保持同一个物理点跨时间的身份；现有跟踪通常利用已经观测到的未来帧，不能直接证明预测能力。VPM 要求从历史推断未观测的未来对应关系，并在同一评测事件上同时检查视频质量、几何运动与动作收益。",
+    "backgroundMotivation": "多视角世界模型需要预测同一事件在不同相机下的未来，而不是分别生成几段看起来流畅的视频。遮挡会使单个视角失去目标，机器人控制又要求机械臂与物体的位置关系保持一致，因此画质之外还需要跨相机、跨时间保持物理身份的运动监督。",
+    "backgroundGap": "逐帧深度或点图提供空间结构，却未必保持同一个物理点跨时间的身份；现有跟踪通常利用已经观测到的未来帧，不能直接证明预测能力。VPM 要求从历史推断未观测的未来对应关系，并在同一评测事件上同时检查视频质量、几何运动与动作收益。",
+    "method": "**方法概述：** 输入是同步的多视角 RGB 历史、相机内参与已观测位姿、语言指令，以及历史帧中的点查询；输出是未来视频与固定参考坐标系中的点轨迹。模型在 Cosmos3-Nano 的双塔 MoT 上加入相机射线编码、视角轴位置编码和中间层轨迹细化头，经多视角适配、轨迹头预热、联合训练后生成预测；动作扩展再共同生成机器人动作块。\n\n**核心机制：** 关键不是先生成视频再用外部跟踪器补一份结果，而是从生成器中间层的注意力 query/key 特征读取轨迹，并让轨迹损失反向塑造生成表示。每个查询指定历史中的时间、相机和像素位置；细化器在各相机、各潜时间步预测二维位置、深度与置信度，再用标定投到统一参考帧。同一条真值三维轨迹在不同相机中的投影监督坐标和深度，另外用对应关系交叉熵直接约束跨视角注意力。这样，视频的外观预测与保持身份的三维运动共享学习信号，但只是软监督，并没有硬性物理约束。\n\n**方法拆解：** - 多视角打包与相机几何：各相机潜视频 token 放进共享序列，时间轴对齐，历史保持干净，未来 token 加噪。每个 token 的 Plücker 射线包含方向与原点叉积；编码既加到特征，也调制每层注意力 query/key 的旋转。四轴 RoPE 额外区分相机编号，视角频率从零初始化，以保留预训练位置结构；相机身份与相机几何承担不同作用。\n- 中间层轨迹解码：从生成器第 18 层 query/key 重排出各视角特征网格，对历史查询点采样源特征，与当前估计附近的目标特征计算相关性。空间、时间、跨视角分解注意力迭代细化四轮，输出像素坐标、深度与置信度；使用内参反投影并通过相机到参考帧变换得到三维位置。训练每段采样 512 个查询，未来特征来自带噪预测过程，不能读取干净未来图像。\n- 联合目标：视频使用 rectified flow matching，令 x_sigma=(1-sigma)x_0+sigma*epsilon，预测 epsilon-x_0。轨迹使用截断 Huber 监督位置、帧间位移及对数深度，置信度使用二元交叉熵；对所有细化轮求和，仅对可见点平均。对应损失把真值对应点所在目标格作为分类标签；最终 L=L_FM+0.01 L_track+0.01 L_corr，避免仅靠一个外挂轨迹头而缺少骨干表征约束。\n- 数据与监督构造：完整混合训练约 604,913 条，包含 10K VPM-Data、89,312 条 DROID、1,601 条 HRDexDB、480K MolmoMotion 与 24K Ego-Exo4D。仿真用刚体变换或三角形重心坐标保持点身份；机器人数据在 CAD 表面固定采样，再用关节状态的正运动学传播。真实机器人用 CAD 投影与 SAM2 掩码校验，召回率低于 0.9 的片段被过滤；只有标注适用的样本才承担相应监督。\n- 三阶段课程：先用视频目标适配生成器与相机/视角编码 5K 步，再冻结骨干、训练轨迹头与视角频率 2K 步，最后联合优化 5K 步；reasoner 全程冻结。AdamW 学习率依次为 1e-4、1e-4、2e-5，使用 32 张 GH200。预热防止未训练的轨迹分支扰乱生成表征，同总步数消融显示去掉第二阶段会显著降低三维预测质量。\n- 推理与动作扩展：给定历史、语言和相机条件，从高斯噪声积分生成未来视频，历史不参与生成损失；轨迹由骨干特征读出并转换坐标。动作扩展采用 9 维统一动作及独立动作噪声等级，第三阶段增加权重 0.1 的动作 flow matching；推理联合去噪视频与动作。未来相机位姿是可选条件，主实验不给未来位姿，腕部视角不使用依赖未来动作的位姿，避免把控制答案泄露给模型。\n\n**关键要点：** - 持续点身份连接跨视角与跨时间监督，区别于独立逐帧点图；预测任务也区别于读取未来帧的点跟踪。\n- 点轨迹与对应损失共同作用，三阶段预热、相机编码和跨视角细化均有消融支持，不能把收益简化为仅多一个输出头。\n\n![方法图](https://arxiv.org/html/2610.28594v1/figure1_overview.svg)\n\n*图 2：轨迹头迭代细化二维位置与深度，并借助相机几何提升为三维；监督反向作用于生成器。*",
+    "methodOverview": "输入是同步的多视角 RGB 历史、相机内参与已观测位姿、语言指令，以及历史帧中的点查询；输出是未来视频与固定参考坐标系中的点轨迹。模型在 Cosmos3-Nano 的双塔 MoT 上加入相机射线编码、视角轴位置编码和中间层轨迹细化头，经多视角适配、轨迹头预热、联合训练后生成预测；动作扩展再共同生成机器人动作块。",
+    "methodCore": "关键不是先生成视频再用外部跟踪器补一份结果，而是从生成器中间层的注意力 query/key 特征读取轨迹，并让轨迹损失反向塑造生成表示。每个查询指定历史中的时间、相机和像素位置；细化器在各相机、各潜时间步预测二维位置、深度与置信度，再用标定投到统一参考帧。同一条真值三维轨迹在不同相机中的投影监督坐标和深度，另外用对应关系交叉熵直接约束跨视角注意力。这样，视频的外观预测与保持身份的三维运动共享学习信号，但只是软监督，并没有硬性物理约束。",
+    "methodBreakdown": [
+      "多视角打包与相机几何：各相机潜视频 token 放进共享序列，时间轴对齐，历史保持干净，未来 token 加噪。每个 token 的 Plücker 射线包含方向与原点叉积；编码既加到特征，也调制每层注意力 query/key 的旋转。四轴 RoPE 额外区分相机编号，视角频率从零初始化，以保留预训练位置结构；相机身份与相机几何承担不同作用。",
+      "中间层轨迹解码：从生成器第 18 层 query/key 重排出各视角特征网格，对历史查询点采样源特征，与当前估计附近的目标特征计算相关性。空间、时间、跨视角分解注意力迭代细化四轮，输出像素坐标、深度与置信度；使用内参反投影并通过相机到参考帧变换得到三维位置。训练每段采样 512 个查询，未来特征来自带噪预测过程，不能读取干净未来图像。",
+      "联合目标：视频使用 rectified flow matching，令 x_sigma=(1-sigma)x_0+sigma*epsilon，预测 epsilon-x_0。轨迹使用截断 Huber 监督位置、帧间位移及对数深度，置信度使用二元交叉熵；对所有细化轮求和，仅对可见点平均。对应损失把真值对应点所在目标格作为分类标签；最终 L=L_FM+0.01 L_track+0.01 L_corr，避免仅靠一个外挂轨迹头而缺少骨干表征约束。",
+      "数据与监督构造：完整混合训练约 604,913 条，包含 10K VPM-Data、89,312 条 DROID、1,601 条 HRDexDB、480K MolmoMotion 与 24K Ego-Exo4D。仿真用刚体变换或三角形重心坐标保持点身份；机器人数据在 CAD 表面固定采样，再用关节状态的正运动学传播。真实机器人用 CAD 投影与 SAM2 掩码校验，召回率低于 0.9 的片段被过滤；只有标注适用的样本才承担相应监督。",
+      "三阶段课程：先用视频目标适配生成器与相机/视角编码 5K 步，再冻结骨干、训练轨迹头与视角频率 2K 步，最后联合优化 5K 步；reasoner 全程冻结。AdamW 学习率依次为 1e-4、1e-4、2e-5，使用 32 张 GH200。预热防止未训练的轨迹分支扰乱生成表征，同总步数消融显示去掉第二阶段会显著降低三维预测质量。",
+      "推理与动作扩展：给定历史、语言和相机条件，从高斯噪声积分生成未来视频，历史不参与生成损失；轨迹由骨干特征读出并转换坐标。动作扩展采用 9 维统一动作及独立动作噪声等级，第三阶段增加权重 0.1 的动作 flow matching；推理联合去噪视频与动作。未来相机位姿是可选条件，主实验不给未来位姿，腕部视角不使用依赖未来动作的位姿，避免把控制答案泄露给模型。"
+    ],
+    "methodTakeaways": [
+      "持续点身份连接跨视角与跨时间监督，区别于独立逐帧点图；预测任务也区别于读取未来帧的点跟踪。",
+      "点轨迹与对应损失共同作用，三阶段预热、相机编码和跨视角细化均有消融支持，不能把收益简化为仅多一个输出头。"
+    ],
+    "results": "**核心结果：** - 主表四个分组、每组四项指标均由 V+T 优于同预算 V；真机视频三维阈值命中率从 50.83 提升到 64.75。此指标通过 MVTracker 与 MoGe-2 从生成视频提取轨迹，不等于轨迹头自身输出精度。\n- 域外 ReCamMaster FVD 从 103.12 降到 79.63；CMU Panoptic 从 150.63 降到 128.64，三维命中率从 34.72 升到 42.03。RoboCasa Kitchen 三维命中率 46.94→53.70，跨视角 MEt3R 0.033→0.020。\n- 控制比较应使用 V+A 对 V+T+A：LIBERO-Plus 82.0%→84.6%，RoboCasa 73.4%→76.2%。真机每任务 24 次，成功且无碰撞计 1，成功但碰箱堆计 0.5，失败计 0；79.2/70.8/54.2 是平均分百分比，不能按普通二元成功次数解释。\n- 消融中去掉轨迹头预热，使真实机器人视频三维命中率 64.75→49.77；只有对应损失时为 52.00，加入二维/深度/对应完整目标后才达到 64.75。100K 样本的 V+T 在各分组胜过 600K 的 V，但属于本文配方下的数据效率证据。\n\n**结果表：** | 评测 / 指标 | 无点监督 | 加入点监督 |\n| --- | --- | --- |\n| VP 仿真机器人 FVD ↓ / 三维阈值命中率 ↑ | 78.52 / 43.62 | 67.35 / 50.05 |\n| VP 仿真一般场景 FVD ↓ / 命中率 ↑ | 101.37 / 28.71 | 81.92 / 36.80 |\n| VP 真机视频 FVD ↓ / 命中率 ↑ | 296.83 / 50.83 | 255.19 / 64.75 |\n| VP 真实一般场景 FVD ↓ / 命中率 ↑ | 62.85 / 26.54 | 56.48 / 33.92 |\n| LIBERO / LIBERO-Plus / RoboCasa 成功率 % | 96.8 / 82.0 / 73.4 | 97.2 / 84.6 / 76.2 |\n| 真机香蕉 / 杯子 / 方块评分 % | 58.3 / 64.6 / 43.8 | 79.2 / 70.8 / 54.2 |\n\n![结果图](https://arxiv.org/html/2610.28594v1/figure4_final.png)\n\n*图 4：预测轨迹与生成画面叠加，以及轨迹经逆运动学转换为真机指令的定性演示；后者尚无稳定定量成功率。*",
+    "resultHighlights": [
+      "主表四个分组、每组四项指标均由 V+T 优于同预算 V；真机视频三维阈值命中率从 50.83 提升到 64.75。此指标通过 MVTracker 与 MoGe-2 从生成视频提取轨迹，不等于轨迹头自身输出精度。",
+      "域外 ReCamMaster FVD 从 103.12 降到 79.63；CMU Panoptic 从 150.63 降到 128.64，三维命中率从 34.72 升到 42.03。RoboCasa Kitchen 三维命中率 46.94→53.70，跨视角 MEt3R 0.033→0.020。",
+      "控制比较应使用 V+A 对 V+T+A：LIBERO-Plus 82.0%→84.6%，RoboCasa 73.4%→76.2%。真机每任务 24 次，成功且无碰撞计 1，成功但碰箱堆计 0.5，失败计 0；79.2/70.8/54.2 是平均分百分比，不能按普通二元成功次数解释。",
+      "消融中去掉轨迹头预热，使真实机器人视频三维命中率 64.75→49.77；只有对应损失时为 52.00，加入二维/深度/对应完整目标后才达到 64.75。100K 样本的 V+T 在各分组胜过 600K 的 V，但属于本文配方下的数据效率证据。"
+    ],
+    "insights": "**核心 insight：** - 核心 insight：监督单位从每帧像素或点图变为有身份的运动实体，使相机互补观测能约束同一未来；视频与动作受益的共同对象是骨干中的运动表征。\n- 相机几何编码回答光线来自哪里，视角轴回答 token 属于哪路视频；移除任一项均退化，说明多相机拼图不等于几何条件化联合预测。\n- 轨迹预热是优化稳定性的组成部分。去掉预热比从头联合训练更差，提示把高质量视频骨干接入随机几何头时，辅助监督的优化过程本身也需要设计。\n\n**和已有方法的关系：** - 相对 MVTrack4Gen，重点从已观察时段的新视角生成推进到未观察未来，并从二维对应推进到度量三维；相对 UNITAS，VPM 保留视频生成主干，以点运动监督塑造视频和动作，不能视为纯点流世界模型。\n\n**可借鉴点：** - 已有机器人 CAD、关节状态与标定时，可先用正运动学生成稳定的身体点监督，再研究它对视频/动作联合表征的增益；必须同时审计标定过滤带来的数据选择偏差。\n\n![洞察图](https://arxiv.org/html/2610.28594v1/cross_view_attn_final.png)\n\n*图 8：跨视角注意力可视化。VPM 在不同视角集中关注同一只手，对照模型的注意力更分散；这是对应学习的定性证据。*",
+    "insightCore": [
+      "核心 insight：监督单位从每帧像素或点图变为有身份的运动实体，使相机互补观测能约束同一未来；视频与动作受益的共同对象是骨干中的运动表征。",
+      "相机几何编码回答光线来自哪里，视角轴回答 token 属于哪路视频；移除任一项均退化，说明多相机拼图不等于几何条件化联合预测。",
+      "轨迹预热是优化稳定性的组成部分。去掉预热比从头联合训练更差，提示把高质量视频骨干接入随机几何头时，辅助监督的优化过程本身也需要设计。"
+    ],
+    "insightRelations": [
+      "相对 MVTrack4Gen，重点从已观察时段的新视角生成推进到未观察未来，并从二维对应推进到度量三维；相对 UNITAS，VPM 保留视频生成主干，以点运动监督塑造视频和动作，不能视为纯点流世界模型。"
+    ],
+    "insightBorrowable": [
+      "已有机器人 CAD、关节状态与标定时，可先用正运动学生成稳定的身体点监督，再研究它对视频/动作联合表征的增益；必须同时审计标定过滤带来的数据选择偏差。"
+    ],
+    "risks": "**局限：** - 监督覆盖机器人和已标注物体，不是完整场景；骨架注释不表达衣物、头发等独立非刚体运动，相机内外参仍是重要前提。\n- 几何评测依赖外部跟踪与深度估计，并有真值视频上界；cross-view MEt3R 衡量生成与真值一致性分数差，而非硬性几何或物理正确性。\n- 单 GH200、480p、64 帧、35 步采样下，四视角 V+T 为 102.3 秒，纯视频 V 为 101.4 秒；轨迹头增量很小，但共享多视角序列本身昂贵，不足以证明实时部署。\n- 附录 RoboCasa 的“200 trials per task”与“五场景每场景 10 次”的文字数量不自洽，复现前需核对作者协议；真机仅三项任务、每项 24 次，结论范围有限。\n\n**适用场景：** - 适合有可靠标定、多视角历史和机器人运动学数据的世界模型训练，以及研究跨视角遮挡下的未来预测；部署低延迟或无标定场景需另行验证。\n\n**最终判断：** - 最可信结论是持续三维点监督在本配方下改善视频预测与动作学习。用预测点轨迹直接控制的演示只属定性：作者明确尚不稳定、未给定量评测；不能宣称已经替代动作策略或实现通用零样本控制。",
+    "riskLimitations": [
+      "监督覆盖机器人和已标注物体，不是完整场景；骨架注释不表达衣物、头发等独立非刚体运动，相机内外参仍是重要前提。",
+      "几何评测依赖外部跟踪与深度估计，并有真值视频上界；cross-view MEt3R 衡量生成与真值一致性分数差，而非硬性几何或物理正确性。",
+      "单 GH200、480p、64 帧、35 步采样下，四视角 V+T 为 102.3 秒，纯视频 V 为 101.4 秒；轨迹头增量很小，但共享多视角序列本身昂贵，不足以证明实时部署。",
+      "附录 RoboCasa 的“200 trials per task”与“五场景每场景 10 次”的文字数量不自洽，复现前需核对作者协议；真机仅三项任务、每项 24 次，结论范围有限。"
+    ],
+    "riskScenarios": [
+      "适合有可靠标定、多视角历史和机器人运动学数据的世界模型训练，以及研究跨视角遮挡下的未来预测；部署低延迟或无标定场景需另行验证。"
+    ],
+    "riskJudgment": [
+      "最可信结论是持续三维点监督在本配方下改善视频预测与动作学习。用预测点轨迹直接控制的演示只属定性：作者明确尚不稳定、未给定量评测；不能宣称已经替代动作策略或实现通用零样本控制。"
+    ],
+    "resultsTableMarkdown": "| 评测 / 指标 | 无点监督 | 加入点监督 |\n| --- | --- | --- |\n| VP 仿真机器人 FVD ↓ / 三维阈值命中率 ↑ | 78.52 / 43.62 | 67.35 / 50.05 |\n| VP 仿真一般场景 FVD ↓ / 命中率 ↑ | 101.37 / 28.71 | 81.92 / 36.80 |\n| VP 真机视频 FVD ↓ / 命中率 ↑ | 296.83 / 50.83 | 255.19 / 64.75 |\n| VP 真实一般场景 FVD ↓ / 命中率 ↑ | 62.85 / 26.54 | 56.48 / 33.92 |\n| LIBERO / LIBERO-Plus / RoboCasa 成功率 % | 96.8 / 82.0 / 73.4 | 97.2 / 84.6 / 76.2 |\n| 真机香蕉 / 杯子 / 方块评分 % | 58.3 / 64.6 / 43.8 | 79.2 / 70.8 / 54.2 |",
+    "resultsTable": {
+      "columns": [
+        "评测 / 指标",
+        "无点监督",
+        "加入点监督"
+      ],
+      "rows": [
+        [
+          "VP 仿真机器人 FVD ↓ / 三维阈值命中率 ↑",
+          "78.52 / 43.62",
+          "67.35 / 50.05"
+        ],
+        [
+          "VP 仿真一般场景 FVD ↓ / 命中率 ↑",
+          "101.37 / 28.71",
+          "81.92 / 36.80"
+        ],
+        [
+          "VP 真机视频 FVD ↓ / 命中率 ↑",
+          "296.83 / 50.83",
+          "255.19 / 64.75"
+        ],
+        [
+          "VP 真实一般场景 FVD ↓ / 命中率 ↑",
+          "62.85 / 26.54",
+          "56.48 / 33.92"
+        ],
+        [
+          "LIBERO / LIBERO-Plus / RoboCasa 成功率 %",
+          "96.8 / 82.0 / 73.4",
+          "97.2 / 84.6 / 76.2"
+        ],
+        [
+          "真机香蕉 / 杯子 / 方块评分 %",
+          "58.3 / 64.6 / 43.8",
+          "79.2 / 70.8 / 54.2"
+        ]
+      ]
+    },
+    "figureGallery": [
+      {
+        "zone": "intuition",
+        "caption": "主要图",
+        "src": "https://arxiv.org/html/2610.28594v1/figure1_overview.svg"
+      },
+      {
+        "zone": "method",
+        "caption": "方法图",
+        "src": "https://arxiv.org/html/2610.28594v1/figure1_overview.svg"
+      },
+      {
+        "zone": "results",
+        "caption": "结果图",
+        "src": "https://arxiv.org/html/2610.28594v1/figure4_final.png"
+      },
+      {
+        "zone": "insights",
+        "caption": "洞察图",
+        "src": "https://arxiv.org/html/2610.28594v1/cross_view_attn_final.png"
+      }
+    ],
+    "relatedTopicSlugs": [
+      "3d-native-embodied-model"
+    ]
   }
 ]
