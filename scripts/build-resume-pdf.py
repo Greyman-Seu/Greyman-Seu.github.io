@@ -15,6 +15,7 @@ import fitz
 
 ROOT = Path(__file__).resolve().parents[1]
 SOURCE = ROOT / 'src/data/resume/interview.json'
+AVATAR = ROOT / 'src/assets/avatar.png'
 OUTPUT = ROOT / 'public/cv.pdf'
 MANIFEST = ROOT / 'public/resume/cv-manifest.json'
 ACCENT = '#165f5c'
@@ -85,6 +86,8 @@ td {{ padding: 0; vertical-align: top; }}
 .english {{ font-family: Times; font-size: 12pt; font-weight: normal; color: #6b7972; }}
 .headline {{ color: #46605c; font-size: 9pt; margin-top: 6pt; }}
 .contacts {{ width: 166pt; text-align: right; font-size: 7.5pt; line-height: 1.7; padding-top: 10pt; color: #50625e; }}
+.portrait-cell {{ width: 64pt; vertical-align: middle; padding-right: 10pt; }}
+.portrait {{ width: 52pt; }}
 .continuation {{ font-size: 9pt; color: #526764; }}
 .continuation-name {{ font-size: 17pt; font-weight: bold; color: #203a36; }}
 h2 {{ margin: 10pt 0 6pt; padding-bottom: 3pt; border-bottom: .5pt solid #dce6e3; color: {ACCENT}; font-size: 10.2pt; font-weight: bold; }}
@@ -117,25 +120,26 @@ def build() -> None:
     font = fitz.Font('cjk')
     archive = fitz.Archive()
     archive.add(font.buffer, 'resume-han.ttf')
+    archive.add(AVATAR.read_bytes(), 'resume-portrait.png')
     document = fitz.open()
     for index, spec in enumerate(data['pages']):
         page = document.new_page(width=fitz.paper_rect('a4').width, height=fitz.paper_rect('a4').height)
         if index == 0:
             header = (
-                '<table class="header"><tr><td>'
+                '<table class="header"><tr><td class="portrait-cell"><img class="portrait" src="resume-portrait.png"></td><td>'
                 '<p class="eyebrow">RESEARCH &amp; ENGINEERING</p>'
                 f'<p class="name">{e(data["name"])} <span class="english">{e(data["englishName"])}</span></p>'
                 f'<p class="headline">{e(data["headline"])}</p></td>'
                 '<td class="contacts">'
                 f'{e(data["location"])}<br>{link("mailto:" + data["email"], data["email"])}<br>'
-                f'{link(data["github"], "GitHub")} / {link(data["scholar"], "Scholar")} / {link(data["website"], "个人主页")}'
+                f'{link(data["website"], data["website"])}'
                 '</td></tr></table>'
             )
         else:
             header = (
                 '<table class="header continuation"><tr>'
                 f'<td><span class="continuation-name">{e(data["name"])}</span>　{e(spec["label"])}</td>'
-                f'<td class="contacts">{link(data["website"], "greyman-seu.github.io")}</td></tr></table>'
+                f'<td class="contacts">{link(data["website"], data["website"])}</td></tr></table>'
             )
         html = header + ''.join(section_html(section) for section in spec['sections'])
         spare, scale = page.insert_htmlbox(fitz.Rect(40, 35, page.rect.width - 40, page.rect.height - 46), html, css=CSS, archive=archive, scale_low=1)
@@ -143,7 +147,7 @@ def build() -> None:
             raise ValueError(f'Page {index + 1} overflows A4. Shorten content or adjust layout; automatic shrinking is disabled.')
         footer = (
             '<table style="font-family: ResumeHan; font-size: 6.8pt; color: #7f8d86"><tr>'
-            f'<td>更新于 {e(data["updated"])} · {link(data["website"], "完整经历与项目资源见个人主页")}</td>'
+            f'<td>更新于 {e(data["updated"])} · 完整经历与项目资源：{link(data["website"], data["website"])}</td>'
             f'<td style="text-align: right">{index + 1:02d} / {len(data["pages"]):02d}</td></tr></table>'
         )
         page.insert_htmlbox(fitz.Rect(40, page.rect.height - 32, page.rect.width - 40, page.rect.height - 12), footer, css=CSS, archive=archive, scale_low=1)
@@ -160,7 +164,7 @@ def build() -> None:
         if data['name'] not in text or 'InternW0' not in text:
             raise ValueError('PDF text extraction failed')
     MANIFEST.parent.mkdir(parents=True, exist_ok=True)
-    MANIFEST.write_text(json.dumps({'sourceSha256': source_hash, 'pdfSha256': hashlib.sha256(OUTPUT.read_bytes()).hexdigest(), 'pages': len(data['pages']), 'updated': data['updated']}, ensure_ascii=False, indent=2) + '\n')
+    MANIFEST.write_text(json.dumps({'sourceSha256': source_hash, 'avatarSha256': hashlib.sha256(AVATAR.read_bytes()).hexdigest(), 'pdfSha256': hashlib.sha256(OUTPUT.read_bytes()).hexdigest(), 'pages': len(data['pages']), 'updated': data['updated']}, ensure_ascii=False, indent=2) + '\n')
     print(f'PDF written: {OUTPUT.name} ({OUTPUT.stat().st_size:,} bytes)')
 
 

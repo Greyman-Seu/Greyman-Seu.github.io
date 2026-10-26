@@ -1,11 +1,13 @@
 ---
+import { Image } from 'astro:assets'
 import resumeData from '@/data/resume/interview.json'
 import type { InterviewResume } from '@/data/resume/types'
 
+import avatar from '@/assets/avatar.png'
+
 const resume = resumeData as InterviewResume
 
-const { name, englishName, headline, email, location, website, github, scholar, updated, pdfUrl } =
-  resume
+const { name, englishName, headline, email, location, website, updated, pdfUrl } = resume
 ---
 
 <!doctype html>
@@ -40,29 +42,35 @@ const { name, englishName, headline, email, location, website, github, scholar, 
           <article class='sheet' aria-label={`第 ${index + 1} 页：${page.label}`}>
             {index === 0 ? (
               <header class='identity'>
-                <div class='identity-title'>
-                  <p class='eyebrow'>RESEARCH & ENGINEERING</p>
-                  <h1>
-                    {name}
-                    <span>{englishName}</span>
-                  </h1>
-                  <p class='headline'>{headline}</p>
+                <div class='identity-main'>
+                  <Image
+                    src={avatar}
+                    alt={`${name}的头像`}
+                    class='portrait'
+                    width={72}
+                    height={82}
+                    loading='eager'
+                  />
+                  <div class='identity-title'>
+                    <p class='eyebrow'>RESEARCH & ENGINEERING</p>
+                    <h1>
+                      {name}
+                      <span>{englishName}</span>
+                    </h1>
+                    <p class='headline'>{headline}</p>
+                  </div>
                 </div>
                 <div class='contacts'>
                   <span>{location}</span>
                   <a href={`mailto:${email}`}>{email}</a>
-                  <div class='profile-links'>
-                    <a href={github}>GitHub ↗</a>
-                    <a href={scholar}>Scholar ↗</a>
-                    <a href={website}>个人主页 ↗</a>
-                  </div>
+                  <a href={website}>{website}</a>
                 </div>
               </header>
             ) : (
               <header class='continuation'>
                 <span class='continuation-name'>{name}</span>
                 <span>{page.label}</span>
-                <a href={website}>greyman-seu.github.io</a>
+                <a href={website}>{website}</a>
               </header>
             )}
 
@@ -137,7 +145,7 @@ const { name, englishName, headline, email, location, website, github, scholar, 
             </div>
             <footer class='page-footer'>
               <span>
-                更新于 {updated} · <a href={website}>完整经历与项目资源见个人主页</a>
+                更新于 {updated} · <a href={website}>完整经历与项目资源：{website}</a>
               </span>
               <span>
                 {String(index + 1).padStart(2, '0')} /{' '}
@@ -279,6 +287,19 @@ const { name, englishName, headline, email, location, website, github, scholar, 
     font-weight: 700;
     letter-spacing: 2.1px;
   }
+  .identity-main {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    min-width: 0;
+  }
+  .portrait {
+    flex-shrink: 0;
+    width: 72px;
+    height: 82px;
+    object-fit: contain;
+    border-radius: 3px;
+  }
   h1 {
     display: flex;
     align-items: baseline;
@@ -311,10 +332,6 @@ const { name, englishName, headline, email, location, website, github, scholar, 
     font-size: 10px;
     color: #50625e;
     white-space: nowrap;
-  }
-  .profile-links {
-    display: flex;
-    gap: 12px;
   }
   .continuation {
     display: flex;
@@ -509,6 +526,21 @@ const { name, englishName, headline, email, location, website, github, scholar, 
       flex-direction: column;
       gap: 12px;
     }
+    .identity-main {
+      gap: 12px;
+    }
+    .portrait {
+      width: 64px;
+      height: 73px;
+    }
+    h1 {
+      flex-wrap: wrap;
+      gap: 3px 8px;
+      font-size: 28px;
+    }
+    h1 span {
+      font-size: 13px;
+    }
     .contacts {
       align-items: flex-start;
     }
@@ -561,6 +593,21 @@ const { name, englishName, headline, email, location, website, github, scholar, 
     .identity {
       flex-direction: row;
       gap: 20px;
+    }
+    .identity-main {
+      gap: 16px;
+    }
+    .portrait {
+      width: 72px;
+      height: 82px;
+    }
+    h1 {
+      flex-wrap: nowrap;
+      gap: 16px;
+      font-size: 34px;
+    }
+    h1 span {
+      font-size: 15px;
     }
     .contacts {
       align-items: flex-end;

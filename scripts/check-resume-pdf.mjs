@@ -8,6 +8,7 @@ const hash = (bytes) => createHash('sha256').update(bytes).digest('hex')
 const manifest = JSON.parse(read('public/resume/cv-manifest.json'))
 if (
   hash(read('src/data/resume/interview.json')) !== manifest.sourceSha256 ||
+  hash(read('src/assets/avatar.png')) !== manifest.avatarSha256 ||
   hash(read('public/cv.pdf')) !== manifest.pdfSha256
 ) {
   throw new Error('Interview resume and PDF differ. Run: python3 scripts/build-resume-pdf.py')
