@@ -202,6 +202,85 @@ const mergeProjectSections = (
 
 const projects: ResumeProject[] = [
   {
+    name: 'VLA 推理部署基础设施（Rdeploy / vLLM-Omni）',
+    date: '2025.11 — 2026.03',
+    type: 'Infra 部署负责人',
+    roleTags: ['Infra 部署负责人', '带领 3 位成员（2 位正式员工、1 位待入职校招生）'],
+    highlight: '重点项目',
+    company: '上海人工智能实验室',
+    projectGroup: 'Rdeploy / vLLM-Omni',
+    algorithmGroup: '具身智能 / 推理部署',
+    href: 'https://github.com/Greyman-Seu/vllm-omni-internvla-a1',
+    sections: [
+      {
+        label: 'S + T',
+        text:
+          '面向 VLA 模型的真机部署，解决设备接口不统一、推理延迟高、机械臂抖动与交互式示教适配等问题，建设标准化部署基础设施，支撑动态操作场景落地与模型持续迭代'
+      },
+      {
+        label: 'A',
+        text: {
+          title: 'Rdeploy 框架建设',
+          body:
+            '自主搭建轻量、可扩展的插件化推理框架，统一机器人控制接口，完成内部 6 台主流工作机器人的适配，降低模型部署、设备调试与场景迁移成本'
+        }
+      },
+      {
+        label: 'A',
+        text: {
+          title: '异步推理与稳定性优化',
+          body:
+            '率先在实验室落地异步推理机制，系统归纳机械臂抖动的 7 项潜在成因，结合时序平滑、推理加速与延迟补偿开展优化，形成标准化部署方案'
+        }
+      },
+      {
+        label: 'A',
+        text: {
+          title: 'DAgger 开发与真机验证',
+          body:
+            '基于 acone、lift2 设备，开发拖动示教、VR 示教等多类 DAgger 方案，通过多场景实操验证其有效性，沉淀可复用的交互式数据采集与纠偏流程'
+        }
+      },
+      {
+        label: 'A',
+        text: {
+          title: 'vLLM-Omni 开源适配',
+          body:
+            '推进与 vLLM-Omni 框架的合作，攻克 VLA 模型适配难点，完成框架内首个 VLA 模型 InternVLA-A1 的部署与开源发布'
+        }
+      },
+      {
+        label: 'R',
+        text: {
+          title: '推理速度提升 100%',
+          body:
+            'InternVLA-A1 在 vLLM-Omni 上的推理速度达到原生 PyTorch 方案的 2 倍，提升模型实时响应能力'
+        }
+      },
+      {
+        label: 'R',
+        text: {
+          title: '异步推理有效改善真机稳定性',
+          body:
+            '落地实验室首套异步推理方案，缓解机械臂抖动，稳定支撑 SIM1 衣物展叠、高速传送带包裹动态夹取等场景，为 InternVLA-A1.5 异步推理迭代提供标准技术范式'
+        }
+      },
+      {
+        label: 'R',
+        text: {
+          title: 'DAgger 在多设备、多示教方式下验证有效',
+          body:
+            '形成拖动示教与 VR 示教的成熟方案，为 InternVLA-A1.5 场景落地与后续版本迭代提供可复用的技术支撑'
+        }
+      },
+      {
+        label: 'Insight',
+        text:
+          '异步推理改善模型与真实控制系统的配合，DAgger 将实操中的纠偏转化为迭代数据；通过统一部署框架沉淀两类能力，持续提升 VLA 的真机表现与迭代效率'
+      }
+    ]
+  },
+  {
     name: 'InternVLA-M1 项目',
     date: '2025.03 — 2025.09',
     type: 'Sys2（操作大脑）Owner / 下游任务算法工程师',
