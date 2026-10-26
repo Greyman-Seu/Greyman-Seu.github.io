@@ -1,0 +1,595 @@
+---
+import resumeData from '@/data/resume/interview.json'
+import type { InterviewResume } from '@/data/resume/types'
+
+const resume = resumeData as InterviewResume
+
+const { name, englishName, headline, email, location, website, github, scholar, updated, pdfUrl } =
+  resume
+---
+
+<!doctype html>
+<html lang='zh-CN'>
+  <head>
+    <meta charset='utf-8' />
+    <meta name='viewport' content='width=device-width, initial-scale=1' />
+    <meta
+      name='description'
+      content={`${name}的面试简历：职业履历、具身智能项目与论文成果。支持 A4 打印和 PDF 下载。`}
+    />
+    <title>{name} · 面试简历</title>
+    <link rel='icon' href='/favicon/favicon.ico' />
+  </head>
+  <body>
+    <nav class='toolbar' aria-label='简历操作'>
+      <a class='back-link' href='/resume'>← 详细简历</a>
+      <div class='toolbar-copy'>
+        <span class='status-dot' aria-hidden='true'></span>
+        <span>A4 · 两页面试版</span>
+      </div>
+      <div class='toolbar-actions'>
+        <a class='button secondary' href={pdfUrl} download='祝仰坤-面试简历.pdf'>下载 PDF</a>
+        <button class='button primary' id='export-resume' type='button'>打印 / 导出 PDF</button>
+      </div>
+    </nav>
+    <p class='print-hint'>导出时选择“另存为 PDF”，纸张使用 A4，关闭浏览器页眉和页脚。</p>
+
+    <main class='sheets' aria-label='面试简历'>
+      {
+        resume.pages.map((page, index) => (
+          <article class='sheet' aria-label={`第 ${index + 1} 页：${page.label}`}>
+            {index === 0 ? (
+              <header class='identity'>
+                <div class='identity-title'>
+                  <p class='eyebrow'>RESEARCH & ENGINEERING</p>
+                  <h1>
+                    {name}
+                    <span>{englishName}</span>
+                  </h1>
+                  <p class='headline'>{headline}</p>
+                </div>
+                <div class='contacts'>
+                  <span>{location}</span>
+                  <a href={`mailto:${email}`}>{email}</a>
+                  <div class='profile-links'>
+                    <a href={github}>GitHub ↗</a>
+                    <a href={scholar}>Scholar ↗</a>
+                    <a href={website}>个人主页 ↗</a>
+                  </div>
+                </div>
+              </header>
+            ) : (
+              <header class='continuation'>
+                <span class='continuation-name'>{name}</span>
+                <span>{page.label}</span>
+                <a href={website}>greyman-seu.github.io</a>
+              </header>
+            )}
+
+            <div class='page-content'>
+              {page.sections.map((section) => (
+                <section class:list={['resume-section', `section-${section.kind}`]}>
+                  <h2>{section.title}</h2>
+                  {section.kind === 'summary' && <p class='summary'>{section.text}</p>}
+                  {section.kind === 'timeline' && (
+                    <div class='timeline'>
+                      {section.items?.map((item) => (
+                        <div class='timeline-entry'>
+                          <div class='entry-heading'>
+                            <h3>{item.title}</h3>
+                            <span class='date'>{item.date}</span>
+                          </div>
+                          <p class='subtitle'>{item.subtitle}</p>
+                          <p class='detail'>{item.detail}</p>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                  {section.kind === 'skills' && (
+                    <dl class='skills'>
+                      {section.items?.map((item) => (
+                        <div>
+                          <dt>{item.label}</dt>
+                          <dd>{item.text}</dd>
+                        </div>
+                      ))}
+                    </dl>
+                  )}
+                  {section.kind === 'projects' && (
+                    <div class='projects'>
+                      {section.items?.map((item) => (
+                        <div class='project'>
+                          <div class='entry-heading'>
+                            <h3>
+                              <a href={item.link}>{item.title}</a>
+                            </h3>
+                            <span class='date'>{item.date}</span>
+                          </div>
+                          <p class='project-role'>{item.role}</p>
+                          <ul>
+                            {item.bullets?.map((bullet) => (
+                              <li>{bullet}</li>
+                            ))}
+                          </ul>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                  {section.kind === 'publications' && (
+                    <>
+                      <p class='section-note'>{section.note}</p>
+                      <ol class='publications'>
+                        {section.items?.map((item) => (
+                          <li>
+                            <a href={item.url}>{item.title}</a>
+                            <span
+                              class:list={['venue', item.venue?.includes('Accepted') && 'accepted']}
+                            >
+                              {item.venue}
+                            </span>
+                          </li>
+                        ))}
+                      </ol>
+                    </>
+                  )}
+                </section>
+              ))}
+            </div>
+            <footer class='page-footer'>
+              <span>
+                更新于 {updated} · <a href={website}>完整经历与项目资源见个人主页</a>
+              </span>
+              <span>
+                {String(index + 1).padStart(2, '0')} /{' '}
+                {String(resume.pages.length).padStart(2, '0')}
+              </span>
+            </footer>
+          </article>
+        ))
+      }
+    </main>
+  </body>
+</html>
+
+<script>
+  document.getElementById('export-resume')?.addEventListener('click', async () => {
+    await document.fonts.ready
+    window.print()
+  })
+</script>
+
+<style>
+  :global(*) {
+    box-sizing: border-box;
+  }
+  :global(html) {
+    color-scheme: light;
+    background: #e9eceb;
+  }
+  :global(body) {
+    margin: 0;
+    color: #1e292d;
+    font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+    font-size: 13px;
+    line-height: 1.55;
+  }
+  :global(a) {
+    color: inherit;
+    text-decoration: none;
+  }
+  :global(a:hover) {
+    color: #126c67;
+  }
+  :global(button) {
+    font: inherit;
+    cursor: pointer;
+  }
+  .toolbar {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 16px 24px;
+    background: #e9ecebf2;
+    backdrop-filter: blur(12px);
+  }
+  .back-link {
+    font-size: 13px;
+    color: #45555a;
+  }
+  .toolbar-copy {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #647573;
+    font-size: 12px;
+  }
+  .status-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #16736c;
+  }
+  .toolbar-actions {
+    display: flex;
+    gap: 8px;
+    margin-left: auto;
+  }
+  .button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 38px;
+    padding: 8px 16px;
+    border: 1px solid #c7d2d0;
+    border-radius: 5px;
+    font-size: 12px;
+    font-weight: 600;
+    transition: background 0.15s;
+  }
+  .primary {
+    background: #165f5c;
+    color: white;
+    border-color: #165f5c;
+  }
+  .primary:hover {
+    background: #104b49;
+  }
+  .secondary {
+    background: #f8faf9;
+  }
+  .print-hint {
+    margin: 0 auto 18px;
+    padding: 0 24px;
+    max-width: 1000px;
+    color: #62716e;
+    font-size: 12px;
+  }
+  .sheets {
+    display: grid;
+    justify-content: center;
+    gap: 28px;
+    padding: 0 20px 60px;
+  }
+  .sheet {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 210mm;
+    min-height: 297mm;
+    padding: 14mm 15mm 11mm;
+    background: white;
+    box-shadow: 0 4px 28px #273c3612;
+  }
+  .identity {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    padding-bottom: 17px;
+    border-bottom: 2px solid #165f5c;
+  }
+  .eyebrow {
+    margin: 0 0 6px;
+    color: #4c7773;
+    font-size: 8px;
+    font-weight: 700;
+    letter-spacing: 2.1px;
+  }
+  h1 {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    margin: 0;
+    font-family: 'Songti SC', 'STSong', serif;
+    font-size: 34px;
+    line-height: 1.25;
+    letter-spacing: 2px;
+  }
+  h1 span {
+    font-family: 'Georgia', serif;
+    font-size: 15px;
+    font-weight: 400;
+    color: #67736f;
+    letter-spacing: 0.2px;
+  }
+  .headline {
+    margin: 9px 0 0;
+    font-size: 12px;
+    color: #46605c;
+    letter-spacing: 0.4px;
+  }
+  .contacts {
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    align-items: flex-end;
+    gap: 4px;
+    font-size: 10px;
+    color: #50625e;
+    white-space: nowrap;
+  }
+  .profile-links {
+    display: flex;
+    gap: 12px;
+  }
+  .continuation {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    padding-bottom: 14px;
+    border-bottom: 2px solid #165f5c;
+    color: #526764;
+    font-size: 11px;
+  }
+  .continuation-name {
+    font-family: 'Songti SC', serif;
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: #203a36;
+  }
+  .continuation a {
+    margin-left: auto;
+    font-size: 10px;
+  }
+  .page-content {
+    padding-top: 4px;
+  }
+  .resume-section {
+    margin-top: 15px;
+  }
+  h2 {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0 0 9px;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+    color: #165f5c;
+  }
+  h2::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: #dce6e3;
+  }
+  .summary {
+    margin: 0;
+    font-size: 12.4px;
+    line-height: 1.65;
+  }
+  .timeline {
+    display: grid;
+    gap: 9px;
+  }
+  .entry-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 12px;
+  }
+  h3 {
+    margin: 0;
+    font-size: 12.5px;
+    line-height: 1.5;
+    font-weight: 700;
+  }
+  .date {
+    flex-shrink: 0;
+    color: #647571;
+    font-size: 10.3px;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+  .subtitle {
+    margin: 1px 0 0;
+    font-size: 10px;
+    color: #46605a;
+  }
+  .detail {
+    margin: 1px 0 0;
+    font-size: 11.8px;
+    line-height: 1.5;
+    color: #53635f;
+  }
+  .skills {
+    margin: 0;
+    display: grid;
+    gap: 5px;
+    font-size: 11.8px;
+  }
+  .skills > div {
+    display: grid;
+    grid-template-columns: 70px 1fr;
+    gap: 8px;
+  }
+  dt {
+    font-weight: 600;
+    color: #385b53;
+  }
+  dd {
+    margin: 0;
+    color: #4a5b56;
+  }
+  .projects {
+    display: grid;
+    gap: 13px;
+  }
+  .project-role {
+    margin: 2px 0 5px;
+    font-size: 10px;
+    color: #53756a;
+  }
+  ul {
+    margin: 0;
+    padding-left: 14px;
+    display: grid;
+    gap: 4px;
+    font-size: 12.2px;
+    line-height: 1.6;
+  }
+  li::marker {
+    color: #558177;
+  }
+  .section-note {
+    margin: -2px 0 8px;
+    font-size: 9px;
+    color: #75817a;
+  }
+  .publications {
+    margin: 0;
+    padding: 0 0 0 20px;
+    display: grid;
+    gap: 9px;
+  }
+  .publications li {
+    padding-left: 3px;
+    font-family: 'Georgia', 'PingFang SC', serif;
+    font-size: 12px;
+    line-height: 1.4;
+  }
+  .venue {
+    display: block;
+    margin-top: 1px;
+    font-family: 'PingFang SC', sans-serif;
+    font-size: 9px;
+    color: #75817a;
+  }
+  .accepted {
+    color: #165f5c;
+    font-weight: 600;
+  }
+  .page-footer {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    margin-top: auto;
+    padding-top: 18px;
+    font-size: 8.5px;
+    color: #7f8d86;
+    letter-spacing: 0.2px;
+  }
+  :global(a:focus-visible),
+  :global(button:focus-visible) {
+    outline: 2px solid #126c67;
+    outline-offset: 4px;
+  }
+  @media (max-width: 840px) {
+    .toolbar {
+      flex-wrap: wrap;
+      gap: 10px;
+      padding: 12px 16px;
+    }
+    .toolbar-copy {
+      display: none;
+    }
+    .toolbar-actions {
+      gap: 6px;
+    }
+    .button {
+      padding: 8px 10px;
+    }
+    .sheets {
+      display: block;
+      padding: 0 0 32px;
+    }
+    .sheet {
+      width: 100%;
+      min-height: auto;
+      padding: 26px 22px;
+      margin-bottom: 16px;
+      box-shadow: none;
+    }
+    .identity {
+      flex-direction: column;
+      gap: 12px;
+    }
+    .contacts {
+      align-items: flex-start;
+    }
+    .entry-heading {
+      flex-wrap: wrap;
+      gap: 1px 12px;
+    }
+    .continuation {
+      flex-wrap: wrap;
+      gap: 4px 12px;
+    }
+    .continuation a {
+      margin-left: 0;
+    }
+    .page-footer {
+      margin-top: 20px;
+    }
+  }
+  @page {
+    size: A4;
+    margin: 0;
+  }
+  @media print {
+    :global(html),
+    :global(body) {
+      margin: 0;
+      background: white;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+    .toolbar,
+    .print-hint {
+      display: none !important;
+    }
+    .sheets {
+      display: block;
+      padding: 0;
+    }
+    .sheet {
+      width: 210mm;
+      min-height: 297mm;
+      padding: 14mm 15mm 11mm;
+      margin: 0;
+      box-shadow: none;
+      break-after: page;
+    }
+    .sheet:last-child {
+      break-after: auto;
+    }
+    .identity {
+      flex-direction: row;
+      gap: 20px;
+    }
+    .contacts {
+      align-items: flex-end;
+    }
+    .entry-heading {
+      flex-wrap: nowrap;
+      gap: 12px;
+    }
+    .continuation {
+      flex-wrap: nowrap;
+      gap: 16px;
+    }
+    .continuation a {
+      margin-left: auto;
+    }
+    .page-footer {
+      margin-top: auto;
+    }
+    .project,
+    .timeline-entry,
+    .publications li {
+      break-inside: avoid;
+    }
+    h2,
+    h3 {
+      break-after: avoid;
+    }
+    a {
+      color: inherit !important;
+    }
+  }
+</style>

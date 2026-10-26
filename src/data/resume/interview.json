@@ -1,0 +1,204 @@
+{
+  "name": "祝仰坤",
+  "englishName": "Yangkun Zhu",
+  "headline": "具身智能 · VLA · 力控与推理部署",
+  "email": "zyk_seu_job@163.com",
+  "location": "上海",
+  "website": "https://greyman-seu.github.io/resume",
+  "github": "https://github.com/Greyman-Seu",
+  "scholar": "https://scholar.google.com/citations?user=fAz0ez0AAAAJ&hl=zh-CN",
+  "updated": "2026-10-27",
+  "pdfUrl": "/cv.pdf",
+  "pages": [
+    {
+      "label": "职业履历与近期项目",
+      "sections": [
+        {
+          "title": "个人概况",
+          "kind": "summary",
+          "text": "7 年 AI 算法研发与落地经验，5 年带队经验。聚焦 VLA、力控后训练与推理部署，兼具前沿模型研究、真机系统集成和车载量产经验；参与 InternW0、InternVLA 系列工作，论文成果包括 ICLR 2026 与 CoRL 2026。"
+        },
+        {
+          "title": "工作经历",
+          "kind": "timeline",
+          "items": [
+            {
+              "title": "上海人工智能实验室",
+              "date": "2025.03 - 至今",
+              "subtitle": "具身智能 / 物理智能中心",
+              "detail": "参与 VLA、湿实验力控及部署基础设施研发；获年度员工荣誉。"
+            },
+            {
+              "title": "地平线 / 红西瓜半导体（GUA）",
+              "date": "2021.02 - 2025.03",
+              "subtitle": "HALO 座舱部门 · 行为手势组 TL",
+              "detail": "兼任项目负责人、技术架构与算法职责，主导 VLM 预研、3D 人手重建与空间交互，服务十数款量产车型。"
+            },
+            {
+              "title": "电科云（中国电科集团）",
+              "date": "2020.02 - 2021.02",
+              "subtitle": "算法工程师",
+              "detail": "从零搭建边缘智能平台算法框架，参与总体方案设计与重点项目推进。"
+            },
+            {
+              "title": "地平线",
+              "date": "2019.07 - 2020.02",
+              "subtitle": "研究院助理研究员 / DMS 算法工程师",
+              "detail": "负责疲劳检测算法，支撑地平线首款量产车载芯片 J2 发版；担任研究院 A 班班长。"
+            }
+          ]
+        },
+        {
+          "title": "教育背景",
+          "kind": "timeline",
+          "items": [
+            {
+              "title": "东南大学 · 工程热物理 · 学术硕士",
+              "date": "2016.09 - 2019.07",
+              "subtitle": "能源与环境学院 · 能源信息自动化系",
+              "detail": "研究方向：吸收光谱、光场及温度场 / 浓度场重建。"
+            },
+            {
+              "title": "南京林业大学 · 热能与动力工程 · 学士",
+              "date": "2012.09 - 2016.07",
+              "subtitle": "材料科学与工程学院",
+              "detail": "专业 Top 2；国家励志奖学金、优秀毕业生。"
+            }
+          ]
+        },
+        {
+          "title": "技术能力",
+          "kind": "skills",
+          "items": [
+            {
+              "label": "模型与算法",
+              "text": "VLA / VLM、空间 Grounding、力控后训练、多模态时序建模、长程任务拆解"
+            },
+            {
+              "label": "系统与部署",
+              "text": "PyTorch、vLLM-Omni、异步推理、模型量化、机器人接口与数据采集"
+            },
+            {
+              "label": "研发与协作",
+              "text": "Python、C++、Git；项目带队、跨团队推进、真机验证与车规芯片部署"
+            }
+          ]
+        },
+        {
+          "title": "近期项目",
+          "kind": "projects",
+          "items": [
+            {
+              "title": "InternW0 / 浦江创新论坛湿实验力控原型",
+              "date": "2026.08 - 2026.09",
+              "role": "W0 力控算法 Owner · 团队成员 1 人",
+              "link": "https://github.com/InternRobotics/InternW0",
+              "bullets": [
+                "牵头力控后训练，约 1.5 个月内协同完成双臂双手平台、采集链路与湿实验移液 Demo；完成 π0.5、InternVLA-A1.5 力控模块接入。",
+                "开展力输入量化抗 OOD、标定噪声优化与位控表征消融；支撑 InternW0 定量移液任务进度率 65.3%，较 π0.5 提升 18.6 个百分点。"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "label": "代表项目与论文成果",
+      "sections": [
+        {
+          "title": "代表项目",
+          "kind": "projects",
+          "items": [
+            {
+              "title": "WAIC 2026 电催化具身实验原型验证",
+              "date": "2026.04 - 2026.07",
+              "role": "旋蒸场景负责人 · 团队成员 1 人",
+              "link": "https://greyman-seu.github.io/resume",
+              "bullets": [
+                "采用力控算法与结构件辅助提升现场工况适应能力，旋蒸机场景执行成功率达到 ≥99%。",
+                "开发一键回零、一键启动与远程调度，形成冗余保障与应急恢复能力，完成面向科技部的现场展示。"
+              ]
+            },
+            {
+              "title": "VLA 推理部署基础设施（Rdeploy / vLLM-Omni）",
+              "date": "2025.11 - 2026.03",
+              "role": "Infra 部署负责人 · 带领 3 位成员",
+              "link": "https://github.com/Greyman-Seu/vllm-omni-internvla-a1",
+              "bullets": [
+                "自主搭建插件化 Rdeploy，统一内部 6 台机器人接口；完成 vLLM-Omni 框架首个 VLA 模型 InternVLA-A1 开源部署，推理速度较原生 PyTorch 提升 100%。",
+                "落地实验室首套异步推理方案，支撑衣物展叠和高速传送带动态夹取；在 acone、lift2 上完成拖动 / VR 示教等 DAgger 方案验证。"
+              ]
+            },
+            {
+              "title": "InternVLA-M1 空间引导 VLA 框架",
+              "date": "2025.03 - 2025.09",
+              "role": "Sys2（操作大脑）Owner / 下游任务算法工程师",
+              "link": "https://github.com/InternRobotics/InternVLA-M1",
+              "bullets": [
+                "负责 M1-VLM 预训练，增强 freespace、point、bbox、traj 等空间表征，在多个 Grounding 榜单取得 SOTA；构建 190 万条多模态数据并验证 Scaling 效果。",
+                "建设覆盖 8 个数据集、15 个维度的评测框架；长程操作任务成功率达到 90%，较 GPT baseline 提升 30%+。"
+              ]
+            },
+            {
+              "title": "车载多模态模型与空间交互",
+              "date": "2023.07 - 2025.03",
+              "role": "行为手势组 TL / 交警指挥算法模块负责人",
+              "link": "https://greyman-seu.github.io/works?focus=traffic-police-vlm",
+              "bullets": [
+                "主导交警场景 VLM 方案与数据闭环，将关键任务 Precision 从 GPT-4o 基线约 30% 提升至 95%+，完成公司内部首次 VLM 自动驾驶场景量产级上线。",
+                "负责 Vision Pro 手眼交互等展示项目，牵头 15 名核心开发、协同 43 人跨团队推进，完成车载 15.6 寸屏首发落地与实车验证。"
+              ]
+            }
+          ]
+        },
+        {
+          "title": "论文成果",
+          "kind": "publications",
+          "note": "以下均为共同作者，完整作者列表与资源见个人主页 Works。",
+          "items": [
+            {
+              "title": "FlowVLA: Learning Flow-Aware Physical Completion for Quantitative Robotic Pouring",
+              "venue": "arXiv · 2026",
+              "url": "https://arxiv.org/abs/2610.29692"
+            },
+            {
+              "title": "VOMMI: Collecting and Leveraging Portable Demonstrations for Mobile Manipulation",
+              "venue": "arXiv · 2026",
+              "url": "https://arxiv.org/abs/2610.08220"
+            },
+            {
+              "title": "InternW0: A Foundational Physical World Model for Efficient Real-World Interactions",
+              "venue": "arXiv · 2026",
+              "url": "https://arxiv.org/abs/2609.27656"
+            },
+            {
+              "title": "RoboSnap: One-Shot Real-to-Sim Scene Generation for Generalizable Robot Learning and Evaluation",
+              "venue": "CoRL 2026 · Accepted",
+              "url": "https://arxiv.org/abs/2607.06699"
+            },
+            {
+              "title": "InternVLA-A1.5: Unifying Understanding, Latent Foresight, and Action for Compositional Generalization",
+              "venue": "arXiv · 2026",
+              "url": "https://arxiv.org/abs/2607.04988"
+            },
+            {
+              "title": "ST4VLA: Spatially Guided Training for Vision-Language-Action Models",
+              "venue": "ICLR 2026 · Accepted",
+              "url": "https://arxiv.org/abs/2602.10109"
+            },
+            {
+              "title": "InternVLA-M1: A Spatially Guided Vision-Language-Action Framework for Generalist Robot Policy",
+              "venue": "Technical report · 2025",
+              "url": "https://arxiv.org/abs/2510.13778"
+            },
+            {
+              "title": "InternVLA-A1: Unifying Understanding, Generation and Action for Robotic Manipulation",
+              "venue": "arXiv · 2026",
+              "url": "https://arxiv.org/abs/2601.02456"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
