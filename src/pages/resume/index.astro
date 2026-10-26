@@ -3,11 +3,9 @@ import PageLayout from '@/layouts/CommonPage.astro'
 import { Comment } from '@/components/widgets'
 import { Icon } from '@/components/ui'
 import config from '@/site-config'
-import { publications } from '@/data/publications'
 
 const headings = [
   { depth: 2, slug: 'summary', text: '个人简介' },
-  { depth: 2, slug: 'publications', text: '论文成果' },
   { depth: 2, slug: 'education', text: '教育背景' },
   { depth: 2, slug: 'experience', text: '工作经历' },
   { depth: 2, slug: 'skills', text: '技术技能' },
@@ -674,7 +672,7 @@ const projects: ResumeProject[] = [
     魔武双修——兼具创新力与组织力，既要在前沿无人区探路，也要把想法落成真实跑在产品上的东西。
   </p>
   <p>
-    7 年车载 AI 算法经验，5 年带队。量产侧，作为 HALO 团队核心成员经历了地平线芯片首次量产，服务十数款车型；研发侧，多次主导大型车展准量产级项目，行业 TOP；科研侧，参与 InternVLA、InternW0、FlowVLA、VOMMI 与 RoboSnap 等工作，论文成果包括 ICLR 2026 与 CoRL 2026。
+    7 年车载 AI 算法经验，5 年带队。量产侧，作为 HALO 团队核心成员经历了地平线芯片首次量产，服务十数款车型；研发侧，多次主导大型车展准量产级项目，行业 TOP；科研侧，深度贡献 InternVLA 系列工作，沉淀顶会经验中。
   </p>
   <p>
     在意技术的天花板，也在意技术的地板。
@@ -702,39 +700,6 @@ const projects: ResumeProject[] = [
       </div>
     </button>
   </div>  {/* end not-prose flex */}
-
-  {/* ── 论文成果 ── */}
-  <h2 id='publications'>论文成果<a class='anchor' href='#publications'>#</a></h2>
-  <div class='not-prose resume-panel rounded-xl border border-border bg-card px-5 py-4'>
-    <ul class='divide-y divide-border/50'>
-      {publications.map((publication) => (
-        <li class='py-3 first:pt-0 last:pb-0'>
-          <a
-            href={`/works?focus=${publication.slug}`}
-            class='text-sm font-semibold leading-6 text-foreground transition-colors hover:text-primary'
-          >
-            {publication.title}
-          </a>
-          <p class='mt-1 flex flex-wrap items-center gap-2 text-xs text-muted-foreground'>
-            <span>{publication.venue} · {publication.year}</span>
-            {publication.status === 'accepted' && (
-              <span class='rounded-full bg-primary/10 px-2 py-0.5 font-medium text-primary'>
-                Accepted
-              </span>
-            )}
-            <a
-              href={publication.links.find((link) => link.type === 'arxiv')?.href}
-              target='_blank'
-              rel='noopener noreferrer'
-              class='underline underline-offset-2 hover:text-primary'
-            >
-              arXiv ↗
-            </a>
-          </p>
-        </li>
-      ))}
-    </ul>
-  </div>
 
   {/* ── 教育背景 ── */}
   <h2 id='education'>教育背景<a class='anchor' href='#education'>#</a></h2>
