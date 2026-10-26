@@ -3,6 +3,7 @@ import PageLayout from '@/layouts/CommonPage.astro'
 import { Comment } from '@/components/widgets'
 import { Icon } from '@/components/ui'
 import config from '@/site-config'
+import cctvInterview from '@/assets/projects/cctv-interview.jpg'
 
 const headings = [
   { depth: 2, slug: 'summary', text: '个人简介' },
@@ -210,6 +211,7 @@ const projects: ResumeProject[] = [
     company: '上海人工智能实验室',
     projectGroup: 'WAIC 2026 / 电催化实验',
     href: null,
+    workLinks: [{ label: '央视采访', href: cctvInterview.src }],
     sections: [
       {
         label: 'S + T',
