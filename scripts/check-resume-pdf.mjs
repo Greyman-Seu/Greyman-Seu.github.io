@@ -5,7 +5,7 @@ import { fileURLToPath } from 'node:url'
 const root = new URL('../', import.meta.url)
 const read = (path) => readFileSync(fileURLToPath(new URL(path, root)))
 const hash = (bytes) => createHash('sha256').update(bytes).digest('hex')
-const manifest = JSON.parse(read('public/resume/cv-manifest.json'))
+const manifest = JSON.parse(read('src/data/resume/pdf-snapshot.json'))
 if (
   hash(read('src/data/resume/interview.json')) !== manifest.sourceSha256 ||
   hash(read('src/assets/avatar.png')) !== manifest.avatarSha256 ||

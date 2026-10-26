@@ -15,8 +15,10 @@ python3 scripts/build-resume-pdf.py
 node scripts/check-resume-pdf.mjs
 ```
 
-生成器使用内置中文字体并嵌入 PDF，保留可选择文本和链接。固定两页，内容溢出会报错，不会静默缩小字号。输出更新 `public/cv.pdf` 和 `public/resume/cv-manifest.json`；二者和 JSON 一并提交。
+生成器使用内置中文字体并嵌入 PDF，保留可选择文本和链接。固定两页，内容溢出会报错，不会静默缩小字号。输出更新 `public/cv.pdf` 和 `src/data/resume/pdf-snapshot.json`；二者和 JSON 一并提交。
 
 构建前会校验源数据、首页头像和 PDF 的 SHA-256，防止在线版本与下载版本不同步。标准站点构建只使用已生成的 PDF，无需安装 Python 依赖。
 
 浏览器导出时使用 A4、关闭浏览器页眉页脚；使用模板按钮可隐藏操作栏。PDF 的版式与在线模板分别适配各自排版引擎，内容保持一致。
+
+下载入口使用 PDF 摘要作为 URL 版本标记，避免主站与浏览器缓存旧版简历。

@@ -1,6 +1,7 @@
 ---
 import { Image } from 'astro:assets'
 import resumeData from '@/data/resume/interview.json'
+import pdfSnapshot from '@/data/resume/pdf-snapshot.json'
 import type { InterviewResume } from '@/data/resume/types'
 
 import avatar from '@/assets/avatar.png'
@@ -8,6 +9,7 @@ import avatar from '@/assets/avatar.png'
 const resume = resumeData as InterviewResume
 
 const { name, englishName, headline, email, location, website, updated, pdfUrl } = resume
+const pdfDownloadUrl = `${pdfUrl}?v=${pdfSnapshot.pdfSha256.slice(0, 12)}`
 ---
 
 <!doctype html>
@@ -30,7 +32,8 @@ const { name, englishName, headline, email, location, website, updated, pdfUrl }
         <span>A4 · 两页面试版</span>
       </div>
       <div class='toolbar-actions'>
-        <a class='button secondary' href={pdfUrl} download='祝仰坤-面试简历.pdf'>下载 PDF</a>
+        <a class='button secondary' href={pdfDownloadUrl} download='祝仰坤-面试简历.pdf'>下载 PDF</a
+        >
         <button class='button primary' id='export-resume' type='button'>打印 / 导出 PDF</button>
       </div>
     </nav>

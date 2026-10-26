@@ -17,7 +17,7 @@ ROOT = Path(__file__).resolve().parents[1]
 SOURCE = ROOT / 'src/data/resume/interview.json'
 AVATAR = ROOT / 'src/assets/avatar.png'
 OUTPUT = ROOT / 'public/cv.pdf'
-MANIFEST = ROOT / 'public/resume/cv-manifest.json'
+MANIFEST = ROOT / 'src/data/resume/pdf-snapshot.json'
 ACCENT = '#165f5c'
 
 
