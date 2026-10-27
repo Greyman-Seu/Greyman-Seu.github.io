@@ -88,7 +88,7 @@ export const publications: ComponentProps<typeof PublicationSection>['publicatio
       { name: 'Chunhua Shen' },
       { name: 'Weinan Zhang' }
     ],
-    venue: 'ArXiv Preprint',
+    venue: 'ArXiv Technical Report',
     year: '2026',
     type: 'preprint',
     abstract:
@@ -160,7 +160,7 @@ export const publications: ComponentProps<typeof PublicationSection>['publicatio
       { name: 'Chunhua Shen' },
       { name: 'Weinan Zhang' }
     ],
-    venue: 'ArXiv Preprint',
+    venue: 'ArXiv Technical Report',
     year: '2026',
     type: 'preprint',
     abstract:
@@ -232,7 +232,7 @@ export const publications: ComponentProps<typeof PublicationSection>['publicatio
       { name: 'Hongrui Zhu' },
       { name: 'Yangkun Zhu', isMe: true }
     ],
-    venue: 'ArXiv Preprint',
+    venue: 'ArXiv Technical Report',
     year: '2026',
     type: 'preprint',
     abstract:

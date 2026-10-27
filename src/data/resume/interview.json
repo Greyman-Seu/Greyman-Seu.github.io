@@ -168,7 +168,7 @@
             },
             {
               "title": "InternW0: A Foundational Physical World Model for Efficient Real-World Interactions",
-              "venue": "arXiv · 2026",
+              "venue": "Technical Report · 2026",
               "url": "https://arxiv.org/abs/2609.27656"
             },
             {
@@ -178,7 +178,7 @@
             },
             {
               "title": "InternVLA-A1.5: Unifying Understanding, Latent Foresight, and Action for Compositional Generalization",
-              "venue": "arXiv · 2026",
+              "venue": "Technical Report · 2026",
               "url": "https://arxiv.org/abs/2607.04988"
             },
             {
@@ -188,12 +188,12 @@
             },
             {
               "title": "InternVLA-M1: A Spatially Guided Vision-Language-Action Framework for Generalist Robot Policy",
-              "venue": "Technical report · 2025",
+              "venue": "Technical Report · 2025",
               "url": "https://arxiv.org/abs/2510.13778"
             },
             {
               "title": "InternVLA-A1: Unifying Understanding, Generation and Action for Robotic Manipulation",
-              "venue": "arXiv · 2026",
+              "venue": "Technical Report · 2026",
               "url": "https://arxiv.org/abs/2601.02456"
             }
           ]
