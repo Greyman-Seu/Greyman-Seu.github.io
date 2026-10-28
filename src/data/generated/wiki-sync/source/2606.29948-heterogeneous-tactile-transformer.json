@@ -3,150 +3,159 @@
   "title": "Heterogeneous Tactile Transformer",
   "sourceType": "paper",
   "sourceUrl": "https://arxiv.org/abs/2606.29948",
-  "htmlUrl": "https://arxiv.org/html/2606.29948",
-  "pdfUrl": "https://arxiv.org/pdf/2606.29948",
+  "htmlUrl": "",
+  "pdfUrl": "",
   "codeUrl": "",
   "translationUrl": "https://hjfy.top/arxiv/2606.29948",
-  "publishDate": "2026-06-29",
-  "authors": [
-    "Jianxin Bi",
-    "Qiang Wang",
-    "Jayaram Reddy",
-    "Kelvin Lin",
-    "Soibkhon Khajikhanov",
-    "Ruihan Gao",
-    "Harold Soh"
-  ],
-  "affiliation": "",
+  "publishDate": "'2026-06-29'",
+  "authors": [],
+  "affiliation": "National University of Singapore",
   "relatedOrganizations": [
-    "National University of Singapore"
+    "[National University of Singapore, Carnegie Mellon University]"
   ],
   "relatedCompanies": [],
-  "keywords": [
-    "tactile-representation",
-    "heterogeneous-sensors",
-    "self-supervised-pretraining",
-    "cross-modal-alignment",
-    "robot-manipulation"
-  ],
+  "keywords": [],
   "primaryDomainSlug": "physical-embodied-intelligence",
   "domainSlugs": [
     "physical-embodied-intelligence"
   ],
-  "heroImage": "https://arxiv.org/html/2606.29948v1/x1.png",
-  "tldr": "HTT 是面向异构触觉传感器的自监督预训练框架：四种传感器共享同一个 Transformer trunk，靠 masked reconstruction + 双向跨模态预测把光学和阵列信号对齐到同一潜空间，并在未见过的新传感器上验证可迁移。",
-  "intuition": "四种触觉传感器（两光学的 GelSight Mini/9DTact、两阵列的 Xela/Tac-02）装在同一只 UMI 夹爪两侧同步采数据。每路信号先经过各自的 patchify + sensor-specific encoder 进入一个共享 Transformer trunk，再以\"重建自己被遮蔽的部分 + 跨传感器预测被遮蔽的目标 embedding\"的双重目标做自监督预训练。下游用同一套 backbone 在物体分类、力估计、滑移检测、真机螺丝刀/抓豆腐任务上微调。\n\n![架构总览](https://arxiv.org/html/2606.29948v1/x1.png)\n\n*Figure 1: Heterogeneous Tactile Transformer 架构总览*",
-  "abstractEn": "> Tactile sensors are inherently heterogeneous: a model trained on one sensor cannot be directly used on another, which limits learning contact-rich manipulation policies from diverse tactile data at scale. To bridge this gap, we propose the Heterogeneous Tactile Transformer (HTT), a framework that learns shared tactile representations across heterogeneous sensors. HTT consists of sensor-specific encoders and a shared transformer trunk, and is pretrained with per-modality masked reconstruction together with cross-modal alignment between paired sensors. Pretraining uses our novel Heterogeneous Paired Tactile (HPT) dataset, containing 1.6M synchronized paired frames across four vision- and array-based tactile sensors. Across distinct tactile perception and real-world manipulation tasks, HTT is shown to learn transferable representations that adapt to new tasks and previously unseen sensors. Dataset, code, and model checkpoints will be released upon publication.",
-  "abstractZh": "触觉传感器天然异构：在一种传感器上训练的模型不能直接用于另一种，这限制了从大规模多样化触觉数据中学习接触丰富的操作策略。为弥合这一差距，本文提出异构触觉 Transformer（HTT），一个跨异构触觉传感器学习共享表示的框架。HTT 由传感器专属编码器与一个共享 Transformer trunk 组成，通过逐模态的遮蔽重建和成对传感器之间的跨模态对齐进行预训练。预训练使用新构建的异构成对触觉（HPT）数据集，包含四种视觉式与阵列式触觉传感器同步采得的 160 万对帧。在多种触觉感知和真实操作任务上，HTT 学到了可迁移表示，能适配新任务和训练时未见过的新传感器。数据集、代码与模型权重将于发表时公开。",
-  "background": "**动机：** 触觉是接触丰富操作（抓取易碎、精密装配、材质识别）的关键观测，但触觉传感器天然异构：光学式（GelSight 类）能给稠密空间/几何信息但相机帧率受限；阵列式（taxel）能给出高频力/压信号但空间分辨率低。两类信号是互补的，但原始数据结构一个是图像、另一个是时序，难以用一个 backbone 直接学习可迁移表示。\n\n**问题缺口：** 已有的触觉自监督方法（基于 MAE 的 T3、SITR 等）几乎都只在光学触觉数据上预训练。一旦换到阵列传感器或需要力/滑移线索的下游任务，这些 backbone 不可用；把多模数据各自独立训练又浪费了\"同一次接触其实被多传感器同时记录\"这一关键监督信号。要的不是某一个传感器最强的 backbone，而是一个能跨传感器共享潜空间、又能容纳新传感器的统一 backbone。",
-  "backgroundMotivation": "触觉是接触丰富操作（抓取易碎、精密装配、材质识别）的关键观测，但触觉传感器天然异构：光学式（GelSight 类）能给稠密空间/几何信息但相机帧率受限；阵列式（taxel）能给出高频力/压信号但空间分辨率低。两类信号是互补的，但原始数据结构一个是图像、另一个是时序，难以用一个 backbone 直接学习可迁移表示。",
-  "backgroundGap": "已有的触觉自监督方法（基于 MAE 的 T3、SITR 等）几乎都只在光学触觉数据上预训练。一旦换到阵列传感器或需要力/滑移线索的下游任务，这些 backbone 不可用；把多模数据各自独立训练又浪费了\"同一次接触其实被多传感器同时记录\"这一关键监督信号。要的不是某一个传感器最强的 backbone，而是一个能跨传感器共享潜空间、又能容纳新传感器的统一 backbone。",
-  "method": "**方法概述：** HTT 是一个 MAE 风格的自监督预训练框架，结构上是「传感器专属 encoder + 共享 Transformer trunk + 传感器专属 decoder + 跨模态预测器」四件套，训练目标是\"每路重建自己被遮蔽的 patch + 跨传感器互预测被遮蔽的目标 embedding\"。\n\n**核心机制：** 同一接触被多个传感器同步记录 → 把每个传感器当作一个 modality → 在共享 trunk 的潜空间里通过\"预测对侧被遮蔽的 embedding\"建立双向跨模态约束，使得每个传感器的局部细节和跨传感器的语义对齐都进入同一表示。\n\n**方法拆解：**\n\n- **输入统一化**：每个训练实例是一个 τ = 0.2 s 的同步时间窗；光学帧缩放到 224×224 后用 ViT 风格 patchify；阵列式传感器把高频多维时序列切成非重叠时间 patch；所有模态在进入模型前都先减去无接触参考帧。\n- **四组件架构**：\n  - **Encoder $\\mathcal{E}_i$**：传感器专属，光学用 ViT、阵列用 self-attention transformer，把 token 编码为统一维度 embedding。\n  - **Shared Trunk $\\mathcal{T}$**：所有传感器共用一个 Transformer trunk，处理统一维度的 token embedding。\n  - **Decoder $\\mathcal{D}_i$**：传感器专属，从可见 token 经过 trunk 后的 embedding 重建被遮蔽 token，标准 MAE 目标 $\\mathcal{L}_{\\text{MAE}} = \\mathbb{E}_{i\\sim\\mathcal{I}}\\|\\mathcal{D}_i(\\mathcal{T}(\\mathcal{E}_i(\\mathbf{x}^i_v))) - \\mathrm{norm}(\\mathbf{x}^i_m)\\|_2^2$。\n  - **Predictor $\\mathcal{P}_{i\\to j}$**：跨模态预测器（cross-attention transformer），从源传感器完整 embedding + 目标传感器可见 embedding 预测目标被遮蔽的 embedding，对每对传感器做双向。\n- **跨模态对齐**：成对传感器 (i, j) 上做双向跨模态预测，把\"补全对侧被遮蔽的部分\"作为额外监督；这强制 trunk 学到能跨传感器迁移的潜空间。\n- **训练数据**：HPT 包含 1.6M 同步帧，用两对 sensor pair（Xela↔9DTact, TAC-02↔GS Mini）装在 UMI 夹爪两侧做 press/twist/slide 三种动作采集，预训练集和评测集无重叠。\n- **数据子集**：除预训练 paired unlabeled interaction 数据外，评测另设物体分类（20 类日常物体）、力估计（4 种 probe geometry + 6D F/T 真值，范围 0–40 N 法向 / 0–14 N 剪切）、滑移检测（用 Page CUSUM 把 6D 力时间序列切成 static / incipient / gross slip，分布 13.6% / 1.2% / 85.2%，稀有类极不均衡）。\n\n![方法细节与数据集](https://arxiv.org/html/2606.29948v1/x2.png)\n\n*Figure 2: 力/滑移数据采集与数据集统计。A1 探针平台 + 6D F/T；A2 四种 probe geometry；B1 力范围；B2 滑移标签分布严重不均衡。*\n\n**关键要点：**\n\n- 共享 trunk 只负责跨传感器语义，输入编码器和重建解码器仍保持传感器专属；这种分工避免用一种 tokenization 强行统一图像式和阵列式触觉。\n- 跨模态监督来自同一次接触的同步配对数据，不需要人工标签；masked reconstruction 保留模态内部细节，双向预测再对齐不同传感器的潜表示。\n- 对齐并非对所有传感器都单调增益：光学侧提升明显，Xela 等稀疏阵列侧可能因信息不对称而退化，因此下游采用前仍需逐传感器验证。",
-  "methodOverview": "HTT 是一个 MAE 风格的自监督预训练框架，结构上是「传感器专属 encoder + 共享 Transformer trunk + 传感器专属 decoder + 跨模态预测器」四件套，训练目标是\"每路重建自己被遮蔽的 patch + 跨传感器互预测被遮蔽的目标 embedding\"。",
-  "methodCore": "同一接触被多个传感器同步记录 → 把每个传感器当作一个 modality → 在共享 trunk 的潜空间里通过\"预测对侧被遮蔽的 embedding\"建立双向跨模态约束，使得每个传感器的局部细节和跨传感器的语义对齐都进入同一表示。",
+  "heroImage": "https://arxiv.org/html/2606.29948v2/teasor.png",
+  "tldr": "HTT 值得作为异构触觉预训练的参照：共享表征确实改善了部分感知任务，也能支持未见光学指尖上的操作策略。最有说服力的结果是无外部相机的拧玩具螺丝成功率 90%、抓豆腐 55%。但它没有证明任意新传感器即插即用，对齐也不是每个传感器、每项任务都有效。",
+  "intuition": "让两种“触觉语言”互相补全：一边看到接触面的图像，一边读到阵列力信号。每种硬件先用自己的编码器翻译成 token，共享主干再学习可复用接触特征。训练时既补全本路缺失信号，也利用另一种传感器预测本路缺失表征；部署时只保留单路编码器与主干，不需要两种传感器同时在场。",
+  "abstractEn": "Tactile sensors are inherently heterogeneous: a model trained on one sensor cannot be directly used on another, which limits learning contact-rich manipulation policies from diverse tactile data at scale. To bridge this gap, we propose the Heterogeneous Tactile Transformer (HTT), a framework that learns shared tactile representations across heterogeneous sensors. HTT consists of sensor-specific encoders and a shared transformer trunk, and is pretrained with per-modality masked reconstruction together with cross-modal alignment between paired sensors. Pretraining uses our novel Heterogeneous Paired Tactile (HPT) dataset, containing 1.6M synchronized paired frames across four vision- and array-based tactile sensors. Across distinct tactile perception and real-world manipulation tasks, HTT is shown to learn transferable representations that adapt to new tasks and previously unseen sensors. Dataset, code, and model checkpoints are released at this link.",
+  "abstractZh": "触觉传感器天然异构：一种传感器上训练的模型无法直接用于另一种，从而限制了利用多样触觉数据规模化学习接触密集操作策略。本文提出异构触觉 Transformer（HTT），以传感器专属编码器和共享 Transformer 主干学习跨硬件表征，通过各模态掩码重建和成对传感器间的跨模态对齐进行预训练。作者构建的 HPT 数据集包含四种光学式与阵列式传感器约 160 万同步配对触觉帧。感知与真实操作实验表明，表征能适配新任务及预训练未见传感器。作者提供了数据、代码和检查点的发布入口。",
+  "background": "**动机：** 光学触觉能描述接触几何和纹理，阵列触觉提供高频力学时序；二者在空间分辨率、采样频率和换能机制上互补。机器人换硬件后，原始输入可能从图像变成多通道时序，已有编码器无法直接复用，因此触觉数据难像视觉数据那样累积成统一预训练资产。\n\n**问题缺口：** T3、SITR、AnyTouch 等主要服务光学触觉；单独训练各个传感器又无法利用同步接触形成的跨硬件监督。HTT 要解决的是在保留图像和阵列各自结构的同时，让共享主干获得可迁移接触特征，并检验这种特征能否超出预训练的采集装置、任务和传感器。",
+  "backgroundMotivation": "光学触觉能描述接触几何和纹理，阵列触觉提供高频力学时序；二者在空间分辨率、采样频率和换能机制上互补。机器人换硬件后，原始输入可能从图像变成多通道时序，已有编码器无法直接复用，因此触觉数据难像视觉数据那样累积成统一预训练资产。",
+  "backgroundGap": "T3、SITR、AnyTouch 等主要服务光学触觉；单独训练各个传感器又无法利用同步接触形成的跨硬件监督。HTT 要解决的是在保留图像和阵列各自结构的同时，让共享主干获得可迁移接触特征，并检验这种特征能否超出预训练的采集装置、任务和传感器。",
+  "method": "**方法概述：** 输入是 0.2 秒同步接触窗：光学传感器生成空间图像 token，阵列传感器生成时间 token；专属编码器映射到 192 维后进入九层共享 Transformer。预训练联合本模态掩码重建和双向跨传感器隐变量预测，下游移除解码器与预测器，用编码器、共享主干和任务头或 ACT 策略共同微调。\n\n**核心机制：** 仅做 MAE 能保留各路信号结构，却不保证不同硬件的表征存在可复用对应。HTT 用完整源 token 和少量可见目标 token 预测目标被遮蔽位置的隐变量，并对目标停止梯度。更关键的是，对齐损失在专属编码器输出处也被阻断，只更新共享主干与预测器；编码器由重建损失更新，以免粗粒度跨传感器约束破坏硬件细节。这里的对应来自夹爪对侧、近似对称物体上的同步抓握，不是逐像素与逐 taxel 的几何配准。\n\n**方法拆解：**\n\n- **配对数据与监督边界。** UMI 夹爪两侧安装 Xela↔9DTact 或 TAC-02↔GelSight Mini，采集按压、扭转、滑动。预训练覆盖 30 个物体，分类用另外 20 类；力与滑移评测另用四种探针和外部六维力/力矩传感器采集。同步只保证接触事件层面的关联，左右接触点不能视作相同物理位置。\n- **传感器专属 token 化。** 各路先减无接触参考，光学输入缩放至 224×224，按空间 patch 与时间 tubelet 组织；附录给出每 tubelet 196 token。Xela/TAC-02 的 20/40 帧时间窗以长度 4 切成 5/10 token。不同长度不必强行插值成同一种图像，而由各自编码器投影到统一维度。\n- **共享计算与重建。** 全模块宽度 192、三注意力头；光学编码器三层、阵列编码器两层、共享主干九层、解码器三层，不使用 CLS token。MAE 只编码可见 token，解码被遮蔽输入，目标做逐 patch 标准化，以平方误差约束；光学/阵列重建遮蔽率分别为 75%/60%。\n- **双向隐变量预测。** 每个有数据的有向配对使用三层 cross-attention 预测器，以源端完整表征及目标可见表征为条件，预测目标缺失表征。目标阵列遮蔽 80%、光学遮蔽 90%，预测目标 stop-gradient；这不是用一种传感器直接重建另一种传感器的原始像素，也没有覆盖任意四传感器两两配对。\n- **训练调度与梯度路径。** 总损失为 MAE + α(t)·对齐损失；编码器仅受 MAE 更新，共享主干同时接受两项约束。AdamW 学习率 3e-4、batch 256 paired samples、共 50,000 步，学习率预热 2,000 步后余弦下降。正文描述先 MAE warmup 再增加对齐权重，附录描述前 20,000 步从零线性增至 0.1；两处未完全统一，不据此断言明确的纯 MAE 阶段长度。\n- **下游适配与推理。** 感知任务微调编码器、主干和任务头。真机 Sharpa 光学指尖直接复用 9DTact 编码器，补边、缩放、减背景，无专属传感器预训练，但仍用任务示教训练策略；仿真 RGB 复用 GSMini 编码器，而新的力场 TacFF 需新建编码器/解码器并用 MAE 适配共享主干，不能一概称为零样本迁移。\n\n**关键要点：**\n\n- 两条梯度隔离是理解模型的重点：预测目标停止梯度，且对齐梯度不进入专属编码器；共享主干才是跨传感器约束的主要承载层。\n- 配对监督来自事件同步与粗接触相似性，省去精密标定，同时也限制了能够学到的细粒度空间对应。\n- 预训练需要成对硬件，下游单路推理不需要；新光学硬件直接复用与新力场编码器 MAE 适配是两种不同证据。\n\n![HTT 架构、HPT 数据与损失路径](https://arxiv.org/html/2606.29948v2/teasor.png)\n\n图 1：专属编码器、共享主干、本路重建及跨路预测；注意对齐梯度被挡在编码器输出处。\n\n![力与滑移采集](https://arxiv.org/html/2606.29948v2/dataset.png)\n\n图 2：探针评测装置、力范围和滑移类别分布；初始滑移仅占 1.2%。",
+  "methodOverview": "输入是 0.2 秒同步接触窗：光学传感器生成空间图像 token，阵列传感器生成时间 token；专属编码器映射到 192 维后进入九层共享 Transformer。预训练联合本模态掩码重建和双向跨传感器隐变量预测，下游移除解码器与预测器，用编码器、共享主干和任务头或 ACT 策略共同微调。",
+  "methodCore": "仅做 MAE 能保留各路信号结构，却不保证不同硬件的表征存在可复用对应。HTT 用完整源 token 和少量可见目标 token 预测目标被遮蔽位置的隐变量，并对目标停止梯度。更关键的是，对齐损失在专属编码器输出处也被阻断，只更新共享主干与预测器；编码器由重建损失更新，以免粗粒度跨传感器约束破坏硬件细节。这里的对应来自夹爪对侧、近似对称物体上的同步抓握，不是逐像素与逐 taxel 的几何配准。",
   "methodBreakdown": [
-    "**输入统一化**：每个训练实例是一个 τ = 0.2 s 的同步时间窗；光学帧缩放到 224×224 后用 ViT 风格 patchify；阵列式传感器把高频多维时序列切成非重叠时间 patch；所有模态在进入模型前都先减去无接触参考帧。",
-    "**四组件架构**：",
-    "- **Encoder $\\mathcal{E}_i$**：传感器专属，光学用 ViT、阵列用 self-attention transformer，把 token 编码为统一维度 embedding。",
-    "- **Shared Trunk $\\mathcal{T}$**：所有传感器共用一个 Transformer trunk，处理统一维度的 token embedding。",
-    "- **Decoder $\\mathcal{D}_i$**：传感器专属，从可见 token 经过 trunk 后的 embedding 重建被遮蔽 token，标准 MAE 目标 $\\mathcal{L}_{\\text{MAE}} = \\mathbb{E}_{i\\sim\\mathcal{I}}\\|\\mathcal{D}_i(\\mathcal{T}(\\mathcal{E}_i(\\mathbf{x}^i_v))) - \\mathrm{norm}(\\mathbf{x}^i_m)\\|_2^2$。",
-    "- **Predictor $\\mathcal{P}_{i\\to j}$**：跨模态预测器（cross-attention transformer），从源传感器完整 embedding + 目标传感器可见 embedding 预测目标被遮蔽的 embedding，对每对传感器做双向。",
-    "**跨模态对齐**：成对传感器 (i, j) 上做双向跨模态预测，把\"补全对侧被遮蔽的部分\"作为额外监督；这强制 trunk 学到能跨传感器迁移的潜空间。",
-    "**训练数据**：HPT 包含 1.6M 同步帧，用两对 sensor pair（Xela↔9DTact, TAC-02↔GS Mini）装在 UMI 夹爪两侧做 press/twist/slide 三种动作采集，预训练集和评测集无重叠。",
-    "**数据子集**：除预训练 paired unlabeled interaction 数据外，评测另设物体分类（20 类日常物体）、力估计（4 种 probe geometry + 6D F/T 真值，范围 0–40 N 法向 / 0–14 N 剪切）、滑移检测（用 Page CUSUM 把 6D 力时间序列切成 static / incipient / gross slip，分布 13.6% / 1.2% / 85.2%，稀有类极不均衡）。"
+    "**配对数据与监督边界。** UMI 夹爪两侧安装 Xela↔9DTact 或 TAC-02↔GelSight Mini，采集按压、扭转、滑动。预训练覆盖 30 个物体，分类用另外 20 类；力与滑移评测另用四种探针和外部六维力/力矩传感器采集。同步只保证接触事件层面的关联，左右接触点不能视作相同物理位置。",
+    "**传感器专属 token 化。** 各路先减无接触参考，光学输入缩放至 224×224，按空间 patch 与时间 tubelet 组织；附录给出每 tubelet 196 token。Xela/TAC-02 的 20/40 帧时间窗以长度 4 切成 5/10 token。不同长度不必强行插值成同一种图像，而由各自编码器投影到统一维度。",
+    "**共享计算与重建。** 全模块宽度 192、三注意力头；光学编码器三层、阵列编码器两层、共享主干九层、解码器三层，不使用 CLS token。MAE 只编码可见 token，解码被遮蔽输入，目标做逐 patch 标准化，以平方误差约束；光学/阵列重建遮蔽率分别为 75%/60%。",
+    "**双向隐变量预测。** 每个有数据的有向配对使用三层 cross-attention 预测器，以源端完整表征及目标可见表征为条件，预测目标缺失表征。目标阵列遮蔽 80%、光学遮蔽 90%，预测目标 stop-gradient；这不是用一种传感器直接重建另一种传感器的原始像素，也没有覆盖任意四传感器两两配对。",
+    "**训练调度与梯度路径。** 总损失为 MAE + α(t)·对齐损失；编码器仅受 MAE 更新，共享主干同时接受两项约束。AdamW 学习率 3e-4、batch 256 paired samples、共 50,000 步，学习率预热 2,000 步后余弦下降。正文描述先 MAE warmup 再增加对齐权重，附录描述前 20,000 步从零线性增至 0.1；两处未完全统一，不据此断言明确的纯 MAE 阶段长度。",
+    "**下游适配与推理。** 感知任务微调编码器、主干和任务头。真机 Sharpa 光学指尖直接复用 9DTact 编码器，补边、缩放、减背景，无专属传感器预训练，但仍用任务示教训练策略；仿真 RGB 复用 GSMini 编码器，而新的力场 TacFF 需新建编码器/解码器并用 MAE 适配共享主干，不能一概称为零样本迁移。"
   ],
   "methodTakeaways": [
-    "共享 trunk 只负责跨传感器语义，输入编码器和重建解码器仍保持传感器专属；这种分工避免用一种 tokenization 强行统一图像式和阵列式触觉。",
-    "跨模态监督来自同一次接触的同步配对数据，不需要人工标签；masked reconstruction 保留模态内部细节，双向预测再对齐不同传感器的潜表示。",
-    "对齐并非对所有传感器都单调增益：光学侧提升明显，Xela 等稀疏阵列侧可能因信息不对称而退化，因此下游采用前仍需逐传感器验证。"
+    "两条梯度隔离是理解模型的重点：预测目标停止梯度，且对齐梯度不进入专属编码器；共享主干才是跨传感器约束的主要承载层。",
+    "配对监督来自事件同步与粗接触相似性，省去精密标定，同时也限制了能够学到的细粒度空间对应。",
+    "预训练需要成对硬件，下游单路推理不需要；新光学硬件直接复用与新力场编码器 MAE 适配是两种不同证据。"
   ],
-  "results": "**核心结果：**\n\n- **物体分类（4 传感器 20 类 top-1 acc，表 1）**：HTT 在 9DTact 上 94.84 ± 1.61%、GSMini 上 91.35 ± 1.08%，比最强光学 baseline SITR 分别高 13.5% / 17%；Xela 52.41%、TAC-02 26.20%，对阵列传感器是首次给出可比结果（baseline T3/SITR 不能用）。MAE（只重建，不对齐）在 9DTact 上 90.08%——加跨模态对齐再涨 4.8%，证明对齐项本身对光学侧有增益。\n- **力估计（3D 力 MAE，表 2/4）**：HTT 在 Xela、9DTact、GSMini 上均给出与 MAE-only 接近或更低的整体 MAE，但 TAC-02 略差（异构能力不均衡）。剪切分量上对齐带来的提升最明显。\n- **滑移检测（macro-F1，表 2/5）**：滑移标签严重不均衡（static 13.6% / incipient 1.2% / slide 85.2%），HTT 在多数传感器上 macro-F1 优于 baseline；阵列侧提升比光学侧更显著，因为 incipient slip 这种弱信号恰恰是阵列传感器的强项。\n- **真实机器人任务（表 3）**：在 toy screw 和 grasp tofu 上用 HTT 编码器作为策略 backbone，平均 50 个 rollout × 3 seed 的任务成功率显著优于 Scratch、MAE-only 和光学专用 baseline，且使用的是 pretraining 时未出现的 Sharpa 手指触觉传感器——直接验证 Q5（对新传感器的迁移）。\n- **消融对比**：HTT vs MAE（ours）vs Scratch 三档干净分离 MAE 自监督和跨模态对齐各自贡献：MAE 主要提升所有传感器分类；跨模态对齐对光学侧进一步提升、对阵列侧在小数据下会略有牺牲（信息不对称的代价）。\n\n**结果表：**\n\n| 任务 | 关键 baseline | HTT 表现 | 提升来源 |\n| --- | --- | --- | --- |\n| 物体分类（9DTact） | SITR 81.34% | **94.84%** | MAE + 跨模态对齐 |\n| 物体分类（GSMini） | SITR 74.31% | **91.35%** | MAE + 跨模态对齐 |\n| 物体分类（Xela） | MAE 56.68% | 52.41% | 对齐的代价 |\n| 物体分类（TAC-02） | MAE 26.16% | 26.20% | 持平 |\n| 滑移检测 macro-F1 | 视传感器而异 | 多数胜出 | 跨模态对齐对稀有类帮助最大 |\n| Toy screw 成功率 | Scratch/MAE baseline | **HTT 最高** | 编码器迁移到策略 |\n| Grasp tofu 成功率 | 同上 | **HTT 最高** | 同上 |",
-  "resultHighlights": [
-    "**物体分类（4 传感器 20 类 top-1 acc，表 1）**：HTT 在 9DTact 上 94.84 ± 1.61%、GSMini 上 91.35 ± 1.08%，比最强光学 baseline SITR 分别高 13.5% / 17%；Xela 52.41%、TAC-02 26.20%，对阵列传感器是首次给出可比结果（baseline T3/SITR 不能用）。MAE（只重建，不对齐）在 9DTact 上 90.08%——加跨模态对齐再涨 4.8%，证明对齐项本身对光学侧有增益。",
-    "**力估计（3D 力 MAE，表 2/4）**：HTT 在 Xela、9DTact、GSMini 上均给出与 MAE-only 接近或更低的整体 MAE，但 TAC-02 略差（异构能力不均衡）。剪切分量上对齐带来的提升最明显。",
-    "**滑移检测（macro-F1，表 2/5）**：滑移标签严重不均衡（static 13.6% / incipient 1.2% / slide 85.2%），HTT 在多数传感器上 macro-F1 优于 baseline；阵列侧提升比光学侧更显著，因为 incipient slip 这种弱信号恰恰是阵列传感器的强项。",
-    "**真实机器人任务（表 3）**：在 toy screw 和 grasp tofu 上用 HTT 编码器作为策略 backbone，平均 50 个 rollout × 3 seed 的任务成功率显著优于 Scratch、MAE-only 和光学专用 baseline，且使用的是 pretraining 时未出现的 Sharpa 手指触觉传感器——直接验证 Q5（对新传感器的迁移）。",
-    "**消融对比**：HTT vs MAE（ours）vs Scratch 三档干净分离 MAE 自监督和跨模态对齐各自贡献：MAE 主要提升所有传感器分类；跨模态对齐对光学侧进一步提升、对阵列侧在小数据下会略有牺牲（信息不对称的代价）。"
-  ],
-  "insights": "**核心 insight：**\n\n- **\"成对 + 跨模态预测\"是把异构传感器塞进同一个 trunk 的可行套路**：和语言-图像 CLIP 不同，这里监督信号来自\"同一接触的多视角同步记录\"，无需人工标注，比所有传感器独立做 MAE 都更便宜地把 trunk 推向跨传感器共享语义。\n- **共享 trunk + sensor-specific encoder/decoders 的解耦**：保留了每个传感器的局部细节（解码器专属），同时在 trunk 上建立共享语义——这是\"既能重建又能对齐\"的关键。\n- **信息不对称是真实代价**：光学富信息传感器从对齐中获益明显，阵列稀疏信号反而可能在双向预测里被光学淹没（Xela 出现 −4.3%）。这暗示跨模态对齐需要 imbalance-aware 的损失设计，或在训练时对信息密度低的 modality 加权。\n\n**和已有方法的关系：**\n\n- 相对 [[Tactile Genesis]]（仿真平台对比触觉抽象选择）：HTT 不选硬件配置，而是为已经存在的异构硬件学共享 backbone；两者互补。\n- 相对 T3 / SITR 等光学专用 MAE：HTT 是首个把跨模态对齐显式加入 MAE 框架并同时覆盖光学 + 阵列的触觉 backbone。\n- 相对通用多模态基础模型（CLIP / ImageBind）：监督信号是\"同一接触的多传感器同步\"而不是\"图像-文本对\"，没有文本侧，更接近 sensor-only 多模态对齐。\n\n**可借鉴点：**\n\n- \"成对多模态 + masked autoencoder + 跨模态预测\"模板可以直接套到其他多模态机器人感知（视觉+触觉、触觉+本体等）。\n- 对触觉下游任务，使用时序窗 + 减参考帧的统一输入规范，是让不同传感器在 backbone 里行为可比的简单有效手段。\n- 在迁移到未见过的新传感器时，\"只用 encoder + trunk、换掉 sensor-specific 输入适配\"是低成本路径。\n<!-- confidence: INFERRED -->",
-  "insightCore": [
-    "**\"成对 + 跨模态预测\"是把异构传感器塞进同一个 trunk 的可行套路**：和语言-图像 CLIP 不同，这里监督信号来自\"同一接触的多视角同步记录\"，无需人工标注，比所有传感器独立做 MAE 都更便宜地把 trunk 推向跨传感器共享语义。",
-    "**共享 trunk + sensor-specific encoder/decoders 的解耦**：保留了每个传感器的局部细节（解码器专属），同时在 trunk 上建立共享语义——这是\"既能重建又能对齐\"的关键。",
-    "**信息不对称是真实代价**：光学富信息传感器从对齐中获益明显，阵列稀疏信号反而可能在双向预测里被光学淹没（Xela 出现 −4.3%）。这暗示跨模态对齐需要 imbalance-aware 的损失设计，或在训练时对信息密度低的 modality 加权。"
-  ],
-  "insightRelations": [
-    "相对 [[Tactile Genesis]]（仿真平台对比触觉抽象选择）：HTT 不选硬件配置，而是为已经存在的异构硬件学共享 backbone；两者互补。",
-    "相对 T3 / SITR 等光学专用 MAE：HTT 是首个把跨模态对齐显式加入 MAE 框架并同时覆盖光学 + 阵列的触觉 backbone。",
-    "相对通用多模态基础模型（CLIP / ImageBind）：监督信号是\"同一接触的多传感器同步\"而不是\"图像-文本对\"，没有文本侧，更接近 sensor-only 多模态对齐。"
-  ],
-  "insightBorrowable": [
-    "\"成对多模态 + masked autoencoder + 跨模态预测\"模板可以直接套到其他多模态机器人感知（视觉+触觉、触觉+本体等）。",
-    "对触觉下游任务，使用时序窗 + 减参考帧的统一输入规范，是让不同传感器在 backbone 里行为可比的简单有效手段。",
-    "在迁移到未见过的新传感器时，\"只用 encoder + trunk、换掉 sensor-specific 输入适配\"是低成本路径。"
-  ],
-  "risks": "**局限：**\n\n- 跨模态对齐在光学-阵列配对上带来 Xela 分类准确率 −4.3% 的回退，信息密度不均衡下双向预测会偏向富信息模态，损失设计未做 imbalance 校正。\n- 仅在 4 种传感器 + 2 对 sensor pair 上验证，未涵盖电容、压电、视触融合等其他触觉模态；传感器泛化结论限于论文范围内。\n- HPT 数据全部在 UMI 夹爪 + 桌面接触场景下采集，复杂接触（高速冲击、柔性物体、多指协同）的迁移性未验证。\n- 滑移检测数据集 incipient slip 仅 1.2%，极不均衡，评测 macro-F1 虽改善但在实际部署中误报成本可能仍高。\n- 全部实验基于单时间窗 τ = 0.2 s，没有显式建模更长程时序依赖。\n\n**适用场景：**\n\n- 给已有多种触觉传感器（特别是光学 + 阵列混合）的机器人平台训练一个共享 backbone。\n- 缺少大规模标注触觉数据时，需要自监督预训练来冷启动下游感知任务（分类、力、滑移）。\n- 触觉传感器未来会迭代，希望 backbone 能跨硬件版本迁移。\n- 仿真（ManiFeel）+ 真实机器人端到端策略学习，触觉编码器作为策略观测的一部分。\n\n**最终判断：**\n\n- 是一篇**值得记入知识库**的论文：把\"异构触觉 + 自监督\"这件事做到了能落地于下游感知和真机操作的程度，数据集 HPT 也公开。\n- 学术增量：把多模态 MAE 的思路搬到触觉域并补了\"成对同步数据 + 双向跨模态预测\"这个新组合；不是纯架构创新，但是工程上有用的\"开箱即用 backbone\"。\n- 对当前具身智能研究的实际价值：中等偏高。短期内会成为\"异构触觉预训练\"的参照 baseline，未来若 Tactile Genesis + HTT 类工作成熟，会推动\"触觉 backbone + 策略\"成为标准组件，类似 vision-language 的 ViT/CLIP 路径。\n- 跟踪价值：① 是否会扩展到视触融合、电容式触觉；② imbalance-aware 对齐是否能补回阵列侧的损失；③ 是否会被纳入 VLA 或具身 foundation model 作为标准触觉编码器。",
+  "results": "- **分类增益应看同架构 MAE 对照。** 9DTact 90.08→94.84%，GSMini 88.59→91.35%；Xela 56.68→52.41%，TAC-02 26.16→26.20%。相对非 MAE 的最强基线，光学两路分别提高 12.61 和 14.99 个百分点。不能把仅光学方法与四传感器方法的 Overall 列直接排名。\n- **力估计平均改善，但不是每轴、每硬件都改善。** 四传感器平均 3D MAE 0.664→0.636 N；9DTact 却从 0.574 恶化至 0.606 N。Xela/GSMini 改善主要体现在法向力，不能概括成“剪切力提升最明显”。\n- **滑移平均提升不等于可靠的早期预警。** 宏 F1 从 51.62→56.35%，TAC-02 从 33.45→45.45%；但 TAC-02 初始滑移 F1 反从 7.63 降至 3.8，静止类 F1 从 2.79 增至 41.3 才是其主要增益。Xela 初始滑移 F1 也仅 6.2。\n- **真机有效，但证据规模有限。** Franka + Sharpa，无外部相机，五指图像表征与 22 维关节位置送入 ACT；螺丝/豆腐各 20/50 条示教。表 3 每任务每条件 40 次 rollout，HTT 90%/55%，原始 wrench 45%/35%。正文豆腐失败统计另用 20 次分母，不能直接与表 3 合并计算失败率或置信度。\n- **仿真迁移具有任务差异。** ManiFeel 插销：RGB HTT 0.44±0.04、力场 HTT 0.48±0.12，对照原始 RGB 0.21±0.02、SITR 0.35±0.01；灯泡安装 HTT 约 0.76–0.77，和 SITR 0.77±0.04 接近。这里才是三种 seed、各 50 rollout 的统计设置。\n\n![真实机器人任务](https://arxiv.org/html/2606.29948v2/real_robot.png)\n\n图 4：拧玩具螺丝和抓豆腐，螺丝至少旋转 600° 判为成功；不能把玩具任务直接外推到工业螺纹装配。",
+  "resultHighlights": [],
+  "insights": "- **表示对齐有独立证据，但不是天然同坐标。** 冻结主干后，在保留接触的一半上拟合正交 Procrustes 映射，另一半检索；99 个 episode 的 R@1/R@5 从随机 3%/20%，到 MAE 20%/61%，再到 HTT 41%/82%。支持“存在更强跨传感器对应”，不证明未经映射即可直接比较 latent，更不证明精确物理状态一致。\n- **收益取决于任务使用哪种信息。** Xela 分类下降与平均力估计改善可以同时成立；作者将其归因为光学与阵列的信息不均衡，这是解释，尚不能代替损失权重、配对方式等因素的因果消融。\n- **可借鉴的是接口与梯度设计。** 硬件专属前端保留结构，共享主干承接跨硬件约束，重建稳定本路信息。这比单纯把所有传感器 resize 到同样形状更有复用价值；与 Tactile Genesis 的“选何种触觉信号”和 TacForcing 的“执行时何时用反馈”处于不同系统层。\n\n![跨传感器检索](https://arxiv.org/html/2606.29948v2/similarity_matrix_32.png)\n\n图 3：32 个 episode 的可视化，检索数字在全部 99 个 episode 上计算，且经过拟合的正交映射。",
+  "insightCore": [],
+  "insightRelations": [],
+  "insightBorrowable": [],
+  "risks": "**局限：**\n\n- 预训练只含两组光学↔阵列配对；没有逐接触面标定，也没有同家族配对消融，不能据此推广到所有触觉换能机制。\n- TAC-02 初始滑移 F1 仅 3.8%，Xela 为 6.2%；标签由力比值与双侧 Page CUSUM 事后推导，既存在类别失衡，也不等于独立高精度滑移真值。\n- 真机展示的是预训练未见光学硬件上的任务学习，未证明未经任务训练的策略迁移。两任务、40 rollout/条件也不足以说明多指复杂接触或长期稳定性。\n- 正文/附录对齐调度和豆腐失败计数口径有差异，应在复现时查代码确认；总体数据量口径也需避免混淆原始帧、时间窗和独立 episode。\n\n**适用场景：**\n\n- 已有同步光学与阵列数据、希望共享触觉主干，且能逐硬件逐任务检验收益的研究平台。\n- 无外部相机、依赖接触状态的模仿学习；新光学指尖可先试复用现有编码器，新输入结构则预留自监督适配数据和前端模块。\n- 不宜仅据平均宏 F1 将其当成安全关键的初始滑移检测器，也不宜声称可以直接替换任何传感器。\n\n**最终判断：**\n\n- 核心贡献是成对数据、异构输入接口与受控梯度的联合预训练方案。MAE 已贡献多数分类提升，对齐额外贡献应以同架构对照衡量。\n- 值得跟踪的下一步是更广硬件配对、空间对应监督，以及不牺牲阵列信息的损失设计；当前最强结论是“有条件可复用的触觉 backbone”，尚不是普适硬件无关物理表征。",
   "riskLimitations": [
-    "跨模态对齐在光学-阵列配对上带来 Xela 分类准确率 −4.3% 的回退，信息密度不均衡下双向预测会偏向富信息模态，损失设计未做 imbalance 校正。",
-    "仅在 4 种传感器 + 2 对 sensor pair 上验证，未涵盖电容、压电、视触融合等其他触觉模态；传感器泛化结论限于论文范围内。",
-    "HPT 数据全部在 UMI 夹爪 + 桌面接触场景下采集，复杂接触（高速冲击、柔性物体、多指协同）的迁移性未验证。",
-    "滑移检测数据集 incipient slip 仅 1.2%，极不均衡，评测 macro-F1 虽改善但在实际部署中误报成本可能仍高。",
-    "全部实验基于单时间窗 τ = 0.2 s，没有显式建模更长程时序依赖。"
+    "预训练只含两组光学↔阵列配对；没有逐接触面标定，也没有同家族配对消融，不能据此推广到所有触觉换能机制。",
+    "TAC-02 初始滑移 F1 仅 3.8%，Xela 为 6.2%；标签由力比值与双侧 Page CUSUM 事后推导，既存在类别失衡，也不等于独立高精度滑移真值。",
+    "真机展示的是预训练未见光学硬件上的任务学习，未证明未经任务训练的策略迁移。两任务、40 rollout/条件也不足以说明多指复杂接触或长期稳定性。",
+    "正文/附录对齐调度和豆腐失败计数口径有差异，应在复现时查代码确认；总体数据量口径也需避免混淆原始帧、时间窗和独立 episode。"
   ],
   "riskScenarios": [
-    "给已有多种触觉传感器（特别是光学 + 阵列混合）的机器人平台训练一个共享 backbone。",
-    "缺少大规模标注触觉数据时，需要自监督预训练来冷启动下游感知任务（分类、力、滑移）。",
-    "触觉传感器未来会迭代，希望 backbone 能跨硬件版本迁移。",
-    "仿真（ManiFeel）+ 真实机器人端到端策略学习，触觉编码器作为策略观测的一部分。"
+    "已有同步光学与阵列数据、希望共享触觉主干，且能逐硬件逐任务检验收益的研究平台。",
+    "无外部相机、依赖接触状态的模仿学习；新光学指尖可先试复用现有编码器，新输入结构则预留自监督适配数据和前端模块。",
+    "不宜仅据平均宏 F1 将其当成安全关键的初始滑移检测器，也不宜声称可以直接替换任何传感器。"
   ],
   "riskJudgment": [
-    "是一篇**值得记入知识库**的论文：把\"异构触觉 + 自监督\"这件事做到了能落地于下游感知和真机操作的程度，数据集 HPT 也公开。",
-    "学术增量：把多模态 MAE 的思路搬到触觉域并补了\"成对同步数据 + 双向跨模态预测\"这个新组合；不是纯架构创新，但是工程上有用的\"开箱即用 backbone\"。",
-    "对当前具身智能研究的实际价值：中等偏高。短期内会成为\"异构触觉预训练\"的参照 baseline，未来若 Tactile Genesis + HTT 类工作成熟，会推动\"触觉 backbone + 策略\"成为标准组件，类似 vision-language 的 ViT/CLIP 路径。",
-    "跟踪价值：① 是否会扩展到视触融合、电容式触觉；② imbalance-aware 对齐是否能补回阵列侧的损失；③ 是否会被纳入 VLA 或具身 foundation model 作为标准触觉编码器。"
+    "核心贡献是成对数据、异构输入接口与受控梯度的联合预训练方案。MAE 已贡献多数分类提升，对齐额外贡献应以同架构对照衡量。",
+    "值得跟踪的下一步是更广硬件配对、空间对应监督，以及不牺牲阵列信息的损失设计；当前最强结论是“有条件可复用的触觉 backbone”，尚不是普适硬件无关物理表征。"
   ],
-  "resultsTableMarkdown": "| 维度 | 数值 / 结论 |\n| --- | --- |\n| 预训练数据 | HPT 1.6M 同步帧，4 传感器 × 2 pair |\n| 物体分类最佳 | 9DTact 94.84% / GSMini 91.35% |\n| 比光学最强 baseline | +13.5% / +17.0% |\n| 真实机器人任务 | toy screw / grasp tofu 成功率显著优于 baseline |\n| 新传感器迁移 | 已在未见的 Sharpa 触觉指尖上验证 |\n| 主要缺陷 | 跨模态对齐在阵列侧有 −4.3% 回退 |",
+  "resultsTableMarkdown": "| 任务/指标 | MAE 或主要基线 | HTT | 解释边界 |\n| --- | --- | --- | --- |\n| 9DTact 分类，% | MAE 90.08 | 94.84 | +4.76 个百分点 |\n| GSMini 分类，% | MAE 88.59 | 91.35 | +2.76 个百分点 |\n| Xela 分类，% | MAE 56.68 | 52.41 | 对齐负迁移 |\n| 四硬件平均 3D 力 MAE，N | MAE 0.664 | 0.636 | 9DTact 单路退化 |\n| 四硬件平均滑移宏 F1，% | MAE 51.62 | 56.35 | 不保证初始滑移改善 |\n| TAC-02 初始滑移 F1，% | MAE 7.63 | 3.8 | 稀有类仍薄弱 |\n| 真机螺丝成功率 | wrench 45% | 90% | 40 rollout/条件 |\n| 真机豆腐成功率 | wrench 35% | 55% | 40 rollout/条件 |\n| 跨传感器检索 R@1 | MAE 20% | 41% | 需正交映射拟合 |\n| ManiFeel 插销成功率 | SITR 0.35±0.01 | FF 0.48±0.12 | FF 新前端需 MAE 适配 |",
   "resultsTable": {
     "columns": [
-      "维度",
-      "数值 / 结论"
+      "任务/指标",
+      "MAE 或主要基线",
+      "HTT",
+      "解释边界"
     ],
     "rows": [
       [
-        "预训练数据",
-        "HPT 1.6M 同步帧，4 传感器 × 2 pair"
+        "9DTact 分类，%",
+        "MAE 90.08",
+        "94.84",
+        "+4.76 个百分点"
       ],
       [
-        "物体分类最佳",
-        "9DTact 94.84% / GSMini 91.35%"
+        "GSMini 分类，%",
+        "MAE 88.59",
+        "91.35",
+        "+2.76 个百分点"
       ],
       [
-        "比光学最强 baseline",
-        "+13.5% / +17.0%"
+        "Xela 分类，%",
+        "MAE 56.68",
+        "52.41",
+        "对齐负迁移"
       ],
       [
-        "真实机器人任务",
-        "toy screw / grasp tofu 成功率显著优于 baseline"
+        "四硬件平均 3D 力 MAE，N",
+        "MAE 0.664",
+        "0.636",
+        "9DTact 单路退化"
       ],
       [
-        "新传感器迁移",
-        "已在未见的 Sharpa 触觉指尖上验证"
+        "四硬件平均滑移宏 F1，%",
+        "MAE 51.62",
+        "56.35",
+        "不保证初始滑移改善"
       ],
       [
-        "主要缺陷",
-        "跨模态对齐在阵列侧有 −4.3% 回退"
+        "TAC-02 初始滑移 F1，%",
+        "MAE 7.63",
+        "3.8",
+        "稀有类仍薄弱"
+      ],
+      [
+        "真机螺丝成功率",
+        "wrench 45%",
+        "90%",
+        "40 rollout/条件"
+      ],
+      [
+        "真机豆腐成功率",
+        "wrench 35%",
+        "55%",
+        "40 rollout/条件"
+      ],
+      [
+        "跨传感器检索 R@1",
+        "MAE 20%",
+        "41%",
+        "需正交映射拟合"
+      ],
+      [
+        "ManiFeel 插销成功率",
+        "SITR 0.35±0.01",
+        "FF 0.48±0.12",
+        "FF 新前端需 MAE 适配"
       ]
     ]
   },
   "figureGallery": [
     {
-      "zone": "intuition",
-      "caption": "架构总览",
-      "src": "https://arxiv.org/html/2606.29948v1/x1.png"
+      "zone": "method",
+      "caption": "HTT 架构、HPT 数据与损失路径",
+      "src": "https://arxiv.org/html/2606.29948v2/teasor.png"
     },
     {
       "zone": "method",
-      "caption": "方法细节与数据集",
-      "src": "https://arxiv.org/html/2606.29948v1/x2.png"
+      "caption": "力与滑移采集",
+      "src": "https://arxiv.org/html/2606.29948v2/dataset.png"
+    },
+    {
+      "zone": "results",
+      "caption": "真实机器人任务",
+      "src": "https://arxiv.org/html/2606.29948v2/real_robot.png"
+    },
+    {
+      "zone": "insights",
+      "caption": "跨传感器检索",
+      "src": "https://arxiv.org/html/2606.29948v2/similarity_matrix_32.png"
     }
   ],
   "relatedTopicSlugs": [
