@@ -11275,5 +11275,224 @@
       }
     ],
     "body": "# World Action Learning via Interaction-Centric Spectral Latent Guidance\n\n## 太长不看\n\nWING 把第一人称人类视频中的可迁移操作知识蒸馏成两类结构：先剔除观察者相机运动、保留手-物交互 latent action，再只取跨本体更一致的 DCT 低频成分作为动作生成 guidance。它在 LIBERO、RoboTwin 2.0、RoboCasa-GR1 和真机双臂任务上都取得强结果；消融显示去观察者偏差与低频谱引导分别有效，且组合最优。\n\n## 直观理解\n\n可以把 WING 理解成一个“先洗数据、再抽时间骨架、最后只做引导”的接口：它不把人类视频帧间变化直接当作机器人动作，而是先用点轨迹和相机补偿把画面变化拆成观察者运动与局部交互，再从交互 latent 的时间序列中保留慢变化结构，用这些结构提示而非替代机器人动作生成器。\n\n![主要图](https://arxiv.org/html/2610.03607v1/method_overview.png)\n\n*主要图*\n\n## 核心信息\n\n- **作者**：Zhiming Liu、Yikun Miao、Ying Chen、Hongrui Yin、Fangqi Zhu、Xiaoyi Pang、Quanxin Shou、Zhengyang Yan、Haodong Wang、Song Guo\n- **作者单位**：The Hong Kong University of Science and Technology\n- **来源类型**：local_html\n- **输入来源**：https://arxiv.org/pdf/2610.03607\n- **原文链接**：https://arxiv.org/abs/2610.03607\n- **HTML 正文**：https://arxiv.org/html/2610.03607v1\n- **PDF 地址**：https://arxiv.org/pdf/2610.03607v1\n- **项目地址**：https://mikuz12.github.io/wing/（代码标注 coming soon）\n- **中英翻译地址**：https://hjfy.top/arxiv/2610.03607\n- **发布日期**：2026-10-02\n- **主题域**：physical-embodied-intelligence\n\n## 背景与问题\n\n**动机：** 通用机器人策略最稀缺的是多样化物理交互数据，遥操作示范成本高且难以覆盖真实环境的物体、任务和场景分布。第一人称人类视频天然包含大量手-物交互，视角也与机器人相机较接近，因此是比手工标注手部姿态更可扩展的动作知识来源。\n\n**问题缺口：** 现有 latent action 方法通常以重建相邻帧为目标，会把“画面怎么变”误当作“交互在做什么”：人头部和身体运动造成的大范围相机变化可能压过局部手-物交互；同时人类与机器人执行同一语义动作的速度、控制粒度和细粒度时间模式不同，直接对齐完整 latent 轨迹会把本体差异也迁进去。WING 需要同时解决干扰剥离和跨本体时间结构选择两个问题。\n\n## 论文摘要（英文原文）\n\nLearning general-purpose robot policies requires large-scale real-world interaction data, yet collecting robot demonstrations remains expensive and difficult to scale. Egocentric videos offer abundant human interaction experience with task-relevant semantics for robotic manipulation, but direct transfer is challenging for two reasons: latent actions inferred from frame reconstruction can be dominated by nuisance variation such as ego-camera motion, and human and robot behaviors often exhibit different temporal dynamics. We propose WING (World Action Learning via INteraction-Centric Spectral Latent Guidance), a framework for transferring interaction knowledge from egocentric videos to robot policies. WING first separates observer-induced motion from hand-object interaction and distills the interaction-centric component into latent actions. It then exploits the observation that cross-embodiment task semantics are concentrated in slowly varying temporal structures, identifying shared low-frequency components between egocentric latent actions and robot behaviors in the spectral domain and using them to guide action generation. WING achieves average success rates of 99.20% on LIBERO, 93.80% on RoboTwin 2.0, and 57.7% on RoboCasa-GR1, and also performs strongly across four real-world manipulation tasks under diverse generalization settings. These results show that interaction-centric spectral guidance provides an effective and scalable way to transfer physical interaction knowledge from human egocentric video to robot control.\n\n## 论文摘要（中文翻译）\n\n学习通用机器人策略需要大规模真实交互数据，但采集机器人示范昂贵且难以扩展。第一人称视频提供了丰富的任务相关人类交互经验，但直接迁移有两个困难：由帧重建推断出的 latent action 可能被自我相机运动等干扰变化主导；人类和机器人行为即使语义相同，也常有不同的时间动态。WING 先把观察者引起的运动与手-物交互分离，并将以交互为中心的成分蒸馏为 latent action；随后利用跨本体任务语义集中于慢变时间结构这一观察，在人机行为的谱域中寻找共享低频成分，用它引导动作生成。WING 在 LIBERO、RoboTwin 2.0 和 RoboCasa-GR1 上平均成功率分别为 99.20%、93.80% 和 57.7%，并在四个真实操作任务的多种泛化设定中表现强，说明显式交互中心的谱引导能有效扩展人类第一人称视频到机器人控制的迁移。\n\n## 方法\n\n**方法概述：** WING 的完整流程是：训练一个使用点轨迹特权监督的运动路由教师，把第一人称帧间变化拆成全局相机运动与局部交互残差；将交互 latent 蒸馏到仅看 RGB 的学生编码器；把 1.6 秒内的 8 个 32 维交互 latent 做 DCT，仅保留最低 4 个频率系数；在自我视频预训练和机器人示范后训练中，让当前观测预测这些系数，并通过门控 cross-attention 作为动作模型的辅助条件。机器人仍由自身动作监督生成可执行控制，人类视频只提供高层交互引导。\n\n**核心机制：** 核心机制建立在两个互补假设上：第一，观察者运动近似为图像全局仿射变化，交互运动是补偿相机后仍然显著的局部点位移，因此可用背景点轨迹拟合相机 warp，再把剩余位移作为交互监督；第二，人与机器人共享的是慢变任务/交互结构而非高频轨迹细节，因此 DCT 低频系数比完整时间序列更可靠。WING-LAM 通过教师-学生蒸馏和相机扰动一致性学习去偏差 latent；谱模块只在训练时用未来帧构造目标，部署时由当前上下文预测 guidance token，并通过带可学习门控的注意力注入动作生成层。\n\n**方法拆解：** - 运动监督构建：AllTracker 给出可靠点对应，EgoHOS 提供手部种子；排除手部后用 RANSAC 拟合背景仿射 warp，将逆 warp 后的点位移作为交互残差。\n- 运动路由教师：背景与交互点分别池化为 camera latent 和 interaction latent，教师预测全局 warp 与局部残差，并把输入中的特权运动线索从部署路径中隔离。\n- 交互蒸馏：把教师 interaction latent 蒸馏到只看 RGB 帧对的学生；原始帧对和施加全局相机 warp 的帧对共享同一交互目标，并施加跨视角 latent 一致性，降低相机敏感性。\n- 谱引导：以 0.2 秒间隔取 9 个观测端点、8 个 32维 latent，做正交 DCT 后保留最低 4 个系数；当前语言、图像和本体状态经轻量 Transformer 预测 4×32 guidance。\n- 动作条件化与训练：将每个频率系数投影为带频率嵌入的 guidance token，用门控 residual attention 注入动作模型；视频生成、动作生成和 guidance 预测损失共同训练，WING-LAM 编码器冻结。\n\n**关键要点：** - 人类视频知识的入口应是交互残差，而不是全部帧间视觉变化；显式分离观察者运动可以避免 latent action 被相机动态污染。\n- 跨本体共享结构集中在低频时间成分；保留 K=4 的 DCT 系数优于过窄的 K=2 和完整 K=8 谱。\n- 人类视频-derived latent 更适合作为辅助条件而不是直接动作目标，机器人示范仍负责 embodiment-specific 可执行控制。\n\n![方法图](https://arxiv.org/html/2610.03607v1/method_overview.png)\n\n*方法图*\n\n## 结果\n\n**核心结果：** - 表示质量：WING-LAM 在 LARYBench 动作分类上达 55.47%，高于 CD-LAM 53.44%、DreamDojo 53.43%、LAPA 20.89%；同时 camera-motion readout 和扰动敏感性更低。\n- 跨本体对应：在 100 对匹配/100 对不匹配人机轨迹中，低频谱匹配对相似度 0.58、不匹配对 0.07，间隔 0.51；完整轨迹为 0.44/0.18，高频为 0.20/0.15，支持低频选择。\n- 仿真结果：LIBERO 平均 99.20%（高于 LaWAM 98.60%）；RoboTwin 2.0 平均 93.80%（clean 94.56、randomized 93.04，高于 LaWAM 91.22%）；RoboCasa-GR1 57.7%，高于 LDA-1B 55.4%。\n- 真机结果：Agilex Cobot Magic 双臂平台四个任务上，WING 标准设定平均成功率 75.0%，为报告方法最高；泛化设定与 π0.5 接近且平均进度略高。\n- 消融：无 ego 预训练时，WING-LAM+DCT 在真机标准/泛化为 72.5%/45.0%，均高于仅 WING-LAM 67.5%/40.3%、仅 DCT 71.3%/43.0%、两者皆无 65.0%/36.0%。\n\n**结果表：** | Benchmark | Setting | WING | Strongest baseline | Gain |\n| --- | --- | ---: | ---: | ---: |\n| LIBERO | 4-suite avg. SR | 99.20% | LaWAM 98.60% | +0.60 pp |\n| RoboTwin 2.0 | clean + randomized avg. SR | 93.80% | LaWAM 91.22% | +2.58 pp |\n| RoboCasa–GR1 | 24-task avg. SR | 57.7% | LDA-1B 55.4% | +2.3 pp |\n| Real world | 4-task standard avg. SR | 75.0% | π0.5 (reported strong baseline) | highest reported |\n| Real world | 4-task generalization avg. progress | slightly above π0.5 | comparable success | — |\n\n![结果图](https://arxiv.org/html/2610.03607v1/realresults.png)\n\n*结果图*\n\n## 洞察\n\n**核心 insight：** - 这篇的关键贡献不是“用了人类视频”，而是规定了人类视频进入策略的接口：先去 observer bias，再选慢时间结构，最后作为条件而非动作标签。\n- 低频过滤与跨本体对齐是同一问题的两面：高频细节往往绑定执行速度、 morphology 和控制粒度，过滤它们可减少伪共享。\n- WING-LAM 的表示探针表明，降低相机敏感性没有牺牲动作语义，说明“少编码一种变化”与“保留任务变化”可以分离。\n\n**和已有方法的关系：** - 与 LAPA/UniVLA 等 latent action 预训练相比，WING 显式剔除相机运动，并把 latent 从预测目标降为动作生成 guidance。\n- 与 Fast-WAM/LingBot-VA 等 WAM 相比，WING 不要求完整未来轨迹跨本体一致，而只强调可共享低频交互结构。\n- 与 DexImit 等把人类视频编译成机器人数据不同，WING 不重建成可执行示范，而是学跨本体语义 prior。\n\n**可借鉴点：** - 在有昂贵外部监督训练教师、部署端只有 RGB 的场景，可复用 privileged teacher + input-view consistency + student distillation。\n- 处理多本体时间序列时，可先用匹配/不匹配集检验不同频带的语义间隔，再决定保留多少谱系数。\n\n## 风险与判断\n\n**局限：** - 教师依赖 AllTracker、EgoHOS、RANSAC 仿射相机模型和点轨迹质量；强视差、深度变化或明显 3D 相机运动时，单一图像空间 warp 可能错误分解相机与交互。\n- 谱引导增加了 WING-LAM 离线构造、DCT 目标生成、guidance predictor 和门控注意力模块，训练与系统复杂度高于直接视频/动作预训练。\n- 结果覆盖 LIBERO、RoboTwin、RoboCasa 和四个桌面双臂任务，仍不足以证明开放环境、非桌面任务、高速接触或安全关键场景中的可扩展性。\n\n**适用场景：** - 适合从大规模无动作标签第一人称操作视频中给机器人动作模型补充交互先验，尤其是相机可能移动但主要关注手-物操作语义的数据。\n- 适合人机时间动态差异大、但任务语义可共享的跨本体操作预训练，以及机器人示范有限时需要提高数据效率的 setting。\n\n**最终判断：** - WING 的证据链较完整：表示探针、人机谱相似性、三套仿真、真机标准和单因素泛化、组件与带宽消融相互支撑；但其运动分解和低频假设有明确适用范围，不能视为通用物理先验。我会把它视为 human-to-robot transfer 中一个强而具体的“交互中心 + 时间谱选择”基线，而不是已解决开放世界泛化。\n\n## 结果速览表\n\n| Benchmark | Setting | WING | Strongest baseline | Gain |\n| --- | --- | ---: | ---: | ---: |\n| LIBERO | 4-suite avg. SR | 99.20% | LaWAM 98.60% | +0.60 pp |\n| RoboTwin 2.0 | clean + randomized avg. SR | 93.80% | LaWAM 91.22% | +2.58 pp |\n| RoboCasa–GR1 | 24-task avg. SR | 57.7% | LDA-1B 55.4% | +2.3 pp |\n| Real world | 4-task standard avg. SR | 75.0% | π0.5 (reported strong baseline) | highest reported |\n| Real world | 4-task generalization avg. progress | slightly above π0.5 | comparable success | — |\n\n## 相关主题\n\n- human-to-robot-transfer.\n"
+  },
+  {
+    "slug": "2610.19155-fact",
+    "title": "FACT：面向人类到机器人灵巧迁移的力—动作—轨迹基础模型",
+    "sourceType": "paper",
+    "sourceUrl": "https://arxiv.org/abs/2610.19155",
+    "htmlUrl": "https://arxiv.org/html/2610.19155v1",
+    "pdfUrl": "https://fact-1-0.github.io/FACT.pdf",
+    "codeUrl": "https://fact-1-0.github.io/",
+    "translationUrl": "https://hjfy.top/arxiv/2610.19155",
+    "publishDate": "2026-10-13",
+    "authors": [
+      "Zhi Cao",
+      "Yining Hong",
+      "Jiaolong Yang",
+      "Yejin Choi",
+      "Li Fei-Fei",
+      "Jiajun Wu",
+      "Huang Huang"
+    ],
+    "affiliation": "University of Michigan",
+    "relatedOrganizations": [
+      "University of Michigan",
+      "Stanford University",
+      "Microsoft Research"
+    ],
+    "relatedCompanies": [
+      "Microsoft"
+    ],
+    "keywords": [
+      "human-to-robot-transfer"
+    ],
+    "primaryDomainSlug": "physical-embodied-intelligence",
+    "domainSlugs": [
+      "physical-embodied-intelligence"
+    ],
+    "heroImage": "https://followhub.tenstep.top/papers/fact-force-action-track/figure-1.png",
+    "tldr": "FACT 值得记住的是：人类示范能传递的不只是运动轨迹，还有接触如何随动作变化的经验。它在每任务仅 10 条机器人示范、配合 90 条人类示范的条件下，显著优于 T-Rex，但七项二元任务平均成功率仍只有 41.4%。这是带力人类预训练和接触预测的有力实验，不是通用灵巧操作已经解决的证据。",
+    "intuition": "想象用移液器调旋钮：先看清手应怎样靠近、另一只手怎样固定管身，再根据接触情况微调指尖。FACT 的大模型先构思未来画面、点轨迹和粗动作；小模型同时猜“这样动会产生什么力”和“接下来应该怎样动”，每 0.2 秒根据实际触觉修正尚未执行的动作。\n\n![FACT 总览：EgoForce、粗到细模型与下游任务](https://followhub.tenstep.top/papers/fact-force-action-track/figure-1.png)\n图 1：大规模带触觉的人类数据与机器人数据共同预训练，随后针对各项任务微调。",
+    "abstractEn": "Human demonstrations offer a scalable alternative to costly robot data collection for dexterous manipulation, but most human datasets lack force measurements. Dexterous manipulation requires not only visual and proprioceptive understanding but also the ability to anticipate and regulate interaction forces. To scale force-aware human–robot co-training, we introduce EgoForce, a large-scale human tactile dataset capturing force-rich manipulation experience, and combine it with robot demonstrations for pretraining. We present FACT, a robot foundation model that cascades from prospective visual planning to force-aware refinement for dexterous manipulation. FACT comprises two jointly trained components. A Track-Guided Coarse Planner jointly predicts actions, future video, and visual tracks. Future video and visual tracks also provide a shared task representation that facilitates cross-embodiment knowledge transfer and coarse action generation. Building on this coarse plan, a Force–Action Joint Refiner jointly predicts future force and refines the coarse action, allowing anticipated force and action to shape each other during refinement. We evaluate the model on ten tasks requiring fine-grained coordination and force feedback, including tool use, musical instruments, and precision laboratory procedures. Using as few as 10 robot trajectories with 90 human trajectories for fine-tuning, FACT outperforms both baselines, with success-rate gains of up to 60 percentage points over T-Rex. Ablations show that force supervision in human pretraining data is crucial for downstream robot performance after fine-tuning, while visual track prediction and training with future-force prediction improve dexterous execution. Experiments varying the human–robot data ratio during fine-tuning further suggest that FACT learns from human demonstrations nearly as effectively as from robot demonstrations.",
+    "abstractZh": "人类示范为昂贵的机器人数据采集提供了可扩展的替代方案，但多数人类数据集缺少力测量。灵巧操作不仅需要视觉和本体感觉理解，还要求预判与调节交互力。为扩展具备力感知能力的人机联合训练，作者引入大规模人类触觉数据集 EgoForce，并与机器人示范共同预训练。FACT 从前瞻视觉规划逐级过渡到面向力的动作细化：轨迹引导的粗规划器联合预测动作、未来视频和视觉轨迹，后两者提供跨形态共享的任务表示；力—动作联合细化器在粗计划基础上共同预测未来力和细化动作，让两者相互影响。作者在工具使用、乐器和精密实验室操作等十项任务上评估，每任务仅用 10 条机器人轨迹与 90 条人类轨迹微调，相对 T-Rex 的成功率增益最高达 60 个百分点。消融显示人类预训练数据中的力监督十分关键，视觉轨迹预测与未来力预测有助于灵巧执行；改变微调人机配比的实验进一步提示，模型利用人类示范的效果接近机器人示范。",
+    "background": "**动机：** 系鞋带、拨弦、旋转移液器旋钮等操作即使视觉状态相似，也可能需要完全不同的接触力。机器人遥操作很难低成本覆盖这类双手、多指、柔性物体交互，因此需要把人类自然操作中的接触经验随视觉和动作一起采集，让预训练真正学习“怎样接触”，而不只是“手去哪里”。\n\n**问题缺口：** 大量人类视频缺少力测量；仅加入触觉观测又不必然让策略理解动作的未来接触后果。T-Rex 已用量化触觉历史细化动作，但没有把连续未来力作为共同预测目标。FACT 同时补上带标定力的人类数据、跨形态的视觉运动表示，以及动作与未来力双向影响的生成机制。",
+    "backgroundMotivation": "系鞋带、拨弦、旋转移液器旋钮等操作即使视觉状态相似，也可能需要完全不同的接触力。机器人遥操作很难低成本覆盖这类双手、多指、柔性物体交互，因此需要把人类自然操作中的接触经验随视觉和动作一起采集，让预训练真正学习“怎样接触”，而不只是“手去哪里”。",
+    "backgroundGap": "大量人类视频缺少力测量；仅加入触觉观测又不必然让策略理解动作的未来接触后果。T-Rex 已用量化触觉历史细化动作，但没有把连续未来力作为共同预测目标。FACT 同时补上带标定力的人类数据、跨形态的视觉运动表示，以及动作与未来力双向影响的生成机制。",
+    "method": "**方法概述：** 输入包含三路视觉、任务文字、机器人状态、过去的点轨迹和触觉历史。以 Wan2.2-TI2V-5B 为基础的粗规划器联合生成未来视频、轨迹与尚未完全去噪的动作，将观察及动作隐状态缓存；65M 细化器读取该缓存和真实触觉，联合去噪动作后缀及未来指尖力，输出 16 步、20 Hz、62 维动作块，并以 5 Hz 触觉刷新修正未执行部分。\n\n**核心机制：** FACT 把动作生成分在两个噪声区间内完成。粗阶段对视频、动作和轨迹做六步 Euler 去噪，从 τ=1 到 0.4，再额外前向一次读出视觉预测和缓存；细阶段令动作 τa 从 0.4 到 0，未来力 τf 从 1 到 0，共同做四步更新。动作与未来力 token 在双向自注意力中相互影响，因此动作可以根据预期接触后果改变，力预测也随候选动作改变。每次触觉刷新时固定已执行动作与已观测力，仅重新细化未来部分；大模型的粗计划与 KV 缓存保持不变。\n\n**方法拆解：**\n\n- **1. 将人类压力与动作变成可共享监督。** EgoForce 用头戴双目、双腕相机和双手触觉手套同步采集。气囊标定将 A/D 读数映射到力 Fi=PiAi；ViTPose、HaMeR、双目深度与手套弯曲/姿态信号估计手运动，再重定向到 Sharpa Wave 的 22 关节。每指 12 个 taxel 的合力与压力中心给出法向力和两个力矩，无法观测的切向力与扭转力矩置零。它统一的是模型输入接口，并没有把人手传感器变成真实六轴力传感器。\n- **2. 用轨迹提供可显式监督的几何通路。** SAM2 初始化手部分割，CoTracker 离线跟踪每块 250 个点，包含头视角双手点、腕视角手点与背景网格。每个点将 16 帧的坐标、可见性和位移编码为 token；未来 16 步轨迹被预测，损失用可见性掩码及运动长度加权。粗模型中轨迹 token 只关注轨迹，观察/动作 token 则读取轨迹、视觉与动作，保留独立几何路径又使其能影响动作。\n- **3. 用逐 token 流匹配联合学视觉和动作。** 文本经 umT5、锚帧经 CLIP 作交叉注意力条件；视频经冻结 VAE 编码。干净状态和历史轨迹的 τ=0，未来目标由 xτ=(1−τ)c+τε 加噪，监督速度 ε−c。粗损失为视频动力学损失加动作损失，再加 20 倍的轨迹组合损失（流匹配、5 倍位置、2 倍平滑项）；位置和平滑项作用于一步重建 x̂0=xτ−τv̂。训练用四个 teacher-forced 时间块，推理每次自回归生成一个 0.8 秒块。\n- **4. 联合细化连续未来力与动作，而非只读取历史。** 最近 16 个 5 Hz 触觉样本经过卷积和 64 项码本，得到每指一个 256 维历史码；当前力保持连续。细化器含 16 个动作、10 个当前力、10 个历史码及 40 个未来力 token，总计 76 个 token；6 层双向 Transformer 同时预测动作和六轴力的流速度。损失仅计算未执行动作与尚未观测力，未来力权重 0.5，另含 VQ 损失。FACT 仍量化历史，新增的是连续未来力预测，不能概括成“完全取消 VQ”。\n- **5. 匹配训练与部署的粗细交接。** 训练时以相同后缀噪声在 τ=0.4 额外运行粗模型，无梯度产生观察和动作缓存，避免细化器训练时看见推理时拿不到的理想计划。Wan 主干全参数微调，轨迹编码器、细化器和新增投影从头训练，VAE/文本/CLIP 编码器冻结；人机预训练数据按小时比例采样，触觉以 0.1 概率 dropout。每任务再用 10 条机器人与 90 条当任务人类示范训练，后者由 Wuji 手套和腕部追踪器另采，不能与 EgoForce 预训练样本混为一谈。\n- **6. 执行中只刷新剩余动作。** 每块为双臂末端相对块起点的位姿与双手绝对关节，共 62 维；20 Hz 下执行 16 步。在偏移 4、8、12 时刻读取新触觉并重跑小模型，使用缓存避免重算大模型。未来力输出是辅助预测并记录用于分析，不作为控制器的目标力；论文给出的刷新频率也不等于已经证明端到端实时延迟满足所有硬件预算。\n\n**关键要点：**\n\n- 未来视频与轨迹约束“准备怎样动”，未来力则约束“这样动会形成什么接触”；两种预测分别帮助几何规划与接触执行。\n- 力监督从人类预训练第一步就参与，而不是把触觉最后接到已有视觉策略上；去除人类力标签与去除未来力预测是两种不同消融。\n- 触觉历史压缩、连续当前力和连续未来力分别承担记忆、当前状态和后果预测，不能把三者视为一个“触觉输入”。\n\n![FACT 轨迹引导粗规划与力—动作联合细化](https://followhub.tenstep.top/papers/fact-force-action-track/figure-2.png)\n图 3：交接发生于 τ=0.4。细化器通过缓存的交叉注意力读粗计划，并在双向注意力中耦合未来力与动作后缀。",
+    "methodOverview": "输入包含三路视觉、任务文字、机器人状态、过去的点轨迹和触觉历史。以 Wan2.2-TI2V-5B 为基础的粗规划器联合生成未来视频、轨迹与尚未完全去噪的动作，将观察及动作隐状态缓存；65M 细化器读取该缓存和真实触觉，联合去噪动作后缀及未来指尖力，输出 16 步、20 Hz、62 维动作块，并以 5 Hz 触觉刷新修正未执行部分。",
+    "methodCore": "FACT 把动作生成分在两个噪声区间内完成。粗阶段对视频、动作和轨迹做六步 Euler 去噪，从 τ=1 到 0.4，再额外前向一次读出视觉预测和缓存；细阶段令动作 τa 从 0.4 到 0，未来力 τf 从 1 到 0，共同做四步更新。动作与未来力 token 在双向自注意力中相互影响，因此动作可以根据预期接触后果改变，力预测也随候选动作改变。每次触觉刷新时固定已执行动作与已观测力，仅重新细化未来部分；大模型的粗计划与 KV 缓存保持不变。",
+    "methodBreakdown": [
+      "**1. 将人类压力与动作变成可共享监督。** EgoForce 用头戴双目、双腕相机和双手触觉手套同步采集。气囊标定将 A/D 读数映射到力 Fi=PiAi；ViTPose、HaMeR、双目深度与手套弯曲/姿态信号估计手运动，再重定向到 Sharpa Wave 的 22 关节。每指 12 个 taxel 的合力与压力中心给出法向力和两个力矩，无法观测的切向力与扭转力矩置零。它统一的是模型输入接口，并没有把人手传感器变成真实六轴力传感器。",
+      "**2. 用轨迹提供可显式监督的几何通路。** SAM2 初始化手部分割，CoTracker 离线跟踪每块 250 个点，包含头视角双手点、腕视角手点与背景网格。每个点将 16 帧的坐标、可见性和位移编码为 token；未来 16 步轨迹被预测，损失用可见性掩码及运动长度加权。粗模型中轨迹 token 只关注轨迹，观察/动作 token 则读取轨迹、视觉与动作，保留独立几何路径又使其能影响动作。",
+      "**3. 用逐 token 流匹配联合学视觉和动作。** 文本经 umT5、锚帧经 CLIP 作交叉注意力条件；视频经冻结 VAE 编码。干净状态和历史轨迹的 τ=0，未来目标由 xτ=(1−τ)c+τε 加噪，监督速度 ε−c。粗损失为视频动力学损失加动作损失，再加 20 倍的轨迹组合损失（流匹配、5 倍位置、2 倍平滑项）；位置和平滑项作用于一步重建 x̂0=xτ−τv̂。训练用四个 teacher-forced 时间块，推理每次自回归生成一个 0.8 秒块。",
+      "**4. 联合细化连续未来力与动作，而非只读取历史。** 最近 16 个 5 Hz 触觉样本经过卷积和 64 项码本，得到每指一个 256 维历史码；当前力保持连续。细化器含 16 个动作、10 个当前力、10 个历史码及 40 个未来力 token，总计 76 个 token；6 层双向 Transformer 同时预测动作和六轴力的流速度。损失仅计算未执行动作与尚未观测力，未来力权重 0.5，另含 VQ 损失。FACT 仍量化历史，新增的是连续未来力预测，不能概括成“完全取消 VQ”。",
+      "**5. 匹配训练与部署的粗细交接。** 训练时以相同后缀噪声在 τ=0.4 额外运行粗模型，无梯度产生观察和动作缓存，避免细化器训练时看见推理时拿不到的理想计划。Wan 主干全参数微调，轨迹编码器、细化器和新增投影从头训练，VAE/文本/CLIP 编码器冻结；人机预训练数据按小时比例采样，触觉以 0.1 概率 dropout。每任务再用 10 条机器人与 90 条当任务人类示范训练，后者由 Wuji 手套和腕部追踪器另采，不能与 EgoForce 预训练样本混为一谈。",
+      "**6. 执行中只刷新剩余动作。** 每块为双臂末端相对块起点的位姿与双手绝对关节，共 62 维；20 Hz 下执行 16 步。在偏移 4、8、12 时刻读取新触觉并重跑小模型，使用缓存避免重算大模型。未来力输出是辅助预测并记录用于分析，不作为控制器的目标力；论文给出的刷新频率也不等于已经证明端到端实时延迟满足所有硬件预算。"
+    ],
+    "methodTakeaways": [
+      "未来视频与轨迹约束“准备怎样动”，未来力则约束“这样动会形成什么接触”；两种预测分别帮助几何规划与接触执行。",
+      "力监督从人类预训练第一步就参与，而不是把触觉最后接到已有视觉策略上；去除人类力标签与去除未来力预测是两种不同消融。",
+      "触觉历史压缩、连续当前力和连续未来力分别承担记忆、当前状态和后果预测，不能把三者视为一个“触觉输入”。"
+    ],
+    "results": "- **真实机器人与评测条件（表 I、附录 C–E）：** 双 YAM Ultra 机械臂配 Sharpa Wave 手，三路相机，十个指尖六轴力。七项二元任务各测 10 次，随机化物体初始位置，但仍使用相同场景和物体；另外两项记干净发声音符数，移液器调量单列啮合次数和仅在啮合试验上的误差。\n- **主比较：** 七项二元任务平均成功率 FACT 41.4%，T-Rex 8.6%，π0.5 1.4%；相对 T-Rex 平均提高 32.8 个百分点。最高 60 个百分点来自开试管盖 80% 对 20%，不是全部任务平均提升 60%。系鞋带仍只有 20%，洗牌和螺丝刀均 30%。\n- **未来力与轨迹消融：** 移除未来力预测后，二元均值降至 14.3%，竖琴从 6.7 降到 0 个音符，旋钮啮合从 5/10 降到 2/10。移除轨迹预测后均值为 35.7%，移液从 40% 降至 20%，木琴从 5.4 降至 3.9；开试管盖、多物抓取等任务没有下降，并非每任务都受益。\n- **人类预训练力标签的作用（表 II）：** 保留人类数据但去掉力监督，开试管盖 80%→0%，移液 40%→20%，竖琴 6.7→2.0，旋钮误差 6.4→20.5 μL；多物抓取仍为 40%。仅机器人预训练则移液与翻盖均为 0%，旋钮没有成功啮合。实验支持带力人类经验的贡献，但不同消融不能直接相加解释收益。\n- **数据扩展与替代边界（图 6–7、表 III）：** 固定机器人预训练数据，将人类数据从 100 扩到 2,000 小时，带触觉验证 MSE 从 0.042 降至 0.031，同规模无触觉为 0.047 和 0.036。微调从 10:0 增至 10:90，系鞋带 10%→20%、洗牌 10%→30%。固定总量 100 条，将机器人占比从 10% 提到 50%，翻盖 50%→60%、多物抓取 40%→50%、旋钮啮合 5/10→6/10；这是有限任务上的替代迹象，不是统计意义上的人机示范等价证明。\n\n![固定总量下机器人与人类微调数据的配比实验](https://followhub.tenstep.top/papers/fact-force-action-track/figure-3.png)\n图 6：10:90、30:70、50:50 三种配比仅在三个任务上测试。旋钮括号内为已啮合试验的平均绝对误差，不能当作整体任务成功率。",
+    "resultHighlights": [],
+    "insights": "- **核心 insight：** 将未来力设为生成目标，使接触后果进入动作去噪的内部计算，而不是仅作为输入特征。消融结果支持这种耦合的价值，但没有证明模型建立了可校准的物理模拟器或因果动力学模型。\n- **和已有方法的关系：** 与 [[t-rex-tactile-reactive-dexterous-manipulation|T-Rex]] 同样采用粗细分工与触觉历史压缩，FACT 的关键增加是视觉点轨迹和连续未来力共同预测。它并非传统阻抗/导纳控制器，也不提供显式接触安全约束。\n- **可借鉴点：** 先在含接触标签的人类数据上学联合预测，再用少量机器人数据对齐动作语义；以冻结粗计划缓存限制高成本计算，把新触觉集中用于剩余动作修正。实施时必须同时记录传感器可观测分量、时间同步和重定向误差。\n- **我对证据的判断：** “人类数据的物理信息密度”可能比单纯增加视频时长更重要；这里的支持来自有/无力标签对照。对高精度灵巧任务，视觉轨迹和触觉预测分别解决不同误差来源，后续应联合报告轨迹误差、力预测误差和任务完成率。",
+    "insightCore": [
+      "**和已有方法的关系：** 与 [[t-rex-tactile-reactive-dexterous-manipulation|T-Rex]] 同样采用粗细分工与触觉历史压缩，FACT 的关键增加是视觉点轨迹和连续未来力共同预测。它并非传统阻抗/导纳控制器，也不提供显式接触安全约束。",
+      "**可借鉴点：** 先在含接触标签的人类数据上学联合预测，再用少量机器人数据对齐动作语义；以冻结粗计划缓存限制高成本计算，把新触觉集中用于剩余动作修正。实施时必须同时记录传感器可观测分量、时间同步和重定向误差。",
+      "**我对证据的判断：** “人类数据的物理信息密度”可能比单纯增加视频时长更重要；这里的支持来自有/无力标签对照。对高精度灵巧任务，视觉轨迹和触觉预测分别解决不同误差来源，后续应联合报告轨迹误差、力预测误差和任务完成率。"
+    ],
+    "insightRelations": [
+      "**可借鉴点：** 先在含接触标签的人类数据上学联合预测，再用少量机器人数据对齐动作语义；以冻结粗计划缓存限制高成本计算，把新触觉集中用于剩余动作修正。实施时必须同时记录传感器可观测分量、时间同步和重定向误差。",
+      "**我对证据的判断：** “人类数据的物理信息密度”可能比单纯增加视频时长更重要；这里的支持来自有/无力标签对照。对高精度灵巧任务，视觉轨迹和触觉预测分别解决不同误差来源，后续应联合报告轨迹误差、力预测误差和任务完成率。"
+    ],
+    "insightBorrowable": [
+      "**我对证据的判断：** “人类数据的物理信息密度”可能比单纯增加视频时长更重要；这里的支持来自有/无力标签对照。对高精度灵巧任务，视觉轨迹和触觉预测分别解决不同误差来源，后续应联合报告轨迹误差、力预测误差和任务完成率。"
+    ],
+    "risks": "**局限：**\n\n- 每项二元任务仅 10 次 rollout，10 个百分点就是一次成功差异；论文没有给出跨随机种子置信区间。三个配比任务的小幅波动不能支撑广义“人类和机器人示范等价”。\n- 人类预训练力来自压力阵列，部分 wrench 分量置零；人类手姿也是视觉估计和重定向结果。统一张量维度不代表观测噪声、力方向或物理意义已经完全对齐。\n- π0.5 不接触觉，并将每手 22 关节压缩为 10 维 PCA 以适配固定 32 维动作头；这不是严格控制传感器与动作表示的架构对照。T-Rex 的形变图像分支也因硬件不可用而关闭。\n- 每项任务单独微调，评估没有证明新物体、新场景或新手型的零样本泛化。2,000 小时规模曲线报告的是验证 MSE，不能直接改写为随数据量增长的真实成功率曲线。\n- 未充分报告端到端推理时延、训练总时长与成本，未建立未来力预测的安全保证。七项二元任务平均 41.4% 仍距离可靠自动化较远。\n\n**适用场景：**\n\n- 有同步多视角、人手触觉和机器人少量示范资源的研究团队，研究多指抓持、柔性物体、精密旋转/按压、拨弦等对接触敏感的动作。\n- 可用其粗计划缓存和后缀细化设计减少触觉更新的重复大模型计算；复现优先选一个有可量化接触指标的任务，再比较未来力预测与仅触觉条件输入。\n\n**最终判断：**\n\n- 值得作为“带力人类预训练 + 未来力/动作联合建模”的代表工作纳入长期跟踪。其证据最强的是有限真实任务上力标签与力预测的贡献；对通用性、示范等价性和闭环安全性应保持独立验证。",
+    "riskLimitations": [
+      "每项二元任务仅 10 次 rollout，10 个百分点就是一次成功差异；论文没有给出跨随机种子置信区间。三个配比任务的小幅波动不能支撑广义“人类和机器人示范等价”。",
+      "人类预训练力来自压力阵列，部分 wrench 分量置零；人类手姿也是视觉估计和重定向结果。统一张量维度不代表观测噪声、力方向或物理意义已经完全对齐。",
+      "π0.5 不接触觉，并将每手 22 关节压缩为 10 维 PCA 以适配固定 32 维动作头；这不是严格控制传感器与动作表示的架构对照。T-Rex 的形变图像分支也因硬件不可用而关闭。",
+      "每项任务单独微调，评估没有证明新物体、新场景或新手型的零样本泛化。2,000 小时规模曲线报告的是验证 MSE，不能直接改写为随数据量增长的真实成功率曲线。",
+      "未充分报告端到端推理时延、训练总时长与成本，未建立未来力预测的安全保证。七项二元任务平均 41.4% 仍距离可靠自动化较远。"
+    ],
+    "riskScenarios": [
+      "有同步多视角、人手触觉和机器人少量示范资源的研究团队，研究多指抓持、柔性物体、精密旋转/按压、拨弦等对接触敏感的动作。",
+      "可用其粗计划缓存和后缀细化设计减少触觉更新的重复大模型计算；复现优先选一个有可量化接触指标的任务，再比较未来力预测与仅触觉条件输入。"
+    ],
+    "riskJudgment": [
+      "值得作为“带力人类预训练 + 未来力/动作联合建模”的代表工作纳入长期跟踪。其证据最强的是有限真实任务上力标签与力预测的贡献；对通用性、示范等价性和闭环安全性应保持独立验证。"
+    ],
+    "resultsTableMarkdown": "以下均来自表 I；二元任务单位为百分比，乐器为每 10 个目标音中的干净音符数。\n\n| 任务/指标 | π0.5 | T-Rex | FACT 无未来力 | FACT 无轨迹 | FACT 完整 |\n| --- | ---: | ---: | ---: | ---: | ---: |\n| 实验室移液成功率 | 0 | 0 | 30 | 20 | 40 |\n| 开试管盖成功率 | 10 | 20 | 40 | 80 | 80 |\n| 开微量离心管翻盖成功率 | 0 | 20 | 20 | 40 | 50 |\n| 系鞋带成功率 | 0 | 0 | 0 | 20 | 20 |\n| 洗牌成功率 | 0 | 10 | 0 | 20 | 30 |\n| 多物体抓取成功率 | 0 | 0 | 10 | 40 | 40 |\n| 螺丝刀任务成功率 | 0 | 10 | 0 | 30 | 30 |\n| 七项二元任务均值 | 1.4 | 8.6 | 14.3 | 35.7 | 41.4 |\n| 竖琴干净音符数 /10 | 0.5 | 2.1 | 0 | 6.5 | 6.7 |\n| 木琴干净音符数 /10 | 0 | 3.2 | 1.9 | 3.9 | 5.4 |\n| 移液器旋钮啮合次数 /10 | 1 | 2 | 2 | 4 | 5 |\n| 已啮合试验平均绝对误差 μL ↓ | 17.0 | 14.0 | 11.0 | 12.8 | 6.4 |\n\n移液器从 420 μL 调至 400 μL；没有啮合的试验算失败且不进入误差均值。完整 FACT 的 5 次啮合中有 4 次最终偏差不超过 4 μL，主要失败仍在于建立稳定接触，而非成功啮合后的微调。",
+    "resultsTable": {
+      "columns": [
+        "任务/指标",
+        "π0.5",
+        "T-Rex",
+        "FACT 无未来力",
+        "FACT 无轨迹",
+        "FACT 完整"
+      ],
+      "rows": [
+        [
+          "实验室移液成功率",
+          "0",
+          "0",
+          "30",
+          "20",
+          "40"
+        ],
+        [
+          "开试管盖成功率",
+          "10",
+          "20",
+          "40",
+          "80",
+          "80"
+        ],
+        [
+          "开微量离心管翻盖成功率",
+          "0",
+          "20",
+          "20",
+          "40",
+          "50"
+        ],
+        [
+          "系鞋带成功率",
+          "0",
+          "0",
+          "0",
+          "20",
+          "20"
+        ],
+        [
+          "洗牌成功率",
+          "0",
+          "10",
+          "0",
+          "20",
+          "30"
+        ],
+        [
+          "多物体抓取成功率",
+          "0",
+          "0",
+          "10",
+          "40",
+          "40"
+        ],
+        [
+          "螺丝刀任务成功率",
+          "0",
+          "10",
+          "0",
+          "30",
+          "30"
+        ],
+        [
+          "七项二元任务均值",
+          "1.4",
+          "8.6",
+          "14.3",
+          "35.7",
+          "41.4"
+        ],
+        [
+          "竖琴干净音符数 /10",
+          "0.5",
+          "2.1",
+          "0",
+          "6.5",
+          "6.7"
+        ],
+        [
+          "木琴干净音符数 /10",
+          "0",
+          "3.2",
+          "1.9",
+          "3.9",
+          "5.4"
+        ],
+        [
+          "移液器旋钮啮合次数 /10",
+          "1",
+          "2",
+          "2",
+          "4",
+          "5"
+        ],
+        [
+          "已啮合试验平均绝对误差 μL ↓",
+          "17.0",
+          "14.0",
+          "11.0",
+          "12.8",
+          "6.4"
+        ]
+      ]
+    },
+    "figureGallery": [
+      {
+        "zone": "intuition",
+        "caption": "FACT 总览：EgoForce、粗到细模型与下游任务",
+        "src": "https://followhub.tenstep.top/papers/fact-force-action-track/figure-1.png"
+      },
+      {
+        "zone": "method",
+        "caption": "FACT 轨迹引导粗规划与力—动作联合细化",
+        "src": "https://followhub.tenstep.top/papers/fact-force-action-track/figure-2.png"
+      },
+      {
+        "zone": "results",
+        "caption": "固定总量下机器人与人类微调数据的配比实验",
+        "src": "https://followhub.tenstep.top/papers/fact-force-action-track/figure-3.png"
+      }
+    ],
+    "relatedTopicSlugs": [
+      "human-to-robot-transfer"
+    ]
   }
 ]
