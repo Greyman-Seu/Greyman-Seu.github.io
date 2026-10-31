@@ -19,9 +19,9 @@ const pdfDownloadUrl = `${pdfUrl}?v=${pdfSnapshot.pdfSha256.slice(0, 12)}`
     <meta name='viewport' content='width=device-width, initial-scale=1' />
     <meta
       name='description'
-      content={`${name}的面试简历：职业履历、具身智能项目与论文成果。支持 A4 打印和 PDF 下载。`}
+      content={`${name}的在线简历：职业履历、具身智能项目与论文成果。支持 A4 打印和 PDF 下载。`}
     />
-    <title>{name} · 面试简历</title>
+    <title>{name} · 在线简历</title>
     <link rel='icon' href='/favicon/favicon.ico' />
   </head>
   <body>
@@ -29,17 +29,17 @@ const pdfDownloadUrl = `${pdfUrl}?v=${pdfSnapshot.pdfSha256.slice(0, 12)}`
       <a class='back-link' href='/resume'>← 详细简历</a>
       <div class='toolbar-copy'>
         <span class='status-dot' aria-hidden='true'></span>
-        <span>A4 · 两页面试版</span>
+        <span>A4 · 两页简历</span>
       </div>
       <div class='toolbar-actions'>
-        <a class='button secondary' href={pdfDownloadUrl} download='祝仰坤-面试简历.pdf'>下载 PDF</a
+        <a class='button secondary' href={pdfDownloadUrl} download='祝仰坤-简历.pdf'>下载 PDF</a
         >
         <button class='button primary' id='export-resume' type='button'>打印 / 导出 PDF</button>
       </div>
     </nav>
     <p class='print-hint'>导出时选择“另存为 PDF”，纸张使用 A4，关闭浏览器页眉和页脚。</p>
 
-    <main class='sheets' aria-label='面试简历'>
+    <main class='sheets' aria-label='在线简历'>
       {
         resume.pages.map((page, index) => (
           <article class='sheet' aria-label={`第 ${index + 1} 页：${page.label}`}>

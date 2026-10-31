@@ -1,10 +1,10 @@
-# 面试简历与 PDF
+# 在线简历与 PDF
 
-- `/resume`：完整简历；Scholar、联系我旁提供 PDF 下载与面试版预览。
+- `/resume`：完整简历；Scholar、联系我旁提供 PDF 下载与在线简历入口。
 - `/resume/interview`：独立的两页 A4 模板，浏览器“打印 / 导出 PDF”可另存 PDF。
 - `/cv.pdf`：已生成的、可直接下载的 PDF。
 
-网页模板与 PDF 共用 `src/data/resume/interview.json`。面试版是从完整简历精简出的独立版本，修改完整简历时按需同步该文件。姓名使用已确认的“祝仰坤”。不补充未提供的电话或年龄。
+网页模板与 PDF 共用 `src/data/resume/interview.json`。在线简历是从完整简历精简出的独立版本，修改完整简历时按需同步该文件。姓名使用已确认的“祝仰坤”。不补充未提供的电话或年龄。
 头像直接复用首页的 `src/assets/avatar.png`，主页地址显示完整的 `https://tenstep.top/`，便于纸质阅读。
 
 ## 更新 PDF

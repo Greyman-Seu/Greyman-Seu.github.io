@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build the two-page interview PDF from the same JSON used by Astro.
+"""Build the two-page resume PDF from the same JSON used by Astro.
 
 Requires PyMuPDF >= 1.27. Run from any directory; paths resolve from this file.
 The layout fails rather than silently shrinking content if a page overflows.
@@ -152,7 +152,7 @@ def build() -> None:
         )
         page.insert_htmlbox(fitz.Rect(40, page.rect.height - 32, page.rect.width - 40, page.rect.height - 12), footer, css=CSS, archive=archive, scale_low=1)
         print(f'Page {index + 1}: {spare:.1f} pt remaining; scale={scale:.2f}')
-    document.set_metadata({'title': f'{data["name"]} - 面试简历', 'author': data['name'], 'subject': f'source-sha256:{source_hash}', 'creator': 'FollowHub interview resume template'})
+    document.set_metadata({'title': f'{data["name"]} - 简历', 'author': data['name'], 'subject': f'source-sha256:{source_hash}', 'creator': 'FollowHub resume template'})
     document.subset_fonts()
     OUTPUT.parent.mkdir(parents=True, exist_ok=True)
     document.save(OUTPUT, garbage=4, deflate=True)
