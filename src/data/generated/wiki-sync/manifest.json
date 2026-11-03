@@ -1,12 +1,12 @@
 {
   "data_version": "followhub-wiki-r2/v1",
-  "generated_at": "2026-10-25T14:35:43Z",
+  "generated_at": "2026-11-03T01:56:22.759625+00:00",
   "wiki_root": "/home/yangkunzhu/workspace/agent_space/FollowHub/submodules/llm-wiki-skill/followhub-wiki",
   "page_root": "",
   "base_path": "wiki",
-  "latest_updated": "2026-10-25",
+  "latest_updated": "2026-11-03",
   "counts": {
-    "sources": 76,
+    "sources": 81,
     "topics": 9,
     "synthesis": 3,
     "graph_nodes": 88,
@@ -324,6 +324,10 @@
       {
         "slug": "world-action-learning-via-interaction-centric-spectral-latent-guidance",
         "path": "source/world-action-learning-via-interaction-centric-spectral-latent-guidance.json"
+      },
+      {
+        "slug": "1912.12294-learning-by-cheating",
+        "path": "source/1912.12294-learning-by-cheating.json"
       }
     ],
     "topic": [
