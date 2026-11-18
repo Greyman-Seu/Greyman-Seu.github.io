@@ -279,7 +279,6 @@ const projects: ResumeProject[] = [
     date: '2026.08 — 2026.09',
     type: 'W0 力控算法 Owner',
     roleTags: ['W0 力控算法 Owner', '团队成员 1 人'],
-    highlight: '重点项目',
     company: '上海人工智能实验室',
     projectGroup: 'InternW0 / 浦江创新论坛',
     href: null,
@@ -362,7 +361,6 @@ const projects: ResumeProject[] = [
     date: '2026.04 — 2026.07',
     type: '旋蒸场景负责人',
     roleTags: ['旋蒸场景负责人', '团队成员 1 人'],
-    highlight: '重点项目',
     company: '上海人工智能实验室',
     projectGroup: 'WAIC 2026 / 电催化实验',
     href: null,
@@ -1173,27 +1171,32 @@ const projects: ResumeProject[] = [
   {/* ── 项目经历 ── */}
   <h2 id='projects'>项目经历<a class='anchor' href='#projects'>#</a></h2>
   <div class='not-prose flex flex-col gap-2.5'>
-    {projects.map((item) => (
-      <div
-        class:list={[
-          'resume-project-card rounded-2xl border bg-card/95 px-5 py-4 shadow-sm shadow-black/[0.02] transition-colors',
-          item.highlight
-            ? 'border-primary/25 bg-primary/[0.025] shadow-primary/5 hover:border-primary/35'
-            : 'border-border/80 hover:border-border'
-        ]}
-      >
-        <div class='space-y-2.5'>
-          <div class='space-y-1.5'>
-            <div class='flex items-start justify-between gap-3'>
-              <div class='min-w-0 flex-1'>
-                <p class='text-[15px] font-semibold leading-6 text-foreground'>{item.name}</p>
-              </div>
+    {projects.map((item) => {
+      const Card = item.highlight ? 'div' : 'details'
+      const Header = item.highlight ? 'div' : 'summary'
+      return (
+        <Card
+          class:list={[
+            'resume-project-card rounded-2xl border bg-card/95 px-5 py-4 shadow-sm shadow-black/[0.02] transition-colors',
+            item.highlight
+              ? 'border-primary/25 bg-primary/[0.025] shadow-primary/5 hover:border-primary/35'
+              : 'border-border/80 hover:border-border'
+          ]}
+        >
+          <Header
+            class:list={[
+              'flex items-start justify-between gap-3',
+              !item.highlight && 'resume-project-summary cursor-pointer list-none'
+            ]}
+          >
+            <span class='min-w-0 flex-1 text-[15px] font-semibold leading-6 text-foreground'>
+              {item.name}
+            </span>
+            {item.highlight ? (
               <div class='flex shrink-0 items-center gap-2 pt-0.5'>
-                {item.highlight && (
-                  <span class='rounded-full bg-primary/12 px-2 py-0.5 text-[10px] font-semibold tracking-[0.08em] text-primary'>
-                    {item.highlight}
-                  </span>
-                )}
+                <span class='rounded-full bg-primary/12 px-2 py-0.5 text-[10px] font-semibold tracking-[0.08em] text-primary'>
+                  {item.highlight}
+                </span>
                 {item.href && (
                   <a
                     href={item.href}
@@ -1204,156 +1207,117 @@ const projects: ResumeProject[] = [
                   </a>
                 )}
               </div>
-            </div>
-            <div class='flex flex-wrap items-center gap-1.5'>
-              {item.roleTags && item.roleTags.length > 0 ? (
-                item.roleTags.map((role) => (
+            ) : (
+              <svg
+                viewBox='0 0 20 20'
+                fill='none'
+                stroke='currentColor'
+                stroke-width='1.5'
+                class='resume-project-summary-icon mt-0.5 size-5 shrink-0 text-muted-foreground'
+                aria-hidden='true'
+              >
+                <path d='m5 8 5 5 5-5' stroke-linecap='round' stroke-linejoin='round'></path>
+              </svg>
+            )}
+          </Header>
+          <div class:list={['space-y-2.5', item.highlight ? 'mt-1.5' : 'mt-2.5']}>
+            <div class='space-y-1.5'>
+              <div class='flex flex-wrap items-center gap-1.5'>
+                {item.roleTags && item.roleTags.length > 0 ? (
+                  item.roleTags.map((role) => (
+                    <span class='rounded-full bg-secondary/80 px-2.5 py-0.5 text-[11px] text-muted-foreground'>
+                      {role}
+                    </span>
+                  ))
+                ) : (
                   <span class='rounded-full bg-secondary/80 px-2.5 py-0.5 text-[11px] text-muted-foreground'>
-                    {role}
+                    {item.type}
                   </span>
-                ))
-              ) : (
-                <span class='rounded-full bg-secondary/80 px-2.5 py-0.5 text-[11px] text-muted-foreground'>
-                  {item.type}
-                </span>
-              )}
-              {item.date && (
-                <span class='rounded-full bg-primary/10 px-2.5 py-0.5 text-[11px] font-medium text-primary'>
-                  {item.date}
-                </span>
-              )}
-            </div>
-          </div>
-          {(item.company || item.projectGroup || item.algorithmGroup) && (
-            <div class='flex flex-wrap gap-1.5 border-t border-border/50 pt-2.5 text-[11px] text-muted-foreground'>
-              {item.company && (
-                <span class='rounded-full bg-muted/80 px-2.5 py-0.5'>
-                  公司：{item.company}
-                </span>
-              )}
-              {item.projectGroup && (
-                <span class='rounded-full bg-muted/80 px-2.5 py-0.5'>
-                  项目组：{item.projectGroup}
-                </span>
-              )}
-              {item.algorithmGroup && (
-                <span class='rounded-full bg-muted/80 px-2.5 py-0.5'>
-                  算法组：{item.algorithmGroup}
-                </span>
-              )}
-            </div>
-          )}
-          {item.workLinks && item.workLinks.length > 0 && (
-            <div class='flex flex-wrap items-center gap-1.5 border-t border-border/50 pt-2.5 text-[11px] text-muted-foreground'>
-              <span class='rounded-full bg-muted/80 px-2.5 py-0.5'>Works</span>
-              {item.workLinks.map((link) => (
-                <a
-                  href={link.href}
-                  class='rounded-full bg-primary/10 px-2.5 py-0.5 font-medium text-primary transition-colors hover:bg-primary/15'
-                >
-                  {link.label}
-                </a>
-              ))}
-            </div>
-          )}
-        </div>
-        {item.sections ? (
-          <div class='project-card-details mt-3.5 border-t border-border/50 pt-3'>
-            <div class='space-y-2'>
-              {mergeProjectSections(item.sections)
-                .filter((section) => !isProjectSectionPrimary(section.label))
-                .map((section, index) => (
-                  <div
-                    class:list={[
-                      'resume-project-section grid gap-2 sm:grid-cols-[64px_minmax(0,1fr)] sm:gap-3.5',
-                      getProjectSectionRowClass(section.label),
-                      index !== 0 && 'border-t border-dashed border-border/50'
-                    ]}
-                    data-section-label={section.label}
+                )}
+                {item.date && (
+                  <span class='rounded-full bg-primary/10 px-2.5 py-0.5 text-[11px] font-medium text-primary'>
+                    {item.date}
+                  </span>
+                )}
+                {!item.highlight && item.href && (
+                  <a
+                    href={item.href}
+                    class='text-xs text-primary transition-opacity hover:opacity-70'
+                    target={item.href.startsWith('/works') ? undefined : '_blank'}
                   >
-                    <div class='sm:pt-0.5'>
-                      <span
-                        class:list={[
-                          'resume-project-badge inline-flex rounded-full px-2 py-0.5 text-[10px] font-semibold tracking-[0.08em]',
-                          getProjectSectionBadgeClass(section.label)
-                        ]}
-                      >
-                        {section.label}
-                      </span>
-                    </div>
-                    <div class='space-y-1.5'>
-                      {section.texts.map((text) => (
-                        <div class='flex items-start gap-2'>
-                          {section.texts.length > 1 ? (
-                            <span
-                              class:list={[
-                                'mt-[0.55rem] size-1 shrink-0 rounded-full bg-current opacity-35',
-                                section.label === 'R' && 'opacity-50'
-                              ]}
-                            ></span>
-                          ) : null}
-                          {typeof text === 'string' ? (
-                            section.label === 'R' ? (
-                              <p class:list={['resume-project-text', getProjectSectionTextClass(section.label)]}>
-                                <span set:html={highlightProjectResultText(text)} />
-                              </p>
-                            ) : (
-                              <p class:list={['resume-project-text', getProjectSectionTextClass(section.label)]}>{text}</p>
-                            )
-                          ) : (
-                            <div class='space-y-1'>
-                              <p class='resume-project-text-title text-sm font-semibold leading-6 text-foreground/90'>
-                                {text.title}
-                              </p>
-                              <p class:list={['resume-project-text', getProjectSectionTextClass(section.label)]}>
-                                {text.body}
-                              </p>
-                            </div>
-                          )}
-                        </div>
-                      ))}
-                    </div>
-                  </div>
+                    {item.href.startsWith('/works') ? 'Works ↗' : 'GitHub ↗'}
+                  </a>
+                )}
+              </div>
+            </div>
+            {(item.company || item.projectGroup || item.algorithmGroup) && (
+              <div class='flex flex-wrap gap-1.5 border-t border-border/50 pt-2.5 text-[11px] text-muted-foreground'>
+                {item.company && (
+                  <span class='rounded-full bg-muted/80 px-2.5 py-0.5'>
+                    公司：{item.company}
+                  </span>
+                )}
+                {item.projectGroup && (
+                  <span class='rounded-full bg-muted/80 px-2.5 py-0.5'>
+                    项目组：{item.projectGroup}
+                  </span>
+                )}
+                {item.algorithmGroup && (
+                  <span class='rounded-full bg-muted/80 px-2.5 py-0.5'>
+                    算法组：{item.algorithmGroup}
+                  </span>
+                )}
+              </div>
+            )}
+            {item.workLinks && item.workLinks.length > 0 && (
+              <div class='flex flex-wrap items-center gap-1.5 border-t border-border/50 pt-2.5 text-[11px] text-muted-foreground'>
+                <span class='rounded-full bg-muted/80 px-2.5 py-0.5'>Works</span>
+                {item.workLinks.map((link) => (
+                  <a
+                    href={link.href}
+                    class='rounded-full bg-primary/10 px-2.5 py-0.5 font-medium text-primary transition-colors hover:bg-primary/15'
+                  >
+                    {link.label}
+                  </a>
                 ))}
-            </div>
-
-            <div class='project-card-extra mt-2 space-y-2 border-t border-border/40 pt-3'>
-              {mergeProjectSections(item.sections)
-                .filter((section) => isProjectSectionPrimary(section.label))
-                .map((section, index) => (
-                  <div
-                    class:list={[
-                      'resume-project-section grid gap-2 sm:grid-cols-[64px_minmax(0,1fr)] sm:gap-3.5',
-                      getProjectSectionRowClass(section.label),
-                      index !== 0 && 'border-t border-dashed border-border/50'
-                    ]}
-                    data-section-label={section.label}
-                  >
-                    <div class='sm:pt-0.5'>
-                      <span
-                        class:list={[
-                          'resume-project-badge inline-flex rounded-full px-2 py-0.5 text-[10px] font-semibold tracking-[0.08em]',
-                          getProjectSectionBadgeClass(section.label)
-                        ]}
-                      >
-                        {section.label}
-                      </span>
-                    </div>
-                    <div class='space-y-1.5'>
-                      {section.texts.map((text) => (
-                        <div
+              </div>
+            )}
+          </div>
+          {item.sections ? (
+            <div class='project-card-details mt-3.5 border-t border-border/50 pt-3'>
+              <div class='space-y-2'>
+                {mergeProjectSections(item.sections)
+                  .filter((section) => !isProjectSectionPrimary(section.label))
+                  .map((section, index) => (
+                    <div
+                      class:list={[
+                        'resume-project-section grid gap-2 sm:grid-cols-[64px_minmax(0,1fr)] sm:gap-3.5',
+                        getProjectSectionRowClass(section.label),
+                        index !== 0 && 'border-t border-dashed border-border/50'
+                      ]}
+                      data-section-label={section.label}
+                    >
+                      <div class='sm:pt-0.5'>
+                        <span
                           class:list={[
-                            'flex items-start gap-2',
-                            section.label === 'A' && 'rounded-lg bg-background/60 px-2.5 py-2'
+                            'resume-project-badge inline-flex rounded-full px-2 py-0.5 text-[10px] font-semibold tracking-[0.08em]',
+                            getProjectSectionBadgeClass(section.label)
                           ]}
                         >
-                          <span
-                            class:list={[
-                              'mt-[0.55rem] size-1 shrink-0 rounded-full bg-current opacity-35',
-                              section.label === 'A' && 'opacity-45'
-                            ]}
-                          ></span>
-                          <div class='min-w-0'>
+                          {section.label}
+                        </span>
+                      </div>
+                      <div class='space-y-1.5'>
+                        {section.texts.map((text) => (
+                          <div class='flex items-start gap-2'>
+                            {section.texts.length > 1 ? (
+                              <span
+                                class:list={[
+                                  'mt-[0.55rem] size-1 shrink-0 rounded-full bg-current opacity-35',
+                                  section.label === 'R' && 'opacity-50'
+                                ]}
+                              ></span>
+                            ) : null}
                             {typeof text === 'string' ? (
                               section.label === 'R' ? (
                                 <p class:list={['resume-project-text', getProjectSectionTextClass(section.label)]}>
@@ -1373,46 +1337,111 @@ const projects: ResumeProject[] = [
                               </div>
                             )}
                           </div>
-                        </div>
-                      ))}
+                        ))}
+                      </div>
                     </div>
-                  </div>
-                ))}
-            </div>
-            <button
-              type='button'
-              class='project-card-summary mt-0.5 flex h-3 w-full cursor-pointer items-end justify-center text-primary/40'
-              aria-expanded='false'
-            >
-              <span class='project-chevron transition-all duration-200 ease-out'>
-                <svg
-                  xmlns='http://www.w3.org/2000/svg'
-                  viewBox='0 0 20 20'
-                  fill='currentColor'
-                  class='size-3'
-                  aria-hidden='true'
+                  ))}
+              </div>
+
+              <div class:list={['mt-2 space-y-2 border-t border-border/40 pt-3', item.highlight && 'project-card-extra']}>
+                {mergeProjectSections(item.sections)
+                  .filter((section) => isProjectSectionPrimary(section.label))
+                  .map((section, index) => (
+                    <div
+                      class:list={[
+                        'resume-project-section grid gap-2 sm:grid-cols-[64px_minmax(0,1fr)] sm:gap-3.5',
+                        getProjectSectionRowClass(section.label),
+                        index !== 0 && 'border-t border-dashed border-border/50'
+                      ]}
+                      data-section-label={section.label}
+                    >
+                      <div class='sm:pt-0.5'>
+                        <span
+                          class:list={[
+                            'resume-project-badge inline-flex rounded-full px-2 py-0.5 text-[10px] font-semibold tracking-[0.08em]',
+                            getProjectSectionBadgeClass(section.label)
+                          ]}
+                        >
+                          {section.label}
+                        </span>
+                      </div>
+                      <div class='space-y-1.5'>
+                        {section.texts.map((text) => (
+                          <div
+                            class:list={[
+                              'flex items-start gap-2',
+                              section.label === 'A' && 'rounded-lg bg-background/60 px-2.5 py-2'
+                            ]}
+                          >
+                            <span
+                              class:list={[
+                                'mt-[0.55rem] size-1 shrink-0 rounded-full bg-current opacity-35',
+                                section.label === 'A' && 'opacity-45'
+                              ]}
+                            ></span>
+                            <div class='min-w-0'>
+                              {typeof text === 'string' ? (
+                                section.label === 'R' ? (
+                                  <p class:list={['resume-project-text', getProjectSectionTextClass(section.label)]}>
+                                    <span set:html={highlightProjectResultText(text)} />
+                                  </p>
+                                ) : (
+                                  <p class:list={['resume-project-text', getProjectSectionTextClass(section.label)]}>{text}</p>
+                                )
+                              ) : (
+                                <div class='space-y-1'>
+                                  <p class='resume-project-text-title text-sm font-semibold leading-6 text-foreground/90'>
+                                    {text.title}
+                                  </p>
+                                  <p class:list={['resume-project-text', getProjectSectionTextClass(section.label)]}>
+                                    {text.body}
+                                  </p>
+                                </div>
+                              )}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+              </div>
+              {item.highlight && (
+                <button
+                  type='button'
+                  class='project-card-summary mt-0.5 flex h-3 w-full cursor-pointer items-end justify-center text-primary/40'
+                  aria-expanded='false'
                 >
-                  <path
-                    fill-rule='evenodd'
-                    d='M5.23 7.21a.75.75 0 0 1 1.06.02L10 11.168l3.71-3.938a.75.75 0 1 1 1.08 1.04l-4.25 4.5a.75.75 0 0 1-1.08 0l-4.25-4.5a.75.75 0 0 1 .02-1.06Z'
-                    clip-rule='evenodd'
-                  ></path>
-                </svg>
-              </span>
-            </button>
-          </div>
-        ) : (
-          <ul class='mt-3 space-y-1.5 border-t border-border/50 pt-3'>
-            {item.details?.map((d) => (
-              <li class='flex items-start gap-2 text-sm text-muted-foreground'>
-                <span class='mt-[0.4rem] size-1.5 shrink-0 rounded-full bg-primary/50'></span>
-                <span>{d}</span>
-              </li>
-            ))}
-          </ul>
-        )}
-      </div>
-    ))}
+                  <span class='project-chevron transition-all duration-200 ease-out'>
+                    <svg
+                      xmlns='http://www.w3.org/2000/svg'
+                      viewBox='0 0 20 20'
+                      fill='currentColor'
+                      class='size-3'
+                      aria-hidden='true'
+                    >
+                      <path
+                        fill-rule='evenodd'
+                        d='M5.23 7.21a.75.75 0 0 1 1.06.02L10 11.168l3.71-3.938a.75.75 0 1 1 1.08 1.04l-4.25 4.5a.75.75 0 0 1-1.08 0l-4.25-4.5a.75.75 0 0 1 .02-1.06Z'
+                        clip-rule='evenodd'
+                      ></path>
+                    </svg>
+                  </span>
+                </button>
+              )}
+            </div>
+          ) : (
+            <ul class='mt-3 space-y-1.5 border-t border-border/50 pt-3'>
+              {item.details?.map((d) => (
+                <li class='flex items-start gap-2 text-sm text-muted-foreground'>
+                  <span class='mt-[0.4rem] size-1.5 shrink-0 rounded-full bg-primary/50'></span>
+                  <span>{d}</span>
+                </li>
+              ))}
+            </ul>
+          )}
+        </Card>
+      )
+    })}
   </div>
   </div>
 
@@ -1487,6 +1516,14 @@ const projects: ResumeProject[] = [
   }
 
   .resume-section-details[open] .resume-section-chevron {
+    transform: rotate(180deg);
+  }
+
+  .resume-project-summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .resume-project-card[open] > .resume-project-summary .resume-project-summary-icon {
     transform: rotate(180deg);
   }
 
