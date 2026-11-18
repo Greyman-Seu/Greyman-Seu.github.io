@@ -159,7 +159,7 @@ type ResumeProjectSection = {
 
 type ResumeProject = {
   name: string
-  date: string
+  date?: string
   type: string
   href: string | null
   workLinks?: {
@@ -205,6 +205,75 @@ const mergeProjectSections = (
 }
 
 const projects: ResumeProject[] = [
+  {
+    name: 'InternVLA-D 系列 · 接触密集型灵巧操作基础模型',
+    type: '研发负责人',
+    roleTags: ['研发负责人', '研发团队 5 人（2 名正式员工、3 名实习生）'],
+    highlight: '重点项目',
+    projectGroup: 'InternVLA-D',
+    algorithmGroup: '具身智能 / VLA',
+    href: null,
+    sections: [
+      {
+        label: 'S + T',
+        text:
+          '面向精密装配、移液等接触密集型任务，领导 InternVLA-D 系列研发，构建融合视觉、语言与高频力觉、触觉反馈的异步操作双系统，建立从基础模型预训练、真机后训练到仿真与真机评测的完整流程'
+      },
+      {
+        label: 'A',
+        text: {
+          title: '异步双系统设计',
+          body:
+            '主导定义 system1 与 system0 的职责和轨迹接口。system1 根据视觉和语言指令生成臂手协同轨迹，system0 复用视觉语言缓存，结合参考轨迹、近期位姿和六维力／力矩反馈，在两次任务规划之间在线修正机械臂轨迹'
+        }
+      },
+      {
+        label: 'A',
+        text: {
+          title: '基础模型训练',
+          body:
+            '组织机器人示教、第一视角人类操作与力觉数据的联合训练，推进 system1 的跨本体臂手动作预训练，以及 system0 的位姿与力联合预训练和真机后训练'
+        }
+      },
+      {
+        label: 'A',
+        text: {
+          title: '仿真与真机验证',
+          body:
+            '推进三套灵巧操作仿真基准与真机任务评测，通过反馈频率、力觉输入和轨迹引导的消融实验验证各模块对任务成功率的贡献'
+        }
+      },
+      {
+        label: 'R',
+        text: {
+          title: '真机操作',
+          body:
+            'internVLA（sageVLA）-D0 在精密装配、移液等 6 项真机任务的 7 种评测设置中，平均成功率达到 85.71%，较 π0.5（53.33%）和 ForceVLA（33.33%）分别提升 32.38 和 52.38 个百分点'
+        }
+      },
+      {
+        label: 'R',
+        text: {
+          title: '灵巧操作仿真',
+          body:
+            'system1 在 DexJoCo 和 DexVerse（19 任务子集）上分别取得 66.18% 和 53.79% 的成功率，均达到 SOTA。在 Bench2Dex 上取得 33.6% 的稳定成功率，较 π0.5 提升 6.2 个百分点'
+        }
+      },
+      {
+        label: 'R',
+        text: {
+          title: '推理加速与实时部署',
+          body:
+            '基于 Triton 和 CUDA Graph 构建可复用的模型加速 Skills，并结合 Agent 完成推理优化。在 NVIDIA RTX 5090 上，system1 和 system0 的单次推理延迟分别为 49.8 ms 和 6.7 ms，推理速度分别达到优化前的 4.29 倍和 5.60 倍。双系统以 10 Hz 任务规划和 40 Hz 接触反馈修正异步运行，system0 的推理频率最高可达 100 Hz'
+        }
+      },
+      {
+        label: 'Insight',
+        text:
+          '用显式轨迹连接任务规划与局部控制，使 system0 能够在保持整体动作意图的同时，根据高频物理反馈修正接触偏差。在相同的 10/40 Hz 配置下，引入力反馈后，真机平均成功率由 43.81% 提升至 85.71%'
+      }
+    ]
+  },
   {
     name: 'InternW0 & 2026 浦江创新论坛湿实验力控原型',
     date: '2026.08 — 2026.09',
@@ -1148,9 +1217,11 @@ const projects: ResumeProject[] = [
                   {item.type}
                 </span>
               )}
-              <span class='rounded-full bg-primary/10 px-2.5 py-0.5 text-[11px] font-medium text-primary'>
-                {item.date}
-              </span>
+              {item.date && (
+                <span class='rounded-full bg-primary/10 px-2.5 py-0.5 text-[11px] font-medium text-primary'>
+                  {item.date}
+                </span>
+              )}
             </div>
           </div>
           {(item.company || item.projectGroup || item.algorithmGroup) && (
