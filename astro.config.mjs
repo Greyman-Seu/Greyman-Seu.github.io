@@ -2,6 +2,7 @@
 
 import { rehypeHeadingIds } from '@astrojs/markdown-remark'
 // Integrations
+import sitemap from '@astrojs/sitemap'
 import AstroAxiIntegration from './src/axi-integration.ts'
 import { defineConfig } from 'astro/config'
 // Rehype & remark packages
@@ -62,8 +63,8 @@ export default defineConfig({
   },
 
   integrations: [
-    // astro-axi will automatically add sitemap, mdx & tailwind
-    // sitemap(),
+    sitemap({ filter: (page) => !/\/resume\/a4-[^/]+\/?$/.test(new URL(page).pathname) }),
+    // astro-axi automatically adds mdx & tailwind
     // mdx(),
     // tailwind({ applyBaseStyles: false }),
     AstroAxiIntegration(config),

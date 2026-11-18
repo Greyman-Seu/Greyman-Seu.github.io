@@ -7,9 +7,9 @@ type TimelineEntry = {
 
 type Project = {
   title: string
-  date: string
+  date?: string
   role: string
-  link: string
+  link?: string
   bullets: string[]
 }
 
@@ -39,3 +39,6 @@ export type InterviewResume = {
   pdfUrl: string
   pages: { label: string; sections: ResumeSection[] }[]
 }
+
+export type A4ResumeData = Pick<InterviewResume, 'name' | 'headline' | 'pages'> &
+  Partial<Pick<InterviewResume, 'englishName' | 'email' | 'location' | 'website' | 'updated'>>
