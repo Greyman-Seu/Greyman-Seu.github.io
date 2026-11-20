@@ -63,7 +63,7 @@ export default defineConfig({
   },
 
   integrations: [
-    sitemap({ filter: (page) => !/\/resume\/a4-[^/]+\/?$/.test(new URL(page).pathname) }),
+    sitemap({ filter: (page) => !/\/resume\/nm\/?$/.test(new URL(page).pathname) }),
     // astro-axi automatically adds mdx & tailwind
     // mdx(),
     // tailwind({ applyBaseStyles: false }),
