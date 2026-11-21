@@ -1,16 +1,16 @@
 {
   "data_version": "followhub-wiki-r2/v1",
-  "generated_at": "2026-11-17T06:29:25Z",
+  "generated_at": "2026-11-21T14:36:39Z",
   "wiki_root": "/home/yangkunzhu/workspace/agent_space/FollowHub/submodules/llm-wiki-skill/followhub-wiki",
   "page_root": "",
   "base_path": "wiki",
-  "latest_updated": "2026-11-17",
+  "latest_updated": "2026-11-21",
   "counts": {
-    "sources": 83,
+    "sources": 84,
     "topics": 9,
     "synthesis": 3,
-    "graph_nodes": 95,
-    "graph_edges": 228
+    "graph_nodes": 96,
+    "graph_edges": 230
   },
   "files": {
     "sources": "sources.json",
@@ -204,6 +204,10 @@
       {
         "slug": "2611.17619-touchtwin",
         "path": "source/2611.17619-touchtwin.json"
+      },
+      {
+        "slug": "2611.18562-pear",
+        "path": "source/2611.18562-pear.json"
       },
       {
         "slug": "2611.21057-witac",
